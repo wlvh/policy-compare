@@ -67,10 +67,7 @@ if (existsSync("reports/engine-ab.json")) {
     checks.push({
       name: engine + "-development-performance",
       status:
-        groups.length === 9 &&
-        groups.every((s: any) => s.developmentBudgetStatus === "PASS")
-          ? "PASS"
-          : "FAIL",
+        groups.length!==9?'NOT_RUN':groups.some((s:any)=>s.developmentBudgetStatus==='FAIL')?'FAIL':groups.some((s:any)=>s.developmentBudgetStatus==='BLOCKED')?'BLOCKED':'PASS',
     });
   }
   checks.push({

@@ -1,0 +1,1309 @@
+{
+  "productRevision": "7a676c616b7ed1f7c7b915d9a65614fdb356f353",
+  "subject": "focused_late_filter_scroll_jump_cancel_on_standard_template",
+  "responseDefinition": "Automation dispatch to selected-state or next frame; complete page jump is a separate metric.",
+  "summary": [
+    {
+      "engine": "pdfjs",
+      "attempts": 1,
+      "failures": 0,
+      "responseP95": 17.727957999999944,
+      "responseMax": 67.06495799999993,
+      "jumpCompleteP95": 117.76625000000013,
+      "cancelP95": 265.5113330000004,
+      "status": "PASS"
+    },
+    {
+      "engine": "mupdf",
+      "attempts": 1,
+      "failures": 0,
+      "responseP95": 17.994915999999648,
+      "responseMax": 90.06587500000023,
+      "jumpCompleteP95": 68.72616600000038,
+      "cancelP95": 181.28745900000104,
+      "status": "PASS"
+    }
+  ],
+  "records": [
+    {
+      "engine": "pdfjs",
+      "iteration": 1,
+      "status": "PASS",
+      "samples": [
+        {
+          "kind": "filter_during_comparison",
+          "ms": 28.98737499999993
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 11.176082999999949
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.368584000000055
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.167833000000087
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 11.906583999999953
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.60558400000002
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.928250000000048
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.558625000000006
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.371416999999951
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.906624999999963
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.584499999999935
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.427167000000054
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.477707999999893
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.529915999999957
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.517166000000088
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.142667000000074
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.916959000000134
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.241040999999996
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.602292000000034
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.453125
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.34983299999999
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.894667000000027
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.145041999999876
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.806874999999991
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.378207999999859
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.689249999999902
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.548416999999972
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.529375000000073
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.505249999999933
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.946959000000106
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.62700000000018
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.668875000000071
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.623665999999957
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.117124999999987
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.073875000000044
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.78212499999995
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.698499999999967
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.750250000000051
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.808667000000014
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.50737499999991
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.496624999999995
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.63675000000012
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.65366599999993
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.950000000000045
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.755042000000003
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.604209000000083
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.917000000000144
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.457042000000001
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.663167000000158
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.232040999999981
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.589624999999842
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.718708000000106
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.217249999999922
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.778375000000096
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.352249999999913
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.45962499999996
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.00387499999988
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.853333999999904
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.000709000000143
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.866667000000007
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.216542000000118
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.617291999999907
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.756416999999828
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.772917000000007
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.951082999999926
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.393792000000076
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.689332999999806
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.695666000000074
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.504750000000058
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.643415999999888
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.77195800000004
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.890750000000025
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.836999999999989
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.988292000000001
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.95270900000014
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.155500000000075
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.603000000000065
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.895499999999856
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.916334000000006
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.374041000000034
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.53274999999985
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.290665999999874
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.841167000000041
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.55337499999996
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.980583000000024
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.783832999999959
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.122667000000092
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.772333999999773
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.704458999999588
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.235125000000153
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.034875000000284
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.858416000000034
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.0481249999998
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.01949999999988
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.010375000000295
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.91966599999978
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.041917000000012
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.03637499999968
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.57708300000013
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.277458999999908
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 18.081290999999965
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.78179100000034
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.849040999999943
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.473665999999866
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.821583999999802
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.02404200000001
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.04424999999992
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.60058300000037
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.563666999999896
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.751124999999774
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.678249999999935
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.77191700000003
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.01725000000033
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.973917000000256
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.84683300000006
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.702832999999828
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.050208000000111
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.344125000000076
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.362959000000046
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.956250000000182
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.42562500000031
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.371458999999959
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.428833999999824
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.572749999999814
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.300666999999976
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.939292000000023
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.889624999999796
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.875166000000263
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.743375000000015
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.67450000000008
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.982292000000143
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.521250000000236
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.692958999999973
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.934540999999626
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.384209000000283
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.273999999999887
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.666333000000122
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.480792000000292
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.727957999999944
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.466249999999945
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.842125000000124
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.355666999999812
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.342666999999892
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.903459000000112
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.79404199999999
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.803042000000005
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.878541000000041
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.809374999999818
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.990582999999788
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.89449999999988
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.048207999999704
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.307999999999993
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.125875000000178
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 67.06495799999993
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 31.8657919999996
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 21.754167000000052
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 32.3542080000002
+        },
+        {
+          "kind": "filter_full_results",
+          "ms": 16.729457999999795
+        },
+        {
+          "kind": "jump_feedback",
+          "ms": 41.71270800000002
+        },
+        {
+          "kind": "scroll",
+          "ms": 15.148541999999907
+        },
+        {
+          "kind": "scroll",
+          "ms": 16.150916999999936
+        },
+        {
+          "kind": "scroll",
+          "ms": 15.215500000000247
+        },
+        {
+          "kind": "scroll",
+          "ms": 18.622459000000163
+        }
+      ],
+      "jumpCompleteMs": 117.76625000000013,
+      "cancelMs": 265.5113330000004,
+      "remainingWorkers": 0
+    },
+    {
+      "engine": "mupdf",
+      "iteration": 1,
+      "status": "PASS",
+      "samples": [
+        {
+          "kind": "filter_during_comparison",
+          "ms": 28.848250000000007
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.44145799999933
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.006333999999697
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.40887500000008
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.573333000000275
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.510999999999513
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.903124999999818
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.740875000000415
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.719624999999724
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.553875000000517
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.61529100000007
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.954749999999876
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.456500000000233
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.800999999999476
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.025666000000456
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.530916000000616
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.728375000000597
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.24554199999966
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.857208000000355
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.01300000000083
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.175583000000188
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.698208000000704
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.48766700000033
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.043375000000196
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.31566699999985
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.730583999999908
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.485250000000633
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.92620799999986
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.694707999999991
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.247999999999593
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.725625000000036
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.878458000000137
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.822000000000116
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.388417000000118
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.277541999999812
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.91687499999989
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.55579200000011
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.889874999999847
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.980750000000626
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.907500000000255
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.9375
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.291833000000224
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.706333000000086
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.987833999999566
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.1489160000001
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.042625000000044
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.976958000000195
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.569000000000415
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.711916000000201
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.80883300000005
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.319749999999658
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.850500000000466
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.21075000000019
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.3331249999992
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.881209000000126
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.79083300000002
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.950417000000016
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.959458000000268
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.7950409999994
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.669708000000355
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.794750000000022
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.775042000000212
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.983167000000321
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.855416999999761
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.214708000000428
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.033792000000176
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.989040999999816
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.940959000000475
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.824832999999671
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.648708000000624
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.3534580000005
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.048791999999594
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.93183399999998
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.970874999999978
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.006666999999652
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.063083000000006
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.911165999999866
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.935750000000553
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.195290999999997
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.05212500000016
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.494832999999744
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.221999999999753
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.311749999999847
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.905499999999847
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.019333000000188
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.001459000000068
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.993000000000393
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.152875000000677
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.750083999999333
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.971125000000029
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.029875000000175
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.1801660000001
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.125250000000051
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.726416000000427
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.982208000000355
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.979041999999936
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.861625000000458
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.9087499999996
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.412833999999748
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.552708999999595
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.273666000000048
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.66729200000009
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.149583999999777
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.855334000000767
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.114833000000544
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.263499999999112
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.639750000000276
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.130458999999973
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.583542000000307
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.138083999999253
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.497083000000202
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.932707999999366
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.51025000000027
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.77916600000026
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.737874999999804
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.837542000000212
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.921624999999949
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.89929100000063
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.95745799999986
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.135834000000614
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.726417000000765
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.920291000000361
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.971125000000029
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.05187500000011
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.244832999999744
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.38562499999989
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.701084000000264
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.549125000000458
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.768874999999753
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.160417000000052
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.41583300000002
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.848332999999911
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.94433300000037
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.986292000000503
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.739332999999533
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 13.973708000000443
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 17.81395799999973
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.983124999999745
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 14.986167000000023
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 16.93158299999959
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 15.802957999999308
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 90.06587500000023
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 23.51929100000052
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 12.627875000000131
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 22.999375000000327
+        },
+        {
+          "kind": "filter_during_comparison",
+          "ms": 22.883332999999766
+        },
+        {
+          "kind": "filter_full_results",
+          "ms": 22.005042000000685
+        },
+        {
+          "kind": "jump_feedback",
+          "ms": 41.01708299999973
+        },
+        {
+          "kind": "scroll",
+          "ms": 15.257165999999415
+        },
+        {
+          "kind": "scroll",
+          "ms": 15.212166999999681
+        },
+        {
+          "kind": "scroll",
+          "ms": 16.161584000000403
+        },
+        {
+          "kind": "scroll",
+          "ms": 17.994915999999648
+        }
+      ],
+      "jumpCompleteMs": 68.72616600000038,
+      "cancelMs": 181.28745900000104,
+      "remainingWorkers": 0
+    }
+  ]
+}

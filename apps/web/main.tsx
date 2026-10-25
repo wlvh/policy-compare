@@ -60,7 +60,10 @@ function App() {
     paneRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)],
     scrollGuard = useRef(false);
   const metrics = useRef<Record<string, unknown>>({ activeWorkers: 0 });
+  const cancellation=useRef<Int32Array|null>(null);
   function release() {
+    if(cancellation.current)Atomics.store(cancellation.current,0,1);
+    cancellation.current=null;
     initializing.current?.terminate();
     initializing.current = null;
     prepared.current?.client.terminate();
@@ -93,7 +96,7 @@ function App() {
     generation.current++;
     release();
     setState("cancelled");
-    setMessage("已取消。后台计算已停止。");
+    setMessage("本次任务已取消。");
     setResult(null);
     setSnapshots([null, null]);
     setHits([]);
@@ -144,8 +147,10 @@ function App() {
       workers.current = { pdf, core };
       initializing.current = null;
       const channel = new MessageChannel();
+      const abortBuffer=globalThis.crossOriginIsolated&&typeof SharedArrayBuffer!=='undefined'?new SharedArrayBuffer(4):null;
+      cancellation.current=abortBuffer?new Int32Array(abortBuffer):null;metrics.current.cooperativeCancellation=Boolean(abortBuffer);
       core.postMessage(
-        { type: "init", taskId: token, generation: token, port: channel.port1 },
+        { type: "init", taskId: token, generation: token, port: channel.port1,abortBuffer },
         [channel.port1],
       );
       function failure(text: string) {
@@ -469,6 +474,7 @@ function App() {
           <button
             onClick={() => {
               setFiles([files[1], files[0]]);
+              for(const [side,file] of [files[1],files[0]].entries()){const input=document.getElementById(`file-${side}`) as HTMLInputElement;const transfer=new DataTransfer();if(file)transfer.items.add(file);input.files=transfer.files;}
               setPasswords([passwords[1], passwords[0]]);
             }}
           >

@@ -240,12 +240,12 @@ export function digest(value: unknown): string {
 export function hashBytes(bytes: Uint8Array): string {
   return bytesToHex(sha256(bytes));
 }
-export function snapshotDigest(doc: DocInput): string {
+export function snapshotDigest(doc: DocInput,checkpoint?:()=>void): string {
   // Hash bounded page snapshots, then their ordered root; no whole-document
   // canonical string or UTF-8 buffer is retained at the same time as DocInput.
   return digest({
     ...doc,
-    pages: doc.pages.map((page) => digest(page)),
+    pages: doc.pages.map((page) => {checkpoint?.();return digest(page);}),
     snapshotHashVersion: "page-merkle/1",
   });
 }

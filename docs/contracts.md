@@ -13,3 +13,5 @@ CompareResult 区分 `coreVersion`、`extractors[2]`、profile、tokenizer、sch
 匹配文本只帮助寻找对应。规范化映射支持连字一对多、组合字符多对一；实际差异仍来自 rawText。主体与字段身份先绑定，原样条款优先，再在单调窗口内共同评估 1:1、1:2、2:1、增删。表格使用声明的主/次键；重键组仍可见展示金额并保留两侧来源。滚动只用加权单调对应，移动链接单独保留。
 
 任务结果 complete_for_scope / partial / failed / cancelled 与测试 PASS / FAIL / BLOCKED / NOT_RUN 不混用。图片、未知编码、页面失败和不支持对象列具体覆盖问题；预算耗尽列 unresolved。完成仅表示已声明的可提取文本范围。
+
+取消：外层通过共享取消标记通知核心，在页级快照、结构单元及 LCS 行等边界检查并抛出取消，主线程同时终止 Worker。完整结果的算法和确定性不依赖该标记；取消不返回假完整结果。正式运行须使用附带服务器的 COOP/COEP 头以及 localhost/HTTPS；自建静态主机缺这些条件时仍有硬终止，但不承诺已验证的取消时限。

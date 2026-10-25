@@ -57,10 +57,11 @@ export function tokenize(text: string): string[] {
     []
   );
 }
-export function lcsLength(a: string[], b: string[]): number {
+export function lcsLength(a: string[], b: string[],checkpoint?:()=>void): number {
   let prev = new Uint32Array(b.length + 1),
     next = new Uint32Array(b.length + 1);
   for (const x of a) {
+    checkpoint?.();
     for (let j = 1; j <= b.length; j++)
       next[j] =
         x === b[j - 1] ? prev[j - 1] + 1 : Math.max(prev[j], next[j - 1]);

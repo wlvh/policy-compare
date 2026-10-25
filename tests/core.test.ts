@@ -4,6 +4,7 @@ import { aviationProfile } from "../profiles/aviation";
 import { canonical, parseDoc } from "../packages/contracts/index";
 import { textDoc } from "./helpers";
 describe("pure core mechanism regressions", () => {
+  it('cooperative checkpoint aborts without returning a false complete result',()=>{const a=textDoc([{text:'USD 100'}]),b=textDoc([{text:'USD 200'}]);let calls=0;expect(()=>compare(a,b,aviationProfile,aviationProfile.budget,undefined,()=>{if(++calls===2)throw new Error('CANCELLED');})).toThrow('CANCELLED');expect(compare(a,b)).toEqual(compare(a,b,aviationProfile,aviationProfile.budget,undefined,()=>{}));});
   it("keeps address identity when values swap", () => {
     const make = (a: string, b: string) =>
       textDoc([

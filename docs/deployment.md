@@ -20,3 +20,5 @@ OpenShift 配置在 deploy/openshift.yaml。镜像构建平台必须和节点 CP
 回滚：保留上一版本镜像 digest 和部署配置；Harness/现有流水线部署指定 digest。失败时恢复旧 digest 并等待 readiness 通过。手动 OpenShift 可执行 `oc rollout undo deployment/policy-compare`，随后核对实际镜像、健康、页面资源和本地 PDF 流程；这条命令仅供获准管理员执行。本任务没有执行组织发布或回滚。
 
 关闭浏览器任务会销毁 Worker、MuPDF 文档句柄与页面对象、释放 Blob URL。默认不写入文档存储、浏览器数据库或服务器日志；这不是对物理内存安全擦除的承诺。JSON 导出由用户主动触发，包含差异原文。
+
+为满足长任务取消预算，服务器配置 Cross-Origin-Opener-Policy: same-origin 与 Cross-Origin-Embedder-Policy: require-corp，并在 localhost 或 HTTPS 下运行。4 字节共享取消标记只在本次页面与比较 Worker 内使用。Vite 开发/预览与附带生产服务器都设置了这些头；替换静态托管时需要保留。

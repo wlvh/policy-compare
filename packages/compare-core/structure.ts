@@ -12,7 +12,7 @@ export type Unit = MappedText & {
   tableRow?: string;
   title: string;
 };
-export function structure(doc: DocInput, profile: Profile): Unit[] {
+export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void): Unit[] {
   const units: Unit[] = [];
   let section = "risk_details",
     subject: string | null = null,
@@ -75,6 +75,7 @@ export function structure(doc: DocInput, profile: Profile): Unit[] {
     Object.assign(unit, normalize(raw, all));
   }
   for (let i = 0; i < lines.length; i++) {
+    checkpoint?.();
     const row = lines[i],
       text = row.text.trim();
     if (!text) {
@@ -205,19 +206,8 @@ export function structure(doc: DocInput, profile: Profile): Unit[] {
     active = add(row.refs, "body");
   }
   for (const separator of separators) add(separator.refs, "logical_separator");
-  const assigned = new Set<string>();
-  for (const u of units)
-    for (const r of u.refs)
-      if (r) {
-        if (
-          assigned.has(r.char.id) &&
-          u.refs.findIndex((x) => x?.char.id === r.char.id) !==
-            u.refs.indexOf(r)
-        )
-          continue;
-        assigned.add(r.char.id);
-      }
-  if (assigned.size !== doc.pages.reduce((n, p) => n + p.chars.length, 0))
-    throw new Error("Character conservation failed");
+  const owners=new Map<string,string>();
+  for(const unit of units)for(const ref of unit.refs)if(ref){const owner=owners.get(ref.char.id);if(owner&&owner!==unit.id)throw new Error('Character assigned to multiple primary units');owners.set(ref.char.id,unit.id);}
+  if(owners.size!==doc.pages.reduce((n,p)=>n+p.chars.length,0))throw new Error('Character conservation failed');
   return units;
 }

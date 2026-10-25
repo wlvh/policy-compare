@@ -312,19 +312,20 @@ export function compare(
   profile: Profile = aviationProfile,
   budget: Budget = profile.budget,
   phase?: (name: string) => void,
+  checkpoint?:()=>void,
 ): CompareResult {
   if (digest(left.extractor) !== digest(right.extractor))
     throw new Error("两份文档必须由同一引擎、版本及选项提取");
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+page-hash.1",
+    coreVersion: VERSION + "+cooperative-cancel.1",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
     profileVersion: profile.version,
     documentHashes: [left.contentHash, right.contentHash],
-    extractionSnapshotHashes: [snapshotDigest(left), snapshotDigest(right)],
+    extractionSnapshotHashes: [snapshotDigest(left,checkpoint), snapshotDigest(right,checkpoint)],
     configDigest: digest({ profile, budget }),
     scope: "extracted_text",
     status: "complete_for_scope",
@@ -355,10 +356,10 @@ export function compare(
     for (const p of doc.pages)
       result.coverage.push(...p.issues.map((i) => ({ ...i, side })));
   phase?.("structure");
-  const la = structure(left, profile).filter(
+  const la = structure(left, profile,checkpoint).filter(
       (u) => u.role !== "logical_separator",
     ),
-    rb = structure(right, profile).filter(
+    rb = structure(right, profile,checkpoint).filter(
       (u) => u.role !== "logical_separator",
     ),
     pairs: Pair[] = [],
@@ -395,6 +396,7 @@ export function compare(
   const il = map(la, usedL, (u) => u.identity),
     ir = map(rb, usedR, (u) => u.identity);
   for (const [key, as] of il) {
+    checkpoint?.();
     const bs = ir.get(key);
     if (!bs) continue;
     if (as.length === 1 && bs.length === 1)
@@ -435,6 +437,7 @@ export function compare(
   const el = map(la, usedL, rawKey),
     er = map(rb, usedR, rawKey);
   for (const [key, as] of el) {
+    checkpoint?.();
     const bs = er.get(key);
     if (!bs) continue;
     if (as.length === 1 && bs.length === 1) bind(as[0], bs[0], "unique-exact");
@@ -538,7 +541,7 @@ export function compare(
     }
     result.stats.candidates++;
     result.stats.tokenProducts += at.length * bt.length;
-    const value = (2 * lcsLength(at, bt)) / (at.length + bt.length);
+    const value = (2 * lcsLength(at, bt,checkpoint)) / (at.length + bt.length);
     return value >= threshold ? value : null;
   };
   const anchors = monotone(
@@ -741,6 +744,7 @@ export function compare(
     result.differences.push(d);
   }
   for (const p of pairs) {
+    checkpoint?.();
     const moved =
       p.a.role === "body" &&
       (p.a.path.section !== p.b.path.section || !stable.has(p));

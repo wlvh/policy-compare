@@ -17,6 +17,8 @@ onmessage = (e) => {
   if (m.type === "init") {
     taskId = m.taskId;
     generation = m.generation;
+    const abort=m.abortBuffer?new Int32Array(m.abortBuffer):null;
+    const checkpoint=()=>{if(abort&&Atomics.load(abort,0))throw new Error('CANCELLED');};
     const port: MessagePort = m.port;
     port.onmessage = (e) => {
       const x = e.data;
@@ -44,8 +46,10 @@ onmessage = (e) => {
               aviationProfile,
               aviationProfile.budget,
               (name) => {
+                checkpoint();
                 marks[name] = performance.now();
               },
+              checkpoint,
             );
             postMessage({
               type: "result",
@@ -67,6 +71,7 @@ onmessage = (e) => {
               },
             });
           } catch {
+            if(abort&&Atomics.load(abort,0)){close();return;}
             postMessage({
               type: "error",
               taskId,

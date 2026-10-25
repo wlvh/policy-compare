@@ -8,3 +8,5 @@
 - 两个 Playwright 进程最初共用 test-results，产生 trace ENOENT；已改为 test-results/pdfjs 与 test-results/mupdf，分别重跑。此项属于测试设施冲突，不是产品功能失败。
 - 第一次生产 A/B 预检失败：静态服务遗漏 .mjs MIME；远程 Playwright 连接不能使用 download.path()。分别修为 JavaScript MIME 和 saveAs()。原 18 次失败预检及 2 次冷启动记录保留在 engine-ab-preflight-mime-and-download.json；它们不是正式冻结提交的 A/B 数据。
 - 原单 MuPDF 基线部分工作负载内存超过 1 GiB，完整 180 次热运行留在 ../baseline-single-engine。公共核心后续以页级快照哈希和逐页验证替代全文字符串与双份 DocInput 复制；最终双引擎使用同一优化后的核心重新测量。
+
+- 长文档完成提取后再取消时，单独 Worker.terminate 的比较线程关闭约延迟 1.5 秒；40 次失败记录保留在 late-cancel-before-cooperative-checkpoints.json。修复为共享取消标记、页级快照/结构/LCS 检查点与硬终止并用；核心无取消时的规范结果不变。附带服务器和 Vite 均启用 COOP/COEP。补充 20 次/引擎晚期取消和交互测试通过，PDF.js 取消 p95 约284ms，MuPDF约200ms。旧 7a676c6 正式批次仍保存，修复版重新冻结并重测。

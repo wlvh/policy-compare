@@ -91,6 +91,7 @@ function summary() {
         failures: all.length - ok.length,
         successfulTiming: timing,
         memoryMeasurement: memory,
+        timingBudgetStatus:ok.length===all.length&&all.length===runs&&(w.budget_ms===null||Number(timing.p95)<=w.budget_ms)?'PASS':all.length!==runs?'NOT_RUN':'FAIL',
         peakIncrementalBytes: peak,
         interaction: stats(ok.flatMap((a) => a.interactionMs)),
         developmentBudgetStatus:
@@ -106,8 +107,10 @@ function summary() {
                     ? "FAIL"
                     : stats(ok.flatMap((a) => a.interactionMs)).p95! > 100
                       ? "FAIL"
-                      : "PASS",
+                    : "BLOCKED",
         referenceDeviceStatus: "BLOCKED",
+        fullMemoryAcceptance:'BLOCKED',
+        memoryCoverageLimit:'Live descendant kernel peaks and sampled RSS cannot reconstruct the peak of a short-lived helper that exits before collection; a real exited-helper case was observed in the preserved first batch. Values are measurements, not a full-memory pass.',
       };
     }),
   );
@@ -134,6 +137,8 @@ function save() {
         memoryMethod:
           "macOS footprint: fixed about:blank baseline before app/engine; sum of per-process lifetime physical peaks at completion minus baseline, including app/worker/WASM/native/GPU. Also sampled process-tree RSS. Export is performed only after memory capture. Per-process peaks can occur at different times, so their sum is conservative.",
         referenceDeviceStatus: "BLOCKED",
+        fullMemoryAcceptance:'BLOCKED',
+        memoryCoverageLimit:'Short-lived helpers can exit before physical peak collection; full-memory acceptance is not claimed.',
         order,
         cold,
         summary: summary(),
@@ -350,7 +355,7 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
       Boolean(result?.unresolved.length)&&result!.unresolved.every(u=>['budget','word_diff_budget'].includes(u.reason)&&u.left.length+u.right.length>0) &&
       amount;
     const correct = Boolean(
-      result &&
+      result && metrics.cooperativeCancellation===true &&
       ((taskStatus === "complete_for_scope" &&
         knownEvents === expectedEvents) ||
         allowedPartial) &&
@@ -383,6 +388,8 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
         sumProcessPeaksBytes: physical.peak,
         incrementalPeakBytes: Math.max(0, physical.peak - baseline.current),
         processes: physical.processes,
+        collector:physical,
+        baselineCollector:baseline,
         rss,
       },
       requests,

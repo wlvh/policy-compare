@@ -102,3 +102,6 @@ test('twenty complete tasks replace previous resources without refreshing the ta
   for(let i=0;i<20;i++){await load(page,i%2?'R18_ligature':'R02_amount');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);counts.push(page.workers().length);}
   expect(new Set(counts).size).toBe(1);await page.getByRole('button',{name:'关闭任务',exact:true}).click();await expect.poll(()=>page.workers().length).toBe(0);
 });
+test('manual swap updates both file controls and comparison direction',async({page})=>{
+  await page.goto('/');await load(page,'R02_amount');await page.getByRole('button',{name:'交换方向',exact:true}).click();expect(await page.getByLabel('基准 PDF',{exact:true}).evaluate((e:HTMLInputElement)=>e.files?.[0].name)).toBe('after.pdf');await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');await expect(page.locator('.old')).toContainText('USD 4,000,000');await expect(page.locator('.new')).toContainText('USD 2,000,000');
+});
