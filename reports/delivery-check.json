@@ -1,0 +1,115 @@
+{
+  "subject": "extracted_delivery_archives_on_macos",
+  "status": "PASS",
+  "linuxStatus": "BLOCKED",
+  "extractionDirectory": "/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-delivery-rTLMrr",
+  "productRevision": "f81aebd8f2e756b781b40957a06237a6cefb5c3e",
+  "records": [
+    {
+      "engine": "pdfjs",
+      "status": "PASS",
+      "archive": "delivery/policy-compare-pdfjs.tar.gz",
+      "sha256": "699d907f5211a6f36fbe985e81a72f75d7c7c435001f5e7b622632b309eed390",
+      "staticFiles": 210,
+      "productRevision": "f81aebd8f2e756b781b40957a06237a6cefb5c3e",
+      "checks": [
+        "archive hash",
+        "test extraction",
+        "every static hash equals A/B build",
+        "health/COOP/COEP/MIME/POST405",
+        "real bundled R32 PDFs",
+        "both source views and highlights",
+        "engine metadata",
+        "no uploads or foreign engine requests",
+        "workers released"
+      ],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:18081/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-BxcQ0ajM.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/pdf.worker.min-CjEcRF4W.mjs",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/core.worker-B0RNA-Wu.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/fb5b5f1a-1b0f-413b-8bca-876133608404",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/5630c422-ebf8-402a-b405-e3813124e343",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "engine": "mupdf",
+      "status": "PASS",
+      "archive": "delivery/policy-compare-mupdf.tar.gz",
+      "sha256": "2758af64b3391b90c8a4ad58d4545ebc7f87594262b89b9e337f57f53e7c694c",
+      "staticFiles": 14,
+      "productRevision": "f81aebd8f2e756b781b40957a06237a6cefb5c3e",
+      "checks": [
+        "archive hash",
+        "test extraction",
+        "every static hash equals A/B build",
+        "health/COOP/COEP/MIME/POST405",
+        "real bundled R32 PDFs",
+        "both source views and highlights",
+        "engine metadata",
+        "no uploads or foreign engine requests",
+        "workers released"
+      ],
+      "requests": [
+        {
+          "url": "http://127.0.0.1:18082/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-DkZTLo6z.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/pdf.worker-BsZbCBZO.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/rolldown-runtime-WkwZ5CU-.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/core.worker-B0RNA-Wu.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/db62c2f2-19fd-4a69-a949-48312efb64e7",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/3fe09d9c-545d-4155-9240-0e9a0ec1288f",
+          "method": "GET"
+        }
+      ]
+    }
+  ]
+}

@@ -7,9 +7,9 @@
   "artifactCount": 210,
   "packageLockHasMupdf": false,
   "artifacts": [
-    "dist/pdfjs/assets/core.worker-BWrxfyln.js",
-    "dist/pdfjs/assets/index-CAo_s3Nb.css",
-    "dist/pdfjs/assets/index-DS2WEGoI.js",
+    "dist/pdfjs/assets/core.worker-B0RNA-Wu.js",
+    "dist/pdfjs/assets/index-BxcQ0ajM.js",
+    "dist/pdfjs/assets/index-DD9ao-bO.css",
     "dist/pdfjs/assets/pdf-BAaRT5Ak.mjs",
     "dist/pdfjs/assets/pdf.worker.min-CjEcRF4W.mjs",
     "dist/pdfjs/index.html",

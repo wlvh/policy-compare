@@ -2,6 +2,9 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { writeFileSync } from "node:fs";
 const exec = promisify(execFile);
+const requested=process.argv[2],engines=requested?[requested]:['pdfjs','mupdf'];
+if(engines.some(e=>!['pdfjs','mupdf'].includes(e)))throw new Error('Unknown engine');
+const output=requested?`reports/container-${requested}.json`:'reports/container.json';
 let report: Record<string, unknown>;
 try {
   await exec("docker", ["info", "--format", "{{.OSType}}"], {
@@ -14,17 +17,17 @@ try {
     reason: "Local Docker daemon is not responding or not available",
     evidence: String(e),
     attempted: true,
-    variants: { pdfjs: "BLOCKED", mupdf: "BLOCKED" },
+    variants: Object.fromEntries(engines.map(engine=>[engine,'BLOCKED'])),
   };
   writeFileSync(
-    "reports/container.json",
+    output,
     JSON.stringify(report, null, 2) + "\n",
   );
   console.log(report);
   process.exit(1);
 }
 const variants:Record<string,unknown>[]=[];
-for(const engine of ['pdfjs','mupdf']){
+for(const engine of engines){
 let id = "";
 try {
   const build = await exec(
@@ -95,6 +98,6 @@ try {
 variants.push(report);
 }
 report={subject:'linux_container_build_and_start',status:variants.every(x=>x.status==='PASS')?'PASS':'FAIL',variants};
-writeFileSync("reports/container.json", JSON.stringify(report, null, 2) + "\n");
+writeFileSync(output, JSON.stringify(report, null, 2) + "\n");
 console.log(report);
 process.exitCode = report.status === "PASS" ? 0 : 1;

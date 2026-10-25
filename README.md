@@ -4,6 +4,14 @@
 
 本轮有效要求：`IMPLEMENTATION_PLAN.zh-CN.md` + `CODEX_ENGINE_AB_AMENDMENT.zh-CN.md`，冲突以增补为准。原执行包和完整验证答案保存在首个提交 `97bbdcd`；validation 资料保持不变。
 
+当前交付：两版本地功能可用；各 32 对规则与精细定位通过；360 次正式热比较和 6 次冷启动成功。**工程综合验收、业务试点均为 BLOCKED**：完整内存覆盖、普通参考设备、Linux 容器实际运行及真实样本/留出尚未完成。详细边界见 [验收报告](docs/acceptance-report.md)、[引擎对照](docs/engine-comparison.md)、[PDF.js 单版报告](docs/acceptance-pdfjs.md) 与 [MuPDF 单版报告](docs/acceptance-mupdf.md)。
+
+## 已构建运行包
+
+本机 `delivery/policy-compare-pdfjs.tar.gz` 和 `delivery/policy-compare-mupdf.tar.gz` 各自含固定引擎静态资源、自托管 Worker/WASM、实际许可材料、依赖版本清单、两份虚构试用 PDF 和静态服务器。解压进入目录后，用 Node 24 执行 `node server.mjs`，打开 http://127.0.0.1:8080；无需安装 pnpm 或另一 PDF 引擎。校验值见 `DELIVERY_MANIFEST.json`，实际解压/浏览器启动证据见 `reports/delivery-check.json`。
+
+重建运行包：`pnpm package:delivery`；复核交付包：`pnpm exec tsx scripts/check-delivery.ts`。产物哈希必须与正式 A/B 冻结记录一致。这两个命令不代替 Linux 容器验收。
+
 ## 安装与运行
 
 需要 Node 24 LTS、pnpm 10.12.1。当前开发机实际使用 Node 24.19.0、macOS Chrome 154.0.8037.98。本机系统默认 Node 是 23；可用 `./scripts/pnpm-local.sh dev:pdfjs` 或 `./scripts/pnpm-local.sh dev:mupdf`，包装脚本只为当前进程选择已有 Node 24，不更改系统安装。
@@ -50,7 +58,7 @@ pnpm compare -- --engine mupdf --left old.pdf --right new.pdf --out result-mupdf
 
 CLI 完整比较返回 0，partial 返回 2，失败返回 3，Ctrl-C 返回 130；发现差异本身不算失败。受保护 PDF 可通过本地 `POLICY_LEFT_PASSWORD`、`POLICY_RIGHT_PASSWORD` 环境变量提供密码，不写入结果。输出含原文差异，请按文档敏感级别保存。
 
-PDF.js CLI 的位置是提取项及 Unicode 标量/UTF-16 范围，精度为 `run`；精细位置需浏览器文字层解析，不能把 CLI 段框当字符高亮。MuPDF CLI 可直接输出原生字符 quad。两引擎不要求 JSON、快照或卡片数量相同。
+PDF.js CLI 的位置是提取项及 Unicode 标量/UTF-16 范围，精度为 `run`；精细位置需浏览器文字层解析，不能把 CLI 段框当字符高亮。MuPDF CLI 可直接输出原生字符 quad。两引擎不要求 JSON、快照或卡片数量相同。不传 --engine 时保留早期 MuPDF 默认行为；建议像上例一样显式选择。
 
 ## 验证
 
@@ -86,6 +94,7 @@ python3 -m venv .venv
 pnpm bench:generate
 # 先按上面的生产静态服务器命令分别启动 8081 / 8082
 pnpm bench:compare
+pnpm bench:interactions
 ```
 
 三类工作负载各有 8、45、100 页版本，每版每组 20 次正式热比较，按 A/B、B/A 平衡顺序，每次只运行一个引擎。每引擎另做 3 次冷启动。原始逐轮记录在 reports/engine-ab.json；口径与结论在 docs/engine-comparison.md。高配开发机数字不替代普通 16 GiB 参考机。

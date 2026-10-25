@@ -54,9 +54,10 @@ for (const engine of engines) {
   run(engine + "-32-rules", "pnpm", ["test:rules:" + engine]);
   run(engine + "-browser", "pnpm", ["test:browser:" + engine]);
 }
-run("linux-containers", "pnpm", ["test:container"]);
-if (existsSync("reports/container.json")) {
-  const x = JSON.parse(readFileSync("reports/container.json", "utf8"));
+run("linux-containers", "pnpm", ["test:container",...(requested?[requested]:[])]);
+const containerReport=requested?`reports/container-${requested}.json`:'reports/container.json';
+if (existsSync(containerReport)) {
+  const x = JSON.parse(readFileSync(containerReport, "utf8"));
   if (x.status === "BLOCKED")
     Object.assign(checks.at(-1)!, { status: "BLOCKED", reason: x.reason });
 }

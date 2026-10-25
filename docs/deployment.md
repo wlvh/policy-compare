@@ -2,7 +2,7 @@
 
 应用默认在浏览器处理 PDF。静态服务只有 GET/HEAD 和健康检查，不接收 PDF 上传。Worker、JavaScript 和 WASM 均随构建产物部署，不依赖 CDN。
 
-本地生产资源验证：`pnpm build` 后 `STATIC_ROOT=dist/pdfjs node deploy/server.mjs`，打开 http://localhost:8080。默认读取 STATIC_ROOT 指向的引擎构建目录，可用 STATIC_ROOT 和 PORT 改路径与端口。只读目录、任意非 root UID 与无 HOME 写入是设计要求。
+本地生产资源验证：`pnpm build:pdfjs` 后 `STATIC_ROOT=dist/pdfjs node deploy/server.mjs`，打开 http://localhost:8080。MuPDF 对应 `pnpm build:mupdf` 与 `STATIC_ROOT=dist/mupdf`。显式选择 STATIC_ROOT 指向的引擎构建目录，可用 PORT 改端口。只读目录、任意非 root UID 与无 HOME 写入是设计要求。
 
 Linux 镜像：
 

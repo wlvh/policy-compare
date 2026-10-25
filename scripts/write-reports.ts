@@ -8,15 +8,19 @@ const files=(dir:string):string[]=>readdirSync(dir,{withFileTypes:true}).flatMap
 const allDone=ab.attempts.length===360&&ab.cold.length===6&&ab.summary.every((s:any)=>s.attempts===20);
 const dataStatus=allDone&&ab.attempts.every((a:any)=>a.status==='PASS')&&ab.cold.every((a:any)=>a.status==='PASS')?'PASS':'FAIL';
 const budgetStatus=ab.summary.some((s:any)=>s.developmentBudgetStatus==='FAIL')?'FAIL':ab.summary.every((s:any)=>s.developmentBudgetStatus==='PASS')?'PASS':'BLOCKED';
-const rows=ab.summary.map((s:any)=>`| ${s.workload} | ${s.engine} | ${s.successes}/${s.attempts} | ${sec(s.successfulTiming.median)} | ${sec(s.successfulTiming.p95)} | ${sec(s.successfulTiming.max)} | ${mib(s.peakIncrementalBytes)} | ${s.developmentBudgetStatus} |`);
+const timingStatus=ab.summary.every((s:any)=>s.timingBudgetStatus==='PASS')?'PASS':'FAIL';
+const interactions=load('reports/interaction-profile.json');
+if(interactions.productRevision!==ab.commit)throw new Error('Interaction evidence must use the same product revision as A/B');
+const interactionRows=interactions.summary.map((s:any)=>`| ${s.engine} | ${s.attempts-s.failures}/${s.attempts} | ${s.responseP95.toFixed(1)} | ${s.responseMax.toFixed(1)} | ${s.jumpCompleteP95.toFixed(1)} | ${s.cancelP95.toFixed(1)} | ${s.status} |`);
+const rows=ab.summary.map((s:any)=>`| ${s.workload} | ${s.engine} | ${s.successes}/${s.attempts} | ${s.attempts-s.successes} | ${sec(s.successfulTiming.median)} | ${sec(s.successfulTiming.p95)} | ${sec(s.successfulTiming.max)} | ${mib(s.peakIncrementalBytes)} | ${s.timingBudgetStatus} | ${s.fullMemoryAcceptance} |`);
 const coldRows=engines.map(engine=>{const xs=ab.cold.filter((c:any)=>c.engine===engine&&c.status==='PASS').map((c:any)=>c.initializationMs);const bytes=ab.cold.filter((c:any)=>c.engine===engine).map((c:any)=>c.requests.reduce((n:number,r:any)=>n+(r.responseBodySize??0),0));return `| ${engine} | ${xs.length}/3 | ${sec(median(xs))} | ${sec(Math.min(...xs))}–${sec(Math.max(...xs))} | ${mib(median(bytes))} |`;});
-const diagnosticRows=ab.summary.filter((s:any)=>s.size==='standard').map((s:any)=>{const rs=ab.attempts.filter((a:any)=>a.workload===s.workload&&a.engine===s.engine);const fields=['pdfOpen','nativeTextExtraction','sourceAdaptation','coverageAnalysis','snapshot','structure','matching','diff','renderMs','locationMs'];return `| ${s.workload} | ${s.engine} | ${fields.map(k=>Math.round(median(rs.map((r:any)=>r.metrics[k]??0)))).join(' | ')} |`;});
+const diagnosticRows=ab.summary.filter((s:any)=>s.size==='standard').map((s:any)=>{const rs=ab.attempts.filter((a:any)=>a.workload===s.workload&&a.engine===s.engine);const fields=['pdfOpen','nativeTextExtraction','sourceAdaptation','transferQueueMax','coverageAnalysis','validation','snapshot','structure','matching','diff','renderMs','locationMs'];return `| ${s.workload} | ${s.engine} | ${fields.map(k=>Math.round(median(rs.map((r:any)=>r.metrics[k]??0)))).join(' | ')} |`;});
 const paired=ab.summary.filter((s:any)=>s.engine==='pdfjs').map((s:any)=>{const a=ab.attempts.filter((x:any)=>x.engine==='pdfjs'&&x.workload===s.workload);const b=ab.attempts.filter((x:any)=>x.engine==='mupdf'&&x.workload===s.workload);const ds=a.map((x:any)=>x.metrics.total-b.find((y:any)=>y.iteration===x.iteration).metrics.total);return {name:s.workload,medianDeltaMs:median(ds),mupdfFaster:ds.filter((n:number)=>n>0).length,total:ds.length};});
 writeFileSync('docs/engine-comparison.md',`# PDF.js / MuPDF.js 实测对照
 
 日期：2026-10-26。产品冻结提交：\`${ab.commit}\`。两版使用同一公共核心、profile、预算与 UI；正式报告里的 build 哈希锁定实际产物。原始逐轮记录：reports/engine-ab.json。
 
-当前状态：完整路径数据采集 **${dataStatus}**；本开发机预算 **${budgetStatus}**；普通 16 GiB 参考设备 **BLOCKED**。已保存的第一批测量中，标准表格的 Chrome helper 在采集时退出；因此不能保证短寿命子进程的历史峰值都被回收。本批统一将完整内存验收标为 BLOCKED；已测物理峰值与 RSS 仍如实报告。诊断原件在 reports/diagnostics。这份报告不能替代业务试点验收。
+当前状态：完整路径时间与正确性采集 **${dataStatus}**；时间预算 **${timingStatus}**；包含完整内存的开发机验收 **${budgetStatus}**；普通 16 GiB 参考设备 **BLOCKED**。已保存的第一批测量中，标准表格的 Chrome helper 在采集时退出；因此不能保证短寿命子进程的历史峰值都被回收。本批统一将完整内存验收标为 BLOCKED；已测物理峰值与 RSS 仍如实报告。诊断原件在 reports/diagnostics。这份报告不能替代业务试点验收。
 
 ## 正确性先决条件
 
@@ -36,31 +40,37 @@ MuPDF 使用原生字符 quad。PDF.js 先保留提取项与标量/UTF-16 区间
 
 ## 热比较结果
 
-时间单位秒；内存是上述完整进程口径的增量峰值 MiB。
+时间单位秒；内存是上述已采集进程口径的增量峰值 MiB，存在短寿命进程覆盖缺口，不能据此确认完整内存达标。
 
-| 工作负载 | 引擎 | 成功/总数 | 中位数 | 经验 p95 | 最大值 | 峰值 MiB | 开发机预算 |
-|---|---|---:|---:|---:|---:|---:|---|
+| 工作负载 | 引擎 | 成功/总数 | 失败数 | 中位数 | 经验 p95 | 最大值 | 已测峰值 MiB | 时间预算 | 完整内存 |
+|---|---|---:|---:|---:|---:|---:|---:|---|---|
 ${rows.join('\n')}
 
 每轮还核对所有已知变化、默认可见性、输入哈希、完整状态、约定首个位置的实际多边形与独立作者几何预期。模板组分别检查 82、452、1002 个已知事件，不以卡片数相等定义两引擎正确性。
 
 ## 冷启动
 
-干净浏览器上下文/缓存，从导航到引擎就绪；OS 文件缓存未强行清理。只报 3 次的中位数和范围，不报冷 p95。资源字节为实际捕获响应体，包含自托管脚本与引擎资源。
+干净浏览器上下文/缓存，从导航到引擎就绪；OS 文件缓存未强行清理。只报 3 次的中位数和范围，不报冷 p95。资源字节仅为 Playwright 返回了非零大小的响应体之和。两版顶层 Worker 请求的 responseBodySize 均返回 0，虽然 Worker 已实际初始化，因此该列是可计数字节的下界，不是完整下载量；不能据此判定总下载体积优势。完整静态文件大小另列。
 
-| 引擎 | 成功/总数 | 中位数秒 | 范围秒 | 响应体中位 MiB |
+| 引擎 | 成功/总数 | 中位数秒 | 范围秒 | 已计数响应体下界 MiB |
 |---|---:|---:|---:|---:|
 ${coldRows.join('\n')}
 
 ## 分项诊断
 
-以下是标准组各阶段中位数，单位 ms。异步阶段会重叠，不能把分项直接相加当总耗时。MuPDF 的 nativeTextExtraction 是 toStructuredText，walk 的原生回调成本包含在 sourceAdaptation；PDF.js 是 getTextContent，覆盖算子遍历另列。因此这一列不能单独用来判定纯解析器胜负。
+以下是标准组各阶段中位数，单位 ms。异步阶段会重叠，不能把分项直接相加当总耗时。MuPDF 的 nativeTextExtraction 是 toStructuredText，walk 的原生回调成本包含在 sourceAdaptation；PDF.js 是 getTextContent，覆盖算子遍历另列。因此这一列不能单独用来判定纯解析器胜负。传递列是逐页发送时间戳到核心 Worker 收取的最大延迟，包含克隆/排队/调度；不是纯复制 CPU 时间，也不能将各页延迟相加当串行总耗时。
 
-| 工作负载 | 引擎 | 打开 | 文字提取 | 来源适配 | 覆盖 | 快照 | 结构 | 对应 | 差异 | 渲染 | 定位 |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 工作负载 | 引擎 | 打开 | 文字提取 | 来源适配 | 传递队列最大延迟 | 覆盖 | 契约检查 | 快照 | 结构 | 对应 | 差异 | 渲染 | 定位 |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 ${diagnosticRows.join('\n')}
 
-传递队列尾延迟、读取、首次可审阅、逐轮交互响应和工作量在原始 JSON 中。交互主记录为比较初期的两次分类切换；取消与连续任务释放另由每引擎 20 次循环验证。滚动/跳转的功能测试与响应耗时统计不能互相替代。
+传递队列尾延迟、读取、首次可审阅、逐轮交互响应和工作量在原始 JSON 中。主 A/B 记录中的交互是比较初期两次分类切换；额外的标准模板交互测试覆盖整个计算期间、完整列表筛选、滚动、跳转反馈和晚期取消，见 reports/interaction-profile.json。跳转反馈与新页全部定位就绪分别计时，后者不混入反馈指标。
+
+以下单位 ms；每引擎 20 次独立任务，来自同一产品冻结提交。响应 p95 预算 100 ms，取消每次须在 1000 ms 内停止且剩余 Worker 为 0。
+
+| 引擎 | 成功/总数 | 响应 p95 | 响应最大值 | 跳页全部定位 p95 | 取消 p95 | 状态 |
+|---|---:|---:|---:|---:|---:|---|
+${interactionRows.join('\n')}
 
 ## 差异与选择
 
@@ -96,7 +106,9 @@ writeFileSync('docs/acceptance-report.md',`# 验收报告
 | 浏览器流程 | PASS | 各 11 组：搜索、两侧位置、移动、导出、异常、旋转 Unicode、覆盖区域、20 完整任务、20 取消 |
 | CLI | ${load('reports/cli-checks.json').status} | 两引擎实际 0/2/3/130 退出状态；原文来源同公共契约 |
 | PDF.js 独立构建 | ${load('reports/pdfjs-independent-build.json').status} | 无 MuPDF 安装、目录、下载依赖或产物代码；独立包缓存验证 |
+| 两个交付包解压运行 | ${load('reports/delivery-check.json').status} | 独立目录启动、包内 R32 比较/定位/导出/释放；全部静态文件与 A/B 哈希一致；macOS 验证 |
 | 浏览器 A/B 时间与正确性数据 | ${dataStatus} | 360 热比较 + 6 冷启动；逐轮原始数据与失败数 |
+| 开发机时间/交互/取消预算 | ${timingStatus==='PASS'&&interactions.summary.every((s:any)=>s.status==='PASS')?'PASS':'FAIL'} | 九组时间预算；每引擎另 20 次全程交互和晚期取消 |
 | 开发机性能预算 | ${budgetStatus} | 详见 engine-comparison.md，不代替参考机 |
 | 普通 16 GiB 参考设备 | BLOCKED | 当前实测机为 M4 Max / 128 GiB |
 | Linux 容器构建启动 | BLOCKED | Docker socket、info 与 UI 均无响应；双变体 Dockerfile/运行入口已交付 |
@@ -111,7 +123,7 @@ writeFileSync('docs/acceptance-report.md',`# 验收报告
 
 另有一项测量缺口：物理统计不能回收采集前已经退出的短寿命 helper 的全部历史峰值；因此完整内存保持 BLOCKED。第一批缺失记录保留，未被后续测量覆盖。
 
-解除剩余阻塞的最小条件：恢复可用的本地 Linux 容器服务；提供普通参考设备或明确的目标设备验收环境；提供获准真实样本与封存留出及审阅结果；在实际对外分发/共享/生产范围确定后落实相应许可条件。没有自动上传真实保单、创建外部仓库、推送、合并或生产发布。
+解除剩余阻塞的最小条件：恢复可用的本地 Linux 容器服务；提供能覆盖短寿命浏览器进程的完整内存采集；提供普通参考设备或明确的目标设备验收环境；提供获准真实样本与封存留出及审阅结果；在实际对外分发/共享/生产范围确定后落实相应许可条件。没有自动上传真实保单、创建外部仓库、推送、合并或生产发布。
 `);
 writeFileSync('docs/pr-description.md',`# 同一审阅产品的 PDF.js / MuPDF 独立构建
 
@@ -121,4 +133,8 @@ writeFileSync('docs/pr-description.md',`# 同一审阅产品的 PDF.js / MuPDF �
 
 未通过的发布条件：本机 Docker 服务无响应，Linux 两变体为 BLOCKED；普通参考设备及真实业务/留出验收缺失。工程与业务试点均不宣称全通过。未推送、未合并、未生产部署。
 `);
-console.log({dataStatus,budgetStatus,attempts:ab.attempts.length,productRevision:ab.commit});
+for(const engine of engines){
+ const rules=load(`reports/rules-${engine}.json`),browser=load(`reports/browser-rules-${engine}.json`),interaction=interactions.summary.find((s:any)=>s.engine===engine),stats=ab.summary.filter((s:any)=>s.engine===engine);
+ writeFileSync(`docs/acceptance-${engine}.md`,`# ${engine} 独立版本验收\n\n产品冻结提交：${ab.commit}。共用核心/UI/profile/评分器，单个任务两侧固定使用本引擎。\n\n| 项目 | 状态 | 证据 |\n|---|---|---|\n| 32 对原规则 | ${rules.status} | reports/rules-${engine}.json |\n| 32 对浏览器精细来源位置 | ${browser.status} | reports/browser-rules-${engine}.json |\n| 浏览器全流程 | PASS | reports/browser-tests-${engine}.json；11 组，含连续 20 次任务/取消 |\n| 6 项机制 PDF | PASS | reports/pdf-checks-${engine}.json |\n| CLI 0/2/3/130 | PASS | reports/cli-checks.json |\n| 热比较 | ${stats.every((s:any)=>s.successes===20)?'PASS':'FAIL'} | 180/180；9 组 × 20 次，reports/engine-ab.json |\n| 时间预算 | ${stats.every((s:any)=>s.timingBudgetStatus==='PASS')?'PASS':'FAIL'} | 同上逐轮原始记录 |\n| 全程交互/晚期取消 | ${interaction.status} | 20 次，reports/interaction-profile.json |\n| 完整内存 | BLOCKED | 短寿命子进程历史峰值覆盖不完整 |\n| 目标/普通参考设备 | BLOCKED | 当前为 M4 Max / 128 GiB 开发机 |\n| Linux 容器 | BLOCKED | Docker daemon/API 无响应，reports/container.json |\n\n${engine==='pdfjs'?'PDF.js 独立安装与构建 PASS：独立缓存和目录内没有 MuPDF 依赖、资源或运行时请求。CLI 位置为 run/提取项范围，浏览器实际文字层范围另行测量；未以段框冒充字符位置。':'MuPDF 保留原生字符 quad；非 BMP 的 fromCharCode 问题由随包版本化补丁修复。实际包许可为 AGPL-3.0-or-later，本轮本地开发评估已授权；未声称外部分发/共享/生产许可已落实。'}\n\n可运行产物：delivery/policy-compare-${engine}.tar.gz；解压执行 Node 24 的 node server.mjs。源码开发/构建/验收入口分别为 pnpm dev:${engine}、pnpm build:${engine}、pnpm verify:${engine}。\n\n本版本功能与本地时间测量通过，**工程综合验收 BLOCKED；业务试点 BLOCKED**。限制、第三方范围及最小缺失条件见 acceptance-report.md 和 engine-comparison.md。\n`);
+}
+console.log({dataStatus,timingStatus,budgetStatus,attempts:ab.attempts.length,productRevision:ab.commit});

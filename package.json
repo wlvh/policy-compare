@@ -16,7 +16,7 @@
     "test:pdf": "tsx scripts/pdf-check.ts",
     "test:rules": "tsx scripts/acceptance.ts rules",
     "test:browser": "playwright test",
-    "bench:browser": "tsx bench/browser.ts",
+    "bench:browser": "pnpm bench:compare",
     "compare": "tsx packages/cli/main.ts",
     "compare:doc": "tsx packages/cli/doc.ts",
     "verify": "tsx scripts/verify.ts",
@@ -37,7 +37,9 @@
     "test:rules:mupdf": "tsx scripts/acceptance.ts mupdf",
     "test:browser:mupdf": "POLICY_ENGINE=mupdf playwright test",
     "verify:mupdf": "tsx scripts/verify.ts mupdf",
-    "bench:compare": "tsx bench/compare.ts"
+    "bench:compare": "tsx bench/compare.ts",
+    "bench:interactions": "tsx bench/interactions.ts",
+    "package:delivery": ".venv/bin/python scripts/package-delivery.py"
   },
   "dependencies": {
     "@noble/hashes": "2.0.1",
