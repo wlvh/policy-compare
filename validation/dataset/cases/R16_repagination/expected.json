@@ -1,0 +1,19 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R16_repagination",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [],
+  "invariants": [
+    "no_material_differences",
+    "no_false_clause_moves",
+    "all_source_text_preserved"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "bcb90ee3a8ecfb5c99914440a9db64aa2c27e9f0e6540a30e4f802b0a7cc2109",
+  "evidence_locations": {}
+}

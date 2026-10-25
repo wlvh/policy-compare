@@ -1,0 +1,60 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R07_shorter_term",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R07_shorter_term:E1",
+      "logical_path": "risk_details.policy_period",
+      "operation": "replace",
+      "old": "06 January 2023 to 31 March 2024 (both dates inclusive)",
+      "new": "01 April 2024 to 31 March 2025 (both dates inclusive)",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "must_not_classify_as_unchanged_duration_roll_forward"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "1b9907ed57de6e0d07309c3affd85c0de43711b452e0196d304a8aa0f583208c",
+  "evidence_locations": {
+    "R07_shorter_term:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0013"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0014"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0013"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0014"
+        }
+      ]
+    }
+  }
+}

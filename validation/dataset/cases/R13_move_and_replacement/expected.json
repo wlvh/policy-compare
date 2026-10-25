@@ -1,0 +1,104 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R13_move_and_replacement",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R13_move_and_replacement:E1",
+      "logical_path": "clauses.loss_payment",
+      "operation": "move",
+      "old": "The insurer will pay covered losses arising from approved operations worldwide. Payment remains subject to the stated limit and deductible.",
+      "new": "The insurer will pay covered losses arising from approved operations worldwide. Payment remains subject to the stated limit and deductible.",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Moved"
+      ],
+      "acceptable_categories": [
+        "Review",
+        "Material"
+      ],
+      "require_source_evidence": true
+    },
+    {
+      "event_id": "R13_move_and_replacement:E2",
+      "logical_path": "clauses.new_loss_payment",
+      "operation": "add",
+      "old": null,
+      "new": "The insurer will pay approved losses arising from approved operations worldwide. Payment remains subject to the stated limit and deductible.",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Added"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "exact_move_must_not_be_consumed_by_local_replacement"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "446a925525bd749079a811f2cd6218da28a697a4b300915bf1a9e89ba1759b01",
+  "evidence_locations": {
+    "R13_move_and_replacement:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0025"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0026"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0027"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 1,
+          "run_id": "run_0067"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0068"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0069"
+        }
+      ]
+    },
+    "R13_move_and_replacement:E2": {
+      "before": [],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0025"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0026"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0027"
+        }
+      ]
+    }
+  }
+}

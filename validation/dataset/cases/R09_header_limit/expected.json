@@ -1,0 +1,61 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R09_header_limit",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R09_header_limit:E1",
+      "logical_path": "repeated_header.limit",
+      "operation": "replace",
+      "old": "USD 2,000,000",
+      "new": "USD 4,000,000",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "header_role_must_not_exclude_text",
+    "grouping_allowed_only_with_all_occurrence_locations"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "83ca9916eef19b0ed1ddbe0825565e30e7a765f41d0426bdf9f6c88f877dce5d",
+  "evidence_locations": {
+    "R09_header_limit:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0002"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0034"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0002"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0034"
+        }
+      ]
+    }
+  }
+}

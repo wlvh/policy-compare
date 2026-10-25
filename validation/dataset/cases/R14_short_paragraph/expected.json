@@ -1,0 +1,52 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R14_short_paragraph",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R14_short_paragraph:E1",
+      "logical_path": "clauses.loss_payment.text",
+      "operation": "replace",
+      "old": "The insurer will pay losses arising from approved operations worldwide.",
+      "new": "The insurer will pay losses arising from approved operations domestically.",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "同一条款身份明确时应保留修改；不因移动阈值排除变更。"
+  ],
+  "source_sha256": "fadcfcc6bb8dca2bc55159cffab6191f40ab3d3ddea5a0659482ddbb8c4fb629",
+  "evidence_locations": {
+    "R14_short_paragraph:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0026"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0026"
+        }
+      ]
+    }
+  }
+}

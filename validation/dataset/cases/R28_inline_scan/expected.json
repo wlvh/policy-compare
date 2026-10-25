@@ -1,0 +1,74 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R28_inline_scan",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "partial",
+  "events": [
+    {
+      "event_id": "R28_inline_scan:E1",
+      "logical_path": "uncovered_inline_image.flood_coverage",
+      "operation": "replace",
+      "old": "will not cover",
+      "new": "will cover",
+      "severity": "critical",
+      "detection_requirement": "coverage_warning_required",
+      "must_detect": false,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "CoverageIssue"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "text_elsewhere_on_page_does_not_prove_full_coverage",
+    "must_not_claim_complete_or_no_changes"
+  ],
+  "coverage_requirements": [
+    {
+      "side": "both",
+      "page_index": 1,
+      "reason": "unverified_image_text_region",
+      "must_report": true
+    }
+  ],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "无 OCR 的 v1 不要求识别图中文字变化；必须提示该区域的未覆盖风险。"
+  ],
+  "source_sha256": "21c11d987e3c11c18e6e75a7060db83728234a407859542cdaee5a207fa99ac6",
+  "evidence_locations": {
+    "R28_inline_scan:E1": {
+      "before": [
+        {
+          "page_index": 1,
+          "image_bbox_top_left_pt": [
+            42,
+            444.8897637795277,
+            553.2755905511812,
+            556.8897637795277
+          ],
+          "has_pdf_text_layer": false
+        }
+      ],
+      "after": [
+        {
+          "page_index": 1,
+          "image_bbox_top_left_pt": [
+            42,
+            444.8897637795277,
+            553.2755905511812,
+            556.8897637795277
+          ],
+          "has_pdf_text_layer": false
+        }
+      ]
+    }
+  }
+}

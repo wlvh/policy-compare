@@ -1,0 +1,101 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R32_combined_changes",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R32_combined_changes:E1",
+      "logical_path": "risk_details.policy_period",
+      "operation": "replace",
+      "old": "01 April 2024 to 31 March 2025 (both dates inclusive)",
+      "new": "01 April 2025 to 31 March 2026 (both dates inclusive)",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "RollForward",
+        "Review"
+      ],
+      "require_source_evidence": true
+    },
+    {
+      "event_id": "R32_combined_changes:E2",
+      "logical_path": "risk_details.sum_insured",
+      "operation": "replace",
+      "old": "USD 2,000,000",
+      "new": "USD 2,500,000",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "renewal_classification_must_not_hide_amount_change"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "43cbc3b2fec0840de8911c4751e0d453eb0af27171675302b507777c0224a93d",
+  "evidence_locations": {
+    "R32_combined_changes:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0013"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0014"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0013"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0014"
+        }
+      ]
+    },
+    "R32_combined_changes:E2": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0015"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0016"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0015"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0016"
+        }
+      ]
+    }
+  }
+}

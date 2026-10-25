@@ -1,0 +1,49 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R29_clause_add",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R29_clause_add:E1",
+      "logical_path": "clauses.new_exclusion",
+      "operation": "add",
+      "old": null,
+      "new": "Losses arising from unapproved night operations are excluded.",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Added"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "4b6880275c29e75f3b69aeaa9d403e8dbb6b0684672babcf8f3ba5aa9eb4c611",
+  "evidence_locations": {
+    "R29_clause_add:E1": {
+      "before": [],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0033"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0034"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R19_rotated_status",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R19_rotated_status:E1",
+      "logical_path": "document.status",
+      "operation": "replace",
+      "old": "DRAFT",
+      "new": "CANCELLED",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "rotation_must_not_exclude_text"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "5068d1589fa091cf1712f203743a2ba877dba635f8d576d94742db5661121565",
+  "evidence_locations": {
+    "R19_rotated_status:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0033"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0033"
+        }
+      ]
+    }
+  }
+}

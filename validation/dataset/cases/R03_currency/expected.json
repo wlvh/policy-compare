@@ -1,0 +1,58 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R03_currency",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R03_currency:E1",
+      "logical_path": "risk_details.sum_insured",
+      "operation": "replace",
+      "old": "USD 2,000,000",
+      "new": "EUR 2,000,000",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "2e67f91d24e98551b222cd936f2140e82fbcfd7d88cd4b6264e8c7727945df61",
+  "evidence_locations": {
+    "R03_currency:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0015"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0016"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0015"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0016"
+        }
+      ]
+    }
+  }
+}

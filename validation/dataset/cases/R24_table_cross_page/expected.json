@@ -1,0 +1,19 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R24_table_cross_page",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [],
+  "invariants": [
+    "no_material_differences",
+    "no_false_row_additions_or_deletions",
+    "same_logical_row_order"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "105e92cb7c692f4ed96b651ea0da74253829af6eb75b9fe0b9c9925b92ee76a0",
+  "evidence_locations": {}
+}

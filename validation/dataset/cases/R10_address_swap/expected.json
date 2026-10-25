@@ -1,0 +1,101 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R10_address_swap",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R10_address_swap:E1",
+      "logical_path": "risk_details.original_insured.address",
+      "operation": "replace",
+      "old": "Office 5, 8 Example Road, Test City, Malaysia",
+      "new": "Office 2, 9 Fictional Avenue, Test City, Singapore",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    },
+    {
+      "event_id": "R10_address_swap:E2",
+      "logical_path": "risk_details.reinsured.address",
+      "operation": "replace",
+      "old": "Office 2, 9 Fictional Avenue, Test City, Singapore",
+      "new": "Office 5, 8 Example Road, Test City, Malaysia",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "must_not_match_values_across_party_identity"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "923fa46d4dfea42928176d1bc4b9c34732a7ab7f4f20a894e2ebeb796b6aa237",
+  "evidence_locations": {
+    "R10_address_swap:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0007"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0008"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0007"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0008"
+        }
+      ]
+    },
+    "R10_address_swap:E2": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0011"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0012"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0011"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0012"
+        }
+      ]
+    }
+  }
+}

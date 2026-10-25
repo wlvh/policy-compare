@@ -1,0 +1,18 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R01_identical",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [],
+  "invariants": [
+    "no_content_differences",
+    "no_material_differences"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "5ea3c6134f1a688be53a2344776bb99ef9e59cda4bb0f5f36990a6c2d6d7d393",
+  "evidence_locations": {}
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R23_table_reorder",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [],
+  "invariants": [
+    "no_material_differences",
+    "no_false_row_additions_or_deletions",
+    "all_aircraft_values_attached_to_original_identity"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "允许显示行顺序变化；绝不能按原行号把不同飞机配成金额变化。"
+  ],
+  "source_sha256": "695194460f0d11d7b400235bf0094a91bac1d175ab0f3e8ed1683a945ed3f106",
+  "evidence_locations": {}
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R31_punctuation",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R31_punctuation:E1",
+      "logical_path": "clauses.territory.text",
+      "operation": "replace",
+      "old": "Cover includes liability for fire, theft and flood.",
+      "new": "Cover includes liability for fire theft and flood.",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Review",
+        "Material"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "本例要求识别标点变化，不自动断言其具体法律影响。"
+  ],
+  "source_sha256": "edbc933d3dc85d4ce29b334f6ca21e7e6d18ce76e969a2b1497e118372c9bece",
+  "evidence_locations": {
+    "R31_punctuation:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0032"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0032"
+        }
+      ]
+    }
+  }
+}

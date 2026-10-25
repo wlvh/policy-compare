@@ -1,0 +1,54 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R26_key_change",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R26_key_change:E1",
+      "logical_path": "aircraft_schedule.SYN-1026-003.registration",
+      "operation": "replace",
+      "old": "TEST-C941",
+      "new": "TEST-RENAMED",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced",
+        "Added+Removed"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "agreed_value_unchanged",
+    "secondary_key_or_explicit_identity_review"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "96098c8fc962d656f26e1c708f417f2391a70b0f31d88f1a9e53c2b9cea8b213",
+  "evidence_locations": {
+    "R26_key_change:E1": {
+      "before": [
+        {
+          "page_index": 1,
+          "run_id": "run_0052"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 1,
+          "run_id": "run_0052"
+        }
+      ]
+    }
+  }
+}

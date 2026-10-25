@@ -1,0 +1,50 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R05_negation",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R05_negation:E1",
+      "logical_path": "clauses.territory.text",
+      "operation": "replace",
+      "old": "Cover applies to approved operations worldwide, subject to all stated exclusions.",
+      "new": "Cover does not apply to approved operations worldwide, subject to all stated exclusions.",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "6d020ceaaa044590e6e538cd64afaf67f13ef1b70c16618d755695321871d5b1",
+  "evidence_locations": {
+    "R05_negation:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0032"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0032"
+        }
+      ]
+    }
+  }
+}

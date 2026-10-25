@@ -1,0 +1,20 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R15_paragraph_split",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [],
+  "invariants": [
+    "no_material_differences",
+    "no_false_text_added_or_removed"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "允许报告排版变化；同一字段内的分段变化不等于业务内容增删。"
+  ],
+  "source_sha256": "0d6cfa61f7decb2cc3b58e4f4728a9eb0b42a7a20c628c5277a3bb6f2ec3369d",
+  "evidence_locations": {}
+}

@@ -1,0 +1,262 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R01_identical",
+  "seed": 20261026,
+  "title_zh": "同一内容与同一版式",
+  "mutation_rule": "identity",
+  "before": {
+    "synthetic_only": true,
+    "document_title": "FICTIONAL AVIATION POLICY SCHEDULE",
+    "header_limit": "USD 2,000,000",
+    "fields": [
+      {
+        "path": "risk_details.original_insured.name",
+        "label": "INSURED:",
+        "value": "Example Aviation Test Company"
+      },
+      {
+        "path": "risk_details.original_insured.address",
+        "label": "ADDRESS:",
+        "value": "Office 5, 8 Example Road, Test City, Malaysia"
+      },
+      {
+        "path": "risk_details.reinsured.name",
+        "label": "REINSURED:",
+        "value": "Demonstration Reinsurance Test Company"
+      },
+      {
+        "path": "risk_details.reinsured.address",
+        "label": "ADDRESS:",
+        "value": "Office 2, 9 Fictional Avenue, Test City, Singapore"
+      },
+      {
+        "path": "risk_details.policy_period",
+        "label": "PERIOD:",
+        "value": "01 April 2024 to 31 March 2025 (both dates inclusive)"
+      },
+      {
+        "path": "risk_details.sum_insured",
+        "label": "SUMS INSURED:",
+        "value": "USD 2,000,000"
+      },
+      {
+        "path": "risk_details.deductible",
+        "label": "DEDUCTIBLE:",
+        "value": "USD 10,000 each loss"
+      },
+      {
+        "path": "risk_details.rate",
+        "label": "RATE:",
+        "value": "1.5% of the declared value"
+      },
+      {
+        "path": "risk_details.tolerance",
+        "label": "TOLERANCE:",
+        "value": "± 5% of the declared amount"
+      },
+      {
+        "path": "risk_details.endorsement",
+        "label": "ENDORSEMENT:",
+        "value": "Separate endorsement applies only when expressly included."
+      }
+    ],
+    "clauses": [
+      {
+        "id": "loss_payment",
+        "title": "LOSS PAYMENT",
+        "text": "The insurer will pay covered losses arising from approved operations worldwide. Payment remains subject to the stated limit and deductible."
+      },
+      {
+        "id": "notification",
+        "title": "NOTIFICATION",
+        "text": "The insured shall notify the insurer within thirty days after discovery. A written description of the loss must accompany the notice."
+      },
+      {
+        "id": "territory",
+        "title": "TERRITORIAL SCOPE",
+        "text": "Cover applies to approved operations worldwide, subject to all stated exclusions."
+      }
+    ],
+    "table": [
+      {
+        "row_id": "aircraft_1",
+        "registration": "TEST-A789",
+        "serial": "SYN-1026-001",
+        "model": "Training Type A",
+        "currency": "USD",
+        "agreed_value": "1,500,000"
+      },
+      {
+        "row_id": "aircraft_2",
+        "registration": "TEST-B236",
+        "serial": "SYN-1026-002",
+        "model": "Training Type B",
+        "currency": "USD",
+        "agreed_value": "2,250,000"
+      },
+      {
+        "row_id": "aircraft_3",
+        "registration": "TEST-C941",
+        "serial": "SYN-1026-003",
+        "model": "Training Type C",
+        "currency": "USD",
+        "agreed_value": "3,000,000"
+      },
+      {
+        "row_id": "aircraft_4",
+        "registration": "TEST-D597",
+        "serial": "SYN-1026-004",
+        "model": "Training Type D",
+        "currency": "USD",
+        "agreed_value": "3,750,000"
+      },
+      {
+        "row_id": "aircraft_5",
+        "registration": "TEST-E514",
+        "serial": "SYN-1026-005",
+        "model": "Training Type E",
+        "currency": "USD",
+        "agreed_value": "4,500,000"
+      }
+    ],
+    "tail_clauses": [],
+    "rotated_status": null,
+    "layout": {
+      "font": "FixtureSans",
+      "font_size": 9.5,
+      "split_notification": false,
+      "repage_clauses": false,
+      "table_break_after": null
+    },
+    "image_only_page": null,
+    "inline_image": null
+  },
+  "after": {
+    "synthetic_only": true,
+    "document_title": "FICTIONAL AVIATION POLICY SCHEDULE",
+    "header_limit": "USD 2,000,000",
+    "fields": [
+      {
+        "path": "risk_details.original_insured.name",
+        "label": "INSURED:",
+        "value": "Example Aviation Test Company"
+      },
+      {
+        "path": "risk_details.original_insured.address",
+        "label": "ADDRESS:",
+        "value": "Office 5, 8 Example Road, Test City, Malaysia"
+      },
+      {
+        "path": "risk_details.reinsured.name",
+        "label": "REINSURED:",
+        "value": "Demonstration Reinsurance Test Company"
+      },
+      {
+        "path": "risk_details.reinsured.address",
+        "label": "ADDRESS:",
+        "value": "Office 2, 9 Fictional Avenue, Test City, Singapore"
+      },
+      {
+        "path": "risk_details.policy_period",
+        "label": "PERIOD:",
+        "value": "01 April 2024 to 31 March 2025 (both dates inclusive)"
+      },
+      {
+        "path": "risk_details.sum_insured",
+        "label": "SUMS INSURED:",
+        "value": "USD 2,000,000"
+      },
+      {
+        "path": "risk_details.deductible",
+        "label": "DEDUCTIBLE:",
+        "value": "USD 10,000 each loss"
+      },
+      {
+        "path": "risk_details.rate",
+        "label": "RATE:",
+        "value": "1.5% of the declared value"
+      },
+      {
+        "path": "risk_details.tolerance",
+        "label": "TOLERANCE:",
+        "value": "± 5% of the declared amount"
+      },
+      {
+        "path": "risk_details.endorsement",
+        "label": "ENDORSEMENT:",
+        "value": "Separate endorsement applies only when expressly included."
+      }
+    ],
+    "clauses": [
+      {
+        "id": "loss_payment",
+        "title": "LOSS PAYMENT",
+        "text": "The insurer will pay covered losses arising from approved operations worldwide. Payment remains subject to the stated limit and deductible."
+      },
+      {
+        "id": "notification",
+        "title": "NOTIFICATION",
+        "text": "The insured shall notify the insurer within thirty days after discovery. A written description of the loss must accompany the notice."
+      },
+      {
+        "id": "territory",
+        "title": "TERRITORIAL SCOPE",
+        "text": "Cover applies to approved operations worldwide, subject to all stated exclusions."
+      }
+    ],
+    "table": [
+      {
+        "row_id": "aircraft_1",
+        "registration": "TEST-A789",
+        "serial": "SYN-1026-001",
+        "model": "Training Type A",
+        "currency": "USD",
+        "agreed_value": "1,500,000"
+      },
+      {
+        "row_id": "aircraft_2",
+        "registration": "TEST-B236",
+        "serial": "SYN-1026-002",
+        "model": "Training Type B",
+        "currency": "USD",
+        "agreed_value": "2,250,000"
+      },
+      {
+        "row_id": "aircraft_3",
+        "registration": "TEST-C941",
+        "serial": "SYN-1026-003",
+        "model": "Training Type C",
+        "currency": "USD",
+        "agreed_value": "3,000,000"
+      },
+      {
+        "row_id": "aircraft_4",
+        "registration": "TEST-D597",
+        "serial": "SYN-1026-004",
+        "model": "Training Type D",
+        "currency": "USD",
+        "agreed_value": "3,750,000"
+      },
+      {
+        "row_id": "aircraft_5",
+        "registration": "TEST-E514",
+        "serial": "SYN-1026-005",
+        "model": "Training Type E",
+        "currency": "USD",
+        "agreed_value": "4,500,000"
+      }
+    ],
+    "tail_clauses": [],
+    "rotated_status": null,
+    "layout": {
+      "font": "FixtureSans",
+      "font_size": 9.5,
+      "split_notification": false,
+      "repage_clauses": false,
+      "table_break_after": null
+    },
+    "image_only_page": null,
+    "inline_image": null
+  },
+  "provenance": "Fictional structured source data and explicit deterministic mutation"
+}

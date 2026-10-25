@@ -1,0 +1,51 @@
+{
+  "deliverable": "rule-generated functional validation dataset",
+  "seed": 20261026,
+  "case_count": 32,
+  "pdf_count": 64,
+  "total_pdf_pages": 130,
+  "rule_group_counts": {
+    "no_business_change_controls": 6,
+    "fields_numbers_periods": 9,
+    "clauses_and_moves": 8,
+    "labels_ligatures_status_symbols": 4,
+    "table_values_and_identity": 3,
+    "uncovered_raster_content": 2
+  },
+  "event_counts": {
+    "events": 29,
+    "must_detect_events": 26,
+    "coverage_only_events": 2,
+    "ambiguous_group_events": 1
+  },
+  "fixture_construction_checks": "passed",
+  "comparison_engine_executed": false,
+  "visual_qa": {
+    "rendered_pages": 130,
+    "contact_sheets_reviewed": 9,
+    "selected_full_page_views": [
+      "R18_ligature_after-1",
+      "R21_checkbox_glyph_after-1",
+      "R17_font_change_after-1"
+    ],
+    "findings": "No clipping, overlaps or missing page structure found in reviewed renders. Font-change case deliberately uses a different built-in font."
+  },
+  "commands": [
+    "python generator.py",
+    "python fixture_checks.py",
+    "python render_contact_sheets.py"
+  ],
+  "notes": [
+    "All data are fictional.",
+    "Bundled DejaVuSans font license is included.",
+    "Functional fixtures are not a browser performance benchmark.",
+    "Independent real-document holdout remains necessary."
+  ],
+  "ambiguity_contract": {
+    "entity_identity_may_remain_unresolved": true,
+    "visible_amount_delta_is_mandatory": true,
+    "both_side_source_links_required": true,
+    "duplicate_key_warning_alone_is_failure": true
+  },
+  "contract_patch_pdf_hashes_unchanged": true
+}

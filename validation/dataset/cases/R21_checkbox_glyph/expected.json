@@ -1,0 +1,60 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R21_checkbox_glyph",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R21_checkbox_glyph:E1",
+      "logical_path": "risk_details.endorsement",
+      "operation": "replace",
+      "old": "☐ Additional coverage included",
+      "new": "☑ Additional coverage included",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "这是文本字形，不是 AcroForm 控件或矢量勾选框；后两类未在此用例声称覆盖。"
+  ],
+  "source_sha256": "0ab40fb13cf9e8e0293782eb026b6758b5f9fdc22cc9102ea34170c273e3b3ed",
+  "evidence_locations": {
+    "R21_checkbox_glyph:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0023"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0024"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0023"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0024"
+        }
+      ]
+    }
+  }
+}

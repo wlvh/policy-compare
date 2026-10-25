@@ -1,0 +1,61 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R11_label_alias",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R11_label_alias:E1",
+      "logical_path": "risk_details.sum_insured.label",
+      "operation": "replace",
+      "old": "SUMS INSURED:",
+      "new": "SUM INSURED:",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Cosmetic",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "no_amount_or_currency_change",
+    "same_field_identity"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "867984b25fd8afddef441afb1985a74c7037081aad9d4e0f8889fbd74cfb0850",
+  "evidence_locations": {
+    "R11_label_alias:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0015"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0016"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0015"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0016"
+        }
+      ]
+    }
+  }
+}

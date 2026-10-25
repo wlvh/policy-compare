@@ -1,0 +1,60 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R08_normal_renewal",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R08_normal_renewal:E1",
+      "logical_path": "risk_details.policy_period",
+      "operation": "replace",
+      "old": "01 April 2024 to 31 March 2025 (both dates inclusive)",
+      "new": "01 April 2025 to 31 March 2026 (both dates inclusive)",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "RollForward",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "高敏感默认视图要求展示该变化；识别为续期并不授权自动折叠。"
+  ],
+  "source_sha256": "feeb911b4deda9aec196bf4dda4093a770fa5ced0c7f426c3cc1daf6ff8c8e05",
+  "evidence_locations": {
+    "R08_normal_renewal:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0013"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0014"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 0,
+          "run_id": "run_0013"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0014"
+        }
+      ]
+    }
+  }
+}

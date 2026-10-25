@@ -1,0 +1,537 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "seed": 20261026,
+  "synthetic_only": true,
+  "case_count": 32,
+  "pdf_count": 64,
+  "total_pdf_pages": 130,
+  "source_of_truth": "explicit source mutations; not comparison-engine output",
+  "not_an_independent_real_world_holdout": true,
+  "rule_group_counts": {
+    "no_business_change_controls": 6,
+    "fields_numbers_periods": 9,
+    "clauses_and_moves": 8,
+    "labels_ligatures_status_symbols": 4,
+    "table_values_and_identity": 3,
+    "uncovered_raster_content": 2
+  },
+  "generator_dependencies": {
+    "reportlab": "4.4.9",
+    "pypdf": "6.10.0",
+    "Pillow": "12.3.0"
+  },
+  "cases": [
+    {
+      "case_id": "R01_identical",
+      "title_zh": "同一内容与同一版式",
+      "rule": "identity",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 0,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a"
+      },
+      "rule_group": "no_business_change_controls"
+    },
+    {
+      "case_id": "R02_amount",
+      "title_zh": "保额翻倍",
+      "rule": "replace_field_amount",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "e56220d227e02e353a166893f1cc920bc00912a363c86a63d0d7e2e1c0f043d0"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R03_currency",
+      "title_zh": "金额相同但币种改变",
+      "rule": "replace_currency_only",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "7c2162ea7677396c5eba06fc00f9a21da15dac176628526abd16970ae2153357"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R04_decimal",
+      "title_zh": "1.5% 变为 15%",
+      "rule": "remove_decimal_point",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "0f026bcff9f79be29eb5ba4da6c83072f0a3273cb89785d0279818604226fd6b"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R05_negation",
+      "title_zh": "插入否定词",
+      "rule": "insert_negation",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "66e4ce1ba13d970e8967792288f34c2526f8a01093f03d1a44a4cf0a11b3f6b5"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R06_and_or",
+      "title_zh": "and 变为 or",
+      "rule": "replace_logical_operator",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "db4bd62f0a21f4f90bb7b946ec9db8ac2b52a235f8d04b8f77adfc8c61dbaeae",
+        "after": "0f387a07dac7767e681bffd167c4137b1034adeab83ec0f77b208ff8beb5526c"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R07_shorter_term",
+      "title_zh": "连续但约十五个月变十二个月",
+      "rule": "continuous_period_shortens",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "c50422bde7233cc299a0399e4cb7c51a8ffd297c8377e6ab568725db09915a63",
+        "after": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R08_normal_renewal",
+      "title_zh": "普通年度顺延也必须可见",
+      "rule": "calendar_year_roll_forward",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "86439ef4ebdfda107e4d5e98c78ab615cd9e6f34b8784bdb645863663633c917"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R09_header_limit",
+      "title_zh": "重复页眉里的限额改变",
+      "rule": "replace_repeated_header_amount",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R10_address_swap",
+      "title_zh": "同名 ADDRESS 属于不同主体",
+      "rule": "swap_two_party_addresses",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 2,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "4436a418ec32dcea2ab8da310f2fa7bbc17c5325b8e741598a22874b1ec79500"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R11_label_alias",
+      "title_zh": "字段别名变化保留原文差异",
+      "rule": "replace_label_alias",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "a68e92f02cb977c67f20f0ed1add6dd1415faaaf752e060c5770bebf38d71239"
+      },
+      "rule_group": "labels_ligatures_status_symbols"
+    },
+    {
+      "case_id": "R12_exact_move",
+      "title_zh": "原样条款移到表格之后",
+      "rule": "move_exact_clause_after_table",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "a2978f96ce7b72b02efb8b1cc4a0de1b7407a53a15d0d75edacbd8a39f5878e3"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R13_move_and_replacement",
+      "title_zh": "原样移动与原位相似新增竞争",
+      "rule": "move_then_insert_similar",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 2,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "25b8362b13aaf15819a3bf4716c49b6a835139ebd9925b5af86799ed7dd7222f"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R14_short_paragraph",
+      "title_zh": "十词短段落只改一个词",
+      "rule": "replace_one_of_ten_words",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373",
+        "after": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R15_paragraph_split",
+      "title_zh": "一段改为两段但文字相同",
+      "rule": "split_paragraph_layout_only",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 0,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "3a9e5e80ab16388dcb7116929eef265273daf6980eb3ad8ff064a0ef78f994b4"
+      },
+      "rule_group": "no_business_change_controls"
+    },
+    {
+      "case_id": "R16_repagination",
+      "title_zh": "条款重分页但逻辑顺序相同",
+      "rule": "repage_preserve_logical_order",
+      "page_counts": {
+        "before": 2,
+        "after": 3
+      },
+      "event_count": 0,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe"
+      },
+      "rule_group": "no_business_change_controls"
+    },
+    {
+      "case_id": "R17_font_change",
+      "title_zh": "字体和字号改变但文字相同",
+      "rule": "replace_font_layout_only",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 0,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c"
+      },
+      "rule_group": "no_business_change_controls"
+    },
+    {
+      "case_id": "R18_ligature",
+      "title_zh": "fi 连字与两个字符的来源映射",
+      "rule": "substitute_fi_ligature",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "bf84d11e07c35c09aab13f184b6399b4e7957d4be970fda4af96d0aa0968d7b5"
+      },
+      "rule_group": "labels_ligatures_status_symbols"
+    },
+    {
+      "case_id": "R19_rotated_status",
+      "title_zh": "旋转状态文字改变",
+      "rule": "replace_rotated_text",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "aff38eb14ae3727baae6b473acf94703e5499b7cc915b3753eb00a286660c37d",
+        "after": "b2d672ae2a8f5dd63a9689eeeaf450e000a4b83cdbc8e88b61f007bc1cf5e5d7"
+      },
+      "rule_group": "labels_ligatures_status_symbols"
+    },
+    {
+      "case_id": "R20_plus_minus",
+      "title_zh": "正负符号变为正号",
+      "rule": "replace_mathematical_symbol",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "e616136d24a0125eae10aade90116efe4097ffc8489cfb4e8c3ab1a41bb959b4"
+      },
+      "rule_group": "fields_numbers_periods"
+    },
+    {
+      "case_id": "R21_checkbox_glyph",
+      "title_zh": "可提取的勾选符号改变",
+      "rule": "replace_checkbox_unicode_glyph",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "d0f20793f027c3e9cf22f06efe6e87463d069ee5dbb5e5f83f11efccd167b663",
+        "after": "496a642499119089944a3157ec7e0fc7b5573ad804f153dcf2788df01e19c794"
+      },
+      "rule_group": "labels_ligatures_status_symbols"
+    },
+    {
+      "case_id": "R22_table_value",
+      "title_zh": "同一架飞机的约定价值改变",
+      "rule": "replace_keyed_cell_amount",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "f4a3a420ba2192853d09653a8b8fb1dea7fda01add3f20243dbe47577b969f67"
+      },
+      "rule_group": "table_values_and_identity"
+    },
+    {
+      "case_id": "R23_table_reorder",
+      "title_zh": "表格行重排但实体和值不变",
+      "rule": "permute_rows_preserve_identity",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 0,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "74a3c259e160f51a3ea2f585c4df6f20d1f6c49a00b5fad89f4f5852bb20e705"
+      },
+      "rule_group": "no_business_change_controls"
+    },
+    {
+      "case_id": "R24_table_cross_page",
+      "title_zh": "表格跨页并重复表头",
+      "rule": "split_table_with_repeated_header",
+      "page_counts": {
+        "before": 2,
+        "after": 3
+      },
+      "event_count": 0,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "1c70955f256228b7b134b3e429be510989551c3b17d07f009ec9a61ecb9d8dda"
+      },
+      "rule_group": "no_business_change_controls"
+    },
+    {
+      "case_id": "R25_duplicate_keys",
+      "title_zh": "主键和次级键都重复且数值改变",
+      "rule": "duplicate_keys_and_replace_amount",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "partial_or_explicit_review",
+      "pdf_sha256": {
+        "before": "7f49b44c52e552509c6ca0adefebb8f2ff6e2610fc4006be7d2d507f2830ec50",
+        "after": "9b5c2c1c223e7e5a56a6c97acb4b132645c1cd05e4c74050add910953f92688b"
+      },
+      "rule_group": "table_values_and_identity"
+    },
+    {
+      "case_id": "R26_key_change",
+      "title_zh": "注册号改变但序列号保留",
+      "rule": "replace_primary_key_keep_secondary",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "3361913b0df8f82bdbbb6abdec649671533e5056ac42dd3f7a8342b278c1f62e"
+      },
+      "rule_group": "table_values_and_identity"
+    },
+    {
+      "case_id": "R27_mixed_scan_page",
+      "title_zh": "文字页夹整页扫描条款",
+      "rule": "change_raster_only_page",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "partial",
+      "pdf_sha256": {
+        "before": "b4601690aa032a6caadfd67f8d8cdcfb38f76df5bdec49b1f82ea2744ecff5b7",
+        "after": "0da217212cca870b4fe648a18bb94e60ee6394667bc1806116180e6cf078d7f5"
+      },
+      "rule_group": "uncovered_raster_content"
+    },
+    {
+      "case_id": "R28_inline_scan",
+      "title_zh": "有文字的页面内嵌扫描条款",
+      "rule": "change_embedded_raster_clause",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "partial",
+      "pdf_sha256": {
+        "before": "807d9347aa053864f4cd370b5cab80ce982a3f57f40ee6f306605900f482e3ec",
+        "after": "6b1772201d3bd0e0ce0e675efa9851042aee4c5b00a1dc6416ff6cbf24c2e46b"
+      },
+      "rule_group": "uncovered_raster_content"
+    },
+    {
+      "case_id": "R29_clause_add",
+      "title_zh": "新增除外条款",
+      "rule": "append_exclusion",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "9dc3742a5ff189a2f052b85b39a0dd7d71cf219471872251f288a85ca4447217"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R30_clause_delete",
+      "title_zh": "删除原有条款",
+      "rule": "remove_clause",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "e0241a7120f27f94abbc48a5d40a6b93bd39ed5fdb2da4cb9ef577d048116c49"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R31_punctuation",
+      "title_zh": "逗号删除也必须生成可见变化",
+      "rule": "remove_punctuation",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 1,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5",
+        "after": "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5"
+      },
+      "rule_group": "clauses_and_moves"
+    },
+    {
+      "case_id": "R32_combined_changes",
+      "title_zh": "正常顺延同时伴随保额变化",
+      "rule": "combine_renewal_and_amount",
+      "page_counts": {
+        "before": 2,
+        "after": 2
+      },
+      "event_count": 2,
+      "required_status": "complete_for_scope",
+      "pdf_sha256": {
+        "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+        "after": "4f1e0704e842cbf2baf99cfa92f3881fc6220d6fbed66987d7dd9fa65ace0537"
+      },
+      "rule_group": "fields_numbers_periods"
+    }
+  ]
+}

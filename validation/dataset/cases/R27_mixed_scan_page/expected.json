@@ -1,0 +1,73 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R27_mixed_scan_page",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "partial",
+  "events": [
+    {
+      "event_id": "R27_mixed_scan_page:E1",
+      "logical_path": "uncovered_image_page.maximum_liability",
+      "operation": "replace",
+      "old": "USD 500,000",
+      "new": "USD 900,000",
+      "severity": "critical",
+      "detection_requirement": "coverage_warning_required",
+      "must_detect": false,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "CoverageIssue"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "must_not_claim_complete_or_no_changes"
+  ],
+  "coverage_requirements": [
+    {
+      "side": "both",
+      "page_index": 1,
+      "reason": "raster_only_content",
+      "must_report": true
+    }
+  ],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "无 OCR 的 v1 不要求读出图中金额；必须明确该页未完成比较。"
+  ],
+  "source_sha256": "0179c2bc143a52dfb99cfd4865b97ff25cefce4068b1bd59efc79e2255e1226a",
+  "evidence_locations": {
+    "R27_mixed_scan_page:E1": {
+      "before": [
+        {
+          "page_index": 1,
+          "image_bbox_top_left_pt": [
+            20,
+            25.0,
+            575.2755905511812,
+            816.8897637795277
+          ],
+          "has_pdf_text_layer": false
+        }
+      ],
+      "after": [
+        {
+          "page_index": 1,
+          "image_bbox_top_left_pt": [
+            20,
+            25.0,
+            575.2755905511812,
+            816.8897637795277
+          ],
+          "has_pdf_text_layer": false
+        }
+      ]
+    }
+  }
+}

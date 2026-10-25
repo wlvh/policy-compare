@@ -1,0 +1,20 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R17_font_change",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [],
+  "invariants": [
+    "no_material_differences",
+    "no_content_differences"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "字体样式比较不属于本验证集的必须发现项；不得制造业务变化。"
+  ],
+  "source_sha256": "6503459a81892c6bf5be677928cd271344ac7dad42e273f48600c846215ee86d",
+  "evidence_locations": {}
+}

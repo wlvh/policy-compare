@@ -1,0 +1,16 @@
+{
+  "renderer": "Poppler pdftoppm at 72 dpi",
+  "pages_rendered": 130,
+  "contact_sheets": [
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_01.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_02.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_03.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_04.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_05.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_06.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_07.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_08.png",
+    "/workspace/scratch/1ce574ebd693/policy-validation-20261026/qa/contact_09.png"
+  ],
+  "visual_review_is_separate_from_programmatic_fixture_checks": true
+}

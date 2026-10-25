@@ -1,0 +1,52 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R22_table_value",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R22_table_value:E1",
+      "logical_path": "aircraft_schedule.SYN-1026-002.agreed_value",
+      "operation": "replace",
+      "old": "2,250,000",
+      "new": "2,500,000",
+      "severity": "critical",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "match_row_by_registration_or_declared_serial"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "03882d7c225750e4fa204b074362bebba6eb578dbb4385341973862205af7ba6",
+  "evidence_locations": {
+    "R22_table_value:E1": {
+      "before": [
+        {
+          "page_index": 1,
+          "run_id": "run_0051"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 1,
+          "run_id": "run_0051"
+        }
+      ]
+    }
+  }
+}

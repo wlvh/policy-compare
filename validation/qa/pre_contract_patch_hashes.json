@@ -1,0 +1,130 @@
+{
+  "R01_identical": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a"
+  },
+  "R02_amount": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "e56220d227e02e353a166893f1cc920bc00912a363c86a63d0d7e2e1c0f043d0"
+  },
+  "R03_currency": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "7c2162ea7677396c5eba06fc00f9a21da15dac176628526abd16970ae2153357"
+  },
+  "R04_decimal": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "0f026bcff9f79be29eb5ba4da6c83072f0a3273cb89785d0279818604226fd6b"
+  },
+  "R05_negation": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "66e4ce1ba13d970e8967792288f34c2526f8a01093f03d1a44a4cf0a11b3f6b5"
+  },
+  "R06_and_or": {
+    "before": "db4bd62f0a21f4f90bb7b946ec9db8ac2b52a235f8d04b8f77adfc8c61dbaeae",
+    "after": "0f387a07dac7767e681bffd167c4137b1034adeab83ec0f77b208ff8beb5526c"
+  },
+  "R07_shorter_term": {
+    "before": "c50422bde7233cc299a0399e4cb7c51a8ffd297c8377e6ab568725db09915a63",
+    "after": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a"
+  },
+  "R08_normal_renewal": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "86439ef4ebdfda107e4d5e98c78ab615cd9e6f34b8784bdb645863663633c917"
+  },
+  "R09_header_limit": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88"
+  },
+  "R10_address_swap": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "4436a418ec32dcea2ab8da310f2fa7bbc17c5325b8e741598a22874b1ec79500"
+  },
+  "R11_label_alias": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "a68e92f02cb977c67f20f0ed1add6dd1415faaaf752e060c5770bebf38d71239"
+  },
+  "R12_exact_move": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "a2978f96ce7b72b02efb8b1cc4a0de1b7407a53a15d0d75edacbd8a39f5878e3"
+  },
+  "R13_move_and_replacement": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "25b8362b13aaf15819a3bf4716c49b6a835139ebd9925b5af86799ed7dd7222f"
+  },
+  "R14_short_paragraph": {
+    "before": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373",
+    "after": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b"
+  },
+  "R15_paragraph_split": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "3a9e5e80ab16388dcb7116929eef265273daf6980eb3ad8ff064a0ef78f994b4"
+  },
+  "R16_repagination": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe"
+  },
+  "R17_font_change": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c"
+  },
+  "R18_ligature": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "bf84d11e07c35c09aab13f184b6399b4e7957d4be970fda4af96d0aa0968d7b5"
+  },
+  "R19_rotated_status": {
+    "before": "aff38eb14ae3727baae6b473acf94703e5499b7cc915b3753eb00a286660c37d",
+    "after": "b2d672ae2a8f5dd63a9689eeeaf450e000a4b83cdbc8e88b61f007bc1cf5e5d7"
+  },
+  "R20_plus_minus": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "e616136d24a0125eae10aade90116efe4097ffc8489cfb4e8c3ab1a41bb959b4"
+  },
+  "R21_checkbox_glyph": {
+    "before": "d0f20793f027c3e9cf22f06efe6e87463d069ee5dbb5e5f83f11efccd167b663",
+    "after": "496a642499119089944a3157ec7e0fc7b5573ad804f153dcf2788df01e19c794"
+  },
+  "R22_table_value": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "f4a3a420ba2192853d09653a8b8fb1dea7fda01add3f20243dbe47577b969f67"
+  },
+  "R23_table_reorder": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "74a3c259e160f51a3ea2f585c4df6f20d1f6c49a00b5fad89f4f5852bb20e705"
+  },
+  "R24_table_cross_page": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "1c70955f256228b7b134b3e429be510989551c3b17d07f009ec9a61ecb9d8dda"
+  },
+  "R25_duplicate_keys": {
+    "before": "7f49b44c52e552509c6ca0adefebb8f2ff6e2610fc4006be7d2d507f2830ec50",
+    "after": "9b5c2c1c223e7e5a56a6c97acb4b132645c1cd05e4c74050add910953f92688b"
+  },
+  "R26_key_change": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "3361913b0df8f82bdbbb6abdec649671533e5056ac42dd3f7a8342b278c1f62e"
+  },
+  "R27_mixed_scan_page": {
+    "before": "b4601690aa032a6caadfd67f8d8cdcfb38f76df5bdec49b1f82ea2744ecff5b7",
+    "after": "0da217212cca870b4fe648a18bb94e60ee6394667bc1806116180e6cf078d7f5"
+  },
+  "R28_inline_scan": {
+    "before": "807d9347aa053864f4cd370b5cab80ce982a3f57f40ee6f306605900f482e3ec",
+    "after": "6b1772201d3bd0e0ce0e675efa9851042aee4c5b00a1dc6416ff6cbf24c2e46b"
+  },
+  "R29_clause_add": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "9dc3742a5ff189a2f052b85b39a0dd7d71cf219471872251f288a85ca4447217"
+  },
+  "R30_clause_delete": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "e0241a7120f27f94abbc48a5d40a6b93bd39ed5fdb2da4cb9ef577d048116c49"
+  },
+  "R31_punctuation": {
+    "before": "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5",
+    "after": "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5"
+  },
+  "R32_combined_changes": {
+    "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+    "after": "4f1e0704e842cbf2baf99cfa92f3881fc6220d6fbed66987d7dd9fa65ace0537"
+  }
+}

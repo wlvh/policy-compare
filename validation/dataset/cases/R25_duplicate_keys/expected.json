@@ -1,0 +1,102 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R25_duplicate_keys",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "partial_or_explicit_review",
+  "events": [
+    {
+      "event_id": "R25_duplicate_keys:E1",
+      "logical_path": "aircraft_schedule.ambiguous_duplicate_group.agreed_value",
+      "operation": "replace",
+      "old": "2,250,000",
+      "new": "2,375,000",
+      "severity": "critical",
+      "detection_requirement": "visible_text_delta_with_identity_review",
+      "must_detect": false,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Replaced",
+        "Added+Removed",
+        "Unresolved"
+      ],
+      "acceptable_categories": [
+        "Material",
+        "Review"
+      ],
+      "require_source_evidence": true,
+      "require_visible_text_delta": true,
+      "must_detect_text_delta": true,
+      "identity_resolution": "may_remain_unresolved",
+      "required_visible_values": {
+        "before": "2,250,000",
+        "after": "2,375,000"
+      },
+      "require_both_side_source_links": true,
+      "duplicate_key_warning_alone_is_failure": true
+    }
+  ],
+  "invariants": [
+    "duplicate_identity_must_be_reported",
+    "must_not_assert_unique_row_identity_without_evidence",
+    "must_not_claim_no_changes",
+    "old_and_new_amount_delta_must_remain_visible",
+    "unresolved_identity_does_not_waive_text_change_detection",
+    "duplicate_key_warning_alone_is_not_a_pass"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [
+    "可以不确定金额属于哪一实体，但必须可见展示重复键组的金额变化或未配对差异，并链接两侧原文。仅提示键重复不能算发现金额变化。"
+  ],
+  "source_sha256": "235bd4d40491609fc5bc687c7bb4ee2857074571fc6cb4da85e915f97aae424f",
+  "evidence_locations": {
+    "R25_duplicate_keys:E1": {
+      "before": [
+        {
+          "page_index": 1,
+          "run_id": "run_0046",
+          "text": "1,500,000",
+          "raw_scalar_range": [
+            0,
+            9
+          ],
+          "reference_scope": "duplicate_key_group_amount_cell"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0051",
+          "text": "2,250,000",
+          "raw_scalar_range": [
+            0,
+            9
+          ],
+          "reference_scope": "duplicate_key_group_amount_cell"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 1,
+          "run_id": "run_0046",
+          "text": "1,500,000",
+          "raw_scalar_range": [
+            0,
+            9
+          ],
+          "reference_scope": "duplicate_key_group_amount_cell"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0051",
+          "text": "2,375,000",
+          "raw_scalar_range": [
+            0,
+            9
+          ],
+          "reference_scope": "duplicate_key_group_amount_cell"
+        }
+      ]
+    }
+  }
+}

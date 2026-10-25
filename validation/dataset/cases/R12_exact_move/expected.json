@@ -1,0 +1,68 @@
+{
+  "schema": "synthetic-policy-validation/1.0",
+  "case_id": "R12_exact_move",
+  "seed": 20261026,
+  "oracle_origin": "explicit_source_mutation",
+  "scope": "extracted_text",
+  "required_status": "complete_for_scope",
+  "events": [
+    {
+      "event_id": "R12_exact_move:E1",
+      "logical_path": "clauses.loss_payment",
+      "operation": "move",
+      "old": "The insurer will pay covered losses arising from approved operations worldwide. Payment remains subject to the stated limit and deductible.",
+      "new": "The insurer will pay covered losses arising from approved operations worldwide. Payment remains subject to the stated limit and deductible.",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Moved"
+      ],
+      "acceptable_categories": [
+        "Review",
+        "Material"
+      ],
+      "require_source_evidence": true
+    }
+  ],
+  "invariants": [
+    "moved_clause_has_no_internal_word_edits"
+  ],
+  "coverage_requirements": [],
+  "default_text_change_visibility": "visible_no_automatic_folding",
+  "notes": [],
+  "source_sha256": "97c223558df0c955038b50b1c5311abd99564829c0a1eec400fb0510cecd8a1a",
+  "evidence_locations": {
+    "R12_exact_move:E1": {
+      "before": [
+        {
+          "page_index": 0,
+          "run_id": "run_0025"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0026"
+        },
+        {
+          "page_index": 0,
+          "run_id": "run_0027"
+        }
+      ],
+      "after": [
+        {
+          "page_index": 1,
+          "run_id": "run_0064"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0065"
+        },
+        {
+          "page_index": 1,
+          "run_id": "run_0066"
+        }
+      ]
+    }
+  }
+}
