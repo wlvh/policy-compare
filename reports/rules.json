@@ -1,7 +1,7 @@
 {
   "subject": "actual_pdf_product_rules",
   "status": "PASS",
-  "commit": "97bbdcd4606a44892ebac680d2eacc00ddb53a83",
+  "commit": "5ad09fcd104180090252f3c612cd43b646482630",
   "manifestHash": "a50df7a0f40aa9419aafc3d896d6c6d932f2ad895c9f4f8bcde5d091936c8fb3",
   "passed": 32,
   "total": 32,
@@ -218,7 +218,7 @@
           "pass": true
         }
       ],
-      "differences": 3,
+      "differences": 1,
       "resultStatus": "complete_for_scope"
     },
     {
@@ -245,7 +245,7 @@
           "pass": true
         }
       ],
-      "differences": 4,
+      "differences": 2,
       "resultStatus": "complete_for_scope"
     },
     {

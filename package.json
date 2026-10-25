@@ -13,14 +13,16 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "verify:core": "vitest run",
-    "test:pdf": "tsx scripts/acceptance.ts pdf",
+    "test:pdf": "tsx scripts/pdf-check.ts",
     "test:rules": "tsx scripts/acceptance.ts rules",
     "test:browser": "playwright test",
     "bench:browser": "tsx bench/browser.ts",
     "compare": "tsx packages/cli/main.ts",
     "compare:doc": "tsx packages/cli/doc.ts",
     "verify": "tsx scripts/verify.ts",
-    "test:container": "tsx scripts/container.ts"
+    "test:container": "tsx scripts/container.ts",
+    "fixtures:mechanisms": ".venv/bin/python scripts/generate-mechanism-pdfs.py",
+    "bench:generate": ".venv/bin/python bench/generate.py"
   },
   "dependencies": {
     "@noble/hashes": "2.0.1",

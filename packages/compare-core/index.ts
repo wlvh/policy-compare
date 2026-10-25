@@ -2,6 +2,7 @@ import { VERSION, digest, type CompareResult, type Difference, type DocInput, ty
 import { aviationProfile, type Profile } from '../../profiles/aviation';
 import { structure, type Unit } from './structure';
 import { normalize, sourceLocations, tokenize, lcsLength } from './text';
+import { monotone,jointAlign } from './alignment';
 export { structure } from './structure';
 export type Budget = Profile['budget'];
 type Pair = {a:Unit;b:Unit;method:string;score:number|null};
@@ -101,16 +102,35 @@ export function compare(left:DocInput,right:DocInput,profile:Profile=aviationPro
     for(const a of source.filter(u=>!su.has(u)&&u.role==='body'))for(let j=0;j<target.length-1;j++){const b=target[j],c=target[j+1];if(tu.has(b)||tu.has(c)||b.role!=='body'||c.role!=='body'||b.path.section!==c.path.section||b.title!==c.title)continue;const merged=aggregate([b,c],b.id+'+'+c.id);if(a.rawText===merged.rawText){reverse?bind(merged,a,'adjacent-merge'):bind(a,merged,'adjacent-split');su.add(a);tu.add(b);tu.add(c);break;}}
   }
   const candidates:{a:Unit;b:Unit;score:number}[]=[];let exhausted=false;
+  const tokenCache=new Map<Unit,string[]>(),countCache=new Map<Unit,Map<string,number>>();
+  const tokens=(u:Unit)=>{let t=tokenCache.get(u);if(!t){t=tokenize(u.matchText);tokenCache.set(u,t);}return t;};
+  const counts=(u:Unit)=>{let c=countCache.get(u);if(!c){c=new Map();for(const t of tokens(u))c.set(t,(c.get(t)??0)+1);countCache.set(u,c);}return c;};
+  const score=(a:Unit,b:Unit,threshold:number):number|null=>{
+    const at=tokens(a),bt=tokens(b);if(!at.length||!bt.length)return null;
+    if(2*Math.min(at.length,bt.length)/(at.length+bt.length)<threshold)return null;
+    let intersection=0;for(const [token,n] of counts(a))intersection+=Math.min(n,counts(b).get(token)??0);
+    if(2*intersection/(at.length+bt.length)<threshold)return null;
+    if(result.stats.candidates>=budget.candidates||result.stats.tokenProducts+at.length*bt.length>budget.tokenProducts){exhausted=true;return null;}
+    result.stats.candidates++;result.stats.tokenProducts+=at.length*bt.length;
+    const value=2*lcsLength(at,bt)/(at.length+bt.length);return value>=threshold?value:null;
+  };
+  const anchors=monotone(pairs.filter(p=>la.includes(p.a)&&rb.includes(p.b)&&p.a.role!=='cell'),p=>p.a.order,p=>p.b.order,p=>p.method==='reliable-field-identity'?4:2);
+  const boundaries=[{a:{order:-1},b:{order:-1}},...anchors,{a:{order:la.length},b:{order:rb.length}}];
+  for(let k=1;k<boundaries.length&&!exhausted;k++){
+    const lo=boundaries[k-1],hi=boundaries[k];
+    const as=la.filter(u=>!usedL.has(u)&&u.role==='body'&&u.order>lo.a.order&&u.order<hi.a.order),bs=rb.filter(u=>!usedR.has(u)&&u.role==='body'&&u.order>lo.b.order&&u.order<hi.b.order);
+    if(!as.length||!bs.length||as.length*bs.length>4096)continue;
+    const joined=new Map<string,Unit>();const get=(us:Unit[])=>{if(us.length===1)return us[0];const id=us.map(u=>u.id).join('+');let u=joined.get(id);if(!u){u=aggregate(us,id);joined.set(id,u);}return u;};
+    const matches=jointAlign(as,bs,(aa,bb)=>{const a=get(aa),b=get(bb);if(a.title!==b.title||a.path.section!==b.path.section)return null;return score(a,b,profile.thresholds.local);},(a,b)=>a.order+1===b.order&&a.title===b.title&&a.path.section===b.path.section);
+    if(!exhausted)for(const m of matches){bind(get(m.a),get(m.b),'joint-local-alignment',m.score);m.a.forEach(u=>usedL.add(u));m.b.forEach(u=>usedR.add(u));}
+  }
   for(const a of la.filter(u=>!usedL.has(u)&&u.role!=='cell')){
     for(const b of rb.filter(u=>!usedR.has(u)&&u.role!=='cell')){
       if(a.role!==b.role||a.identity!==b.identity)continue;
       const sameContext=a.path.section===b.path.section&&a.title===b.title;
-      const at=tokenize(a.matchText),bt=tokenize(b.matchText),threshold=sameContext?profile.thresholds.local:profile.thresholds.global;
+      const at=tokens(a),bt=tokens(b),threshold=sameContext?profile.thresholds.local:profile.thresholds.global;
       if(!at.length||!bt.length||(!sameContext&&Math.min(at.length,bt.length)<profile.thresholds.globalMinTokens))continue;
-      if(2*Math.min(at.length,bt.length)/(at.length+bt.length)<threshold)continue;
-      if(result.stats.candidates>=budget.candidates||result.stats.tokenProducts+at.length*bt.length>budget.tokenProducts){exhausted=true;break;}
-      result.stats.candidates++;result.stats.tokenProducts+=at.length*bt.length;
-      const score=2*lcsLength(at,bt)/(at.length+bt.length);if(score>=threshold)candidates.push({a,b,score});
+      const value=score(a,b,threshold);if(exhausted)break;if(value!==null)candidates.push({a,b,score:value});
     }if(exhausted)break;
   }
   candidates.sort((x,y)=>y.score-x.score||x.a.order-y.a.order||x.b.order-y.b.order);
@@ -119,8 +139,8 @@ export function compare(left:DocInput,right:DocInput,profile:Profile=aviationPro
   const ambiguous=unmatchedL.some(a=>unmatchedR.some(b=>a.role==='body'&&b.role==='body'&&a.matchText===b.matchText));
   if(exhausted||ambiguous){result.unresolved.push({reason:exhausted?'budget':'ambiguous_match',message:exhausted?'对应工作量预算耗尽；以下范围未完成，不能宣称无变化':'重复原文的身份不唯一；保留双方证据待复核',left:unmatchedL.flatMap(u=>locations(u,'left')),right:unmatchedR.flatMap(u=>locations(u,'right')),defaultVisible:true});}
   phase?.('diff');
-  const bodyPairs=pairs.filter(p=>p.a.role==='body').sort((a,b)=>a.a.order-b.a.order);
-  const stable=new Set<Pair>();let last=-1;for(const p of bodyPairs){if(p.b.order>last){stable.add(p);last=p.b.order;}}
+  const bodyPairs=pairs.filter(p=>p.a.role==='body'&&p.a.path.section===p.b.path.section);
+  const stable=new Set(monotone(bodyPairs,p=>p.a.order,p=>p.b.order,p=>Math.min(p.a.rawText.length,p.b.rawText.length)));
   function emit(a:Unit|undefined,b:Unit|undefined,method:string,score:number|null,moved=false){
     if(a&&b&&a.rawText===b.rawText&&!moved)return;
     const kind:Difference['kind']=moved?'Moved':a&&b?'Replaced':a?'Removed':'Added';
@@ -131,8 +151,9 @@ export function compare(left:DocInput,right:DocInput,profile:Profile=aviationPro
   }
   for(const p of pairs){const moved=p.a.role==='body'&&(p.a.path.section!==p.b.path.section||!stable.has(p));emit(p.a,p.b,p.method,p.score,moved);}
   if(!exhausted&&!ambiguous){for(const u of unmatchedL)emit(u,undefined,'unmatched',null);for(const u of unmatchedR)emit(undefined,u,'unmatched',null);}
-  const anchorPairs=pairs.filter(p=>p.a.refs[0]&&p.b.refs[0]).sort((a,b)=>a.a.order-b.a.order);let rightPosition=-1;
-  for(const p of anchorPairs){const a=p.a.refs.find(Boolean)!,b=p.b.refs.find(Boolean)!;const pos=b.page.pageIndex*1_000_000+b.char.origin[1];if(pos>rightPosition){result.alignment.push({leftPage:a.page.pageIndex,leftY:a.char.origin[1],rightPage:b.page.pageIndex,rightY:b.char.origin[1]});rightPosition=pos;}}
+  const position=(u:Unit)=>{const r=u.refs.find(Boolean)!;return r.page.pageIndex*1_000_000+r.char.origin[1];};
+  const anchorPairs=monotone(pairs.filter(p=>p.a.refs[0]&&p.b.refs[0]&&p.a.path.confidence!=='unresolved'),p=>position(p.a),p=>position(p.b),p=>p.method==='reliable-field-identity'?4:1);
+  for(const p of anchorPairs){const a=p.a.refs.find(Boolean)!,b=p.b.refs.find(Boolean)!;result.alignment.push({leftPage:a.page.pageIndex,leftY:a.char.origin[1],rightPage:b.page.pageIndex,rightY:b.char.origin[1]});}
   result.differences.sort((a,b)=>({Material:0,Review:1,RollForward:2,Cosmetic:3}[a.category]-{Material:0,Review:1,RollForward:2,Cosmetic:3}[b.category])||(a.id<b.id?-1:1));
   result.stats.differenceCount=result.differences.length;result.stats.occurrenceCount=result.differences.reduce((n,d)=>n+Math.max(1,d.occurrences.length),0);
   if(result.coverage.length||result.unresolved.length)result.status='partial';phase?.('done');return result;

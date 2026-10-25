@@ -7,7 +7,7 @@
 | 阶段 | 状态 | 实际证据 / 依赖 |
 |---|---|---|
 | P0 | PASS | 包内 187 文件哈希一致；183352 项样本构造检查通过；契约与评分器入口已实现 |
-| P1 | IN_PROGRESS | 用户补充“尚无结论，先用mupdf”，已实际提取 32 对 PDF；浏览器尚待验证 |
+| P1 | PASS | R01/R02/R18/R27 真实 PDF 与浏览器流程通过；金额高亮、搜索、取消及网络边界验证；PNG 证据在 reports/browser-review.png |
 | P2 | IN_PROGRESS | 不依赖 MuPDF 的核心及人工 DocInput 机制测试 |
 | P3 | IN_PROGRESS | 严格评分器、审阅界面与异常语义；32 对 PDF 验收依赖 P1 |
 | P4 | IN_PROGRESS | 长样本、容器、浏览器测试设施；PDF 性能依赖 P1 |

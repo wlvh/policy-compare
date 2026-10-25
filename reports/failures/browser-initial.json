@@ -1,0 +1,327 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4173",
+          "channel": "chrome",
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/browser-tests.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "pnpm preview --port 4173",
+      "url": "http://127.0.0.1:4173",
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "review.spec.ts",
+      "file": "review.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "P1 real PDF amount, search, source quads and JSON export",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5557,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n\n    at load (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:3:395)\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:4:102",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                      "column": 395,
+                      "line": 3
+                    },
+                    "snippet": "  1 | import { test,expect,type Page } from '@playwright/test';\n  2 | import path from 'node:path';\n> 3 | async function load(page:Page,caseId:string){await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);await expect(page.getByAltText(/基准原文第/)).toBeVisible();await expect(page.getByAltText(/待审原文第/)).toBeVisible();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                           ^\n  4 | test('P1 real PDF amount, search, source quads and JSON export',async({page})=>{await page.goto('/');await load(page,'R02_amount');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('USD 4,000,000');await expect(page.locator('polygon').first()).toBeVisible();await page.getByLabel('搜索原文').fill('Office');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.locator('.hits button')).toHaveCount(4);const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON'}).click();expect((await download).suggestedFilename()).toBe('policy-comparison.json');await page.screenshot({path:'reports/browser-review.png',fullPage:true});});\n  5 | test('P1 identical, ligature and scan status',async({page})=>{await page.goto('/');await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);await expect(page.getByRole('status')).toContainText('可提取文本中未发现差异');await load(page,'R18_ligature');await expect(page.locator('polygon').first()).toBeVisible();await load(page,'R27_mixed_scan_page');await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.gaps')).toContainText('第 2 页');});\n  6 | test('cancel stops workers, old results cannot replace next task; no document upload',async({page})=>{const outgoing:string[]=[];page.on('request',req=>{if(req.method()!=='GET'||!req.url().startsWith('http://127.0.0.1:4173/'))outgoing.push(req.url());});await page.goto('/');await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await page.getByRole('button',{name:'取消',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','cancelled');expect(await page.evaluate(()=>window.__policyMetrics.activeWorkers)).toBe(0);await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);expect(outgoing).toEqual([]);});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                        "column": 395,
+                        "line": 3
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n\n\n  1 | import { test,expect,type Page } from '@playwright/test';\n  2 | import path from 'node:path';\n> 3 | async function load(page:Page,caseId:string){await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);await expect(page.getByAltText(/基准原文第/)).toBeVisible();await expect(page.getByAltText(/待审原文第/)).toBeVisible();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                           ^\n  4 | test('P1 real PDF amount, search, source quads and JSON export',async({page})=>{await page.goto('/');await load(page,'R02_amount');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('USD 4,000,000');await expect(page.locator('polygon').first()).toBeVisible();await page.getByLabel('搜索原文').fill('Office');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.locator('.hits button')).toHaveCount(4);const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON'}).click();expect((await download).suggestedFilename()).toBe('policy-comparison.json');await page.screenshot({path:'reports/browser-review.png',fullPage:true});});\n  5 | test('P1 identical, ligature and scan status',async({page})=>{await page.goto('/');await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);await expect(page.getByRole('status')).toContainText('可提取文本中未发现差异');await load(page,'R18_ligature');await expect(page.locator('polygon').first()).toBeVisible();await load(page,'R27_mixed_scan_page');await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.gaps')).toContainText('第 2 页');});\n  6 | test('cancel stops workers, old results cannot replace next task; no document upload',async({page})=>{const outgoing:string[]=[];page.on('request',req=>{if(req.method()!=='GET'||!req.url().startsWith('http://127.0.0.1:4173/'))outgoing.push(req.url());});await page.goto('/');await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await page.getByRole('button',{name:'取消',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','cancelled');expect(await page.evaluate(()=>window.__policyMetrics.activeWorkers)).toBe(0);await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);expect(outgoing).toEqual([]);});\n    at load (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:3:395)\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:4:102"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-25T18:02:41.749Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results/review-P1-real-PDF-amount--a0cc1-ource-quads-and-JSON-export/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results/review-P1-real-PDF-amount--a0cc1-ource-quads-and-JSON-export/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                    "column": 395,
+                    "line": 3
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "12f883ce49bb8436c3d7-c40dda56df5ce4353050",
+          "file": "review.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "P1 identical, ligature and scan status",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5437,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n\n    at load (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:3:395)\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:5:84",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                      "column": 395,
+                      "line": 3
+                    },
+                    "snippet": "  1 | import { test,expect,type Page } from '@playwright/test';\n  2 | import path from 'node:path';\n> 3 | async function load(page:Page,caseId:string){await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);await expect(page.getByAltText(/基准原文第/)).toBeVisible();await expect(page.getByAltText(/待审原文第/)).toBeVisible();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                           ^\n  4 | test('P1 real PDF amount, search, source quads and JSON export',async({page})=>{await page.goto('/');await load(page,'R02_amount');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('USD 4,000,000');await expect(page.locator('polygon').first()).toBeVisible();await page.getByLabel('搜索原文').fill('Office');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.locator('.hits button')).toHaveCount(4);const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON'}).click();expect((await download).suggestedFilename()).toBe('policy-comparison.json');await page.screenshot({path:'reports/browser-review.png',fullPage:true});});\n  5 | test('P1 identical, ligature and scan status',async({page})=>{await page.goto('/');await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);await expect(page.getByRole('status')).toContainText('可提取文本中未发现差异');await load(page,'R18_ligature');await expect(page.locator('polygon').first()).toBeVisible();await load(page,'R27_mixed_scan_page');await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.gaps')).toContainText('第 2 页');});\n  6 | test('cancel stops workers, old results cannot replace next task; no document upload',async({page})=>{const outgoing:string[]=[];page.on('request',req=>{if(req.method()!=='GET'||!req.url().startsWith('http://127.0.0.1:4173/'))outgoing.push(req.url());});await page.goto('/');await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await page.getByRole('button',{name:'取消',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','cancelled');expect(await page.evaluate(()=>window.__policyMetrics.activeWorkers)).toBe(0);await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);expect(outgoing).toEqual([]);});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                        "column": 395,
+                        "line": 3
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n\n\n  1 | import { test,expect,type Page } from '@playwright/test';\n  2 | import path from 'node:path';\n> 3 | async function load(page:Page,caseId:string){await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);await expect(page.getByAltText(/基准原文第/)).toBeVisible();await expect(page.getByAltText(/待审原文第/)).toBeVisible();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                           ^\n  4 | test('P1 real PDF amount, search, source quads and JSON export',async({page})=>{await page.goto('/');await load(page,'R02_amount');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('USD 4,000,000');await expect(page.locator('polygon').first()).toBeVisible();await page.getByLabel('搜索原文').fill('Office');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.locator('.hits button')).toHaveCount(4);const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON'}).click();expect((await download).suggestedFilename()).toBe('policy-comparison.json');await page.screenshot({path:'reports/browser-review.png',fullPage:true});});\n  5 | test('P1 identical, ligature and scan status',async({page})=>{await page.goto('/');await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);await expect(page.getByRole('status')).toContainText('可提取文本中未发现差异');await load(page,'R18_ligature');await expect(page.locator('polygon').first()).toBeVisible();await load(page,'R27_mixed_scan_page');await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.gaps')).toContainText('第 2 页');});\n  6 | test('cancel stops workers, old results cannot replace next task; no document upload',async({page})=>{const outgoing:string[]=[];page.on('request',req=>{if(req.method()!=='GET'||!req.url().startsWith('http://127.0.0.1:4173/'))outgoing.push(req.url());});await page.goto('/');await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await page.getByRole('button',{name:'取消',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','cancelled');expect(await page.evaluate(()=>window.__policyMetrics.activeWorkers)).toBe(0);await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);expect(outgoing).toEqual([]);});\n    at load (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:3:395)\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:5:84"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-25T18:02:48.331Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results/review-P1-identical-ligature-and-scan-status/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results/review-P1-identical-ligature-and-scan-status/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                    "column": 395,
+                    "line": 3
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "12f883ce49bb8436c3d7-099197eb9c26f75a4121",
+          "file": "review.spec.ts",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "cancel stops workers, old results cannot replace next task; no document upload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5519,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n\n    at load (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:3:395)\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:6:812",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                      "column": 395,
+                      "line": 3
+                    },
+                    "snippet": "  1 | import { test,expect,type Page } from '@playwright/test';\n  2 | import path from 'node:path';\n> 3 | async function load(page:Page,caseId:string){await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);await expect(page.getByAltText(/基准原文第/)).toBeVisible();await expect(page.getByAltText(/待审原文第/)).toBeVisible();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                           ^\n  4 | test('P1 real PDF amount, search, source quads and JSON export',async({page})=>{await page.goto('/');await load(page,'R02_amount');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('USD 4,000,000');await expect(page.locator('polygon').first()).toBeVisible();await page.getByLabel('搜索原文').fill('Office');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.locator('.hits button')).toHaveCount(4);const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON'}).click();expect((await download).suggestedFilename()).toBe('policy-comparison.json');await page.screenshot({path:'reports/browser-review.png',fullPage:true});});\n  5 | test('P1 identical, ligature and scan status',async({page})=>{await page.goto('/');await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);await expect(page.getByRole('status')).toContainText('可提取文本中未发现差异');await load(page,'R18_ligature');await expect(page.locator('polygon').first()).toBeVisible();await load(page,'R27_mixed_scan_page');await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.gaps')).toContainText('第 2 页');});\n  6 | test('cancel stops workers, old results cannot replace next task; no document upload',async({page})=>{const outgoing:string[]=[];page.on('request',req=>{if(req.method()!=='GET'||!req.url().startsWith('http://127.0.0.1:4173/'))outgoing.push(req.url());});await page.goto('/');await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await page.getByRole('button',{name:'取消',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','cancelled');expect(await page.evaluate(()=>window.__policyMetrics.activeWorkers)).toBe(0);await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);expect(outgoing).toEqual([]);});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                        "column": 395,
+                        "line": 3
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-status]')\nExpected pattern: \u001b[32m/complete_for_scope|partial/\u001b[39m\nReceived string:  \u001b[31m\"running\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('[data-status]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-status]')\u001b[22m\n\u001b[2m    14 × locator resolved to <section role=\"status\" class=\"status \" data-status=\"running\">…</section>\u001b[22m\n\u001b[2m       - unexpected value \"running\"\u001b[22m\n\n\n  1 | import { test,expect,type Page } from '@playwright/test';\n  2 | import path from 'node:path';\n> 3 | async function load(page:Page,caseId:string){await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases',caseId,'after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);await expect(page.getByAltText(/基准原文第/)).toBeVisible();await expect(page.getByAltText(/待审原文第/)).toBeVisible();}\n    |                                                                                                                                                                                                                                                                                                                                                                                                           ^\n  4 | test('P1 real PDF amount, search, source quads and JSON export',async({page})=>{await page.goto('/');await load(page,'R02_amount');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('USD 4,000,000');await expect(page.locator('polygon').first()).toBeVisible();await page.getByLabel('搜索原文').fill('Office');await page.getByRole('button',{name:'搜索',exact:true}).click();await expect(page.locator('.hits button')).toHaveCount(4);const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON'}).click();expect((await download).suggestedFilename()).toBe('policy-comparison.json');await page.screenshot({path:'reports/browser-review.png',fullPage:true});});\n  5 | test('P1 identical, ligature and scan status',async({page})=>{await page.goto('/');await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);await expect(page.getByRole('status')).toContainText('可提取文本中未发现差异');await load(page,'R18_ligature');await expect(page.locator('polygon').first()).toBeVisible();await load(page,'R27_mixed_scan_page');await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.gaps')).toContainText('第 2 页');});\n  6 | test('cancel stops workers, old results cannot replace next task; no document upload',async({page})=>{const outgoing:string[]=[];page.on('request',req=>{if(req.method()!=='GET'||!req.url().startsWith('http://127.0.0.1:4173/'))outgoing.push(req.url());});await page.goto('/');await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));await page.getByRole('button',{name:'开始比较',exact:true}).click();await page.getByRole('button',{name:'取消',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','cancelled');expect(await page.evaluate(()=>window.__policyMetrics.activeWorkers)).toBe(0);await load(page,'R01_identical');await expect(page.locator('.card')).toHaveCount(0);expect(outgoing).toEqual([]);});\n    at load (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:3:395)\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts:6:812"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-25T18:02:54.308Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results/review-cancel-stops-worker-9869b-ext-task-no-document-upload/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/test-results/review-cancel-stops-worker-9869b-ext-task-no-document-upload/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review.spec.ts",
+                    "column": 395,
+                    "line": 3
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "12f883ce49bb8436c3d7-758d2ebc72854b6d2246",
+          "file": "review.spec.ts",
+          "line": 6,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-25T18:02:41.193Z",
+    "duration": 19039.87,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}
