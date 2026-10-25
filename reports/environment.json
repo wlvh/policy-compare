@@ -1,0 +1,52 @@
+{
+  "node": "v24.19.0",
+  "pnpm": "10.12.1",
+  "platform": "darwin",
+  "release": "27.0.0",
+  "cpu": "Apple M4 Max",
+  "logicalCpus": 16,
+  "memoryBytes": 137438953472,
+  "browser": "Google Chrome 154.0.8037.98",
+  "docker": "UNAVAILABLE",
+  "dataset": true,
+  "license": {
+    "status": "LOCAL_DUAL_ENGINE_EVALUATION_AUTHORIZED",
+    "checkedOn": "2026-10-26",
+    "evidence": [
+      "2026-10-26 用户本会话明确回复：尚无结论，先用mupdf",
+      "2026-10-26 用户 A/B-1 增量明确授权两个版本开发与本地技术比较"
+    ],
+    "allowedScopes": [
+      "local_development",
+      "synthetic_testing",
+      "local_preview"
+    ],
+    "reason": "本地评估已获明确授权；没有发现真实组织禁止条件。正式分发/共享服务/生产按各自实际条件另行核实，不把未购买商业许可当作本地开发阻塞。",
+    "requiredScopes": [
+      "development",
+      "browser_distribution",
+      "local_cli",
+      "pilot",
+      "production"
+    ],
+    "scopes": {
+      "local_evaluation": "AUTHORIZED",
+      "distribution": "NOT_ASSESSED_FOR_ACTUAL_DISTRIBUTION",
+      "shared_deployment": "NOT_AUTHORIZED_OR_DEPLOYED",
+      "production": "NOT_AUTHORIZED_OR_DEPLOYED",
+      "commercial_purchase": "NO_EVIDENCE"
+    },
+    "engines": {
+      "pdfjs": {
+        "version": "6.4.299",
+        "packageLicense": "Apache-2.0"
+      },
+      "mupdf": {
+        "version": "1.28.1",
+        "packageLicense": "AGPL-3.0-or-later",
+        "patch": "Unicode code point correction"
+      }
+    }
+  },
+  "referenceDevice": false
+}

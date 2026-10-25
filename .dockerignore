@@ -9,3 +9,6 @@ test-results
 playwright-report
 tmp
 .tools
+
+**/node_modules
+**/.DS_Store

@@ -2,13 +2,14 @@
 
 应用默认在浏览器处理 PDF。静态服务只有 GET/HEAD 和健康检查，不接收 PDF 上传。Worker、JavaScript 和 WASM 均随构建产物部署，不依赖 CDN。
 
-本地生产资源验证：`pnpm build` 后 `node deploy/server.mjs`，打开 http://localhost:8080。默认读取 dist，可用 STATIC_ROOT 和 PORT 改路径与端口。只读目录、任意非 root UID 与无 HOME 写入是设计要求。
+本地生产资源验证：`pnpm build` 后 `STATIC_ROOT=dist/pdfjs node deploy/server.mjs`，打开 http://localhost:8080。默认读取 STATIC_ROOT 指向的引擎构建目录，可用 STATIC_ROOT 和 PORT 改路径与端口。只读目录、任意非 root UID 与无 HOME 写入是设计要求。
 
 Linux 镜像：
 
 ```sh
-docker build -f deploy/Dockerfile -t policy-compare:local .
-docker run --rm --read-only --user 12345:12345 -p 8080:8080 policy-compare:local
+docker build --build-arg ENGINE=pdfjs -f deploy/Dockerfile -t policy-compare:pdfjs .
+docker build --build-arg ENGINE=mupdf -f deploy/Dockerfile -t policy-compare:mupdf .
+docker run --rm --read-only --user 12345:12345 -p 8080:8080 policy-compare:pdfjs
 curl http://localhost:8080/healthz
 ```
 

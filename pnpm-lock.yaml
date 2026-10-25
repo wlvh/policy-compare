@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  mupdf@1.28.1:
-    hash: 851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de
-    path: patches/mupdf@1.28.1.patch
-
 importers:
 
   .:
@@ -16,9 +11,6 @@ importers:
       '@noble/hashes':
         specifier: 2.0.1
         version: 2.0.1
-      mupdf:
-        specifier: 1.28.1
-        version: 1.28.1(patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de)
       react:
         specifier: 19.3.1
         version: 19.3.1
@@ -598,9 +590,6 @@ packages:
   magic-string@1.4.3:
     resolution: {integrity: sha512-z12OxmaPGE0F4xlpGdjuAUckipLpQlTAuAmyGhNoD7ODpYUzvDfvtxUbjM/jwznyP178oju/KDdyi220wNJ0RQ==}
 
-  mupdf@1.28.1:
-    resolution: {integrity: sha512-Gi11Ow2G1SlrXKJNZBL1eAIGFVih5+4ZKqjptamTVaj/5hnlrcVrVbyb7lHE2lfFKdxZPyv9ZtfOOq7XgjzEig==}
-
   nanoid@3.3.20:
     resolution: {integrity: sha512-uKdg2G3GNCKQn9byYOpxbGqrT2fGO5KRt5J/8b3pok8rT6qxGWF6hxMyJiEYtAf+FVyYuD9hRaDqX5uPFYJ4ZQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -1112,8 +1101,6 @@ snapshots:
   magic-string@1.4.3:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
-
-  mupdf@1.28.1(patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de): {}
 
   nanoid@3.3.20: {}
 

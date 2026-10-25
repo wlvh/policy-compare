@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "engine": "pdfjs",
+      "name": "complete",
+      "status": "PASS",
+      "exit": 0,
+      "expected": 0,
+      "log": "{\"status\":\"complete_for_scope\",\"differences\":1,\"coverage\":0}\n"
+    },
+    {
+      "engine": "pdfjs",
+      "name": "partial",
+      "status": "PASS",
+      "exit": 2,
+      "expected": 2,
+      "log": "{\"status\":\"partial\",\"differences\":0,\"coverage\":2}\n"
+    },
+    {
+      "engine": "pdfjs",
+      "name": "failed",
+      "status": "PASS",
+      "exit": 3,
+      "expected": 3,
+      "log": "Warning: Indexing all PDF objects\nfailed：Invalid PDF structure.\n"
+    },
+    {
+      "engine": "pdfjs",
+      "name": "cancelled",
+      "status": "PASS",
+      "exit": 130,
+      "expected": 130,
+      "log": "cancelled：已终止 PDF 与比较进程\n"
+    },
+    {
+      "engine": "mupdf",
+      "name": "complete",
+      "status": "PASS",
+      "exit": 0,
+      "expected": 0,
+      "log": "{\"status\":\"complete_for_scope\",\"differences\":1,\"coverage\":0}\n"
+    },
+    {
+      "engine": "mupdf",
+      "name": "partial",
+      "status": "PASS",
+      "exit": 2,
+      "expected": 2,
+      "log": "{\"status\":\"partial\",\"differences\":0,\"coverage\":2}\n"
+    },
+    {
+      "engine": "mupdf",
+      "name": "failed",
+      "status": "PASS",
+      "exit": 3,
+      "expected": 3,
+      "log": "syntax error: expected object number\nformat error: cannot find startxref\nwarning: trying to repair broken xref\nwarning: repairing PDF document\nfailed：no objects found\n"
+    },
+    {
+      "engine": "mupdf",
+      "name": "cancelled",
+      "status": "PASS",
+      "exit": 130,
+      "expected": 130,
+      "log": "cancelled：已终止 PDF 与比较进程\n"
+    }
+  ]
+}

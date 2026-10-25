@@ -1,8 +1,8 @@
 import http from 'node:http';
 import { createReadStream,statSync,realpathSync } from 'node:fs';
 import { resolve,sep,extname } from 'node:path';
-const root=realpathSync(process.env.STATIC_ROOT||'dist'),port=Number(process.env.PORT||8080);
-const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.wasm':'application/wasm','.png':'image/png','.svg':'image/svg+xml','.json':'application/json'};
+const root=realpathSync(process.env.STATIC_ROOT||'dist'),port=Number(process.env.PORT||8080),host=process.env.HOST||'127.0.0.1';
+const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.mjs':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.wasm':'application/wasm','.png':'image/png','.svg':'image/svg+xml','.json':'application/json','.ttf':'font/ttf','.otf':'font/otf'};
 http.createServer((req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Referrer-Policy','no-referrer');
@@ -16,4 +16,4 @@ http.createServer((req,res)=>{
   let file=resolve(root,'.'+pathname);
   try{if(!statSync(file).isFile())file=resolve(root,'index.html');}catch{if(extname(pathname)){res.writeHead(404);res.end();return;}file=resolve(root,'index.html');}
   try{file=realpathSync(file);if(!file.startsWith(root+sep))throw new Error('outside root');const size=statSync(file).size;res.writeHead(200,{'Content-Type':mime[extname(file)]||'application/octet-stream','Content-Length':size,'Cache-Control':extname(file)==='.html'?'no-cache':'public, max-age=31536000, immutable'});if(req.method==='HEAD')res.end();else createReadStream(file).on('error',()=>res.destroy()).pipe(res);}catch{res.writeHead(404);res.end();}
-}).listen(port,'0.0.0.0',()=>console.log(`Static policy review application on port ${port}; no upload endpoint`));
+}).listen(port,host,()=>console.log(`Static policy review application on ${host}:${port}; no upload endpoint`));

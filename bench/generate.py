@@ -42,6 +42,12 @@ for family in ['renewal','dense_table','template_change']:
       text(f'Notification reference {index:06} applies to event class {index%47:02} and declared operations.',40,y-31,8)
     c.showPage()
    c.save()
-  manifest.append({'name':family+'-'+size,'family':family,'size':size,'pages_per_document':pages,'paths':[str((folder/(s+'.pdf')).relative_to(ROOT)) for s in ['before','after']], 'sha256':[hashlib.sha256((folder/(s+'.pdf')).read_bytes()).hexdigest() for s in ['before','after']], 'assertion':{'required_status':'complete_for_scope' if size!='capacity' else 'complete_or_explicit_partial','new_visible_value':'9,876,543'},'budget_ms':3000 if size=='small' else 20000 if size=='standard' else None})
+  font_size=8 if family=='dense_table' else 9
+  ascent,descent=pdfmetrics.getAscentDescent('Bench',font_size)
+  x,y=(445,430) if family=='dense_table' else (180,710)
+  old_value='1,001,250' if family=='dense_table' else 'USD 1,234,567'
+  new_value='9,876,543' if family=='dense_table' else 'USD 9,876,543'
+  regions=[[x,842-y-ascent,x+pdfmetrics.stringWidth(value,'Bench',font_size),842-y-descent] for value in [old_value,new_value]]
+  manifest.append({'name':family+'-'+size,'family':family,'size':size,'pages_per_document':pages,'paths':[str((folder/(s+'.pdf')).relative_to(ROOT)) for s in ['before','after']], 'sha256':[hashlib.sha256((folder/(s+'.pdf')).read_bytes()).hexdigest() for s in ['before','after']], 'assertion':{'required_status':'complete_for_scope' if size!='capacity' else 'complete_or_budget_partial','new_visible_value':'9,876,543','first_location':{'page_index':0,'regions':regions,'provenance':'authored baseline and font metrics, not engine output'}},'budget_ms':3000 if size=='small' else 20000 if size=='standard' else None})
 (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 print('Generated 9 pairs / 18 PDFs, three families × three capacity levels.')

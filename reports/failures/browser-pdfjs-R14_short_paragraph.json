@@ -1,0 +1,1465 @@
+{
+  "score": {
+    "caseId": "R14_short_paragraph",
+    "status": "FAIL",
+    "faults": [
+      "Required event failed: R14_short_paragraph:E1"
+    ],
+    "events": [
+      {
+        "eventId": "R14_short_paragraph:E1",
+        "discovery": true,
+        "correspondence": true,
+        "position": false,
+        "visibility": true,
+        "completeness": true,
+        "pass": false
+      }
+    ]
+  },
+  "result": {
+    "schemaVersion": "policy-compare/0.1.0",
+    "coreVersion": "policy-compare/0.1.0+page-hash.1",
+    "extractors": [
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      },
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      }
+    ],
+    "snapshotHashVersion": "page-merkle/1",
+    "tokenizerVersion": "unicode-tokens/1",
+    "profileVersion": "aviation/1.0.0",
+    "documentHashes": [
+      "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373",
+      "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b"
+    ],
+    "extractionSnapshotHashes": [
+      "853999b8dc06b88cdf30c29f4edf65648333114b7ec5403f51492e0fd7492cc0",
+      "64a7a19c9387186c9776a119ad84e82e49b681981fcc0c4d450cee8c51416849"
+    ],
+    "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+    "scope": "extracted_text",
+    "status": "complete_for_scope",
+    "differences": [
+      {
+        "id": "d-97f95f796a711f81f1a6",
+        "kind": "Replaced",
+        "category": "Review",
+        "structurePath": {
+          "section": "clauses",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 0,
+            "unitId": "u26",
+            "rawRange": [
+              603,
+              674
+            ],
+            "charIds": [
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s0",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s1",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s2",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s3",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s4",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s5",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s6",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s7",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s8",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s9",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s10",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s11",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s12",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s13",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s14",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s15",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s16",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s17",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s18",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s19",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s20",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s21",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s22",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s23",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s24",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s25",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s26",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s27",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s28",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s29",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s30",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s31",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s32",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s33",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s34",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s35",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s36",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s37",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s38",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s39",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s40",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s41",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s42",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s43",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s44",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s45",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s46",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s47",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s48",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s49",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s50",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s51",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s52",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s53",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s54",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s55",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s56",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s57",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s58",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s59",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s60",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s61",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s62",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s63",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s64",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s65",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s66",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s67",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s68",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s69",
+              "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s70"
+            ],
+            "text": "The insurer will pay losses arising from approved operations worldwide.",
+            "quads": [
+              [
+                42,
+                390.182,
+                383.884,
+                390.182,
+                42,
+                401.24,
+                383.884,
+                401.24
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "geometryMethod": "engine_run",
+            "sourceRanges": [
+              {
+                "itemId": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53",
+                "scalarRange": [
+                  0,
+                  71
+                ],
+                "utf16Range": [
+                  0,
+                  71
+                ],
+                "itemText": "The insurer will pay losses arising from approved operations worldwide."
+              }
+            ],
+            "resolvedGeometry": {
+              "method": "text_layer_range",
+              "quads": [
+                [
+                  42.01167554034583,
+                  389.0949481988473,
+                  402.09655437398686,
+                  389.0949481988473,
+                  42.01167554034583,
+                  402.81888134005766,
+                  402.09655437398686,
+                  402.81888134005766
+                ]
+              ],
+              "text": "The insurer will pay losses arising from approved operations worldwide."
+            }
+          }
+        ],
+        "right": [
+          {
+            "side": "right",
+            "pageIndex": 0,
+            "unitId": "u26",
+            "rawRange": [
+              603,
+              677
+            ],
+            "charIds": [
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s0",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s1",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s2",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s3",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s4",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s5",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s6",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s7",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s8",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s9",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s10",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s11",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s12",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s13",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s14",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s15",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s16",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s17",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s18",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s19",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s20",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s21",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s22",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s23",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s24",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s25",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s26",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s27",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s28",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s29",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s30",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s31",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s32",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s33",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s34",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s35",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s36",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s37",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s38",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s39",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s40",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s41",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s42",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s43",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s44",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s45",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s46",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s47",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s48",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s49",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s50",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s51",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s52",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s53",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s54",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s55",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s56",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s57",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s58",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s59",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s60",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s61",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s62",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s63",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s64",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s65",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s66",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s67",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s68",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s69",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s70",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s71",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s72",
+              "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s73"
+            ],
+            "text": "The insurer will pay losses arising from approved operations domestically.",
+            "quads": [
+              [
+                42,
+                390.182,
+                395.643,
+                390.182,
+                42,
+                401.24,
+                395.643,
+                401.24
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "geometryMethod": "engine_run",
+            "sourceRanges": [
+              {
+                "itemId": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53",
+                "scalarRange": [
+                  0,
+                  74
+                ],
+                "utf16Range": [
+                  0,
+                  74
+                ],
+                "itemText": "The insurer will pay losses arising from approved operations domestically."
+              }
+            ],
+            "resolvedGeometry": {
+              "method": "text_layer_range",
+              "quads": [
+                [
+                  42.01167554034583,
+                  389.0949481988473,
+                  415.0974625137901,
+                  389.0949481988473,
+                  42.01167554034583,
+                  402.81888134005766,
+                  415.0974625137901,
+                  402.81888134005766
+                ]
+              ],
+              "text": "The insurer will pay losses arising from approved operations domestically."
+            }
+          }
+        ],
+        "oldText": "The insurer will pay losses arising from approved operations worldwide.",
+        "newText": "The insurer will pay losses arising from approved operations domestically.",
+        "textOps": [
+          {
+            "kind": "equal",
+            "text": "The insurer will pay losses arising from approved operations ",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  603,
+                  664
+                ],
+                "charIds": [
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s0",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s1",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s2",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s3",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s4",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s5",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s6",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s7",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s8",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s9",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s10",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s11",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s12",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s13",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s14",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s15",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s16",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s17",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s18",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s19",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s20",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s21",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s22",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s23",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s24",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s25",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s26",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s27",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s28",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s29",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s30",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s31",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s32",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s33",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s34",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s35",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s36",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s37",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s38",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s39",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s40",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s41",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s42",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s43",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s44",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s45",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s46",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s47",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s48",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s49",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s50",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s51",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s52",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s53",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s54",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s55",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s56",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s57",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s58",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s59",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s60"
+                ],
+                "text": "The insurer will pay losses arising from approved operations ",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    383.884,
+                    390.182,
+                    42,
+                    401.24,
+                    383.884,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53",
+                    "scalarRange": [
+                      0,
+                      61
+                    ],
+                    "utf16Range": [
+                      0,
+                      61
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations worldwide."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      42.01167554034583,
+                      389.0949481988473,
+                      348.69789819504797,
+                      389.0949481988473,
+                      42.01167554034583,
+                      402.81888134005766,
+                      348.69789819504797,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "The insurer will pay losses arising from approved operations "
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  603,
+                  664
+                ],
+                "charIds": [
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s0",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s1",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s2",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s3",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s4",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s5",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s6",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s7",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s8",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s9",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s10",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s11",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s12",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s13",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s14",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s15",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s16",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s17",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s18",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s19",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s20",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s21",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s22",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s23",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s24",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s25",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s26",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s27",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s28",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s29",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s30",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s31",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s32",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s33",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s34",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s35",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s36",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s37",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s38",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s39",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s40",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s41",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s42",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s43",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s44",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s45",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s46",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s47",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s48",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s49",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s50",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s51",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s52",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s53",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s54",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s55",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s56",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s57",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s58",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s59",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s60"
+                ],
+                "text": "The insurer will pay losses arising from approved operations ",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    395.643,
+                    390.182,
+                    42,
+                    401.24,
+                    395.643,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53",
+                    "scalarRange": [
+                      0,
+                      61
+                    ],
+                    "utf16Range": [
+                      0,
+                      61
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations domestically."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      42.01167554034583,
+                      389.0949481988473,
+                      349.69322678117123,
+                      389.0949481988473,
+                      42.01167554034583,
+                      402.81888134005766,
+                      349.69322678117123,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "The insurer will pay losses arising from approved operations "
+                }
+              }
+            ]
+          },
+          {
+            "kind": "delete",
+            "text": "worl",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  664,
+                  668
+                ],
+                "charIds": [
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s61",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s62",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s63",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s64"
+                ],
+                "text": "worl",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    383.884,
+                    390.182,
+                    42,
+                    401.24,
+                    383.884,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53",
+                    "scalarRange": [
+                      61,
+                      65
+                    ],
+                    "utf16Range": [
+                      61,
+                      65
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations worldwide."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      348.67758536675973,
+                      389.0949481988473,
+                      369.6629008980435,
+                      389.0949481988473,
+                      348.67758536675973,
+                      402.81888134005766,
+                      369.6629008980435,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "worl"
+                }
+              }
+            ],
+            "right": []
+          },
+          {
+            "kind": "equal",
+            "text": "d",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  668,
+                  669
+                ],
+                "charIds": [
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s65"
+                ],
+                "text": "d",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    383.884,
+                    390.182,
+                    42,
+                    401.24,
+                    383.884,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53",
+                    "scalarRange": [
+                      65,
+                      66
+                    ],
+                    "utf16Range": [
+                      65,
+                      66
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations worldwide."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      369.64251826622166,
+                      389.0949481988473,
+                      376.0072742667339,
+                      389.0949481988473,
+                      369.64251826622166,
+                      402.81888134005766,
+                      376.0072742667339,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "d"
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  664,
+                  665
+                ],
+                "charIds": [
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s61"
+                ],
+                "text": "d",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    395.643,
+                    390.182,
+                    42,
+                    401.24,
+                    395.643,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53",
+                    "scalarRange": [
+                      61,
+                      62
+                    ],
+                    "utf16Range": [
+                      61,
+                      62
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations domestically."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      349.6727045422821,
+                      389.0949481988473,
+                      356.05819219228437,
+                      389.0949481988473,
+                      349.6727045422821,
+                      402.81888134005766,
+                      356.05819219228437,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "d"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "delete",
+            "text": "wid",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  669,
+                  672
+                ],
+                "charIds": [
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s66",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s67",
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s68"
+                ],
+                "text": "wid",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    383.884,
+                    390.182,
+                    42,
+                    401.24,
+                    383.884,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53",
+                    "scalarRange": [
+                      66,
+                      69
+                    ],
+                    "utf16Range": [
+                      66,
+                      69
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations worldwide."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      375.98696143844563,
+                      389.0949481988473,
+                      393.2509807880325,
+                      389.0949481988473,
+                      375.98696143844563,
+                      402.81888134005766,
+                      393.2509807880325,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "wid"
+                }
+              }
+            ],
+            "right": []
+          },
+          {
+            "kind": "insert",
+            "text": "om",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  665,
+                  667
+                ],
+                "charIds": [
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s62",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s63"
+                ],
+                "text": "om",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    395.643,
+                    390.182,
+                    42,
+                    401.24,
+                    395.643,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53",
+                    "scalarRange": [
+                      62,
+                      64
+                    ],
+                    "utf16Range": [
+                      62,
+                      64
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations domestically."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      356.0376699533952,
+                      389.0949481988473,
+                      371.6645870286046,
+                      389.0949481988473,
+                      356.0376699533952,
+                      402.81888134005766,
+                      371.6645870286046,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "om"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "equal",
+            "text": "e",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  672,
+                  673
+                ],
+                "charIds": [
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s69"
+                ],
+                "text": "e",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    383.884,
+                    390.182,
+                    42,
+                    401.24,
+                    383.884,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53",
+                    "scalarRange": [
+                      69,
+                      70
+                    ],
+                    "utf16Range": [
+                      69,
+                      70
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations worldwide."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      393.23066795974427,
+                      389.0949481988473,
+                      399.24968705815473,
+                      389.0949481988473,
+                      393.23066795974427,
+                      402.81888134005766,
+                      399.24968705815473,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "e"
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  667,
+                  668
+                ],
+                "charIds": [
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s64"
+                ],
+                "text": "e",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    395.643,
+                    390.182,
+                    42,
+                    401.24,
+                    395.643,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53",
+                    "scalarRange": [
+                      64,
+                      65
+                    ],
+                    "utf16Range": [
+                      64,
+                      65
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations domestically."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      371.6442043967827,
+                      389.0949481988473,
+                      377.6827684846114,
+                      389.0949481988473,
+                      371.6442043967827,
+                      402.81888134005766,
+                      377.6827684846114,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "e"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "insert",
+            "text": "stically",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  668,
+                  676
+                ],
+                "charIds": [
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s65",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s66",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s67",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s68",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s69",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s70",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s71",
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s72"
+                ],
+                "text": "stically",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    395.643,
+                    390.182,
+                    42,
+                    401.24,
+                    395.643,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53",
+                    "scalarRange": [
+                      65,
+                      73
+                    ],
+                    "utf16Range": [
+                      65,
+                      73
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations domestically."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      377.66238585278955,
+                      389.0949481988473,
+                      412.2208588926288,
+                      389.0949481988473,
+                      377.66238585278955,
+                      402.81888134005766,
+                      412.2208588926288,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "stically"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "equal",
+            "text": ".",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  673,
+                  674
+                ],
+                "charIds": [
+                  "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53:s70"
+                ],
+                "text": ".",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    383.884,
+                    390.182,
+                    42,
+                    401.24,
+                    383.884,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5f4d56f22baf60531d6730ed24a053b41e26b59317658bf18e32607168cb3373:p0:i53",
+                    "scalarRange": [
+                      70,
+                      71
+                    ],
+                    "utf16Range": [
+                      70,
+                      71
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations worldwide."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      399.2293044263329,
+                      389.0949481988473,
+                      402.09655437398686,
+                      389.0949481988473,
+                      399.2293044263329,
+                      402.81888134005766,
+                      402.09655437398686,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "."
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u26",
+                "rawRange": [
+                  676,
+                  677
+                ],
+                "charIds": [
+                  "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53:s73"
+                ],
+                "text": ".",
+                "quads": [
+                  [
+                    42,
+                    390.182,
+                    395.643,
+                    390.182,
+                    42,
+                    401.24,
+                    395.643,
+                    401.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "d861233dbc0909e4fa2117286552bd20dedea53d159e444b3b19c66f3675598b:p0:i53",
+                    "scalarRange": [
+                      73,
+                      74
+                    ],
+                    "utf16Range": [
+                      73,
+                      74
+                    ],
+                    "itemText": "The insurer will pay losses arising from approved operations domestically."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      412.20047626080697,
+                      389.0949481988473,
+                      415.0974625137901,
+                      389.0949481988473,
+                      412.20047626080697,
+                      402.81888134005766,
+                      415.0974625137901,
+                      402.81888134005766
+                    ]
+                  ],
+                  "text": "."
+                }
+              }
+            ]
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "joint-local-alignment",
+          "score": 0.9090909090909091,
+          "details": [
+            "joint-local-alignment"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      }
+    ],
+    "coverage": [],
+    "unresolved": [],
+    "alignment": [
+      {
+        "leftPage": 0,
+        "leftY": 29,
+        "rightPage": 0,
+        "rightY": 29
+      },
+      {
+        "leftPage": 0,
+        "leftY": 49,
+        "rightPage": 0,
+        "rightY": 49
+      },
+      {
+        "leftPage": 0,
+        "leftY": 81,
+        "rightPage": 0,
+        "rightY": 81
+      },
+      {
+        "leftPage": 0,
+        "leftY": 132,
+        "rightPage": 0,
+        "rightY": 132
+      },
+      {
+        "leftPage": 0,
+        "leftY": 155,
+        "rightPage": 0,
+        "rightY": 155
+      },
+      {
+        "leftPage": 0,
+        "leftY": 178,
+        "rightPage": 0,
+        "rightY": 178
+      },
+      {
+        "leftPage": 0,
+        "leftY": 201,
+        "rightPage": 0,
+        "rightY": 201
+      },
+      {
+        "leftPage": 0,
+        "leftY": 224,
+        "rightPage": 0,
+        "rightY": 224
+      },
+      {
+        "leftPage": 0,
+        "leftY": 247,
+        "rightPage": 0,
+        "rightY": 247
+      },
+      {
+        "leftPage": 0,
+        "leftY": 270,
+        "rightPage": 0,
+        "rightY": 270
+      },
+      {
+        "leftPage": 0,
+        "leftY": 293,
+        "rightPage": 0,
+        "rightY": 293
+      },
+      {
+        "leftPage": 0,
+        "leftY": 316,
+        "rightPage": 0,
+        "rightY": 316
+      },
+      {
+        "leftPage": 0,
+        "leftY": 339,
+        "rightPage": 0,
+        "rightY": 339
+      },
+      {
+        "leftPage": 0,
+        "leftY": 378,
+        "rightPage": 0,
+        "rightY": 378
+      },
+      {
+        "leftPage": 0,
+        "leftY": 399,
+        "rightPage": 0,
+        "rightY": 399
+      },
+      {
+        "leftPage": 0,
+        "leftY": 438,
+        "rightPage": 0,
+        "rightY": 438
+      },
+      {
+        "leftPage": 0,
+        "leftY": 459,
+        "rightPage": 0,
+        "rightY": 459
+      },
+      {
+        "leftPage": 0,
+        "leftY": 513,
+        "rightPage": 0,
+        "rightY": 513
+      },
+      {
+        "leftPage": 0,
+        "leftY": 534,
+        "rightPage": 0,
+        "rightY": 534
+      },
+      {
+        "leftPage": 0,
+        "leftY": 817.89,
+        "rightPage": 0,
+        "rightY": 817.89
+      },
+      {
+        "leftPage": 1,
+        "leftY": 81,
+        "rightPage": 1,
+        "rightY": 81
+      },
+      {
+        "leftPage": 1,
+        "leftY": 136,
+        "rightPage": 1,
+        "rightY": 136
+      },
+      {
+        "leftPage": 1,
+        "leftY": 169,
+        "rightPage": 1,
+        "rightY": 169
+      },
+      {
+        "leftPage": 1,
+        "leftY": 204,
+        "rightPage": 1,
+        "rightY": 204
+      },
+      {
+        "leftPage": 1,
+        "leftY": 239,
+        "rightPage": 1,
+        "rightY": 239
+      },
+      {
+        "leftPage": 1,
+        "leftY": 274,
+        "rightPage": 1,
+        "rightY": 274
+      },
+      {
+        "leftPage": 1,
+        "leftY": 309,
+        "rightPage": 1,
+        "rightY": 309
+      },
+      {
+        "leftPage": 1,
+        "leftY": 817.89,
+        "rightPage": 1,
+        "rightY": 817.89
+      }
+    ],
+    "stats": {
+      "leftScalars": 1334,
+      "rightScalars": 1337,
+      "candidates": 1,
+      "tokenProducts": 121,
+      "differenceCount": 1,
+      "occurrenceCount": 1
+    },
+    "diagnostics": []
+  }
+}

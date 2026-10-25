@@ -1,14 +1,107 @@
-import { describe,it,expect } from 'vitest';
-import { compare,search } from '../packages/compare-core/index';
-import { aviationProfile } from '../profiles/aviation';
-import { canonical,parseDoc } from '../packages/contracts/index';
-import { textDoc } from './helpers';
-describe('pure core mechanism regressions',()=>{
- it('keeps address identity when values swap',()=>{const make=(a:string,b:string)=>textDoc([{text:'INSURED:',y:150},{text:'Alpha',x:180,y:150},{text:'ADDRESS:',y:180},{text:a,x:180,y:180},{text:'REINSURED:',y:210},{text:'Beta',x:180,y:210},{text:'ADDRESS:',y:240},{text:b,x:180,y:240}]);const r=compare(make('Old Road','New Road'),make('New Road','Old Road'));expect(r.differences).toHaveLength(2);expect(r.differences.every(d=>d.kind==='Replaced'&&d.structurePath?.field==='address')).toBe(true);});
- it('retains a moved original before matching an inserted near copy',()=>{const a=textDoc([{text:'ALPHA'},{text:'The insurer covers all approved operations worldwide.'},{text:'BETA'},{text:'Separate conditions remain in force throughout the year.'}]);const b=textDoc([{text:'ALPHA'},{text:'The insurer covers all approved operations domestically.'},{text:'BETA'},{text:'Separate conditions remain in force throughout the year.'},{text:'ALPHA'},{text:'The insurer covers all approved operations worldwide.'}]);const r=compare(a,b);expect(r.differences.some(d=>d.kind==='Added'&&d.newText.includes('domestically'))).toBe(true);expect(r.differences.some(d=>d.kind==='Replaced'&&d.oldText.includes('worldwide'))).toBe(false);});
- it('keeps normalization changes visible and maps a ligature search to one glyph',()=>{const a=textDoc([{text:'Office'}]),b=textDoc([{text:'Ofﬁce'}]);expect(compare(a,b).differences[0].category).toBe('Cosmetic');const hits=search(b,'fi','right');expect(hits[0][0].charIds).toHaveLength(1);expect(hits[0][0].text).toBe('ﬁ');});
- it('budget exhaustion preserves unresolved evidence and partial state',()=>{const a=textDoc([{text:'The insurer covers all approved activities today.'}]),b=textDoc([{text:'The insurer covers all approved activities tomorrow.'}]);const r=compare(a,b,aviationProfile,{candidates:0,tokenProducts:0,diffProducts:1});expect(r.status).toBe('partial');expect(r.unresolved[0].left.length).toBeGreaterThan(0);expect(r.unresolved[0].right.length).toBeGreaterThan(0);});
- it('same frozen input produces byte-identical canonical output',()=>{const a=textDoc([{text:'ABC 001'}]),b=textDoc([{text:'ABC 002'}]);expect(canonical(compare(a,b))).toBe(canonical(compare(a,b)));});
- it('missing character ownership is a failure',()=>{const doc=textDoc([{text:'ABC'}]);doc.pages[0].lines[0].charIds.pop();expect(()=>parseDoc(doc)).toThrow('Unassigned');});
- it('single page failure retains successfully extracted text and partial',()=>{const a=textDoc([{text:'ABC 001'}]),b=textDoc([{text:'ABC 002'}]);b.pages[0].issues.push({pageIndex:0,region:[0,0,600,850],reason:'page_failed',evidence:'controlled error',message:'failed region',defaultVisible:true});b.pages[0].coverageState='failed';const r=compare(a,b);expect(r.status).toBe('partial');expect(r.differences.length).toBeGreaterThan(0);});
+import { describe, it, expect } from "vitest";
+import { compare, search } from "../packages/compare-core/index";
+import { aviationProfile } from "../profiles/aviation";
+import { canonical, parseDoc } from "../packages/contracts/index";
+import { textDoc } from "./helpers";
+describe("pure core mechanism regressions", () => {
+  it("keeps address identity when values swap", () => {
+    const make = (a: string, b: string) =>
+      textDoc([
+        { text: "INSURED:", y: 150 },
+        { text: "Alpha", x: 180, y: 150 },
+        { text: "ADDRESS:", y: 180 },
+        { text: a, x: 180, y: 180 },
+        { text: "REINSURED:", y: 210 },
+        { text: "Beta", x: 180, y: 210 },
+        { text: "ADDRESS:", y: 240 },
+        { text: b, x: 180, y: 240 },
+      ]);
+    const r = compare(
+      make("Old Road", "New Road"),
+      make("New Road", "Old Road"),
+    );
+    expect(r.differences).toHaveLength(2);
+    expect(
+      r.differences.every(
+        (d) => d.kind === "Replaced" && d.structurePath?.field === "address",
+      ),
+    ).toBe(true);
+  });
+  it("retains a moved original before matching an inserted near copy", () => {
+    const a = textDoc([
+      { text: "ALPHA" },
+      { text: "The insurer covers all approved operations worldwide." },
+      { text: "BETA" },
+      { text: "Separate conditions remain in force throughout the year." },
+    ]);
+    const b = textDoc([
+      { text: "ALPHA" },
+      { text: "The insurer covers all approved operations domestically." },
+      { text: "BETA" },
+      { text: "Separate conditions remain in force throughout the year." },
+      { text: "ALPHA" },
+      { text: "The insurer covers all approved operations worldwide." },
+    ]);
+    const r = compare(a, b);
+    expect(
+      r.differences.some(
+        (d) => d.kind === "Added" && d.newText.includes("domestically"),
+      ),
+    ).toBe(true);
+    expect(
+      r.differences.some(
+        (d) => d.kind === "Replaced" && d.oldText.includes("worldwide"),
+      ),
+    ).toBe(false);
+  });
+  it("keeps normalization changes visible and maps a ligature search to one glyph", () => {
+    const a = textDoc([{ text: "Office" }]),
+      b = textDoc([{ text: "Ofﬁce" }]);
+    expect(compare(a, b).differences[0].category).toBe("Cosmetic");
+    const hits = search(b, "fi", "right");
+    expect(hits[0][0].charIds).toHaveLength(1);
+    expect(hits[0][0].text).toBe("ﬁ");
+  });
+  it("budget exhaustion preserves unresolved evidence and partial state", () => {
+    const a = textDoc([
+        { text: "The insurer covers all approved activities today." },
+      ]),
+      b = textDoc([
+        { text: "The insurer covers all approved activities tomorrow." },
+      ]);
+    const r = compare(a, b, aviationProfile, {
+      candidates: 0,
+      tokenProducts: 0,
+      diffProducts: 1,
+    });
+    expect(r.status).toBe("partial");
+    expect(r.unresolved[0].left.length).toBeGreaterThan(0);
+    expect(r.unresolved[0].right.length).toBeGreaterThan(0);
+  });
+  it("same frozen input produces byte-identical canonical output", () => {
+    const a = textDoc([{ text: "ABC 001" }]),
+      b = textDoc([{ text: "ABC 002" }]);
+    expect(canonical(compare(a, b))).toBe(canonical(compare(a, b)));
+  });
+  it("missing character ownership is a failure", () => {
+    const doc = textDoc([{ text: "ABC" }]);
+    doc.pages[0].lines[0].charIds.pop();
+    expect(() => parseDoc(doc)).toThrow("Unassigned");
+  });
+  it("single page failure retains successfully extracted text and partial", () => {
+    const a = textDoc([{ text: "ABC 001" }]),
+      b = textDoc([{ text: "ABC 002" }]);
+    b.pages[0].issues.push({
+      pageIndex: 0,
+      region: [0, 0, 600, 850],
+      reason: "page_failed",
+      evidence: "controlled error",
+      message: "failed region",
+      defaultVisible: true,
+    });
+    b.pages[0].coverageState = "failed";
+    const r = compare(a, b);
+    expect(r.status).toBe("partial");
+    expect(r.differences.length).toBeGreaterThan(0);
+  });
 });

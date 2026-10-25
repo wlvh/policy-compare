@@ -1,5 +1,5 @@
 from pathlib import Path
-import io
+import io,json
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -24,4 +24,10 @@ with (out/'crop-rotate-userunit.pdf').open('wb') as f:w.write(f)
 w=PdfWriter();w.append(PdfReader(io.BytesIO(source)));w.encrypt('fixture-secret')
 with (out/'encrypted.pdf').open('wb') as f:w.write(f)
 (out/'corrupt.pdf').write_bytes(b'%PDF-1.7\nnot a valid document')
+# Independent geometric oracle from the authored baseline/font metrics and the
+# known CropBox, rotation and UserUnit; never from either extraction engine.
+ascent,descent=pdfmetrics.getAscentDescent('TestUnicode',12)
+advance=pdfmetrics.stringWidth('A','TestUnicode',12)
+emoji_width=pdfmetrics.stringWidth('😀','TestUnicode',12)
+(out/'layout.json').write_text(json.dumps({'provenance':'authored position plus ReportLab font metrics; not engine output','emoji_region':[440+2*descent,60+2*advance,440+2*ascent,60+2*(advance+emoji_width)]},indent=2)+'\n')
 print('Generated four mechanism inputs (fictional; independent of rule oracle).')

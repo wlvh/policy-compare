@@ -3,5 +3,9 @@
   "status": "BLOCKED",
   "reason": "Local Docker daemon is not responding or not available",
   "evidence": "Error: Command failed: docker info --format {{.OSType}}\n",
-  "attempted": true
+  "attempted": true,
+  "variants": {
+    "pdfjs": "BLOCKED",
+    "mupdf": "BLOCKED"
+  }
 }

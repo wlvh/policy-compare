@@ -1,0 +1,42 @@
+{
+  "MIT": [
+    {
+      "name": "@napi-rs/canvas",
+      "versions": [
+        "1.0.13"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/pdfjs/@napi-rs+canvas@1.0.13/node_modules/@napi-rs/canvas"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/Brooooooklyn/canvas#readme",
+      "description": "Canvas for Node.js with skia backend"
+    },
+    {
+      "name": "@napi-rs/canvas-darwin-arm64",
+      "versions": [
+        "1.0.13"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/pdfjs/@napi-rs+canvas-darwin-arm64@1.0.13/node_modules/@napi-rs/canvas-darwin-arm64"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/Brooooooklyn/canvas#readme",
+      "description": "Canvas for Node.js with skia backend"
+    }
+  ],
+  "Apache-2.0": [
+    {
+      "name": "pdfjs-dist",
+      "versions": [
+        "6.4.299"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/pdfjs/pdfjs-dist@6.4.299/node_modules/pdfjs-dist"
+      ],
+      "license": "Apache-2.0",
+      "homepage": "https://mozilla.github.io/pdf.js/",
+      "description": "Generic build of Mozilla's PDF.js library."
+    }
+  ]
+}
