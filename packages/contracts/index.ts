@@ -66,7 +66,7 @@ export const UnresolvedSchema = z.object({
   message: z.string(), left: z.array(LocationSchema), right: z.array(LocationSchema), defaultVisible: z.literal(true),
 });
 export const ResultSchema = z.object({
-  schemaVersion: z.literal(VERSION), engineVersion: z.string(), tokenizerVersion: z.string(), profileVersion: z.string(),
+  schemaVersion: z.literal(VERSION), engineVersion: z.string(), tokenizerVersion: z.string(), profileVersion: z.string(), snapshotHashVersion:z.literal('page-merkle/1'),
   documentHashes: z.tuple([z.string(),z.string()]), extractionSnapshotHashes: z.tuple([z.string(),z.string()]), configDigest: z.string(),
   scope: z.literal('extracted_text'), status: z.enum(['complete_for_scope','partial','failed','cancelled']),
   differences: z.array(DifferenceSchema), coverage: z.array(CoverageSchema), unresolved: z.array(UnresolvedSchema),
@@ -101,8 +101,18 @@ export function canonical(value: unknown): string {
 }
 export function digest(value: unknown): string { return bytesToHex(sha256(new TextEncoder().encode(canonical(value)))); }
 export function hashBytes(bytes: Uint8Array): string { return bytesToHex(sha256(bytes)); }
+export function snapshotDigest(doc:DocInput):string {
+  // Hash bounded page snapshots, then their ordered root; no whole-document
+  // canonical string or UTF-8 buffer is retained at the same time as DocInput.
+  return digest({...doc,pages:doc.pages.map(page=>digest(page)),snapshotHashVersion:'page-merkle/1'});
+}
 export function parseDoc(value: unknown): DocInput {
-  const doc = DocSchema.parse(value);
+  if(!value||typeof value!=='object'||!('pages' in value)||!Array.isArray(value.pages))throw new Error('Document pages required');
+  const metadata=DocSchema.omit({pages:true}).parse(value);
+  // Validate one page at a time, but retain the original validated pages. This
+  // avoids simultaneous complete copies of both extracted documents in workers.
+  for(const page of value.pages)PageSchema.parse(page);
+  const doc:DocInput={...metadata,pages:value.pages};
   if (doc.pageCount !== doc.pages.length) throw new Error('pageCount mismatch');
   const allIds = new Set<string>();
   doc.pages.forEach((p, i) => {

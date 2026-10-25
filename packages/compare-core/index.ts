@@ -1,4 +1,4 @@
-import { VERSION, digest, type CompareResult, type Difference, type DocInput, type SourceLocation } from '../contracts/index';
+import { VERSION, digest, snapshotDigest, type CompareResult, type Difference, type DocInput, type SourceLocation } from '../contracts/index';
 import { aviationProfile, type Profile } from '../../profiles/aviation';
 import { structure, type Unit } from './structure';
 import { normalize, sourceLocations, tokenize, lcsLength } from './text';
@@ -73,7 +73,7 @@ function textOps(a:Unit|undefined,b:Unit|undefined,budget:Budget,result:CompareR
 }
 export function compare(left:DocInput,right:DocInput,profile:Profile=aviationProfile,budget:Budget=profile.budget,phase?:(name:string)=>void):CompareResult {
   phase?.('snapshot');
-  const result:CompareResult={schemaVersion:VERSION,engineVersion:VERSION,tokenizerVersion:'unicode-tokens/1',profileVersion:profile.version,documentHashes:[left.contentHash,right.contentHash],extractionSnapshotHashes:[digest(left),digest(right)],configDigest:digest({profile,budget}),scope:'extracted_text',status:'complete_for_scope',differences:[],coverage:[],unresolved:[],alignment:[],stats:{leftScalars:left.pages.reduce((n,p)=>n+(p.chars.at(-1)?.rawRange[1]??0),0),rightScalars:right.pages.reduce((n,p)=>n+(p.chars.at(-1)?.rawRange[1]??0),0),candidates:0,tokenProducts:0,differenceCount:0,occurrenceCount:0},diagnostics:[]};
+  const result:CompareResult={schemaVersion:VERSION,engineVersion:VERSION+'+page-hash.1',snapshotHashVersion:'page-merkle/1',tokenizerVersion:'unicode-tokens/1',profileVersion:profile.version,documentHashes:[left.contentHash,right.contentHash],extractionSnapshotHashes:[snapshotDigest(left),snapshotDigest(right)],configDigest:digest({profile,budget}),scope:'extracted_text',status:'complete_for_scope',differences:[],coverage:[],unresolved:[],alignment:[],stats:{leftScalars:left.pages.reduce((n,p)=>n+(p.chars.at(-1)?.rawRange[1]??0),0),rightScalars:right.pages.reduce((n,p)=>n+(p.chars.at(-1)?.rawRange[1]??0),0),candidates:0,tokenProducts:0,differenceCount:0,occurrenceCount:0},diagnostics:[]};
   for(const [doc,side] of [[left,'left'],[right,'right']] as const)for(const p of doc.pages)result.coverage.push(...p.issues.map(i=>({...i,side})));
   phase?.('structure');
   const la=structure(left,profile),rb=structure(right,profile),pairs:Pair[]=[],usedL=new Set<Unit>(),usedR=new Set<Unit>();

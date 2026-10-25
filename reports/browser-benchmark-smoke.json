@@ -1,0 +1,3570 @@
+{
+  "subject": "actual_browser_end_to_end",
+  "commit": "f4c9243fdc14ff1b87736718274a45d1088f3542",
+  "build": "production Vite dist",
+  "environment": {
+    "platform": "darwin",
+    "release": "27.0.0",
+    "cpu": "Apple M4 Max",
+    "logicalCpus": 16,
+    "totalMemoryBytes": 137438953472,
+    "power": "AC connected; power mode not independently instrumented",
+    "referenceDevice": false,
+    "node": "v24.19.0"
+  },
+  "browserVersion": "154.0.8037.98",
+  "runsPerWorkload": 1,
+  "smoke": true,
+  "referenceDeviceStatus": "BLOCKED",
+  "referenceDeviceReason": "Available machine has 128 GiB; ordinary 16 GiB office device was not available.",
+  "memoryMethod": "Sum of sampled RSS of dedicated Chrome process and all descendants; 100 ms sampling; includes workers/WASM/native/GPU processes; shared pages may be double-counted. Upper bound at samples, not an exact continuous peak. Browser caches are included.",
+  "groups": [
+    {
+      "name": "renewal-small",
+      "size": "small",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 432.10000002384186,
+        "p95": 432.10000002384186,
+        "max": 432.10000002384186
+      },
+      "interactions": {
+        "median": 1.8410210000000689,
+        "p95": 1.8410210000000689,
+        "max": 1.8410210000000689
+      },
+      "memoryPeak": 1372176384,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "renewal-small",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 2.13527049999999,
+        "activeWorkers": 2,
+        "start": 86.5,
+        "read": 30.199999928474426,
+        "workerInitialization": 31.700000047683716,
+        "extraction": 109.79999995231628,
+        "validation": 30.399999976158142,
+        "snapshot": 182.89999997615814,
+        "structure": 10.100000023841858,
+        "matching": 1.8000000715255737,
+        "diff": 1.0999999046325684,
+        "transferLastPage": 0.199951171875,
+        "coreReady": 398.6999999284744,
+        "total": 464,
+        "firstRender": 65.30000007152557,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 2,
+        "expectedCards": 2,
+        "sampledPeakRssBytes": 1361297408,
+        "rssSamples": [
+          {
+            "at": 1792952621145,
+            "bytes": 1056014336
+          },
+          {
+            "at": 1792952621246,
+            "bytes": 1192132608
+          },
+          {
+            "at": 1792952621347,
+            "bytes": 1286275072
+          },
+          {
+            "at": 1792952621449,
+            "bytes": 1310375936
+          },
+          {
+            "at": 1792952621552,
+            "bytes": 1340096512
+          },
+          {
+            "at": 1792952621620,
+            "bytes": 1361297408
+          }
+        ],
+        "elapsedAttemptMs": 532.5012500000001,
+        "coldFromNavigationMs": 596.3682919999999
+      }
+    },
+    {
+      "name": "renewal-standard",
+      "size": "standard",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 1949.1000000238419,
+        "p95": 1949.1000000238419,
+        "max": 1949.1000000238419
+      },
+      "interactions": {
+        "median": 1.7597710000000006,
+        "p95": 1.7597710000000006,
+        "max": 1.7597710000000006
+      },
+      "memoryPeak": 1763442688,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "renewal-standard",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 2.244270500000084,
+        "activeWorkers": 2,
+        "start": 93.10000002384186,
+        "read": 31.299999952316284,
+        "workerInitialization": 32.200000047683716,
+        "extraction": 664,
+        "validation": 118.89999997615814,
+        "snapshot": 986.8999999761581,
+        "structure": 50,
+        "matching": 27.100000023841858,
+        "diff": 3.100000023841858,
+        "transferLastPage": 0.300048828125,
+        "coreReady": 1914.2999999523163,
+        "total": 1980.8999999761581,
+        "firstRender": 66.60000002384186,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 2,
+        "expectedCards": 2,
+        "sampledPeakRssBytes": 1720582144,
+        "rssSamples": [
+          {
+            "at": 1792952622535,
+            "bytes": 1053196288
+          },
+          {
+            "at": 1792952622635,
+            "bytes": 1187512320
+          },
+          {
+            "at": 1792952622738,
+            "bytes": 1225293824
+          },
+          {
+            "at": 1792952622839,
+            "bytes": 1242464256
+          },
+          {
+            "at": 1792952622939,
+            "bytes": 1265172480
+          },
+          {
+            "at": 1792952623040,
+            "bytes": 1320779776
+          },
+          {
+            "at": 1792952623142,
+            "bytes": 1346404352
+          },
+          {
+            "at": 1792952623242,
+            "bytes": 1342291968
+          },
+          {
+            "at": 1792952623341,
+            "bytes": 1440989184
+          },
+          {
+            "at": 1792952623443,
+            "bytes": 1490518016
+          },
+          {
+            "at": 1792952623542,
+            "bytes": 1597276160
+          },
+          {
+            "at": 1792952623643,
+            "bytes": 1597276160
+          },
+          {
+            "at": 1792952623744,
+            "bytes": 1597292544
+          },
+          {
+            "at": 1792952623844,
+            "bytes": 1597292544
+          },
+          {
+            "at": 1792952623947,
+            "bytes": 1619165184
+          },
+          {
+            "at": 1792952624047,
+            "bytes": 1720565760
+          },
+          {
+            "at": 1792952624148,
+            "bytes": 1720582144
+          },
+          {
+            "at": 1792952624247,
+            "bytes": 1720582144
+          },
+          {
+            "at": 1792952624349,
+            "bytes": 1720582144
+          },
+          {
+            "at": 1792952624453,
+            "bytes": 1571078144
+          },
+          {
+            "at": 1792952624530,
+            "bytes": 1536294912
+          }
+        ],
+        "elapsedAttemptMs": 2058.255375,
+        "coldFromNavigationMs": 2115.7892079999997
+      }
+    },
+    {
+      "name": "renewal-capacity",
+      "size": "capacity",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 4348.5,
+        "p95": 4348.5,
+        "max": 4348.5
+      },
+      "interactions": {
+        "median": 2.342687499999556,
+        "p95": 2.342687499999556,
+        "max": 2.342687499999556
+      },
+      "memoryPeak": 2426142720,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "renewal-capacity",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 2.0138544999999795,
+        "activeWorkers": 2,
+        "start": 92.59999990463257,
+        "read": 31.800000071525574,
+        "workerInitialization": 30,
+        "extraction": 1492,
+        "validation": 268.10000002384186,
+        "snapshot": 2261.600000023842,
+        "structure": 109.79999995231628,
+        "matching": 146.89999997615814,
+        "diff": 5.700000047683716,
+        "transferLastPage": 0,
+        "coreReady": 4346.900000095367,
+        "total": 4413.800000071526,
+        "firstRender": 66.89999997615814,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 2,
+        "expectedCards": 2,
+        "sampledPeakRssBytes": 2329526272,
+        "rssSamples": [
+          {
+            "at": 1792952626979,
+            "bytes": 1053982720
+          },
+          {
+            "at": 1792952627080,
+            "bytes": 1189773312
+          },
+          {
+            "at": 1792952627182,
+            "bytes": 1227096064
+          },
+          {
+            "at": 1792952627283,
+            "bytes": 1243168768
+          },
+          {
+            "at": 1792952627383,
+            "bytes": 1264418816
+          },
+          {
+            "at": 1792952627482,
+            "bytes": 1322270720
+          },
+          {
+            "at": 1792952627583,
+            "bytes": 1347141632
+          },
+          {
+            "at": 1792952627684,
+            "bytes": 1343995904
+          },
+          {
+            "at": 1792952627787,
+            "bytes": 1356152832
+          },
+          {
+            "at": 1792952627899,
+            "bytes": 1399881728
+          },
+          {
+            "at": 1792952627989,
+            "bytes": 1412595712
+          },
+          {
+            "at": 1792952628089,
+            "bytes": 1448722432
+          },
+          {
+            "at": 1792952628188,
+            "bytes": 1459798016
+          },
+          {
+            "at": 1792952628290,
+            "bytes": 1496334336
+          },
+          {
+            "at": 1792952628389,
+            "bytes": 1508458496
+          },
+          {
+            "at": 1792952628491,
+            "bytes": 1544994816
+          },
+          {
+            "at": 1792952628594,
+            "bytes": 1637580800
+          },
+          {
+            "at": 1792952628692,
+            "bytes": 1712553984
+          },
+          {
+            "at": 1792952628794,
+            "bytes": 1792868352
+          },
+          {
+            "at": 1792952628894,
+            "bytes": 1892204544
+          },
+          {
+            "at": 1792952628995,
+            "bytes": 1857191936
+          },
+          {
+            "at": 1792952629095,
+            "bytes": 2137489408
+          },
+          {
+            "at": 1792952629196,
+            "bytes": 1992753152
+          },
+          {
+            "at": 1792952629296,
+            "bytes": 1993506816
+          },
+          {
+            "at": 1792952629398,
+            "bytes": 1993539584
+          },
+          {
+            "at": 1792952629498,
+            "bytes": 1993785344
+          },
+          {
+            "at": 1792952629601,
+            "bytes": 1993834496
+          },
+          {
+            "at": 1792952629700,
+            "bytes": 1993932800
+          },
+          {
+            "at": 1792952629800,
+            "bytes": 1993932800
+          },
+          {
+            "at": 1792952629902,
+            "bytes": 1993654272
+          },
+          {
+            "at": 1792952630004,
+            "bytes": 2013593600
+          },
+          {
+            "at": 1792952630105,
+            "bytes": 2040840192
+          },
+          {
+            "at": 1792952630205,
+            "bytes": 2228895744
+          },
+          {
+            "at": 1792952630307,
+            "bytes": 2265874432
+          },
+          {
+            "at": 1792952630411,
+            "bytes": 2265874432
+          },
+          {
+            "at": 1792952630508,
+            "bytes": 2265874432
+          },
+          {
+            "at": 1792952630609,
+            "bytes": 2265907200
+          },
+          {
+            "at": 1792952630709,
+            "bytes": 2265907200
+          },
+          {
+            "at": 1792952630811,
+            "bytes": 2265907200
+          },
+          {
+            "at": 1792952630912,
+            "bytes": 2265759744
+          },
+          {
+            "at": 1792952631014,
+            "bytes": 2265759744
+          },
+          {
+            "at": 1792952631114,
+            "bytes": 2277474304
+          },
+          {
+            "at": 1792952631217,
+            "bytes": 2297692160
+          },
+          {
+            "at": 1792952631321,
+            "bytes": 2298052608
+          },
+          {
+            "at": 1792952631411,
+            "bytes": 2329526272
+          }
+        ],
+        "elapsedAttemptMs": 4493.727083,
+        "coldFromNavigationMs": 4550.980917
+      }
+    },
+    {
+      "name": "dense_table-small",
+      "size": "small",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 348.5,
+        "p95": 348.5,
+        "max": 348.5
+      },
+      "interactions": {
+        "median": 1.5839795000001686,
+        "p95": 1.5839795000001686,
+        "max": 1.5839795000001686
+      },
+      "memoryPeak": 1349468160,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "dense_table-small",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 2.0669375000006767,
+        "activeWorkers": 2,
+        "start": 92.30000007152557,
+        "read": 33.59999990463257,
+        "workerInitialization": 30.40000009536743,
+        "extraction": 102.10000002384186,
+        "validation": 22.59999990463257,
+        "snapshot": 118.10000002384186,
+        "structure": 7.300000071525574,
+        "matching": 3.899999976158142,
+        "diff": 1.5,
+        "transferLastPage": 0.099853515625,
+        "coreReady": 320,
+        "total": 380.39999997615814,
+        "firstRender": 60.39999997615814,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 1,
+        "expectedCards": 1,
+        "sampledPeakRssBytes": 1318928384,
+        "rssSamples": [
+          {
+            "at": 1792952636273,
+            "bytes": 1054408704
+          },
+          {
+            "at": 1792952636374,
+            "bytes": 1180139520
+          },
+          {
+            "at": 1792952636474,
+            "bytes": 1256783872
+          },
+          {
+            "at": 1792952636577,
+            "bytes": 1291354112
+          },
+          {
+            "at": 1792952636670,
+            "bytes": 1318928384
+          }
+        ],
+        "elapsedAttemptMs": 460.7016249999997,
+        "coldFromNavigationMs": 517.2518749999999
+      }
+    },
+    {
+      "name": "dense_table-standard",
+      "size": "standard",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 1548.8000000715256,
+        "p95": 1548.8000000715256,
+        "max": 1548.8000000715256
+      },
+      "interactions": {
+        "median": 1.4787500000002183,
+        "p95": 1.4787500000002183,
+        "max": 1.4787500000002183
+      },
+      "memoryPeak": 1651130368,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "dense_table-standard",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 2.008020999999644,
+        "activeWorkers": 2,
+        "start": 93.79999995231628,
+        "read": 32,
+        "workerInitialization": 31.40000009536743,
+        "extraction": 613.6000000238419,
+        "validation": 90.5,
+        "snapshot": 653.6999999284744,
+        "structure": 33.5,
+        "matching": 72.20000004768372,
+        "diff": 4.100000023841858,
+        "transferLastPage": 0,
+        "coreReady": 1531.8000000715256,
+        "total": 1581.2000000476837,
+        "firstRender": 49.39999997615814,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 1,
+        "expectedCards": 1,
+        "sampledPeakRssBytes": 1631059968,
+        "rssSamples": [
+          {
+            "at": 1792952637523,
+            "bytes": 1054801920
+          },
+          {
+            "at": 1792952637624,
+            "bytes": 1180024832
+          },
+          {
+            "at": 1792952637726,
+            "bytes": 1210253312
+          },
+          {
+            "at": 1792952637828,
+            "bytes": 1231650816
+          },
+          {
+            "at": 1792952637928,
+            "bytes": 1258881024
+          },
+          {
+            "at": 1792952638029,
+            "bytes": 1265795072
+          },
+          {
+            "at": 1792952638129,
+            "bytes": 1291321344
+          },
+          {
+            "at": 1792952638231,
+            "bytes": 1358430208
+          },
+          {
+            "at": 1792952638329,
+            "bytes": 1424228352
+          },
+          {
+            "at": 1792952638430,
+            "bytes": 1499643904
+          },
+          {
+            "at": 1792952638530,
+            "bytes": 1502494720
+          },
+          {
+            "at": 1792952638632,
+            "bytes": 1505624064
+          },
+          {
+            "at": 1792952638732,
+            "bytes": 1583235072
+          },
+          {
+            "at": 1792952638833,
+            "bytes": 1583235072
+          },
+          {
+            "at": 1792952638934,
+            "bytes": 1583235072
+          },
+          {
+            "at": 1792952639036,
+            "bytes": 1584594944
+          },
+          {
+            "at": 1792952639119,
+            "bytes": 1631059968
+          }
+        ],
+        "elapsedAttemptMs": 1656.7146249999969,
+        "coldFromNavigationMs": 1715.9021660000035
+      }
+    },
+    {
+      "name": "dense_table-capacity",
+      "size": "capacity",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 3515.5,
+        "p95": 3515.5,
+        "max": 3515.5
+      },
+      "interactions": {
+        "median": 1.6425834999990911,
+        "p95": 1.6425834999990911,
+        "max": 1.6425834999990911
+      },
+      "memoryPeak": 1986150400,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "dense_table-capacity",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 1.9407289999999193,
+        "activeWorkers": 2,
+        "start": 87.70000004768372,
+        "read": 33.10000002384186,
+        "workerInitialization": 31.59999990463257,
+        "extraction": 1371.2999999523163,
+        "validation": 171.89999997615814,
+        "snapshot": 1453.4000000953674,
+        "structure": 69.19999992847443,
+        "matching": 316.10000002384186,
+        "diff": 11,
+        "transferLastPage": 0.2001953125,
+        "coreReady": 3458.600000023842,
+        "total": 3514,
+        "firstRender": 55.39999997615814,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 1,
+        "expectedCards": 1,
+        "sampledPeakRssBytes": 2013609984,
+        "rssSamples": [
+          {
+            "at": 1792952641155,
+            "bytes": 1056800768
+          },
+          {
+            "at": 1792952641256,
+            "bytes": 1181843456
+          },
+          {
+            "at": 1792952641359,
+            "bytes": 1212760064
+          },
+          {
+            "at": 1792952641461,
+            "bytes": 1236762624
+          },
+          {
+            "at": 1792952641561,
+            "bytes": 1259585536
+          },
+          {
+            "at": 1792952641662,
+            "bytes": 1266728960
+          },
+          {
+            "at": 1792952641763,
+            "bytes": 1291452416
+          },
+          {
+            "at": 1792952641865,
+            "bytes": 1325776896
+          },
+          {
+            "at": 1792952641966,
+            "bytes": 1335214080
+          },
+          {
+            "at": 1792952642067,
+            "bytes": 1367605248
+          },
+          {
+            "at": 1792952642168,
+            "bytes": 1372078080
+          },
+          {
+            "at": 1792952642269,
+            "bytes": 1373126656
+          },
+          {
+            "at": 1792952642371,
+            "bytes": 1413087232
+          },
+          {
+            "at": 1792952642472,
+            "bytes": 1419198464
+          },
+          {
+            "at": 1792952642571,
+            "bytes": 1420427264
+          },
+          {
+            "at": 1792952642669,
+            "bytes": 1531461632
+          },
+          {
+            "at": 1792952642771,
+            "bytes": 1609220096
+          },
+          {
+            "at": 1792952642871,
+            "bytes": 1641218048
+          },
+          {
+            "at": 1792952642972,
+            "bytes": 1789788160
+          },
+          {
+            "at": 1792952643074,
+            "bytes": 1698447360
+          },
+          {
+            "at": 1792952643173,
+            "bytes": 1700577280
+          },
+          {
+            "at": 1792952643273,
+            "bytes": 1700577280
+          },
+          {
+            "at": 1792952643375,
+            "bytes": 1700593664
+          },
+          {
+            "at": 1792952643475,
+            "bytes": 1701330944
+          },
+          {
+            "at": 1792952643579,
+            "bytes": 1725415424
+          },
+          {
+            "at": 1792952643678,
+            "bytes": 2013609984
+          },
+          {
+            "at": 1792952643779,
+            "bytes": 1881292800
+          },
+          {
+            "at": 1792952643879,
+            "bytes": 1881391104
+          },
+          {
+            "at": 1792952643979,
+            "bytes": 1881391104
+          },
+          {
+            "at": 1792952644079,
+            "bytes": 1881112576
+          },
+          {
+            "at": 1792952644180,
+            "bytes": 1881178112
+          },
+          {
+            "at": 1792952644283,
+            "bytes": 1840037888
+          },
+          {
+            "at": 1792952644383,
+            "bytes": 1840070656
+          },
+          {
+            "at": 1792952644487,
+            "bytes": 1840070656
+          },
+          {
+            "at": 1792952644590,
+            "bytes": 1840496640
+          },
+          {
+            "at": 1792952644680,
+            "bytes": 1887125504
+          }
+        ],
+        "elapsedAttemptMs": 3577.8019590000004,
+        "coldFromNavigationMs": 3645.109124999999
+      }
+    },
+    {
+      "name": "template_change-small",
+      "size": "small",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 499,
+        "p95": 499,
+        "max": 499
+      },
+      "interactions": {
+        "median": 1.4461874999997235,
+        "p95": 1.4461874999997235,
+        "max": 1.4461874999997235
+      },
+      "memoryPeak": 1438056448,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "template_change-small",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 2.650604000000385,
+        "activeWorkers": 2,
+        "start": 93.60000002384186,
+        "read": 32.09999990463257,
+        "workerInitialization": 31.600000023841858,
+        "extraction": 116,
+        "validation": 31.100000023841858,
+        "snapshot": 199.79999995231628,
+        "structure": 10.800000071525574,
+        "matching": 4.899999976158142,
+        "diff": 32.299999952316284,
+        "transferLastPage": 0.099853515625,
+        "coreReady": 470.1999999284744,
+        "total": 530.8999999761581,
+        "firstRender": 60.700000047683716,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 82,
+        "expectedCards": 82,
+        "sampledPeakRssBytes": 1355497472,
+        "rssSamples": [
+          {
+            "at": 1792952648675,
+            "bytes": 1054359552
+          },
+          {
+            "at": 1792952648776,
+            "bytes": 1189199872
+          },
+          {
+            "at": 1792952648878,
+            "bytes": 1267908608
+          },
+          {
+            "at": 1792952648977,
+            "bytes": 1309753344
+          },
+          {
+            "at": 1792952649079,
+            "bytes": 1335312384
+          },
+          {
+            "at": 1792952649178,
+            "bytes": 1354547200
+          },
+          {
+            "at": 1792952649221,
+            "bytes": 1355497472
+          }
+        ],
+        "elapsedAttemptMs": 606.7029169999987,
+        "coldFromNavigationMs": 666.463416999999
+      }
+    },
+    {
+      "name": "template_change-standard",
+      "size": "standard",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 2349.2999999523163,
+        "p95": 2349.2999999523163,
+        "max": 2349.2999999523163
+      },
+      "interactions": {
+        "median": 1.4779374999998254,
+        "p95": 1.4779374999998254,
+        "max": 1.4779374999998254
+      },
+      "memoryPeak": 1938997248,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "template_change-standard",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 1.820208499999353,
+        "activeWorkers": 2,
+        "start": 92.90000009536743,
+        "read": 31.899999976158142,
+        "workerInitialization": 30.699999928474426,
+        "extraction": 681,
+        "validation": 134,
+        "snapshot": 1057.4000000953674,
+        "structure": 58.199999928474426,
+        "matching": 31.800000071525574,
+        "diff": 169.09999990463257,
+        "transferLastPage": 0.30029296875,
+        "coreReady": 2276.5999999046326,
+        "total": 2347.5999999046326,
+        "firstRender": 71,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 452,
+        "expectedCards": 452,
+        "sampledPeakRssBytes": 1796145152,
+        "rssSamples": [
+          {
+            "at": 1792952650210,
+            "bytes": 1059389440
+          },
+          {
+            "at": 1792952650310,
+            "bytes": 1195704320
+          },
+          {
+            "at": 1792952650412,
+            "bytes": 1236500480
+          },
+          {
+            "at": 1792952650513,
+            "bytes": 1251672064
+          },
+          {
+            "at": 1792952650615,
+            "bytes": 1277411328
+          },
+          {
+            "at": 1792952650715,
+            "bytes": 1332740096
+          },
+          {
+            "at": 1792952650815,
+            "bytes": 1362755584
+          },
+          {
+            "at": 1792952650917,
+            "bytes": 1354579968
+          },
+          {
+            "at": 1792952651017,
+            "bytes": 1434599424
+          },
+          {
+            "at": 1792952651117,
+            "bytes": 1505542144
+          },
+          {
+            "at": 1792952651219,
+            "bytes": 1628209152
+          },
+          {
+            "at": 1792952651319,
+            "bytes": 1630879744
+          },
+          {
+            "at": 1792952651420,
+            "bytes": 1630896128
+          },
+          {
+            "at": 1792952651521,
+            "bytes": 1630896128
+          },
+          {
+            "at": 1792952651623,
+            "bytes": 1599602688
+          },
+          {
+            "at": 1792952651724,
+            "bytes": 1626619904
+          },
+          {
+            "at": 1792952651824,
+            "bytes": 1728299008
+          },
+          {
+            "at": 1792952651924,
+            "bytes": 1728299008
+          },
+          {
+            "at": 1792952652026,
+            "bytes": 1728315392
+          },
+          {
+            "at": 1792952652129,
+            "bytes": 1796145152
+          },
+          {
+            "at": 1792952652229,
+            "bytes": 1530052608
+          },
+          {
+            "at": 1792952652329,
+            "bytes": 1537933312
+          },
+          {
+            "at": 1792952652431,
+            "bytes": 1592836096
+          },
+          {
+            "at": 1792952652531,
+            "bytes": 1720139776
+          },
+          {
+            "at": 1792952652577,
+            "bytes": 1722548224
+          }
+        ],
+        "elapsedAttemptMs": 2432.0488330000007,
+        "coldFromNavigationMs": 2487.9886659999975
+      }
+    },
+    {
+      "name": "template_change-capacity",
+      "size": "capacity",
+      "attempts": 1,
+      "failures": 0,
+      "timing": {
+        "median": 5182.699999928474,
+        "p95": 5182.699999928474,
+        "max": 5182.699999928474
+      },
+      "interactions": {
+        "median": 1.6543750000018917,
+        "p95": 1.6543750000018917,
+        "max": 1.6543750000018917
+      },
+      "memoryPeak": 2926149632,
+      "networkViolations": [],
+      "developmentDeviceStatus": "FAIL",
+      "referenceDeviceStatus": "BLOCKED",
+      "cold": {
+        "workload": "template_change-capacity",
+        "run": 0,
+        "kind": "cold",
+        "interactionMs": 2.048937499999738,
+        "activeWorkers": 2,
+        "start": 91.20000004768372,
+        "read": 38.299999952316284,
+        "workerInitialization": 29.90000009536743,
+        "extraction": 1519.5,
+        "validation": 325.1999999284744,
+        "snapshot": 2384.5,
+        "structure": 115,
+        "matching": 126.20000004768372,
+        "diff": 376.2999999523163,
+        "transferLastPage": 0.099853515625,
+        "coreReady": 5138.899999976158,
+        "total": 5213.799999952316,
+        "firstRender": 74.89999997615814,
+        "status": "PASS",
+        "resultStatus": "complete_for_scope",
+        "correctness": true,
+        "differenceCards": 1002,
+        "expectedCards": 1002,
+        "sampledPeakRssBytes": 2724085760,
+        "rssSamples": [
+          {
+            "at": 1792952655476,
+            "bytes": 1055375360
+          },
+          {
+            "at": 1792952655576,
+            "bytes": 1190297600
+          },
+          {
+            "at": 1792952655679,
+            "bytes": 1227358208
+          },
+          {
+            "at": 1792952655779,
+            "bytes": 1246314496
+          },
+          {
+            "at": 1792952655880,
+            "bytes": 1269858304
+          },
+          {
+            "at": 1792952655981,
+            "bytes": 1327644672
+          },
+          {
+            "at": 1792952656084,
+            "bytes": 1357529088
+          },
+          {
+            "at": 1792952656182,
+            "bytes": 1350516736
+          },
+          {
+            "at": 1792952656284,
+            "bytes": 1363542016
+          },
+          {
+            "at": 1792952656385,
+            "bytes": 1405927424
+          },
+          {
+            "at": 1792952656487,
+            "bytes": 1421213696
+          },
+          {
+            "at": 1792952656586,
+            "bytes": 1457537024
+          },
+          {
+            "at": 1792952656687,
+            "bytes": 1474887680
+          },
+          {
+            "at": 1792952656789,
+            "bytes": 1506639872
+          },
+          {
+            "at": 1792952656890,
+            "bytes": 1525383168
+          },
+          {
+            "at": 1792952656990,
+            "bytes": 1554939904
+          },
+          {
+            "at": 1792952657092,
+            "bytes": 1625030656
+          },
+          {
+            "at": 1792952657192,
+            "bytes": 1718894592
+          },
+          {
+            "at": 1792952657292,
+            "bytes": 1779826688
+          },
+          {
+            "at": 1792952657395,
+            "bytes": 1919025152
+          },
+          {
+            "at": 1792952657495,
+            "bytes": 1884667904
+          },
+          {
+            "at": 1792952657596,
+            "bytes": 1910095872
+          },
+          {
+            "at": 1792952657697,
+            "bytes": 2050490368
+          },
+          {
+            "at": 1792952657796,
+            "bytes": 2055749632
+          },
+          {
+            "at": 1792952657900,
+            "bytes": 2055798784
+          },
+          {
+            "at": 1792952657998,
+            "bytes": 2056077312
+          },
+          {
+            "at": 1792952658097,
+            "bytes": 2056093696
+          },
+          {
+            "at": 1792952658198,
+            "bytes": 2056241152
+          },
+          {
+            "at": 1792952658300,
+            "bytes": 2056241152
+          },
+          {
+            "at": 1792952658401,
+            "bytes": 2056028160
+          },
+          {
+            "at": 1792952658501,
+            "bytes": 2056093696
+          },
+          {
+            "at": 1792952658604,
+            "bytes": 2056847360
+          },
+          {
+            "at": 1792952658705,
+            "bytes": 2083684352
+          },
+          {
+            "at": 1792952658806,
+            "bytes": 2110586880
+          },
+          {
+            "at": 1792952658906,
+            "bytes": 2553249792
+          },
+          {
+            "at": 1792952659006,
+            "bytes": 2344370176
+          },
+          {
+            "at": 1792952659107,
+            "bytes": 2344370176
+          },
+          {
+            "at": 1792952659213,
+            "bytes": 2344370176
+          },
+          {
+            "at": 1792952659311,
+            "bytes": 2344370176
+          },
+          {
+            "at": 1792952659413,
+            "bytes": 2344255488
+          },
+          {
+            "at": 1792952659513,
+            "bytes": 2344255488
+          },
+          {
+            "at": 1792952659613,
+            "bytes": 2344255488
+          },
+          {
+            "at": 1792952659715,
+            "bytes": 2344255488
+          },
+          {
+            "at": 1792952659818,
+            "bytes": 2353938432
+          },
+          {
+            "at": 1792952659918,
+            "bytes": 2375155712
+          },
+          {
+            "at": 1792952660019,
+            "bytes": 2380382208
+          },
+          {
+            "at": 1792952660119,
+            "bytes": 2393391104
+          },
+          {
+            "at": 1792952660220,
+            "bytes": 2404925440
+          },
+          {
+            "at": 1792952660321,
+            "bytes": 2415722496
+          },
+          {
+            "at": 1792952660423,
+            "bytes": 2469167104
+          },
+          {
+            "at": 1792952660525,
+            "bytes": 2546483200
+          },
+          {
+            "at": 1792952660626,
+            "bytes": 2650488832
+          },
+          {
+            "at": 1792952660720,
+            "bytes": 2724085760
+          }
+        ],
+        "elapsedAttemptMs": 5297.585290999996,
+        "coldFromNavigationMs": 5363.0948750000025
+      }
+    }
+  ],
+  "attempts": [
+    {
+      "workload": "renewal-small",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 2.13527049999999,
+      "activeWorkers": 2,
+      "start": 86.5,
+      "read": 30.199999928474426,
+      "workerInitialization": 31.700000047683716,
+      "extraction": 109.79999995231628,
+      "validation": 30.399999976158142,
+      "snapshot": 182.89999997615814,
+      "structure": 10.100000023841858,
+      "matching": 1.8000000715255737,
+      "diff": 1.0999999046325684,
+      "transferLastPage": 0.199951171875,
+      "coreReady": 398.6999999284744,
+      "total": 464,
+      "firstRender": 65.30000007152557,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 2,
+      "expectedCards": 2,
+      "sampledPeakRssBytes": 1361297408,
+      "rssSamples": [
+        {
+          "at": 1792952621145,
+          "bytes": 1056014336
+        },
+        {
+          "at": 1792952621246,
+          "bytes": 1192132608
+        },
+        {
+          "at": 1792952621347,
+          "bytes": 1286275072
+        },
+        {
+          "at": 1792952621449,
+          "bytes": 1310375936
+        },
+        {
+          "at": 1792952621552,
+          "bytes": 1340096512
+        },
+        {
+          "at": 1792952621620,
+          "bytes": 1361297408
+        }
+      ],
+      "elapsedAttemptMs": 532.5012500000001,
+      "coldFromNavigationMs": 596.3682919999999
+    },
+    {
+      "workload": "renewal-small",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.8410210000000689,
+      "activeWorkers": 2,
+      "start": 601.5999999046326,
+      "read": 16.200000047683716,
+      "workerInitialization": 29.700000047683716,
+      "extraction": 108,
+      "validation": 28.600000023841858,
+      "snapshot": 178.59999990463257,
+      "structure": 9.600000023841858,
+      "matching": 1.8000000715255737,
+      "diff": 1,
+      "transferLastPage": 0.099853515625,
+      "coreReady": 374.10000002384186,
+      "total": 432.10000002384186,
+      "firstRender": 58,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 2,
+      "expectedCards": 2,
+      "sampledPeakRssBytes": 1372176384,
+      "rssSamples": [
+        {
+          "at": 1792952621650,
+          "bytes": 1253097472
+        },
+        {
+          "at": 1792952621752,
+          "bytes": 1319632896
+        },
+        {
+          "at": 1792952621852,
+          "bytes": 1333395456
+        },
+        {
+          "at": 1792952621952,
+          "bytes": 1362100224
+        },
+        {
+          "at": 1792952622054,
+          "bytes": 1370226688
+        },
+        {
+          "at": 1792952622101,
+          "bytes": 1372176384
+        }
+      ],
+      "elapsedAttemptMs": 479.7255829999999
+    },
+    {
+      "workload": "renewal-standard",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 2.244270500000084,
+      "activeWorkers": 2,
+      "start": 93.10000002384186,
+      "read": 31.299999952316284,
+      "workerInitialization": 32.200000047683716,
+      "extraction": 664,
+      "validation": 118.89999997615814,
+      "snapshot": 986.8999999761581,
+      "structure": 50,
+      "matching": 27.100000023841858,
+      "diff": 3.100000023841858,
+      "transferLastPage": 0.300048828125,
+      "coreReady": 1914.2999999523163,
+      "total": 1980.8999999761581,
+      "firstRender": 66.60000002384186,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 2,
+      "expectedCards": 2,
+      "sampledPeakRssBytes": 1720582144,
+      "rssSamples": [
+        {
+          "at": 1792952622535,
+          "bytes": 1053196288
+        },
+        {
+          "at": 1792952622635,
+          "bytes": 1187512320
+        },
+        {
+          "at": 1792952622738,
+          "bytes": 1225293824
+        },
+        {
+          "at": 1792952622839,
+          "bytes": 1242464256
+        },
+        {
+          "at": 1792952622939,
+          "bytes": 1265172480
+        },
+        {
+          "at": 1792952623040,
+          "bytes": 1320779776
+        },
+        {
+          "at": 1792952623142,
+          "bytes": 1346404352
+        },
+        {
+          "at": 1792952623242,
+          "bytes": 1342291968
+        },
+        {
+          "at": 1792952623341,
+          "bytes": 1440989184
+        },
+        {
+          "at": 1792952623443,
+          "bytes": 1490518016
+        },
+        {
+          "at": 1792952623542,
+          "bytes": 1597276160
+        },
+        {
+          "at": 1792952623643,
+          "bytes": 1597276160
+        },
+        {
+          "at": 1792952623744,
+          "bytes": 1597292544
+        },
+        {
+          "at": 1792952623844,
+          "bytes": 1597292544
+        },
+        {
+          "at": 1792952623947,
+          "bytes": 1619165184
+        },
+        {
+          "at": 1792952624047,
+          "bytes": 1720565760
+        },
+        {
+          "at": 1792952624148,
+          "bytes": 1720582144
+        },
+        {
+          "at": 1792952624247,
+          "bytes": 1720582144
+        },
+        {
+          "at": 1792952624349,
+          "bytes": 1720582144
+        },
+        {
+          "at": 1792952624453,
+          "bytes": 1571078144
+        },
+        {
+          "at": 1792952624530,
+          "bytes": 1536294912
+        }
+      ],
+      "elapsedAttemptMs": 2058.255375,
+      "coldFromNavigationMs": 2115.7892079999997
+    },
+    {
+      "workload": "renewal-standard",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.7597710000000006,
+      "activeWorkers": 2,
+      "start": 2125,
+      "read": 15.699999928474426,
+      "workerInitialization": 26.90000009536743,
+      "extraction": 666.7999999523163,
+      "validation": 119.89999997615814,
+      "snapshot": 978.2000000476837,
+      "structure": 50.5,
+      "matching": 27.5,
+      "diff": 3.100000023841858,
+      "transferLastPage": 0,
+      "coreReady": 1889.3999999761581,
+      "total": 1949.1000000238419,
+      "firstRender": 59.700000047683716,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 2,
+      "expectedCards": 2,
+      "sampledPeakRssBytes": 1763442688,
+      "rssSamples": [
+        {
+          "at": 1792952624550,
+          "bytes": 1537687552
+        },
+        {
+          "at": 1792952624652,
+          "bytes": 1500659712
+        },
+        {
+          "at": 1792952624755,
+          "bytes": 1511407616
+        },
+        {
+          "at": 1792952624855,
+          "bytes": 1502887936
+        },
+        {
+          "at": 1792952624956,
+          "bytes": 1514733568
+        },
+        {
+          "at": 1792952625057,
+          "bytes": 1526382592
+        },
+        {
+          "at": 1792952625158,
+          "bytes": 1537163264
+        },
+        {
+          "at": 1792952625257,
+          "bytes": 1506557952
+        },
+        {
+          "at": 1792952625358,
+          "bytes": 1510621184
+        },
+        {
+          "at": 1792952625458,
+          "bytes": 1535606784
+        },
+        {
+          "at": 1792952625560,
+          "bytes": 1640333312
+        },
+        {
+          "at": 1792952625658,
+          "bytes": 1640349696
+        },
+        {
+          "at": 1792952625759,
+          "bytes": 1640349696
+        },
+        {
+          "at": 1792952625860,
+          "bytes": 1640349696
+        },
+        {
+          "at": 1792952625963,
+          "bytes": 1662779392
+        },
+        {
+          "at": 1792952626063,
+          "bytes": 1763409920
+        },
+        {
+          "at": 1792952626163,
+          "bytes": 1763442688
+        },
+        {
+          "at": 1792952626264,
+          "bytes": 1763442688
+        },
+        {
+          "at": 1792952626367,
+          "bytes": 1575993344
+        },
+        {
+          "at": 1792952626469,
+          "bytes": 1541718016
+        },
+        {
+          "at": 1792952626531,
+          "bytes": 1550368768
+        }
+      ],
+      "elapsedAttemptMs": 2000.1044579999998
+    },
+    {
+      "workload": "renewal-capacity",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 2.0138544999999795,
+      "activeWorkers": 2,
+      "start": 92.59999990463257,
+      "read": 31.800000071525574,
+      "workerInitialization": 30,
+      "extraction": 1492,
+      "validation": 268.10000002384186,
+      "snapshot": 2261.600000023842,
+      "structure": 109.79999995231628,
+      "matching": 146.89999997615814,
+      "diff": 5.700000047683716,
+      "transferLastPage": 0,
+      "coreReady": 4346.900000095367,
+      "total": 4413.800000071526,
+      "firstRender": 66.89999997615814,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 2,
+      "expectedCards": 2,
+      "sampledPeakRssBytes": 2329526272,
+      "rssSamples": [
+        {
+          "at": 1792952626979,
+          "bytes": 1053982720
+        },
+        {
+          "at": 1792952627080,
+          "bytes": 1189773312
+        },
+        {
+          "at": 1792952627182,
+          "bytes": 1227096064
+        },
+        {
+          "at": 1792952627283,
+          "bytes": 1243168768
+        },
+        {
+          "at": 1792952627383,
+          "bytes": 1264418816
+        },
+        {
+          "at": 1792952627482,
+          "bytes": 1322270720
+        },
+        {
+          "at": 1792952627583,
+          "bytes": 1347141632
+        },
+        {
+          "at": 1792952627684,
+          "bytes": 1343995904
+        },
+        {
+          "at": 1792952627787,
+          "bytes": 1356152832
+        },
+        {
+          "at": 1792952627899,
+          "bytes": 1399881728
+        },
+        {
+          "at": 1792952627989,
+          "bytes": 1412595712
+        },
+        {
+          "at": 1792952628089,
+          "bytes": 1448722432
+        },
+        {
+          "at": 1792952628188,
+          "bytes": 1459798016
+        },
+        {
+          "at": 1792952628290,
+          "bytes": 1496334336
+        },
+        {
+          "at": 1792952628389,
+          "bytes": 1508458496
+        },
+        {
+          "at": 1792952628491,
+          "bytes": 1544994816
+        },
+        {
+          "at": 1792952628594,
+          "bytes": 1637580800
+        },
+        {
+          "at": 1792952628692,
+          "bytes": 1712553984
+        },
+        {
+          "at": 1792952628794,
+          "bytes": 1792868352
+        },
+        {
+          "at": 1792952628894,
+          "bytes": 1892204544
+        },
+        {
+          "at": 1792952628995,
+          "bytes": 1857191936
+        },
+        {
+          "at": 1792952629095,
+          "bytes": 2137489408
+        },
+        {
+          "at": 1792952629196,
+          "bytes": 1992753152
+        },
+        {
+          "at": 1792952629296,
+          "bytes": 1993506816
+        },
+        {
+          "at": 1792952629398,
+          "bytes": 1993539584
+        },
+        {
+          "at": 1792952629498,
+          "bytes": 1993785344
+        },
+        {
+          "at": 1792952629601,
+          "bytes": 1993834496
+        },
+        {
+          "at": 1792952629700,
+          "bytes": 1993932800
+        },
+        {
+          "at": 1792952629800,
+          "bytes": 1993932800
+        },
+        {
+          "at": 1792952629902,
+          "bytes": 1993654272
+        },
+        {
+          "at": 1792952630004,
+          "bytes": 2013593600
+        },
+        {
+          "at": 1792952630105,
+          "bytes": 2040840192
+        },
+        {
+          "at": 1792952630205,
+          "bytes": 2228895744
+        },
+        {
+          "at": 1792952630307,
+          "bytes": 2265874432
+        },
+        {
+          "at": 1792952630411,
+          "bytes": 2265874432
+        },
+        {
+          "at": 1792952630508,
+          "bytes": 2265874432
+        },
+        {
+          "at": 1792952630609,
+          "bytes": 2265907200
+        },
+        {
+          "at": 1792952630709,
+          "bytes": 2265907200
+        },
+        {
+          "at": 1792952630811,
+          "bytes": 2265907200
+        },
+        {
+          "at": 1792952630912,
+          "bytes": 2265759744
+        },
+        {
+          "at": 1792952631014,
+          "bytes": 2265759744
+        },
+        {
+          "at": 1792952631114,
+          "bytes": 2277474304
+        },
+        {
+          "at": 1792952631217,
+          "bytes": 2297692160
+        },
+        {
+          "at": 1792952631321,
+          "bytes": 2298052608
+        },
+        {
+          "at": 1792952631411,
+          "bytes": 2329526272
+        }
+      ],
+      "elapsedAttemptMs": 4493.727083,
+      "coldFromNavigationMs": 4550.980917
+    },
+    {
+      "workload": "renewal-capacity",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 2.342687499999556,
+      "activeWorkers": 2,
+      "start": 4558.5,
+      "read": 15.799999952316284,
+      "workerInitialization": 31.600000023841858,
+      "extraction": 1489,
+      "validation": 264.60000002384186,
+      "snapshot": 2217.7999999523163,
+      "structure": 117.80000007152557,
+      "matching": 141,
+      "diff": 5.299999952316284,
+      "transferLastPage": 0,
+      "coreReady": 4283.899999976158,
+      "total": 4348.5,
+      "firstRender": 64.60000002384186,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 2,
+      "expectedCards": 2,
+      "sampledPeakRssBytes": 2426142720,
+      "rssSamples": [
+        {
+          "at": 1792952631519,
+          "bytes": 1753219072
+        },
+        {
+          "at": 1792952631621,
+          "bytes": 1764507648
+        },
+        {
+          "at": 1792952631721,
+          "bytes": 1756102656
+        },
+        {
+          "at": 1792952631824,
+          "bytes": 1767129088
+        },
+        {
+          "at": 1792952631925,
+          "bytes": 1777909760
+        },
+        {
+          "at": 1792952632026,
+          "bytes": 1788477440
+        },
+        {
+          "at": 1792952632127,
+          "bytes": 1757691904
+        },
+        {
+          "at": 1792952632227,
+          "bytes": 1769160704
+        },
+        {
+          "at": 1792952632328,
+          "bytes": 1780088832
+        },
+        {
+          "at": 1792952632430,
+          "bytes": 1790951424
+        },
+        {
+          "at": 1792952632530,
+          "bytes": 1802354688
+        },
+        {
+          "at": 1792952632631,
+          "bytes": 1814003712
+        },
+        {
+          "at": 1792952632731,
+          "bytes": 1825243136
+        },
+        {
+          "at": 1792952632833,
+          "bytes": 1836122112
+        },
+        {
+          "at": 1792952632933,
+          "bytes": 1847541760
+        },
+        {
+          "at": 1792952633036,
+          "bytes": 1852112896
+        },
+        {
+          "at": 1792952633134,
+          "bytes": 1861632000
+        },
+        {
+          "at": 1792952633234,
+          "bytes": 1867513856
+        },
+        {
+          "at": 1792952633336,
+          "bytes": 1896071168
+        },
+        {
+          "at": 1792952633436,
+          "bytes": 1924595712
+        },
+        {
+          "at": 1792952633538,
+          "bytes": 2346565632
+        },
+        {
+          "at": 1792952633638,
+          "bytes": 2056765440
+        },
+        {
+          "at": 1792952633741,
+          "bytes": 2056765440
+        },
+        {
+          "at": 1792952633847,
+          "bytes": 2056765440
+        },
+        {
+          "at": 1792952633941,
+          "bytes": 2056765440
+        },
+        {
+          "at": 1792952634041,
+          "bytes": 2056667136
+        },
+        {
+          "at": 1792952634144,
+          "bytes": 2056667136
+        },
+        {
+          "at": 1792952634243,
+          "bytes": 2056667136
+        },
+        {
+          "at": 1792952634346,
+          "bytes": 2053111808
+        },
+        {
+          "at": 1792952634447,
+          "bytes": 2079801344
+        },
+        {
+          "at": 1792952634547,
+          "bytes": 2105999360
+        },
+        {
+          "at": 1792952634650,
+          "bytes": 2426142720
+        },
+        {
+          "at": 1792952634748,
+          "bytes": 2320318464
+        },
+        {
+          "at": 1792952634849,
+          "bytes": 2320318464
+        },
+        {
+          "at": 1792952634952,
+          "bytes": 2310537216
+        },
+        {
+          "at": 1792952635054,
+          "bytes": 2310537216
+        },
+        {
+          "at": 1792952635154,
+          "bytes": 2310537216
+        },
+        {
+          "at": 1792952635256,
+          "bytes": 2310537216
+        },
+        {
+          "at": 1792952635357,
+          "bytes": 2310537216
+        },
+        {
+          "at": 1792952635461,
+          "bytes": 2310602752
+        },
+        {
+          "at": 1792952635557,
+          "bytes": 2315681792
+        },
+        {
+          "at": 1792952635659,
+          "bytes": 2321088512
+        },
+        {
+          "at": 1792952635759,
+          "bytes": 2345844736
+        },
+        {
+          "at": 1792952635810,
+          "bytes": 2345943040
+        }
+      ],
+      "elapsedAttemptMs": 4397.508291
+    },
+    {
+      "workload": "dense_table-small",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 2.0669375000006767,
+      "activeWorkers": 2,
+      "start": 92.30000007152557,
+      "read": 33.59999990463257,
+      "workerInitialization": 30.40000009536743,
+      "extraction": 102.10000002384186,
+      "validation": 22.59999990463257,
+      "snapshot": 118.10000002384186,
+      "structure": 7.300000071525574,
+      "matching": 3.899999976158142,
+      "diff": 1.5,
+      "transferLastPage": 0.099853515625,
+      "coreReady": 320,
+      "total": 380.39999997615814,
+      "firstRender": 60.39999997615814,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1,
+      "expectedCards": 1,
+      "sampledPeakRssBytes": 1318928384,
+      "rssSamples": [
+        {
+          "at": 1792952636273,
+          "bytes": 1054408704
+        },
+        {
+          "at": 1792952636374,
+          "bytes": 1180139520
+        },
+        {
+          "at": 1792952636474,
+          "bytes": 1256783872
+        },
+        {
+          "at": 1792952636577,
+          "bytes": 1291354112
+        },
+        {
+          "at": 1792952636670,
+          "bytes": 1318928384
+        }
+      ],
+      "elapsedAttemptMs": 460.7016249999997,
+      "coldFromNavigationMs": 517.2518749999999
+    },
+    {
+      "workload": "dense_table-small",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.5839795000001686,
+      "activeWorkers": 2,
+      "start": 524.3000000715256,
+      "read": 15.899999976158142,
+      "workerInitialization": 29.699999928474426,
+      "extraction": 100.79999995231628,
+      "validation": 21.100000023841858,
+      "snapshot": 117.79999995231628,
+      "structure": 6.800000071525574,
+      "matching": 4,
+      "diff": 1.399999976158142,
+      "transferLastPage": 0.099853515625,
+      "coreReady": 298,
+      "total": 348.5,
+      "firstRender": 50.5,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1,
+      "expectedCards": 1,
+      "sampledPeakRssBytes": 1349468160,
+      "rssSamples": [
+        {
+          "at": 1792952636777,
+          "bytes": 1305690112
+        },
+        {
+          "at": 1792952636878,
+          "bytes": 1311473664
+        },
+        {
+          "at": 1792952636982,
+          "bytes": 1339015168
+        },
+        {
+          "at": 1792952637069,
+          "bytes": 1349468160
+        }
+      ],
+      "elapsedAttemptMs": 397.36270800000057
+    },
+    {
+      "workload": "dense_table-standard",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 2.008020999999644,
+      "activeWorkers": 2,
+      "start": 93.79999995231628,
+      "read": 32,
+      "workerInitialization": 31.40000009536743,
+      "extraction": 613.6000000238419,
+      "validation": 90.5,
+      "snapshot": 653.6999999284744,
+      "structure": 33.5,
+      "matching": 72.20000004768372,
+      "diff": 4.100000023841858,
+      "transferLastPage": 0,
+      "coreReady": 1531.8000000715256,
+      "total": 1581.2000000476837,
+      "firstRender": 49.39999997615814,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1,
+      "expectedCards": 1,
+      "sampledPeakRssBytes": 1631059968,
+      "rssSamples": [
+        {
+          "at": 1792952637523,
+          "bytes": 1054801920
+        },
+        {
+          "at": 1792952637624,
+          "bytes": 1180024832
+        },
+        {
+          "at": 1792952637726,
+          "bytes": 1210253312
+        },
+        {
+          "at": 1792952637828,
+          "bytes": 1231650816
+        },
+        {
+          "at": 1792952637928,
+          "bytes": 1258881024
+        },
+        {
+          "at": 1792952638029,
+          "bytes": 1265795072
+        },
+        {
+          "at": 1792952638129,
+          "bytes": 1291321344
+        },
+        {
+          "at": 1792952638231,
+          "bytes": 1358430208
+        },
+        {
+          "at": 1792952638329,
+          "bytes": 1424228352
+        },
+        {
+          "at": 1792952638430,
+          "bytes": 1499643904
+        },
+        {
+          "at": 1792952638530,
+          "bytes": 1502494720
+        },
+        {
+          "at": 1792952638632,
+          "bytes": 1505624064
+        },
+        {
+          "at": 1792952638732,
+          "bytes": 1583235072
+        },
+        {
+          "at": 1792952638833,
+          "bytes": 1583235072
+        },
+        {
+          "at": 1792952638934,
+          "bytes": 1583235072
+        },
+        {
+          "at": 1792952639036,
+          "bytes": 1584594944
+        },
+        {
+          "at": 1792952639119,
+          "bytes": 1631059968
+        }
+      ],
+      "elapsedAttemptMs": 1656.7146249999969,
+      "coldFromNavigationMs": 1715.9021660000035
+    },
+    {
+      "workload": "dense_table-standard",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.4787500000002183,
+      "activeWorkers": 2,
+      "start": 1725.8999999761581,
+      "read": 16.200000047683716,
+      "workerInitialization": 28,
+      "extraction": 603.7000000476837,
+      "validation": 83.29999995231628,
+      "snapshot": 650.5,
+      "structure": 33.60000002384186,
+      "matching": 71.19999992847443,
+      "diff": 3.8000000715255737,
+      "transferLastPage": 0,
+      "coreReady": 1491.1000000238419,
+      "total": 1548.8000000715256,
+      "firstRender": 57.700000047683716,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1,
+      "expectedCards": 1,
+      "sampledPeakRssBytes": 1651130368,
+      "rssSamples": [
+        {
+          "at": 1792952639238,
+          "bytes": 1457848320
+        },
+        {
+          "at": 1792952639341,
+          "bytes": 1458831360
+        },
+        {
+          "at": 1792952639442,
+          "bytes": 1530314752
+        },
+        {
+          "at": 1792952639542,
+          "bytes": 1466826752
+        },
+        {
+          "at": 1792952639645,
+          "bytes": 1467777024
+        },
+        {
+          "at": 1792952639747,
+          "bytes": 1468596224
+        },
+        {
+          "at": 1792952639846,
+          "bytes": 1470709760
+        },
+        {
+          "at": 1792952639946,
+          "bytes": 1495973888
+        },
+        {
+          "at": 1792952640046,
+          "bytes": 1561870336
+        },
+        {
+          "at": 1792952640147,
+          "bytes": 1562099712
+        },
+        {
+          "at": 1792952640249,
+          "bytes": 1571110912
+        },
+        {
+          "at": 1792952640349,
+          "bytes": 1642758144
+        },
+        {
+          "at": 1792952640448,
+          "bytes": 1642774528
+        },
+        {
+          "at": 1792952640552,
+          "bytes": 1643184128
+        },
+        {
+          "at": 1792952640653,
+          "bytes": 1650114560
+        },
+        {
+          "at": 1792952640721,
+          "bytes": 1651130368
+        }
+      ],
+      "elapsedAttemptMs": 1600.315333999999
+    },
+    {
+      "workload": "dense_table-capacity",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 1.9407289999999193,
+      "activeWorkers": 2,
+      "start": 87.70000004768372,
+      "read": 33.10000002384186,
+      "workerInitialization": 31.59999990463257,
+      "extraction": 1371.2999999523163,
+      "validation": 171.89999997615814,
+      "snapshot": 1453.4000000953674,
+      "structure": 69.19999992847443,
+      "matching": 316.10000002384186,
+      "diff": 11,
+      "transferLastPage": 0.2001953125,
+      "coreReady": 3458.600000023842,
+      "total": 3514,
+      "firstRender": 55.39999997615814,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1,
+      "expectedCards": 1,
+      "sampledPeakRssBytes": 2013609984,
+      "rssSamples": [
+        {
+          "at": 1792952641155,
+          "bytes": 1056800768
+        },
+        {
+          "at": 1792952641256,
+          "bytes": 1181843456
+        },
+        {
+          "at": 1792952641359,
+          "bytes": 1212760064
+        },
+        {
+          "at": 1792952641461,
+          "bytes": 1236762624
+        },
+        {
+          "at": 1792952641561,
+          "bytes": 1259585536
+        },
+        {
+          "at": 1792952641662,
+          "bytes": 1266728960
+        },
+        {
+          "at": 1792952641763,
+          "bytes": 1291452416
+        },
+        {
+          "at": 1792952641865,
+          "bytes": 1325776896
+        },
+        {
+          "at": 1792952641966,
+          "bytes": 1335214080
+        },
+        {
+          "at": 1792952642067,
+          "bytes": 1367605248
+        },
+        {
+          "at": 1792952642168,
+          "bytes": 1372078080
+        },
+        {
+          "at": 1792952642269,
+          "bytes": 1373126656
+        },
+        {
+          "at": 1792952642371,
+          "bytes": 1413087232
+        },
+        {
+          "at": 1792952642472,
+          "bytes": 1419198464
+        },
+        {
+          "at": 1792952642571,
+          "bytes": 1420427264
+        },
+        {
+          "at": 1792952642669,
+          "bytes": 1531461632
+        },
+        {
+          "at": 1792952642771,
+          "bytes": 1609220096
+        },
+        {
+          "at": 1792952642871,
+          "bytes": 1641218048
+        },
+        {
+          "at": 1792952642972,
+          "bytes": 1789788160
+        },
+        {
+          "at": 1792952643074,
+          "bytes": 1698447360
+        },
+        {
+          "at": 1792952643173,
+          "bytes": 1700577280
+        },
+        {
+          "at": 1792952643273,
+          "bytes": 1700577280
+        },
+        {
+          "at": 1792952643375,
+          "bytes": 1700593664
+        },
+        {
+          "at": 1792952643475,
+          "bytes": 1701330944
+        },
+        {
+          "at": 1792952643579,
+          "bytes": 1725415424
+        },
+        {
+          "at": 1792952643678,
+          "bytes": 2013609984
+        },
+        {
+          "at": 1792952643779,
+          "bytes": 1881292800
+        },
+        {
+          "at": 1792952643879,
+          "bytes": 1881391104
+        },
+        {
+          "at": 1792952643979,
+          "bytes": 1881391104
+        },
+        {
+          "at": 1792952644079,
+          "bytes": 1881112576
+        },
+        {
+          "at": 1792952644180,
+          "bytes": 1881178112
+        },
+        {
+          "at": 1792952644283,
+          "bytes": 1840037888
+        },
+        {
+          "at": 1792952644383,
+          "bytes": 1840070656
+        },
+        {
+          "at": 1792952644487,
+          "bytes": 1840070656
+        },
+        {
+          "at": 1792952644590,
+          "bytes": 1840496640
+        },
+        {
+          "at": 1792952644680,
+          "bytes": 1887125504
+        }
+      ],
+      "elapsedAttemptMs": 3577.8019590000004,
+      "coldFromNavigationMs": 3645.109124999999
+    },
+    {
+      "workload": "dense_table-capacity",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.6425834999990911,
+      "activeWorkers": 2,
+      "start": 3652.7000000476837,
+      "read": 15.5,
+      "workerInitialization": 27.399999976158142,
+      "extraction": 1369.6000000238419,
+      "validation": 181.5,
+      "snapshot": 1477.3999999761581,
+      "structure": 70.39999997615814,
+      "matching": 312.7000000476837,
+      "diff": 10.100000023841858,
+      "transferLastPage": 0,
+      "coreReady": 3465.6999999284744,
+      "total": 3515.5,
+      "firstRender": 49.800000071525574,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1,
+      "expectedCards": 1,
+      "sampledPeakRssBytes": 1986150400,
+      "rssSamples": [
+        {
+          "at": 1792952644787,
+          "bytes": 1646821376
+        },
+        {
+          "at": 1792952644891,
+          "bytes": 1647722496
+        },
+        {
+          "at": 1792952644993,
+          "bytes": 1648508928
+        },
+        {
+          "at": 1792952645094,
+          "bytes": 1649803264
+        },
+        {
+          "at": 1792952645195,
+          "bytes": 1650540544
+        },
+        {
+          "at": 1792952645296,
+          "bytes": 1651441664
+        },
+        {
+          "at": 1792952645395,
+          "bytes": 1652195328
+        },
+        {
+          "at": 1792952645497,
+          "bytes": 1653456896
+        },
+        {
+          "at": 1792952645601,
+          "bytes": 1654194176
+        },
+        {
+          "at": 1792952645701,
+          "bytes": 1655078912
+        },
+        {
+          "at": 1792952645800,
+          "bytes": 1655963648
+        },
+        {
+          "at": 1792952645902,
+          "bytes": 1656782848
+        },
+        {
+          "at": 1792952646004,
+          "bytes": 1657634816
+        },
+        {
+          "at": 1792952646106,
+          "bytes": 1658290176
+        },
+        {
+          "at": 1792952646204,
+          "bytes": 1662435328
+        },
+        {
+          "at": 1792952646306,
+          "bytes": 1666924544
+        },
+        {
+          "at": 1792952646407,
+          "bytes": 1698365440
+        },
+        {
+          "at": 1792952646507,
+          "bytes": 1986150400
+        },
+        {
+          "at": 1792952646608,
+          "bytes": 1758494720
+        },
+        {
+          "at": 1792952646709,
+          "bytes": 1758511104
+        },
+        {
+          "at": 1792952646809,
+          "bytes": 1758527488
+        },
+        {
+          "at": 1792952646910,
+          "bytes": 1758527488
+        },
+        {
+          "at": 1792952647011,
+          "bytes": 1758527488
+        },
+        {
+          "at": 1792952647113,
+          "bytes": 1770684416
+        },
+        {
+          "at": 1792952647215,
+          "bytes": 1797652480
+        },
+        {
+          "at": 1792952647313,
+          "bytes": 1937620992
+        },
+        {
+          "at": 1792952647414,
+          "bytes": 1937620992
+        },
+        {
+          "at": 1792952647515,
+          "bytes": 1937620992
+        },
+        {
+          "at": 1792952647617,
+          "bytes": 1922777088
+        },
+        {
+          "at": 1792952647718,
+          "bytes": 1922777088
+        },
+        {
+          "at": 1792952647821,
+          "bytes": 1880588288
+        },
+        {
+          "at": 1792952647921,
+          "bytes": 1880686592
+        },
+        {
+          "at": 1792952648023,
+          "bytes": 1880686592
+        },
+        {
+          "at": 1792952648123,
+          "bytes": 1865613312
+        },
+        {
+          "at": 1792952648223,
+          "bytes": 1890304000
+        },
+        {
+          "at": 1792952648243,
+          "bytes": 1890385920
+        }
+      ],
+      "elapsedAttemptMs": 3560.946
+    },
+    {
+      "workload": "template_change-small",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 2.650604000000385,
+      "activeWorkers": 2,
+      "start": 93.60000002384186,
+      "read": 32.09999990463257,
+      "workerInitialization": 31.600000023841858,
+      "extraction": 116,
+      "validation": 31.100000023841858,
+      "snapshot": 199.79999995231628,
+      "structure": 10.800000071525574,
+      "matching": 4.899999976158142,
+      "diff": 32.299999952316284,
+      "transferLastPage": 0.099853515625,
+      "coreReady": 470.1999999284744,
+      "total": 530.8999999761581,
+      "firstRender": 60.700000047683716,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 82,
+      "expectedCards": 82,
+      "sampledPeakRssBytes": 1355497472,
+      "rssSamples": [
+        {
+          "at": 1792952648675,
+          "bytes": 1054359552
+        },
+        {
+          "at": 1792952648776,
+          "bytes": 1189199872
+        },
+        {
+          "at": 1792952648878,
+          "bytes": 1267908608
+        },
+        {
+          "at": 1792952648977,
+          "bytes": 1309753344
+        },
+        {
+          "at": 1792952649079,
+          "bytes": 1335312384
+        },
+        {
+          "at": 1792952649178,
+          "bytes": 1354547200
+        },
+        {
+          "at": 1792952649221,
+          "bytes": 1355497472
+        }
+      ],
+      "elapsedAttemptMs": 606.7029169999987,
+      "coldFromNavigationMs": 666.463416999999
+    },
+    {
+      "workload": "template_change-small",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.4461874999997235,
+      "activeWorkers": 2,
+      "start": 675.3999999761581,
+      "read": 16.399999976158142,
+      "workerInitialization": 28.800000071525574,
+      "extraction": 113,
+      "validation": 27.899999976158142,
+      "snapshot": 190.89999997615814,
+      "structure": 10.700000047683716,
+      "matching": 4.5,
+      "diff": 34.59999990463257,
+      "transferLastPage": 0,
+      "coreReady": 437,
+      "total": 499,
+      "firstRender": 62,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 82,
+      "expectedCards": 82,
+      "sampledPeakRssBytes": 1438056448,
+      "rssSamples": [
+        {
+          "at": 1792952649280,
+          "bytes": 1302626304
+        },
+        {
+          "at": 1792952649379,
+          "bytes": 1358708736
+        },
+        {
+          "at": 1792952649478,
+          "bytes": 1378435072
+        },
+        {
+          "at": 1792952649579,
+          "bytes": 1402503168
+        },
+        {
+          "at": 1792952649682,
+          "bytes": 1414545408
+        },
+        {
+          "at": 1792952649773,
+          "bytes": 1438056448
+        }
+      ],
+      "elapsedAttemptMs": 550.8234999999986
+    },
+    {
+      "workload": "template_change-standard",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 1.820208499999353,
+      "activeWorkers": 2,
+      "start": 92.90000009536743,
+      "read": 31.899999976158142,
+      "workerInitialization": 30.699999928474426,
+      "extraction": 681,
+      "validation": 134,
+      "snapshot": 1057.4000000953674,
+      "structure": 58.199999928474426,
+      "matching": 31.800000071525574,
+      "diff": 169.09999990463257,
+      "transferLastPage": 0.30029296875,
+      "coreReady": 2276.5999999046326,
+      "total": 2347.5999999046326,
+      "firstRender": 71,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 452,
+      "expectedCards": 452,
+      "sampledPeakRssBytes": 1796145152,
+      "rssSamples": [
+        {
+          "at": 1792952650210,
+          "bytes": 1059389440
+        },
+        {
+          "at": 1792952650310,
+          "bytes": 1195704320
+        },
+        {
+          "at": 1792952650412,
+          "bytes": 1236500480
+        },
+        {
+          "at": 1792952650513,
+          "bytes": 1251672064
+        },
+        {
+          "at": 1792952650615,
+          "bytes": 1277411328
+        },
+        {
+          "at": 1792952650715,
+          "bytes": 1332740096
+        },
+        {
+          "at": 1792952650815,
+          "bytes": 1362755584
+        },
+        {
+          "at": 1792952650917,
+          "bytes": 1354579968
+        },
+        {
+          "at": 1792952651017,
+          "bytes": 1434599424
+        },
+        {
+          "at": 1792952651117,
+          "bytes": 1505542144
+        },
+        {
+          "at": 1792952651219,
+          "bytes": 1628209152
+        },
+        {
+          "at": 1792952651319,
+          "bytes": 1630879744
+        },
+        {
+          "at": 1792952651420,
+          "bytes": 1630896128
+        },
+        {
+          "at": 1792952651521,
+          "bytes": 1630896128
+        },
+        {
+          "at": 1792952651623,
+          "bytes": 1599602688
+        },
+        {
+          "at": 1792952651724,
+          "bytes": 1626619904
+        },
+        {
+          "at": 1792952651824,
+          "bytes": 1728299008
+        },
+        {
+          "at": 1792952651924,
+          "bytes": 1728299008
+        },
+        {
+          "at": 1792952652026,
+          "bytes": 1728315392
+        },
+        {
+          "at": 1792952652129,
+          "bytes": 1796145152
+        },
+        {
+          "at": 1792952652229,
+          "bytes": 1530052608
+        },
+        {
+          "at": 1792952652329,
+          "bytes": 1537933312
+        },
+        {
+          "at": 1792952652431,
+          "bytes": 1592836096
+        },
+        {
+          "at": 1792952652531,
+          "bytes": 1720139776
+        },
+        {
+          "at": 1792952652577,
+          "bytes": 1722548224
+        }
+      ],
+      "elapsedAttemptMs": 2432.0488330000007,
+      "coldFromNavigationMs": 2487.9886659999975
+    },
+    {
+      "workload": "template_change-standard",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.4779374999998254,
+      "activeWorkers": 2,
+      "start": 2524.4000000953674,
+      "read": 16.59999990463257,
+      "workerInitialization": 28.200000047683716,
+      "extraction": 683.1000000238419,
+      "validation": 127.89999997615814,
+      "snapshot": 1073,
+      "structure": 57.89999997615814,
+      "matching": 31.5,
+      "diff": 178.30000007152557,
+      "transferLastPage": 0,
+      "coreReady": 2277.7999999523163,
+      "total": 2349.2999999523163,
+      "firstRender": 71.5,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 452,
+      "expectedCards": 452,
+      "sampledPeakRssBytes": 1938997248,
+      "rssSamples": [
+        {
+          "at": 1792952652632,
+          "bytes": 1658617856
+        },
+        {
+          "at": 1792952652734,
+          "bytes": 1689206784
+        },
+        {
+          "at": 1792952652837,
+          "bytes": 1700200448
+        },
+        {
+          "at": 1792952652937,
+          "bytes": 1691942912
+        },
+        {
+          "at": 1792952653039,
+          "bytes": 1703378944
+        },
+        {
+          "at": 1792952653145,
+          "bytes": 1714257920
+        },
+        {
+          "at": 1792952653240,
+          "bytes": 1725186048
+        },
+        {
+          "at": 1792952653341,
+          "bytes": 1695629312
+        },
+        {
+          "at": 1792952653441,
+          "bytes": 1702232064
+        },
+        {
+          "at": 1792952653542,
+          "bytes": 1721384960
+        },
+        {
+          "at": 1792952653643,
+          "bytes": 1938997248
+        },
+        {
+          "at": 1792952653745,
+          "bytes": 1840791552
+        },
+        {
+          "at": 1792952653843,
+          "bytes": 1840791552
+        },
+        {
+          "at": 1792952653945,
+          "bytes": 1840791552
+        },
+        {
+          "at": 1792952654047,
+          "bytes": 1810939904
+        },
+        {
+          "at": 1792952654153,
+          "bytes": 1838530560
+        },
+        {
+          "at": 1792952654250,
+          "bytes": 1937801216
+        },
+        {
+          "at": 1792952654350,
+          "bytes": 1937801216
+        },
+        {
+          "at": 1792952654453,
+          "bytes": 1937817600
+        },
+        {
+          "at": 1792952654554,
+          "bytes": 1937817600
+        },
+        {
+          "at": 1792952654654,
+          "bytes": 1730297856
+        },
+        {
+          "at": 1792952654755,
+          "bytes": 1730527232
+        },
+        {
+          "at": 1792952654856,
+          "bytes": 1761918976
+        },
+        {
+          "at": 1792952654955,
+          "bytes": 1780137984
+        },
+        {
+          "at": 1792952655011,
+          "bytes": 1779941376
+        }
+      ],
+      "elapsedAttemptMs": 2432.2317920000023
+    },
+    {
+      "workload": "template_change-capacity",
+      "run": 0,
+      "kind": "cold",
+      "interactionMs": 2.048937499999738,
+      "activeWorkers": 2,
+      "start": 91.20000004768372,
+      "read": 38.299999952316284,
+      "workerInitialization": 29.90000009536743,
+      "extraction": 1519.5,
+      "validation": 325.1999999284744,
+      "snapshot": 2384.5,
+      "structure": 115,
+      "matching": 126.20000004768372,
+      "diff": 376.2999999523163,
+      "transferLastPage": 0.099853515625,
+      "coreReady": 5138.899999976158,
+      "total": 5213.799999952316,
+      "firstRender": 74.89999997615814,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1002,
+      "expectedCards": 1002,
+      "sampledPeakRssBytes": 2724085760,
+      "rssSamples": [
+        {
+          "at": 1792952655476,
+          "bytes": 1055375360
+        },
+        {
+          "at": 1792952655576,
+          "bytes": 1190297600
+        },
+        {
+          "at": 1792952655679,
+          "bytes": 1227358208
+        },
+        {
+          "at": 1792952655779,
+          "bytes": 1246314496
+        },
+        {
+          "at": 1792952655880,
+          "bytes": 1269858304
+        },
+        {
+          "at": 1792952655981,
+          "bytes": 1327644672
+        },
+        {
+          "at": 1792952656084,
+          "bytes": 1357529088
+        },
+        {
+          "at": 1792952656182,
+          "bytes": 1350516736
+        },
+        {
+          "at": 1792952656284,
+          "bytes": 1363542016
+        },
+        {
+          "at": 1792952656385,
+          "bytes": 1405927424
+        },
+        {
+          "at": 1792952656487,
+          "bytes": 1421213696
+        },
+        {
+          "at": 1792952656586,
+          "bytes": 1457537024
+        },
+        {
+          "at": 1792952656687,
+          "bytes": 1474887680
+        },
+        {
+          "at": 1792952656789,
+          "bytes": 1506639872
+        },
+        {
+          "at": 1792952656890,
+          "bytes": 1525383168
+        },
+        {
+          "at": 1792952656990,
+          "bytes": 1554939904
+        },
+        {
+          "at": 1792952657092,
+          "bytes": 1625030656
+        },
+        {
+          "at": 1792952657192,
+          "bytes": 1718894592
+        },
+        {
+          "at": 1792952657292,
+          "bytes": 1779826688
+        },
+        {
+          "at": 1792952657395,
+          "bytes": 1919025152
+        },
+        {
+          "at": 1792952657495,
+          "bytes": 1884667904
+        },
+        {
+          "at": 1792952657596,
+          "bytes": 1910095872
+        },
+        {
+          "at": 1792952657697,
+          "bytes": 2050490368
+        },
+        {
+          "at": 1792952657796,
+          "bytes": 2055749632
+        },
+        {
+          "at": 1792952657900,
+          "bytes": 2055798784
+        },
+        {
+          "at": 1792952657998,
+          "bytes": 2056077312
+        },
+        {
+          "at": 1792952658097,
+          "bytes": 2056093696
+        },
+        {
+          "at": 1792952658198,
+          "bytes": 2056241152
+        },
+        {
+          "at": 1792952658300,
+          "bytes": 2056241152
+        },
+        {
+          "at": 1792952658401,
+          "bytes": 2056028160
+        },
+        {
+          "at": 1792952658501,
+          "bytes": 2056093696
+        },
+        {
+          "at": 1792952658604,
+          "bytes": 2056847360
+        },
+        {
+          "at": 1792952658705,
+          "bytes": 2083684352
+        },
+        {
+          "at": 1792952658806,
+          "bytes": 2110586880
+        },
+        {
+          "at": 1792952658906,
+          "bytes": 2553249792
+        },
+        {
+          "at": 1792952659006,
+          "bytes": 2344370176
+        },
+        {
+          "at": 1792952659107,
+          "bytes": 2344370176
+        },
+        {
+          "at": 1792952659213,
+          "bytes": 2344370176
+        },
+        {
+          "at": 1792952659311,
+          "bytes": 2344370176
+        },
+        {
+          "at": 1792952659413,
+          "bytes": 2344255488
+        },
+        {
+          "at": 1792952659513,
+          "bytes": 2344255488
+        },
+        {
+          "at": 1792952659613,
+          "bytes": 2344255488
+        },
+        {
+          "at": 1792952659715,
+          "bytes": 2344255488
+        },
+        {
+          "at": 1792952659818,
+          "bytes": 2353938432
+        },
+        {
+          "at": 1792952659918,
+          "bytes": 2375155712
+        },
+        {
+          "at": 1792952660019,
+          "bytes": 2380382208
+        },
+        {
+          "at": 1792952660119,
+          "bytes": 2393391104
+        },
+        {
+          "at": 1792952660220,
+          "bytes": 2404925440
+        },
+        {
+          "at": 1792952660321,
+          "bytes": 2415722496
+        },
+        {
+          "at": 1792952660423,
+          "bytes": 2469167104
+        },
+        {
+          "at": 1792952660525,
+          "bytes": 2546483200
+        },
+        {
+          "at": 1792952660626,
+          "bytes": 2650488832
+        },
+        {
+          "at": 1792952660720,
+          "bytes": 2724085760
+        }
+      ],
+      "elapsedAttemptMs": 5297.585290999996,
+      "coldFromNavigationMs": 5363.0948750000025
+    },
+    {
+      "workload": "template_change-capacity",
+      "run": 1,
+      "kind": "hot",
+      "interactionMs": 1.6543750000018917,
+      "activeWorkers": 2,
+      "start": 5455.800000071526,
+      "read": 16.899999976158142,
+      "workerInitialization": 27.799999952316284,
+      "extraction": 1524.8999999761581,
+      "validation": 314,
+      "snapshot": 2368.399999976158,
+      "structure": 115.10000002384186,
+      "matching": 128.29999995231628,
+      "diff": 369.10000002384186,
+      "transferLastPage": 0.099853515625,
+      "coreReady": 5094.699999928474,
+      "total": 5182.699999928474,
+      "firstRender": 88,
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "correctness": true,
+      "differenceCards": 1002,
+      "expectedCards": 1002,
+      "sampledPeakRssBytes": 2926149632,
+      "rssSamples": [
+        {
+          "at": 1792952660828,
+          "bytes": 2768191488
+        },
+        {
+          "at": 1792952660928,
+          "bytes": 2164834304
+        },
+        {
+          "at": 1792952661029,
+          "bytes": 2175942656
+        },
+        {
+          "at": 1792952661131,
+          "bytes": 2167029760
+        },
+        {
+          "at": 1792952661232,
+          "bytes": 2178383872
+        },
+        {
+          "at": 1792952661334,
+          "bytes": 2189836288
+        },
+        {
+          "at": 1792952661434,
+          "bytes": 2201174016
+        },
+        {
+          "at": 1792952661535,
+          "bytes": 2171666432
+        },
+        {
+          "at": 1792952661636,
+          "bytes": 2183151616
+        },
+        {
+          "at": 1792952661738,
+          "bytes": 2193932288
+        },
+        {
+          "at": 1792952661837,
+          "bytes": 2205024256
+        },
+        {
+          "at": 1792952661940,
+          "bytes": 2216902656
+        },
+        {
+          "at": 1792952662040,
+          "bytes": 2228060160
+        },
+        {
+          "at": 1792952662142,
+          "bytes": 2240020480
+        },
+        {
+          "at": 1792952662243,
+          "bytes": 2251177984
+        },
+        {
+          "at": 1792952662343,
+          "bytes": 2262237184
+        },
+        {
+          "at": 1792952662444,
+          "bytes": 2269216768
+        },
+        {
+          "at": 1792952662544,
+          "bytes": 2272051200
+        },
+        {
+          "at": 1792952662645,
+          "bytes": 2277965824
+        },
+        {
+          "at": 1792952662746,
+          "bytes": 2297561088
+        },
+        {
+          "at": 1792952662849,
+          "bytes": 2322628608
+        },
+        {
+          "at": 1792952662948,
+          "bytes": 2347646976
+        },
+        {
+          "at": 1792952663050,
+          "bytes": 2801778688
+        },
+        {
+          "at": 1792952663149,
+          "bytes": 2486943744
+        },
+        {
+          "at": 1792952663251,
+          "bytes": 2486943744
+        },
+        {
+          "at": 1792952663351,
+          "bytes": 2486943744
+        },
+        {
+          "at": 1792952663451,
+          "bytes": 2486943744
+        },
+        {
+          "at": 1792952663553,
+          "bytes": 2486960128
+        },
+        {
+          "at": 1792952663654,
+          "bytes": 2486960128
+        },
+        {
+          "at": 1792952663755,
+          "bytes": 2457026560
+        },
+        {
+          "at": 1792952663854,
+          "bytes": 2457026560
+        },
+        {
+          "at": 1792952663957,
+          "bytes": 2466349056
+        },
+        {
+          "at": 1792952664059,
+          "bytes": 2492317696
+        },
+        {
+          "at": 1792952664160,
+          "bytes": 2518974464
+        },
+        {
+          "at": 1792952664261,
+          "bytes": 2841362432
+        },
+        {
+          "at": 1792952664361,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952664462,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952664562,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952664663,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952664765,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952664866,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952664967,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952665066,
+          "bytes": 2744680448
+        },
+        {
+          "at": 1792952665169,
+          "bytes": 2750218240
+        },
+        {
+          "at": 1792952665270,
+          "bytes": 2750742528
+        },
+        {
+          "at": 1792952665372,
+          "bytes": 2751004672
+        },
+        {
+          "at": 1792952665471,
+          "bytes": 2751135744
+        },
+        {
+          "at": 1792952665572,
+          "bytes": 2752446464
+        },
+        {
+          "at": 1792952665673,
+          "bytes": 2756329472
+        },
+        {
+          "at": 1792952665775,
+          "bytes": 2926149632
+        },
+        {
+          "at": 1792952665876,
+          "bytes": 2907406336
+        },
+        {
+          "at": 1792952665979,
+          "bytes": 2866692096
+        },
+        {
+          "at": 1792952666053,
+          "bytes": 2896265216
+        }
+      ],
+      "elapsedAttemptMs": 5331.733250000005
+    }
+  ]
+}

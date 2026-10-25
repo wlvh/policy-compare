@@ -1,0 +1,11 @@
+.git
+node_modules
+.venv
+dist
+validation
+reports
+bench/generated
+test-results
+playwright-report
+tmp
+.tools

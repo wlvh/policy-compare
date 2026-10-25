@@ -1,0 +1,30 @@
+{
+  "buildFileSha256": {
+    "dist/assets/__vite-browser-external-UfK9GVxM.js": "182b2b054bed5137d2bfd5c76af35d84196dc250e806d60c76233d28b5873598",
+    "dist/assets/core.worker-DhuYPpm3.js": "4838ce570f8707c24ee2091ad00a46af950e0dc2043776b273a2af10218d105e",
+    "dist/assets/index-MPDbRksj.js": "a714b40918a828f1b81d561d32a8252c10bec7bf21afd2cbda703ed509da0609",
+    "dist/assets/index-qn2dhttz.css": "886b312652d5faa3097c359fab05e1508e968925572cc5eb0e662a02e7ff59c5",
+    "dist/assets/mupdf-wasm-Bvf0xebB.wasm": "5a30ef7b027f541ea8fc54e7c73f16414b0b59940741a12efe5e55f1fd0a99d7",
+    "dist/assets/pdf.worker-CCgMdG-S.js": "c6dd8ec243c64de269524477625c4e277b5298aaacfdfd97795151a904977190",
+    "dist/assets/rolldown-runtime-WkwZ5CU-.js": "2629f2ad3cb75a57d98de697127f5af7d777ef572bbcdfa6e3ce8f438cd4527e",
+    "dist/index.html": "6b5589d99d4790d9af7b35f0c18af5e2978e82ab3c7e6b6e4e8d2534fb61b18f"
+  },
+  "sourceState": "P2 commit plus activeNames/imagesLoaded UI fix; source hashes below",
+  "sourceSha256": {
+    "apps/web/core.worker.ts": "074901b13d45ca7b8c4e122936aeadddddc8e3ad95db51784123c5a9ff25b841",
+    "apps/web/index.html": "40eaff2bc14dd042db7a81cf4ec623d9f7b07f8573f3b121522e81cb80b68d47",
+    "apps/web/main.tsx": "2e8c3ca10c361c8f1691d89562caf3e5dbea30a82b36a115cb273f3c2f38179f",
+    "apps/web/pdf.worker.ts": "d9aa1d5b78d37138b625f1dcbd055d4a46499c785fb520b8f3e1162358a215da",
+    "apps/web/style.css": "46d3e362c6db7da1b68291d730e273372771322cd8f40ce2e98babec11b5028a",
+    "packages/cli/doc.ts": "599cc449fd9d5a1ff5405307d0f9ffff4d4ce1d22b1c5cafb35a23d0da8b9795",
+    "packages/cli/main.ts": "b0991a522c194ee21cb577f389262ed5a519fe29352ba03b41836f545351d6cf",
+    "packages/cli/run.ts": "e96d3362f83386865feb5899a774012cf88ac9c0d9023bd2853ea0269060d380",
+    "packages/compare-core/alignment.ts": "b1e4f69332bbbd9aa1de89a02e06b250ddfb3ec16ec3c23671f387afebc38ccb",
+    "packages/compare-core/index.ts": "6df4fdded322d2c99357a98d5a7585e85a18179dd51e69ff26dc3276e6f9de1a",
+    "packages/compare-core/structure.ts": "b02d22b9d8424a9be67edd53cd63ada300dd7a787368b76576ae3249d81b7d34",
+    "packages/compare-core/text.ts": "f1ddc2332c16587de32f7e76fac0f03f930cc80f2b542bbe711cc17cf38877e9",
+    "packages/contracts/index.ts": "be1ddfbfc4986e9236a00543127c925fece73247d0a175f32b94f266eb9055d7",
+    "packages/pdf-adapter/index.ts": "54f79a7163fbd5e85dc7fe0915fc0d68f5a8281b1a1788528bebde0fdea4378c",
+    "profiles/aviation.ts": "6e4538e67af75b53643c7dde8f8872d0473fd2da1427a318d97fc746db3d7aba"
+  }
+}
