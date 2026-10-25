@@ -1,0 +1,50 @@
+{
+  "name": "policy-compare",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "env:check": "tsx scripts/env-check.ts",
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "verify:core": "vitest run",
+    "test:pdf": "tsx scripts/acceptance.ts pdf",
+    "test:rules": "tsx scripts/acceptance.ts rules",
+    "test:browser": "playwright test",
+    "bench:browser": "tsx bench/browser.ts",
+    "compare": "tsx packages/cli/main.ts",
+    "compare:doc": "tsx packages/cli/doc.ts",
+    "verify": "tsx scripts/verify.ts",
+    "test:container": "tsx scripts/container.ts"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.0.1",
+    "mupdf": "1.28.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "mupdf@1.28.1": "patches/mupdf@1.28.1.patch"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

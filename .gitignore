@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.venv/
+.tools/
+tmp/
+test-results/
+playwright-report/
+bench/generated/
+.DS_Store
+__pycache__/
+*.pyc

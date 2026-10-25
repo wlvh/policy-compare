@@ -1,0 +1,11 @@
+diff --git a/dist/mupdf.js b/dist/mupdf.js
+--- a/dist/mupdf.js
++++ b/dist/mupdf.js
+@@ -1148,6 +1148,6 @@
+ 						let ch = libmupdf._wasm_stext_line_get_first_char(line);
+ 						while (ch) {
+-							let ch_rune = String.fromCharCode(libmupdf._wasm_stext_char_get_c(ch));
++							let ch_rune = String.fromCodePoint(libmupdf._wasm_stext_char_get_c(ch));
+ 							let ch_origin = fromPoint(libmupdf._wasm_stext_char_get_origin(ch));
+ 							let ch_font = new Font(libmupdf._wasm_stext_char_get_font(ch));
+ 							let ch_size = libmupdf._wasm_stext_char_get_size(ch);

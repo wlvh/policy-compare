@@ -1,0 +1,8 @@
+{
+  "status": "DEVELOPMENT_AUTHORIZED_LICENSE_UNRESOLVED",
+  "checkedOn": "2026-10-26",
+  "evidence": ["2026-10-26 用户本会话明确回复：尚无结论，先用mupdf"],
+  "allowedScopes": ["local_development", "synthetic_testing", "local_preview"],
+  "reason": "用户新指令授权先使用 MuPDF 开发；正式许可结论仍未落实，不宣称商业许可、公开分发或生产批准。",
+  "requiredScopes": ["development", "browser_distribution", "local_cli", "pilot", "production"]
+}
