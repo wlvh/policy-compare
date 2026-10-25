@@ -23,6 +23,7 @@ export function grade(input:unknown,expected:Expected,layout:Layout,docs:[DocInp
   if(result.documentHashes.some((h,i)=>h!==docs[i].contentHash))faults.push('Input hash or direction mismatch');
   const checkLoc=(loc:SourceLocation,side:'left'|'right')=>loc.side===side&&resolveLocation(loc,docs);
   for(const d of result.differences){
+    if(d.textOps.filter(o=>o.kind!=='insert').map(o=>o.text).join('')!==d.oldText||d.textOps.filter(o=>o.kind!=='delete').map(o=>o.text).join('')!==d.newText)faults.push('Text operations do not reconstruct both raw sides');
     for(const [locs,side] of [[d.left,'left'],[d.right,'right']] as const)if(locs.some(l=>!checkLoc(l,side)))faults.push('Invalid source reference or geometry: '+d.id);
     if(d.kind!=='Added'&&!d.left.length||d.kind!=='Removed'&&!d.right.length)faults.push('Missing source: '+d.id);
     for(const op of d.textOps){if(op.left.some(l=>!checkLoc(l,'left'))||op.right.some(l=>!checkLoc(l,'right')))faults.push('Invalid operation source');if(op.kind==='insert'&&op.left.length||op.kind==='delete'&&op.right.length)faults.push('Operation side reversed');}

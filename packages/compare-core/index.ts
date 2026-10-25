@@ -120,8 +120,8 @@ export function compare(left:DocInput,right:DocInput,profile:Profile=aviationPro
     const lo=boundaries[k-1],hi=boundaries[k];
     const as=la.filter(u=>!usedL.has(u)&&u.role==='body'&&u.order>lo.a.order&&u.order<hi.a.order),bs=rb.filter(u=>!usedR.has(u)&&u.role==='body'&&u.order>lo.b.order&&u.order<hi.b.order);
     if(!as.length||!bs.length||as.length*bs.length>4096)continue;
-    const joined=new Map<string,Unit>();const get=(us:Unit[])=>{if(us.length===1)return us[0];const id=us.map(u=>u.id).join('+');let u=joined.get(id);if(!u){u=aggregate(us,id);joined.set(id,u);}return u;};
-    const matches=jointAlign(as,bs,(aa,bb)=>{const a=get(aa),b=get(bb);if(a.title!==b.title||a.path.section!==b.path.section)return null;return score(a,b,profile.thresholds.local);},(a,b)=>a.order+1===b.order&&a.title===b.title&&a.path.section===b.path.section);
+    const joined=new Map<string,Unit>();const get=(us:Unit[])=>{if(us.length===1)return us[0];const id=us.map(u=>u.refs.find(Boolean)?.char.id??u.id).join('+');let u=joined.get(id);if(!u){u=aggregate(us,id);joined.set(id,u);}return u;};
+    const matches=jointAlign(as,bs,(aa,bb)=>{const a=get(aa),b=get(bb);if(a.title!==b.title||a.path.section!==b.path.section)return null;if(as.filter(u=>u.rawText===a.rawText&&u.title===a.title).length>1||bs.filter(u=>u.rawText===b.rawText&&u.title===b.title).length>1)return null;return score(a,b,profile.thresholds.local);},(a,b)=>a.order+1===b.order&&a.title===b.title&&a.path.section===b.path.section);
     if(!exhausted)for(const m of matches){bind(get(m.a),get(m.b),'joint-local-alignment',m.score);m.a.forEach(u=>usedL.add(u));m.b.forEach(u=>usedR.add(u));}
   }
   for(const a of la.filter(u=>!usedL.has(u)&&u.role!=='cell')){

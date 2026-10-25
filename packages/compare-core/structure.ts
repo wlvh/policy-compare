@@ -41,7 +41,7 @@ export function structure(doc:DocInput,profile:Profile):Unit[]{
       }
     }
     const heading=/^[\p{Lu}\d][\p{Lu}\d\s:&/().,-]{2,}$/u.test(text)&&text.length<100;
-    if(heading){title=text; if(section!==profile.table.name)section='clauses'; else section='after_aircraft_schedule';add(row.refs,'heading');active=null;continue;}
+    if(heading){title=text;if(/^(SECTION|CHAPTER)\b/.test(text))section=text;else if(section==='risk_details')section='clauses';else if(section===profile.table.name)section='after_aircraft_schedule';add(row.refs,'heading');active=null;continue;}
     if(active&&active.role==='field'&&row.refs[0].char.origin[0]>120){append(active,row.refs);continue;}
     if(active&&active.role==='body'&&active.title===title){append(active,row.refs);continue;}
     active=add(row.refs,'body');
