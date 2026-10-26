@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import { resolve,dirname } from "node:path";
 import {createRequire} from 'node:module';
-import { cpSync, existsSync, mkdirSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync,readFileSync } from "node:fs";
 const engine = process.env.POLICY_ENGINE ?? "mupdf";
 const require=createRequire(import.meta.url);
 if (!["mupdf", "pdfjs"].includes(engine))
@@ -25,10 +25,11 @@ export default defineConfig({
       name: "self-host-selected-engine-resources",
       closeBundle() {
         if (engine === "pdfjs") {
+          const resourceVersion=JSON.parse(readFileSync(resolve('engines/pdfjs/node_modules/pdfjs-dist/package.json'),'utf8')).version;
           for (const name of ["cmaps", "standard_fonts", "wasm"])
             cpSync(
               resolve(`engines/pdfjs/node_modules/pdfjs-dist/${name}`),
-              resolve(`dist/pdfjs/pdfjs/${name}`),
+              resolve(`dist/pdfjs/pdfjs/${resourceVersion}/${name}`),
               { recursive: true },
             );
         }
