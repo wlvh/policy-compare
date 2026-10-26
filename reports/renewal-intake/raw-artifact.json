@@ -1,0 +1,12 @@
+{
+  "file": "policy-compare-renewal-baseline.tar.gz",
+  "bytes": 8885494,
+  "sha256": "c2eb98aeb8e450bed828499e8553358e4f5d5a46f5d0f2e0a83649cfd541ebbe",
+  "archiveEntries": 46,
+  "payloadFilesVerified": 45,
+  "originalSourceFilesVerified": 10,
+  "sourceRevision": "0eef67dd6cbe477ab625885220686c674640fb88",
+  "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+  "testExtraction": "PASS",
+  "originalReportsUnchanged": true
+}

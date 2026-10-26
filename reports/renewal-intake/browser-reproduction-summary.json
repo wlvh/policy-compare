@@ -1,0 +1,707 @@
+{
+  "purpose": "Loading/export/selected amounts/release checks; not full author-event, human review or performance acceptance",
+  "sourceRevision": "0eef67dd6cbe477ab625885220686c674640fb88",
+  "runnerRevision": "3335e132dabde9a465970f08fbc9d0410d65788e",
+  "productSourceMatchesFrozen": true,
+  "frozenProductRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+  "records": [
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "pdfjs",
+      "browserVersion": "154.0.8037.98",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideSelectedApp": [],
+      "logs": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "httpErrors": [],
+      "servedResources": [
+        {
+          "path": "/",
+          "sha256": "1e23b2b36a7afe367522dd61091a7f59074b5d8cf78e725f096547d6ca6bca48",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-DD9ao-bO.css",
+          "sha256": "bc4a60a047a68442c305e6a2baa58ff2f2552d979e78e9cc52b08920e8d4950c",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-D4E9BUW1.js",
+          "sha256": "faf95a00deba05205257c2226f5afb149ff0f11312e2ffd87f0b8a28518588b9",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/pdf.worker-CQC3jXZh.mjs",
+          "sha256": "a760e09ee5771e3ba8925048785d157d4abfc8bddce1c9851aeb0d04c4515487",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/core.worker-B75CQNrn.js",
+          "sha256": "06d6ded00ad48a2b20b43600c4b7a8642cd00bb8df2413372e571e9a4fd96c1e",
+          "matchesFrozenBuild": true
+        }
+      ],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 274.69000005722046,
+        "read": 26.694999933242798,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 392.0400000810623,
+        "pdfOpen": 23.135000109672546,
+        "nativeTextExtraction": 165.7449996471405,
+        "sourceAdaptation": 10.950000524520874,
+        "coverageAnalysis": 139.31499981880188,
+        "transferQueueMax": 3.25,
+        "transferQueueSum": 82.147705078125,
+        "validation": 144.4100000858307,
+        "snapshot": 749.2299998998642,
+        "structure": 71.79000008106232,
+        "matching": 28.735000014305115,
+        "diff": 71.66999995708466,
+        "transferLastPage": 0.58984375,
+        "coreReady": 1492.6200000047684,
+        "renderMs": 100.55999994277954,
+        "locationMs": 21.225000143051147,
+        "total": 1588.1749999523163,
+        "firstRender": 95.55499994754791,
+        "status": "partial"
+      },
+      "resultFile": "aviation_2024_vs_2025-pdfjs-browser.json",
+      "coreVersion": "policy-compare/0.1.0+review-fixes.2",
+      "extractors": [
+        {
+          "name": "PDF.js",
+          "version": "pdfjs/6.4.299+strict-streams.1",
+          "adapterVersion": "pdfjs-adapter/2",
+          "options": {
+            "disableNormalization": true,
+            "includeMarkedContent": false,
+            "geometry": "engine_run; browser text_layer_range",
+            "stopAtErrors": true,
+            "streamFailurePolicy": "throw-invalid-stream/1"
+          }
+        },
+        {
+          "name": "PDF.js",
+          "version": "pdfjs/6.4.299+strict-streams.1",
+          "adapterVersion": "pdfjs-adapter/2",
+          "options": {
+            "disableNormalization": true,
+            "includeMarkedContent": false,
+            "geometry": "engine_run; browser text_layer_range",
+            "stopAtErrors": true,
+            "streamFailurePolicy": "throw-invalid-stream/1"
+          }
+        }
+      ],
+      "documentHashes": [
+        "f624d24c6ac1d8358deee894abce0ab7fa00cde0d6f4ab434324517f837d5e11",
+        "449c2fb21611b9eadf7b8278450c2e79675e540529c76a158c9c60f23189d95a"
+      ],
+      "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+      "differenceCount": 227,
+      "unresolvedCount": 13,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "250,000",
+              "rect": [
+                252.7,
+                172.5299399999999,
+                289.70000000000005,
+                182.5299399999999
+              ]
+            },
+            {
+              "text": "400,000",
+              "rect": [
+                252.7,
+                198.92999999999995,
+                289.70000000000005,
+                208.92999999999995
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.85797982896554,
+              169.53114073006725,
+              264.04142622215716,
+              183.2551753121998
+            ],
+            [
+              252.8024856095401,
+              195.8891498559078,
+              258.3892527186149,
+              209.61318443804035
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "300,000",
+              "rect": [
+                252.7,
+                247.32999999999993,
+                289.70000000000005,
+                257.3299999999999
+              ]
+            },
+            {
+              "text": "500,000",
+              "rect": [
+                252.7,
+                273.7299999999999,
+                289.70000000000005,
+                283.7299999999999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.85804963301513,
+              244.29853746397694,
+              258.4584285317603,
+              258.02257204610953
+            ],
+            [
+              264.0239054057096,
+              244.29853746397694,
+              269.62442391255405,
+              258.02257204610953
+            ],
+            [
+              252.8024856095401,
+              270.7280259365994,
+              258.3893225226645,
+              284.45206051873197
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 250,000 each and every loss in respect of turboprop aircraft; USD 400,000 each and every loss in respect of jet aircraft.Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 300,000 each and every loss in respect of turboprop aircraft; USD 500,000 each and every loss in respect of jet aircraft.保留双方字符来源",
+      "workersAfterClose": 0,
+      "observedAssetsMatchFrozenBuild": true
+    },
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "mupdf",
+      "browserVersion": "154.0.8037.98",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideSelectedApp": [],
+      "logs": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "httpErrors": [],
+      "servedResources": [
+        {
+          "path": "/",
+          "sha256": "af2f02253d5b58f63706180ca22007b6e1fdfbd58efdf30eecbc28d20220b327",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-DD9ao-bO.css",
+          "sha256": "bc4a60a047a68442c305e6a2baa58ff2f2552d979e78e9cc52b08920e8d4950c",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-CNxi-h1u.js",
+          "sha256": "3804493da569e1cc7e8a0a5e08b3e4f43534c12592188c08565a5e4fd3951101",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/pdf.worker-tkAGCemi.js",
+          "sha256": "b69b51612ec7c8aa4cb61276553550665e92914fdbc4b9c98e9ad1dd5d33134d",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/rolldown-runtime-WkwZ5CU-.js",
+          "sha256": "2629f2ad3cb75a57d98de697127f5af7d777ef572bbcdfa6e3ce8f438cd4527e",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "sha256": "5a30ef7b027f541ea8fc54e7c73f16414b0b59940741a12efe5e55f1fd0a99d7",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/core.worker-B75CQNrn.js",
+          "sha256": "06d6ded00ad48a2b20b43600c4b7a8642cd00bb8df2413372e571e9a4fd96c1e",
+          "matchesFrozenBuild": true
+        }
+      ],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 209.1949999332428,
+        "read": 34.920000076293945,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 332.86500000953674,
+        "pdfOpen": 17.419999957084656,
+        "nativeTextExtraction": 55.855000495910645,
+        "sourceAdaptation": 49.980000019073486,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 3.760009765625,
+        "transferQueueSum": 78.099609375,
+        "validation": 92.79499995708466,
+        "snapshot": 481.0149999856949,
+        "structure": 68.3050000667572,
+        "matching": 27.860000014305115,
+        "diff": 61.980000019073486,
+        "transferLastPage": 0.03466796875,
+        "coreReady": 1120.6900000572205,
+        "renderMs": 42.02999997138977,
+        "locationMs": 0.8450000286102295,
+        "total": 1197.420000076294,
+        "firstRender": 76.73000001907349,
+        "status": "partial"
+      },
+      "resultFile": "aviation_2024_vs_2025-mupdf-browser.json",
+      "coreVersion": "policy-compare/0.1.0+review-fixes.2",
+      "extractors": [
+        {
+          "name": "MuPDF.js",
+          "version": "mupdf/1.28.1+scalar-fix.1",
+          "adapterVersion": "mupdf-adapter/3",
+          "options": {
+            "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+            "actualText": "engine-default",
+            "clip": true,
+            "diagnostics": "scoped-native-errors-and-read-failures/1"
+          }
+        },
+        {
+          "name": "MuPDF.js",
+          "version": "mupdf/1.28.1+scalar-fix.1",
+          "adapterVersion": "mupdf-adapter/3",
+          "options": {
+            "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+            "actualText": "engine-default",
+            "clip": true,
+            "diagnostics": "scoped-native-errors-and-read-failures/1"
+          }
+        }
+      ],
+      "documentHashes": [
+        "f624d24c6ac1d8358deee894abce0ab7fa00cde0d6f4ab434324517f837d5e11",
+        "449c2fb21611b9eadf7b8278450c2e79675e540529c76a158c9c60f23189d95a"
+      ],
+      "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+      "differenceCount": 226,
+      "unresolvedCount": 13,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "250,000",
+              "rect": [
+                252.7,
+                172.5299399999999,
+                289.70000000000005,
+                182.5299399999999
+              ]
+            },
+            {
+              "text": "400,000",
+              "rect": [
+                252.7,
+                198.92999999999995,
+                289.70000000000005,
+                208.92999999999995
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.7,
+              168.91,
+              258.42,
+              182.53
+            ],
+            [
+              258.42,
+              168.91,
+              264.14,
+              182.53
+            ],
+            [
+              252.7,
+              195.31,
+              258.42,
+              208.93
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "300,000",
+              "rect": [
+                252.7,
+                247.32999999999993,
+                289.70000000000005,
+                257.3299999999999
+              ]
+            },
+            {
+              "text": "500,000",
+              "rect": [
+                252.7,
+                273.7299999999999,
+                289.70000000000005,
+                283.7299999999999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.7,
+              243.71,
+              258.42,
+              257.33
+            ],
+            [
+              264.14,
+              243.71,
+              269.86,
+              257.33
+            ],
+            [
+              252.7,
+              270.11,
+              258.42,
+              283.73
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 250,000 each and every loss in respect of turboprop aircraft; USD 400,000 each and every loss in respect of jet aircraft.Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 300,000 each and every loss in respect of turboprop aircraft; USD 500,000 each and every loss in respect of jet aircraft.保留双方字符来源",
+      "workersAfterClose": 0,
+      "observedAssetsMatchFrozenBuild": true
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "mupdf",
+      "browserVersion": "154.0.8037.98",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideSelectedApp": [],
+      "logs": [],
+      "httpErrors": [],
+      "servedResources": [
+        {
+          "path": "/",
+          "sha256": "af2f02253d5b58f63706180ca22007b6e1fdfbd58efdf30eecbc28d20220b327",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-DD9ao-bO.css",
+          "sha256": "bc4a60a047a68442c305e6a2baa58ff2f2552d979e78e9cc52b08920e8d4950c",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-CNxi-h1u.js",
+          "sha256": "3804493da569e1cc7e8a0a5e08b3e4f43534c12592188c08565a5e4fd3951101",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/pdf.worker-tkAGCemi.js",
+          "sha256": "b69b51612ec7c8aa4cb61276553550665e92914fdbc4b9c98e9ad1dd5d33134d",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/rolldown-runtime-WkwZ5CU-.js",
+          "sha256": "2629f2ad3cb75a57d98de697127f5af7d777ef572bbcdfa6e3ce8f438cd4527e",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "sha256": "5a30ef7b027f541ea8fc54e7c73f16414b0b59940741a12efe5e55f1fd0a99d7",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/core.worker-B75CQNrn.js",
+          "sha256": "06d6ded00ad48a2b20b43600c4b7a8642cd00bb8df2413372e571e9a4fd96c1e",
+          "matchesFrozenBuild": true
+        }
+      ],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 189.52499997615814,
+        "read": 32.580000042915344,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 287.45499992370605,
+        "pdfOpen": 11.224999904632568,
+        "nativeTextExtraction": 46.24000012874603,
+        "sourceAdaptation": 42.33999991416931,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 2.949951171875,
+        "transferQueueSum": 56.95703125,
+        "validation": 75.8950001001358,
+        "snapshot": 380.79499995708466,
+        "structure": 53.30999994277954,
+        "matching": 15.045000076293945,
+        "diff": 72.20499992370605,
+        "transferLastPage": 0.03515625,
+        "coreReady": 941.0549999475479,
+        "renderMs": 40.12000012397766,
+        "locationMs": 0.11500000953674316,
+        "total": 1030.695000052452,
+        "firstRender": 89.64000010490417,
+        "status": "partial"
+      },
+      "resultFile": "bizav_2024_vs_2025-mupdf-browser.json",
+      "coreVersion": "policy-compare/0.1.0+review-fixes.2",
+      "extractors": [
+        {
+          "name": "MuPDF.js",
+          "version": "mupdf/1.28.1+scalar-fix.1",
+          "adapterVersion": "mupdf-adapter/3",
+          "options": {
+            "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+            "actualText": "engine-default",
+            "clip": true,
+            "diagnostics": "scoped-native-errors-and-read-failures/1"
+          }
+        },
+        {
+          "name": "MuPDF.js",
+          "version": "mupdf/1.28.1+scalar-fix.1",
+          "adapterVersion": "mupdf-adapter/3",
+          "options": {
+            "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+            "actualText": "engine-default",
+            "clip": true,
+            "diagnostics": "scoped-native-errors-and-read-failures/1"
+          }
+        }
+      ],
+      "documentHashes": [
+        "39c95339537357a25b77a95737e26442681fb01b0a40b7330505f898bcbd918a",
+        "a7bc4600f7043a7c6c2b7cabaf910a2321e8e55aa2c398d1afdb6d2f09f5d7fc"
+      ],
+      "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+      "differenceCount": 400,
+      "unresolvedCount": 2,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "50,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              243.42,
+              719.71,
+              249.14,
+              733.33
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "75,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              237.7,
+              719.71,
+              243.42,
+              733.33
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字USD 50,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.USD 75,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.保留双方字符来源",
+      "workersAfterClose": 0,
+      "observedAssetsMatchFrozenBuild": true
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "pdfjs",
+      "browserVersion": "154.0.8037.98",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideSelectedApp": [],
+      "logs": [],
+      "httpErrors": [],
+      "servedResources": [
+        {
+          "path": "/",
+          "sha256": "1e23b2b36a7afe367522dd61091a7f59074b5d8cf78e725f096547d6ca6bca48",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-DD9ao-bO.css",
+          "sha256": "bc4a60a047a68442c305e6a2baa58ff2f2552d979e78e9cc52b08920e8d4950c",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/index-D4E9BUW1.js",
+          "sha256": "faf95a00deba05205257c2226f5afb149ff0f11312e2ffd87f0b8a28518588b9",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/pdf.worker-CQC3jXZh.mjs",
+          "sha256": "a760e09ee5771e3ba8925048785d157d4abfc8bddce1c9851aeb0d04c4515487",
+          "matchesFrozenBuild": true
+        },
+        {
+          "path": "/assets/core.worker-B75CQNrn.js",
+          "sha256": "06d6ded00ad48a2b20b43600c4b7a8642cd00bb8df2413372e571e9a4fd96c1e",
+          "matchesFrozenBuild": true
+        }
+      ],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 219.62999999523163,
+        "read": 35.544999957084656,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 298.63499999046326,
+        "pdfOpen": 13.990000009536743,
+        "nativeTextExtraction": 124.04499983787537,
+        "sourceAdaptation": 7.8949995040893555,
+        "coverageAnalysis": 113.00499999523163,
+        "transferQueueMax": 2.940185546875,
+        "transferQueueSum": 60.5078125,
+        "validation": 106.04499995708466,
+        "snapshot": 563.9299999475479,
+        "structure": 56.49000000953674,
+        "matching": 15.940000057220459,
+        "diff": 90.22000002861023,
+        "transferLastPage": 0.1552734375,
+        "coreReady": 1176.804999947548,
+        "renderMs": 117.96999990940094,
+        "locationMs": 13.22000002861023,
+        "total": 1280.8849999904633,
+        "firstRender": 104.08000004291534,
+        "status": "partial"
+      },
+      "resultFile": "bizav_2024_vs_2025-pdfjs-browser.json",
+      "coreVersion": "policy-compare/0.1.0+review-fixes.2",
+      "extractors": [
+        {
+          "name": "PDF.js",
+          "version": "pdfjs/6.4.299+strict-streams.1",
+          "adapterVersion": "pdfjs-adapter/2",
+          "options": {
+            "disableNormalization": true,
+            "includeMarkedContent": false,
+            "geometry": "engine_run; browser text_layer_range",
+            "stopAtErrors": true,
+            "streamFailurePolicy": "throw-invalid-stream/1"
+          }
+        },
+        {
+          "name": "PDF.js",
+          "version": "pdfjs/6.4.299+strict-streams.1",
+          "adapterVersion": "pdfjs-adapter/2",
+          "options": {
+            "disableNormalization": true,
+            "includeMarkedContent": false,
+            "geometry": "engine_run; browser text_layer_range",
+            "stopAtErrors": true,
+            "streamFailurePolicy": "throw-invalid-stream/1"
+          }
+        }
+      ],
+      "documentHashes": [
+        "39c95339537357a25b77a95737e26442681fb01b0a40b7330505f898bcbd918a",
+        "a7bc4600f7043a7c6c2b7cabaf910a2321e8e55aa2c398d1afdb6d2f09f5d7fc"
+      ],
+      "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+      "differenceCount": 400,
+      "unresolvedCount": 2,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "50,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              243.4209609525096,
+              720.2973775216138,
+              249.01603474348582,
+              734.0214121037465
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "75,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              237.84333817393133,
+              720.2973775216138,
+              243.43841196490754,
+              734.0214121037465
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字USD 50,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.USD 75,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.保留双方字符来源",
+      "workersAfterClose": 0,
+      "observedAssetsMatchFrozenBuild": true
+    }
+  ]
+}

@@ -105,6 +105,8 @@ writeFileSync('docs/acceptance-report.md',`# 验收报告
 
 日期：2026-10-26。性能冻结产品提交：${ab.commit}。
 
+当前开发交接、补充续保样本结果及未修问题见 [交接手册](handoff.zh-CN.md) 和 [补充证据](../reports/renewal-intake/README.md)。本报告的原规则/性能 PASS 不能外推为新增样本已验收；代码审核与 PR 状态见 review-closure.md。
+
 **工程验收状态：BLOCKED；业务试点状态：BLOCKED。** 两个本地可运行构建已经交付；缺失条件不能用通过的功能测试抵消。
 
 | 证据层 | 状态 | 已实际执行的内容 |

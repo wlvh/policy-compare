@@ -1,0 +1,556 @@
+{
+  "purpose": "Read-only diagnostic of one authored synthetic table; records actual structure, does not change it or score correctness",
+  "runnerRevision": "3335e132dabde9a465970f08fbc9d0410d65788e",
+  "records": [
+    {
+      "engine": "pdfjs",
+      "side": "left",
+      "documentHash": "f624d24c6ac1d8358deee894abce0ab7fa00cde0d6f4ab434324517f837d5e11",
+      "sameRow": [
+        {
+          "text": "HPX 0624",
+          "position": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": " ",
+          "position": [
+            106.32,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2210",
+          "position": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": " ",
+          "position": [
+            305.482,
+            345.9
+          ]
+        },
+        {
+          "text": "12.5%",
+          "position": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": " ",
+          "position": [
+            396.335,
+            345.9
+          ]
+        },
+        {
+          "text": "03/10/2024",
+          "position": [
+            467.06,
+            345.9
+          ]
+        }
+      ],
+      "units": [
+        {
+          "text": "HPX 0624",
+          "role": "heading",
+          "title": "HPX 0624",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2210",
+          "role": "heading",
+          "title": "HX-AV-2210",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": "12.5%",
+          "role": "body",
+          "title": "HX-AV-2210",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "2988/AV/24/117",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            365.6
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "NRE-24-55210",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            405
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "pdfjs",
+      "side": "right",
+      "documentHash": "449c2fb21611b9eadf7b8278450c2e79675e540529c76a158c9c60f23189d95a",
+      "sameRow": [
+        {
+          "text": "HPX 0624",
+          "position": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": " ",
+          "position": [
+            106.32,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2587",
+          "position": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": " ",
+          "position": [
+            305.482,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "position": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": " ",
+          "position": [
+            396.335,
+            345.9
+          ]
+        },
+        {
+          "text": "02/10/2025",
+          "position": [
+            467.06,
+            345.9
+          ]
+        }
+      ],
+      "units": [
+        {
+          "text": "HPX 0624",
+          "role": "heading",
+          "title": "HPX 0624",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2587",
+          "role": "heading",
+          "title": "HX-AV-2587",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "HX-AV-2587",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "NRE-25-60877",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            385.3
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "CIA-AV-25-0311",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            424.7
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "mupdf",
+      "side": "left",
+      "documentHash": "f624d24c6ac1d8358deee894abce0ab7fa00cde0d6f4ab434324517f837d5e11",
+      "sameRow": [
+        {
+          "text": "HPX 0624",
+          "position": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2210",
+          "position": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": "12.5%",
+          "position": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": "03/10/2024",
+          "position": [
+            467.06,
+            345.9
+          ]
+        }
+      ],
+      "units": [
+        {
+          "text": "HPX 0624",
+          "role": "heading",
+          "title": "HPX 0624",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2210",
+          "role": "heading",
+          "title": "HX-AV-2210",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": "12.5%",
+          "role": "body",
+          "title": "HX-AV-2210",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "2988/AV/24/117",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            365.6
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "NRE-24-55210",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            405
+          ]
+        }
+      ]
+    },
+    {
+      "engine": "mupdf",
+      "side": "right",
+      "documentHash": "449c2fb21611b9eadf7b8278450c2e79675e540529c76a158c9c60f23189d95a",
+      "sameRow": [
+        {
+          "text": "HPX 0624",
+          "position": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2587",
+          "position": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "position": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": "02/10/2025",
+          "position": [
+            467.06,
+            345.9
+          ]
+        }
+      ],
+      "units": [
+        {
+          "text": "HPX 0624",
+          "role": "heading",
+          "title": "HPX 0624",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            66,
+            345.9
+          ]
+        },
+        {
+          "text": "HX-AV-2587",
+          "role": "heading",
+          "title": "HX-AV-2587",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            256,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "HX-AV-2587",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            345.9
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "NRE-25-60877",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            385.3
+          ]
+        },
+        {
+          "text": "10.0%",
+          "role": "body",
+          "title": "CIA-AV-25-0311",
+          "identity": null,
+          "path": {
+            "section": "clauses",
+            "entity": null,
+            "field": null,
+            "table": null,
+            "rowKey": null,
+            "confidence": "candidate"
+          },
+          "firstPosition": [
+            371,
+            424.7
+          ]
+        }
+      ]
+    }
+  ]
+}

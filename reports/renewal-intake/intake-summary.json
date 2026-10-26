@@ -1,0 +1,90 @@
+{
+  "sourceRevision": "0eef67dd6cbe477ab625885220686c674640fb88",
+  "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+  "sourceFilesVerified": 10,
+  "sourceFilesUnchanged": true,
+  "pairs": [
+    {
+      "pair": "aviation_2024_vs_2025",
+      "leftPages": 20,
+      "rightPages": 19,
+      "authorBodyEvents": 93,
+      "authorHeaderEvents": 1,
+      "classification": "synthetic",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "humanBusinessReview": "NOT_RUN"
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "leftPages": 18,
+      "rightPages": 19,
+      "authorBodyEvents": 84,
+      "authorHeaderEvents": 4,
+      "classification": "synthetic",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "humanBusinessReview": "NOT_RUN"
+    }
+  ],
+  "cliAttempts": 4,
+  "browserAttempts": 4,
+  "browserWorkflowsPassed": 4,
+  "selectedAmountLocationChecks": "both sides passed for one event in each pair and each engine",
+  "fullAuthorEventAcceptance": "NOT_EVALUATED",
+  "realDocumentTrial": "NOT_RUN_SYNTHETIC_INPUTS_ONLY",
+  "issues": [
+    {
+      "id": "RENEWAL-01",
+      "pair": "bizav_2024_vs_2025",
+      "engine": "pdfjs",
+      "finding": "page numbering appears as Material additions/removals",
+      "count": 35,
+      "materialCount": 35,
+      "examples": [
+        {
+          "id": "d-0ff6ab2380a4dbdc4d1e",
+          "kind": "Removed",
+          "category": "Material",
+          "oldText": "Page 1 of 17",
+          "newText": ""
+        },
+        {
+          "id": "d-6ad145e25a5b06a19985",
+          "kind": "Added",
+          "category": "Material",
+          "oldText": "",
+          "newText": "Page 1 of 18"
+        }
+      ],
+      "basis": "Author H4 labels page numbering as Header; page render confirms it is page furniture",
+      "status": "CONFIRMED_NEW_LAYOUT_NOISE",
+      "productChanged": false
+    },
+    {
+      "id": "RENEWAL-01",
+      "pair": "bizav_2024_vs_2025",
+      "engine": "mupdf",
+      "finding": "page numbering appears as Material additions/removals",
+      "count": 35,
+      "materialCount": 35,
+      "examples": [
+        {
+          "id": "d-abf3137943f4157208b6",
+          "kind": "Removed",
+          "category": "Material",
+          "oldText": "Page 1 of 17",
+          "newText": ""
+        },
+        {
+          "id": "d-df987ef10b3848c138d9",
+          "kind": "Added",
+          "category": "Material",
+          "oldText": "",
+          "newText": "Page 1 of 18"
+        }
+      ],
+      "basis": "Author H4 labels page numbering as Header; page render confirms it is page furniture",
+      "status": "CONFIRMED_NEW_LAYOUT_NOISE",
+      "productChanged": false
+    }
+  ]
+}

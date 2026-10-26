@@ -1,5 +1,9 @@
 # 保单 PDF 比对 · 双引擎本地验证版
 
+**接手和体验请先读：[开发交接手册](docs/handoff.zh-CN.md)。** 包含运行包、源码启动、CLI、测试文件、界面操作、结果含义、观察方法、已知问题与后续难点。固定快照及完整附件见 [handoff-20261026](https://github.com/wlvh/policy-compare/releases/tag/handoff-20261026)。
+
+**当前明确限制：通用表格行列恢复尚未实现。** 新两对合成续保样本均返回 partial，已确认承保人—份额关联不完整、页码误列重要变化等问题，详见 [补充样本证据](reports/renewal-intake/README.md)。本次交付保存现状，未把这些问题写成已修复；原 32 对规则和 F1—F7 的通过结论只适用于原复核范围。
+
 **开发基线已接受：F1—F7 本轮复核关闭，PR #1 已转为 Ready，尚未合并。** 产品固定为 `1ce93d4`。原审核者已用字节未变的原 PDF 和原脚本复跑通过；证据来源与范围见 [复核关闭记录](docs/review-closure.md)。下一阶段使用 [3—5 对真实文档试用说明](docs/real-document-trial.zh-CN.md) 与 [空白记录表](docs/trial-record-template.zh-CN.md)。开发基线接受不等于工程综合或业务试点验收通过。
 
 **审核入口：[审核者指南](docs/reviewer-guide.zh-CN.md)。** 其中列出需求优先级、代码与证据索引、固定版本、完整复现命令和未完成条件。可下载的代码材料、冻结性能输入及两个运行包放在 [审核预发布](https://github.com/wlvh/policy-compare/releases/tag/review-20261026-fixes)；该预发布不是生产上线或工程验收批准。

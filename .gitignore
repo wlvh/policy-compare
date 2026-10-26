@@ -12,4 +12,5 @@ __pycache__/
 
 delivery/
 policy-compare-review-*.zip
+policy-compare-handoff-*.zip
 REVIEW_ARTIFACTS.json

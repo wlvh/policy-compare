@@ -1,0 +1,57 @@
+{
+  "sourceRevision": "0eef67dd6cbe477ab625885220686c674640fb88",
+  "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+  "runnerRevision": "3335e132dabde9a465970f08fbc9d0410d65788e",
+  "purpose": "new synthetic input baseline, not formal performance or business acceptance",
+  "authorAnswersPassedToProduct": false,
+  "attempts": [
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "pdfjs",
+      "exitCode": 2,
+      "status": "partial",
+      "differenceCount": 227,
+      "unresolvedCount": 13,
+      "coverageCount": 0,
+      "elapsedSecondsIncludingStartup": 2.029,
+      "result": "$RENEWAL_EVIDENCE_ROOT/results/aviation_2024_vs_2025-pdfjs-cli.json",
+      "error": null
+    },
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "mupdf",
+      "exitCode": 2,
+      "status": "partial",
+      "differenceCount": 226,
+      "unresolvedCount": 13,
+      "coverageCount": 0,
+      "elapsedSecondsIncludingStartup": 1.241,
+      "result": "$RENEWAL_EVIDENCE_ROOT/results/aviation_2024_vs_2025-mupdf-cli.json",
+      "error": null
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "pdfjs",
+      "exitCode": 2,
+      "status": "partial",
+      "differenceCount": 400,
+      "unresolvedCount": 2,
+      "coverageCount": 0,
+      "elapsedSecondsIncludingStartup": 1.68,
+      "result": "$RENEWAL_EVIDENCE_ROOT/results/bizav_2024_vs_2025-pdfjs-cli.json",
+      "error": null
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "mupdf",
+      "exitCode": 2,
+      "status": "partial",
+      "differenceCount": 400,
+      "unresolvedCount": 2,
+      "coverageCount": 0,
+      "elapsedSecondsIncludingStartup": 1.164,
+      "result": "$RENEWAL_EVIDENCE_ROOT/results/bizav_2024_vs_2025-mupdf-cli.json",
+      "error": null
+    }
+  ]
+}

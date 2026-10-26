@@ -1,4 +1,8 @@
-本 PR 交付同一保单比较产品的 PDF.js / MuPDF 独立构建。F1—F7 本轮复核已关闭，产品 `1ce93d4` 已接受为开发基线，PR 已转为 Ready，尚未合并。下一阶段以 3—5 对获准真实文档的人工审阅反馈为主；开发基线接受与工程综合、业务试点验收分别判断。
+本 PR 交付同一保单比较产品的 PDF.js / MuPDF 独立构建。F1—F7 已在原复核范围关闭，产品 `1ce93d4` 已接受为开发基线，PR 为 Ready，尚未合并。本次按用户要求交付当前代码、操作/观察说明、已知限制、原始证据与复现脚本；开发基线接受与工程综合、业务试点验收分别判断。
+
+[开发交接手册](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/docs/handoff.zh-CN.md) · [固定交接附件](https://github.com/wlvh/policy-compare/releases/tag/handoff-20261026) · [新续保样本证据](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/reports/renewal-intake/README.md)
+
+**当前未修问题明确交接：** 两对新增合成续保样本在两引擎中均为 partial，177 项正文与 5 项页眉事件尚未全量评分。承保人—份额未组成完整行，HPX 的 12.5%→10.0% 只部分表达；商务航空样本各有 35 张纯页码卡片误归 Material。原 32 对通过及 F1—F7 关闭不意味着这些新问题已解决。本次未修改产品/基准实现或原 expected。
 
 [复核关闭记录](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/docs/review-closure.md) · [真实文档试用说明与记录表](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/docs/real-document-trial.zh-CN.md)
 
@@ -27,4 +31,4 @@ F3 将歧义限定到冲突组，独立增删继续显示；F4 非日期内容�
 
 用户提供的原审核者复核报告确认：5 份原 PDF、2 个原脚本字节与前轮一致，两条 --assert-fixed 检查均以 0 退出，F1—F7 本轮关闭。F1—F6 来自直接执行，F7 来自实际浏览器测试代码及 CI 日志核对。Codex 未取得认证 ZIP，不把审核者执行写成自己的新执行；原反例复跑缺口已经由审核者补足。
 
-初版失败、6850bb5 的补充失败和所有阶段报告均保留。修复交付标签及七个附件保持冻结，本次只增加关闭记录、试用材料并同步文档状态；没有修改产品或基准实现，也未重复测量。真实文档试用待获准资料、人工审阅人和目标设备信息。
+初版失败、6850bb5 的补充失败和所有阶段报告均保留。旧修复标签及七个附件保持冻结；本次使用新交接标签提供说明、新样本原始证据和可移植复现工具。新工具已实际下载核验输入、运行两版浏览器抽查及结构诊断，不能把这些 workflow PASS 当成全量新样本验收。真实文档试用待获准资料、人工审阅人和目标设备信息。

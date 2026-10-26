@@ -1,0 +1,79 @@
+{
+  "repository": "jiehuan/falcon-mini",
+  "ref": "0eef67dd6cbe477ab625885220686c674640fb88",
+  "files": [
+    {
+      "path": "testdata/renewal/README.md",
+      "size": 2247,
+      "blobSha": "6d6da754941008c415152886cc17203f304b63ac",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/README.md",
+      "sha256": "72e2611e1084be0eb2e58a1cbe271a69b5f9b2821bd022d8b00eaa8e7f2e992a"
+    },
+    {
+      "path": "testdata/renewal/aviation_2024_vs_2025/changes.json",
+      "size": 60979,
+      "blobSha": "4ba08fc5b508740f28c13ea5498d1bc3ad975d5f",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/aviation_2024_vs_2025/changes.json",
+      "sha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080"
+    },
+    {
+      "path": "testdata/renewal/aviation_2024_vs_2025/changes.md",
+      "size": 13331,
+      "blobSha": "88ac850ed248eb31341483df75eb4fb35b7f0568",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/aviation_2024_vs_2025/changes.md",
+      "sha256": "b50148288b7ff7fd3bef4ad0e06f86174adc7b37871a1949bd1e0c3b40b266bd"
+    },
+    {
+      "path": "testdata/renewal/aviation_2024_vs_2025/left.pdf",
+      "size": 521976,
+      "blobSha": "2143bcb76361b460267e760b7cdff04d5876a38d",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/aviation_2024_vs_2025/left.pdf",
+      "sha256": "f624d24c6ac1d8358deee894abce0ab7fa00cde0d6f4ab434324517f837d5e11"
+    },
+    {
+      "path": "testdata/renewal/aviation_2024_vs_2025/right.pdf",
+      "size": 526160,
+      "blobSha": "62e8e036dde664543fa0bcc64f9983cc880d8436",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/aviation_2024_vs_2025/right.pdf",
+      "sha256": "449c2fb21611b9eadf7b8278450c2e79675e540529c76a158c9c60f23189d95a"
+    },
+    {
+      "path": "testdata/renewal/bizav_2024_vs_2025/changes.json",
+      "size": 66266,
+      "blobSha": "8e1301c73397193131892f9a1faaa8978b192a3c",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/bizav_2024_vs_2025/changes.json",
+      "sha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c"
+    },
+    {
+      "path": "testdata/renewal/bizav_2024_vs_2025/changes.md",
+      "size": 13179,
+      "blobSha": "72d1d9164f3acb0f93bb4bb7064165261be087ee",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/bizav_2024_vs_2025/changes.md",
+      "sha256": "b50ccce5c7997b928805d30f919b169fa17fd72a117f06f7647bdaf172175124"
+    },
+    {
+      "path": "testdata/renewal/bizav_2024_vs_2025/left.pdf",
+      "size": 294835,
+      "blobSha": "136363eadd3059a3159d006d764b60ae6f07ed8b",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/bizav_2024_vs_2025/left.pdf",
+      "sha256": "39c95339537357a25b77a95737e26442681fb01b0a40b7330505f898bcbd918a"
+    },
+    {
+      "path": "testdata/renewal/bizav_2024_vs_2025/right.pdf",
+      "size": 296618,
+      "blobSha": "7d525c9e3a49c7e387d725ee97578ff8f1147561",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal/bizav_2024_vs_2025/right.pdf",
+      "sha256": "a7bc4600f7043a7c6c2b7cabaf910a2321e8e55aa2c398d1afdb6d2f09f5d7fc"
+    },
+    {
+      "path": "tools/gen_renewal_pairs.py",
+      "size": 1168,
+      "blobSha": "2a06df1de33d95c8a454d9b823de1af04cbacf13",
+      "url": "https://raw.githubusercontent.com/jiehuan/falcon-mini/0eef67dd6cbe477ab625885220686c674640fb88/tools/gen_renewal_pairs.py",
+      "sha256": "0d54d3a7e544528894a1beb07444a03e0bca15c641b0c0e063a0ad8f9c6e4935"
+    }
+  ],
+  "classification": "synthetic_renewal_pairs",
+  "authorization": "User supplied these synthetic inputs for testing and subsequently requested GitHub development handoff; original authorship and source revision retained.",
+  "originalsModified": false
+}
