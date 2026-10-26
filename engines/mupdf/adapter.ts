@@ -13,6 +13,21 @@ export const TEXT_OPTIONS =
   "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip";
 export const LIMITS = { bytes: 30 * 1024 * 1024, pages: 100, scalars: 500_000 };
 
+// Native MuPDF calls are synchronous. Scope callbacks to the current operation
+// rather than associating global console output with whichever document is open.
+let nativeMessages:string[]|null=null;
+mupdf.setLog({
+  error(message){nativeMessages?.push(message);console.error(message);},
+  warning(message){
+    if(/read error|premature end|truncated (?:data|stream)|cannot decode/i.test(message))nativeMessages?.push(message);
+    console.warn(message);
+  },
+});
+function collectNative<T>(operation:()=>T):{value:T;messages:string[]}{
+  const previous=nativeMessages,messages:string[]=[];nativeMessages=messages;
+  try{return {value:operation(),messages};}finally{nativeMessages=previous;}
+}
+
 export class PdfSession {
   private document: mupdf.Document;
   readonly hash: string;
@@ -27,14 +42,18 @@ export class PdfSession {
     if (bytes.byteLength > LIMITS.bytes)
       throw new Error("文件超过 30 MiB 上限");
     this.hash = hashBytes(bytes);
-    this.document = mupdf.Document.openDocument(bytes, "application/pdf");
+    const opened=collectNative(()=>mupdf.Document.openDocument(bytes, "application/pdf"));
+    this.document = opened.value;
     try {
+      if(opened.messages.length)throw new Error('MuPDF 文档解析错误：'+[...new Set(opened.messages)].join('; '));
       if (
         this.document.needsPassword() &&
         !this.document.authenticatePassword(password)
       )
         throw new Error("PASSWORD_REQUIRED：请输入本地 PDF 密码");
-      this.pageCount = this.document.countPages();
+      const counted=collectNative(()=>this.document.countPages());
+      if(counted.messages.length)throw new Error('MuPDF 页树解析错误：'+[...new Set(counted.messages)].join('; '));
+      this.pageCount = counted.value;
       if (!this.pageCount || this.pageCount > LIMITS.pages)
         throw new Error("PDF 页数必须在 1–100 页以内");
     } catch (e) {
@@ -43,6 +62,14 @@ export class PdfSession {
     }
   }
   extractPage(pageIndex: number): Page {
+    const {value:page,messages}=collectNative(()=>this.readPage(pageIndex));
+    if(messages.length){
+      page.issues.push({pageIndex,region:[0,0,page.width,page.height],reason:'page_failed',evidence:'MuPDF native page diagnostics: '+[...new Set(messages)].join('; '),message:'页面存在内容解析错误；已读取片段不能证明正文完整',defaultVisible:true});
+      page.coverageState='suspect';
+    }
+    return page;
+  }
+  private readPage(pageIndex:number):Page {
     if (this.disposed) throw new Error("文档已关闭");
     const page = this.document.loadPage(pageIndex);
     let text: mupdf.StructuredText | undefined;
@@ -189,11 +216,12 @@ export class PdfSession {
       extractor: {
         name: "MuPDF.js",
         version: EXTRACTOR_VERSION,
-        adapterVersion: "mupdf-adapter/2",
+        adapterVersion: "mupdf-adapter/3",
         options: {
           structuredText: TEXT_OPTIONS,
           actualText: "engine-default",
           clip: true,
+          diagnostics: "scoped-native-errors-and-read-failures/1",
         },
       },
       pageCount: this.pageCount,

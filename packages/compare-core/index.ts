@@ -182,7 +182,9 @@ function category(
           e.getUTCDate() === s.getUTCDate()
         );
       };
-      if (annual(old) && annual(now) && now[0] === old[1] + oneDay)
+      const withoutDates=(text:string)=>text.replace(/\d{1,2} [A-Za-z]+ \d{4}/g,'<date>');
+      if (annual(old) && annual(now) && now[0] === old[1] + oneDay &&
+          withoutDates(a.rawText)===withoutDates(b.rawText))
         return "RollForward";
     }
     return "Material";
@@ -319,7 +321,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+cooperative-cancel.1",
+    coreVersion: VERSION + "+review-fixes.1",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -654,22 +656,27 @@ export function compare(
   }
   const unmatchedL = la.filter((u) => !usedL.has(u)),
     unmatchedR = rb.filter((u) => !usedR.has(u));
-  const ambiguous = unmatchedL.some((a) =>
-    unmatchedR.some(
-      (b) =>
-        a.role === "body" && b.role === "body" && a.matchText === b.matchText,
-    ),
-  );
-  if (exhausted || ambiguous) {
+  const ambiguousL=new Set<Unit>(),ambiguousR=new Set<Unit>();
+  if (exhausted) {
     result.unresolved.push({
-      reason: exhausted ? "budget" : "ambiguous_match",
-      message: exhausted
-        ? "对应工作量预算耗尽；以下范围未完成，不能宣称无变化"
-        : "重复原文的身份不唯一；保留双方证据待复核",
+      reason: "budget",
+      message: "对应工作量预算耗尽；以下范围未完成，不能宣称无变化",
       left: unmatchedL.flatMap((u) => locations(u, "left")),
       right: unmatchedR.flatMap((u) => locations(u, "right")),
       defaultVisible: true,
     });
+  } else {
+    const group=(units:Unit[])=>{
+      const m=new Map<string,Unit[]>();
+      for(const u of units)if(u.role==='body'){const xs=m.get(u.matchText)??[];xs.push(u);m.set(u.matchText,xs);}
+      return m;
+    };
+    const leftGroups=group(unmatchedL),rightGroups=group(unmatchedR);
+    for(const [key,left] of leftGroups){
+      const right=rightGroups.get(key);if(!right)continue;
+      left.forEach(u=>ambiguousL.add(u));right.forEach(u=>ambiguousR.add(u));
+      result.unresolved.push({reason:'ambiguous_match',message:'这组重复原文的身份不唯一；其他明确变化继续展示',left:left.flatMap(u=>locations(u,'left')),right:right.flatMap(u=>locations(u,'right')),defaultVisible:true});
+    }
   }
   phase?.("diff");
   const bodyPairs = pairs.filter(
@@ -750,9 +757,9 @@ export function compare(
       (p.a.path.section !== p.b.path.section || !stable.has(p));
     emit(p.a, p.b, p.method, p.score, moved);
   }
-  if (!exhausted && !ambiguous) {
-    for (const u of unmatchedL) emit(u, undefined, "unmatched", null);
-    for (const u of unmatchedR) emit(undefined, u, "unmatched", null);
+  if (!exhausted) {
+    for (const u of unmatchedL) if(!ambiguousL.has(u))emit(u, undefined, "unmatched", null);
+    for (const u of unmatchedR) if(!ambiguousR.has(u))emit(undefined, u, "unmatched", null);
   }
   const position = (u: Unit) => {
     const r = u.refs.find(Boolean)!;

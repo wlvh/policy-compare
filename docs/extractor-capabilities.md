@@ -20,3 +20,9 @@ PDF.js 路线锁定 pdfjs-dist 6.4.299（Apache-2.0），实现位于 engines/pd
 浏览器使用 PDF.js 自己的已加载字体，TextLayer 按提取项建立文本节点；通过 DOM Range 测量具体范围，并按实际 DOM 字号重新测量文本宽度，避免库的测量字号量化误差把标点推到邻字。所有调整基于实际字体前进宽度，没有均分文本段。R04/R09/R14/R31 的严格位置失败与修复证据保留。sourceRanges 中的 itemText 和 UTF-16 范围在测量前核对；核心与 DocInput 不接收 DOM。
 
 两版分别以相同几何标准对照原 layout 及源字符检查。PDF.js Node 报告的 run 来源检查与浏览器精细定位报告分开；浏览器 32 对的实际测量在 reports/browser-rules-pdfjs.json。几何方法不同，不要求两版快照或 JSON 一致。原生/文字层几何各自如实标注。
+
+审核修复新增 PDF.js `+strict-streams.1`：锁文件中的 pdfjs-dist 补丁修改 build 与 legacy/build 两个实际使用的非压缩 worker，阻止 makeFilter 把无效压缩流无条件变成 NullStream。浏览器明确加载该 worker，配合 stopAtErrors:true 传播页面解析失败。Node 与浏览器都使用补丁；不能仅设置 stopAtErrors 就声称完成。补丁保留于 patches/pdfjs-dist@6.4.299.patch。
+
+MuPDF 适配器版本升至 3：通过真实 setLog 回调按同步原生操作收集错误及 read-error 诊断；正常 warning 不一律视为失败。严重页面诊断变成 page_failed 覆盖问题，保留可读片段但不声明完整。回调作用域在 finally 恢复，后续页/文档不继承旧错误。文档打开/页树阶段严重错误直接失败。
+
+PDF.js 图像覆盖现在应用 Form 开始/结束的矩阵和图形状态；独立反例验证平移、嵌套、缩放和后续图片状态恢复。自托管字体、CMap 和 WASM 放到 /pdfjs/<实际包版本>/，固定资源要求缓存重新验证。

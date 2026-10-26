@@ -13,7 +13,7 @@ import {
   type PdfSessionApi,
   type RenderedPage,
 } from "../../packages/pdf-adapter/api";
-export const EXTRACTOR_VERSION = "pdfjs/6.4.299";
+export const EXTRACTOR_VERSION = "pdfjs/6.4.299+strict-streams.1";
 export const TEXT_OPTIONS = {
   disableNormalization: true,
   includeMarkedContent: false,
@@ -30,6 +30,7 @@ const point = (m: number[], x: number, y: number) => [
 export class PdfJsSession implements PdfSessionApi {
   readonly pageCount: number;
   private closed = false;
+  private bounds = new Map<number,{width:number;height:number}>();
   timings = {
     nativeTextExtraction: 0,
     sourceAdaptation: 0,
@@ -54,7 +55,7 @@ export class PdfJsSession implements PdfSessionApi {
       ? decodeURIComponent(
           new URL("./node_modules/pdfjs-dist/", import.meta.url).pathname,
         )
-      : "/pdfjs/";
+      : `/pdfjs/${pdfjs.version}/`;
     const task = pdfjs.getDocument({
       data: Uint8Array.from(bytes),
       password,
@@ -65,6 +66,9 @@ export class PdfJsSession implements PdfSessionApi {
       wasmUrl: resource + "wasm/",
       useWorkerFetch: !node,
       disableFontFace: node,
+      // The pinned worker patch also propagates decoder-construction failures
+      // that upstream otherwise turns into an empty NullStream unconditionally.
+      stopAtErrors: true,
     });
     signal?.addEventListener(
       "abort",
@@ -98,10 +102,12 @@ export class PdfJsSession implements PdfSessionApi {
       extractor: {
         name: "PDF.js",
         version: EXTRACTOR_VERSION,
-        adapterVersion: "pdfjs-adapter/1",
+        adapterVersion: "pdfjs-adapter/2",
         options: {
           ...TEXT_OPTIONS,
           geometry: "engine_run; browser text_layer_range",
+          stopAtErrors: true,
+          streamFailurePolicy: "throw-invalid-stream/1",
         },
       },
       pageCount: this.pageCount,
@@ -114,6 +120,7 @@ export class PdfJsSession implements PdfSessionApi {
     if (this.closed) throw new Error("文档已关闭");
     const page = await this.doc.getPage(pageIndex + 1),
       viewport = page.getViewport({ scale: 1 });
+    this.bounds.set(pageIndex,{width:quantize(viewport.width),height:quantize(viewport.height)});
     const nativeStart = performance.now();
     const content = await page.getTextContent(TEXT_OPTIONS);
     this.timings.nativeTextExtraction += performance.now() - nativeStart;
@@ -214,6 +221,12 @@ export class PdfJsSession implements PdfSessionApi {
       else if (fn === pdfjs.OPS.restore)
         ctm = stack.pop() ?? [1, 0, 0, 1, 0, 0];
       else if (fn === pdfjs.OPS.transform) ctm = transform(ctm, args);
+      else if (fn === pdfjs.OPS.paintFormXObjectBegin) {
+        stack.push([...ctm]);
+        if(args[0])ctm=transform(ctm,args[0]);
+      } else if(fn === pdfjs.OPS.paintFormXObjectEnd) {
+        ctm=stack.pop()??[1,0,0,1,0,0];
+      }
       else if (imageOps.has(fn)) {
         const m = transform(viewport.transform, ctm),
           points = [
@@ -280,12 +293,13 @@ export class PdfJsSession implements PdfSessionApi {
       let p: Page;
       try {
         p = await this.extractPage(i);
-      } catch {
+      } catch (error) {
         if (this.closed || cancelled?.()) throw new Error("CANCELLED");
+        const bounds=this.bounds.get(i)??{width:595,height:842};
         p = {
           pageIndex: i,
-          width: 595,
-          height: 842,
+          width: bounds.width,
+          height: bounds.height,
           transform: [1, 0, 0, 1, 0, 0],
           inverseTransform: [1, 0, 0, 1, 0, 0],
           chars: [],
@@ -294,10 +308,10 @@ export class PdfJsSession implements PdfSessionApi {
           issues: [
             {
               pageIndex: i,
-              region: [0, 0, 595, 842],
+              region: [0, 0, bounds.width, bounds.height],
               reason: "page_failed",
-              evidence: "PDF.js page extraction exception; bounds unavailable",
-              message: "页面解析失败，未完成文字比较",
+              evidence: "PDF.js strict page extraction: "+(error instanceof Error?error.message:String(error)),
+              message: "页面内容解析失败；已读取片段不能证明正文完整",
               defaultVisible: true,
             },
           ],

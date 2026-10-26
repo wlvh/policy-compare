@@ -15,5 +15,9 @@ http.createServer((req,res)=>{
   if(pathname.split('/').some(p=>p.startsWith('.'))){res.writeHead(404);res.end();return;}
   let file=resolve(root,'.'+pathname);
   try{if(!statSync(file).isFile())file=resolve(root,'index.html');}catch{if(extname(pathname)){res.writeHead(404);res.end();return;}file=resolve(root,'index.html');}
-  try{file=realpathSync(file);if(!file.startsWith(root+sep))throw new Error('outside root');const size=statSync(file).size;res.writeHead(200,{'Content-Type':mime[extname(file)]||'application/octet-stream','Content-Length':size,'Cache-Control':extname(file)==='.html'?'no-cache':'public, max-age=31536000, immutable'});if(req.method==='HEAD')res.end();else createReadStream(file).on('error',()=>res.destroy()).pipe(res);}catch{res.writeHead(404);res.end();}
+  try{file=realpathSync(file);if(!file.startsWith(root+sep))throw new Error('outside root');const size=statSync(file).size;
+    // Only Vite's content-fingerprinted assets are immutable. Fixed decoder,
+    // font and CMap URLs must revalidate after an in-place site upgrade.
+    const fingerprinted=/^\/assets\/[^/]+-[A-Za-z0-9_-]{8}\.(?:js|mjs|css|wasm)$/.test(pathname);
+    res.writeHead(200,{'Content-Type':mime[extname(file)]||'application/octet-stream','Content-Length':size,'Cache-Control':fingerprinted?'public, max-age=31536000, immutable':'no-cache'});if(req.method==='HEAD')res.end();else createReadStream(file).on('error',()=>res.destroy()).pipe(res);}catch{res.writeHead(404);res.end();}
 }).listen(port,host,()=>console.log(`Static policy review application on ${host}:${port}; no upload endpoint`));

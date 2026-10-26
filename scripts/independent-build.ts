@@ -25,6 +25,8 @@ cpSync("engines/pdfjs", resolve(target, "engines/pdfjs"), {
   recursive: true,
   filter: (p) => !p.includes("node_modules"),
 });
+mkdirSync(resolve(target,'patches'),{recursive:true});
+cpSync('patches/pdfjs-dist@6.4.299.patch',resolve(target,'patches/pdfjs-dist@6.4.299.patch'));
 const log: string[] = [];
 const run = (args: string[]) => {
   log.push(

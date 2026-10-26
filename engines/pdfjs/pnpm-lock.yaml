@@ -4,13 +4,18 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  pdfjs-dist@6.4.299:
+    hash: 05d88a8fdf41c5419759da6799a9d6e55735e883f19946b4a99f5dc54ba9dc0f
+    path: ../../patches/pdfjs-dist@6.4.299.patch
+
 importers:
 
   .:
     dependencies:
       pdfjs-dist:
         specifier: 6.4.299
-        version: 6.4.299
+        version: 6.4.299(patch_hash=05d88a8fdf41c5419759da6799a9d6e55735e883f19946b4a99f5dc54ba9dc0f)
 
 packages:
 
@@ -138,6 +143,6 @@ snapshots:
       '@napi-rs/canvas-win32-x64-msvc': 1.0.13
     optional: true
 
-  pdfjs-dist@6.4.299:
+  pdfjs-dist@6.4.299(patch_hash=05d88a8fdf41c5419759da6799a9d6e55735e883f19946b4a99f5dc54ba9dc0f):
     optionalDependencies:
       '@napi-rs/canvas': 1.0.13

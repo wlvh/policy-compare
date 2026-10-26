@@ -15,6 +15,7 @@ export type Unit = MappedText & {
 export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void): Unit[] {
   const units: Unit[] = [];
   let section = "risk_details",
+    fieldSection = "risk_details",
     subject: string | null = null,
     title = "";
   let active: Unit | null = null;
@@ -101,6 +102,18 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
     }
     const isTop = y < 110,
       isFooter = y > row.p.height - 50;
+    const heading =
+      /^[\p{Lu}\d][\p{Lu}\d\s:&/().,-]{2,}$/u.test(text) && text.length < 100;
+    // Explicit chapter ownership outranks the page-position heuristic. A real
+    // SECTION heading can be near the top of a page without being mere chrome.
+    if (heading && /^(SECTION|CHAPTER)\s+\S/u.test(text)) {
+      section = fieldSection = text;
+      subject = null;
+      title = text;
+      active = null;
+      add(row.refs, "heading");
+      continue;
+    }
     const label = Object.keys(profile.fields)
       .sort((a, b) => b.length - a.length)
       .find((k) => text.startsWith(k));
@@ -108,7 +121,7 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
       const field = profile.fields[label];
       if (profile.subjects[label]) subject = profile.subjects[label];
       const entity = profile.subjectFields.includes(field) ? subject : null;
-      const sc = field === "header_limit" ? "repeated_header" : "risk_details";
+      const sc = field === "header_limit" ? "repeated_header" : fieldSection;
       const key = `${sc}/${entity ?? ""}/${field}`;
       const n = Array.from(label).length;
       add(
@@ -183,8 +196,6 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
         continue;
       }
     }
-    const heading =
-      /^[\p{Lu}\d][\p{Lu}\d\s:&/().,-]{2,}$/u.test(text) && text.length < 100;
     if (heading) {
       title = text;
       if (/^(SECTION|CHAPTER)\b/.test(text)) section = text;

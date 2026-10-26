@@ -39,6 +39,7 @@ jobs:
       - run: pnpm build:${{ matrix.engine }}
       - run: pnpm exec tsx scripts/pdf-check.ts ${{ matrix.engine }}
       - run: pnpm test:rules:${{ matrix.engine }}
+      - run: pnpm exec tsx scripts/review-check.ts ${{ matrix.engine }}
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:browser:${{ matrix.engine }}
         env:
@@ -52,6 +53,8 @@ jobs:
             reports/core-tests.json
             reports/pdf-checks-${{ matrix.engine }}.json
             reports/rules-${{ matrix.engine }}.json
+            reports/review-regressions-${{ matrix.engine }}.json
+            reports/browser-review-regressions-${{ matrix.engine }}.json
             reports/browser-tests-${{ matrix.engine }}.json
             reports/browser-rules-${{ matrix.engine }}.json
             reports/cancellation-${{ matrix.engine }}.json

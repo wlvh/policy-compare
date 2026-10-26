@@ -9,6 +9,7 @@ for engine in ['pdfjs','mupdf']:
  base=ROOT/'dist'/engine;files=sorted(p for p in base.rglob('*') if p.is_file())
  package=OUT/f'policy-compare-{engine}.tar.gz'
  build={'engine':engine,'product_revision':ab['commit'],'files':{str(p.relative_to(base)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}}
+ assert {f'dist/{engine}/{name}':digest for name,digest in build['files'].items()}==ab['builds'][engine], 'Re-run the browser benchmark for these exact product builds before packaging.'
  common_names=set(json.loads((ROOT/'package.json').read_text())['dependencies'])|{'scheduler'}
  compact=lambda obj:[{k:v for k,v in item.items() if k in ['name','versions','license','homepage']} for group in obj.values() for item in group]
  dependencies={'common_browser_runtime':[x for x in compact(json.loads((ROOT/'reports/dependency-licenses.json').read_text())) if x['name'] in common_names],
@@ -47,11 +48,12 @@ CMD ["node", "server.mjs"]
   tar.add(ROOT/'deploy/server.mjs',arcname=f'policy-compare-{engine}/server.mjs')
   for name in ['before','after']:tar.add(ROOT/f'validation/dataset/cases/R32_combined_changes/{name}.pdf',arcname=f'policy-compare-{engine}/samples/{name}.pdf')
   tar.add(ROOT/'validation/assets/DejaVu-font-license.txt',arcname=f'policy-compare-{engine}/samples/DejaVu-font-license.txt')
-  if engine=='mupdf':tar.add(ROOT/'patches/mupdf@1.28.1.patch',arcname=f'policy-compare-{engine}/mupdf@1.28.1.patch')
+  patch='mupdf@1.28.1.patch' if engine=='mupdf' else 'pdfjs-dist@6.4.299.patch'
+  tar.add(ROOT/'patches'/patch,arcname=f'policy-compare-{engine}/{patch}')
   for name,content in [('RUN.zh-CN.md',readme),('Dockerfile',docker),('BUILD.json',json.dumps(build,indent=2)+'\n'),('DEPENDENCIES.json',json.dumps(dependencies,indent=2)+'\n')]:
    data=content.encode();info=tarfile.TarInfo(f'policy-compare-{engine}/{name}');info.size=len(data);info.mode=0o644;tar.addfile(info,io.BytesIO(data))
  with tarfile.open(package) as tar:
-  names=tar.getnames();assert len(names)==len(files)+8+(engine=='mupdf')
+  names=tar.getnames();assert len(names)==len(files)+9
   assert all('expected.json' not in n and 'source.json' not in n for n in names)
   if engine=='pdfjs':assert all('mupdf' not in n.lower() for n in names)
  manifest['artifacts'].append({'engine':engine,'file':str(package.relative_to(ROOT)),'bytes':package.stat().st_size,'sha256':hashlib.sha256(package.read_bytes()).hexdigest(),'entries':len(names),'archive_inspection':'PASS'})

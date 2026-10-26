@@ -632,6 +632,7 @@ function App() {
                 </div>
                 <h3>
                   {[
+                    /^(SECTION|CHAPTER)\s/.test(d.structurePath?.section??'')?d.structurePath?.section:null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,

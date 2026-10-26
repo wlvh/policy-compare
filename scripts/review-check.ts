@@ -24,8 +24,17 @@ for(const engine of engines){
   await extractPdf(readFileSync(`${root}/f2-before.pdf`)).catch(()=>null);
   const clean=parseDoc(await extractPdf(readFileSync('validation/dataset/cases/R01_identical/before.pdf')));const r=compare(clean,clean);assert.equal(r.status,'complete_for_scope');assert.equal(r.coverage.length,0);return {status:r.status};
  });
+ await check('F2 valid compressed stream is complete; damaged page does not hide another page change',async()=>{
+  const clean=parseDoc(await extractPdf(readFileSync(`${root}/f2-clean.pdf`)));assert.equal(compare(clean,clean).status,'complete_for_scope');
+  const docs=await Promise.all(['before','after'].map(async s=>parseDoc(await extractPdf(readFileSync(`${root}/f2-mixed-${s}.pdf`))))),r=compare(docs[0],docs[1]);assert.equal(r.status,'partial');assert(r.coverage.every(c=>c.pageIndex===0));assert(r.coverage.length>=2);
+  const d=r.differences.find(d=>d.structurePath?.field==='deductible');assert(d);assert(d.oldText.includes('1,000')&&d.newText.includes('2,000'));assert(d.left.every(l=>l.pageIndex===1)&&d.right.every(l=>l.pageIndex===1));return {status:r.status,coverage:r.coverage,differences:r.differences.length};
+ });
  await check('F5 image inside translated Form has authored region',async()=>{
   const doc=parseDoc(await extractPdf(readFileSync(`${root}/f5-form.pdf`))),regions=doc.pages[0].issues.filter(x=>x.reason==='unverified_image_text_region').map(x=>x.region);assert.equal(regions.length,1);assert(regions[0].every((v,i)=>Math.abs(v-[100,452,300,492][i])<0.01));return {regions};
+ });
+ await check('F5 nested Forms compose matrices and restore following image state',async()=>{
+  const doc=parseDoc(await extractPdf(readFileSync(`${root}/f5-nested-restore.pdf`))),regions=doc.pages[0].issues.filter(x=>x.reason==='unverified_image_text_region').map(x=>x.region);assert.equal(regions.length,2);
+  for(const expected of [[140,422,540,462],[10,762,30,782]])assert(regions.some(r=>r.every((v,i)=>Math.abs(v-expected[i])<0.01)));return {regions};
  });
  const report={subject:'independent_review_real_pdf_regressions',engine,revision:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),status:checks.every(x=>x.status==='PASS')?'PASS':'FAIL',checks};writeFileSync(`reports/review-regressions-${engine}.json`,JSON.stringify(report,null,2)+'\n');console.log(report);if(report.status!=='PASS')process.exitCode=1;
 }

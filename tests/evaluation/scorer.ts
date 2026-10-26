@@ -57,6 +57,7 @@ function located(
   refs: Evidence[],
   layout: LayoutPage[],
   side: "left" | "right",
+  everyQuad = false,
 ): boolean {
   return locs.some(
     (loc) =>
@@ -77,7 +78,7 @@ function located(
           loc.direction[1] * run.direction[1];
         return (
           direction > 0.98 &&
-          (loc.resolvedGeometry?.quads ?? loc.quads).some((q) => {
+          (()=>{const quads=loc.resolvedGeometry?.quads ?? loc.quads;const valid=(q:number[]) => {
             const b = box([
               [q[0], q[1]],
               [q[2], q[3]],
@@ -85,7 +86,7 @@ function located(
               [q[6], q[7]],
             ]);
             return targets.some(target=>overlap(b,target)/Math.max(1,area(b))>.35&&(!fine||area(b)/Math.max(1,area(target))<2.5));
-          })
+          };return quads.length>0&&(everyQuad?quads.every(valid):quads.some(valid));})()
         );
       }),
   );
@@ -114,7 +115,20 @@ export function grade(
     faults.push("Input hash or direction mismatch");
   const checkLoc = (loc: SourceLocation, side: "left" | "right") =>
     loc.side === side && resolveLocation(loc, docs);
+  const finalGeometryValid=(loc:SourceLocation)=>{
+    if(loc.precision==='run'&&(!loc.resolvedGeometry||loc.resolvedGeometry.method!=='text_layer_range'||loc.resolvedGeometry.text!==loc.text))return false;
+    const page=layout[loc.side==='left'?'before':'after'].pages[loc.pageIndex];if(!page)return false;
+    const quadBox=(q:number[])=>box([[q[0],q[1]],[q[2],q[3]],[q[4],q[5]],[q[6],q[7]]]);
+    const sourceBox=box(loc.quads.flatMap(q=>[[q[0],q[1]],[q[2],q[3]],[q[4],q[5]],[q[6],q[7]]]));
+    const final=loc.resolvedGeometry?.quads??loc.quads;
+    if(!final.length||!final.every(q=>overlap(quadBox(q),sourceBox)/Math.max(1,area(quadBox(q)))>.35))return false;
+    return located([loc],page.text_runs.map(r=>({page_index:loc.pageIndex,run_id:r.run_id})),layout[loc.side==='left'?'before':'after'].pages,loc.side,true);
+  };
   for (const d of result.differences) {
+    if(requireFineGeometry){
+      const finalLocations=d.hasTextChange?d.textOps.filter(o=>o.kind!=='equal').flatMap(o=>[...o.left,...o.right]):[...d.left,...d.right];
+      if(!finalLocations.length||!finalLocations.every(finalGeometryValid))faults.push('Invalid final changed geometry on one or more sides: '+d.id);
+    }
     const compact=(text:string)=>text.replace(/\s/gu,'');
     for(const operation of d.textOps){for(const [side,needed] of [['left',operation.kind!=='insert'],['right',operation.kind!=='delete']] as const)if(needed&&compact(operation.text)!==compact(operation[side].map(l=>l.text).join('')))faults.push('Operation text is not backed by the referenced source characters');}
     if (
@@ -260,20 +274,11 @@ export function grade(
     const correspondence = acceptable.some(identity) && matched.length > 0;
     const visibility = matched.some((d) => d.defaultVisible);
     // Changed-character evidence must land in the target run, not merely a broad field card.
-    const precise = matched.some(
-      (d) =>
-        (e.operation === "move" && !d.hasTextChange) ||
-        d.textOps.some(
-          (op) =>
-            op.kind !== "equal" &&
-            ((op.kind === "delete" &&
-              e.old !== null &&
-              located(op.left, refs.before, layout.before.pages, "left")) ||
-              (op.kind === "insert" &&
-                e.new !== null &&
-                located(op.right, refs.after, layout.after.pages, "right"))),
-        ),
-    );
+    const changed=matched.flatMap(d=>d.textOps.filter(op=>op.kind!=='equal'));
+    const kinds=[...new Set(changed.map(op=>op.kind))];
+    const precise = matched.some(d=>e.operation==='move'&&!d.hasTextChange)||
+      (kinds.length>0&&kinds.every(kind=>changed.some(op=>op.kind===kind&&
+        (kind==='delete'?e.old!==null&&located(op.left,refs.before,layout.before.pages,'left'):e.new!==null&&located(op.right,refs.after,layout.after.pages,'right')))));
     const fineGeometry = matched.some((d) => {
       const locations = d.hasTextChange
         ? d.textOps

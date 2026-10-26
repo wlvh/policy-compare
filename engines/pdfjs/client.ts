@@ -1,5 +1,5 @@
 import { configureWorker, openSession } from "./adapter";
-import workerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+import workerUrl from "pdfjs-dist/build/pdf.worker.mjs?url";
 import { PDFWorker } from "pdfjs-dist/legacy/build/pdf.mjs";
 import type { PdfClient, PdfSessionApi } from "../../packages/pdf-adapter/api";
 export const ENGINE_NAME = "pdfjs";

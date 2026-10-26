@@ -52,6 +52,7 @@ for (const engine of engines) {
     engine,
   ]);
   run(engine + "-32-rules", "pnpm", ["test:rules:" + engine]);
+  run(engine + "-review-regressions", "pnpm", ["exec","tsx","scripts/review-check.ts",engine]);
   run(engine + "-browser", "pnpm", ["test:browser:" + engine]);
 }
 run("linux-containers", "pnpm", ["test:container",...(requested?[requested]:[])]);
