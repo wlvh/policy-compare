@@ -66,6 +66,12 @@ function example() {
   };
 }
 describe("independent grader rejects dishonest outputs", () => {
+  for(const sides of [['left'],['right'],['left','right']] as const)
+    it('F6 rejects displaced final changed geometry on '+sides.join('/'),()=>{
+      const x=example();expect(grade(x.result,x.expected,x.layout,x.docs,true).status).toBe('PASS');
+      for(const d of x.result.differences)for(const op of d.textOps)if(op.kind!=='equal')for(const side of sides)for(const loc of op[side])loc.resolvedGeometry={method:'text_layer_range',text:loc.text,quads:[[10000,10000,10020,10000,10000,10020,10020,10020]]};
+      expect(grade(x.result,x.expected,x.layout,x.docs,true).status).toBe('FAIL');
+    });
   it("accepts valid evidence and a genuine control", () => {
     const x = example();
     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
