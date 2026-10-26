@@ -14,6 +14,7 @@ const checks: {
   status: string;
   exitCode?: number | null;
   reason?: string;
+  required?: boolean;
 }[] = [];
 function run(name: string, bin: string, args: string[]) {
   const result = spawnSync(bin, args, { stdio: "inherit", timeout: 600000 });
@@ -69,8 +70,10 @@ if (existsSync(containerReport)) {
 }
 if(checks.at(-1)?.status==='BLOCKED'&&existsSync('reports/ci-review-fixes.json')){
   const ci=JSON.parse(readFileSync('reports/ci-review-fixes.json','utf8'));
-  if(ci.status==='PASS'&&ci.treeEquality==='PASS'&&sourceMatches(ci.productRevision)&&engines.every(e=>ci.containerStatus[e]==='PASS'))
-    Object.assign(checks.at(-1)!,{status:'PASS',reason:'Local Docker unavailable; actual Linux CI for the unchanged product passed: '+ci.runUrl});
+  if(ci.status==='PASS'&&ci.treeEquality==='PASS'&&sourceMatches(ci.productRevision)&&engines.every(e=>ci.containerStatus[e]==='PASS')){
+    Object.assign(checks.at(-1)!,{name:'local-linux-containers',required:false});
+    checks.push({name:'linux-containers-ci',status:'PASS',required:true,reason:'Actual Linux build and read-only non-root startup for the unchanged product: '+ci.runUrl});
+  }
 }
 if (existsSync("reports/engine-ab.json")) {
   const ab = JSON.parse(readFileSync("reports/engine-ab.json", "utf8"));
@@ -91,11 +94,12 @@ if (existsSync("reports/engine-ab.json")) {
     status: ab.referenceDeviceStatus,
   });
 } else checks.push({ name: "balanced-browser-ab", status: "NOT_RUN" });
+const requiredChecks=checks.filter(c=>c.required!==false);
 const result = {
   subject: "mandatory_engineering_acceptance",
-  status: checks.every((c) => c.status === "PASS")
+  status: requiredChecks.every((c) => c.status === "PASS")
     ? "PASS"
-    : checks.some((c) => c.status === "FAIL")
+    : requiredChecks.some((c) => c.status === "FAIL")
       ? "FAIL"
       : "BLOCKED",
   businessPilot: "BLOCKED",

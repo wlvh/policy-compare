@@ -1,0 +1,188 @@
+{
+  "test_subject": "fixture_construction_only",
+  "comparison_engine_was_run": false,
+  "status": "passed",
+  "seed": 20261026,
+  "assertions": 183352,
+  "totals": {
+    "cases": 32,
+    "pdfs": 64,
+    "pages": 130,
+    "text_runs": 4172,
+    "source_characters": 87102,
+    "image_regions": 4,
+    "events": 29,
+    "must_detect_events": 26,
+    "coverage_only_events": 2,
+    "ambiguous_group_events": 1
+  },
+  "failures": [],
+  "cases": [
+    {
+      "case_id": "R01_identical",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R02_amount",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R03_currency",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R04_decimal",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R05_negation",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R06_and_or",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R07_shorter_term",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R08_normal_renewal",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R09_header_limit",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R10_address_swap",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R11_label_alias",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R12_exact_move",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R13_move_and_replacement",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R14_short_paragraph",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R15_paragraph_split",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R16_repagination",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R17_font_change",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R18_ligature",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R19_rotated_status",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R20_plus_minus",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R21_checkbox_glyph",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R22_table_value",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R23_table_reorder",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R24_table_cross_page",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R25_duplicate_keys",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R26_key_change",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R27_mixed_scan_page",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R28_inline_scan",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R29_clause_add",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R30_clause_delete",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R31_punctuation",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    },
+    {
+      "case_id": "R32_combined_changes",
+      "passed_fixture_checks": true,
+      "failure_count": 0
+    }
+  ],
+  "limits": [
+    "This confirms controlled PDF construction, not detection quality of a comparison engine.",
+    "Render records describe logical character cells, not exact glyph ink or extractor boxes.",
+    "Synthetic rule variants are not independent real-world holdout documents.",
+    "Performance and browser responsiveness require separate benchmark runs."
+  ]
+}

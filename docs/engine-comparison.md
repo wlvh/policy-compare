@@ -1,12 +1,16 @@
 # PDF.js / MuPDF.js 实测对照
 
-日期：2026-10-26。产品冻结提交：`f81aebd8f2e756b781b40957a06237a6cefb5c3e`。两版使用同一公共核心、profile、预算与 UI；正式报告里的 build 哈希锁定实际产物。原始逐轮记录：reports/engine-ab.json。
+日期：2026-10-26。产品冻结提交：`1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183`。两版使用同一公共核心、profile、预算与 UI；正式报告里的 build 哈希锁定实际产物。原始逐轮记录：reports/engine-ab.json。
+
+这是 F1–F7 修复后的新测量。原 f81aebd/2847b56 报告保存在 reports/baseline-review-2847b56；它们只代表旧产品和原评分器的结果，不替代本次测量。
 
 当前状态：完整路径时间与正确性采集 **PASS**；时间预算 **PASS**；包含完整内存的开发机验收 **BLOCKED**；普通 16 GiB 参考设备 **BLOCKED**。已保存的第一批测量中，标准表格的 Chrome helper 在采集时退出；因此不能保证短寿命子进程的历史峰值都被回收。本批统一将完整内存验收标为 BLOCKED；已测物理峰值与 RSS 仍如实报告。诊断原件在 reports/diagnostics。这份报告不能替代业务试点验收。
 
 ## 正确性先决条件
 
 两引擎分别通过原 32 对业务规则、六个控制用例与真实浏览器精细位置评分。产品不读 source/expected/layout。R25 金额与双侧来源保留；R27/R28 用具体区域和 partial 表达图片未覆盖，未声称读出图片金额。Node PDF.js 的 run 来源与浏览器 DOM Range 测量分别记录，不混为一项通过。
+
+审核回归 PASS：两个 P1 在真实 PDF 和浏览器中验证；每版 10 项真实 PDF 回归，补充章节归属、坏页/好页、嵌套 Form 和诊断隔离。F6 评分器修复后重新执行了原 32 对精细定位；仅一侧正确不能代表替换双方通过。新测量保留同样的输入 PDF 字节、性能预算和样本次数。
 
 MuPDF 使用原生字符 quad。PDF.js 先保留提取项与标量/UTF-16 区间，显示时核对同样的 TextContent 并用真实加载字体的 DOM 范围测量。默认通用文字层字体曾造成标点偏移，修复与失败证据在 reports/failures。没有均分段落框，也没有修改标准答案。
 
@@ -26,24 +30,24 @@ MuPDF 使用原生字符 quad。PDF.js 先保留提取项与标量/UTF-16 区间
 
 | 工作负载 | 引擎 | 成功/总数 | 失败数 | 中位数 | 经验 p95 | 最大值 | 已测峰值 MiB | 时间预算 | 完整内存 |
 |---|---|---:|---:|---:|---:|---:|---:|---|---|
-| renewal-small | pdfjs | 20/20 | 0 | 0.514 | 0.515 | 0.531 | 342.0 | PASS | BLOCKED |
-| renewal-small | mupdf | 20/20 | 0 | 0.465 | 0.466 | 0.481 | 316.8 | PASS | BLOCKED |
-| renewal-standard | pdfjs | 20/20 | 0 | 2.230 | 2.248 | 2.248 | 705.0 | PASS | BLOCKED |
-| renewal-standard | mupdf | 20/20 | 0 | 2.149 | 2.165 | 2.165 | 590.5 | PASS | BLOCKED |
-| renewal-capacity | pdfjs | 20/20 | 0 | 4.796 | 4.815 | 4.816 | 899.5 | PASS | BLOCKED |
-| renewal-capacity | mupdf | 20/20 | 0 | 4.730 | 4.747 | 4.747 | 744.0 | PASS | BLOCKED |
-| dense_table-small | pdfjs | 20/20 | 0 | 0.431 | 0.448 | 0.449 | 277.3 | PASS | BLOCKED |
-| dense_table-small | mupdf | 20/20 | 0 | 0.396 | 0.399 | 0.400 | 313.5 | PASS | BLOCKED |
-| dense_table-standard | pdfjs | 20/20 | 0 | 1.797 | 1.812 | 1.832 | 608.2 | PASS | BLOCKED |
-| dense_table-standard | mupdf | 20/20 | 0 | 1.729 | 1.733 | 1.733 | 501.8 | PASS | BLOCKED |
-| dense_table-capacity | pdfjs | 20/20 | 0 | 3.947 | 3.964 | 3.981 | 889.0 | PASS | BLOCKED |
-| dense_table-capacity | mupdf | 20/20 | 0 | 3.814 | 3.831 | 3.848 | 686.0 | PASS | BLOCKED |
-| template_change-small | pdfjs | 20/20 | 0 | 0.598 | 0.599 | 0.614 | 362.3 | PASS | BLOCKED |
-| template_change-small | mupdf | 20/20 | 0 | 0.548 | 0.549 | 0.550 | 360.3 | PASS | BLOCKED |
-| template_change-standard | pdfjs | 20/20 | 0 | 2.664 | 2.698 | 2.715 | 727.2 | PASS | BLOCKED |
-| template_change-standard | mupdf | 20/20 | 0 | 2.565 | 2.598 | 2.614 | 769.2 | PASS | BLOCKED |
-| template_change-capacity | pdfjs | 20/20 | 0 | 5.781 | 6.081 | 6.082 | 1446.1 | PASS | BLOCKED |
-| template_change-capacity | mupdf | 20/20 | 0 | 5.665 | 5.898 | 5.913 | 1085.1 | PASS | BLOCKED |
+| renewal-small | pdfjs | 20/20 | 0 | 0.548 | 0.548 | 0.548 | 348.5 | PASS | BLOCKED |
+| renewal-small | mupdf | 20/20 | 0 | 0.481 | 0.482 | 0.482 | 315.3 | PASS | BLOCKED |
+| renewal-standard | pdfjs | 20/20 | 0 | 2.347 | 2.397 | 2.430 | 714.1 | PASS | BLOCKED |
+| renewal-standard | mupdf | 20/20 | 0 | 2.148 | 2.199 | 2.215 | 589.3 | PASS | BLOCKED |
+| renewal-capacity | pdfjs | 20/20 | 0 | 5.347 | 5.381 | 5.413 | 905.0 | PASS | BLOCKED |
+| renewal-capacity | mupdf | 20/20 | 0 | 4.898 | 4.931 | 4.964 | 732.1 | PASS | BLOCKED |
+| dense_table-small | pdfjs | 20/20 | 0 | 0.464 | 0.465 | 0.465 | 281.4 | PASS | BLOCKED |
+| dense_table-small | mupdf | 20/20 | 0 | 0.398 | 0.399 | 0.413 | 303.8 | PASS | BLOCKED |
+| dense_table-standard | pdfjs | 20/20 | 0 | 1.931 | 1.948 | 1.948 | 577.2 | PASS | BLOCKED |
+| dense_table-standard | mupdf | 20/20 | 0 | 1.714 | 1.731 | 1.731 | 515.0 | PASS | BLOCKED |
+| dense_table-capacity | pdfjs | 20/20 | 0 | 4.281 | 4.414 | 4.431 | 902.3 | PASS | BLOCKED |
+| dense_table-capacity | mupdf | 20/20 | 0 | 3.781 | 3.847 | 3.881 | 687.9 | PASS | BLOCKED |
+| template_change-small | pdfjs | 20/20 | 0 | 0.631 | 0.648 | 0.648 | 369.7 | PASS | BLOCKED |
+| template_change-small | mupdf | 20/20 | 0 | 0.565 | 0.565 | 0.581 | 347.0 | PASS | BLOCKED |
+| template_change-standard | pdfjs | 20/20 | 0 | 2.914 | 2.996 | 3.014 | 732.0 | PASS | BLOCKED |
+| template_change-standard | mupdf | 20/20 | 0 | 2.681 | 2.730 | 2.747 | 770.0 | PASS | BLOCKED |
+| template_change-capacity | pdfjs | 20/20 | 0 | 6.430 | 6.664 | 6.680 | 1451.5 | PASS | BLOCKED |
+| template_change-capacity | mupdf | 20/20 | 0 | 5.897 | 6.081 | 6.081 | 1092.0 | PASS | BLOCKED |
 
 每轮还核对所有已知变化、默认可见性、输入哈希、完整状态、约定首个位置的实际多边形与独立作者几何预期。模板组分别检查 82、452、1002 个已知事件，不以卡片数相等定义两引擎正确性。
 
@@ -53,8 +57,8 @@ MuPDF 使用原生字符 quad。PDF.js 先保留提取项与标量/UTF-16 区间
 
 | 引擎 | 成功/总数 | 中位数秒 | 范围秒 | 已计数响应体下界 MiB |
 |---|---:|---:|---:|---:|
-| pdfjs | 3/3 | 0.138 | 0.138–0.141 | 0.8 |
-| mupdf | 3/3 | 0.103 | 0.102–0.121 | 10.2 |
+| pdfjs | 3/3 | 0.138 | 0.125–0.165 | 0.8 |
+| mupdf | 3/3 | 0.108 | 0.107–0.126 | 10.2 |
 
 ## 分项诊断
 
@@ -62,12 +66,12 @@ MuPDF 使用原生字符 quad。PDF.js 先保留提取项与标量/UTF-16 区间
 
 | 工作负载 | 引擎 | 打开 | 文字提取 | 来源适配 | 传递队列最大延迟 | 覆盖 | 契约检查 | 快照 | 结构 | 对应 | 差异 | 渲染 | 定位 |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| renewal-standard | pdfjs | 7 | 54 | 16 | 4 | 33 | 293 | 1547 | 51 | 28 | 2 | 62 | 10 |
-| renewal-standard | mupdf | 5 | 60 | 95 | 3 | 0 | 187 | 1022 | 51 | 29 | 2 | 35 | 0 |
-| dense_table-standard | pdfjs | 8 | 65 | 18 | 3 | 51 | 207 | 1136 | 45 | 70 | 4 | 64 | 26 |
-| dense_table-standard | mupdf | 6 | 62 | 68 | 2 | 0 | 130 | 678 | 34 | 69 | 3 | 33 | 0 |
-| template_change-standard | pdfjs | 7 | 57 | 17 | 4 | 33 | 291 | 1670 | 55 | 35 | 221 | 108 | 11 |
-| template_change-standard | mupdf | 5 | 61 | 100 | 3 | 0 | 200 | 1109 | 55 | 32 | 170 | 35 | 0 |
+| renewal-standard | pdfjs | 7 | 56 | 16 | 5 | 33 | 305 | 1635 | 53 | 29 | 2 | 70 | 10 |
+| renewal-standard | mupdf | 5 | 58 | 94 | 3 | 0 | 193 | 1083 | 52 | 29 | 2 | 36 | 0 |
+| dense_table-standard | pdfjs | 8 | 66 | 19 | 3 | 54 | 212 | 1249 | 49 | 72 | 4 | 63 | 26 |
+| dense_table-standard | mupdf | 6 | 58 | 66 | 1 | 0 | 133 | 744 | 36 | 70 | 4 | 33 | 0 |
+| template_change-standard | pdfjs | 7 | 62 | 18 | 5 | 36 | 308 | 1863 | 58 | 37 | 239 | 114 | 11 |
+| template_change-standard | mupdf | 5 | 64 | 106 | 3 | 0 | 215 | 1232 | 58 | 34 | 188 | 37 | 0 |
 
 传递队列尾延迟、读取、首次可审阅、逐轮交互响应和工作量在原始 JSON 中。主 A/B 记录中的交互是比较初期两次分类切换；额外的标准模板交互测试覆盖整个计算期间、完整列表筛选、滚动、跳转反馈和晚期取消，见 reports/interaction-profile.json。跳转反馈与新页全部定位就绪分别计时，后者不混入反馈指标。
 
@@ -75,29 +79,29 @@ MuPDF 使用原生字符 quad。PDF.js 先保留提取项与标量/UTF-16 区间
 
 | 引擎 | 成功/总数 | 响应 p95 | 响应最大值 | 跳页全部定位 p95 | 取消 p95 | 状态 |
 |---|---:|---:|---:|---:|---:|---|
-| pdfjs | 20/20 | 17.9 | 82.4 | 119.5 | 299.5 | PASS |
-| mupdf | 20/20 | 18.0 | 93.0 | 68.9 | 199.6 | PASS |
+| pdfjs | 20/20 | 16.7 | 82.2 | 118.2 | 316.6 | PASS |
+| mupdf | 20/20 | 16.9 | 108.9 | 69.2 | 232.9 | PASS |
 
 ## 差异与选择
 
 按同轮配对计算，MuPDF 比 PDF.js 少用的总时间中位数：
 
-- renewal-small：49.4 ms；MuPDF 较快 20/20 轮。
-- renewal-standard：79.1 ms；MuPDF 较快 20/20 轮。
-- renewal-capacity：66.1 ms；MuPDF 较快 20/20 轮。
-- dense_table-small：48.3 ms；MuPDF 较快 20/20 轮。
-- dense_table-standard：66.3 ms；MuPDF 较快 20/20 轮。
-- dense_table-capacity：118.4 ms；MuPDF 较快 20/20 轮。
-- template_change-small：49.6 ms；MuPDF 较快 20/20 轮。
-- template_change-standard：83.3 ms；MuPDF 较快 20/20 轮。
-- template_change-capacity：116.2 ms；MuPDF 较快 19/20 轮。
+- renewal-small：66.4 ms；MuPDF 较快 20/20 轮。
+- renewal-standard：183.5 ms；MuPDF 较快 20/20 轮。
+- renewal-capacity：434.1 ms；MuPDF 较快 20/20 轮。
+- dense_table-small：66.3 ms；MuPDF 较快 20/20 轮。
+- dense_table-standard：216.5 ms；MuPDF 较快 20/20 轮。
+- dense_table-capacity：500.0 ms；MuPDF 较快 20/20 轮。
+- template_change-small：66.3 ms；MuPDF 较快 20/20 轮。
+- template_change-standard：248.9 ms；MuPDF 较快 20/20 轮。
+- template_change-capacity：499.7 ms；MuPDF 较快 20/20 轮。
 
 这些差异属于完整产品路径，包含数据结构、提取、渲染和定位，不能全部归因于解析库本身。两条路线在这套合成材料上的正确性都通过；真实模板、字体和编码噪声仍需留出样本。即使某路线在每轮都略快，标准组绝对差距和用户流程的意义仍应分开判断，不为制造冠军继续扩到 100 次。
 
-静态目录体积：pdfjs 6.3 MiB；mupdf 10.5 MiB（未压缩，含各自资源与许可）。PDF.js 路线已在未安装/下载 MuPDF 的独立目录与独立缓存中构建通过，产物/请求无 MuPDF；MuPDF 原生字符几何路径更直接。PDF.js 精细定位需要维护文字层、字体与来源关系。
+静态目录体积：pdfjs 7.2 MiB；mupdf 10.5 MiB（未压缩，含各自资源与许可）。PDF.js 路线已在未安装/下载 MuPDF 的独立目录与独立缓存中构建通过，产物/请求无 MuPDF；MuPDF 原生字符几何路径更直接。PDF.js 精细定位需要维护文字层、字体与来源关系。
 
 本地试用可优先选择 PDF.js 的 Apache-2.0 路线，同时保留 MuPDF 原生字符几何版本。该建议考虑分发材料与接入成本，不等于忽略 MuPDF 的实测优势，也不构成生产许可或业务质量批准。两版均保留，生产默认版本应在真实人工审阅、未调参留出、目标设备与实际许可范围落实后确定。
 
 ## 未完成条件
 
-Linux 两个容器变体因本机 Docker daemon/API 无响应未完成实际构建启动，状态 BLOCKED；文件存在不算容器通过。普通 16 GiB 参考设备及真实业务/留出材料未提供。OpenShift/Harness 没有部署，但它们是可选组织接入，不是本地工程阻塞的替代理由。
+Linux 两个容器变体：PASS。GitHub Linux CI 实际构建、只读非 root 启动与健康检查通过；https://github.com/wlvh/policy-compare/actions/runs/40279913611。旧本机 Docker BLOCKED 记录保留，不覆盖为通过。普通 16 GiB 参考设备及真实业务/留出材料未提供。OpenShift/Harness 没有部署，它们属于可选组织接入。完整内存统计仍受短寿命子进程覆盖缺口限制。

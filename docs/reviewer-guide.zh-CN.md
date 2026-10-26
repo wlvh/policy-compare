@@ -9,9 +9,10 @@
 | 对象 | 固定位置或版本 | 用途 |
 |---|---|---|
 | 原始任务包 | `97bbdcd` | 原始说明、32 对规则与标准答案；PR 的 `main` 基线 |
-| 正式性能产品版本 | `f81aebd8f2e756b781b40957a06237a6cefb5c3e` | 360 次热比较、6 次冷启动、40 次全程交互/晚期取消使用的产品源码 |
+| 原性能产品版本 | `f81aebd8f2e756b781b40957a06237a6cefb5c3e` | 原测量保留为历史；不能替代修复后的验收 |
+| 最终修复产品版本 | `1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183` | 新正式测量与当前回归对应的产品源码；具体完成状态见当前报告 |
 | 本地交付报告 | `d6c3afb` | 正式验收、对照报告和交付工具 |
-| 当前审核版本 | `review-20261026` 标签 | 增加本指南、审核打包与 Linux CI；若有后续修复，另用提交和证据说明 |
+| 当前审核版本 | `review-20261026-fixes` 标签 | 增加本指南、审核打包与 Linux CI；若有后续修复，另用提交和证据说明 |
 | 当前分支 | `feat/policy-compare` | 仓库默认显示待审核实现；Draft PR 指向原任务包 `main`，尚未合并 |
 | 运行包哈希 | [DELIVERY_MANIFEST.json](../DELIVERY_MANIFEST.json) | 两个静态运行包的 SHA-256；包内 BUILD.json 锁定每个静态文件 |
 | 审核附件哈希 | Release 的 `REVIEW_ARTIFACTS.json` | 审核 ZIP、冻结性能输入及两个运行包的大小、SHA-256 与源码提交 |
@@ -55,7 +56,7 @@
 ```sh
 gh repo clone wlvh/policy-compare
 cd policy-compare
-git checkout review-20261026
+git checkout review-20261026-fixes
 corepack enable
 corepack prepare pnpm@10.12.1 --activate
 pnpm install --frozen-lockfile
@@ -65,7 +66,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r validation/requirements.txt
 ```
 
-若使用命名审核 ZIP，直接进入解压目录即可，无需 Git checkout。只审核 PDF.js 的独立性时，不执行 `pnpm install:mupdf`。
+命名审核 ZIP 可用于离线查阅与构建。记录提交号、校验原基线或复跑正式性能的命令需要 Git 历史，请按上面的 clone/checkout 路径执行；不要用临时新建仓库的提交冒充原产品 SHA。只审核 PDF.js 的独立性时，不执行 `pnpm install:mupdf`。
 
 ```sh
 # 构造检查与产品检查分开
@@ -77,6 +78,8 @@ pnpm test:rules:pdfjs
 pnpm test:rules:mupdf
 pnpm exec tsx scripts/pdf-check.ts pdfjs
 pnpm exec tsx scripts/pdf-check.ts mupdf
+pnpm exec tsx scripts/review-check.ts pdfjs
+pnpm exec tsx scripts/review-check.ts mupdf
 
 # 默认使用已安装 Google Chrome；没有时用 Playwright Chromium
 pnpm exec playwright install --with-deps chromium
@@ -96,7 +99,7 @@ pnpm test:container mupdf
 
 ## 5. 复核已有性能证据或重新测量
 
-先查看 [reports/engine-ab.json](../reports/engine-ab.json) 与 [reports/interaction-profile.json](../reports/interaction-profile.json)。全部尝试保留，成功数与总数同时记录；正式产品冻结为 `f81aebd`。统计环境为 M4 Max / 128 GiB / Chrome 154，不能把其结果外推到普通办公电脑。
+先查看 [reports/engine-ab.json](../reports/engine-ab.json) 与 [reports/interaction-profile.json](../reports/interaction-profile.json)。全部尝试保留，成功数与总数同时记录；原产品冻结为 `f81aebd`，最终修复产品为 `1ce93d4`；当前正式记录以 JSON 的 commit 为准。统计环境为 M4 Max / 128 GiB / Chrome 154，不能把其结果外推到普通办公电脑。
 
 从 Release 下载 `policy-compare-benchmark-inputs.tar.gz`，在项目根解压即可恢复 `bench/generated`。命名审核 ZIP 已包含这些文件。校验清单里的 18 个 PDF 哈希后，分别在两个终端执行：
 
@@ -124,3 +127,11 @@ STATIC_ROOT=dist/mupdf PORT=8082 node deploy/server.mjs
 剩余条件：完整内存口径仍有短寿命进程峰值缺口；普通 16 GiB/实际目标设备尚未测量；真实开发样本、完整人工审阅和独立封存留出未提供；实际公开分发/共享服务/生产范围尚未落实。Linux 容器是否解除原本机阻塞，应以本次 CI 实际结果单独判断。工程综合与业务试点不能仅因 CI 绿色而自动改成通过。
 
 审核发现请附文件/行号、复现输入、实际与预期、具体来源证据及影响范围。预期若来自新业务材料，应独立记录该材料与授权，不能修改既有标准答案迎合任一引擎输出。
+
+## 7. 本轮 F1–F7 修复审核
+
+本轮入口为 docs/review-fixes.md。原 2847b56 的失败观察保存在 reports/review-2847b56，原性能保存在 reports/baseline-review-2847b56。6850bb5 的中间测量另存 reports/baseline-fixes-6850bb5：它仍有未加 SECTION 前缀的重复字段交叉匹配路径，不能当作最终修复结果。最终产品提交以 reports/engine-ab.json 的 commit 为准，运行包每个文件须与其中 builds 哈希匹配。
+
+新增 17 份真实 PDF 位于 tests/fixtures/review，按作者明确的排版、矩阵或损坏流操作生成，不改动原 32 对标准答案。稳定标题的两个金额分别归属；不能可靠归属的重复字段仍须展示金额变化，不能以一个 generic partial 消掉变化。两版各 10 项真实 PDF 回归、15 组浏览器测试和 48 项核心/评分器/服务器测试是不同证据层。原认证交接 ZIP 未取得；这里使用已独立复现并保存的同类反例，未声称执行了该 ZIP 内脚本。
+
+PDF.js 增加锁定版本补丁并明确加载补丁后的 worker；仅设置 stopAtErrors 不算完成。MuPDF 通过原生日志 API 采集严重诊断。F6 评分器修复后再次执行全部原浏览器位置检查。F7 包含旧 immutable 缓存保留时的实际升级回归。Linux CI 报告需核对 reports/ci-review-fixes.json 所绑定的产品，而不是仅看到旧工作流绿色。

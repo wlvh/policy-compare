@@ -51,10 +51,25 @@ for(const [index,artifact] of manifest.artifacts.entries()){
   const output=join(folder,'actual-result.json');await (await pending).saveAs(output);
   const result=JSON.parse(readFileSync(output,'utf8'));
   expect(result.extractors.every((x:any)=>x.name===(engine==='pdfjs'?'PDF.js':'MuPDF.js'))).toBe(true);
+  const reviewCases:any[]=[];
+  for(const name of ['f1-long-body','f1-headings-body','f2-mixed','f2']){
+   await page.goto(origin);await page.waitForSelector('main[data-engine-ready="true"]');
+   await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(join(project,`tests/fixtures/review/${name}-before.pdf`));
+   await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(join(project,`tests/fixtures/review/${name}-after.pdf`));
+   await page.getByRole('button',{name:'开始比较',exact:true}).click();
+   await expect(page.locator('[data-status]')).toHaveAttribute('data-status',name.startsWith('f1')?'complete_for_scope':/partial|failed/);
+   if(name.startsWith('f1')){await expect(page.locator('.card')).toHaveCount(2);await expect(page.locator('.card').filter({hasText:'HULL'})).toBeVisible();await expect(page.locator('.card').filter({hasText:'LIABILITY'})).toBeVisible();await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);}
+   if(name==='f2-mixed'){await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.gaps')).toContainText('解析');await expect(page.locator('[data-ready-page="1"]')).toHaveCount(2);}
+   if(name==='f2')await expect(page.getByRole('status')).not.toContainText('可提取文本中未发现差异');
+   if(name==='f1-headings-body'||name==='f2-mixed')await page.screenshot({path:join(project,`reports/fix-${name.startsWith('f1')?'f1':'f2'}-${engine}.png`),fullPage:true});
+   reviewCases.push({case:name,state:await page.locator('[data-status]').getAttribute('data-status'),message:await page.getByRole('status').textContent(),status:'PASS'});
+  }
+  for(const side of ['基准 PDF','待审 PDF'])await page.getByLabel(side,{exact:true}).setInputFiles(join(project,'tests/fixtures/review/f2-clean.pdf'));
+  await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
   expect(requests.every(r=>r.method==='GET'&&(r.url.startsWith(origin+'/')||r.url.startsWith('blob:'+origin+'/')))).toBe(true);
   if(engine==='pdfjs')expect(requests.some(r=>/mupdf/i.test(r.url))).toBe(false);
   await page.getByRole('button',{name:'关闭任务',exact:true}).click();await expect.poll(()=>page.workers().length).toBe(0);
-  records.push({engine,status:'PASS',archive:artifact.file,sha256:artifact.sha256,staticFiles:Object.keys(build.files).length,productRevision:build.product_revision,checks:['archive hash','test extraction','every static hash equals A/B build','health/COOP/COEP/MIME/POST405','real bundled R32 PDFs','both source views and highlights','engine metadata','no uploads or foreign engine requests','workers released'],requests});
+  records.push({engine,status:'PASS',archive:artifact.file,sha256:artifact.sha256,staticFiles:Object.keys(build.files).length,productRevision:build.product_revision,checks:['archive hash','test extraction','every static hash equals A/B build','health/COOP/COEP/MIME/POST405','real bundled R32 PDFs','F1/F2 on extracted runtime','clean task after damaged input','both source views and highlights','engine metadata','no uploads or foreign engine requests','workers released'],reviewCases,requests});
  }catch(e){records.push({engine,status:'FAIL',error:String(e)});}
  finally{await browser?.close();if(child){const stopped=new Promise<void>(r=>child!.once('exit',()=>r()));child.kill('SIGTERM');await stopped;}}
 }

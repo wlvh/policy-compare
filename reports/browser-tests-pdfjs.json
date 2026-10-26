@@ -121,12 +121,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3470,
+                  "duration": 3558,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:35:56.726Z",
+                  "startTime": "2026-10-26T07:28:22.848Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -155,12 +155,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 445,
+                  "duration": 459,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:00.459Z",
+                  "startTime": "2026-10-26T07:28:26.774Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -189,12 +189,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 620,
+                  "duration": 754,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:00.908Z",
+                  "startTime": "2026-10-26T07:28:27.239Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -223,12 +223,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 441,
+                  "duration": 583,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:01.533Z",
+                  "startTime": "2026-10-26T07:28:27.997Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -239,6 +239,150 @@
           "id": "1f1785dee40219527314-8c33e15233fe33079e18",
           "file": "lifecycle.spec.ts",
           "line": 112,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "review-regressions.spec.ts",
+      "file": "review-regressions.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "F1 two changed deductibles retain visible sections and both real source rows",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2130,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T07:28:28.590Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "70295784855ab916a09e-f763be2f3b43140af284",
+          "file": "review-regressions.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 913,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T07:28:30.724Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "70295784855ab916a09e-7307b528ce277fbc13c8",
+          "file": "review-regressions.spec.ts",
+          "line": 31,
+          "column": 1
+        },
+        {
+          "title": "F5 visible image gap regions respect nested Form matrices and restored state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 659,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T07:28:31.642Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "70295784855ab916a09e-39a1973ab643655a8ee8",
+          "file": "review-regressions.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "F7 versioned resources escape old immutable cache and fixed paths revalidate",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T07:28:32.305Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "70295784855ab916a09e-4885e83743e9d6c4761d",
+          "file": "review-regressions.spec.ts",
+          "line": 48,
           "column": 1
         }
       ]
@@ -265,12 +409,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 548,
+                  "duration": 560,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:01.984Z",
+                  "startTime": "2026-10-26T07:28:32.549Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -299,12 +443,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 880,
+                  "duration": 928,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:02.537Z",
+                  "startTime": "2026-10-26T07:28:33.115Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -333,12 +477,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 485,
+                  "duration": 530,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:03.421Z",
+                  "startTime": "2026-10-26T07:28:34.047Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -367,12 +511,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 844,
+                  "duration": 886,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:03.910Z",
+                  "startTime": "2026-10-26T07:28:34.581Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -401,12 +545,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 4798,
+                  "duration": 5248,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:04.759Z",
+                  "startTime": "2026-10-26T07:28:35.472Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -435,12 +579,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 642,
+                  "duration": 667,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:09.561Z",
+                  "startTime": "2026-10-26T07:28:40.725Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -477,12 +621,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 20707,
+                  "duration": 21033,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-25T23:36:10.234Z",
+                  "startTime": "2026-10-26T07:28:41.425Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -500,9 +644,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-25T23:35:56.155Z",
-    "duration": 34910.892,
-    "expected": 11,
+    "startTime": "2026-10-26T07:28:22.262Z",
+    "duration": 40302.873,
+    "expected": 15,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

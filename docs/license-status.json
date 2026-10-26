@@ -31,7 +31,8 @@
   "engines": {
     "pdfjs": {
       "version": "6.4.299",
-      "packageLicense": "Apache-2.0"
+      "packageLicense": "Apache-2.0",
+      "patch": "Strict invalid-stream propagation in selected build and legacy workers; patch shipped with runtime"
     },
     "mupdf": {
       "version": "1.28.1",

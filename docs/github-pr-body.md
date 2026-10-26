@@ -1,22 +1,26 @@
-本 PR 将原始执行包 `97bbdcd` 作为审核基线，交付同一保单比较产品的 PDF.js / MuPDF.js 两个独立版本。两侧输入使用同一固定引擎，核心、UI、业务 profile、契约和评分器共用；PDF.js 用提取项与真实文字层范围，MuPDF 保留原生字符几何。
+本 PR 保留同一产品的 PDF.js / MuPDF 独立构建及完整里程碑历史，继续处于 Draft，未合并或生产发布。当前重点是修复 2847b56 审核确认的 F1–F7。
 
-先读 [审核者指南](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/docs/reviewer-guide.zh-CN.md)。其中有需求优先级、代码风险索引、全部测试入口及原始证据目录。[审核预发布](https://github.com/wlvh/policy-compare/releases/tag/review-20261026) 提供命名源码审核 ZIP、正式 A/B 使用的原始 PDF 字节、两版运行包和 SHA-256 清单。完整里程碑历史保留，尚未合并或生产部署。
+## 两个 P1 的修复结果
 
-## 已有本地证据
+- **F1 已修复并实测**：显式章节和稳定唯一标题分别绑定字段，金额相同不能跨归属配对后消失。两版实际 PDF/浏览器均显示 HULL 与 LIABILITY 各自的金额修改。不能可靠归属的重复字段仍显示组内金额变化并标明该组待复核，不是 generic partial 后隐藏变化。
+- **F2 已修复并实测**：正文流损坏即使页眉可读，也明确显示 partial 或 failed。PDF.js 使用版本化 worker 补丁并设置 stopAtErrors，MuPDF 用真实原生日志回调关联当前页面。干净压缩流、错误后的正常文档、坏页后的正常页均有控制验证。
 
-- 原 32 对规则 PDF、source、expected、layout 未修改；184 个 validation 文件与初始提交一致。183352 项构造断言仅证明样本构造。
-- 两引擎分别 32/32 产品规则、32/32 浏览器精细定位通过；公共 34 项测试（含评分器反例），各 11 组浏览器流程及实际 CLI 0/2/3/130 退出语义通过。
-- 正式性能冻结产品为 `f81aebd8f2e756b781b40957a06237a6cefb5c3e`。同提交、同 PDF 字节、同核心/profile/预算/尺度，平衡 A/B、B/A，360/360 热比较和 6/6 冷启动成功；另有每版 20 次全程交互和晚期取消。
-- PDF.js 独立安装/构建环境没有 MuPDF；运行包逐文件哈希与 A/B 产物一致，两个包均实际解压并完成浏览器比较、定位、导出与释放。
+[修复验收报告](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/docs/fix-acceptance.md) · [代码与反例说明](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/docs/review-fixes.md)
 
-## 必须保留的验收边界
+## 其余修复与验证
 
-工程综合与业务试点没有宣布全部通过。完整内存统计无法覆盖采集前退出的短寿命浏览器子进程；普通 16 GiB/实际目标设备、获准真实样本和独立封存留出尚缺。本机 Docker 无响应的旧 BLOCKED 记录保留；本 PR 的 Linux 容器 CI 是新的补充证据，以实际运行结果为准。CI 绿色不能自动解除其他缺口。
+F3 将歧义限定到冲突组，独立增删继续显示；F4 非日期内容变化时不归 RollForward；F5 处理 Form 矩阵与状态恢复；F6 逐侧核验最终几何，单侧错框不能通过；F7 版本资源路径与重新验证缓存，并实测旧 immutable 缓存仍保留时的升级。
 
-本次用户授权私有 GitHub 技术审核；没有将这项授权当作商业授权或公开/共享/生产许可结论。全部测试材料为虚构数据。实际依赖、许可材料和 MuPDF 非 BMP 修复补丁随源码/运行包保留。
+最终产品冻结：`1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183`。48 项核心/评分器/服务器测试；两版各 32/32 原规则及精细定位、10 项真实 PDF 审核回归、15 组浏览器流程；CLI 0/2/3/130；PDF.js 无 MuPDF 的独立构建均通过。
 
-## 重点审核
+该最终提交已重新完成 **360/360 热比较、6/6 冷启动和各 20 次交互/晚期取消**。旧 f81aebd 和中间 6850bb5 的测量分别保留，未冒充最终版本结果。原 184 个 validation 文件与标准答案未修改。新增反例来自作者操作，不取另一引擎输出作答案。
 
-检查 R18 连字、R21 勾选状态、R25 金额与双侧来源、R27/R28 图片覆盖，以及六个控制用例。检查独立构建和网络边界、PDF.js 来源与文字层一致性、主体和表格身份、移动内部修改、取消释放、确定性，以及评分器能否拒绝貌似通过的错误输出。
+[当前 Linux CI](https://github.com/wlvh/policy-compare/actions/runs/40279913611) 五项成功，已核对 PR 测试合并引用与产品源码树一致；包含实际双容器构建、只读非 root 启动和健康检查。运行包解压后也重新执行两个 P1，静态文件逐个匹配正式测量哈希。
 
-报告中的 PASS 可被代码或可复现反例推翻。请记录输入、实际与预期、文件/行号和来源证据；不要以另一引擎输出作为标准答案，也不要改写原 expected 来适配产品。
+## 审核材料与剩余条件
+
+[审核者指南](https://github.com/wlvh/policy-compare/blob/feat/policy-compare/docs/reviewer-guide.zh-CN.md) · [修复版审核附件](https://github.com/wlvh/policy-compare/releases/tag/review-20261026-fixes)
+
+完整内存、普通/实际目标设备、真实完整人工审阅和独立留出仍未完成；实际公开/共享/生产许可按范围落实。工程综合与业务试点保持 BLOCKED，不能因 CI 绿色而改为全部通过。私有 GitHub 技术审核已由用户授权。
+
+原审核者 ZIP 的认证链接未能读取；本轮没有声称运行其中脚本，而是独立复现并保存了相同机制及补充边界。初版失败、6850bb5 的补充失败和所有阶段报告均保留。请优先用原审核反例复核两个 P1，再检查 F3–F7 与原验证集；不要修改 expected 迎合输出。

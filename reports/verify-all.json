@@ -29,6 +29,11 @@
       "exitCode": 0
     },
     {
+      "name": "pdfjs-review-regressions",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
       "name": "pdfjs-browser",
       "status": "PASS",
       "exitCode": 0
@@ -49,15 +54,27 @@
       "exitCode": 0
     },
     {
+      "name": "mupdf-review-regressions",
+      "status": "PASS",
+      "exitCode": 0
+    },
+    {
       "name": "mupdf-browser",
       "status": "PASS",
       "exitCode": 0
     },
     {
-      "name": "linux-containers",
+      "name": "local-linux-containers",
       "status": "BLOCKED",
       "exitCode": 1,
-      "reason": "Local Docker daemon is not responding or not available"
+      "reason": "Local Docker daemon is not responding or not available",
+      "required": false
+    },
+    {
+      "name": "linux-containers-ci",
+      "status": "PASS",
+      "required": true,
+      "reason": "Actual Linux build and read-only non-root startup for the unchanged product: https://github.com/wlvh/policy-compare/actions/runs/40279913611"
     },
     {
       "name": "pdfjs-development-performance",

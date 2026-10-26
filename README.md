@@ -1,14 +1,14 @@
 # 保单 PDF 比对 · 双引擎本地验证版
 
-**审核入口：[审核者指南](docs/reviewer-guide.zh-CN.md)。** 其中列出需求优先级、代码与证据索引、固定版本、完整复现命令和未完成条件。可下载的代码材料、冻结性能输入及两个运行包放在 [审核预发布](https://github.com/wlvh/policy-compare/releases/tag/review-20261026)；该预发布不是生产上线或工程验收批准。
+**审核入口：[审核者指南](docs/reviewer-guide.zh-CN.md)。** 其中列出需求优先级、代码与证据索引、固定版本、完整复现命令和未完成条件。可下载的代码材料、冻结性能输入及两个运行包放在 [审核预发布](https://github.com/wlvh/policy-compare/releases/tag/review-20261026-fixes)；该预发布不是生产上线或工程验收批准。
 
-**审核修复记录：[F1–F7 的修复与反例证据](docs/review-fixes.md)。** 原 2847b56 存在两个 P1，旧预发布保留用于对照。新功能回归已经通过，修复版本的正式性能与最终审核包需绑定新的产品冻结提交；不沿用旧性能 PASS。
+**审核修复记录：[F1–F7 的修复与反例证据](docs/review-fixes.md)。** 原 2847b56 存在两个 P1，旧预发布保留用于对照。修复范围含字段归属、严重解码诊断、局部歧义、混合续期分类、Form 坐标、分侧精细位置评分与缓存升级；48 项核心测试、两版各 10 项真实 PDF 回归和各 15 组浏览器测试通过。正式性能与运行包须核对新产品冻结提交，不沿用旧性能 PASS。
 
 这是同一套 React/TypeScript 应用、比较核心、profile 和评分器的两个独立构建。**PDF.js 6.4.299** 使用提取项来源和浏览器文字层范围定位；**MuPDF.js 1.28.1** 保留原生字符 origin/quad。一次任务两侧固定同一引擎，不回退、不混合结果、不上传 PDF。
 
 本轮有效要求：`IMPLEMENTATION_PLAN.zh-CN.md` + `CODEX_ENGINE_AB_AMENDMENT.zh-CN.md`，冲突以增补为准。原执行包和完整验证答案保存在首个提交 `97bbdcd`；validation 资料保持不变。
 
-当前交付：两版本地功能可用；各 32 对规则与精细定位通过；360 次正式热比较和 6 次冷启动成功。**工程综合验收、业务试点均为 BLOCKED**：完整内存覆盖、普通参考设备、Linux 容器实际运行及真实样本/留出尚未完成。详细边界见 [验收报告](docs/acceptance-report.md)、[引擎对照](docs/engine-comparison.md)、[PDF.js 单版报告](docs/acceptance-pdfjs.md) 与 [MuPDF 单版报告](docs/acceptance-mupdf.md)。
+当前交付：两版本地功能可用；各 32 对规则与精细定位通过；360 次正式热比较和 6 次冷启动成功。**工程综合验收、业务试点均为 BLOCKED**：完整内存覆盖、普通参考设备及真实样本/留出尚未完成。Linux 容器以绑定当前产品的 CI 实际结果为准。详细边界见 [验收报告](docs/acceptance-report.md)、[引擎对照](docs/engine-comparison.md)、[PDF.js 单版报告](docs/acceptance-pdfjs.md) 与 [MuPDF 单版报告](docs/acceptance-mupdf.md)。
 
 ## 已构建运行包
 
@@ -75,6 +75,8 @@ pnpm test:browser:pdfjs
 pnpm test:browser:mupdf
 pnpm exec tsx scripts/pdf-check.ts pdfjs
 pnpm exec tsx scripts/pdf-check.ts mupdf
+pnpm exec tsx scripts/review-check.ts pdfjs
+pnpm exec tsx scripts/review-check.ts mupdf
 pnpm verify:pdfjs
 pnpm verify:mupdf
 pnpm verify

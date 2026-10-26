@@ -1,27 +1,55 @@
 {
   "subject": "extracted_delivery_archives_on_macos",
   "status": "PASS",
-  "linuxStatus": "BLOCKED",
-  "extractionDirectory": "/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-delivery-rTLMrr",
-  "productRevision": "f81aebd8f2e756b781b40957a06237a6cefb5c3e",
+  "linuxStatus": "NOT_RUN",
+  "extractionDirectory": "/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-delivery-7qFjTX",
+  "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
   "records": [
     {
       "engine": "pdfjs",
       "status": "PASS",
       "archive": "delivery/policy-compare-pdfjs.tar.gz",
-      "sha256": "699d907f5211a6f36fbe985e81a72f75d7c7c435001f5e7b622632b309eed390",
+      "sha256": "2e55acb6709ea8ea7e60cec26ca4692b5e4d1b15b3afd6c2690533da61e3fae0",
       "staticFiles": 210,
-      "productRevision": "f81aebd8f2e756b781b40957a06237a6cefb5c3e",
+      "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
       "checks": [
         "archive hash",
         "test extraction",
         "every static hash equals A/B build",
         "health/COOP/COEP/MIME/POST405",
         "real bundled R32 PDFs",
+        "F1/F2 on extracted runtime",
+        "clean task after damaged input",
         "both source views and highlights",
         "engine metadata",
         "no uploads or foreign engine requests",
         "workers released"
+      ],
+      "reviewCases": [
+        {
+          "case": "f1-long-body",
+          "state": "complete_for_scope",
+          "message": "比较完成可提取文本比较完成，所有变化默认可见。导出 JSON关闭任务",
+          "status": "PASS"
+        },
+        {
+          "case": "f1-headings-body",
+          "state": "complete_for_scope",
+          "message": "比较完成可提取文本比较完成，所有变化默认可见。导出 JSON关闭任务",
+          "status": "PASS"
+        },
+        {
+          "case": "f2-mixed",
+          "state": "partial",
+          "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+          "status": "PASS"
+        },
+        {
+          "case": "f2",
+          "state": "failed",
+          "message": "处理失败Unknown compression method in flate stream: 73, 78关闭任务",
+          "status": "PASS"
+        }
       ],
       "requests": [
         {
@@ -29,7 +57,7 @@
           "method": "GET"
         },
         {
-          "url": "http://127.0.0.1:18081/assets/index-BxcQ0ajM.js",
+          "url": "http://127.0.0.1:18081/assets/index-D4E9BUW1.js",
           "method": "GET"
         },
         {
@@ -37,19 +65,131 @@
           "method": "GET"
         },
         {
-          "url": "http://127.0.0.1:18081/assets/pdf.worker.min-CjEcRF4W.mjs",
+          "url": "http://127.0.0.1:18081/assets/pdf.worker-CQC3jXZh.mjs",
           "method": "GET"
         },
         {
-          "url": "http://127.0.0.1:18081/assets/core.worker-B0RNA-Wu.js",
+          "url": "http://127.0.0.1:18081/assets/core.worker-B75CQNrn.js",
           "method": "GET"
         },
         {
-          "url": "blob:http://127.0.0.1:18081/fb5b5f1a-1b0f-413b-8bca-876133608404",
+          "url": "blob:http://127.0.0.1:18081/e53ccde8-46a5-4fca-83f8-bae969d7bf97",
           "method": "GET"
         },
         {
-          "url": "blob:http://127.0.0.1:18081/5630c422-ebf8-402a-b405-e3813124e343",
+          "url": "blob:http://127.0.0.1:18081/a9c0a71a-136c-4e6d-864e-32551ac31b06",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-D4E9BUW1.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/pdf.worker-CQC3jXZh.mjs",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/7b8d45c4-2677-4f78-b3a3-f82d5451b35d",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/403bf14a-187a-4e16-af7f-cdf0b2d4988f",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-D4E9BUW1.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/pdf.worker-CQC3jXZh.mjs",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/33dacdfa-6473-47fd-8666-f4d196a8f38b",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/1b3efaf2-4f1d-4e90-b3df-01ebe8538036",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-D4E9BUW1.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/pdf.worker-CQC3jXZh.mjs",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/e9ca22a8-e9c0-423e-8906-dbfadff7f671",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18081/c82f54b1-09b9-4341-a7c2-04ee305ad8c9",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-D4E9BUW1.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/pdf.worker-CQC3jXZh.mjs",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/pdf.worker-CQC3jXZh.mjs",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18081/assets/core.worker-B75CQNrn.js",
           "method": "GET"
         }
       ]
@@ -58,19 +198,47 @@
       "engine": "mupdf",
       "status": "PASS",
       "archive": "delivery/policy-compare-mupdf.tar.gz",
-      "sha256": "2758af64b3391b90c8a4ad58d4545ebc7f87594262b89b9e337f57f53e7c694c",
+      "sha256": "729c04d9b5a4caa829ba1abc9791862b83725069192fa05491fcd5b748a08266",
       "staticFiles": 14,
-      "productRevision": "f81aebd8f2e756b781b40957a06237a6cefb5c3e",
+      "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
       "checks": [
         "archive hash",
         "test extraction",
         "every static hash equals A/B build",
         "health/COOP/COEP/MIME/POST405",
         "real bundled R32 PDFs",
+        "F1/F2 on extracted runtime",
+        "clean task after damaged input",
         "both source views and highlights",
         "engine metadata",
         "no uploads or foreign engine requests",
         "workers released"
+      ],
+      "reviewCases": [
+        {
+          "case": "f1-long-body",
+          "state": "complete_for_scope",
+          "message": "比较完成可提取文本比较完成，所有变化默认可见。导出 JSON关闭任务",
+          "status": "PASS"
+        },
+        {
+          "case": "f1-headings-body",
+          "state": "complete_for_scope",
+          "message": "比较完成可提取文本比较完成，所有变化默认可见。导出 JSON关闭任务",
+          "status": "PASS"
+        },
+        {
+          "case": "f2-mixed",
+          "state": "partial",
+          "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+          "status": "PASS"
+        },
+        {
+          "case": "f2",
+          "state": "partial",
+          "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+          "status": "PASS"
+        }
       ],
       "requests": [
         {
@@ -78,7 +246,7 @@
           "method": "GET"
         },
         {
-          "url": "http://127.0.0.1:18082/assets/index-DkZTLo6z.js",
+          "url": "http://127.0.0.1:18082/assets/index-CNxi-h1u.js",
           "method": "GET"
         },
         {
@@ -86,7 +254,7 @@
           "method": "GET"
         },
         {
-          "url": "http://127.0.0.1:18082/assets/pdf.worker-BsZbCBZO.js",
+          "url": "http://127.0.0.1:18082/assets/pdf.worker-tkAGCemi.js",
           "method": "GET"
         },
         {
@@ -98,15 +266,183 @@
           "method": "GET"
         },
         {
-          "url": "http://127.0.0.1:18082/assets/core.worker-B0RNA-Wu.js",
+          "url": "http://127.0.0.1:18082/assets/core.worker-B75CQNrn.js",
           "method": "GET"
         },
         {
-          "url": "blob:http://127.0.0.1:18082/db62c2f2-19fd-4a69-a949-48312efb64e7",
+          "url": "blob:http://127.0.0.1:18082/652393bc-9aba-40ed-afa7-39904c77ee8b",
           "method": "GET"
         },
         {
-          "url": "blob:http://127.0.0.1:18082/3fe09d9c-545d-4155-9240-0e9a0ec1288f",
+          "url": "blob:http://127.0.0.1:18082/800a077a-66ae-4620-9525-31382a43780d",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-CNxi-h1u.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/pdf.worker-tkAGCemi.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/rolldown-runtime-WkwZ5CU-.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/33d4e5ab-f5be-438a-829f-c4dcdd482296",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/203a85d2-4b43-4c32-9872-6d7fbf0f05f9",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-CNxi-h1u.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/pdf.worker-tkAGCemi.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/rolldown-runtime-WkwZ5CU-.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/ba20fc54-1568-499c-9765-318ad88956ab",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/a5cd5694-5665-47a7-bcba-eb94fde590a2",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-CNxi-h1u.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/pdf.worker-tkAGCemi.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/rolldown-runtime-WkwZ5CU-.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/bbce927e-669e-40a0-bd32-edcdb8655dd6",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/50c60a5c-3711-4ac3-b462-7ec8b900dddd",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-CNxi-h1u.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/index-DD9ao-bO.css",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/pdf.worker-tkAGCemi.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/rolldown-runtime-WkwZ5CU-.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/a31dca80-bb29-4bb0-8232-7454df206029",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/6bd2b262-dfc5-4b42-b6fd-68e5f8f4082c",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/pdf.worker-tkAGCemi.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/core.worker-B75CQNrn.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/rolldown-runtime-WkwZ5CU-.js",
+          "method": "GET"
+        },
+        {
+          "url": "http://127.0.0.1:18082/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/7ca64b60-05ca-4871-b3c2-eba4da22492b",
+          "method": "GET"
+        },
+        {
+          "url": "blob:http://127.0.0.1:18082/9b87718e-b153-4c34-bd26-3d03b5fc6f2c",
           "method": "GET"
         }
       ]

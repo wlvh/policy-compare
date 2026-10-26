@@ -1,0 +1,11 @@
+{
+  "commit": "e4c011f3b816a461d17735fa04fce7bc957a3cd1",
+  "runId": "40279913611",
+  "engine": "mupdf",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "arch": "x64",
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "memoryBytes": 8315994112,
+  "purpose": "functional checks only; not target-device performance acceptance"
+}

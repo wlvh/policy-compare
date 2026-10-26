@@ -15,3 +15,7 @@ CompareResult 区分 `coreVersion`、`extractors[2]`、profile、tokenizer、sch
 任务结果 complete_for_scope / partial / failed / cancelled 与测试 PASS / FAIL / BLOCKED / NOT_RUN 不混用。图片、未知编码、页面失败和不支持对象列具体覆盖问题；预算耗尽列 unresolved。完成仅表示已声明的可提取文本范围。
 
 取消：外层通过共享取消标记通知核心，在页级快照、结构单元及 LCS 行等边界检查并抛出取消，主线程同时终止 Worker。完整结果的算法和确定性不依赖该标记；取消不返回假完整结果。正式运行须使用附带服务器的 COOP/COEP 头以及 localhost/HTTPS；自建静态主机缺这些条件时仍有硬终止，但不承诺已验证的取消时限。
+
+审核修复：显式章节先于页眉位置启发式处理；重复字段键本身不再代表唯一身份。唯一且稳定的标题上下文先绑定，其他冲突字段仅在本组内展示原文变化并标为待复核。正文重复造成的歧义也只限制该组，不压制独立增删。年度顺延仅适用于非日期原文完全不变的情况。
+
+严重解码失败必须进入完整性结果：PDF.js 严格 worker 补丁与 stopAtErrors 联用，MuPDF 的严重原生诊断按同步调用关联当前文档/页面。已读取页眉不等于正文完整；页面问题沿已有 coverage/page_failed 契约传递。正常压缩页和错误之后的正常文档仍须完整。

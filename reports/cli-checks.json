@@ -1,4 +1,5 @@
 {
+  "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
   "status": "PASS",
   "records": [
     {
@@ -55,7 +56,7 @@
       "status": "PASS",
       "exit": 3,
       "expected": 3,
-      "log": "syntax error: expected object number\nformat error: cannot find startxref\nwarning: trying to repair broken xref\nwarning: repairing PDF document\nfailed：no objects found\n"
+      "log": "syntax error: expected object number\nformat error: cannot find startxref\ntrying to repair broken xref\nrepairing PDF document\nfailed：no objects found\n"
     },
     {
       "engine": "mupdf",

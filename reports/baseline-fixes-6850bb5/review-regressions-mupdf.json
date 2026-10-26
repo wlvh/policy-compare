@@ -1,0 +1,223 @@
+{
+  "subject": "independent_review_real_pdf_regressions",
+  "engine": "mupdf",
+  "revision": "04a5d2c90d6cf5c8c3742b8c40ad088af314c962",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "F1 real PDF section-field ownership short-top",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope",
+        "differences": [
+          {
+            "path": {
+              "section": "SECTION HULL",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 1,000",
+            "new": " USD 2,000"
+          },
+          {
+            "path": {
+              "section": "SECTION LIABILITY",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 2,000",
+            "new": " USD 1,000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F1 real PDF section-field ownership short-body",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope",
+        "differences": [
+          {
+            "path": {
+              "section": "SECTION HULL",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 1,000",
+            "new": " USD 2,000"
+          },
+          {
+            "path": {
+              "section": "SECTION LIABILITY",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 2,000",
+            "new": " USD 1,000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F1 real PDF section-field ownership long-body",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope",
+        "differences": [
+          {
+            "path": {
+              "section": "SECTION HULL",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 1,000 each and every loss arising from declared operations",
+            "new": " USD 2,000 each and every loss arising from declared operations"
+          },
+          {
+            "path": {
+              "section": "SECTION LIABILITY",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 2,000 each and every loss arising from declared operations",
+            "new": " USD 1,000 each and every loss arising from declared operations"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F2 malformed content stream cannot become complete zero differences",
+      "status": "PASS",
+      "evidence": {
+        "status": "partial",
+        "coverage": [
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "MuPDF native page diagnostics: library error: zlib error: incorrect header check; read error; treating as end of file",
+            "message": "页面存在内容解析错误；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "left"
+          },
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "MuPDF native page diagnostics: library error: zlib error: incorrect header check; read error; treating as end of file",
+            "message": "页面存在内容解析错误；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "right"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F2 diagnostics are scoped; subsequent clean document stays complete",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope"
+      }
+    },
+    {
+      "name": "F2 valid compressed stream is complete; damaged page does not hide another page change",
+      "status": "PASS",
+      "evidence": {
+        "status": "partial",
+        "coverage": [
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "MuPDF native page diagnostics: library error: zlib error: incorrect header check; read error; treating as end of file",
+            "message": "页面存在内容解析错误；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "left"
+          },
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "MuPDF native page diagnostics: library error: zlib error: incorrect header check; read error; treating as end of file",
+            "message": "页面存在内容解析错误；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "right"
+          }
+        ],
+        "differences": 1
+      }
+    },
+    {
+      "name": "F5 image inside translated Form has authored region",
+      "status": "PASS",
+      "evidence": {
+        "regions": [
+          [
+            100,
+            452,
+            300,
+            492
+          ]
+        ]
+      }
+    },
+    {
+      "name": "F5 nested Forms compose matrices and restore following image state",
+      "status": "PASS",
+      "evidence": {
+        "regions": [
+          [
+            140,
+            422,
+            540,
+            462
+          ],
+          [
+            10,
+            762,
+            30,
+            782
+          ]
+        ]
+      }
+    }
+  ]
+}

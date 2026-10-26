@@ -22,3 +22,7 @@ OpenShift 配置在 deploy/openshift.yaml。镜像构建平台必须和节点 CP
 关闭浏览器任务会销毁 Worker、MuPDF 文档句柄与页面对象、释放 Blob URL。默认不写入文档存储、浏览器数据库或服务器日志；这不是对物理内存安全擦除的承诺。JSON 导出由用户主动触发，包含差异原文。
 
 为满足长任务取消预算，服务器配置 Cross-Origin-Opener-Policy: same-origin 与 Cross-Origin-Embedder-Policy: require-corp，并在 localhost 或 HTTPS 下运行。4 字节共享取消标记只在本次页面与比较 Worker 内使用。Vite 开发/预览与附带生产服务器都设置了这些头；替换静态托管时需要保留。
+
+缓存升级：只有 /assets 下带内容指纹的构建文件使用一年 immutable。HTML、固定地址的解码器/字体等资源使用 no-cache；PDF.js 的资源还带实际包版本路径 /pdfjs/6.4.299/，从而绕过旧版本已留在浏览器中的长期缓存。真实浏览器回归同时验证旧缓存确实仍命中、版本路径能取得新资源以及固定地址后续修改重新读取。
+
+Linux CI 原始证据见 reports/ci-review-fixes.json 及其同名目录，必须核对 productRevision 和源码树一致性。本机 Docker 不可用的历史记录独立保留；CI 的容器通过不代替目标设备浏览器性能。
