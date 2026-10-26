@@ -11,3 +11,5 @@ __pycache__/
 *.pyc
 
 delivery/
+policy-compare-review-*.zip
+REVIEW_ARTIFACTS.json

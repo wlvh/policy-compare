@@ -1,14 +1,16 @@
 {
-  "status": "LOCAL_DUAL_ENGINE_EVALUATION_AUTHORIZED",
+  "status": "LOCAL_EVALUATION_AND_PRIVATE_REVIEW_AUTHORIZED",
   "checkedOn": "2026-10-26",
   "evidence": [
     "2026-10-26 用户本会话明确回复：尚无结论，先用mupdf",
-    "2026-10-26 用户 A/B-1 增量明确授权两个版本开发与本地技术比较"
+    "2026-10-26 用户 A/B-1 增量明确授权两个版本开发与本地技术比较",
+    "2026-10-26 用户要求创建 GitHub 仓库并上传审核者所需全部材料；按私有审核范围执行"
   ],
   "allowedScopes": [
     "local_development",
     "synthetic_testing",
-    "local_preview"
+    "local_preview",
+    "private_repository_technical_review"
   ],
   "reason": "本地评估已获明确授权；没有发现真实组织禁止条件。正式分发/共享服务/生产按各自实际条件另行核实，不把未购买商业许可当作本地开发阻塞。",
   "requiredScopes": [
@@ -23,7 +25,8 @@
     "distribution": "NOT_ASSESSED_FOR_ACTUAL_DISTRIBUTION",
     "shared_deployment": "NOT_AUTHORIZED_OR_DEPLOYED",
     "production": "NOT_AUTHORIZED_OR_DEPLOYED",
-    "commercial_purchase": "NO_EVIDENCE"
+    "commercial_purchase": "NO_EVIDENCE",
+    "private_repository_review": "AUTHORIZED_BY_USER; not an assertion of commercial or production license approval"
   },
   "engines": {
     "pdfjs": {

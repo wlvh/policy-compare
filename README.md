@@ -1,5 +1,7 @@
 # 保单 PDF 比对 · 双引擎本地验证版
 
+**审核入口：[审核者指南](docs/reviewer-guide.zh-CN.md)。** 其中列出需求优先级、代码与证据索引、固定版本、完整复现命令和未完成条件。可下载的代码材料、冻结性能输入及两个运行包放在 [审核预发布](https://github.com/wlvh/policy-compare/releases/tag/review-20261026)；该预发布不是生产上线或工程验收批准。
+
 这是同一套 React/TypeScript 应用、比较核心、profile 和评分器的两个独立构建。**PDF.js 6.4.299** 使用提取项来源和浏览器文字层范围定位；**MuPDF.js 1.28.1** 保留原生字符 origin/quad。一次任务两侧固定同一引擎，不回退、不混合结果、不上传 PDF。
 
 本轮有效要求：`IMPLEMENTATION_PLAN.zh-CN.md` + `CODEX_ENGINE_AB_AMENDMENT.zh-CN.md`，冲突以增补为准。原执行包和完整验证答案保存在首个提交 `97bbdcd`；validation 资料保持不变。
