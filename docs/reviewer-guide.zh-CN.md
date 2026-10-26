@@ -1,5 +1,7 @@
 # 审核者入口
 
+**本轮审核已结束：F1—F7 关闭，开发基线接受，PR #1 已转为 Ready。** 原审核者已复跑字节未变的原 PDF 与原脚本，补齐此前原反例证据。具体来源及未重复执行的范围见 [复核关闭记录](review-closure.md)。下一阶段入口为 [真实文档受控试用](real-document-trial.zh-CN.md)。下列固定标签仍保留修复交付当时的源码与证据。
+
 本仓库交付同一保单比较产品的 PDF.js 与 MuPDF.js 两个独立版本。请审核代码、运行结果与证据之间是否一致；文档中的 PASS 是已有测试的结论，不是要求审核者接受该结论。
 
 这是用户授权建立的私有审核仓库。材料全部为项目源码、虚构测试 PDF 与技术测量，没有真实保单。未邀请或通知具体审核者，也未执行生产部署。对外公开、共享服务和生产许可仍按实际范围核实。
@@ -12,8 +14,8 @@
 | 原性能产品版本 | `f81aebd8f2e756b781b40957a06237a6cefb5c3e` | 原测量保留为历史；不能替代修复后的验收 |
 | 最终修复产品版本 | `1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183` | 新正式测量与当前回归对应的产品源码；具体完成状态见当前报告 |
 | 本地交付报告 | `d6c3afb` | 正式验收、对照报告和交付工具 |
-| 当前审核版本 | `review-20261026-fixes` 标签 | 增加本指南、审核打包与 Linux CI；若有后续修复，另用提交和证据说明 |
-| 当前分支 | `feat/policy-compare` | 仓库默认显示待审核实现；Draft PR 指向原任务包 `main`，尚未合并 |
+| 冻结修复交付版本 | `review-20261026-fixes` 标签（ef5ac3d） | 已复核的源码/附件快照；关闭记录另在当前分支，不改写该标签 |
+| 当前分支 | `feat/policy-compare` | 已接受开发基线与后续关闭记录；Ready PR 指向原任务包 `main`，尚未合并 |
 | 运行包哈希 | [DELIVERY_MANIFEST.json](../DELIVERY_MANIFEST.json) | 两个静态运行包的 SHA-256；包内 BUILD.json 锁定每个静态文件 |
 | 审核附件哈希 | Release 的 `REVIEW_ARTIFACTS.json` | 审核 ZIP、冻结性能输入及两个运行包的大小、SHA-256 与源码提交 |
 
@@ -28,7 +30,7 @@
 3. [总验收](acceptance-report.md)、[PDF.js 验收](acceptance-pdfjs.md)、[MuPDF 验收](acceptance-mupdf.md)、[引擎对照](engine-comparison.md)。
 4. [原规则集说明](../validation/README.md)、[32 条规则目录](../validation/dataset/CASE_CATALOG.zh-CN.md)：构造检查不等于产品正确。
 
-本地交付时，两个引擎各 32 对规则和浏览器位置通过，公共 34 项测试、各 11 组浏览器流程通过。正式 A/B 360/360 热比较与 6/6 冷启动成功。完整内存、普通参考设备与真实留出仍未通过。原本机 Docker 无响应的 BLOCKED 记录保留；新 GitHub Linux CI 是独立补充证据，需检查实际 job 及附件，不能从工作流文件存在推定成功。
+原始本地交付记录为公共 34 项、各 11 组浏览器流程；最终修复产品为公共 48 项、各 15 组浏览器流程，两版各 32 对规则和浏览器位置通过。最终正式 A/B 360/360 热比较与 6/6 冷启动成功。完整内存、普通参考设备与真实留出仍未通过。原本机 Docker 无响应的 BLOCKED 记录保留；GitHub Linux CI 是独立补充证据，需检查实际 job 及附件，不能从工作流文件存在推定成功。
 
 旧报告中的“未推送/没有远程”是 `d6c3afb` 本地交付时点的事实；本次用户随后授权创建仓库和上传审核材料。旧原始数据不因上传而改写。CI 的 Linux/云主机结果不替代 M4 Max A/B 或用户目标设备测量。
 
@@ -132,6 +134,6 @@ STATIC_ROOT=dist/mupdf PORT=8082 node deploy/server.mjs
 
 本轮入口为 docs/review-fixes.md。原 2847b56 的失败观察保存在 reports/review-2847b56，原性能保存在 reports/baseline-review-2847b56。6850bb5 的中间测量另存 reports/baseline-fixes-6850bb5：它仍有未加 SECTION 前缀的重复字段交叉匹配路径，不能当作最终修复结果。最终产品提交以 reports/engine-ab.json 的 commit 为准，运行包每个文件须与其中 builds 哈希匹配。
 
-新增 17 份真实 PDF 位于 tests/fixtures/review，按作者明确的排版、矩阵或损坏流操作生成，不改动原 32 对标准答案。稳定标题的两个金额分别归属；不能可靠归属的重复字段仍须展示金额变化，不能以一个 generic partial 消掉变化。两版各 10 项真实 PDF 回归、15 组浏览器测试和 48 项核心/评分器/服务器测试是不同证据层。原认证交接 ZIP 未取得；这里使用已独立复现并保存的同类反例，未声称执行了该 ZIP 内脚本。
+新增 17 份真实 PDF 位于 tests/fixtures/review，按作者明确的排版、矩阵或损坏流操作生成，不改动原 32 对标准答案。稳定标题的两个金额分别归属；不能可靠归属的重复字段仍须展示金额变化，不能以一个 generic partial 消掉变化。两版各 10 项真实 PDF 回归、15 组浏览器测试和 48 项核心/评分器/服务器测试是不同证据层。开发侧使用独立复现的同类反例；原认证交接 ZIP 未由 Codex 取得，原 PDF 与原脚本复跑已由审核者完成并通过，详见 review-closure.md。
 
 PDF.js 增加锁定版本补丁并明确加载补丁后的 worker；仅设置 stopAtErrors 不算完成。MuPDF 通过原生日志 API 采集严重诊断。F6 评分器修复后再次执行全部原浏览器位置检查。F7 包含旧 immutable 缓存保留时的实际升级回归。Linux CI 报告需核对 reports/ci-review-fixes.json 所绑定的产品，而不是仅看到旧工作流绿色。

@@ -136,7 +136,7 @@ writeFileSync('docs/acceptance-report.md',`# 验收报告
 
 另有一项测量缺口：物理统计不能回收采集前已经退出的短寿命 helper 的全部历史峰值；因此完整内存保持 BLOCKED。第一批缺失记录保留，未被后续测量覆盖。
 
-解除剩余阻塞的最小条件：提供能覆盖短寿命浏览器进程的完整内存采集；提供普通参考设备或明确的目标设备验收环境；提供获准真实样本与封存留出及审阅结果；在实际公开分发/共享/生产范围确定后落实相应许可条件。私有 GitHub 审核仓库和上传已由用户授权；Draft PR 保留，未合并或生产部署，未上传真实保单。Linux CI 为独立补验证据，不能代替浏览器目标设备测量。
+解除剩余阻塞的最小条件：提供能覆盖短寿命浏览器进程的完整内存采集；提供普通参考设备或明确的目标设备验收环境；提供获准真实样本与封存留出及审阅结果；在实际公开分发/共享/生产范围确定后落实相应许可条件。私有 GitHub 审核仓库和上传已由用户授权；代码审核与 PR 状态另见 review-closure.md，未生产部署，未上传真实保单。Linux CI 为独立补验证据，不能代替浏览器目标设备测量。
 `);
 writeFileSync('docs/pr-description.md',`# 同一审阅产品的 PDF.js / MuPDF 独立构建
 
@@ -146,7 +146,7 @@ writeFileSync('docs/pr-description.md',`# 同一审阅产品的 PDF.js / MuPDF �
 
 审核修复：F1–F7 ${reviewStatus}。章节内字段身份优先；严重内容解码错误传为缺口/失败；局部歧义保留独立增删；混合修改不误归续期；Form 矩阵、分侧精细定位评分及缓存升级均有回归。旧失败与旧性能保留，新产品以本报告 SHA 为准。
 
-Linux 两变体 ${containerStatus}，证据见 reports/ci-review-fixes.json。普通参考设备、完整内存及真实业务/留出验收仍有缺口。私有审核仓库已获授权；保留 Draft，未合并、未生产部署。
+Linux 两变体 ${containerStatus}，证据见 reports/ci-review-fixes.json。普通参考设备、完整内存及真实业务/留出验收仍有缺口。私有审核仓库已获授权；开发基线接受及 PR 状态见 review-closure.md，未生产部署。
 `);
 for(const engine of engines){
  const rules=load(`reports/rules-${engine}.json`),browser=load(`reports/browser-rules-${engine}.json`),interaction=interactions.summary.find((s:any)=>s.engine===engine),stats=ab.summary.filter((s:any)=>s.engine===engine);
