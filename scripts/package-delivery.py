@@ -24,11 +24,11 @@ for engine in ['pdfjs','mupdf']:
 
 Linux: `docker build -t policy-compare:{engine} .`，然后
 `docker run --rm --read-only --user 12345:12345 -p 8080:8080 policy-compare:{engine}`。
-本次环境的 Docker 服务不可用，Linux 实际运行状态为 BLOCKED，不能把这份文件当作构建通过。
+本机 Docker 服务仍不可用；对应产品的 GitHub Linux CI 实际构建与启动结果见配套项目 reports/ci-review-fixes.json。本运行包的本地解压检查不能替代该 CI 证据。
 
 产品冻结提交：{ab['commit']}。BUILD.json 包含所有静态文件 SHA-256。
 依赖版本与许可清单在 DEPENDENCIES.json；许可在 dist/licenses，PDF.js 的字体/解码器许可亦在各资源目录。
-MuPDF 的改动补丁随其运行包附带；完整对应应用源代码和依赖锁文件在配套项目中。本包只供本次本地评估，不能单独据此认定已满足对外分发条件。
+本引擎的实际改动补丁随运行包附带；完整对应应用源代码和依赖锁文件在配套项目中。本包只供本次本地评估，不能单独据此认定已满足对外分发条件。
 本地双引擎评估已授权；对外分发、共享部署和生产范围须按实际许可条件落实。
 公共源代码、CLI、锁文件与全部测试在配套项目中。
 '''

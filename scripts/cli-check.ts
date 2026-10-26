@@ -1,4 +1,4 @@
-import {spawn} from 'node:child_process';import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {spawn,execFileSync} from 'node:child_process';import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 const records:any[]=[];mkdirSync('tmp',{recursive:true});
 async function run(engine:string,name:string,left:string,right:string,expected:number,cancel=false){
  const out=`tmp/cli-${engine}-${name}.json`,args=['--import','tsx','packages/cli/main.ts','--engine',engine,'--left',left,'--right',right,'--out',out];
@@ -13,4 +13,4 @@ for(const engine of ['pdfjs','mupdf']){
  await run(engine,'failed','tests/fixtures/mechanisms/corrupt.pdf','tests/fixtures/mechanisms/unicode.pdf',3);
  await run(engine,'cancelled','bench/generated/template_change-capacity/before.pdf','bench/generated/template_change-capacity/after.pdf',130,true);
 }
-const report={status:records.every(r=>r.status==='PASS')?'PASS':'FAIL',records};writeFileSync('reports/cli-checks.json',JSON.stringify(report,null,2)+'\n');console.log(report);process.exitCode=report.status==='PASS'?0:1;
+const report={productRevision:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),status:records.every(r=>r.status==='PASS')?'PASS':'FAIL',records};writeFileSync('reports/cli-checks.json',JSON.stringify(report,null,2)+'\n');console.log(report);process.exitCode=report.status==='PASS'?0:1;

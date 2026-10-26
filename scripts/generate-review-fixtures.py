@@ -3,13 +3,15 @@ from reportlab.pdfgen import canvas
 from pypdf import PdfWriter
 from pypdf.generic import ArrayObject,DictionaryObject,NameObject,NumberObject,DecodedStreamObject,EncodedStreamObject
 root=Path(__file__).resolve().parents[1]/'tests/fixtures/review';root.mkdir(parents=True,exist_ok=True)
-for variant in ['short-top','short-body','long-body']:
+for variant in ['short-top','short-body','long-body','headings-body','unclassified-body']:
  for side in ['before','after']:
   c=canvas.Canvas(str(root/f'f1-{variant}-{side}.pdf'),pagesize=(612,792),invariant=1)
   c.setFont('Helvetica',10)
   rows=[('SECTION HULL',40),('DEDUCTIBLE: USD '+('1,000' if side=='before' else '2,000'),60),('SECTION LIABILITY',80),('DEDUCTIBLE: USD '+('2,000' if side=='before' else '1,000'),100)]
+  if variant=='headings-body':rows=[(text.removeprefix('SECTION '),y) for text,y in rows]
+  if variant=='unclassified-body':rows=[(text.replace('SECTION HULL','Hull coverage').replace('SECTION LIABILITY','Liability coverage'),y) for text,y in rows]
   for text,y in rows:
-   if variant=='long-body' and text.startswith('DEDUCTIBLE'):text+=' each and every loss arising from declared operations'
+   if variant in ['long-body','headings-body','unclassified-body'] and text.startswith('DEDUCTIBLE'):text+=' each and every loss arising from declared operations'
    c.drawString(40,792-y-(130 if variant!='short-top' else 0),text)
   c.save()
 def base():

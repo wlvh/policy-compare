@@ -1,9 +1,14 @@
 import { spawnSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import {createHash} from 'node:crypto';
 const requested = process.argv[2],
   engines = requested ? [requested] : ["pdfjs", "mupdf"];
 if (engines.some((e) => !["pdfjs", "mupdf"].includes(e)))
   throw new Error("Unknown engine");
+const sourceMatches=(revision:string)=>{
+  const diff=spawnSync('git',['diff',revision,'--','apps','packages','engines','profiles','patches','deploy','vite.config.ts','bench'],{encoding:'utf8'});
+  return diff.status===0&&!diff.stdout.trim();
+};
 const checks: {
   name: string;
   status: string;
@@ -62,14 +67,23 @@ if (existsSync(containerReport)) {
   if (x.status === "BLOCKED")
     Object.assign(checks.at(-1)!, { status: "BLOCKED", reason: x.reason });
 }
+if(checks.at(-1)?.status==='BLOCKED'&&existsSync('reports/ci-review-fixes.json')){
+  const ci=JSON.parse(readFileSync('reports/ci-review-fixes.json','utf8'));
+  if(ci.status==='PASS'&&ci.treeEquality==='PASS'&&sourceMatches(ci.productRevision)&&engines.every(e=>ci.containerStatus[e]==='PASS'))
+    Object.assign(checks.at(-1)!,{status:'PASS',reason:'Local Docker unavailable; actual Linux CI for the unchanged product passed: '+ci.runUrl});
+}
 if (existsSync("reports/engine-ab.json")) {
   const ab = JSON.parse(readFileSync("reports/engine-ab.json", "utf8"));
   for (const engine of engines) {
     const groups = ab.summary.filter((s: any) => s.engine === engine);
+    const buildFiles=Object.entries(ab.builds?.[engine]??{});
+    const bound=sourceMatches(ab.commit)&&buildFiles.length>0&&buildFiles.every(([file,hash])=>existsSync(file)&&createHash('sha256').update(readFileSync(file)).digest('hex')===hash);
+    const complete=groups.length===9&&groups.every((g:any)=>g.attempts>=20)&&ab.attempts.length===360&&ab.cold.length===6;
     checks.push({
       name: engine + "-development-performance",
       status:
-        groups.length!==9?'NOT_RUN':groups.some((s:any)=>s.developmentBudgetStatus==='FAIL')?'FAIL':groups.some((s:any)=>s.developmentBudgetStatus==='BLOCKED')?'BLOCKED':'PASS',
+        !bound?'BLOCKED':!complete?'NOT_RUN':groups.some((s:any)=>s.developmentBudgetStatus==='FAIL')?'FAIL':groups.some((s:any)=>s.developmentBudgetStatus==='BLOCKED')?'BLOCKED':'PASS',
+      reason:!bound?'Saved performance does not match current product sources/build hashes':!complete?'Formal balanced run is incomplete':undefined,
     });
   }
   checks.push({

@@ -3,6 +3,12 @@ import {compare} from '../packages/compare-core/index';
 import {textDoc} from './helpers';
 
 describe('independent review regressions F1/F3/F4',()=>{
+ for(const recognized of [true,false])it(`F1 repeated keys cannot erase swaps when heading ownership is ${recognized?'stable':'unresolved'}`,()=>{
+  const doc=(swap:boolean)=>textDoc([{text:recognized?'HULL':'Hull coverage',y:170},{text:`DEDUCTIBLE: USD ${swap?'2,000':'1,000'} each and every loss arising from declared operations`,y:190},{text:recognized?'LIABILITY':'Liability coverage',y:210},{text:`DEDUCTIBLE: USD ${swap?'1,000':'2,000'} each and every loss arising from declared operations`,y:230}]);
+  const result=compare(doc(false),doc(true));
+  if(recognized){expect(result.status).toBe('complete_for_scope');expect(result.differences).toHaveLength(2);for(const section of ['HULL','LIABILITY']){const d=result.differences.find(d=>d.structurePath?.section===section)!;expect(d).toBeDefined();expect(d.category).toBe('Material');}}
+  else{expect(result.status).toBe('partial');const d=result.differences.find(d=>d.hasTextChange&&d.structurePath?.field==='deductible')!;expect(d).toBeDefined();expect(d.defaultVisible).toBe(true);expect(d.oldText).toContain('1,000');expect(d.oldText).toContain('2,000');expect(d.newText).not.toBe(d.oldText);expect(d.left.length).toBeGreaterThan(0);expect(d.right.length).toBeGreaterThan(0);expect(result.unresolved.some(u=>u.reason==='ambiguous_identity')).toBe(true);}
+ });
  for(const top of [true,false])for(const long of [false,true])it(`F1 preserves section-field ownership (top=${top}, qualifier=${long})`,()=>{
   const doc=(swap:boolean)=>textDoc([
    {text:'SECTION HULL',y:top?40:170},

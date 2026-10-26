@@ -632,7 +632,7 @@ function App() {
                 </div>
                 <h3>
                   {[
-                    /^(SECTION|CHAPTER)\s/.test(d.structurePath?.section??'')?d.structurePath?.section:null,
+                    !['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,

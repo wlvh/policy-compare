@@ -321,7 +321,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+review-fixes.1",
+    coreVersion: VERSION + "+review-fixes.2",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -432,6 +432,25 @@ export function compare(
       bs.forEach((u) => usedR.add(u));
       (a as Unit & { repeats?: Unit[] }).repeats = as;
       (b as Unit & { repeats?: Unit[] }).repeats = bs;
+    } else if(as.every(u=>u.role==='field'||u.role==='label')&&bs.every(u=>u.role==='field'||u.role==='label')) {
+      // A repeated field key is not a unique identity. First refine by a
+      // stable, unique heading context; never use equal values to choose owners.
+      for(const title of new Set(as.map(u=>u.title).filter(Boolean))){
+        const aa=as.filter(u=>u.title===title),bb=bs.filter(u=>u.title===title);
+        if(aa.length===1&&bb.length===1){
+          for(const u of [aa[0],bb[0]]){
+            if(u.path.section!==title)u.path.section=u.path.section==='risk_details'?title:`${u.path.section} / ${title}`;
+            u.identity=`${u.path.section}/${u.path.entity??''}/${u.path.field}`;
+          }
+          bind(aa[0],bb[0],'reliable-field-identity');
+        }
+      }
+      const remainingL=as.filter(u=>!usedL.has(u)),remainingR=bs.filter(u=>!usedR.has(u));
+      if(remainingL.length&&remainingR.length){
+        const a=aggregate(remainingL,'uncertain-field-left-'+key,true),b=aggregate(remainingR,'uncertain-field-right-'+key,true);
+        bind(a,b,'unresolved-field-group');remainingL.forEach(u=>usedL.add(u));remainingR.forEach(u=>usedR.add(u));
+        if(a.role==='field')result.unresolved.push({reason:'ambiguous_identity',message:'同名字段缺少唯一归属；组内原文变化仍展示，不按金额相同跨位置配对',left:locations(a,'left'),right:locations(b,'right'),defaultVisible:true});
+      }
     }
   }
   const eligible = (u: Unit) => !u.identity && u.role !== "cell";
@@ -726,7 +745,7 @@ export function compare(
       },
       reviewReasons:
         (a ?? b!).path.confidence === "unresolved"
-          ? ["无法确定唯一表格行身份"]
+          ? [(a??b!).path.table?"无法确定唯一表格行身份":"无法确定同名字段的唯一归属"]
           : [],
       occurrences: [],
     };

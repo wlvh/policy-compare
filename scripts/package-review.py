@@ -7,11 +7,12 @@ import subprocess
 import tarfile
 import tempfile
 import zipfile
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-TAG = 'review-20261026'
+TAG = sys.argv[1] if len(sys.argv)>1 else 'review-20261026-fixes'
 PREFIX = 'policy-compare-review/'
-OUT = ROOT / f'policy-compare-review-20261026.zip'
+OUT = ROOT / f'policy-compare-{TAG}.zip'
 
 def git(*args):
     return subprocess.check_output(['git', *args], cwd=ROOT)
@@ -24,7 +25,7 @@ if git('status', '--porcelain').strip():
     raise SystemExit('Commit the reviewed source and documents before packaging.')
 ab = json.loads((ROOT / 'reports/engine-ab.json').read_text())
 frozen = ab['commit']
-if git('diff', frozen, revision, '--', 'apps', 'packages', 'engines', 'profiles', 'deploy', 'vite.config.ts').strip():
+if git('diff', frozen, revision, '--', 'apps', 'packages', 'engines', 'profiles', 'patches', 'deploy', 'vite.config.ts', 'bench').strip():
     raise SystemExit('Product sources changed after the measured product revision; review the provenance before packaging.')
 inputs = json.loads((ROOT / 'bench/generated/manifest.json').read_text())
 input_hashes = {item['name']: item['sha256'] for item in inputs}

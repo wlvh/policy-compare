@@ -58,7 +58,7 @@ for(const [index,artifact] of manifest.artifacts.entries()){
  }catch(e){records.push({engine,status:'FAIL',error:String(e)});}
  finally{await browser?.close();if(child){const stopped=new Promise<void>(r=>child!.once('exit',()=>r()));child.kill('SIGTERM');await stopped;}}
 }
-const report={subject:'extracted_delivery_archives_on_macos',status:records.every(r=>r.status==='PASS')?'PASS':'FAIL',linuxStatus:'BLOCKED',extractionDirectory:root,productRevision:frozen.commit,records};
+const report={subject:'extracted_delivery_archives_on_macos',status:records.every(r=>r.status==='PASS')?'PASS':'FAIL',linuxStatus:'NOT_RUN',extractionDirectory:root,productRevision:frozen.commit,records};
 writeFileSync(join(project,'reports/delivery-check.json'),JSON.stringify(report,null,2)+'\n');
 console.log({status:report.status,linuxStatus:report.linuxStatus,records:records.map(({requests,...rest})=>rest),extractionDirectory:root});
 process.exitCode=report.status==='PASS'?0:1;

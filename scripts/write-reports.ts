@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync,statSync,readdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,statSync,readdirSync,existsSync} from 'node:fs';
 const load=(p:string)=>JSON.parse(readFileSync(p,'utf8'));
 const ab=load('reports/engine-ab.json'),engines=['pdfjs','mupdf'];
 const mib=(bytes:number)=>`${(bytes/2**20).toFixed(1)}`;
@@ -6,11 +6,19 @@ const sec=(ms:number)=>`${(ms/1000).toFixed(3)}`;
 const median=(xs:number[])=>[...xs].sort((a,b)=>a-b)[Math.max(0,Math.ceil(xs.length/2)-1)];
 const files=(dir:string):string[]=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(dir+'/'+e.name):[dir+'/'+e.name]);
 const allDone=ab.attempts.length===360&&ab.cold.length===6&&ab.summary.every((s:any)=>s.attempts===20);
+if(!allDone)throw new Error('The formal A/B is incomplete; do not publish a completed report.');
+const ci=existsSync('reports/ci-review-fixes.json')?load('reports/ci-review-fixes.json'):null;
+const ciBound=ci?.productRevision===ab.commit&&ci?.treeEquality==='PASS';
+const containerStatus=ciBound&&engines.every(e=>ci.containerStatus[e]==='PASS')?'PASS':'BLOCKED';
+const containerEvidence=containerStatus==='PASS'?`GitHub Linux CI 实际构建、只读非 root 启动与健康检查通过；${ci.runUrl}`:'本机 Docker 不可用；尚无与当前产品绑定的 Linux CI 通过证据';
+const browserCounts=Object.fromEntries(engines.map(e=>[e,load(`reports/browser-tests-${e}.json`).stats.expected]));
+const reviewStatus=engines.every(e=>{const r=load(`reports/review-regressions-${e}.json`);return r.status==='PASS'&&r.revision===ab.commit&&load(`reports/browser-review-regressions-${e}.json`).status==='PASS';})?'PASS':'FAIL';
 const dataStatus=allDone&&ab.attempts.every((a:any)=>a.status==='PASS')&&ab.cold.every((a:any)=>a.status==='PASS')?'PASS':'FAIL';
 const budgetStatus=ab.summary.some((s:any)=>s.developmentBudgetStatus==='FAIL')?'FAIL':ab.summary.every((s:any)=>s.developmentBudgetStatus==='PASS')?'PASS':'BLOCKED';
 const timingStatus=ab.summary.every((s:any)=>s.timingBudgetStatus==='PASS')?'PASS':'FAIL';
 const interactions=load('reports/interaction-profile.json');
 if(interactions.productRevision!==ab.commit)throw new Error('Interaction evidence must use the same product revision as A/B');
+if(load('reports/delivery-check.json').productRevision!==ab.commit)throw new Error('Delivery evidence must match the current measured product.');
 const interactionRows=interactions.summary.map((s:any)=>`| ${s.engine} | ${s.attempts-s.failures}/${s.attempts} | ${s.responseP95.toFixed(1)} | ${s.responseMax.toFixed(1)} | ${s.jumpCompleteP95.toFixed(1)} | ${s.cancelP95.toFixed(1)} | ${s.status} |`);
 const rows=ab.summary.map((s:any)=>`| ${s.workload} | ${s.engine} | ${s.successes}/${s.attempts} | ${s.attempts-s.successes} | ${sec(s.successfulTiming.median)} | ${sec(s.successfulTiming.p95)} | ${sec(s.successfulTiming.max)} | ${mib(s.peakIncrementalBytes)} | ${s.timingBudgetStatus} | ${s.fullMemoryAcceptance} |`);
 const coldRows=engines.map(engine=>{const xs=ab.cold.filter((c:any)=>c.engine===engine&&c.status==='PASS').map((c:any)=>c.initializationMs);const bytes=ab.cold.filter((c:any)=>c.engine===engine).map((c:any)=>c.requests.reduce((n:number,r:any)=>n+(r.responseBodySize??0),0));return `| ${engine} | ${xs.length}/3 | ${sec(median(xs))} | ${sec(Math.min(...xs))}–${sec(Math.max(...xs))} | ${mib(median(bytes))} |`;});
@@ -20,11 +28,15 @@ writeFileSync('docs/engine-comparison.md',`# PDF.js / MuPDF.js 实测对照
 
 日期：2026-10-26。产品冻结提交：\`${ab.commit}\`。两版使用同一公共核心、profile、预算与 UI；正式报告里的 build 哈希锁定实际产物。原始逐轮记录：reports/engine-ab.json。
 
+这是 F1–F7 修复后的新测量。原 f81aebd/2847b56 报告保存在 reports/baseline-review-2847b56；它们只代表旧产品和原评分器的结果，不替代本次测量。
+
 当前状态：完整路径时间与正确性采集 **${dataStatus}**；时间预算 **${timingStatus}**；包含完整内存的开发机验收 **${budgetStatus}**；普通 16 GiB 参考设备 **BLOCKED**。已保存的第一批测量中，标准表格的 Chrome helper 在采集时退出；因此不能保证短寿命子进程的历史峰值都被回收。本批统一将完整内存验收标为 BLOCKED；已测物理峰值与 RSS 仍如实报告。诊断原件在 reports/diagnostics。这份报告不能替代业务试点验收。
 
 ## 正确性先决条件
 
 两引擎分别通过原 32 对业务规则、六个控制用例与真实浏览器精细位置评分。产品不读 source/expected/layout。R25 金额与双侧来源保留；R27/R28 用具体区域和 partial 表达图片未覆盖，未声称读出图片金额。Node PDF.js 的 run 来源与浏览器 DOM Range 测量分别记录，不混为一项通过。
+
+审核回归 ${reviewStatus}：两个 P1 在真实 PDF 和浏览器中验证；每版 10 项真实 PDF 回归，补充章节归属、坏页/好页、嵌套 Form 和诊断隔离。F6 评分器修复后重新执行了原 32 对精细定位；仅一侧正确不能代表替换双方通过。新测量保留同样的输入 PDF 字节、性能预算和样本次数。
 
 MuPDF 使用原生字符 quad。PDF.js 先保留提取项与标量/UTF-16 区间，显示时核对同样的 TextContent 并用真实加载字体的 DOM 范围测量。默认通用文字层字体曾造成标点偏移，修复与失败证据在 reports/failures。没有均分段落框，也没有修改标准答案。
 
@@ -86,7 +98,7 @@ ${paired.map((p:any)=>`- ${p.name}：${p.medianDeltaMs.toFixed(1)} ms；MuPDF �
 
 ## 未完成条件
 
-Linux 两个容器变体因本机 Docker daemon/API 无响应未完成实际构建启动，状态 BLOCKED；文件存在不算容器通过。普通 16 GiB 参考设备及真实业务/留出材料未提供。OpenShift/Harness 没有部署，但它们是可选组织接入，不是本地工程阻塞的替代理由。
+Linux 两个容器变体：${containerStatus}。${containerEvidence}。旧本机 Docker BLOCKED 记录保留，不覆盖为通过。普通 16 GiB 参考设备及真实业务/留出材料未提供。OpenShift/Harness 没有部署，它们属于可选组织接入。完整内存统计仍受短寿命子进程覆盖缺口限制。
 `);
 const fixture=load('validation/dataset/fixture_check_report.json'),core=load('reports/core-tests.json');
 writeFileSync('docs/acceptance-report.md',`# 验收报告
@@ -103,7 +115,8 @@ writeFileSync('docs/acceptance-report.md',`# 验收报告
 | MuPDF 产品规则 | ${load('reports/rules-mupdf.json').status} | 32 对独立评分及原生字符位置 |
 | PDF.js 浏览器精细定位 | ${load('reports/browser-rules-pdfjs.json').status} | 32 对，以原作者字符/页面/方向/合理区域核验 |
 | MuPDF 浏览器精细定位 | ${load('reports/browser-rules-mupdf.json').status} | 同一位置标准，无引擎专属放宽 |
-| 浏览器流程 | PASS | 各 11 组：搜索、两侧位置、移动、导出、异常、旋转 Unicode、覆盖区域、20 完整任务、20 取消 |
+| 浏览器流程 | PASS | ${engines.map(e=>`${e} ${browserCounts[e]} 组`).join('；')}：包括新审核回归及原搜索、移动、导出、20 完整任务/20 取消 |
+| F1–F7 审核回归 | ${reviewStatus} | 两个 P1 均在实际浏览器验证；每版 10 项真实 PDF；F3/F4/F6 核心反例及 F7 浏览器缓存升级检查 |
 | CLI | ${load('reports/cli-checks.json').status} | 两引擎实际 0/2/3/130 退出状态；原文来源同公共契约 |
 | PDF.js 独立构建 | ${load('reports/pdfjs-independent-build.json').status} | 无 MuPDF 安装、目录、下载依赖或产物代码；独立包缓存验证 |
 | 两个交付包解压运行 | ${load('reports/delivery-check.json').status} | 独立目录启动、包内 R32 比较/定位/导出/释放；全部静态文件与 A/B 哈希一致；macOS 验证 |
@@ -111,7 +124,7 @@ writeFileSync('docs/acceptance-report.md',`# 验收报告
 | 开发机时间/交互/取消预算 | ${timingStatus==='PASS'&&interactions.summary.every((s:any)=>s.status==='PASS')?'PASS':'FAIL'} | 九组时间预算；每引擎另 20 次全程交互和晚期取消 |
 | 开发机性能预算 | ${budgetStatus} | 详见 engine-comparison.md，不代替参考机 |
 | 普通 16 GiB 参考设备 | BLOCKED | 当前实测机为 M4 Max / 128 GiB |
-| Linux 容器构建启动 | BLOCKED | Docker socket、info 与 UI 均无响应；双变体 Dockerfile/运行入口已交付 |
+| Linux 容器构建启动 | ${containerStatus} | ${containerEvidence} |
 | 真实开发样本/独立留出 | BLOCKED | 未获得至少 3 对真实开发样本、3–5 对完整审阅及另 3 对不同来源留出 |
 | 组织生产接入 | NOT_RUN | 没有执行发布、合并、OpenShift/Harness 部署；属于可选接入 |
 
@@ -123,7 +136,7 @@ writeFileSync('docs/acceptance-report.md',`# 验收报告
 
 另有一项测量缺口：物理统计不能回收采集前已经退出的短寿命 helper 的全部历史峰值；因此完整内存保持 BLOCKED。第一批缺失记录保留，未被后续测量覆盖。
 
-解除剩余阻塞的最小条件：恢复可用的本地 Linux 容器服务；提供能覆盖短寿命浏览器进程的完整内存采集；提供普通参考设备或明确的目标设备验收环境；提供获准真实样本与封存留出及审阅结果；在实际对外分发/共享/生产范围确定后落实相应许可条件。没有自动上传真实保单、创建外部仓库、推送、合并或生产发布。
+解除剩余阻塞的最小条件：提供能覆盖短寿命浏览器进程的完整内存采集；提供普通参考设备或明确的目标设备验收环境；提供获准真实样本与封存留出及审阅结果；在实际公开分发/共享/生产范围确定后落实相应许可条件。私有 GitHub 审核仓库和上传已由用户授权；Draft PR 保留，未合并或生产部署，未上传真实保单。Linux CI 为独立补验证据，不能代替浏览器目标设备测量。
 `);
 writeFileSync('docs/pr-description.md',`# 同一审阅产品的 PDF.js / MuPDF 独立构建
 
@@ -131,10 +144,12 @@ writeFileSync('docs/pr-description.md',`# 同一审阅产品的 PDF.js / MuPDF �
 
 验证：两版各 32 对规则与浏览器位置通过，公共 ${core.numPassedTests} 项测试，CLI 状态及连续任务/取消通过；正式 A/B ${dataStatus}、开发机预算 ${budgetStatus}。PDF.js 在不安装 MuPDF 的独立环境构建通过。原标准答案未改，失败证据保留。
 
-未通过的发布条件：本机 Docker 服务无响应，Linux 两变体为 BLOCKED；普通参考设备及真实业务/留出验收缺失。工程与业务试点均不宣称全通过。未推送、未合并、未生产部署。
+审核修复：F1–F7 ${reviewStatus}。章节内字段身份优先；严重内容解码错误传为缺口/失败；局部歧义保留独立增删；混合修改不误归续期；Form 矩阵、分侧精细定位评分及缓存升级均有回归。旧失败与旧性能保留，新产品以本报告 SHA 为准。
+
+Linux 两变体 ${containerStatus}，证据见 reports/ci-review-fixes.json。普通参考设备、完整内存及真实业务/留出验收仍有缺口。私有审核仓库已获授权；保留 Draft，未合并、未生产部署。
 `);
 for(const engine of engines){
  const rules=load(`reports/rules-${engine}.json`),browser=load(`reports/browser-rules-${engine}.json`),interaction=interactions.summary.find((s:any)=>s.engine===engine),stats=ab.summary.filter((s:any)=>s.engine===engine);
- writeFileSync(`docs/acceptance-${engine}.md`,`# ${engine} 独立版本验收\n\n产品冻结提交：${ab.commit}。共用核心/UI/profile/评分器，单个任务两侧固定使用本引擎。\n\n| 项目 | 状态 | 证据 |\n|---|---|---|\n| 32 对原规则 | ${rules.status} | reports/rules-${engine}.json |\n| 32 对浏览器精细来源位置 | ${browser.status} | reports/browser-rules-${engine}.json |\n| 浏览器全流程 | PASS | reports/browser-tests-${engine}.json；11 组，含连续 20 次任务/取消 |\n| 6 项机制 PDF | PASS | reports/pdf-checks-${engine}.json |\n| CLI 0/2/3/130 | PASS | reports/cli-checks.json |\n| 热比较 | ${stats.every((s:any)=>s.successes===20)?'PASS':'FAIL'} | 180/180；9 组 × 20 次，reports/engine-ab.json |\n| 时间预算 | ${stats.every((s:any)=>s.timingBudgetStatus==='PASS')?'PASS':'FAIL'} | 同上逐轮原始记录 |\n| 全程交互/晚期取消 | ${interaction.status} | 20 次，reports/interaction-profile.json |\n| 完整内存 | BLOCKED | 短寿命子进程历史峰值覆盖不完整 |\n| 目标/普通参考设备 | BLOCKED | 当前为 M4 Max / 128 GiB 开发机 |\n| Linux 容器 | BLOCKED | Docker daemon/API 无响应，reports/container.json |\n\n${engine==='pdfjs'?'PDF.js 独立安装与构建 PASS：独立缓存和目录内没有 MuPDF 依赖、资源或运行时请求。CLI 位置为 run/提取项范围，浏览器实际文字层范围另行测量；未以段框冒充字符位置。':'MuPDF 保留原生字符 quad；非 BMP 的 fromCharCode 问题由随包版本化补丁修复。实际包许可为 AGPL-3.0-or-later，本轮本地开发评估已授权；未声称外部分发/共享/生产许可已落实。'}\n\n可运行产物：delivery/policy-compare-${engine}.tar.gz；解压执行 Node 24 的 node server.mjs。源码开发/构建/验收入口分别为 pnpm dev:${engine}、pnpm build:${engine}、pnpm verify:${engine}。\n\n本版本功能与本地时间测量通过，**工程综合验收 BLOCKED；业务试点 BLOCKED**。限制、第三方范围及最小缺失条件见 acceptance-report.md 和 engine-comparison.md。\n`);
+ writeFileSync(`docs/acceptance-${engine}.md`,`# ${engine} 独立版本验收\n\n产品冻结提交：${ab.commit}。共用核心/UI/profile/评分器，单个任务两侧固定使用本引擎。\n\n| 项目 | 状态 | 证据 |\n|---|---|---|\n| 32 对原规则 | ${rules.status} | reports/rules-${engine}.json |\n| 32 对浏览器精细来源位置 | ${browser.status} | reports/browser-rules-${engine}.json |\n| 浏览器全流程 | PASS | reports/browser-tests-${engine}.json；${browserCounts[engine]} 组，含新审核回归及连续 20 次任务/取消 |\n| 6 项机制 PDF | PASS | reports/pdf-checks-${engine}.json |\n| 审核真实 PDF 回归 | ${load(`reports/review-regressions-${engine}.json`).status} | 每版 10 项，reports/review-regressions-${engine}.json |\n| CLI 0/2/3/130 | PASS | reports/cli-checks.json |\n| 热比较 | ${stats.every((s:any)=>s.successes===20)?'PASS':'FAIL'} | 180/180；9 组 × 20 次，reports/engine-ab.json |\n| 时间预算 | ${stats.every((s:any)=>s.timingBudgetStatus==='PASS')?'PASS':'FAIL'} | 同上逐轮原始记录 |\n| 全程交互/晚期取消 | ${interaction.status} | 20 次，reports/interaction-profile.json |\n| 完整内存 | BLOCKED | 短寿命子进程历史峰值覆盖不完整 |\n| 目标/普通参考设备 | BLOCKED | 当前为 M4 Max / 128 GiB 开发机 |\n| Linux 容器 | ${containerStatus} | reports/ci-review-fixes.json；旧本机 BLOCKED 另存 |\n\n${engine==='pdfjs'?'PDF.js 独立安装与构建 PASS：独立缓存和目录内没有 MuPDF 依赖、资源或运行时请求。CLI 位置为 run/提取项范围，浏览器实际文字层范围另行测量；未以段框冒充字符位置。':'MuPDF 保留原生字符 quad；非 BMP 的 fromCharCode 问题由随包版本化补丁修复。实际包许可为 AGPL-3.0-or-later，本轮本地开发评估已授权；未声称外部分发/共享/生产许可已落实。'}\n\n可运行产物：delivery/policy-compare-${engine}.tar.gz；解压执行 Node 24 的 node server.mjs。源码开发/构建/验收入口分别为 pnpm dev:${engine}、pnpm build:${engine}、pnpm verify:${engine}。\n\n本版本功能与本地时间测量通过，**工程综合验收 BLOCKED；业务试点 BLOCKED**。限制、第三方范围及最小缺失条件见 acceptance-report.md 和 engine-comparison.md。\n`);
 }
 console.log({dataStatus,timingStatus,budgetStatus,attempts:ab.attempts.length,productRevision:ab.commit});
