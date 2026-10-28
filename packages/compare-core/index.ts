@@ -120,6 +120,114 @@ function tablePairs(
   }
   // Unmatched rows with unambiguous keys are additions/removals, not fuzzy text candidates.
 }
+const valueLike = (cell: string) =>
+  /%|\d[.,]\d|\b(?:USD|EUR|GBP)\b|[$€£]|\d{1,2}\/\d{1,2}\/\d{2,4}/u.test(cell);
+const counter = (cell: string) => {
+  const m = cell.match(/^\D{0,8}?(\d{1,4})\.?$/u);
+  return m ? Number(m[1]) : null;
+};
+/**
+ * Rows recovered from one baseline pair only through identity evidence. Identity
+ * cells are the non-value cells of a row (amounts, shares and dates are compared,
+ * never used as identity); a first column counting 0..n or 1..n is a row number.
+ * A cell whose position and text are unique within the same table on both sides
+ * links two rows. A row linked to exactly one row binds; rows whose links
+ * conflict stay unresolved together. Rows are never paired by text similarity.
+ */
+function rowIdentity(
+  left: Unit[],
+  right: Unit[],
+  usedL: Set<Unit>,
+  usedR: Set<Unit>,
+  bind: (a: Unit, b: Unit, method: string) => void,
+  result: CompareResult,
+) {
+  const tables = (us: Unit[]) => {
+    const m = new Map<string, Unit[]>();
+    for (const u of us)
+      if (u.rowCells) {
+        const t = u.path.section + "\u0000" + u.title;
+        m.set(t, [...(m.get(t) ?? []), u]);
+      }
+    return m;
+  };
+  const counting = (rows: Unit[]) => {
+    const n = rows
+      .map((r) => counter(r.rowCells![0]))
+      .filter((x): x is number => x !== null);
+    return n.length >= 2 && n[0] <= 1 && n.every((x, i) => x === n[0] + i);
+  };
+  const owners = (rows: Unit[], numbered: boolean) => {
+    const m = new Map<string, Unit[]>();
+    for (const r of rows) {
+      const cells =
+        numbered && counter(r.rowCells![0]) !== null
+          ? r.rowCells!.slice(1)
+          : r.rowCells!;
+      cells
+        .map((c) => c.normalize("NFKC"))
+        .filter((c) => c.length >= 2 && !valueLike(c))
+        .forEach((c, k) => {
+          const key = k + "\u0000" + c;
+          m.set(key, [...(m.get(key) ?? []), r]);
+        });
+    }
+    return m;
+  };
+  const lt = tables(left),
+    rt = tables(right);
+  const links = new Map<Unit, Set<Unit>>(),
+    via = new Map<Unit, string>();
+  for (const [t, rows] of lt) {
+    const others = rt.get(t);
+    if (!others) continue;
+    const numbered = counting(rows) || counting(others);
+    const ro = owners(others, numbered);
+    for (const [key, as] of owners(rows, numbered)) {
+      const bs = ro.get(key);
+      if (as.length !== 1 || bs?.length !== 1) continue;
+      if (usedL.has(as[0]) || usedR.has(bs[0])) continue;
+      links.set(as[0], (links.get(as[0]) ?? new Set()).add(bs[0]));
+      links.set(bs[0], (links.get(bs[0]) ?? new Set()).add(as[0]));
+      if (!via.has(as[0])) via.set(as[0], key.split("\u0000")[1]);
+    }
+  }
+  const leftSide = new Set(left),
+    seen = new Set<Unit>();
+  for (const start of left) {
+    if (!links.has(start) || seen.has(start)) continue;
+    const group: Unit[] = [],
+      queue = [start];
+    while (queue.length) {
+      const u = queue.pop()!;
+      if (seen.has(u)) continue;
+      seen.add(u);
+      group.push(u);
+      queue.push(...(links.get(u) ?? []));
+    }
+    const byOrder = (x: Unit, y: Unit) => x.order - y.order;
+    const as = group.filter((u) => leftSide.has(u)).sort(byOrder),
+      bs = group.filter((u) => !leftSide.has(u)).sort(byOrder);
+    if (as.length === 1 && bs.length === 1) {
+      as[0].path.rowKey = bs[0].path.rowKey = via.get(as[0]) ?? null;
+      bind(as[0], bs[0], "row-identity");
+      continue;
+    }
+    const x = aggregate(as, "row-conflict-left-" + as[0].id, true),
+      y = aggregate(bs, "row-conflict-right-" + bs[0].id, true);
+    bind(x, y, "unresolved-row-identity");
+    as.forEach((u) => usedL.add(u));
+    bs.forEach((u) => usedR.add(u));
+    result.unresolved.push({
+      reason: "ambiguous_identity",
+      message:
+        "表格行的身份证据互相冲突（例如编号与名称指向不同行）；未自动配对，组内原文变化仍展示",
+      left: locations(x, "left"),
+      right: locations(y, "right"),
+      defaultVisible: true,
+    });
+  }
+}
 function datePeriod(text: string): [number, number] | null {
   const months = [
     "January",
@@ -321,7 +429,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+review-fixes.2",
+    coreVersion: VERSION + "+row-identity.1",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -489,6 +597,7 @@ export function compare(
       }
     }
   }
+  rowIdentity(la, rb, usedL, usedR, bind, result);
   // Adjacent split/merge candidates are evaluated before fuzzy 1:1 locks.
   for (const [source, target, su, tu, reverse] of [
     [la, rb, usedL, usedR, false],
@@ -611,6 +720,7 @@ export function compare(
       as,
       bs,
       (aa, bb) => {
+        if ([...aa, ...bb].some((u) => u.rowCells)) return null;
         const a = get(aa),
           b = get(bb);
         if (a.title !== b.title || a.path.section !== b.path.section)
@@ -626,6 +736,8 @@ export function compare(
       },
       (a, b) =>
         a.order + 1 === b.order &&
+        !a.rowCells &&
+        !b.rowCells &&
         a.title === b.title &&
         a.path.section === b.path.section,
     );
@@ -639,6 +751,7 @@ export function compare(
   for (const a of la.filter((u) => !usedL.has(u) && u.role !== "cell")) {
     for (const b of rb.filter((u) => !usedR.has(u) && u.role !== "cell")) {
       if (a.role !== b.role || a.identity !== b.identity) continue;
+      if (a.rowCells || b.rowCells) continue;
       const sameContext =
         a.path.section === b.path.section && a.title === b.title;
       const at = tokens(a),

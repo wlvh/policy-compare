@@ -10,6 +10,8 @@ export type Unit = MappedText & {
   primary?: string;
   secondary?: string;
   tableRow?: string;
+  /** Cell texts of a row recovered from one baseline, left to right. */
+  rowCells?: string[];
   title: string;
 };
 export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void): Unit[] {
@@ -102,8 +104,18 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
     }
     const isTop = y < 110,
       isFooter = y > row.p.height - 50;
+    // Amounts, dates, registrations and clause codes are not headings, even in
+    // capitals; outline numbers such as "2.1" still are.
+    const letters = (text.match(/\p{L}/gu) ?? []).length,
+      digits = (text.match(/\p{N}/gu) ?? []).length,
+      codeLike =
+        !/^\d{1,2}(?:\.\d{1,2})*\.?$/u.test(text) &&
+        (/\p{L}\p{N}|\p{N}\p{L}/u.test(text) ||
+          digits >= 0.3 * (letters + digits));
     const heading =
-      /^[\p{Lu}\d][\p{Lu}\d\s:&/().,-]{2,}$/u.test(text) && text.length < 100;
+      /^[\p{Lu}\d][\p{Lu}\d\s:&/().,-]{2,}$/u.test(text) &&
+      text.length < 100 &&
+      !codeLike;
     // Explicit chapter ownership outranks the page-position heuristic. A real
     // SECTION heading can be near the top of a page without being mere chrome.
     if (heading && /^(SECTION|CHAPTER)\s+\S/u.test(text)) {
@@ -196,6 +208,45 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
         continue;
       }
     }
+    // Three or more clearly separated text clusters on one baseline form a row.
+    // Clusters, not extraction items, are counted: a font switch inside a
+    // sentence leaves no gap. Cells keep their characters; nothing is split.
+    if (section !== profile.table.name) {
+      const size = row.refs[0].char.size;
+      let end = i + 1;
+      while (
+        end < lines.length &&
+        lines[end].p === row.p &&
+        lines[end].text.trim() &&
+        Math.abs(lines[end].refs[0].char.origin[1] - y) < 0.3 * size
+      )
+        end++;
+      if (end - i >= 3) {
+        const span = (g: (typeof lines)[number]) => {
+          const xs = g.refs.flatMap((r) => [0, 2, 4, 6].map((k) => r.char.quad[k]));
+          return [Math.min(...xs), Math.max(...xs)];
+        };
+        const group = lines
+          .slice(i, end)
+          .sort((a, b) => span(a)[0] - span(b)[0]);
+        const cells = [[group[0].text.trim()]];
+        for (let j = 1; j < group.length; j++)
+          if (span(group[j])[0] - span(group[j - 1])[1] > size)
+            cells.push([group[j].text.trim()]);
+          else cells.at(-1)!.push(group[j].text.trim());
+        if (cells.length >= 3) {
+          const u = add(
+            group.flatMap((g, j) => (j ? [null, ...g.refs] : g.refs)),
+            "body",
+          );
+          u.rowCells = cells.map((c) => c.join(" "));
+          u.path.table = "recovered_rows";
+          active = null;
+          i = end - 1;
+          continue;
+        }
+      }
+    }
     if (heading) {
       title = text;
       if (/^(SECTION|CHAPTER)\b/.test(text)) section = text;
@@ -210,7 +261,18 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
       append(active, row.refs);
       continue;
     }
-    if (active && active.role === "body" && active.title === title) {
+    // A vertical gap well above the line height on the same page ends a paragraph.
+    const previous = active?.refs.findLast(Boolean);
+    if (
+      active &&
+      active.role === "body" &&
+      active.title === title &&
+      !(
+        previous &&
+        previous.page === row.p &&
+        y - previous.char.origin[1] > 1.6 * row.refs[0].char.size
+      )
+    ) {
       append(active, row.refs);
       continue;
     }
