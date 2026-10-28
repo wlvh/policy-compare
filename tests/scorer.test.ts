@@ -453,17 +453,22 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
     expect(failing(misplaced)).toContain("R13_move_and_replacement:E2");
   });
 });
-// Layout runs and source locations taken from a synthetic document, one run per line.
-const layoutOf = (d: DocInput, paths: Record<string, string> = {}) => ({
+// Layout runs and source locations taken from a synthetic document, one run per line; `split`
+// cuts a line into cell runs ([start, end, logical path]), and an empty split leaves it out.
+const layoutOf = (
+  d: DocInput,
+  paths: Record<string, string> = {},
+  split: Record<string, [number, number, string][]> = {},
+) => ({
   pages: d.pages.map((p) => ({
-    text_runs: p.lines.map((l) => {
+    text_runs: p.lines.flatMap((l) => {
       const chars = l.charIds.map((id) => p.chars.find((c) => c.id === id)!);
-      return {
-        run_id: l.id,
-        logical_path: paths[l.id] ?? null,
-        text: chars.map((c) => c.text).join(""),
+      const run = (run_id: string, cs: typeof chars, logical_path: string | null) => ({
+        run_id,
+        logical_path,
+        text: cs.map((c) => c.text).join(""),
         direction: [1, 0],
-        characters: chars.map((c) => ({
+        characters: cs.map((c) => ({
           quad_tl_tr_br_bl: [
             [c.quad[0], c.quad[1]],
             [c.quad[2], c.quad[3]],
@@ -471,9 +476,20 @@ const layoutOf = (d: DocInput, paths: Record<string, string> = {}) => ({
             [c.quad[4], c.quad[5]],
           ],
         })),
-      };
+      });
+      return split[l.id]
+        ? split[l.id].map(([a, b, path], k) => run(`${l.id}.${k}`, chars.slice(a, b), path))
+        : [run(l.id, chars, paths[l.id] ?? null)];
     }),
   })),
+});
+// Characters [a, b) of a location.
+const slice = (loc: SourceLocation, a: number, b: number): SourceLocation => ({
+  ...loc,
+  rawRange: [loc.rawRange[0] + a, loc.rawRange[0] + b],
+  charIds: loc.charIds.slice(a, b),
+  text: loc.text.slice(a, b),
+  quads: loc.quads.slice(a, b),
 });
 const lineLoc = (d: DocInput, side: "left" | "right", lineId: string): SourceLocation => {
   const page = d.pages.find((p) => p.lines.some((l) => l.id === lineId))!;
@@ -527,7 +543,12 @@ const replaced = (
 describe("one correct event card cannot offset an extra wrong card (#10)", () => {
   // R26: registration renamed, every agreed value unchanged.
   // Columns: registration, serial, MSN (a bare-number identifier), currency, agreed value.
-  const table = (registration: string, bare: boolean, amounts = bare ? ["100000", "200000"] : ["100,000", "200,000"]) =>
+  const table = (
+    registration: string,
+    bare: boolean,
+    amounts = bare ? ["100000", "200000"] : ["100,000", "200,000"],
+    rows: string[] = [],
+  ) =>
     textDoc([
       { text: "SCHEDULE OF AIRCRAFT", y: 100 },
       { text: "TEST-A789", x: 40, y: 150 },
@@ -540,6 +561,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       { text: "1748", x: 240, y: 180 },
       { text: "USD", x: 300, y: 180 },
       { text: amounts[1], x: 360, y: 180 },
+      ...rows.map((text, i) => ({ text, x: 40, y: 210 + 30 * i })),
     ]);
   const cells = (row: string, first: number) =>
     Object.fromEntries(
@@ -549,9 +571,29 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       ]),
     );
   const paths = { ...cells("SYN-1026-001", 1), ...cells("SYN-1026-003", 6) };
-  const r26 = (bare = false, amounts?: string[]) => {
-    const left = table("TEST-C941", bare, amounts),
-      right = table("TEST-RENAMED", bare, amounts);
+  // Extra records "MSN OPERATOR AMOUNT", one source line each; layout.json cuts them into cells.
+  type Rows = { left: string[]; right: string[]; inLayout?: boolean };
+  const rowCells = (rows: string[], inLayout = true) =>
+    Object.fromEntries(
+      rows.map((text, i): [string, [number, number, string][]] => {
+        const a = text.indexOf(" "),
+          b = text.lastIndexOf(" "),
+          path = `aircraft_schedule.SYN-9${i}`;
+        return [
+          `l${11 + i}`,
+          inLayout
+            ? [
+                [0, a, `${path}.msn`],
+                [a + 1, b, `${path}.operator`],
+                [b + 1, text.length, `${path}.agreed_value`],
+              ]
+            : [],
+        ];
+      }),
+    );
+  const r26 = (bare = false, amounts?: string[], rows?: Rows) => {
+    const left = table("TEST-C941", bare, amounts, rows?.left),
+      right = table("TEST-RENAMED", bare, amounts, rows?.right);
     const expected: Expected = {
       case_id: "R26_key_change",
       required_status: "complete_for_scope",
@@ -600,7 +642,10 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     return {
       docs: [left, right] as [DocInput, DocInput],
       expected,
-      layout: { before: layoutOf(left, paths), after: layoutOf(right, paths) } as Layout,
+      layout: {
+        before: layoutOf(left, paths, rowCells(rows?.left ?? [], rows?.inLayout)),
+        after: layoutOf(right, paths, rowCells(rows?.right ?? [], rows?.inLayout)),
+      } as Layout,
       result,
       wrong,
     };
@@ -656,6 +701,59 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
+  // A card pairing two extra records: d.left/right cite whole rows, the text operations single cells.
+  const ROWS = { left: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"], right: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"] };
+  const rowCard = (x: ReturnType<typeof r26>, leftLine: string, rightLine: string, field = "registration") => {
+    const L = lineLoc(x.docs[0], "left", leftLine),
+      R = lineLoc(x.docs[1], "right", rightLine);
+    const [la, lb, ra, rb] = [L.text.indexOf(" "), L.text.lastIndexOf(" "), R.text.indexOf(" "), R.text.lastIndexOf(" ")];
+    const card = replaced("row", L, R, { section: "aircraft_schedule", entity: null, field, table: "aircraft_schedule", rowKey: null });
+    card.textOps = [
+      { kind: "delete", text: L.text.slice(0, la), left: [slice(L, 0, la)], right: [] },
+      { kind: "insert", text: R.text.slice(0, ra), left: [], right: [slice(R, 0, ra)] },
+      { kind: "equal", text: L.text.slice(la, lb + 1), left: [slice(L, la, lb + 1)], right: [slice(R, ra, rb + 1)] },
+      { kind: "delete", text: L.text.slice(lb + 1), left: [slice(L, lb + 1, L.text.length)], right: [] },
+      { kind: "insert", text: R.text.slice(rb + 1), left: [], right: [slice(R, rb + 1, R.text.length)] },
+    ];
+    return card;
+  };
+  const graded = (x: ReturnType<typeof r26>, card: Difference, fine = false) => {
+    x.result.differences.push(card);
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const locs = [...card.left, ...card.right, ...card.textOps.flatMap((o) => [...o.left, ...o.right])];
+    expect(locs.every((l) => resolveLocation(l, x.docs))).toBe(true);
+    return grade(x.result, x.expected, x.layout, x.docs, fine);
+  };
+  for (const fine of [false, true])
+    it(`R26: a wrong card citing whole rows cannot hide the amount change (fine geometry ${fine})`, () => {
+      const x = r26(true, undefined, ROWS);
+      expect(grade(x.result, x.expected, x.layout, x.docs, fine).status).toBe("PASS");
+      const score = graded(x, rowCard(x, "l11", "l12"), fine);
+      expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+      expect(score.status).toBe("FAIL");
+      expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+      expect(exitCode(summarize([score]))).toBe(1);
+    });
+  it("R26: the same wrong pairing cited cell by cell, or under a declared amount field, fails as well", () => {
+    const x = r26(true, undefined, ROWS);
+    const card = rowCard(x, "l11", "l12");
+    card.left = card.textOps.flatMap((o) => (o.kind === "insert" ? [] : o.left));
+    card.right = card.textOps.flatMap((o) => (o.kind === "delete" ? [] : o.right));
+    expect(graded(x, card).status).toBe("FAIL");
+    const y = r26(true, undefined, ROWS);
+    expect(graded(y, rowCard(y, "l11", "l12", "agreed_value")).status).toBe("FAIL");
+  });
+  it("R26: a whole-row card for one record's MSN change passes", () => {
+    const x = r26(true, undefined, { ...ROWS, right: ["1316 Alpha Air 100000", "1748 Alpha Air 200000"] });
+    expect(graded(x, rowCard(x, "l11", "l11")).status).toBe("PASS");
+  });
+  it("R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS", () => {
+    const x = r26(true, undefined, { ...ROWS, inLayout: false });
+    const score = graded(x, rowCard(x, "l11", "l12"));
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+    expect(exitCode(summarize([score]))).toBe(1);
   });
   it("R26: a bare-number identifier change (MSN) is not taken for an amount change", () => {
     const x = r26(true);

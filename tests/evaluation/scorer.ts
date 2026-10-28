@@ -152,16 +152,18 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field or whose locations sit on a layout.json amount cell; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too; delete/add amounts cancel only within one record and field (across cards without a record, or bare digits outside every layout run: NOT_EVALUATED)",
     tests: [
       "R26: correct registration card plus a wrong agreed-value card fails",
       "R26: a wrong bare-number amount card fails whatever field it claims",
       "R26: a wrong amount card cannot hide the change by citing one location per digit",
+      "R26: a wrong card citing whole rows cannot hide the amount change",
+      "R26: row-wide locations that layout.json does not cover are NOT_EVALUATED",
     ],
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field or whose locations sit on a layout.json amount cell; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too; delete/add amounts cancel only within one record and field (across cards without a record, or bare digits outside every layout run: NOT_EVALUATED)",
     tests: [
       "R11: correct label card plus a wrong",
       "R11: a wrong bare-number amount card filed under a non-amount field fails",
@@ -311,29 +313,35 @@ function moneyChanges(
     money(text ?? "", amountField(e.logical_path));
   const removed = expected.events.flatMap((e) => minus(of(e, e.old), of(e, e.new))),
     added = expected.events.flatMap((e) => minus(of(e, e.new), of(e, e.old)));
+  const unexplained = new Set<string>();
+  // The layout.json cells a card cites are found by geometry, whether it cites glyphs, cells or whole
+  // rows; a cited amount cell adds its bare value from the layout, whatever field the card claims.
+  // Digits of a bare number that fall in no layout run cannot be classified either way.
   const cardMoney = (d: Difference, side: "left" | "right") => {
     const text = side === "left" ? d.oldText : d.newText;
     if (amountField(d.structurePath?.field)) return money(text, true);
     const pages = layout[side === "left" ? "before" : "after"].pages;
-    // Fragments in one amount cell are joined in source order first, so splitting an amount
-    // across locations cannot hide a change.
-    const cells = new Map<string, SourceLocation[]>();
-    for (const loc of d[side])
-      pages.forEach((p, i) => {
-        for (const r of p.text_runs)
-          if (
-            AMOUNT_FIELDS.includes(r.logical_path?.split(".").at(-1) ?? "") &&
-            located([loc], [{ page_index: i, run_id: r.run_id }], pages, side)
-          )
-            cells.set(`${i}/${r.run_id}`, [...(cells.get(`${i}/${r.run_id}`) ?? []), loc]);
+    const cells = new Map<string, string>();
+    for (const loc of [...d[side], ...d.textOps.flatMap((o) => o[side])]) {
+      const runs = (pages[loc.pageIndex]?.text_runs ?? [])
+        .filter((r) => r.characters.length)
+        .map((r) => ({ r, b: box(r.characters.flatMap((c) => c.quad_tl_tr_br_bl)) }));
+      const hits = loc.quads.map((q) => {
+        const b = box([[q[0], q[1]], [q[2], q[3]], [q[4], q[5]], [q[6], q[7]]]);
+        return runs.filter((x) => overlap(b, x.b) > 0.5 * Math.min(area(b), area(x.b))).map((x) => x.r);
       });
-    return [
-      ...money(text),
-      ...[...cells.values()].flatMap((locs) => {
-        const cell = [...locs].sort((a, b) => a.rawRange[0] - b.rawRange[0]).map((l) => l.text).join("");
-        return minus(money(cell, true), money(cell));
-      }),
-    ];
+      for (const r of hits.flat())
+        if (AMOUNT_FIELDS.includes(r.logical_path?.split(".").at(-1) ?? ""))
+          cells.set(`${loc.pageIndex}/${r.run_id}`, r.text);
+      const chars = Array.from(loc.text),
+        lost =
+          chars.length === hits.length
+            ? chars.some((c, i) => /\d/.test(c) && !hits[i].length)
+            : !hits.some((h) => h.length);
+      if (lost && minus(money(loc.text, true), money(loc.text)).length)
+        unexplained.add(`card ${d.id} cites "${loc.text}" outside every layout.json run`);
+    }
+    return [...money(text), ...[...cells.values()].flatMap((t) => minus(money(t, true), money(t)))];
   };
   const allowed = (r: string[], a: string[]) =>
     !minus(r, removed).length && !minus(a, added).length;
@@ -370,9 +378,12 @@ function moneyChanges(
   const cancelled = pool.gone.length - r.length;
   return {
     violations: out,
-    open: !out.length && cancelled
-      ? [`${cancelled} removed amount(s) cancel only against added cards that show no common record`]
-      : [],
+    open: out.length
+      ? []
+      : [
+          ...(cancelled ? [`${cancelled} removed amount(s) cancel only against added cards that show no common record`] : []),
+          ...unexplained,
+        ],
   };
 }
 type Checked = { result: CompareResult; expected: Expected; layout: Layout };
