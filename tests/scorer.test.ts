@@ -483,14 +483,16 @@ const layoutOf = (
     }),
   })),
 });
-// Characters [a, b) of a location.
+// Characters [a, b) of a location; a run-level location keeps its shared quad.
 const slice = (loc: SourceLocation, a: number, b: number): SourceLocation => ({
   ...loc,
   rawRange: [loc.rawRange[0] + a, loc.rawRange[0] + b],
   charIds: loc.charIds.slice(a, b),
   text: loc.text.slice(a, b),
-  quads: loc.quads.slice(a, b),
+  quads: loc.precision === "run" ? loc.quads : loc.quads.slice(a, b),
 });
+// One location per character, in the given order.
+const glyphs = (loc: SourceLocation, order = Array.from(loc.text, (_, i) => i)) => order.map((i) => slice(loc, i, i + 1));
 const lineLoc = (d: DocInput, side: "left" | "right", lineId: string): SourceLocation => {
   const page = d.pages.find((p) => p.lines.some((l) => l.id === lineId))!;
   const line = page.lines.find((l) => l.id === lineId)!;
@@ -572,8 +574,8 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     );
   const paths = { ...cells("SYN-1026-001", 1), ...cells("SYN-1026-003", 6) };
   // Extra records "MSN OPERATOR AMOUNT", one source line each; layout.json cuts them into cells.
-  type Rows = { left: string[]; right: string[]; inLayout?: boolean };
-  const rowCells = (rows: string[], inLayout = true) =>
+  type Rows = { left: string[]; right: string[]; inLayout?: boolean; cover?: string[]; coarse?: boolean };
+  const rowCells = (rows: string[], inLayout = true, cover = ["msn", "operator", "agreed_value"]) =>
     Object.fromEntries(
       rows.map((text, i): [string, [number, number, string][]] => {
         const a = text.indexOf(" "),
@@ -582,11 +584,11 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
         return [
           `l${11 + i}`,
           inLayout
-            ? [
+            ? ([
                 [0, a, `${path}.msn`],
                 [a + 1, b, `${path}.operator`],
                 [b + 1, text.length, `${path}.agreed_value`],
-              ]
+              ] as [number, number, string][]).filter(([, , p]) => cover.includes(p.split(".").at(-1)!))
             : [],
         ];
       }),
@@ -618,6 +620,18 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
         },
       },
     };
+    const layout = {
+      before: layoutOf(left, paths, rowCells(rows?.left ?? [], rows?.inLayout, rows?.cover)),
+      after: layoutOf(right, paths, rowCells(rows?.right ?? [], rows?.inLayout, rows?.cover)),
+    } as Layout;
+    // Run-level extraction: every character of an extra row shares the row's box (layout.json keeps cells).
+    if (rows?.coarse)
+      for (const d of [left, right])
+        for (const line of d.pages[0].lines.slice(11)) {
+          const cs = d.pages[0].chars.filter((c) => line.charIds.includes(c.id));
+          const [x0, y0, x1, y1] = [Math.min(...cs.map((c) => c.quad[0])), Math.min(...cs.map((c) => c.quad[1])), Math.max(...cs.map((c) => c.quad[2])), Math.max(...cs.map((c) => c.quad[5]))];
+          for (const c of cs) c.quad = [x0, y0, x1, y0, x0, y1, x1, y1];
+        }
     const result = compare(left, right);
     result.status = "complete_for_scope";
     result.unresolved = [];
@@ -642,12 +656,10 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     return {
       docs: [left, right] as [DocInput, DocInput],
       expected,
-      layout: {
-        before: layoutOf(left, paths, rowCells(rows?.left ?? [], rows?.inLayout)),
-        after: layoutOf(right, paths, rowCells(rows?.right ?? [], rows?.inLayout)),
-      } as Layout,
+      layout,
       result,
       wrong,
+      coarse: rows?.coarse,
     };
   };
   for (const bare of [false, true])
@@ -676,14 +688,6 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
   it("R26: a wrong amount card cannot hide the change by citing one location per digit", () => {
     // 100020 and 200010 have the same digits, so tokens taken per location would match.
     const x = r26(true, ["100020", "200010"]);
-    const glyphs = (loc: SourceLocation) =>
-      loc.charIds.map((id, i) => ({
-        ...loc,
-        rawRange: [loc.rawRange[0] + i, loc.rawRange[0] + i + 1] as [number, number],
-        charIds: [id],
-        text: loc.text[i],
-        quads: [loc.quads[i]],
-      }));
     const left = glyphs(lineLoc(x.docs[0], "left", "l5")),
       right = glyphs(lineLoc(x.docs[1], "right", "l10"));
     x.result.differences.push({
@@ -705,8 +709,9 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
   // A card pairing two extra records: d.left/right cite whole rows, the text operations single cells.
   const ROWS = { left: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"], right: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"] };
   const rowCard = (x: ReturnType<typeof r26>, leftLine: string, rightLine: string, field = "registration") => {
-    const L = lineLoc(x.docs[0], "left", leftLine),
-      R = lineLoc(x.docs[1], "right", rightLine);
+    const run = (l: SourceLocation): SourceLocation => (x.coarse ? { ...l, precision: "run", quads: [l.quads[0]] } : l);
+    const L = run(lineLoc(x.docs[0], "left", leftLine)),
+      R = run(lineLoc(x.docs[1], "right", rightLine));
     const [la, lb, ra, rb] = [L.text.indexOf(" "), L.text.lastIndexOf(" "), R.text.indexOf(" "), R.text.lastIndexOf(" ")];
     const card = replaced("row", L, R, { section: "aircraft_schedule", entity: null, field, table: "aircraft_schedule", rowKey: null });
     card.textOps = [
@@ -757,6 +762,42 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
+  it("R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change", () => {
+    // 100020 stays on both sides; the right side cites its glyphs as 2,0,0,0,1,0 to back "200010".
+    const x = r26(true, ["100020", "200010"]);
+    const L = glyphs(lineLoc(x.docs[0], "left", "l5")),
+      R = glyphs(lineLoc(x.docs[1], "right", "l5"), [4, 1, 2, 3, 0, 5]);
+    const card = replaced("order", L[0], R[0], { section: "aircraft_schedule", entity: "SYN-1026-001", field: "registration", table: "aircraft_schedule", rowKey: "SYN-1026-001" });
+    Object.assign(card, {
+      left: L,
+      right: R,
+      oldText: "100020",
+      newText: "200010",
+      textOps: [
+        { kind: "delete", text: "100020", left: L, right: [] },
+        { kind: "insert", text: "200010", left: [], right: R },
+      ],
+    });
+    const score = graded(x, card);
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+    expect(score.status).toBe("FAIL");
+  });
+  it("R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED", () => {
+    // Each extra row is one shared box; layout.json covers only the MSN cells.
+    const x = r26(true, undefined, { ...ROWS, coarse: true, cover: ["msn"] });
+    const score = graded(x, rowCard(x, "l11", "l12"));
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+    expect(exitCode(summarize([score]))).toBe(1);
+  });
+  it("R26: with run-level geometry a wrong row pairing still fails, and an MSN-only change cannot be attributed", () => {
+    const x = r26(true, undefined, { ...ROWS, coarse: true });
+    expect(graded(x, rowCard(x, "l11", "l12")).status).toBe("FAIL");
+    const y = r26(true, undefined, { ...ROWS, right: ["1316 Alpha Air 100000", "1748 Alpha Air 200000"], coarse: true });
+    const score = graded(y, rowCard(y, "l11", "l11"));
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
   });
   it("R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS", () => {
     const x = r26(true, undefined, { ...ROWS, inLayout: false });
