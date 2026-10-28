@@ -527,19 +527,19 @@ const replaced = (
 describe("one correct event card cannot offset an extra wrong card (#10)", () => {
   // R26: registration renamed, every agreed value unchanged.
   // Columns: registration, serial, MSN (a bare-number identifier), currency, agreed value.
-  const table = (registration: string, bare: boolean) =>
+  const table = (registration: string, bare: boolean, amounts = bare ? ["100000", "200000"] : ["100,000", "200,000"]) =>
     textDoc([
       { text: "SCHEDULE OF AIRCRAFT", y: 100 },
       { text: "TEST-A789", x: 40, y: 150 },
       { text: "SYN-1026-001", x: 150, y: 150 },
       { text: "1315", x: 240, y: 150 },
       { text: "USD", x: 300, y: 150 },
-      { text: bare ? "100000" : "100,000", x: 360, y: 150 },
+      { text: amounts[0], x: 360, y: 150 },
       { text: registration, x: 40, y: 180 },
       { text: "SYN-1026-003", x: 150, y: 180 },
       { text: "1748", x: 240, y: 180 },
       { text: "USD", x: 300, y: 180 },
-      { text: bare ? "200000" : "200,000", x: 360, y: 180 },
+      { text: amounts[1], x: 360, y: 180 },
     ]);
   const cells = (row: string, first: number) =>
     Object.fromEntries(
@@ -549,9 +549,9 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       ]),
     );
   const paths = { ...cells("SYN-1026-001", 1), ...cells("SYN-1026-003", 6) };
-  const r26 = (bare = false) => {
-    const left = table("TEST-C941", bare),
-      right = table("TEST-RENAMED", bare);
+  const r26 = (bare = false, amounts?: string[]) => {
+    const left = table("TEST-C941", bare, amounts),
+      right = table("TEST-RENAMED", bare, amounts);
     const expected: Expected = {
       case_id: "R26_key_change",
       required_status: "complete_for_scope",
@@ -625,6 +625,35 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     x.result.differences.push({ ...x.wrong, structurePath: { ...x.wrong.structurePath!, field: "registration" } });
     expect(ResultSchema.safeParse(x.result).success).toBe(true);
     const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
+  it("R26: a wrong amount card cannot hide the change by citing one location per digit", () => {
+    // 100020 and 200010 have the same digits, so tokens taken per location would match.
+    const x = r26(true, ["100020", "200010"]);
+    const glyphs = (loc: SourceLocation) =>
+      loc.charIds.map((id, i) => ({
+        ...loc,
+        rawRange: [loc.rawRange[0] + i, loc.rawRange[0] + i + 1] as [number, number],
+        charIds: [id],
+        text: loc.text[i],
+        quads: [loc.quads[i]],
+      }));
+    const left = glyphs(lineLoc(x.docs[0], "left", "l5")),
+      right = glyphs(lineLoc(x.docs[1], "right", "l10"));
+    x.result.differences.push({
+      ...x.wrong,
+      structurePath: { ...x.wrong.structurePath!, field: "registration" },
+      left,
+      right,
+      textOps: [
+        { kind: "delete", text: "100020", left, right: [] },
+        { kind: "insert", text: "200010", left: [], right },
+      ],
+    });
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
   });

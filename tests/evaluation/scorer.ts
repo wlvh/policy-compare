@@ -156,6 +156,7 @@ export const INVARIANTS: Record<
     tests: [
       "R26: correct registration card plus a wrong agreed-value card fails",
       "R26: a wrong bare-number amount card fails whatever field it claims",
+      "R26: a wrong amount card cannot hide the change by citing one location per digit",
     ],
   },
   no_amount_or_currency_change: {
@@ -314,16 +315,25 @@ function moneyChanges(
     const text = side === "left" ? d.oldText : d.newText;
     if (amountField(d.structurePath?.field)) return money(text, true);
     const pages = layout[side === "left" ? "before" : "after"].pages;
-    const cells = d[side].filter((loc) =>
-      pages.some((p, i) =>
-        p.text_runs.some(
-          (r) =>
+    // Fragments in one amount cell are joined in source order first, so splitting an amount
+    // across locations cannot hide a change.
+    const cells = new Map<string, SourceLocation[]>();
+    for (const loc of d[side])
+      pages.forEach((p, i) => {
+        for (const r of p.text_runs)
+          if (
             AMOUNT_FIELDS.includes(r.logical_path?.split(".").at(-1) ?? "") &&
-            located([loc], [{ page_index: i, run_id: r.run_id }], pages, side),
-        ),
-      ),
-    );
-    return [...money(text), ...cells.flatMap((loc) => minus(money(loc.text, true), money(loc.text)))];
+            located([loc], [{ page_index: i, run_id: r.run_id }], pages, side)
+          )
+            cells.set(`${i}/${r.run_id}`, [...(cells.get(`${i}/${r.run_id}`) ?? []), loc]);
+      });
+    return [
+      ...money(text),
+      ...[...cells.values()].flatMap((locs) => {
+        const cell = [...locs].sort((a, b) => a.rawRange[0] - b.rawRange[0]).map((l) => l.text).join("");
+        return minus(money(cell, true), money(cell));
+      }),
+    ];
   };
   const allowed = (r: string[], a: string[]) =>
     !minus(r, removed).length && !minus(a, added).length;
