@@ -160,6 +160,71 @@ FURNITURE = {
     ],
 }
 
+def margin_pages(count, rate, amounts, msn, margin_text):
+    """Third review of PR #9: a header with two amounts side by side (A), a
+    rate next to "Page n of N" (B), an MSN that counts with the pages (C) and
+    lines that appear once at the top, bottom or in the body of a page (E)."""
+    def once(p):
+        return "".join(f'<div style="{where}">{html.escape(text)}</div>'
+                       for page, where, text in margin_text if page == p)
+    pages = "\n".join(f"""<section>
+<div style="top:12mm">{html.escape(amounts[0])}</div>
+<div style="top:12mm; left:110mm">{html.escape(amounts[1])}</div>
+<div style="top:18mm">Premium rate {rate} - Page {p + 1} of {count}</div>
+<div style="top:40mm">Aircraft MSN {msn + p}</div>
+{once(p)}
+<p style="top:100mm">Ordinary body text on page {p + 1}.</p>
+</section>""" for p in range(count))
+    return f"""<!doctype html>
+<html><head><meta charset="utf-8"><title>Margin lines</title>
+<style>
+@page {{ size: A4; margin: 0; }}
+body {{ margin: 0; font-family: 'DejaVu Sans', Arial, sans-serif; font-size: 9pt; }}
+section {{ position: relative; height: 296mm; page-break-after: always; }}
+section > * {{ position: absolute; left: 16mm; margin: 0; }}
+</style></head><body>
+{pages}
+</body></html>
+"""
+
+
+# A: the two amounts swap places; B: 4 -> 5 pages and 4% -> 5%; C: MSN
+# 101..104 -> 201..205; E: text at the top (25 mm), bottom and body of a page,
+# the body heading on page 4 below the MSN line.
+MARGIN_TEXT = [
+    (0, "top:25mm", "The insurer covers war risks.", "The insurer excludes war risks."),
+    (0, "bottom:8mm", "THE INSURER COVERS WAR RISKS.", "THE INSURER EXCLUDES WAR RISKS."),
+    (1, "top:25mm", "HULL LIMIT USD 1,000,000", "HULL LIMIT USD 2,000,000"),
+    (3, "top:55mm", "THE INSURER WAIVES SUBROGATION.", "THE INSURER RESERVES SUBROGATION."),
+]
+MARGIN = {
+    "purpose": "Margin and repeated lines (review of PR #9, third round); read only by browser-check.ts after comparison",
+    "cards": [
+        {"id": "A1", "what": "amount at the left of the header", "kind": "Replaced", "category": "Material",
+         "old": "USD 1000", "new": "USD 2000", "x": 45.4, "left": [1, 2, 3, 4], "right": [1, 2, 3, 4, 5]},
+        {"id": "A2", "what": "amount at 110 mm of the header", "kind": "Replaced", "category": "Material",
+         "old": "USD 2000", "new": "USD 1000", "x": 311.8, "left": [1, 2, 3, 4], "right": [1, 2, 3, 4, 5]},
+        {"id": "B", "what": "rate equal to the page total", "kind": "Replaced", "category": "Material",
+         "old": "Premium rate 4% - Page 1 of 4", "new": "Premium rate 5% - Page 1 of 5",
+         "left": [1, 2, 3, 4], "right": [1, 2, 3, 4, 5]},
+        *({"id": f"C{p + 1}", "what": "MSN counting with the pages", "kind": "Replaced", "category": "Material",
+           "old": f"Aircraft MSN {101 + p}", "new": f"Aircraft MSN {201 + p}", "left": [p + 1], "right": [p + 1]}
+          for p in range(4)),
+        {"id": "E1", "what": "sentence at the top of page 1", "kind": "Replaced", "category": "Review",
+         "old": MARGIN_TEXT[0][2], "new": MARGIN_TEXT[0][3], "left": [1], "right": [1]},
+        {"id": "E2", "what": "capitals at the bottom of page 1", "kind": "Replaced", "category": "Review",
+         "old": MARGIN_TEXT[1][2], "new": MARGIN_TEXT[1][3], "left": [1], "right": [1]},
+        {"id": "E3", "what": "limit at the top of page 2", "kind": "Replaced", "category": "Material",
+         "old": MARGIN_TEXT[2][2], "new": MARGIN_TEXT[2][3], "left": [2], "right": [2]},
+        # A changed heading is its own title context, so it is shown as removed
+        # and added (both visible for review), not as one replaced card.
+        {"id": "E4-old", "what": "capitals heading in the body of page 4, old text", "kind": "Removed", "category": "Review",
+         "old": MARGIN_TEXT[3][2], "left": [4], "right": []},
+        {"id": "E4-new", "what": "capitals heading in the body of page 4, new text", "kind": "Added", "category": "Review",
+         "new": MARGIN_TEXT[3][3], "left": [], "right": [4]},
+    ],
+}
+
 os.makedirs(out, exist_ok=True)
 open(os.path.join(out, "furniture-left.html"), "w", encoding="utf-8").write(furniture_pages(
     lambda p: "UMR B1234AV2024", lambda p: "Hull limit any one aircraft USD 1,000,000",
@@ -169,6 +234,11 @@ open(os.path.join(out, "furniture-right.html"), "w", encoding="utf-8").write(fur
     lambda p: f"Hull limit any one aircraft USD {'2,000,000' if p == 1 else '1,000,000'}",
     lambda p: "Aggregate limit USD 6,000,000"))
 json.dump(FURNITURE, open(os.path.join(out, "furniture-expected.json"), "w", encoding="utf-8"), indent=1)
+open(os.path.join(out, "margin-left.html"), "w", encoding="utf-8").write(margin_pages(
+    4, "4%", ("USD 1000", "USD 2000"), 101, [(p, w, old) for p, w, old, _ in MARGIN_TEXT]))
+open(os.path.join(out, "margin-right.html"), "w", encoding="utf-8").write(margin_pages(
+    5, "5%", ("USD 2000", "USD 1000"), 201, [(p, w, new) for p, w, _, new in MARGIN_TEXT]))
+json.dump(MARGIN, open(os.path.join(out, "margin-expected.json"), "w", encoding="utf-8"), indent=1)
 open(os.path.join(out, "left.html"), "w", encoding="utf-8").write(page(FLEET, LINES, "250,000"))
 open(os.path.join(out, "right.html"), "w", encoding="utf-8").write(page(*right_side()))
 json.dump(EXPECTED, open(os.path.join(out, "expected.json"), "w", encoding="utf-8"), indent=1)

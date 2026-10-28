@@ -12,18 +12,52 @@ export type Unit = MappedText & {
   tableRow?: string;
   /** Cell texts of a row recovered from one baseline, left to right. */
   rowCells?: string[];
+  /** Horizontal extent of each recovered cell, in page units. */
+  rowSpans?: [number, number][];
   /** Repeated page furniture: digit pattern, position and page numbering. */
   furniture?: Furniture;
   title: string;
 };
 export type Furniture = {
   pattern: string;
+  /** Place of the repeated line: left and right edge and baseline. */
+  x0: number;
+  x1: number;
   y: number;
   pageNumber: boolean;
   /** Positions, among the line's numbers, of its page counter and page total. */
   pageTokens: number[];
 };
 const NUMBER = /\p{N}+(?:[.,]\p{N}+)*/gu;
+/**
+ * Page-number expressions: "Page 3", "Page 3 of 10" or "Page 3/10" anywhere in
+ * a line, or a line that holds nothing but the page number ("3", "- 3 -",
+ * "3 / 10"). An "of", a slash or a number that counts with the pages is not a
+ * page number by itself.
+ */
+const PAGE_EXPRESSIONS = [
+  /\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/dgiu,
+  /^[^\p{L}\p{N}]*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?[^\p{L}\p{N}]*$/dgiu,
+];
+/** Positions, among a line's numbers, of page counters and page totals. */
+export function pageSlots(text: string) {
+  const starts = [...text.matchAll(NUMBER)].map((m) => m.index),
+    counter: number[] = [],
+    total: number[] = [];
+  for (const re of PAGE_EXPRESSIONS)
+    for (const m of text.matchAll(re)) {
+      const [, n, of] = m.indices!;
+      counter.push(starts.indexOf(n![0]));
+      if (of) total.push(starts.indexOf(of[0]));
+    }
+  return { counter, total };
+}
+/**
+ * Text with its explicit "Page n" expressions left out. A line that is not
+ * repeated furniture has no page counting to show that a bare number is one.
+ */
+export const withoutPageNumbers = (text: string) =>
+  text.replace(PAGE_EXPRESSIONS[0], " ").trim();
 /** Furniture text with only its confirmed page-number parts replaced. */
 export function furnitureContent(text: string, f: Furniture) {
   let k = 0;
@@ -55,14 +89,16 @@ function documentLines(doc: DocInput) {
   );
   return { separators, lines: all.filter((r) => !separators.includes(r)) };
 }
-export type FurnitureSignature = Furniture & { x0: number; x1: number };
+export type FurnitureSignature = Furniture;
 /**
  * Page furniture is a line repeated at the same place in the top or bottom
  * band of at least three pages and 40% of a document. Digits are replaced
  * only to find candidates. Each number of the line must then stay the same on
- * every page or count with the page (a page counter); a constant number equal
- * to the last counted value is the page total. Any other changing number makes
- * the line content. Only the counter and total are page-number parts.
+ * every page or be the page counter of a page-number expression, counting with
+ * the page; a constant number in the total place of that expression is the
+ * page total. Any other changing number makes the line content. Only the
+ * counter and total are page-number parts; other numbers, even one equal to
+ * the page total or one that counts with the pages, are content.
  */
 function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
   const need = Math.max(3, Math.ceil(0.4 * pageCount)),
@@ -88,16 +124,17 @@ function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
         (m.text.match(NUMBER) ?? []).map((n) => Number(n.replace(/[.,]/g, ""))),
       ),
       positions = values[0].map((_, j) => j),
+      slots = pageSlots(members[0].text.trim()),
       fixed = (j: number) => values.every((v) => v[j] === values[0][j]),
       counters = positions.filter(
         (j) =>
           !fixed(j) &&
+          slots.counter.includes(j) &&
           new Set(values.map((v, n) => v[j] - members[n].p.pageIndex)).size === 1,
       );
     if (positions.some((j) => !fixed(j) && !counters.includes(j))) return [];
-    const last = Math.max(...counters.flatMap((j) => values.map((v) => v[j])));
     const pageTokens = positions.filter(
-      (j) => counters.includes(j) || (counters.length > 0 && fixed(j) && values[0][j] === last),
+      (j) => counters.includes(j) || (counters.length > 0 && fixed(j) && slots.total.includes(j)),
     );
     return [{ ...c, pageNumber: counters.length > 0, pageTokens }];
   });
@@ -125,7 +162,14 @@ function pageFurniture(lines: Line[], known: FurnitureSignature[]) {
           (Math.abs(c.x0 - x0) <= 2 || Math.abs(c.x1 - x1) <= 2),
       );
     if (s)
-      found.set(g, { pattern, y: s.y, pageNumber: s.pageNumber, pageTokens: s.pageTokens });
+      found.set(g, {
+        pattern,
+        x0: s.x0,
+        x1: s.x1,
+        y: s.y,
+        pageNumber: s.pageNumber,
+        pageTokens: s.pageTokens,
+      });
   }
   for (const g of [...found.keys()]) {
     const size = g.refs[0].char.size,
@@ -478,6 +522,10 @@ export function structure(
             "body",
           );
           u.rowCells = parts.map((c) => c.map((g) => g.text.trim()).join(" "));
+          u.rowSpans = parts.map((c) => [
+            Math.min(...c.map((g) => span(g)[0])),
+            Math.max(...c.map((g) => span(g)[1])),
+          ]);
           u.path.table = "recovered_rows";
           active = null;
           continue;

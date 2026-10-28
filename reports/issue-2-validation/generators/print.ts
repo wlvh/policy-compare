@@ -2,7 +2,8 @@
 //   chromium:    Chromium "print to PDF" with a repeated header (UMR) and a
 //                "Page n of N" footer, i.e. page furniture from the browser;
 //   libreoffice: LibreOffice Writer HTML import and PDF export.
-// Also prints furniture-{left,right}.html, when present, to OUT_DIR/furniture.
+// Also prints furniture-{left,right}.html and margin-{left,right}.html, when
+// present, to OUT_DIR/furniture and OUT_DIR/margin.
 // usage: pnpm exec tsx reports/issue-2-validation/generators/print.ts HTML_DIR OUT_DIR
 // Set CHROMIUM_PATH to use a locally installed Chromium instead of Playwright's.
 import { chromium } from "@playwright/test";
@@ -32,16 +33,18 @@ for (const [side, umr] of [
   });
   await page.close();
 }
-// Repeated margin lines that vary inside one version, Chromium print only.
-if (existsSync(path.join(htmlDir, "furniture-left.html"))) {
-  mkdirSync(path.join(outDir, "furniture"), { recursive: true });
+// Repeated margin lines that vary inside one version, and margin lines of the
+// third review of PR #9, Chromium print only.
+for (const pair of ["furniture", "margin"]) {
+  if (!existsSync(path.join(htmlDir, `${pair}-left.html`))) continue;
+  mkdirSync(path.join(outDir, pair), { recursive: true });
   for (const side of ["left", "right"]) {
     const page = await browser.newPage();
-    await page.goto("file://" + path.join(htmlDir, `furniture-${side}.html`));
-    await page.pdf({ path: path.join(outDir, "furniture", side + ".pdf"), format: "A4", margin: { top: "0", bottom: "0", left: "0", right: "0" } });
+    await page.goto("file://" + path.join(htmlDir, `${pair}-${side}.html`));
+    await page.pdf({ path: path.join(outDir, pair, side + ".pdf"), format: "A4", margin: { top: "0", bottom: "0", left: "0", right: "0" } });
     await page.close();
   }
-  copyFileSync(path.join(htmlDir, "furniture-expected.json"), path.join(outDir, "furniture", "expected.json"));
+  copyFileSync(path.join(htmlDir, `${pair}-expected.json`), path.join(outDir, pair, "expected.json"));
 }
 await browser.close();
 // LibreOffice writes <name>.pdf next to --outdir; convert from a private

@@ -11,6 +11,10 @@
 // category, the explanation shown on the card, the occurrence count, and that
 // the occurrences of the changed pages and of a page that kept the old text
 // open those pages with their highlight.
+// With MARGIN_DIR (left.pdf, right.pdf, expected.json of the margin pair), it
+// checks each expected card's kind, category and pages, that repeated lines
+// keep their own horizontal place, and that the card (or its first and last
+// occurrence) opens its pages with the highlight inside its sources.
 // usage: pnpm exec tsx reports/issue-2-validation/browser-check.ts INPUTS OUT_DIR
 //   env: PDFJS_URL (default http://127.0.0.1:4174), MUPDF_URL (http://127.0.0.1:4175),
 //        CHROMIUM_PATH to use a locally installed Chromium.
@@ -211,8 +215,76 @@ try {
       console.log(JSON.stringify({ engine, pair: "furniture", furniture: record.furniture.map((f: any) => `${f.id}:${f.status}`) }));
       await context.close();
     }
+  if (process.env.MARGIN_DIR)
+    for (const engine of ["pdfjs", "mupdf"] as const) {
+      const dir = path.resolve(process.env.MARGIN_DIR);
+      const expected = JSON.parse(readFileSync(path.join(dir, "expected.json"), "utf8"));
+      const context = await browser.newContext({ viewport: { width: 1500, height: 1000 }, acceptDownloads: true });
+      const page = await context.newPage();
+      await page.goto(urls[engine]);
+      await expect(page.locator("main")).toHaveAttribute("data-engine-ready", "true", { timeout: 30000 });
+      await page.getByLabel("基准 PDF", { exact: true }).setInputFiles(path.join(dir, "left.pdf"));
+      await page.getByLabel("待审 PDF", { exact: true }).setInputFiles(path.join(dir, "right.pdf"));
+      await page.getByRole("button", { name: "开始比较", exact: true }).click();
+      await expect(page.locator("[data-status]")).toHaveAttribute("data-status", /complete_for_scope|partial/, { timeout: 120000 });
+      const download = page.waitForEvent("download");
+      await page.getByRole("button", { name: "导出 JSON", exact: true }).click();
+      const file = path.join(out, `margin-${engine}-browser.json`);
+      await (await download).saveAs(file);
+      const result = JSON.parse(readFileSync(file, "utf8")) as { coreVersion: string; status: string; differences: Card[] };
+      const record: any = { engine, pair: "margin", coreVersion: result.coreVersion, status: result.status, cards: result.differences.length, margin: [] };
+      const pagesOf = (locs: Loc[]) => [...new Set(locs.map((l) => l.pageIndex + 1))].sort((a, b) => a - b);
+      const exact = (t: string) => new RegExp("^\\s*" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*$");
+      for (const want of expected.cards) {
+        const hits = result.differences.filter((d) => d.kind === want.kind &&
+          (want.old === undefined || d.oldText.trim() === want.old) && (want.new === undefined || d.newText.trim() === want.new));
+        const entry: any = { id: want.id, what: want.what, cards: hits.map((d) => d.id), visited: [] };
+        record.margin.push(entry);
+        if (hits.length !== 1) { entry.status = "FAIL"; entry.reason = `expected one card, found ${hits.length}`; continue; }
+        const d = hits[0];
+        const all = d.occurrences.length ? d.occurrences.flatMap((o) => [...o.left, ...o.right]) : [...d.left, ...d.right];
+        entry.kind = d.kind; entry.category = d.category;
+        entry.leftPages = pagesOf(d.occurrences.length ? d.occurrences.flatMap((o) => o.left) : d.left);
+        entry.rightPages = pagesOf(d.occurrences.length ? d.occurrences.flatMap((o) => o.right) : d.right);
+        if (want.x !== undefined) entry.sourceX = [...new Set(all.map((l) => Math.round(l.quads[0][0])))];
+        const card = page.locator(".card")
+          .filter({ has: page.locator(".old", { hasText: exact(d.oldText || "（无）") }) })
+          .filter({ has: page.locator(".new", { hasText: exact(d.newText || "（无）") }) }).first();
+        await card.click();
+        // A plain card opens its changed text; a repeated line its first and last occurrence.
+        const ops = d.textOps.filter((o) => o.kind !== "equal");
+        const visits = d.occurrences.length
+          ? [...new Set([0, d.occurrences.length - 1])].map((k) => ({ k, locs: d.occurrences[k] }))
+          : [{ k: -1, locs: { left: ops.flatMap((o) => o.left), right: ops.flatMap((o) => o.right) } }];
+        for (const { k, locs } of visits) {
+          if (k >= 0) await card.getByRole("button", { name: `出现位置 ${k + 1}`, exact: true }).click();
+          const visit: any = { occurrence: k + 1 || null };
+          for (const [index, side] of (["left", "right"] as const).entries()) {
+            const here = locs[side].length ? locs[side] : side === "left" ? d.left : d.right;
+            if (!here.length) continue;
+            await expect.poll(() => readyPage(page, index), { timeout: 30000 }).toBe(here[0].pageIndex);
+            await expect.poll(async () => (await polygons(page, index)).length, { timeout: 15000 }).toBeGreaterThan(0);
+            const drawn = (await polygons(page, index)).map((q) => box([q])),
+              src = box(here.filter((l) => l.pageIndex === here[0].pageIndex).flatMap((l) => l.quads));
+            visit[side] = { page: here[0].pageIndex + 1, text: here.map((l) => l.text).join(""), polygons: drawn.length, insideSource: drawn.every((b) => within(b, src)) };
+          }
+          entry.visited.push(visit);
+        }
+        entry.status =
+          d.kind === want.kind && d.category === want.category &&
+          JSON.stringify(entry.leftPages) === JSON.stringify(want.left) &&
+          JSON.stringify(entry.rightPages) === JSON.stringify(want.right) &&
+          (want.x === undefined || all.every((l) => Math.abs(l.quads[0][0] - want.x) < 3)) &&
+          entry.visited.length > 0 && entry.visited.every((v: any) => (v.left || v.right) && ["left", "right"].every((s) => !v[s] || (v[s].polygons > 0 && v[s].insideSource)))
+            ? "PASS" : "FAIL";
+        await page.screenshot({ path: path.join(out, `margin-${engine}-${want.id}.png`) });
+      }
+      records.push(record);
+      console.log(JSON.stringify({ engine, pair: "margin", margin: record.margin.map((f: any) => `${f.id}:${f.status}`) }));
+      await context.close();
+    }
 } finally {
   await browser.close();
 }
 writeFileSync(path.join(out, "browser-check.json"), JSON.stringify({ browser: "chromium " + browser.version(), records }, null, 1) + "\n");
-if (records.some((r) => [...(r.highlights ?? []), ...(r.navigation ?? []), ...(r.furniture ?? [])].some((x: any) => x.status !== "PASS"))) process.exitCode = 1;
+if (records.some((r) => [...(r.highlights ?? []), ...(r.navigation ?? []), ...(r.furniture ?? []), ...(r.margin ?? [])].some((x: any) => x.status !== "PASS"))) process.exitCode = 1;

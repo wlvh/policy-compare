@@ -12,6 +12,8 @@ import {
   furnitureContent,
   furnitureSignatures,
   structure,
+  withoutPageNumbers,
+  type Furniture,
   type Unit,
 } from "./structure";
 import { normalize, sourceLocations, tokenize, lcsLength } from "./text";
@@ -140,7 +142,11 @@ function tablePairs(
   // Unmatched rows with unambiguous keys are additions/removals, not fuzzy text candidates.
 }
 const valueLike = (cell: string) =>
-  /%|\d[.,]\d|\b(?:USD|EUR|GBP)\b|[$€£]|\d{1,2}\/\d{1,2}\/\d{2,4}/u.test(cell);
+  /%|\d[.,]\d|\p{Sc}|\b(?:USD|EUR|GBP|JPY|CHF|CAD|AUD|NZD|CNY|RMB|HKD|SGD|INR|KRW|SEK|NOK|DKK|ZAR|BRL|MXN|AED|SAR)\b|\d{1,2}\/\d{1,2}\/\d{2,4}/u.test(
+    cell,
+  );
+/** Column headings that name a record's own number (not "No." or "Ref"). */
+const identityHeading = /\b(?:MSN|ESN|S\/N|serial|registration)\b/iu;
 const counter = (cell: string) => {
   const m = cell.match(/^\D{0,8}?(\d{1,4})\.?$/u);
   return m ? Number(m[1]) : null;
@@ -150,7 +156,11 @@ const counter = (cell: string) => {
  * cells are the non-value cells of a row (amounts, shares and dates are compared,
  * never used as identity); a first column counting 0..n or 1..n is a row number.
  * A cell whose column in the recovered row and text are unique within the same
- * table on both sides links two rows. A row linked to exactly one row binds; rows whose links
+ * table on both sides links two rows. A bare number could be an amount or a
+ * count as well as an id: it identifies a record only under the row's own
+ * column heading naming an MSN, ESN, serial or registration, on both sides.
+ * Without that heading it can still contradict other links but never binds
+ * rows by itself. A row linked to exactly one row binds; rows whose links
  * conflict stay unresolved together. Rows are never paired by text similarity.
  */
 function rowIdentity(
@@ -176,22 +186,44 @@ function rowIdentity(
       .filter((x): x is number => x !== null);
     return n.length >= 2 && n[0] <= 1 && n.every((x, i) => x === n[0] + i);
   };
+  // The heading row of a run of rows is the closest digit-free row above
+  // them in the same table, with nothing but page margins in between.
+  const headings = new Map<Unit, Unit>();
+  for (const us of [left, right]) {
+    const current = new Map<string, Unit>();
+    for (const u of us) {
+      if (!u.rowCells) {
+        if (!["furniture", "page_heading", "footer", "whitespace"].includes(u.role)) current.clear();
+        continue;
+      }
+      const t = u.path.section + "\u0000" + u.title;
+      if (!/\p{N}/u.test(u.rawText)) current.set(t, u);
+      else if (current.has(t)) headings.set(u, current.get(t)!);
+    }
+  }
+  // The heading over a cell is the cell of the heading row it overlaps most.
+  const heading = (r: Unit, k: number) => {
+    const h = headings.get(r),
+      [x0, x1] = r.rowSpans![k];
+    if (!h) return null;
+    const overlap = h.rowSpans!.map(([a, b]) => Math.min(b, x1) - Math.max(a, x0)),
+      j = overlap.indexOf(Math.max(...overlap));
+    return overlap[j] > 0 ? h.rowCells![j] : null;
+  };
   const owners = (rows: Unit[], numbered: boolean) => {
-    const m = new Map<string, Unit[]>();
+    const m = new Map<string, { row: Unit; firm: boolean }[]>();
     for (const r of rows) {
-      const cells =
-        numbered && counter(r.rowCells![0]) !== null
-          ? r.rowCells!.slice(1)
-          : r.rowCells!;
+      const skip = numbered && counter(r.rowCells![0]) !== null ? 1 : 0;
       // The key keeps the cell's column in the recovered row, counted before
       // value cells are left out, so the same text in another column of a
       // different record is not identity evidence.
-      cells
+      r.rowCells!
         .map((c, k) => [k, c.normalize("NFKC")] as const)
-        .filter(([, c]) => c.length >= 2 && !valueLike(c))
+        .filter(([k, c]) => k >= skip && c.length >= 2 && !valueLike(c))
         .forEach(([k, c]) => {
-          const key = k + "\u0000" + c;
-          m.set(key, [...(m.get(key) ?? []), r]);
+          const key = k + "\u0000" + c,
+            firm = !/^\p{N}+$/u.test(c) || identityHeading.test(heading(r, k) ?? "");
+          m.set(key, [...(m.get(key) ?? []), { row: r, firm }]);
         });
     }
     return m;
@@ -199,7 +231,8 @@ function rowIdentity(
   const lt = tables(left),
     rt = tables(right);
   const links = new Map<Unit, Set<Unit>>(),
-    via = new Map<Unit, string>();
+    via = new Map<Unit, string>(),
+    firmly = new Set<Unit>();
   for (const [t, rows] of lt) {
     const others = rt.get(t);
     if (!others) continue;
@@ -208,10 +241,13 @@ function rowIdentity(
     for (const [key, as] of owners(rows, numbered)) {
       const bs = ro.get(key);
       if (as.length !== 1 || bs?.length !== 1) continue;
-      if (usedL.has(as[0]) || usedR.has(bs[0])) continue;
-      links.set(as[0], (links.get(as[0]) ?? new Set()).add(bs[0]));
-      links.set(bs[0], (links.get(bs[0]) ?? new Set()).add(as[0]));
-      if (!via.has(as[0])) via.set(as[0], key.split("\u0000")[1]);
+      const [a, b] = [as[0].row, bs[0].row],
+        firm = as[0].firm && bs[0].firm;
+      if (usedL.has(a) || usedR.has(b)) continue;
+      links.set(a, (links.get(a) ?? new Set()).add(b));
+      links.set(b, (links.get(b) ?? new Set()).add(a));
+      if (firm ? !firmly.has(a) : !via.has(a)) via.set(a, key.split("\u0000")[1]);
+      if (firm) firmly.add(a);
     }
   }
   const leftSide = new Set(left),
@@ -231,6 +267,8 @@ function rowIdentity(
     const as = group.filter((u) => leftSide.has(u)).sort(byOrder),
       bs = group.filter((u) => !leftSide.has(u)).sort(byOrder);
     if (as.length === 1 && bs.length === 1) {
+      // Rows linked only by bare numbers stay apart: removed and added.
+      if (!firmly.has(as[0])) continue;
       as[0].path.rowKey = bs[0].path.rowKey = via.get(as[0]) ?? null;
       bind(as[0], bs[0], "row-identity");
       continue;
@@ -284,6 +322,7 @@ function datePeriod(text: string): [number, number] | null {
 function category(
   a: Unit | undefined,
   b: Unit | undefined,
+  layoutOnly: Set<Unit> = new Set(),
 ): Difference["category"] {
   const u = b ?? a!;
   // Only confirmed page-number parts are cosmetic; any other change in
@@ -295,18 +334,16 @@ function category(
       return "Cosmetic";
     return valueLike(texts.join(" ")) ? "Material" : "Review";
   }
-  if (
-    [
-      "label",
-      "page_heading",
-      "footer",
-      "heading",
-      "table_header",
-      "whitespace",
-    ].includes(u.role)
-  )
-    return "Cosmetic";
+  if (["label", "table_header", "whitespace"].includes(u.role)) return "Cosmetic";
   if (a && b && a.matchText === b.matchText) return "Cosmetic";
+  // A heading, or a line at the top or bottom of a page, is compared as content:
+  // neither its place nor its capitals show that a change is only layout. A
+  // changed page number is, and so is a heading with evidence of repagination.
+  if (["page_heading", "footer", "heading"].includes(u.role)) {
+    const kept = [a, b].filter((x): x is Unit => !!x).map((x) => withoutPageNumbers(x.rawText));
+    if (a && b ? kept[0] === kept[1] : !/[\p{L}\p{N}]/u.test(kept[0]) || layoutOnly.has(u))
+      return "Cosmetic";
+  }
   if (a && b && u.path.field === "policy_period") {
     const old = datePeriod(a.rawText),
       now = datePeriod(b.rawText);
@@ -329,15 +366,11 @@ function category(
     return "Material";
   }
   if (u.path.confidence === "unresolved") return "Review";
-  if (
-    u.path.field ||
-    /\b(?:not|cover|exclud|loss|liability|and|or)\b|\d|[±☑☐]/i.test(
-      (a?.rawText ?? "") + (b?.rawText ?? ""),
-    )
-  )
+  if (u.path.field || substantive.test((a?.rawText ?? "") + (b?.rawText ?? "")))
     return "Material";
   return "Review";
 }
+const substantive = /\b(?:not|cover|exclud|loss|liability|and|or)\b|\d|[±☑☐]/i;
 function textOps(
   a: Unit | undefined,
   b: Unit | undefined,
@@ -460,7 +493,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.3",
+    coreVersion: VERSION + "+row-identity.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -508,6 +541,46 @@ export function compare(
     pairs: Pair[] = [],
     usedL = new Set<Unit>(),
     usedR = new Set<Unit>();
+  // Headings without a counterpart that repagination explains: a continuation
+  // heading ("... CONTINUED") of a heading both versions have, and the titles
+  // of the pages one version has more of, when every page of both versions has
+  // a title at that place and these titles carry no number or cover wording.
+  const layoutOnly = new Set<Unit>(),
+    titled = (u: Unit) => u.role === "page_heading" || u.role === "heading",
+    titles = (us: Unit[]) => new Set(us.filter(titled).map((u) => u.rawText.trim()));
+  const [tl, tr] = [titles(la), titles(rb)];
+  for (const u of [...la, ...rb]) {
+    const base = titled(u)
+      ? u.rawText.trim().match(/^(.+?)[\s(,:–-]*\b(?:continued|cont['’]d|cont\.?)\)?\.?$/iu)?.[1].trim()
+      : undefined;
+    if (base && tl.has(base) && tr.has(base)) layoutOnly.add(u);
+  }
+  if (left.pages.length !== right.pages.length) {
+    const places = (us: Unit[], count: number) => {
+      const m = Array.from({ length: count }, () => [] as { u: Unit; at: number[] }[]);
+      for (const u of us)
+        if (titled(u)) {
+          const r = u.refs.find(Boolean)!;
+          m[r.page.pageIndex].push({ u, at: r.char.origin });
+        }
+      return m;
+    };
+    const longer = left.pages.length > right.pages.length,
+      [pl, pr] = [places(la, left.pages.length), places(rb, right.pages.length)],
+      [mine, theirs] = longer ? [pl, pr] : [pr, pl],
+      near = (at: number[]) => (t: { at: number[] }) =>
+        Math.abs(t.at[0] - at[0]) <= 2 && Math.abs(t.at[1] - at[1]) <= 2;
+    const added = mine.flat().filter(
+      ({ u, at }) =>
+        [...mine, ...theirs].every((page) => page.some(near(at))) &&
+        !theirs.flat().some((t) => near(at)(t) && t.u.rawText.trim() === u.rawText.trim()),
+    );
+    if (
+      added.length <= Math.abs(left.pages.length - right.pages.length) &&
+      added.every(({ u }) => !substantive.test(u.rawText))
+    )
+      added.forEach(({ u }) => layoutOnly.add(u));
+  }
   phase?.("matching");
   const bind = (
     a: Unit,
@@ -603,7 +676,17 @@ export function compare(
     return Object.assign(u, { repeats: us }, extra);
   };
   const furnitureKey = (u: Unit) =>
-    u.furniture ? `${u.furniture.pattern}\u0000${u.furniture.y}` : null;
+    u.furniture
+      ? [u.furniture.pattern, u.furniture.x0, u.furniture.x1, u.furniture.y].join("\u0000")
+      : null;
+  // The same repeated line in the other version is at about the same place:
+  // its left edge, right edge or centre within 12 points across, its baseline
+  // within 12 points down.
+  const distance = (f: Furniture, g: Furniture) => {
+    const down = Math.abs(f.y - g.y),
+      across = Math.min(Math.abs(f.x0 - g.x0), Math.abs(f.x1 - g.x1), Math.abs(f.x0 + f.x1 - g.x0 - g.x1) / 2);
+    return down <= 12 && across <= 12 ? down + across : Infinity;
+  };
   const pageList = (us: Unit[]) =>
     us.map((u) => u.refs.find(Boolean)!.page.pageIndex + 1).join("、");
   // One repeated line of both versions. Occurrences whose text is the same,
@@ -663,10 +746,11 @@ export function compare(
     lone = { left: [] as Unit[], right: [] as Unit[] };
   for (const [, as] of lf) {
     const f = as[0].furniture!,
+      near = (bs: Unit[]) => distance(f, bs[0].furniture!),
       [key, bs] =
         [...rf]
-          .filter(([, bs]) => bs[0].furniture!.pattern === f.pattern && Math.abs(bs[0].furniture!.y - f.y) <= 12)
-          .sort(([, x], [, y]) => Math.abs(x[0].furniture!.y - f.y) - Math.abs(y[0].furniture!.y - f.y))[0] ?? [];
+          .filter(([, bs]) => bs[0].furniture!.pattern === f.pattern && near(bs) < Infinity)
+          .sort(([, x], [, y]) => near(x) - near(y))[0] ?? [];
     as.forEach((u) => usedL.add(u));
     if (!bs) {
       lone.left.push(...as);
@@ -1026,7 +1110,7 @@ export function compare(
     const d: Difference = {
       id: "",
       kind,
-      category: moved && a?.rawText === b?.rawText ? "Review" : category(a, b),
+      category: moved && a?.rawText === b?.rawText ? "Review" : category(a, b, layoutOnly),
       structurePath: (a ?? b!).path,
       left: locations(a, "left"),
       right: locations(b, "right"),

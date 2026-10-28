@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { compare } from "../packages/compare-core/index";
-import type { CompareResult } from "../packages/contracts/index";
+import { ResultSchema, type CompareResult } from "../packages/contracts/index";
 import { textDoc } from "./helpers";
 
 // Lines are listed in extraction order. A wrapped cell's second line is
@@ -207,5 +207,59 @@ describe("identity cells keep their recovered column (review of PR #9)", () => {
     const removed = r.differences.find((d) => d.kind === "Removed" && d.oldText.includes("MSN 100"));
     const added = r.differences.find((d) => d.kind === "Added" && d.newText.includes("MSN 300"));
     expect(Boolean((removed && added) || r.unresolved.length)).toBe(true);
+  });
+});
+
+// Review of PR #11 (owned by issue #2): an amount, or a bare number without a
+// local identity header, does not make two records one.
+describe("amounts and unexplained bare numbers are not record identity", () => {
+  const table = (header: string[] | null, cells: string[]) =>
+    textDoc([
+      { text: "SCHEDULE", x: 40, y: 150 },
+      ...(header ?? []).map((text, j) => ({ text, x: 40 + j * 180, y: 180 })),
+      ...cells.map((text, j) => ({ text, x: 40 + j * 180, y: 220 })),
+    ]);
+  const separate = (r: CompareResult, old: string, now: string) => {
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect(
+      r.differences.some(
+        (d) => d.oldText.includes(old) && d.newText.includes(now) && d.structurePath?.confidence !== "unresolved",
+      ),
+    ).toBe(false);
+    const removed = r.differences.find((d) => d.kind === "Removed" && d.oldText.includes(old)),
+      added = r.differences.find((d) => d.kind === "Added" && d.newText.includes(now));
+    if (removed && added) {
+      expect(removed.left.map((l) => l.text).join(" ")).toContain(old);
+      expect(added.right.map((l) => l.text).join(" ")).toContain(now);
+      expect([removed.category, added.category]).not.toContain("Cosmetic");
+    } else expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
+  };
+  for (const header of [null, ["Insured", "Reference", "Limit"]])
+    for (const amount of ["100000", "JPY 100000"])
+      it(`an equal ${amount} does not bind two companies${header ? " under a header" : ""}`, () => {
+        const r = ResultSchema.parse(
+          compare(table(header, ["Alpha Air", "A-1", amount]), table(header, ["Delta Air", "D-1", amount])),
+        );
+        separate(r, "Alpha Air", "Delta Air");
+        expect(r.differences.some((d) => d.structurePath?.rowKey?.includes("100000"))).toBe(false);
+      });
+  it("an equal value does not bind two different MSNs in an all-number row", () => {
+    const header = ["MSN", "Agreed Value", "Rate"];
+    const r = ResultSchema.parse(
+      compare(table(header, ["1315", "100000", "0.38%"]), table(header, ["2156", "100000", "0.40%"])),
+    );
+    separate(r, "1315", "2156");
+  });
+  it("a bare MSN under its local MSN header still identifies the record", () => {
+    const header = ["MSN", "Operator", "Agreed Value"];
+    const r = ResultSchema.parse(
+      compare(table(header, ["1315", "Alpha Air", "100000"]), table(header, ["1315", "Delta Air", "200000"])),
+    );
+    expect(r.status).toBe("complete_for_scope");
+    expect(r.differences).toHaveLength(1);
+    const [d] = r.differences;
+    expect([d.kind, d.category, d.matchEvidence.method]).toEqual(["Replaced", "Material", "row-identity"]);
+    expect([d.oldText, d.newText]).toEqual(["1315 Alpha Air 100000", "1315 Delta Air 200000"]);
+    expect(d.structurePath?.rowKey).toBe("1315");
   });
 });
