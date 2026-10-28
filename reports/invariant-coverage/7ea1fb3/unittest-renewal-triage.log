@@ -1,0 +1,35 @@
+test_cells_must_share_one_record (test_renewal_triage.AddedRemovedRows.test_cells_must_share_one_record) ... ok
+test_cells_scattered_over_different_records_are_not_complete (test_renewal_triage.AddedRemovedRows.test_cells_scattered_over_different_records_are_not_complete) ... ok
+test_cells_without_any_record_identity_are_not_evaluable (test_renewal_triage.AddedRemovedRows.test_cells_without_any_record_identity_are_not_evaluable) ... ok
+test_row_inside_another_records_card (test_renewal_triage.AddedRemovedRows.test_row_inside_another_records_card) ... ok
+test_author_roll_forward_is_kept_apart_from_policy_period (test_renewal_triage.CategoriesExclusionsFurniture.test_author_roll_forward_is_kept_apart_from_policy_period) ... ok
+test_each_atom_keeps_its_own_category (test_renewal_triage.CategoriesExclusionsFurniture.test_each_atom_keeps_its_own_category) ... ok
+test_excluded_events_keep_text_and_reason_and_never_count (test_renewal_triage.CategoriesExclusionsFurniture.test_excluded_events_keep_text_and_reason_and_never_count) ... ok
+test_page_furniture_is_listed_not_silently_filtered (test_renewal_triage.CategoriesExclusionsFurniture.test_page_furniture_is_listed_not_silently_filtered) ... ok
+test_compatible_invocation (test_renewal_triage.Cli.test_compatible_invocation) ... /home/user/policy-compare/tests/test_renewal_triage.py:288: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp8d_8jvno/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/policy-compare/tests/test_renewal_triage.py:289: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp8d_8jvno/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/policy-compare/tests/test_renewal_triage.py:292: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp8d_8jvno/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_correct_amount_on_the_wrong_record_is_misattributed (test_renewal_triage.RecordIdentity.test_correct_amount_on_the_wrong_record_is_misattributed) ... ok
+test_identity_comes_from_author_ids_not_unchanged_values (test_renewal_triage.RecordIdentity.test_identity_comes_from_author_ids_not_unchanged_values) ... ok
+test_one_correct_card_plus_a_misattributed_one_is_not_complete (test_renewal_triage.RecordIdentity.test_one_correct_card_plus_a_misattributed_one_is_not_complete) ... ok
+test_rows_sharing_the_same_values_each_keep_their_own_card (test_renewal_triage.RecordIdentity.test_rows_sharing_the_same_values_each_keep_their_own_card) ... ok
+test_unchanged_value_cells_do_not_confirm_a_row (test_renewal_triage.RecordIdentity.test_unchanged_value_cells_do_not_confirm_a_row) ... ok
+test_value_correct_and_full_row_are_reported_separately (test_renewal_triage.RecordIdentity.test_value_correct_and_full_row_are_reported_separately) ... ok
+test_both_sides_only_in_an_unresolved_group_are_not_evaluable (test_renewal_triage.SidesAndSplits.test_both_sides_only_in_an_unresolved_group_are_not_evaluable) ... ok
+test_one_side_in_cards (test_renewal_triage.SidesAndSplits.test_one_side_in_cards) ... ok
+test_paragraph_split_needs_the_author_context (test_renewal_triage.SidesAndSplits.test_paragraph_split_needs_the_author_context) ... ok
+test_row_split_needs_the_record_on_both_sides (test_renewal_triage.SidesAndSplits.test_row_split_needs_the_record_on_both_sides) ... ok
+test_unresolved_hit_on_one_side_is_not_both_sides (test_renewal_triage.SidesAndSplits.test_unresolved_hit_on_one_side_is_not_both_sides) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.081s
+
+OK
+exit=0

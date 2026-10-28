@@ -5,11 +5,11 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `fix/scorer-invariant-coverage`，从 `2ff585bce56e5b43a6fb00572ad9d99b98e4fefc`（PR #9 head）建立 |
-| 被测代码提交 | `d61461b270785b33349134c918e5f88a562ec215`，本目录所有结果都由它产生 |
+| 被测代码提交 | **当前 `7ea1fb3eba51787ae14a9bc89f9a05ed2cc81c98`**（第二轮，修复裸整数金额漏检），证据在 [`7ea1fb3/`](7ea1fb3/)；第一轮 `d61461b270785b33349134c918e5f88a562ec215` 的证据保留在 [`verification/`](verification/) 和 [`register.json`](register.json)，没有覆盖 |
 | 被测产品代码 | 与 `e313540` 相同，本项没有修改产品文件 |
 | 改动文件 | `tests/evaluation/scorer.ts`、`tests/scorer.test.ts`、`scripts/acceptance.ts`、`tests/browser/rules.spec.ts`、`.github/workflows/ci.yml` |
 | 工具 | Node v24.19.0、pnpm 10.12.1；Python 3.13.17（本地）/ 3.12（CI 环境，本地也用 3.12.3 跑过） |
-| 机器可读登记 | [`register.json`](register.json)：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
+| 机器可读登记 | [`7ea1fb3/register.json`](7ea1fb3/register.json)（当前）：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
 
 “invariant（验收断言）”指答案 `expected.json` 里除逐事件要求以外的整体要求，例如“不得出现金额变化”。32 对答案中共有 **31 种**（按名称去重计的种数，不是用例数）。
 
@@ -32,6 +32,21 @@
 
 **修复**：新增直接检查，用于 `agreed_value_unchanged` 和 `no_amount_or_currency_change`。规则是：任何替换卡或移动卡两侧的金额和币种多重集合必须一致；所有删除卡的金额与所有新增卡的金额必须相抵。只有本用例事件本身声明的金额变化可以例外。这样，一张正确的事件卡不再能抵消一张额外的错误卡。
 
+### 第二轮：裸整数金额（`7ea1fb3`）
+
+复核指出：第一轮只把带千分位的数字或紧跟币种代码的数字当作金额。所以同样的错误卡，只要写成 `100000 → 200000`，仍然 PASS，而且 `agreed_value_unchanged` 还被记为直接检查 PASS。
+
+| 测试（schema 合法，来源可解析） | 第一轮 scorer `d61461b` | `7ea1fb3` |
+|---|---|---|
+| R26：正确注册号卡 + 错误约定价值卡 `100000 → 200000`（精细几何关 / 开） | **PASS / PASS**（假通过） | FAIL / FAIL |
+| R11：正确标签卡 + 错误金额卡 `2000000 → 10000` | **PASS** | FAIL |
+| 原有的带逗号 / 币种反例 | FAIL | FAIL |
+| 看守：只改 MSN `1315 → 1748`，卡片字段为 `msn` | PASS | PASS（不算金额变化） |
+
+修复前的失败可以重现：`verification/before-fix.sh d61461b`，输出见 [`7ea1fb3/before-fix-d61461b.log`](7ea1fb3/before-fix-d61461b.log)。结果是恰好这 3 项失败，其余 7 项通过。
+
+**修法**：卡片或事件如果声明了答案里的金额字段，它上面任何独立的数字都算金额。金额字段包括 `agreed_value`（R22、R26）、`sum_insured`（R02、R03、R11）、`limit`（R09），以及产品用于同类字段的 `header_limit`、`deductible`。其他地方仍然只认带千分位或紧跟币种的数字，所以 MSN 这类纯数字标识不会被误判为金额。R11 与 R26 共用同一个函数，已一并核对。
+
 ## 2. 31 种 invariant 的覆盖登记
 
 - **直接检查**：评分器里有这一条的专门检查（`DIRECT` 表）。每条都有一个负向测试，构造违反它的结果，并要求失败原因里写着这条 invariant 的名字。
@@ -48,8 +63,8 @@
 | moved_clause_has_no_internal_word_edits | R12 | 直接 | Moved 卡不得有文字变化 | 同上 |
 | must_not_classify_as_unchanged_duration_roll_forward | R07 | 直接 | 保险期间卡不得判为 RollForward | 同上 |
 | grouping_allowed_only_with_all_occurrence_locations | R09 | 直接 | 聚合卡必须列出两侧全部重复位置 | 同上 |
-| **agreed_value_unchanged** | R26 | **直接（新增）** | 金额/币种不变（见第 1 节） | R26 反例 |
-| **no_amount_or_currency_change** | R11 | **直接（新增）** | 同上 | R11 金额、币种反例 |
+| **agreed_value_unchanged** | R26 | **直接（新增）** | 金额/币种不变；在声明金额字段的卡上，裸整数也算金额（见第 1 节） | R26 反例（带逗号、裸整数各一组）；MSN 看守 |
+| **no_amount_or_currency_change** | R11 | **直接（新增）** | 同上 | R11 金额、裸整数金额、币种反例 |
 | header_role_must_not_exclude_text | R09 | 间接 | 页眉限额事件需要在页眉位置有可见卡；页眉文字被排除就没有卡 | `empty required output` |
 | rotation_must_not_exclude_text | R19 | 间接 | 旋转状态事件需要在旋转文字位置有可见卡 | `empty required output` |
 | must_not_match_values_across_party_identity | R10 | 间接 | 两个地址事件各自核对当事人和字段 | `wrong subject` |
@@ -124,18 +139,20 @@
 
 - **评分器比答案更严**：R22 答案允许按注册号或序列号匹配行，R26 允许按序列号匹配或显式标为身份待审，但评分器只接受序列号作为行键。当前产品用的正是序列号，所以没有影响。
 - **`Added+Removed` 未支持**：R25、R26 的事件把它列为可接受的类型，但事件匹配只看单张卡。如果产品真的输出一删一增，评分器会判 FAIL，而不是“无法评价”。这是潜在的错误失败；当前产品没有这样输出。
+- **金额识别依赖字段声明**：一张没有声明字段的卡，如果上面是不带千分位、也没有币种的裸整数，仍然不会被当作金额。为了不把 MSN 这类标识误判为金额，本项没有把所有裸整数都当作金额。
 - **多余的卡只在有对应 invariant 时才拦截**：额外的、解释不了的卡，只有在该用例声明了禁止它的 invariant 时才会被拒绝，例如 `no_content_differences`、`no_material_differences` 和金额/币种检查。答案没有声明这类要求的用例，评分器不另做误报检查。
 
-## 6. 验证（代码提交 `d61461b`，本地 Linux）
+## 6. 验证（当前代码提交 `7ea1fb3`，本地 Linux）
 
-| 检查 | 结果 | 证据 |
+| 检查 | `7ea1fb3`（当前，证据在 `7ea1fb3/`） | `d61461b`（第一轮，证据在 `verification/`） |
 |---|---|---|
-| `pnpm exec vitest run tests/scorer.test.ts` | 55/55（原 32 + 新 23） | `verification/vitest-scorer.log` |
-| `python3 -m unittest discover -s tests -p 'test_renewal_triage.py'` | 20/20 | `verification/unittest-renewal-triage.log` |
-| `pnpm verify:core` | 109/109 | `verification/verify-core.log`、`core-tests.json` |
-| `pnpm test:rules:mupdf` / `pnpm test:rules:pdfjs` | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | `verification/rules-*.{log,json}` |
-| 浏览器 `rules.spec.ts`（MuPDF / PDF.js，bundled） | 测试通过：严格 NOT_EVALUATED 28/32，事件 32/32，只剩已登记缺口 | `verification/browser-rules-*.{log,json}` |
-| 修复前反例 | 起点 scorer 上 4 项失败，原因都是假 PASS | `verification/before-fix.{sh,log}` |
+| `pnpm exec vitest run tests/scorer.test.ts` | 59/59（原 32 + 新 27） | 55/55 |
+| `python3 -m unittest discover -s tests -p 'test_renewal_triage.py'` | 20/20 | 20/20 |
+| `pnpm verify:core` | 113/113 | 109/109 |
+| `pnpm test:rules:mupdf` / `pnpm test:rules:pdfjs` | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | 同左 |
+| 浏览器 `rules.spec.ts`（MuPDF / PDF.js，bundled） | 测试通过：严格 NOT_EVALUATED 28/32，事件 32/32，只剩已登记缺口 | 同左 |
+| 身份 N/A / 覆盖（直接、间接、尚未支持、未知） | 11 / 10、17、4、0 | 同左 |
+| 修复前反例 | `d61461b` 上恰好 3 项裸整数变体失败（`before-fix-d61461b.log`） | 起点 `2ff585b` 上 4 项失败（`before-fix.log`） |
 
 本地浏览器运行使用了 Chromium 1243，通过不提交的 `tmp/playwright.local.config.ts` 设置 `executablePath`。CI 使用自己安装的浏览器，结果见 PR。
 
@@ -146,7 +163,8 @@ python3 -m unittest discover -s tests -p 'test_renewal_triage.py'
 pnpm verify:core
 pnpm test:rules:mupdf; echo "exit $?"   # 预期为 2
 pnpm test:rules:pdfjs; echo "exit $?"   # 预期为 2
-reports/invariant-coverage/verification/before-fix.sh   # 预期在起点 scorer 上失败 4 项
+reports/invariant-coverage/verification/before-fix.sh           # 在起点 2ff585b 的 scorer 上运行：所有错误卡反例都失败
+reports/invariant-coverage/verification/before-fix.sh d61461b   # 在第一轮 scorer 上运行：只有 3 项裸整数变体失败
 git checkout -- reports/                # 上面的命令会改写 reports/ 下的历史报告文件
 ```
 
