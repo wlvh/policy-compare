@@ -628,6 +628,52 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.status).toBe("PASS");
     expect(score.invariants.map((i) => i.result)).toEqual(["PASS", "PASS"]);
   });
+  // Delete + add cards: amounts may cancel only within one record and field.
+  const oneSided = (kind: "Added" | "Removed", id: string, loc: SourceLocation, rowKey: string | null): Difference => {
+    const card = replaced(id, loc, loc, {
+      section: "aircraft_schedule",
+      entity: rowKey,
+      field: "agreed_value",
+      table: "aircraft_schedule",
+      rowKey,
+    });
+    return kind === "Removed"
+      ? { ...card, kind, right: [], newText: "", textOps: [card.textOps[0]] }
+      : { ...card, kind, left: [], oldText: "", textOps: [{ ...card.textOps[1], text: loc.text, right: [loc] }] };
+  };
+  const swapped = (x: ReturnType<typeof r26>, a: string | null, b: string | null) => {
+    const [l, r] = x.docs;
+    x.result.differences.push(
+      oneSided("Removed", "a-out", lineLoc(l, "left", "l5"), a),
+      oneSided("Added", "a-in", lineLoc(r, "right", "l10"), a),
+      oneSided("Removed", "b-out", lineLoc(l, "left", "l10"), b),
+      oneSided("Added", "b-in", lineLoc(r, "right", "l5"), b),
+    );
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    return grade(x.result, x.expected, x.layout, x.docs);
+  };
+  it("R26: amounts swapped between two records through delete + add cards fail", () => {
+    const score = swapped(r26(), "SYN-1026-001", "SYN-1026-003");
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
+  it("R26: delete + add amounts that cancel only across cards without a record are NOT_EVALUATED", () => {
+    const score = swapped(r26(), null, null);
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([
+      { invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" },
+    ]);
+    expect(exitCode(summarize([score]))).toBe(1);
+  });
+  it("R26: one record shown as delete + add with the same amount passes", () => {
+    const x = r26();
+    const [l, r] = x.docs;
+    x.result.differences.push(
+      oneSided("Removed", "out", lineLoc(l, "left", "l5"), "SYN-1026-001"),
+      oneSided("Added", "in", lineLoc(r, "right", "l5"), "SYN-1026-001"),
+    );
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
+  });
   it("R26: matching the row by the renamed registration instead of the serial fails", () => {
     const x = r26();
     x.result.differences[0].structurePath!.rowKey = "TEST-C941";

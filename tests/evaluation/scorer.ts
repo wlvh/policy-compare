@@ -53,7 +53,8 @@ export type NotEvaluated = {
     | "identity_unsupported"
     | "unknown_detection_branch"
     | "invariant_unsupported"
-    | "invariant_unknown";
+    | "invariant_unknown"
+    | "invariant_unverifiable";
   reason: string;
 };
 export type InvariantScore = {
@@ -150,12 +151,12 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
     tests: ["R26: correct registration card plus a wrong agreed-value card fails"],
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
     tests: ["R11: correct label card plus a wrong"],
   },
   header_role_must_not_exclude_text: {
@@ -289,7 +290,12 @@ const minus = (a: string[], b: string[]) => {
   });
 };
 // Amount or currency changes asserted by any card, apart from the deltas the case's events declare.
-function moneyChanges(result: CompareResult, expected: Expected): string[] {
+// Delete and add cards cancel only within one record and field; amounts that cancel only across
+// cards showing no record cannot be verified either way.
+function moneyChanges(
+  result: CompareResult,
+  expected: Expected,
+): { violations: string[]; open: string[] } {
   const of = (e: Expected["events"][number], text: string | null) =>
     money(text ?? "", amountField(e.logical_path));
   const removed = expected.events.flatMap((e) => minus(of(e, e.old), of(e, e.new))),
@@ -304,17 +310,40 @@ function moneyChanges(result: CompareResult, expected: Expected): string[] {
     if ((r.length || a.length) && !allowed(r, a))
       out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
   }
-  const gone = result.differences.filter((d) => d.kind === "Removed").flatMap((d) => cardMoney(d, d.oldText)),
-    come = result.differences.filter((d) => d.kind === "Added").flatMap((d) => cardMoney(d, d.newText));
-  const r = minus(gone, come),
-    a = minus(come, gone);
+  const pool = { gone: [] as string[], come: [] as string[] },
+    records = new Map<string, typeof pool>();
+  for (const d of result.differences.filter((d) => d.kind === "Removed" || d.kind === "Added")) {
+    const who = d.structurePath?.rowKey ?? d.structurePath?.entity,
+      key = who + "|" + (d.structurePath?.field ?? "");
+    const group = who ? (records.get(key) ?? records.set(key, { gone: [], come: [] }).get(key)!) : pool;
+    if (d.kind === "Removed") group.gone.push(...cardMoney(d, d.oldText));
+    else group.come.push(...cardMoney(d, d.newText));
+  }
+  for (const [key, g] of records) {
+    const r = minus(g.gone, g.come),
+      a = minus(g.come, g.gone);
+    if (r.length && a.length) {
+      if (!allowed(r, a)) out.push(`record ${key} delete/add cards change ${r.join(",")} to ${a.join(",")}`);
+    } else {
+      pool.gone.push(...r);
+      pool.come.push(...a);
+    }
+  }
+  const r = minus(pool.gone, pool.come),
+    a = minus(pool.come, pool.gone);
   if ((r.length || a.length) && !allowed(r, a))
     out.push(`added/removed cards change ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
-  return out;
+  const cancelled = pool.gone.length - r.length;
+  return {
+    violations: out,
+    open: !out.length && cancelled
+      ? [`${cancelled} removed amount(s) cancel only against added cards that show no common record`]
+      : [],
+  };
 }
 type Checked = { result: CompareResult; expected: Expected; layout: Layout };
-// Directly checked invariants: each returns the violations it finds.
-const DIRECT: Record<string, (c: Checked) => string[]> = {
+// Directly checked invariants: each returns the violations it finds, plus what it could not decide.
+const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; open: string[] }> = {
   no_content_differences: ({ result }) =>
     result.differences.length ? ["False content differences in control"] : [],
   no_false_text_added_or_removed: ({ result }) =>
@@ -785,8 +814,13 @@ export function grade(
     }
     if (entry.coverage === "indirect")
       return { name, coverage: "indirect", result: eventVerdict, reason: entry.basis };
-    const violations = DIRECT[name]({ result, expected, layout });
+    const checked = DIRECT[name]({ result, expected, layout });
+    const { violations, open } = Array.isArray(checked) ? { violations: checked, open: [] } : checked;
     faults.push(...violations.map((v) => name + ": " + v));
+    if (!violations.length && open.length) {
+      notEvaluated.push({ invariant: name, kind: "invariant_unverifiable", reason: open.join("; ") });
+      return { name, coverage: "direct", result: "NOT_EVALUATED", reason: open.join("; ") };
+    }
     return { name, coverage: "direct", result: violations.length ? "FAIL" : "PASS", reason: violations.join("; ") || entry.basis };
   });
   const eventsOpen = notEvaluated.some((n) => n.eventId);
