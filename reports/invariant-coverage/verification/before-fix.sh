@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Run the current R26/R11 counterexamples against an earlier scorer (default: the fixed start 2ff585b).
 #   before-fix.sh            -> every "plus a wrong ... card fails" test fails with "expected 'PASS' to be 'FAIL'"
-#   before-fix.sh d61461b    -> only the bare-number variants (100000, R11 bare-number amount) fail
+#   before-fix.sh d61461b    -> the bare-number variants and the delete/add swaps fail
+#   before-fix.sh 7ea1fb3    -> only the two delete/add swap tests fail
 set -u
 repo=$(git rev-parse --show-toplevel)
 dir=$(mktemp -d)

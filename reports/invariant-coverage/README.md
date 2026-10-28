@@ -5,11 +5,11 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `fix/scorer-invariant-coverage`，从 `2ff585bce56e5b43a6fb00572ad9d99b98e4fefc`（PR #9 head）建立 |
-| 被测代码提交 | **当前 `7ea1fb3eba51787ae14a9bc89f9a05ed2cc81c98`**（第二轮，修复裸整数金额漏检），证据在 [`7ea1fb3/`](7ea1fb3/)；第一轮 `d61461b270785b33349134c918e5f88a562ec215` 的证据保留在 [`verification/`](verification/) 和 [`register.json`](register.json)，没有覆盖 |
+| 被测代码提交 | **当前 `74783d6f2674dad46d14cab9cb4f77047daf2f51`**（第三轮，删除/新增卡的金额只在同一记录内抵消），证据在 [`74783d6/`](74783d6/)。各轮证据都保留、没有覆盖：第二轮 `7ea1fb3`（裸整数金额）在 [`7ea1fb3/`](7ea1fb3/)；第一轮 `d61461b` 在 [`verification/`](verification/) 和 [`register.json`](register.json) |
 | 被测产品代码 | 与 `e313540` 相同，本项没有修改产品文件 |
 | 改动文件 | `tests/evaluation/scorer.ts`、`tests/scorer.test.ts`、`scripts/acceptance.ts`、`tests/browser/rules.spec.ts`、`.github/workflows/ci.yml` |
 | 工具 | Node v24.19.0、pnpm 10.12.1；Python 3.13.17（本地）/ 3.12（CI 环境，本地也用 3.12.3 跑过） |
-| 机器可读登记 | [`7ea1fb3/register.json`](7ea1fb3/register.json)（当前）：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
+| 机器可读登记 | [`74783d6/register.json`](74783d6/register.json)（当前）：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
 
 “invariant（验收断言）”指答案 `expected.json` 里除逐事件要求以外的整体要求，例如“不得出现金额变化”。32 对答案中共有 **31 种**（按名称去重计的种数，不是用例数）。
 
@@ -47,6 +47,23 @@
 
 **修法**：卡片或事件如果声明了答案里的金额字段，它上面任何独立的数字都算金额。金额字段包括 `agreed_value`（R22、R26）、`sum_insured`（R02、R03、R11）、`limit`（R09），以及产品用于同类字段的 `header_limit`、`deductible`。其他地方仍然只认带千分位或紧跟币种的数字，所以 MSN 这类纯数字标识不会被误判为金额。R11 与 R26 共用同一个函数，已一并核对。
 
+### 第三轮：删除卡与新增卡之间的金额抵消（`74783d6`）
+
+Codex 复核指出：所有删除卡、新增卡的金额原先在整个结果里一起抵消。因此只要记录 A 删 `100,000`、增 `200,000`，记录 B 反过来删 `200,000`、增 `100,000`，四张卡合起来恰好相抵，结果仍然 PASS；而等价的替换卡会正确判为 FAIL。
+
+**修法**：删除卡和新增卡的金额只能在同一记录（rowKey 或 entity）的同一字段内抵消。
+- 同一记录里删、增的金额不同，就是金额变化，判 **FAIL**。
+- 只有单边剩余的金额，以及没有标明记录的卡，放进一个公共池。池中仍有净变化则判 FAIL。
+- 金额只能在没有记录身份的卡之间抵消时，评分器无法确认它们是同一记录，判 **NOT_EVALUATED**（`invariant_unverifiable`），而不是 PASS。这不是已登记的缺口，退出码为 1，交由人工复核。
+
+| 测试（schema 合法） | 第二轮 scorer `7ea1fb3` | `74783d6` |
+|---|---|---|
+| R26：正确注册号卡 + A、B 两条记录各一删一增、金额互换（卡上有记录） | **PASS**（假通过） | FAIL |
+| 同上，但卡上没有记录身份 | **PASS**（假通过） | NOT_EVALUATED，退出码 1 |
+| 同一记录一删一增、金额相同 | PASS | PASS |
+
+修复前的失败可以重现：`verification/before-fix.sh 7ea1fb3`，输出见 [`74783d6/before-fix-7ea1fb3.log`](74783d6/before-fix-7ea1fb3.log)。结果是恰好这 2 项失败。
+
 ## 2. 31 种 invariant 的覆盖登记
 
 - **直接检查**：评分器里有这一条的专门检查（`DIRECT` 表）。每条都有一个负向测试，构造违反它的结果，并要求失败原因里写着这条 invariant 的名字。
@@ -63,7 +80,7 @@
 | moved_clause_has_no_internal_word_edits | R12 | 直接 | Moved 卡不得有文字变化 | 同上 |
 | must_not_classify_as_unchanged_duration_roll_forward | R07 | 直接 | 保险期间卡不得判为 RollForward | 同上 |
 | grouping_allowed_only_with_all_occurrence_locations | R09 | 直接 | 聚合卡必须列出两侧全部重复位置 | 同上 |
-| **agreed_value_unchanged** | R26 | **直接（新增）** | 金额/币种不变；在声明金额字段的卡上，裸整数也算金额（见第 1 节） | R26 反例（带逗号、裸整数各一组）；MSN 看守 |
+| **agreed_value_unchanged** | R26 | **直接（新增）** | 金额/币种不变；在声明金额字段的卡上，裸整数也算金额；删除/新增卡只在同一记录同一字段内抵消（见第 1 节） | R26 反例（带逗号、裸整数、一删一增互换各一组）；MSN 看守；同记录一删一增对照 |
 | **no_amount_or_currency_change** | R11 | **直接（新增）** | 同上 | R11 金额、裸整数金额、币种反例 |
 | header_role_must_not_exclude_text | R09 | 间接 | 页眉限额事件需要在页眉位置有可见卡；页眉文字被排除就没有卡 | `empty required output` |
 | rotation_must_not_exclude_text | R19 | 间接 | 旋转状态事件需要在旋转文字位置有可见卡 | `empty required output` |
@@ -142,17 +159,17 @@
 - **金额识别依赖字段声明**：一张没有声明字段的卡，如果上面是不带千分位、也没有币种的裸整数，仍然不会被当作金额。为了不把 MSN 这类标识误判为金额，本项没有把所有裸整数都当作金额。
 - **多余的卡只在有对应 invariant 时才拦截**：额外的、解释不了的卡，只有在该用例声明了禁止它的 invariant 时才会被拒绝，例如 `no_content_differences`、`no_material_differences` 和金额/币种检查。答案没有声明这类要求的用例，评分器不另做误报检查。
 
-## 6. 验证（当前代码提交 `7ea1fb3`，本地 Linux）
+## 6. 验证（当前代码提交 `74783d6`，本地 Linux）
 
-| 检查 | `7ea1fb3`（当前，证据在 `7ea1fb3/`） | `d61461b`（第一轮，证据在 `verification/`） |
-|---|---|---|
-| `pnpm exec vitest run tests/scorer.test.ts` | 59/59（原 32 + 新 27） | 55/55 |
-| `python3 -m unittest discover -s tests -p 'test_renewal_triage.py'` | 20/20 | 20/20 |
-| `pnpm verify:core` | 113/113 | 109/109 |
-| `pnpm test:rules:mupdf` / `pnpm test:rules:pdfjs` | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | 同左 |
-| 浏览器 `rules.spec.ts`（MuPDF / PDF.js，bundled） | 测试通过：严格 NOT_EVALUATED 28/32，事件 32/32，只剩已登记缺口 | 同左 |
-| 身份 N/A / 覆盖（直接、间接、尚未支持、未知） | 11 / 10、17、4、0 | 同左 |
-| 修复前反例 | `d61461b` 上恰好 3 项裸整数变体失败（`before-fix-d61461b.log`） | 起点 `2ff585b` 上 4 项失败（`before-fix.log`） |
+| 检查 | `74783d6`（当前，`74783d6/`） | `7ea1fb3`（第二轮，`7ea1fb3/`） | `d61461b`（第一轮，`verification/`） |
+|---|---|---|---|
+| `pnpm exec vitest run tests/scorer.test.ts` | 62/62（原 32 + 新 30） | 59/59 | 55/55 |
+| `python3 -m unittest discover -s tests -p 'test_renewal_triage.py'` | 20/20 | 20/20 | 20/20 |
+| `pnpm verify:core` | 116/116 | 113/113 | 109/109 |
+| `pnpm test:rules:mupdf` / `pnpm test:rules:pdfjs` | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | 同左 | 同左 |
+| 浏览器 `rules.spec.ts`（MuPDF / PDF.js，bundled） | 测试通过：严格 NOT_EVALUATED 28/32，事件 32/32，只剩已登记缺口 | 同左 | 同左 |
+| 身份 N/A / 覆盖（直接、间接、尚未支持、未知） | 11 / 10、17、4、0 | 同左 | 同左 |
+| 修复前反例 | `7ea1fb3` 上恰好 2 项一删一增互换失败（`before-fix-7ea1fb3.log`） | `d61461b` 上恰好 3 项裸整数变体失败 | 起点 `2ff585b` 上 4 项失败 |
 
 本地浏览器运行使用了 Chromium 1243，通过不提交的 `tmp/playwright.local.config.ts` 设置 `executablePath`。CI 使用自己安装的浏览器，结果见 PR。
 
@@ -164,7 +181,8 @@ pnpm verify:core
 pnpm test:rules:mupdf; echo "exit $?"   # 预期为 2
 pnpm test:rules:pdfjs; echo "exit $?"   # 预期为 2
 reports/invariant-coverage/verification/before-fix.sh           # 在起点 2ff585b 的 scorer 上运行：所有错误卡反例都失败
-reports/invariant-coverage/verification/before-fix.sh d61461b   # 在第一轮 scorer 上运行：只有 3 项裸整数变体失败
+reports/invariant-coverage/verification/before-fix.sh d61461b   # 在第一轮 scorer 上运行：裸整数变体与一删一增互换失败
+reports/invariant-coverage/verification/before-fix.sh 7ea1fb3   # 在第二轮 scorer 上运行：只有 2 项一删一增互换失败
 git checkout -- reports/                # 上面的命令会改写 reports/ 下的历史报告文件
 ```
 
