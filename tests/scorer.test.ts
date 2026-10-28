@@ -748,6 +748,16 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     const x = r26(true, undefined, { ...ROWS, right: ["1316 Alpha Air 100000", "1748 Alpha Air 200000"] });
     expect(graded(x, rowCard(x, "l11", "l11")).status).toBe("PASS");
   });
+  it("R26: a card claiming a change inside an unchanged amount cell by citing part of it fails", () => {
+    // Both sides keep 100020; the card cites "100" on the left and "020" on the right.
+    const x = r26(true, ["100020", "200010"]);
+    const L = slice(lineLoc(x.docs[0], "left", "l5"), 0, 3),
+      R = slice(lineLoc(x.docs[1], "right", "l5"), 3, 6);
+    const score = graded(x, replaced("part", L, R, { section: "aircraft_schedule", entity: "SYN-1026-001", field: "registration", table: "aircraft_schedule", rowKey: "SYN-1026-001" }));
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
   it("R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS", () => {
     const x = r26(true, undefined, { ...ROWS, inLayout: false });
     const score = graded(x, rowCard(x, "l11", "l12"));
