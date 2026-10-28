@@ -77,10 +77,13 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
     ];
     Object.assign(unit, normalize(raw, all));
   }
+  const consumed = new Set<(typeof lines)[number]>(),
+    position = new Map(lines.map((g, n) => [g, n]));
   for (let i = 0; i < lines.length; i++) {
     checkpoint?.();
     const row = lines[i],
       text = row.text.trim();
+    if (consumed.has(row)) continue;
     if (!text) {
       add(row.refs, "whitespace");
       continue;
@@ -150,6 +153,7 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
         const next = lines[i + 1];
         if (
           next &&
+          !consumed.has(next) &&
           next.p === row.p &&
           Math.abs(next.refs[0].char.origin[1] - y) < row.refs[0].char.size
         ) {
@@ -211,38 +215,81 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
     // Three or more clearly separated text clusters on one baseline form a row.
     // Clusters, not extraction items, are counted: a font switch inside a
     // sentence leaves no gap. Cells keep their characters; nothing is split.
+    // A wrapped cell's next line may be extracted between the row's cells, so
+    // the row is gathered from a short window below its baseline, and a wrapped
+    // line is joined to its cell only when it sits directly under the cell,
+    // aligned with it, in the same type size.
     if (section !== profile.table.name) {
-      const size = row.refs[0].char.size;
+      const size = row.refs[0].char.size,
+        top = (g: (typeof lines)[number]) => g.refs[0].char.origin[1];
       let end = i + 1;
       while (
         end < lines.length &&
         lines[end].p === row.p &&
         lines[end].text.trim() &&
-        Math.abs(lines[end].refs[0].char.origin[1] - y) < 0.3 * size
+        top(lines[end]) > y - 0.3 * size &&
+        top(lines[end]) - y < 4 * size
       )
         end++;
-      if (end - i >= 3) {
+      const window = lines.slice(i, end).filter((g) => !consumed.has(g));
+      const members = window.filter((g) => Math.abs(top(g) - y) < 0.3 * size);
+      if (members.length >= 3) {
         const span = (g: (typeof lines)[number]) => {
           const xs = g.refs.flatMap((r) => [0, 2, 4, 6].map((k) => r.char.quad[k]));
           return [Math.min(...xs), Math.max(...xs)];
         };
-        const group = lines
-          .slice(i, end)
-          .sort((a, b) => span(a)[0] - span(b)[0]);
-        const cells = [[group[0].text.trim()]];
+        const group = members.sort((a, b) => span(a)[0] - span(b)[0]);
+        const cells = [[group[0]]];
         for (let j = 1; j < group.length; j++)
           if (span(group[j])[0] - span(group[j - 1])[1] > size)
-            cells.push([group[j].text.trim()]);
-          else cells.at(-1)!.push(group[j].text.trim());
+            cells.push([group[j]]);
+          else cells.at(-1)!.push(group[j]);
         if (cells.length >= 3) {
+          const bounds = cells.map((c) => [span(c[0])[0], span(c.at(-1)!)[1]]);
+          const column = (g: (typeof lines)[number]) => {
+            const [x0, x1] = span(g),
+              k = bounds.findIndex(
+                ([a], n) =>
+                  x0 > a - 1 &&
+                  x1 < (bounds[n + 1]?.[0] ?? Infinity) &&
+                  cells[n].some((m) => {
+                    const [m0, m1] = span(m);
+                    return (
+                      Math.abs(x0 - m0) < 1 ||
+                      Math.abs(x1 - m1) < 1 ||
+                      Math.abs(x0 + x1 - m0 - m1) < 2
+                    );
+                  }),
+              );
+            return Math.abs(g.refs[0].char.size - size) < 0.1 * size ? k : -1;
+          };
+          // A wrapped line directly follows, in extraction order, the line above
+          // it in the same cell; the next row's first cell follows another column.
+          const wrapped = cells.map(() => [] as (typeof lines)[number][]),
+            owner = new Map(cells.flatMap((c, k) => c.map((g) => [g, k] as const)));
+          for (const g of window) {
+            const k = column(g),
+              previous = lines[position.get(g)! - 1];
+            if (
+              owner.has(g) ||
+              k < 0 ||
+              owner.get(previous) !== k ||
+              top(g) - top(previous) < 0.3 * size ||
+              top(g) - top(previous) > 1.6 * size
+            )
+              continue;
+            wrapped[k].push(g);
+            owner.set(g, k);
+          }
+          const parts = cells.map((c, k) => [...c, ...wrapped[k]]);
+          for (const g of parts.flat()) consumed.add(g);
           const u = add(
-            group.flatMap((g, j) => (j ? [null, ...g.refs] : g.refs)),
+            parts.flat().flatMap((g, j) => (j ? [null, ...g.refs] : g.refs)),
             "body",
           );
-          u.rowCells = cells.map((c) => c.join(" "));
+          u.rowCells = parts.map((c) => c.map((g) => g.text.trim()).join(" "));
           u.path.table = "recovered_rows";
           active = null;
-          i = end - 1;
           continue;
         }
       }

@@ -1,0 +1,8 @@
+{
+ "status": "VERIFIED_INPUTS_ONLY",
+ "sourceRevision": "0eef67dd6cbe477ab625885220686c674640fb88",
+ "files": 10,
+ "pdfCount": 4,
+ "output": "tmp/renewal-inputs",
+ "classification": "synthetic_renewal_pairs"
+}

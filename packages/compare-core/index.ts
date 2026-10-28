@@ -429,7 +429,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.1",
+    coreVersion: VERSION + "+row-identity.2",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -562,7 +562,12 @@ export function compare(
     }
   }
   const eligible = (u: Unit) => !u.identity && u.role !== "cell";
-  const rawKey = (u: Unit) => (eligible(u) ? `${u.role}/${u.rawText}` : null);
+  // Identical row text is the same record only inside the same table; across
+  // tables it would consume a record before identity evidence is consulted.
+  const rawKey = (u: Unit) =>
+    eligible(u)
+      ? `${u.role}/${u.rowCells ? `${u.path.section}\u0000${u.title}\u0000` : ""}${u.rawText}`
+      : null;
   const el = map(la, usedL, rawKey),
     er = map(rb, usedR, rawKey);
   for (const [key, as] of el) {

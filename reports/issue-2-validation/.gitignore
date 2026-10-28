@@ -1,0 +1,4 @@
+# Uncompressed comparison results are large; the .json.gz next to each is
+# committed and environment.json records the SHA-256 of the uncompressed file.
+*/*_2024_vs_2025-mupdf.json
+*/*_2024_vs_2025-pdfjs.json
