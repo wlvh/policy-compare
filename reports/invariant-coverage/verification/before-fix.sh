@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Run the current R26/R11 counterexamples against an earlier scorer (default: the fixed start 2ff585b).
-#   before-fix.sh            -> every "plus a wrong ... card fails" test fails with "expected 'PASS' to be 'FAIL'"
-#   before-fix.sh d61461b    -> the bare-number variants and the delete/add swaps fail
-#   before-fix.sh 7ea1fb3    -> only the two delete/add swap tests fail
+# With the test file at fececbf:
+#   before-fix.sh            -> 12 fail: every wrong-card counterexample, plus the MSN guard (no invariant results yet)
+#   before-fix.sh d61461b    -> 7 fail: the bare-number variants, the field-mislabel cards and the delete/add swaps
+#   before-fix.sh 7ea1fb3    -> 4 fail: the field-mislabel cards and the delete/add swaps
+#   before-fix.sh 74783d6    -> 2 fail: only the field-mislabel cards
 set -u
 repo=$(git rev-parse --show-toplevel)
 dir=$(mktemp -d)

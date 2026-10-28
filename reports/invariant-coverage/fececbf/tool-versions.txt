@@ -1,0 +1,4 @@
+commit fececbfbad8d17eb06f8acb2f3ad082d1376d838
+v22.22.0
+10.12.1
+Python 3.13.17
