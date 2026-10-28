@@ -8,7 +8,7 @@ import {
   type SourceLocation,
 } from "../contracts/index";
 import { aviationProfile, type Profile } from "../../profiles/aviation";
-import { structure, type Unit } from "./structure";
+import { furnitureSignatures, structure, type Unit } from "./structure";
 import { normalize, sourceLocations, tokenize, lcsLength } from "./text";
 import { monotone, jointAlign } from "./alignment";
 export { structure } from "./structure";
@@ -264,6 +264,15 @@ function category(
   b: Unit | undefined,
 ): Difference["category"] {
   const u = b ?? a!;
+  // Page numbering is cosmetic; other repeated furniture keeps amounts Material.
+  if (u.role === "furniture")
+    return a?.furniture?.pageNumber ||
+      b?.furniture?.pageNumber ||
+      (a && b && a.matchText === b.matchText)
+      ? "Cosmetic"
+      : valueLike(`${a?.rawText ?? ""} ${b?.rawText ?? ""}`)
+        ? "Material"
+        : "Review";
   if (
     [
       "label",
@@ -466,10 +475,12 @@ export function compare(
     for (const p of doc.pages)
       result.coverage.push(...p.issues.map((i) => ({ ...i, side })));
   phase?.("structure");
-  const la = structure(left, profile,checkpoint).filter(
+  // Page furniture found in either document is recognised in both.
+  const shared = [...furnitureSignatures(left), ...furnitureSignatures(right)];
+  const la = structure(left, profile, checkpoint, shared).filter(
       (u) => u.role !== "logical_separator",
     ),
-    rb = structure(right, profile,checkpoint).filter(
+    rb = structure(right, profile, checkpoint, shared).filter(
       (u) => u.role !== "logical_separator",
     ),
     pairs: Pair[] = [],
@@ -560,6 +571,92 @@ export function compare(
         if(a.role==='field')result.unresolved.push({reason:'ambiguous_identity',message:'同名字段缺少唯一归属；组内原文变化仍展示，不按金额相同跨位置配对',left:locations(a,'left'),right:locations(b,'right'),defaultVisible:true});
       }
     }
+  }
+  // Page furniture and repeated table header rows are compared once per
+  // repeated line, never page by page; every occurrence stays on the card.
+  const singles: [Unit | undefined, Unit | undefined][] = [];
+  const repeated = (us: Unit[], id: string) => {
+    const u: Unit & { repeats?: Unit[] } = aggregate(us, id);
+    Object.assign(u, normalize(us[0].rawText, us[0].refs));
+    u.repeats = us;
+    return u;
+  };
+  const furnitureKey = (u: Unit) =>
+    u.furniture ? `${u.furniture.pattern}\u0000${u.furniture.y}` : null;
+  const lf = map(la, usedL, furnitureKey),
+    rf = map(rb, usedR, furnitureKey),
+    lone = { left: [] as Unit[], right: [] as Unit[] };
+  for (const [, as] of lf) {
+    const f = as[0].furniture!,
+      [key, bs] =
+        [...rf]
+          .filter(([, bs]) => bs[0].furniture!.pattern === f.pattern && Math.abs(bs[0].furniture!.y - f.y) <= 12)
+          .sort(([, x], [, y]) => Math.abs(x[0].furniture!.y - f.y) - Math.abs(y[0].furniture!.y - f.y))[0] ?? [];
+    as.forEach((u) => usedL.add(u));
+    if (!bs) {
+      lone.left.push(...as);
+      continue;
+    }
+    rf.delete(key);
+    bind(
+      repeated(as, "furniture-left-" + as[0].id),
+      repeated(bs, "furniture-right-" + bs[0].id),
+      "page-furniture",
+    );
+    bs.forEach((u) => usedR.add(u));
+  }
+  for (const [, bs] of rf) {
+    lone.right.push(...bs);
+    bs.forEach((u) => usedR.add(u));
+  }
+  // Furniture on one side only (a Draft watermark) is one card per text; the
+  // same text elsewhere in a page margin of that side, such as on a cover page,
+  // joins it.
+  const margin = (u: Unit) => {
+    const r = u.refs.find(Boolean)!;
+    return r.char.origin[1] < 0.16 * r.page.height || r.char.origin[1] > 0.88 * r.page.height;
+  };
+  for (const [side, us, used] of [
+    ["left", la, usedL],
+    ["right", rb, usedR],
+  ] as const) {
+    const texts = new Map<string, Unit[]>();
+    for (const u of lone[side])
+      texts.set(u.rawText.trim(), [...(texts.get(u.rawText.trim()) ?? []), u]);
+    for (const [text, group] of texts) {
+      for (const u of us)
+        if (!used.has(u) && u.rawText.trim() === text && margin(u)) {
+          group.push(u);
+          used.add(u);
+        }
+      group.sort((x, y) => x.order - y.order);
+      const u = repeated(group, `furniture-${side}-${group[0].id}`);
+      Object.assign(u, {
+        role: "furniture",
+        furniture: group.find((x) => x.furniture)!.furniture,
+        path: { ...u.path, section: "page_furniture" },
+      });
+      singles.push(side === "left" ? [u, undefined] : [undefined, u]);
+    }
+  }
+  // A digit-free row repeated on several pages of a table is its header. An
+  // occurrence count that pagination does not explain is shown on the card.
+  const headerKey = (u: Unit) =>
+    u.rowCells && !/\p{N}/u.test(u.rawText)
+      ? `${u.path.section}\u0000${u.title}\u0000${u.rawText}`
+      : null;
+  const rh = map(rb, usedR, headerKey);
+  for (const [key, as] of map(la, usedL, headerKey)) {
+    const bs = rh.get(key),
+      pages = (us: Unit[]) => new Set(us.map((u) => u.refs.find(Boolean)!.page.pageIndex)).size;
+    if (!bs || Math.max(pages(as), pages(bs)) < 2) continue;
+    bind(
+      repeated(as, "header-left-" + as[0].id),
+      repeated(bs, "header-right-" + bs[0].id),
+      "repeated-table-header",
+    );
+    as.forEach((u) => usedL.add(u));
+    bs.forEach((u) => usedR.add(u));
   }
   const eligible = (u: Unit) => !u.identity && u.role !== "cell";
   // Identical row text is the same record only inside the same table; across
@@ -834,7 +931,18 @@ export function compare(
     score: number | null,
     moved = false,
   ) {
-    if (a && b && a.rawText === b.rawText && !moved) return;
+    const ar = (a as (Unit & { repeats?: Unit[] }) | undefined)?.repeats,
+      br = (b as (Unit & { repeats?: Unit[] }) | undefined)?.repeats;
+    // Repeated text present on fewer pages than pagination explains is shown.
+    const dropped =
+      !!ar &&
+      !!br &&
+      Math.abs(ar.length - br.length) >
+        Math.abs(left.pages.length - right.pages.length);
+    if (a && b && a.rawText === b.rawText && !moved && !dropped) return;
+    const furniture = (a ?? b!).role === "furniture",
+      pages = (us?: Unit[]) =>
+        new Set(us?.map((u) => u.refs.find(Boolean)!.page.pageIndex)).size;
     const kind: Difference["kind"] = moved
       ? "Moved"
       : a && b
@@ -864,11 +972,13 @@ export function compare(
       reviewReasons:
         (a ?? b!).path.confidence === "unresolved"
           ? [(a??b!).path.table?"无法确定唯一表格行身份":"无法确定同名字段的唯一归属"]
-          : [],
+          : furniture
+            ? [
+                `页面附属：跨页重复的${(a ?? b!).furniture!.pageNumber ? "页码" : "页眉页脚文字"}，基准 ${pages(ar)} 页、待审 ${pages(br)} 页${a ? (b ? "" : "，仅基准版有") : "，仅待审版有"}；逐处来源见出现位置`,
+              ]
+            : [],
       occurrences: [],
     };
-    const ar = (a as (Unit & { repeats?: Unit[] }) | undefined)?.repeats,
-      br = (b as (Unit & { repeats?: Unit[] }) | undefined)?.repeats;
     if (ar || br) {
       for (let i = 0; i < Math.max(ar?.length ?? 0, br?.length ?? 0); i++)
         d.occurrences.push({
@@ -894,6 +1004,7 @@ export function compare(
       (p.a.path.section !== p.b.path.section || !stable.has(p));
     emit(p.a, p.b, p.method, p.score, moved);
   }
+  for (const [a, b] of singles) emit(a, b, "page-furniture", null);
   if (!exhausted) {
     for (const u of unmatchedL) if(!ambiguousL.has(u))emit(u, undefined, "unmatched", null);
     for (const u of unmatchedR) if(!ambiguousR.has(u))emit(undefined, u, "unmatched", null);

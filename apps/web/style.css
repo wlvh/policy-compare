@@ -336,6 +336,8 @@ h3 {
 .occurrences {
   font-size: 10px;
   color: #4c818c;
+  max-height: 110px;
+  overflow-y: auto;
 }
 .documents {
   display: flex;

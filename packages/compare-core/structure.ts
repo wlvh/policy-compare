@@ -12,16 +12,21 @@ export type Unit = MappedText & {
   tableRow?: string;
   /** Cell texts of a row recovered from one baseline, left to right. */
   rowCells?: string[];
+  /** Repeated page furniture: digit pattern, position and page numbering. */
+  furniture?: Furniture;
   title: string;
 };
-export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void): Unit[] {
-  const units: Unit[] = [];
-  let section = "risk_details",
-    fieldSection = "risk_details",
-    subject: string | null = null,
-    title = "";
-  let active: Unit | null = null;
-  const allLines = doc.pages.flatMap((p) => {
+export type Furniture = { pattern: string; y: number; pageNumber: boolean };
+type Line = { p: DocInput["pages"][number]; refs: Ref[]; text: string };
+const span = (g: Line) => {
+  const xs = g.refs.flatMap((r) => [0, 2, 4, 6].map((k) => r.char.quad[k]));
+  return [Math.min(...xs), Math.max(...xs)];
+};
+const top = (g: Line) => g.refs[0].char.origin[1];
+const inMargin = (g: Line) =>
+  top(g) < 0.16 * g.p.height || top(g) > 0.88 * g.p.height;
+function documentLines(doc: DocInput) {
+  const all = doc.pages.flatMap((p) => {
     const idx = new Map(p.chars.map((c) => [c.id, c]));
     return p.lines.map((l) => ({
       p,
@@ -30,11 +35,104 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
       text: l.charIds.map((id) => idx.get(id)!.text).join(""),
     }));
   });
-  const separators = allLines.filter(
+  const separators = all.filter(
     (r) =>
       !r.text.trim() && r.refs.every((r) => r.char.provenance === "inferred"),
   );
-  const lines = allLines.filter((r) => !separators.includes(r));
+  return { separators, lines: all.filter((r) => !separators.includes(r)) };
+}
+export type FurnitureSignature = Furniture & { x0: number; x1: number };
+/**
+ * Page furniture is a line repeated at the same place in the top or bottom
+ * band of at least three pages and 40% of a document. Digits are replaced
+ * only to find candidates: a number that differs between pages must count
+ * with the page (a page number); otherwise the line is content.
+ */
+function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
+  const need = Math.max(3, Math.ceil(0.4 * pageCount)),
+    groups: (FurnitureSignature & { members: Line[] })[] = [];
+  for (const g of lines) {
+    if (!g.text.trim() || !inMargin(g)) continue;
+    const pattern = g.text.trim().replace(/\p{N}+/gu, "#"),
+      [x0, x1] = span(g),
+      y = top(g);
+    const group = groups.find(
+      (c) =>
+        c.pattern === pattern &&
+        Math.abs(c.y - y) <= 2 &&
+        (Math.abs(c.x0 - x0) <= 2 || Math.abs(c.x1 - x1) <= 2) &&
+        !c.members.some((m) => m.p === g.p),
+    );
+    if (group) group.members.push(g);
+    else groups.push({ pattern, x0, x1, y, pageNumber: false, members: [g] });
+  }
+  return groups.flatMap(({ members, ...c }) => {
+    if (members.length < need) return [];
+    const runs = members.map((m) => (m.text.match(/\p{N}+/gu) ?? []).map(Number)),
+      varying = new Set(members.map((m) => m.text.trim())).size > 1;
+    const counted = runs[0].every((_, j) =>
+      runs.every(
+        (r, n) =>
+          r[j] === runs[0][j] ||
+          r[j] - members[n].p.pageIndex === runs[0][j] - members[0].p.pageIndex,
+      ),
+    );
+    return varying && !counted ? [] : [{ ...c, pageNumber: varying }];
+  });
+}
+/** Furniture signatures of one document, shared with the other document. */
+export function furnitureSignatures(doc: DocInput) {
+  return signatures(documentLines(doc).lines, doc.pages.length);
+}
+/**
+ * A margin line matching a signature of either document is furniture, so both
+ * sides agree even when one has too few pages to show the repetition. A line
+ * on a baseline with three or more clusters (a table row) is furniture only
+ * when every line of that baseline is.
+ */
+function pageFurniture(lines: Line[], known: FurnitureSignature[]) {
+  const found = new Map<Line, Furniture>();
+  for (const g of lines) {
+    if (!g.text.trim() || !inMargin(g)) continue;
+    const pattern = g.text.trim().replace(/\p{N}+/gu, "#"),
+      [x0, x1] = span(g),
+      s = known.find(
+        (c) =>
+          c.pattern === pattern &&
+          Math.abs(c.y - top(g)) <= 2 &&
+          (Math.abs(c.x0 - x0) <= 2 || Math.abs(c.x1 - x1) <= 2),
+      );
+    if (s) found.set(g, { pattern, y: s.y, pageNumber: s.pageNumber });
+  }
+  for (const g of [...found.keys()]) {
+    const size = g.refs[0].char.size,
+      mates = lines
+        .filter((m) => m.p === g.p && m.text.trim() && Math.abs(top(m) - top(g)) < 0.3 * size)
+        .sort((a, b) => span(a)[0] - span(b)[0]);
+    let clusters = 1;
+    for (let j = 1; j < mates.length; j++)
+      if (span(mates[j])[0] - span(mates[j - 1])[1] > size) clusters++;
+    if (clusters >= 3 && !mates.every((m) => found.has(m))) found.delete(g);
+  }
+  return found;
+}
+export function structure(
+  doc: DocInput,
+  profile: Profile,
+  checkpoint?: () => void,
+  shared: FurnitureSignature[] = [],
+): Unit[] {
+  const units: Unit[] = [];
+  let section = "risk_details",
+    fieldSection = "risk_details",
+    subject: string | null = null,
+    title = "";
+  let active: Unit | null = null;
+  const { lines, separators } = documentLines(doc);
+  const furniture = pageFurniture(lines, [
+    ...signatures(lines, doc.pages.length),
+    ...shared,
+  ]);
   function add(
     refs: (Ref | null)[],
     role: string,
@@ -163,6 +261,12 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
       }
       continue;
     }
+    const repeated = furniture.get(row);
+    if (repeated) {
+      add(row.refs, "furniture", null, null, null, "page_furniture").furniture =
+        repeated;
+      continue;
+    }
     if (isTop || isFooter) {
       const previous = units.at(-1),
         last = previous?.refs.find(Boolean);
@@ -220,8 +324,7 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
     // line is joined to its cell only when it sits directly under the cell,
     // aligned with it, in the same type size.
     if (section !== profile.table.name) {
-      const size = row.refs[0].char.size,
-        top = (g: (typeof lines)[number]) => g.refs[0].char.origin[1];
+      const size = row.refs[0].char.size;
       let end = i + 1;
       while (
         end < lines.length &&
@@ -231,13 +334,11 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
         top(lines[end]) - y < 4 * size
       )
         end++;
-      const window = lines.slice(i, end).filter((g) => !consumed.has(g));
+      const window = lines
+        .slice(i, end)
+        .filter((g) => !consumed.has(g) && !furniture.has(g));
       const members = window.filter((g) => Math.abs(top(g) - y) < 0.3 * size);
       if (members.length >= 3) {
-        const span = (g: (typeof lines)[number]) => {
-          const xs = g.refs.flatMap((r) => [0, 2, 4, 6].map((k) => r.char.quad[k]));
-          return [Math.min(...xs), Math.max(...xs)];
-        };
         const group = members.sort((a, b) => span(a)[0] - span(b)[0]);
         const cells = [[group[0]]];
         for (let j = 1; j < group.length; j++)
@@ -308,7 +409,8 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
       append(active, row.refs);
       continue;
     }
-    // A vertical gap well above the line height on the same page ends a paragraph.
+    // A vertical gap well above the line height on the same page ends a
+    // paragraph; across a page break, so does a finished sentence.
     const previous = active?.refs.findLast(Boolean);
     if (
       active &&
@@ -318,7 +420,8 @@ export function structure(doc: DocInput, profile: Profile,checkpoint?:()=>void):
         previous &&
         previous.page === row.p &&
         y - previous.char.origin[1] > 1.6 * row.refs[0].char.size
-      )
+      ) &&
+      !(previous && previous.page !== row.p && /[.;]$/u.test(active.rawText.trimEnd()))
     ) {
       append(active, row.refs);
       continue;

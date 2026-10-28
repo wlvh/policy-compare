@@ -632,7 +632,7 @@ function App() {
                 </div>
                 <h3>
                   {[
-                    !['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
+                    d.structurePath?.section==='page_furniture'?'页面附属':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,
@@ -655,7 +655,12 @@ function App() {
                       .join("；")}
                 </small>
                 {d.occurrences.length > 0 && (
-                  <div className="occurrences">{d.occurrences.length} 处出现位置：{d.occurrences.map((o,i)=><button key={i} aria-label={`出现位置 ${i+1}`} onClick={e=>{e.stopPropagation();setSelectedId(d.id);locate([...o.left,...o.right]);}}>第 {i+1} 处</button>)}</div>
+                  <div className="occurrences">{d.occurrences.length} 处出现位置（逐处核对）：{d.occurrences.map((o,i)=>{
+                    // Each occurrence names its pages and keeps its own text, so every source can be checked.
+                    const where=[o.left[0]&&`基准 P${o.left[0].pageIndex+1}`,o.right[0]&&`待审 P${o.right[0].pageIndex+1}`].filter(Boolean).join(' · ');
+                    const text=(locs:SourceLocation[])=>locs.map(l=>l.text).join('')||'（无）';
+                    return <button key={i} aria-label={`出现位置 ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();setSelectedId(d.id);locate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
+                  })}</div>
                 )}
               </div>
             ))}
