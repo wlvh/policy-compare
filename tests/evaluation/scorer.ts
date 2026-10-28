@@ -40,7 +40,140 @@ type LayoutPage = {
     characters: { quad_tl_tr_br_bl: number[][] }[];
   }[];
 };
+export type CaseStatus = "PASS" | "FAIL" | "NOT_EVALUATED";
+export type IdentityCheck = {
+  applicability: "checked" | "not_applicable" | "unsupported";
+  pass: boolean | null;
+  reason: string;
+};
+export type EventScore = {
+  eventId: string;
+  branch: "text" | "coverage_warning" | "unknown";
+  verdict: CaseStatus;
+  pass: boolean;
+  discovery?: boolean;
+  correspondence?: boolean;
+  position?: boolean;
+  visibility?: boolean;
+  completeness?: boolean;
+  identity: IdentityCheck | null;
+  reason?: string;
+};
+const CLAUSE =
+  "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply";
+// Known events whose company/table-record identity check does not apply. Keyed by event id and
+// pinned to its logical path, so neither "every clause" nor an unknown new path is waived.
+export const IDENTITY_NOT_APPLICABLE: Record<
+  string,
+  { logicalPath: string; reason: string }
+> = {
+  "R05_negation:E1": { logicalPath: "clauses.territory.text", reason: CLAUSE },
+  "R06_and_or:E1": { logicalPath: "clauses.territory.text", reason: CLAUSE },
+  "R12_exact_move:E1": { logicalPath: "clauses.loss_payment", reason: CLAUSE },
+  "R13_move_and_replacement:E1": {
+    logicalPath: "clauses.loss_payment",
+    reason: CLAUSE,
+  },
+  "R13_move_and_replacement:E2": {
+    logicalPath: "clauses.new_loss_payment",
+    reason: CLAUSE,
+  },
+  "R14_short_paragraph:E1": {
+    logicalPath: "clauses.loss_payment.text",
+    reason: CLAUSE,
+  },
+  "R29_clause_add:E1": { logicalPath: "clauses.new_exclusion", reason: CLAUSE },
+  "R30_clause_delete:E1": { logicalPath: "clauses.territory", reason: CLAUSE },
+  "R31_punctuation:E1": { logicalPath: "clauses.territory.text", reason: CLAUSE },
+  "R09_header_limit:E1": {
+    logicalPath: "repeated_header.limit",
+    reason:
+      "repeated page-header limit: one value printed on every page, no party or record identity; all occurrence locations are checked by the grouping invariant",
+  },
+  "R19_rotated_status:E1": {
+    logicalPath: "document.status",
+    reason:
+      "document status stamp: state of the whole document, no party or record identity",
+  },
+};
 const clean = (s: string) => s.replace(/\s+/g, " ").trim();
+// Which identity check applies to an event; test is null when no identity rule decides the match.
+export function identityRule(e: Expected["events"][number]): {
+  applicability: IdentityCheck["applicability"];
+  reason: string;
+  test: ((d: Difference) => boolean) | null;
+} {
+  const pathParts = e.logical_path.split(".");
+  if (e.detection_requirement === "visible_text_delta_with_identity_review")
+    return {
+      applicability: "checked",
+      reason: "duplicate identity must stay unresolved with no asserted row key",
+      test: (d) =>
+        d.structurePath?.confidence === "unresolved" &&
+        d.structurePath.rowKey === null,
+    };
+  if (pathParts[0] === "risk_details") {
+    const entity = ["original_insured", "reinsured"].includes(pathParts[1])
+      ? pathParts[1]
+      : null;
+    const field = pathParts.slice(entity ? 2 : 1).join(".");
+    return {
+      applicability: "checked",
+      reason: `party/field identity: entity=${entity ?? "none"}, field=${field}`,
+      test: (d) =>
+        d.structurePath?.entity === entity && d.structurePath?.field === field,
+    };
+  }
+  if (pathParts[0] === "aircraft_schedule")
+    return {
+      applicability: "checked",
+      reason: `table record identity: rowKey=${pathParts[1]}, field=${pathParts[2]}`,
+      test: (d) =>
+        d.structurePath?.rowKey === pathParts[1] &&
+        d.structurePath?.field === pathParts[2],
+    };
+  const known = IDENTITY_NOT_APPLICABLE[e.event_id];
+  if (known && known.logicalPath === e.logical_path)
+    return { applicability: "not_applicable", reason: known.reason, test: null };
+  return {
+    applicability: "unsupported",
+    reason: known
+      ? `N/A entry for ${e.event_id} names ${known.logicalPath}, event has ${e.logical_path}`
+      : `no identity check for logical path ${e.logical_path}`,
+    test: null,
+  };
+}
+// One status for a run: any failure is FAIL, otherwise any unevaluated case keeps it from PASS.
+export function summarize(
+  records: { caseId: string; status: string; events?: EventScore[] }[],
+) {
+  const ids = (keep: (s: string) => boolean) =>
+    records.filter((r) => keep(r.status)).map((r) => r.caseId);
+  const passed = ids((s) => s === "PASS"),
+    notEvaluated = ids((s) => s === "NOT_EVALUATED"),
+    failed = ids((s) => s !== "PASS" && s !== "NOT_EVALUATED");
+  const events = records.flatMap((r) => r.events ?? []);
+  const by = (keep: (e: EventScore) => boolean) =>
+    events.filter(keep).map((e) => e.eventId);
+  return {
+    status: (failed.length
+      ? "FAIL"
+      : notEvaluated.length
+        ? "NOT_EVALUATED"
+        : "PASS") as CaseStatus,
+    passed: passed.length,
+    total: records.length,
+    failed,
+    notEvaluated,
+    identityApplicability: {
+      checked: by((e) => e.identity?.applicability === "checked"),
+      notApplicable: by((e) => e.identity?.applicability === "not_applicable"),
+      unsupported: by((e) => e.identity?.applicability === "unsupported"),
+      coverageWarningEvents: by((e) => e.branch === "coverage_warning"),
+      unknownDetectionBranch: by((e) => e.branch === "unknown"),
+    },
+  };
+}
 const box = (points: number[][]) => [
   Math.min(...points.map((p) => p[0])),
   Math.min(...points.map((p) => p[1])),
@@ -97,7 +230,13 @@ export function grade(
   layout: Layout,
   docs: [DocInput, DocInput],
   requireFineGeometry = false,
-) {
+): {
+  caseId: string;
+  status: CaseStatus;
+  faults: string[];
+  notEvaluated: { eventId: string; reason: string }[];
+  events: EventScore[];
+} {
   const faults: string[] = [];
   const parsed = ResultSchema.safeParse(input);
   if (!parsed.success)
@@ -108,6 +247,7 @@ export function grade(
         "Invalid result schema: " +
           parsed.error.issues.map((x) => x.path.join(".")).join(","),
       ],
+      notEvaluated: [],
       events: [],
     };
   const result = parsed.data;
@@ -179,7 +319,7 @@ export function grade(
         result.unresolved.some((u) => u.reason === "ambiguous_identity")
       : result.status === required;
   if (!completeness) faults.push("Wrong global completeness state");
-  const events = expected.events.map((e) => {
+  const events = expected.events.map((e): EventScore => {
     if (e.detection_requirement === "coverage_warning_required") {
       const findings = expected.coverage_requirements.every((req) =>
         (req.side === "both" ? ["left", "right"] : [req.side]).every((side) => {
@@ -206,16 +346,21 @@ export function grade(
           );
         }),
       );
+      const pass = findings && result.status === "partial";
       return {
         eventId: e.event_id,
+        branch: "coverage_warning",
+        verdict: pass ? "PASS" : "FAIL",
         discovery: findings,
         correspondence: findings,
         position: findings,
         visibility: findings,
         completeness: result.status === "partial",
-        pass: findings && result.status === "partial",
+        identity: null,
+        pass,
       };
     }
+    // The grader cannot judge an unknown requirement; that is a tool gap, not a product failure.
     if (
       !["must_detect", "visible_text_delta_with_identity_review"].includes(
         e.detection_requirement,
@@ -223,8 +368,11 @@ export function grade(
     )
       return {
         eventId: e.event_id,
+        branch: "unknown",
+        verdict: "NOT_EVALUATED",
+        identity: null,
         pass: false,
-        reason: "Unknown detection branch",
+        reason: "Unknown detection branch: " + e.detection_requirement,
       };
     const candidates = result.differences.filter(
       (d) =>
@@ -247,29 +395,9 @@ export function grade(
         (e.new === null ||
           located(d.right, refs.after, layout.after.pages, "right")),
     );
-    const pathParts = e.logical_path.split(".");
-    const identity = (d: Difference) => {
-      if (e.detection_requirement === "visible_text_delta_with_identity_review")
-        return (
-          d.structurePath?.confidence === "unresolved" &&
-          d.structurePath.rowKey === null
-        );
-      if (pathParts[0] === "risk_details") {
-        const entity = ["original_insured", "reinsured"].includes(pathParts[1])
-          ? pathParts[1]
-          : null;
-        const field = pathParts.slice(entity ? 2 : 1).join(".");
-        return (
-          d.structurePath?.entity === entity && d.structurePath?.field === field
-        );
-      }
-      if (pathParts[0] === "aircraft_schedule")
-        return (
-          d.structurePath?.rowKey === pathParts[1] &&
-          d.structurePath?.field === pathParts[2]
-        );
-      return true;
-    };
+    // N/A and unsupported events are matched without an identity rule; every other check still applies.
+    const rule = identityRule(e);
+    const identity = (d: Difference) => rule.test?.(d) ?? true;
     const matched = positioned.filter(identity);
     const correspondence = acceptable.some(identity) && matched.length > 0;
     const visibility = matched.some((d) => d.defaultVisible);
@@ -298,19 +426,42 @@ export function grade(
     });
     const position =
       matched.length > 0 && precise && (!requireFineGeometry || fineGeometry);
+    // A failed check is a proven product fault; otherwise a missing identity check leaves it unjudged.
+    const verdict: CaseStatus = !(
+      discovery &&
+      correspondence &&
+      position &&
+      visibility &&
+      completeness
+    )
+      ? "FAIL"
+      : rule.applicability === "unsupported"
+        ? "NOT_EVALUATED"
+        : "PASS";
     return {
       eventId: e.event_id,
+      branch: "text",
+      verdict,
       discovery,
       correspondence,
       position,
       visibility,
       completeness,
-      pass:
-        discovery && correspondence && position && visibility && completeness,
+      identity: {
+        applicability: rule.applicability,
+        pass: rule.test ? acceptable.some(rule.test) && matched.length > 0 : null,
+        reason: rule.reason,
+      },
+      pass: verdict === "PASS",
+      ...(verdict === "NOT_EVALUATED" ? { reason: rule.reason } : {}),
     };
   });
+  const notEvaluated = events
+    .filter((ev) => ev.verdict === "NOT_EVALUATED")
+    .map((ev) => ({ eventId: ev.eventId, reason: ev.reason ?? "" }));
   for (const ev of events)
-    if (!ev.pass) faults.push("Required event failed: " + ev.eventId);
+    if (ev.verdict === "FAIL")
+      faults.push("Required event failed: " + ev.eventId);
   const inv = expected.invariants;
   if (inv.includes("no_content_differences") && result.differences.length)
     faults.push("False content differences in control");
@@ -369,8 +520,9 @@ export function grade(
   }
   return {
     caseId: expected.case_id,
-    status: faults.length ? "FAIL" : "PASS",
+    status: faults.length ? "FAIL" : notEvaluated.length ? "NOT_EVALUATED" : "PASS",
     faults,
+    notEvaluated,
     events,
   };
 }

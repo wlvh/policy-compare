@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { loadEngine, type EngineName } from "../../packages/pdf-adapter/node";
-import { grade } from "../evaluation/scorer";
+import { grade, summarize } from "../evaluation/scorer";
 import { parseDoc, type DocInput } from "../../packages/contracts/index";
 const engine = (process.env.POLICY_ENGINE ?? "mupdf") as EngineName;
 const manifest = JSON.parse(
@@ -13,7 +13,7 @@ test("all 32 pairs independently satisfy business and browser fine-location requ
 }) => {
   test.setTimeout(180_000);
   const { extractPdf } = await loadEngine(engine);
-  const records = [];
+  const records: ReturnType<typeof grade>[] = [];
   await page.goto("/");
   for (const meta of manifest.cases) {
     const dir = path.resolve("validation/dataset/cases", meta.case_id);
@@ -72,7 +72,7 @@ test("all 32 pairs independently satisfy business and browser fine-location requ
       true,
     );
     records.push(score);
-    if (score.status === "FAIL")
+    if (score.status !== "PASS")
       writeFileSync(
         `reports/failures/browser-${engine}-${meta.case_id}.json`,
         JSON.stringify({ score, result }, null, 2),
@@ -84,7 +84,7 @@ test("all 32 pairs independently satisfy business and browser fine-location requ
       {
         engine,
         subject: "all_rules_with_real_browser_geometry",
-        status: records.every((r) => r.status === "PASS") ? "PASS" : "FAIL",
+        ...summarize(records),
         records,
       },
       null,
@@ -94,6 +94,12 @@ test("all 32 pairs independently satisfy business and browser fine-location requ
   expect(
     records
       .filter((r) => r.status !== "PASS")
-      .map((r) => ({ case: r.caseId, faults: r.faults, events: r.events })),
+      .map((r) => ({
+        case: r.caseId,
+        status: r.status,
+        faults: r.faults,
+        notEvaluated: r.notEvaluated,
+        events: r.events,
+      })),
   ).toEqual([]);
 });
