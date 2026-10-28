@@ -189,3 +189,23 @@ describe("cells centred on their row (LibreOffice, spreadsheets)", () => {
     expect(r.differences[0].newText).toBe("Corvane Re AG CIA-AV-25- 0311 10.0% 04/10/2024");
   });
 });
+
+describe("identity cells keep their recovered column (review of PR #9)", () => {
+  const row = (cells: string[]) =>
+    textDoc([
+      { text: "SCHEDULE", x: 40, y: 150 },
+      ...cells.map((text, j) => ({ text, x: 40 + j * 170, y: 200 })),
+    ]);
+  it("a name that moved to another column does not make two records one", () => {
+    const r = compare(row(["MSN 100", "10%", "Beta Air"]), row(["MSN 300", "Beta Air", "20%"]));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect(
+      r.differences.some(
+        (d) => d.oldText.includes("MSN 100") && d.newText.includes("MSN 300") && d.structurePath?.confidence !== "unresolved",
+      ),
+    ).toBe(false);
+    const removed = r.differences.find((d) => d.kind === "Removed" && d.oldText.includes("MSN 100"));
+    const added = r.differences.find((d) => d.kind === "Added" && d.newText.includes("MSN 300"));
+    expect(Boolean((removed && added) || r.unresolved.length)).toBe(true);
+  });
+});

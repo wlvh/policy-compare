@@ -16,7 +16,21 @@ export type Unit = MappedText & {
   furniture?: Furniture;
   title: string;
 };
-export type Furniture = { pattern: string; y: number; pageNumber: boolean };
+export type Furniture = {
+  pattern: string;
+  y: number;
+  pageNumber: boolean;
+  /** Positions, among the line's numbers, of its page counter and page total. */
+  pageTokens: number[];
+};
+const NUMBER = /\p{N}+(?:[.,]\p{N}+)*/gu;
+/** Furniture text with only its confirmed page-number parts replaced. */
+export function furnitureContent(text: string, f: Furniture) {
+  let k = 0;
+  return text
+    .trim()
+    .replace(NUMBER, (n) => (f.pageTokens.includes(k++) ? "#" : n));
+}
 type Line = { p: DocInput["pages"][number]; refs: Ref[]; text: string };
 const span = (g: Line) => {
   const xs = g.refs.flatMap((r) => [0, 2, 4, 6].map((k) => r.char.quad[k]));
@@ -45,8 +59,10 @@ export type FurnitureSignature = Furniture & { x0: number; x1: number };
 /**
  * Page furniture is a line repeated at the same place in the top or bottom
  * band of at least three pages and 40% of a document. Digits are replaced
- * only to find candidates: a number that differs between pages must count
- * with the page (a page number); otherwise the line is content.
+ * only to find candidates. Each number of the line must then stay the same on
+ * every page or count with the page (a page counter); a constant number equal
+ * to the last counted value is the page total. Any other changing number makes
+ * the line content. Only the counter and total are page-number parts.
  */
 function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
   const need = Math.max(3, Math.ceil(0.4 * pageCount)),
@@ -64,20 +80,26 @@ function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
         !c.members.some((m) => m.p === g.p),
     );
     if (group) group.members.push(g);
-    else groups.push({ pattern, x0, x1, y, pageNumber: false, members: [g] });
+    else groups.push({ pattern, x0, x1, y, pageNumber: false, pageTokens: [], members: [g] });
   }
   return groups.flatMap(({ members, ...c }) => {
     if (members.length < need) return [];
-    const runs = members.map((m) => (m.text.match(/\p{N}+/gu) ?? []).map(Number)),
-      varying = new Set(members.map((m) => m.text.trim())).size > 1;
-    const counted = runs[0].every((_, j) =>
-      runs.every(
-        (r, n) =>
-          r[j] === runs[0][j] ||
-          r[j] - members[n].p.pageIndex === runs[0][j] - members[0].p.pageIndex,
+    const values = members.map((m) =>
+        (m.text.match(NUMBER) ?? []).map((n) => Number(n.replace(/[.,]/g, ""))),
       ),
+      positions = values[0].map((_, j) => j),
+      fixed = (j: number) => values.every((v) => v[j] === values[0][j]),
+      counters = positions.filter(
+        (j) =>
+          !fixed(j) &&
+          new Set(values.map((v, n) => v[j] - members[n].p.pageIndex)).size === 1,
+      );
+    if (positions.some((j) => !fixed(j) && !counters.includes(j))) return [];
+    const last = Math.max(...counters.flatMap((j) => values.map((v) => v[j])));
+    const pageTokens = positions.filter(
+      (j) => counters.includes(j) || (counters.length > 0 && fixed(j) && values[0][j] === last),
     );
-    return varying && !counted ? [] : [{ ...c, pageNumber: varying }];
+    return [{ ...c, pageNumber: counters.length > 0, pageTokens }];
   });
 }
 /** Furniture signatures of one document, shared with the other document. */
@@ -102,7 +124,8 @@ function pageFurniture(lines: Line[], known: FurnitureSignature[]) {
           Math.abs(c.y - top(g)) <= 2 &&
           (Math.abs(c.x0 - x0) <= 2 || Math.abs(c.x1 - x1) <= 2),
       );
-    if (s) found.set(g, { pattern, y: s.y, pageNumber: s.pageNumber });
+    if (s)
+      found.set(g, { pattern, y: s.y, pageNumber: s.pageNumber, pageTokens: s.pageTokens });
   }
   for (const g of [...found.keys()]) {
     const size = g.refs[0].char.size,

@@ -25,4 +25,6 @@ PDF.js 路线锁定 pdfjs-dist 6.4.299（Apache-2.0），实现位于 engines/pd
 
 MuPDF 适配器版本升至 3：通过真实 setLog 回调按同步原生操作收集错误及 read-error 诊断；正常 warning 不一律视为失败。严重页面诊断变成 page_failed 覆盖问题，保留可读片段但不声明完整。回调作用域在 finally 恢复，后续页/文档不继承旧错误。文档打开/页树阶段严重错误直接失败。
 
+`pdfjs-adapter/3`：PDF.js 对 Type 3 字体（如 Chromium 打印的页眉页脚）报告 `ascent/descent = NaN`，适配器原先只对缺失值兜底，使这类页面全部被判解析失败；现在非有限的字体度量也按缺失处理（上伸 0.8、下伸 −0.2），并由 `tests/fixtures/mechanisms/chromium-type3-header.pdf` 的机制检查覆盖。pdfjs-dist 版本、公共 schema 与 `page-merkle/1` 不变；适配器版本写入快照，所以同一 PDF 的快照哈希与 `/2` 不同。
+
 PDF.js 图像覆盖现在应用 Form 开始/结束的矩阵和图形状态；独立反例验证平移、嵌套、缩放和后续图片状态恢复。自托管字体、CMap 和 WASM 放到 /pdfjs/<实际包版本>/，固定资源要求缓存重新验证。

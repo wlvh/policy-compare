@@ -8,12 +8,31 @@ import {
   type SourceLocation,
 } from "../contracts/index";
 import { aviationProfile, type Profile } from "../../profiles/aviation";
-import { furnitureSignatures, structure, type Unit } from "./structure";
+import {
+  furnitureContent,
+  furnitureSignatures,
+  structure,
+  type Unit,
+} from "./structure";
 import { normalize, sourceLocations, tokenize, lcsLength } from "./text";
 import { monotone, jointAlign } from "./alignment";
 export { structure } from "./structure";
 export type Budget = Profile["budget"];
 type Pair = { a: Unit; b: Unit; method: string; score: number | null };
+/**
+ * An aggregate of repeated occurrences. `repeats` are the card's occurrences
+ * on its side; `others` are occurrences of the same repeated line on that side
+ * that kept a different text; `separate` lists both sides' occurrences one by
+ * one instead of side by side; `note` explains a version whose text varies.
+ */
+type Repeated = Unit & {
+  repeats?: Unit[];
+  others?: Unit[];
+  separate?: boolean;
+  note?: string;
+};
+const content = (u: Unit) =>
+  u.furniture ? furnitureContent(u.rawText, u.furniture) : u.rawText.trim();
 const locations = (u: Unit | undefined, side: "left" | "right") =>
   u ? sourceLocations(u.refs, side, u.id) : [];
 
@@ -130,8 +149,8 @@ const counter = (cell: string) => {
  * Rows recovered from one baseline pair only through identity evidence. Identity
  * cells are the non-value cells of a row (amounts, shares and dates are compared,
  * never used as identity); a first column counting 0..n or 1..n is a row number.
- * A cell whose position and text are unique within the same table on both sides
- * links two rows. A row linked to exactly one row binds; rows whose links
+ * A cell whose column in the recovered row and text are unique within the same
+ * table on both sides links two rows. A row linked to exactly one row binds; rows whose links
  * conflict stay unresolved together. Rows are never paired by text similarity.
  */
 function rowIdentity(
@@ -164,10 +183,13 @@ function rowIdentity(
         numbered && counter(r.rowCells![0]) !== null
           ? r.rowCells!.slice(1)
           : r.rowCells!;
+      // The key keeps the cell's column in the recovered row, counted before
+      // value cells are left out, so the same text in another column of a
+      // different record is not identity evidence.
       cells
-        .map((c) => c.normalize("NFKC"))
-        .filter((c) => c.length >= 2 && !valueLike(c))
-        .forEach((c, k) => {
+        .map((c, k) => [k, c.normalize("NFKC")] as const)
+        .filter(([, c]) => c.length >= 2 && !valueLike(c))
+        .forEach(([k, c]) => {
           const key = k + "\u0000" + c;
           m.set(key, [...(m.get(key) ?? []), r]);
         });
@@ -264,15 +286,15 @@ function category(
   b: Unit | undefined,
 ): Difference["category"] {
   const u = b ?? a!;
-  // Page numbering is cosmetic; other repeated furniture keeps amounts Material.
-  if (u.role === "furniture")
-    return a?.furniture?.pageNumber ||
-      b?.furniture?.pageNumber ||
-      (a && b && a.matchText === b.matchText)
-      ? "Cosmetic"
-      : valueLike(`${a?.rawText ?? ""} ${b?.rawText ?? ""}`)
-        ? "Material"
-        : "Review";
+  // Only confirmed page-number parts are cosmetic; any other change in
+  // repeated furniture is Review, and Material when it carries an amount.
+  if (u.role === "furniture") {
+    const texts = [a, b].filter((x): x is Unit => !!x).map(content);
+    if (a && b ? texts[0] === texts[1] || a.matchText === b.matchText
+        : u.furniture?.pageNumber && !/\p{N}/u.test(texts[0]))
+      return "Cosmetic";
+    return valueLike(texts.join(" ")) ? "Material" : "Review";
+  }
   if (
     [
       "label",
@@ -438,7 +460,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.2",
+    coreVersion: VERSION + "+row-identity.3",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -575,14 +597,67 @@ export function compare(
   // Page furniture and repeated table header rows are compared once per
   // repeated line, never page by page; every occurrence stays on the card.
   const singles: [Unit | undefined, Unit | undefined][] = [];
-  const repeated = (us: Unit[], id: string) => {
-    const u: Unit & { repeats?: Unit[] } = aggregate(us, id);
+  const repeated = (us: Unit[], id: string, extra: Partial<Repeated> = {}) => {
+    const u: Repeated = aggregate(us, id);
     Object.assign(u, normalize(us[0].rawText, us[0].refs));
-    u.repeats = us;
-    return u;
+    return Object.assign(u, { repeats: us }, extra);
   };
   const furnitureKey = (u: Unit) =>
     u.furniture ? `${u.furniture.pattern}\u0000${u.furniture.y}` : null;
+  const pageList = (us: Unit[]) =>
+    us.map((u) => u.refs.find(Boolean)!.page.pageIndex + 1).join("、");
+  // One repeated line of both versions. Occurrences whose text is the same,
+  // page-number parts aside, form one group per version, and a text found in
+  // both versions is unchanged. Any other text is a variant; its counterpart is
+  // known only when the other version has a single text throughout, otherwise
+  // it is shown as added or removed. Same page numbers never pair occurrences.
+  const compareRepeated = (as: Unit[], bs: Unit[]) => {
+    const texts = (us: Unit[]) => {
+      const m = new Map<string, Unit[]>();
+      for (const u of us) m.set(content(u), [...(m.get(content(u)) ?? []), u]);
+      return m;
+    };
+    const L = texts(as),
+      R = texts(bs);
+    if (L.size === 1 && R.size === 1) {
+      bind(
+        repeated(as, "furniture-left-" + as[0].id),
+        repeated(bs, "furniture-right-" + bs[0].id),
+        "page-furniture",
+      );
+      return;
+    }
+    for (const [own, other, isRight] of [
+      [R, L, true],
+      [L, R, false],
+    ] as const) {
+      const [name, otherName] = isRight ? ["待审版", "基准版"] : ["基准版", "待审版"];
+      const unchanged = [...own].filter(([t]) => other.has(t)).flatMap(([, us]) => us);
+      for (const [text, us] of own) {
+        if (other.has(text)) continue;
+        const kept = other.size === 1 ? [...other.values()][0] : null;
+        const note =
+          `本版组内文字不一致：${name}第 ${pageList(us)} 页为${isRight ? "新" : "旧"}文字` +
+          (kept
+            ? unchanged.length
+              ? `；${name}第 ${pageList(unchanged)} 页仍为${otherName}文字“${kept[0].rawText.trim()}”`
+              : ""
+            : `，${otherName}没有相同文字`);
+        const variant = repeated(us, `furniture-${isRight ? "right" : "left"}-${us[0].id}`, {
+          others: unchanged,
+          separate: true,
+          note,
+        });
+        if (!kept) singles.push(isRight ? [undefined, variant] : [variant, undefined]);
+        else {
+          const whole = repeated(kept, `furniture-${isRight ? "left" : "right"}-${kept[0].id}`);
+          isRight
+            ? bind(whole, variant, "page-furniture")
+            : bind(variant, whole, "page-furniture");
+        }
+      }
+    }
+  };
   const lf = map(la, usedL, furnitureKey),
     rf = map(rb, usedR, furnitureKey),
     lone = { left: [] as Unit[], right: [] as Unit[] };
@@ -598,12 +673,8 @@ export function compare(
       continue;
     }
     rf.delete(key);
-    bind(
-      repeated(as, "furniture-left-" + as[0].id),
-      repeated(bs, "furniture-right-" + bs[0].id),
-      "page-furniture",
-    );
     bs.forEach((u) => usedR.add(u));
+    compareRepeated(as, bs);
   }
   for (const [, bs] of rf) {
     lone.right.push(...bs);
@@ -931,8 +1002,10 @@ export function compare(
     score: number | null,
     moved = false,
   ) {
-    const ar = (a as (Unit & { repeats?: Unit[] }) | undefined)?.repeats,
-      br = (b as (Unit & { repeats?: Unit[] }) | undefined)?.repeats;
+    const ra = a as Repeated | undefined,
+      rb2 = b as Repeated | undefined,
+      ar = ra?.repeats,
+      br = rb2?.repeats;
     // Repeated text present on fewer pages than pagination explains is shown.
     const dropped =
       !!ar &&
@@ -974,12 +1047,21 @@ export function compare(
           ? [(a??b!).path.table?"无法确定唯一表格行身份":"无法确定同名字段的唯一归属"]
           : furniture
             ? [
-                `页面附属：跨页重复的${(a ?? b!).furniture!.pageNumber ? "页码" : "页眉页脚文字"}，基准 ${pages(ar)} 页、待审 ${pages(br)} 页${a ? (b ? "" : "，仅基准版有") : "，仅待审版有"}；逐处来源见出现位置`,
+                `页面附属：跨页重复的${a && b && content(a) === content(b) ? "页码" : "页眉页脚文字"}，基准 ${pages(ar)} 页、待审 ${pages(br)} 页${a ? (b ? "" : "，仅基准版有") : "，仅待审版有"}` +
+                  [ra?.note, rb2?.note].filter(Boolean).map((n) => "；" + n).join("") +
+                  "；逐处来源见出现位置",
               ]
             : [],
       occurrences: [],
     };
-    if (ar || br) {
+    if (ra?.separate || rb2?.separate) {
+      // Occurrences are listed one by one; nothing implies which page of one
+      // version corresponds to which page of the other.
+      for (const u of [...(ar ?? []), ...(ra?.others ?? [])])
+        d.occurrences.push({ left: locations(u, "left"), right: [] });
+      for (const u of [...(br ?? []), ...(rb2?.others ?? [])])
+        d.occurrences.push({ left: [], right: locations(u, "right") });
+    } else if (ar || br) {
       for (let i = 0; i < Math.max(ar?.length ?? 0, br?.length ?? 0); i++)
         d.occurrences.push({
           left: locations(ar?.[i], "left"),

@@ -98,3 +98,71 @@ describe("a table header repeated on each page is not an identity conflict", () 
     expect(r.differences[0].newText).toBe("G-AB10 Operator C USD 2,400,000");
   });
 });
+
+// Review of PR #9: a repeated line whose text differs between occurrences
+// must not be judged by its first occurrence, and only confirmed page-number
+// parts are exempt from content classification.
+describe("variants inside a repeated line stay visible", () => {
+  const four = (header: (page: number) => string) =>
+    pages(4, (p) => [
+      { text: header(p), x: 40, y: 60 },
+      { text: `Ordinary body on page ${p + 1}`, x: 40, y: 300 },
+    ]);
+  const pagesOf = (locs: { pageIndex: number }[]) => [...new Set(locs.map((l) => l.pageIndex))].sort();
+  it("a limit changed on one page only is a Material change with both values located", () => {
+    const r = compare(
+      four(() => "Hull limit any one aircraft USD 1,000,000"),
+      four((p) => `Hull limit any one aircraft USD ${p === 1 ? "2,000,000" : "1,000,000"}`),
+    );
+    const changed = r.differences.filter((d) => d.newText.includes("2,000,000"));
+    expect(changed).toHaveLength(1);
+    const [d] = changed;
+    expect([d.kind, d.category, d.defaultVisible]).toEqual(["Replaced", "Material", true]);
+    expect(d.oldText).toContain("1,000,000");
+    expect(pagesOf(d.right)).toEqual([1]);
+    expect(d.left.length).toBeGreaterThan(0);
+    const right = d.occurrences.flatMap((o) => o.right);
+    expect(right.filter((l) => l.text.includes("2,000,000")).map((l) => l.pageIndex)).toEqual([1]);
+    expect(d.textOps.some((o) => o.kind !== "equal" && o.right.some((l) => l.pageIndex === 1))).toBe(true);
+    expect(r.differences.every((x) => x.category !== "Cosmetic")).toBe(true);
+  });
+  it("a limit on the page-number line keeps its Material change", () => {
+    const r = compare(
+      four((p) => `Page ${p + 1} - Hull limit USD 1,000,000`),
+      four((p) => `Page ${p + 1} - Hull limit USD 2,000,000`),
+    );
+    expect(r.differences).toHaveLength(1);
+    expect(r.differences[0].category).toBe("Material");
+    expect(r.differences[0].oldText).toContain("1,000,000");
+    expect(r.differences[0].newText).toContain("2,000,000");
+    expect(r.differences[0].occurrences).toHaveLength(4);
+  });
+  it("only the page number changing on that line stays noise-free", () => {
+    const doc = (count: number) =>
+      pages(count, (p) => [
+        { text: `Page ${p + 1} of ${count} - Hull limit USD 1,000,000`, x: 40, y: 60 },
+        { text: `Ordinary body on page ${p + 1}.`, x: 40, y: 300 },
+      ]);
+    const r = compare(doc(4), doc(5));
+    expect(r.differences.filter((d) => d.category === "Material")).toHaveLength(1);
+    expect(r.differences.filter((d) => d.category === "Material")[0].newText).toBe("Ordinary body on page 5.");
+    expect(furniture(r).map((d) => d.category)).toEqual(["Cosmetic"]);
+  });
+  it("a page still carrying the old reference is named on the change card", () => {
+    const r = compare(
+      four(() => "UMR B1234AV2024"),
+      four((p) => (p === 2 ? "UMR B1234AV2024" : "UMR B1234AV2025")),
+    );
+    expect(r.differences).toHaveLength(1);
+    const [d] = r.differences;
+    expect([d.kind, d.category, d.oldText, d.newText]).toEqual(["Replaced", "Review", "UMR B1234AV2024", "UMR B1234AV2025"]);
+    // The change itself points only at pages that changed ...
+    expect(pagesOf(d.right)).not.toContain(2);
+    const right = d.occurrences.flatMap((o) => o.right);
+    expect(right.filter((l) => l.text === "UMR B1234AV2025").map((l) => l.pageIndex)).toEqual([0, 1, 3]);
+    // ... while the page that kept the old text is named and reachable.
+    expect(d.reviewReasons.join("")).toMatch(/待审版第 3 页仍为基准版文字“UMR B1234AV2024”/);
+    expect(right.filter((l) => l.text === "UMR B1234AV2024").map((l) => l.pageIndex)).toEqual([2]);
+    expect(d.occurrences.flatMap((o) => o.left).map((l) => l.pageIndex)).toEqual([0, 1, 2, 3]);
+  });
+});
