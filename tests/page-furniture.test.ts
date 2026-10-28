@@ -66,6 +66,13 @@ describe("page furniture is compared once, with every occurrence", () => {
     expect(r.differences[0].occurrences).toHaveLength(4);
     expect(r.differences[0].occurrences.every((o) => o.left.length && o.right.length)).toBe(true);
   });
+  it("a repeated header limit written against its currency code stays Material", () => {
+    const doc = (limit: string) => pages(4, (p) => [{ text: `Hull limit USD${limit}`, x: 40, y: 60 }, body(p)]);
+    const r = compare(doc("1000000"), doc("2000000"));
+    expect(r.differences.map((d) => [d.kind, d.category, d.oldText, d.newText])).toEqual([
+      ["Replaced", "Material", "Hull limit USD1000000", "Hull limit USD2000000"],
+    ]);
+  });
   it("amounts that do not count with the pages are content, not furniture", () => {
     const totals = ["1,000", "2,500", "900", "4,000"];
     const doc = (second: string) =>

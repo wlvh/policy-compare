@@ -141,10 +141,26 @@ function tablePairs(
   }
   // Unmatched rows with unambiguous keys are additions/removals, not fuzzy text candidates.
 }
-const valueLike = (cell: string) =>
-  /%|\d[.,]\d|\p{Sc}|\b(?:USD|EUR|GBP|JPY|CHF|CAD|AUD|NZD|CNY|RMB|HKD|SGD|INR|KRW|SEK|NOK|DKK|ZAR|BRL|MXN|AED|SAR)\b|\d{1,2}\/\d{1,2}\/\d{2,4}/u.test(
-    cell,
-  );
+const CURRENCY = "USD|EUR|GBP|JPY|CHF|CAD|AUD|NZD|CNY|RMB|HKD|SGD|INR|KRW|SEK|NOK|DKK|ZAR|BRL|MXN|AED|SAR";
+// Amounts, shares and dates. A currency code counts as money next to a number,
+// with or without a space (USD100000, 100000 JPY), so a registration such as
+// VH-AUD is not taken for one; dates are written d/m/y, ISO y-m-d or with an
+// English month name.
+const VALUE = new RegExp(
+  [
+    "%",
+    "\\d[.,]\\d",
+    "\\p{Sc}",
+    "\\b(?:USD|EUR|GBP)\\b",
+    `(?<!\\p{L})(?:${CURRENCY})\\s*\\d`,
+    `\\d\\s*(?:${CURRENCY})(?!\\p{L})`,
+    "\\d{1,2}\\/\\d{1,2}\\/\\d{2,4}",
+    "\\b\\d{4}-\\d{1,2}-\\d{1,2}\\b",
+  ].join("|"),
+  "u",
+);
+const MONTH_DATE = /\b\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s+\d{4}\b/iu;
+const valueLike = (cell: string) => VALUE.test(cell) || MONTH_DATE.test(cell);
 /** Column headings that name a record's own number (not "No." or "Ref"). */
 const identityHeading = /\b(?:MSN|ESN|S\/N|serial|registration)\b/iu;
 const counter = (cell: string) => {
@@ -213,7 +229,10 @@ function rowIdentity(
   const owners = (rows: Unit[], numbered: boolean) => {
     const m = new Map<string, { row: Unit; firm: boolean }[]>();
     for (const r of rows) {
-      const skip = numbered && counter(r.rowCells![0]) !== null ? 1 : 0;
+      // A first column counting 1..n is a row number unless its own heading
+      // names it as the record's number (MSN 01, 02, ...).
+      const skip =
+        numbered && counter(r.rowCells![0]) !== null && !identityHeading.test(heading(r, 0) ?? "") ? 1 : 0;
       // The key keeps the cell's column in the recovered row, counted before
       // value cells are left out, so the same text in another column of a
       // different record is not identity evidence.
@@ -493,7 +512,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.4",
+    coreVersion: VERSION + "+row-identity.5",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -541,10 +560,10 @@ export function compare(
     pairs: Pair[] = [],
     usedL = new Set<Unit>(),
     usedR = new Set<Unit>();
-  // Headings without a counterpart that repagination explains: a continuation
-  // heading ("... CONTINUED") of a heading both versions have, and the titles
-  // of the pages one version has more of, when every page of both versions has
-  // a title at that place and these titles carry no number or cover wording.
+  // A heading without a counterpart is layout only with positive evidence: a
+  // continuation heading ("... CONTINUED") of a heading both versions have. A
+  // new page title is not: its place and the extra page say nothing about
+  // what it means.
   const layoutOnly = new Set<Unit>(),
     titled = (u: Unit) => u.role === "page_heading" || u.role === "heading",
     titles = (us: Unit[]) => new Set(us.filter(titled).map((u) => u.rawText.trim()));
@@ -554,32 +573,6 @@ export function compare(
       ? u.rawText.trim().match(/^(.+?)[\s(,:–-]*\b(?:continued|cont['’]d|cont\.?)\)?\.?$/iu)?.[1].trim()
       : undefined;
     if (base && tl.has(base) && tr.has(base)) layoutOnly.add(u);
-  }
-  if (left.pages.length !== right.pages.length) {
-    const places = (us: Unit[], count: number) => {
-      const m = Array.from({ length: count }, () => [] as { u: Unit; at: number[] }[]);
-      for (const u of us)
-        if (titled(u)) {
-          const r = u.refs.find(Boolean)!;
-          m[r.page.pageIndex].push({ u, at: r.char.origin });
-        }
-      return m;
-    };
-    const longer = left.pages.length > right.pages.length,
-      [pl, pr] = [places(la, left.pages.length), places(rb, right.pages.length)],
-      [mine, theirs] = longer ? [pl, pr] : [pr, pl],
-      near = (at: number[]) => (t: { at: number[] }) =>
-        Math.abs(t.at[0] - at[0]) <= 2 && Math.abs(t.at[1] - at[1]) <= 2;
-    const added = mine.flat().filter(
-      ({ u, at }) =>
-        [...mine, ...theirs].every((page) => page.some(near(at))) &&
-        !theirs.flat().some((t) => near(at)(t) && t.u.rawText.trim() === u.rawText.trim()),
-    );
-    if (
-      added.length <= Math.abs(left.pages.length - right.pages.length) &&
-      added.every(({ u }) => !substantive.test(u.rawText))
-    )
-      added.forEach(({ u }) => layoutOnly.add(u));
   }
   phase?.("matching");
   const bind = (

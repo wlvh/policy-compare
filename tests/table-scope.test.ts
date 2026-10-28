@@ -250,6 +250,28 @@ describe("amounts and unexplained bare numbers are not record identity", () => {
     );
     separate(r, "1315", "2156");
   });
+  // Review of PR #9, fourth round: an amount written against its currency code
+  // and a date are values, never identity.
+  for (const header of [null, ["Insured", "Reference", "Limit"]])
+    for (const value of ["USD100000", "100000JPY", "2025-01-01", "1 January 2025"])
+      it(`an equal ${value} does not bind two companies${header ? " under a header" : ""}`, () => {
+        const r = ResultSchema.parse(
+          compare(table(header, ["Alpha Air", "A-1", value]), table(header, ["Delta Air", "D-1", value])),
+        );
+        separate(r, "Alpha Air", "Delta Air");
+        expect(r.differences.some((d) => d.structurePath?.rowKey === value)).toBe(false);
+      });
+  it("a registration that contains a currency code still identifies the record", () => {
+    const header = ["Registration", "Operator", "Agreed Value"];
+    const r = ResultSchema.parse(
+      compare(
+        table(header, ["VH-AUD", "Alpha Air", "USD 100,000"]),
+        table(header, ["VH-AUD", "Delta Air", "USD 200,000"]),
+      ),
+    );
+    expect(r.differences).toHaveLength(1);
+    expect([r.differences[0].matchEvidence.method, r.differences[0].structurePath?.rowKey]).toEqual(["row-identity", "VH-AUD"]);
+  });
   it("a bare MSN under its local MSN header still identifies the record", () => {
     const header = ["MSN", "Operator", "Agreed Value"];
     const r = ResultSchema.parse(
@@ -261,5 +283,45 @@ describe("amounts and unexplained bare numbers are not record identity", () => {
     expect([d.kind, d.category, d.matchEvidence.method]).toEqual(["Replaced", "Material", "row-identity"]);
     expect([d.oldText, d.newText]).toEqual(["1315 Alpha Air 100000", "1315 Delta Air 200000"]);
     expect(d.structurePath?.rowKey).toBe("1315");
+  });
+});
+
+// Review of PR #9, fourth round: a first column counting 01, 02 is a row number
+// only when its local heading does not name it as the record's own number.
+describe("an explicitly headed MSN column is not a row counter", () => {
+  const table = (header: string[], data: string[][]) =>
+    textDoc([
+      { text: "SCHEDULE", x: 40, y: 150 },
+      ...header.map((text, j) => ({ text, x: 40 + j * 180, y: 180 })),
+      ...data.flatMap((cells, i) => cells.map((text, j) => ({ text, x: 40 + j * 180, y: 220 + i * 35 }))),
+    ]);
+  it("MSN 01 and 02 kept while the names swap stay a visible conflict", () => {
+    const header = ["MSN", "Operator", "Share"];
+    const r = ResultSchema.parse(
+      compare(
+        table(header, [["01", "Alpha", "10%"], ["02", "Beta", "20%"]]),
+        table(header, [["01", "Beta", "10%"], ["02", "Alpha", "20%"]]),
+      ),
+    );
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
+    expect(r.status).toBe("partial");
+    const group = r.unresolved.find((u) => u.reason === "ambiguous_identity")!;
+    for (const text of ["01", "02", "Alpha", "Beta"]) {
+      expect(group.left.map((l) => l.text).join(" ")).toContain(text);
+      expect(group.right.map((l) => l.text).join(" ")).toContain(text);
+    }
+  });
+  it("a No. column counting 1..n is still a row number when a row is inserted", () => {
+    const header = ["No.", "Hangar", "Value"];
+    const r = ResultSchema.parse(
+      compare(
+        table(header, [["1", "Alpha Hangar", "USD 100,000"], ["2", "Beta Hangar", "USD 200,000"]]),
+        table(header, [["1", "Alpha Hangar", "USD 100,000"], ["2", "Delta Hangar", "USD 250,000"], ["3", "Beta Hangar", "USD 200,000"]]),
+      ),
+    );
+    const added = r.differences.find((d) => d.kind === "Added" && d.newText.includes("Delta Hangar"));
+    expect(added?.category).toBe("Material");
+    expect(r.differences.some((d) => d.oldText.includes("Beta") && d.newText.includes("Delta") && d.structurePath?.confidence !== "unresolved")).toBe(false);
   });
 });

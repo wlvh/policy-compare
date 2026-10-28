@@ -76,33 +76,29 @@ describe("layout-only margin and heading changes stay cosmetic", () => {
     const heading = r.differences.filter((d) => d.newText === "SCHEDULE OF AIRCRAFT CONTINUED");
     expect(heading.map((d) => [d.kind, d.category])).toEqual([["Added", "Cosmetic"]]);
   });
-  it("the title of a page added by repagination is cosmetic only with running-title evidence", () => {
-    // Every page of both versions has its title at the same place; the new
-    // version moves the wording to a page of its own.
-    const doc = (pages: [string, number][][]) =>
-      textDoc(pages.flatMap((lines, page) => lines.map(([text, y]) => ({ text, x: 40, y, page }))));
-    const r = ResultSchema.parse(
-      compare(
-        doc([
-          [["POLICY SCHEDULE", 81], ["The schedule lists the insured aircraft.", 200], ["LOSS PAYMENT", 400], ["The insurer pays approved losses.", 420]],
-          [["SCHEDULE OF AIRCRAFT", 81], ["Aircraft one remains insured.", 200]],
-        ]),
-        doc([
-          [["POLICY SCHEDULE", 81], ["The schedule lists the insured aircraft.", 200]],
-          [["POLICY WORDING", 81], ["LOSS PAYMENT", 135], ["The insurer pays approved losses.", 155]],
-          [["SCHEDULE OF AIRCRAFT", 81], ["Aircraft one remains insured.", 200]],
-        ]),
-      ),
-    );
-    const title = r.differences.filter((d) => d.newText === "POLICY WORDING");
-    expect(title.map((d) => [d.kind, d.category])).toEqual([["Added", "Cosmetic"]]);
-    // Without a title on every page, the same added line is shown for review.
-    const loose = ResultSchema.parse(
-      compare(
-        doc([[["The insurer pays approved losses.", 400]]]),
-        doc([[["The insurer pays approved losses.", 400]], [["POLICY WORDING", 81], ["Aircraft one remains insured.", 200]]]),
-      ),
-    );
-    expect(loose.differences.find((d) => d.newText === "POLICY WORDING")?.category).toBe("Review");
-  });
+  // Review of PR #9, fourth round: the place of a page title and the extra page
+  // do not show that a new title has no business meaning, so a title added on
+  // a page the other version does not have is shown for review, whatever its
+  // wording. (The third round kept "POLICY WORDING" cosmetic here; that
+  // exemption had no evidence and also hid "WAR EXCLUSION".)
+  for (const title of ["POLICY WORDING", "WAR EXCLUSION", "POLICY CANCELLED"])
+    it(`a title "${title}" added on a page of its own is shown for review`, () => {
+      const doc = (pages: [string, number][][]) =>
+        textDoc(pages.flatMap((lines, page) => lines.map(([text, y]) => ({ text, x: 40, y, page }))));
+      const r = ResultSchema.parse(
+        compare(
+          doc([
+            [["POLICY SCHEDULE", 81], ["The schedule lists the insured aircraft.", 200], ["LOSS PAYMENT", 400], ["The insurer pays approved losses.", 420]],
+            [["SCHEDULE OF AIRCRAFT", 81], ["Aircraft one remains insured.", 200]],
+          ]),
+          doc([
+            [["POLICY SCHEDULE", 81], ["The schedule lists the insured aircraft.", 200]],
+            [[title, 81], ["LOSS PAYMENT", 135], ["The insurer pays approved losses.", 155]],
+            [["SCHEDULE OF AIRCRAFT", 81], ["Aircraft one remains insured.", 200]],
+          ]),
+        ),
+      );
+      expect(r.differences.map((d) => [d.kind, d.category, d.newText])).toEqual([["Added", "Review", title]]);
+      expect(r.differences[0].right.map((l) => [l.pageIndex, l.text])).toEqual([[1, title]]);
+    });
 });
