@@ -6,11 +6,21 @@ import {
   grade,
   identityRule,
   summarize,
+  exitCode,
   IDENTITY_NOT_APPLICABLE,
+  INVARIANTS,
   type Expected,
   type Layout,
+  type NotEvaluated,
 } from "./evaluation/scorer";
-import type { CompareResult, DocInput } from "../packages/contracts/index";
+import {
+  ResultSchema,
+  resolveLocation,
+  type CompareResult,
+  type Difference,
+  type DocInput,
+  type SourceLocation,
+} from "../packages/contracts/index";
 function example() {
   const left = textDoc([
       { text: "SUMS INSURED:", x: 40, y: 150 },
@@ -441,5 +451,390 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
     for (const loc of [...add.right, ...add.textOps.flatMap((o) => o.right)])
       loc.pageIndex = 1;
     expect(failing(misplaced)).toContain("R13_move_and_replacement:E2");
+  });
+});
+// Layout runs and source locations taken from a synthetic document, one run per line.
+const layoutOf = (d: DocInput) => ({
+  pages: d.pages.map((p) => ({
+    text_runs: p.lines.map((l) => {
+      const chars = l.charIds.map((id) => p.chars.find((c) => c.id === id)!);
+      return {
+        run_id: l.id,
+        text: chars.map((c) => c.text).join(""),
+        direction: [1, 0],
+        characters: chars.map((c) => ({
+          quad_tl_tr_br_bl: [
+            [c.quad[0], c.quad[1]],
+            [c.quad[2], c.quad[3]],
+            [c.quad[6], c.quad[7]],
+            [c.quad[4], c.quad[5]],
+          ],
+        })),
+      };
+    }),
+  })),
+});
+const lineLoc = (d: DocInput, side: "left" | "right", lineId: string): SourceLocation => {
+  const page = d.pages.find((p) => p.lines.some((l) => l.id === lineId))!;
+  const line = page.lines.find((l) => l.id === lineId)!;
+  const chars = line.charIds.map((id) => page.chars.find((c) => c.id === id)!);
+  return {
+    side,
+    pageIndex: page.pageIndex,
+    unitId: lineId,
+    rawRange: [chars[0].rawRange[0], chars.at(-1)!.rawRange[1]],
+    charIds: [...line.charIds],
+    text: chars.map((c) => c.text).join(""),
+    quads: chars.map((c) => c.quad),
+    direction: line.direction,
+    precision: "synthetic",
+  };
+};
+const replaced = (
+  id: string,
+  left: SourceLocation,
+  right: SourceLocation,
+  path: Partial<NonNullable<Difference["structurePath"]>>,
+  category: Difference["category"] = "Material",
+): Difference => ({
+  id,
+  kind: "Replaced",
+  category,
+  structurePath: {
+    section: "s",
+    entity: null,
+    field: null,
+    table: null,
+    rowKey: null,
+    confidence: "reliable",
+    ...path,
+  },
+  left: [left],
+  right: [right],
+  oldText: left.text,
+  newText: right.text,
+  textOps: [
+    { kind: "delete", text: left.text, left: [left], right: [] },
+    { kind: "insert", text: right.text, left: [], right: [right] },
+  ],
+  hasTextChange: true,
+  defaultVisible: true,
+  matchEvidence: { method: "test", score: null, details: [] },
+  reviewReasons: [],
+  occurrences: [],
+});
+describe("one correct event card cannot offset an extra wrong card (#10)", () => {
+  // R26: registration renamed, every agreed value unchanged.
+  const table = (registration: string) =>
+    textDoc([
+      { text: "SCHEDULE OF AIRCRAFT", y: 100 },
+      { text: "TEST-A789", x: 40, y: 150 },
+      { text: "SYN-1026-001", x: 150, y: 150 },
+      { text: "USD", x: 300, y: 150 },
+      { text: "100,000", x: 360, y: 150 },
+      { text: registration, x: 40, y: 180 },
+      { text: "SYN-1026-003", x: 150, y: 180 },
+      { text: "USD", x: 300, y: 180 },
+      { text: "200,000", x: 360, y: 180 },
+    ]);
+  const r26 = () => {
+    const left = table("TEST-C941"),
+      right = table("TEST-RENAMED");
+    const expected: Expected = {
+      case_id: "R26_key_change",
+      required_status: "complete_for_scope",
+      events: [
+        {
+          event_id: "R26_key_change:E1",
+          logical_path: "aircraft_schedule.SYN-1026-003.registration",
+          old: "TEST-C941",
+          new: "TEST-RENAMED",
+          operation: "replace",
+          detection_requirement: "must_detect",
+          acceptable_kinds: ["Replaced", "Added+Removed"],
+          acceptable_categories: ["Material", "Review"],
+        },
+      ],
+      invariants: ["agreed_value_unchanged", "secondary_key_or_explicit_identity_review"],
+      coverage_requirements: [],
+      evidence_locations: {
+        "R26_key_change:E1": {
+          before: [{ page_index: 0, run_id: "l5" }],
+          after: [{ page_index: 0, run_id: "l5" }],
+        },
+      },
+    };
+    const result = compare(left, right);
+    result.status = "complete_for_scope";
+    result.unresolved = [];
+    result.coverage = [];
+    result.differences = [
+      replaced("registration", lineLoc(left, "left", "l5"), lineLoc(right, "right", "l5"), {
+        section: "aircraft_schedule",
+        entity: "SYN-1026-003",
+        field: "registration",
+        table: "aircraft_schedule",
+        rowKey: "SYN-1026-003",
+      }),
+    ];
+    // Wrong pairing: old side of row SYN-1026-001 (100,000) against new side of row SYN-1026-003 (200,000).
+    const wrong = replaced("wrong-amount", lineLoc(left, "left", "l4"), lineLoc(right, "right", "l8"), {
+      section: "aircraft_schedule",
+      entity: "SYN-1026-001",
+      field: "agreed_value",
+      table: "aircraft_schedule",
+      rowKey: "SYN-1026-001",
+    });
+    return {
+      docs: [left, right] as [DocInput, DocInput],
+      expected,
+      layout: { before: layoutOf(left), after: layoutOf(right) } as Layout,
+      result,
+      wrong,
+    };
+  };
+  for (const fine of [false, true])
+    it(`R26: correct registration card plus a wrong agreed-value card fails (fine geometry ${fine})`, () => {
+      const x = r26();
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      expect(grade(x.result, x.expected, x.layout, x.docs, fine).status).toBe("PASS");
+      x.result.differences.push(x.wrong);
+      // The forged card is schema-valid and every reference resolves to real input characters.
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      expect(x.wrong.left.concat(x.wrong.right).every((l) => resolveLocation(l, x.docs))).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs, fine);
+      expect(score.status).toBe("FAIL");
+      expect(score.events[0].verdict).toBe("PASS");
+      expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+    });
+  it("R26: matching the row by the renamed registration instead of the serial fails", () => {
+    const x = r26();
+    x.result.differences[0].structurePath!.rowKey = "TEST-C941";
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
+  });
+  // R11: label alias only; neither amount nor currency may change.
+  const policy = (label: string) =>
+    textDoc([
+      { text: label, x: 40, y: 150 },
+      { text: "USD 2,000,000", x: 180, y: 150 },
+      { text: "DEDUCTIBLE:", x: 40, y: 180 },
+      { text: "USD 10,000", x: 180, y: 180 },
+      { text: "EUROPEAN LIMIT:", x: 40, y: 210 },
+      { text: "EUR 2,000,000", x: 180, y: 210 },
+    ]);
+  const r11 = () => {
+    const left = policy("SUMS INSURED:"),
+      right = policy("SUM INSURED:");
+    const expected: Expected = {
+      case_id: "R11_label_alias",
+      required_status: "complete_for_scope",
+      events: [
+        {
+          event_id: "R11_label_alias:E1",
+          logical_path: "risk_details.sum_insured.label",
+          old: "SUMS INSURED:",
+          new: "SUM INSURED:",
+          operation: "replace",
+          detection_requirement: "must_detect",
+          acceptable_kinds: ["Replaced"],
+          acceptable_categories: ["Cosmetic", "Review"],
+        },
+      ],
+      invariants: ["no_amount_or_currency_change", "same_field_identity"],
+      coverage_requirements: [],
+      evidence_locations: {
+        "R11_label_alias:E1": {
+          before: [{ page_index: 0, run_id: "l0" }],
+          after: [{ page_index: 0, run_id: "l0" }],
+        },
+      },
+    };
+    const result = compare(left, right);
+    result.status = "complete_for_scope";
+    result.unresolved = [];
+    result.coverage = [];
+    result.differences = [
+      replaced(
+        "label",
+        lineLoc(left, "left", "l0"),
+        lineLoc(right, "right", "l0"),
+        { section: "risk_details", field: "sum_insured.label" },
+        "Cosmetic",
+      ),
+    ];
+    return {
+      left,
+      right,
+      docs: [left, right] as [DocInput, DocInput],
+      expected,
+      layout: { before: layoutOf(left), after: layoutOf(right) } as Layout,
+      result,
+    };
+  };
+  for (const [name, rightLine] of [
+    ["amount", "l3"],
+    ["currency", "l5"],
+  ] as const)
+    it(`R11: correct label card plus a wrong ${name} card fails`, () => {
+      const x = r11();
+      expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
+      x.result.differences.push(
+        replaced("wrong", lineLoc(x.left, "left", "l1"), lineLoc(x.right, "right", rightLine), {
+          section: "risk_details",
+          field: "sum_insured",
+        }),
+      );
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status).toBe("FAIL");
+      expect(score.faults.join("\n")).toContain("no_amount_or_currency_change");
+    });
+  it("R11: the label change attached to another field fails", () => {
+    const x = r11();
+    x.result.differences[0].structurePath!.field = "deductible.label";
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
+  });
+});
+// One violating result per directly checked invariant; the fault must name that invariant.
+const directViolations: Record<string, (x: ReturnType<typeof example>) => void> = {
+  no_content_differences: () => {},
+  no_material_differences: () => {},
+  no_false_text_added_or_removed: (x) => {
+    x.result.differences[0].category = "Cosmetic";
+  },
+  no_false_clause_moves: (x) => {
+    x.result.differences[0].kind = "Moved";
+  },
+  no_false_row_additions_or_deletions: (x) => {
+    x.result.differences[0].structurePath!.table = "aircraft_schedule";
+  },
+  moved_clause_has_no_internal_word_edits: (x) => {
+    x.result.differences[0].kind = "Moved";
+  },
+  must_not_classify_as_unchanged_duration_roll_forward: (x) => {
+    x.result.differences[0].structurePath!.field = "policy_period";
+    x.result.differences[0].category = "RollForward";
+  },
+  grouping_allowed_only_with_all_occurrence_locations: (x) => {
+    x.result.differences[0].occurrences = [];
+  },
+  agreed_value_unchanged: () => {},
+  no_amount_or_currency_change: () => {},
+};
+describe("invariant coverage register (#10)", () => {
+  for (const [name, violate] of Object.entries(directViolations))
+    it("direct invariant check rejects a violation: " + name, () => {
+      const x = example();
+      if (name !== "grouping_allowed_only_with_all_occurrence_locations") x.expected.events = [];
+      x.expected.invariants = [name];
+      violate(x);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status).toBe("FAIL");
+      expect(score.faults.some((f) => f.startsWith(name + ": "))).toBe(true);
+      expect(score.invariants).toMatchObject([{ name, coverage: "direct", result: "FAIL" }]);
+    });
+  it("the register covers exactly the 31 invariants of the 32 answers, and every cited test exists", () => {
+    const declared = new Set(
+      readdirSync("validation/dataset/cases").flatMap(
+        (c) =>
+          (JSON.parse(readFileSync(`validation/dataset/cases/${c}/expected.json`, "utf8")) as Expected)
+            .invariants,
+      ),
+    );
+    expect(declared.size).toBe(31);
+    expect(Object.keys(INVARIANTS).sort()).toEqual([...declared].sort());
+    const of = (c: string) =>
+      Object.entries(INVARIANTS)
+        .filter(([, v]) => v.coverage === c)
+        .map(([k]) => k)
+        .sort();
+    expect(of("direct")).toEqual(Object.keys(directViolations).sort());
+    expect(of("unsupported")).toEqual([
+      "all_aircraft_values_attached_to_original_identity",
+      "all_source_text_preserved",
+      "ligature_geometry_not_uniformly_guessed",
+      "same_logical_row_order",
+    ]);
+    const source = readFileSync("tests/scorer.test.ts", "utf8");
+    for (const [name, v] of Object.entries(INVARIANTS)) {
+      if (v.coverage === "indirect") expect(v.tests.length, name).toBeGreaterThan(0);
+      if (v.coverage === "unsupported") expect(v.tests, name).toEqual([]);
+      for (const t of v.tests) expect(source.includes(t), `${name}: ${t}`).toBe(true);
+    }
+  });
+  it("unsupported and unknown invariants are NOT_EVALUATED; a failure still wins", () => {
+    const x = example();
+    x.expected.invariants = ["same_logical_row_order"];
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score).toMatchObject({ status: "NOT_EVALUATED", eventStatus: "PASS", faults: [] });
+    expect(score.notEvaluated).toMatchObject([
+      { invariant: "same_logical_row_order", kind: "invariant_unsupported" },
+    ]);
+    x.expected.invariants = ["brand_new_requirement"];
+    expect(grade(x.result, x.expected, x.layout, x.docs).notEvaluated).toMatchObject([
+      { invariant: "brand_new_requirement", kind: "invariant_unknown" },
+    ]);
+    x.expected.invariants = ["same_logical_row_order", "no_content_differences"];
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
+  });
+  it("an indirect invariant follows the event checks", () => {
+    const x = example();
+    x.expected.invariants = ["same_field_identity"];
+    expect(grade(x.result, x.expected, x.layout, x.docs).invariants[0]).toMatchObject({
+      coverage: "indirect",
+      result: "PASS",
+    });
+    x.result.differences[0].structurePath!.field = "deductible";
+    expect(grade(x.result, x.expected, x.layout, x.docs).invariants[0].result).toBe("FAIL");
+  });
+  it("exit code: 0 strict PASS, 2 only registered gaps, 1 for failures or unregistered gaps", () => {
+    const record = (caseId: string, status: string, kind?: NotEvaluated["kind"]) => ({
+      caseId,
+      status,
+      eventStatus: status === "FAIL" ? "FAIL" : "PASS",
+      notEvaluated: kind ? [{ kind, reason: "r" }] : [],
+    });
+    const ok = record("a", "PASS");
+    expect(exitCode(summarize([ok]))).toBe(0);
+    const gap = summarize([ok, record("b", "NOT_EVALUATED", "invariant_unsupported")]);
+    expect(gap).toMatchObject({
+      status: "NOT_EVALUATED",
+      passed: 1,
+      knownGapsOnly: true,
+      eventRegression: { status: "PASS", passed: 2 },
+    });
+    expect(exitCode(gap)).toBe(2);
+    expect(exitCode(summarize([ok, record("c", "NOT_EVALUATED", "invariant_unknown")]))).toBe(1);
+    expect(exitCode(summarize([ok, record("d", "NOT_EVALUATED", "identity_unsupported")]))).toBe(1);
+    expect(
+      exitCode(summarize([record("b", "NOT_EVALUATED", "invariant_unsupported"), record("e", "FAIL")])),
+    ).toBe(1);
+  });
+  // R25: a duplicate identity must stay reported and unresolved, with the amount change visible.
+  const r25 = () => {
+    const x = example();
+    x.expected.required_status = "partial_or_explicit_review";
+    x.expected.events[0].detection_requirement = "visible_text_delta_with_identity_review";
+    x.result.status = "partial";
+    x.result.unresolved = [
+      { reason: "ambiguous_identity", message: "duplicate keys", left: [], right: [], defaultVisible: true },
+    ];
+    Object.assign(x.result.differences[0].structurePath!, { confidence: "unresolved", rowKey: null });
+    return x;
+  };
+  it("R25: the reported duplicate with a visible amount change passes", () => {
+    const x = r25();
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
+  });
+  it("R25: an unreported duplicate identity fails", () => {
+    const x = r25();
+    x.result.status = "complete_for_scope";
+    x.result.unresolved = [];
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
+  });
+  it("R25: asserting a unique row key without evidence fails", () => {
+    const x = r25();
+    Object.assign(x.result.differences[0].structurePath!, { confidence: "reliable", rowKey: "SYN-1026-001" });
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
 });

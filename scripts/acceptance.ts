@@ -5,7 +5,7 @@ const engine: EngineName = process.argv[2] === "pdfjs" ? "pdfjs" : "mupdf";
 const { extractPdf } = await loadEngine(engine);
 import { compare } from "../packages/compare-core/index";
 import { parseDoc, digest, ResultSchema } from "../packages/contracts/index";
-import { grade, summarize } from "../tests/evaluation/scorer";
+import { grade, summarize, exitCode } from "../tests/evaluation/scorer";
 const manifest = JSON.parse(
   readFileSync("validation/dataset/manifest.json", "utf8"),
 );
@@ -32,8 +32,11 @@ for (const meta of manifest.cases) {
       differences: result.differences.length,
       resultStatus: result.status,
     });
-    // NOT_EVALUATED is kept for review too: it never counts as passed.
-    if (score.status !== "PASS") {
+    // Keep evidence for anything that fails the run; registered coverage gaps are in the report.
+    if (
+      score.status === "FAIL" ||
+      score.notEvaluated.some((n) => n.kind !== "invariant_unsupported")
+    ) {
       mkdirSync("reports/failures", { recursive: true });
       writeFileSync(
         `reports/failures/${engine}-${meta.case_id}-${Date.now()}.json`,
@@ -43,9 +46,12 @@ for (const meta of manifest.cases) {
     console.log(
       meta.case_id,
       score.status,
+      "events " + score.eventStatus,
       [
         ...score.faults,
-        ...score.notEvaluated.map((n) => `not evaluated ${n.eventId}: ${n.reason}`),
+        ...score.notEvaluated.map(
+          (n) => `not evaluated ${n.eventId ?? n.invariant}: ${n.reason}`,
+        ),
       ].join("; "),
     );
   } catch (e) {
@@ -73,4 +79,7 @@ writeFileSync(
   `reports/rules-${engine}.json`,
   JSON.stringify(report, null, 2) + "\n",
 );
-process.exitCode = summary.status === "PASS" ? 0 : 1;
+console.log(
+  `strict ${summary.status} ${summary.passed}/${summary.total}; events ${summary.eventRegression.status} ${summary.eventRegression.passed}/${summary.total}; not evaluated: ${summary.notEvaluated.join(", ") || "none"}`,
+);
+process.exitCode = exitCode(summary);

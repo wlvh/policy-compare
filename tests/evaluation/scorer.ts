@@ -46,6 +46,22 @@ export type IdentityCheck = {
   pass: boolean | null;
   reason: string;
 };
+export type NotEvaluated = {
+  eventId?: string;
+  invariant?: string;
+  kind:
+    | "identity_unsupported"
+    | "unknown_detection_branch"
+    | "invariant_unsupported"
+    | "invariant_unknown";
+  reason: string;
+};
+export type InvariantScore = {
+  name: string;
+  coverage: "direct" | "indirect" | "unsupported" | "unknown";
+  result: CaseStatus;
+  reason: string;
+};
 export type EventScore = {
   eventId: string;
   branch: "text" | "coverage_warning" | "unknown";
@@ -97,6 +113,244 @@ export const IDENTITY_NOT_APPLICABLE: Record<
   },
 };
 const clean = (s: string) => s.replace(/\s+/g, " ").trim();
+// How each answer invariant is evaluated. "direct": its own check below; "indirect": it can only
+// hold when the case's events and completeness pass, and the named tests show a violation fails
+// them; "unsupported": the result does not carry the evidence, so the invariant is NOT_EVALUATED.
+export const INVARIANTS: Record<
+  string,
+  { coverage: "direct" | "indirect" | "unsupported"; basis: string; tests: string[] }
+> = {
+  no_content_differences: { coverage: "direct", basis: "no difference card at all", tests: [] },
+  no_material_differences: {
+    coverage: "direct",
+    basis: "no Material card and no text change outside Cosmetic",
+    tests: ["Review does not excuse false text in control"],
+  },
+  no_false_text_added_or_removed: { coverage: "direct", basis: "no card with a text change", tests: [] },
+  no_false_clause_moves: { coverage: "direct", basis: "no Moved card", tests: [] },
+  no_false_row_additions_or_deletions: {
+    coverage: "direct",
+    basis: "no table card with a text change",
+    tests: [],
+  },
+  moved_clause_has_no_internal_word_edits: {
+    coverage: "direct",
+    basis: "no Moved card with a text change",
+    tests: [],
+  },
+  must_not_classify_as_unchanged_duration_roll_forward: {
+    coverage: "direct",
+    basis: "no policy_period card classified RollForward",
+    tests: [],
+  },
+  grouping_allowed_only_with_all_occurrence_locations: {
+    coverage: "direct",
+    basis: "the grouped card lists every expected occurrence location on both sides",
+    tests: [],
+  },
+  agreed_value_unchanged: {
+    coverage: "direct",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events",
+    tests: ["R26: correct registration card plus a wrong agreed-value card fails"],
+  },
+  no_amount_or_currency_change: {
+    coverage: "direct",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events",
+    tests: ["R11: correct label card plus a wrong"],
+  },
+  header_role_must_not_exclude_text: {
+    coverage: "indirect",
+    basis: "the header-limit event needs a visible card at the header runs; excluded header text leaves none",
+    tests: ["empty required output"],
+  },
+  rotation_must_not_exclude_text: {
+    coverage: "indirect",
+    basis: "the rotated-status event needs a visible card at the rotated run; excluded text leaves none",
+    tests: ["empty required output"],
+  },
+  must_not_match_values_across_party_identity: {
+    coverage: "indirect",
+    basis: "each address event checks the party entity and field of its card",
+    tests: ["wrong subject"],
+  },
+  same_field_identity: {
+    coverage: "indirect",
+    basis: "the label event checks entity and field (sum_insured.label) and requires Replaced",
+    tests: ["R11: the label change attached to another field fails", "wrong operation"],
+  },
+  same_address_identity: {
+    coverage: "indirect",
+    basis: "the ligature event checks entity original_insured and field address",
+    tests: ["wrong subject"],
+  },
+  exact_move_must_not_be_consumed_by_local_replacement: {
+    coverage: "indirect",
+    basis: "the move event needs a Moved card and the add event an Added card at their own positions",
+    tests: ["R13: the exact move and the similar new clause are not interchangeable"],
+  },
+  match_row_by_registration_or_declared_serial: {
+    coverage: "indirect",
+    basis: "the value event checks the row key (declared serial) and field of its card; a registration-keyed match is not accepted by the scorer (stricter than the answer)",
+    tests: ["R26: matching the row by the renamed registration instead of the serial fails"],
+  },
+  secondary_key_or_explicit_identity_review: {
+    coverage: "indirect",
+    basis: "the registration event requires the serial as row key; an explicit identity review is not accepted by the scorer (stricter than the answer)",
+    tests: ["R26: matching the row by the renamed registration instead of the serial fails"],
+  },
+  duplicate_identity_must_be_reported: {
+    coverage: "indirect",
+    basis: "required status partial_or_explicit_review needs status partial with an ambiguous_identity group",
+    tests: ["R25: an unreported duplicate identity fails"],
+  },
+  must_not_assert_unique_row_identity_without_evidence: {
+    coverage: "indirect",
+    basis: "the duplicate event requires confidence unresolved and no row key on its card",
+    tests: ["R25: asserting a unique row key without evidence fails"],
+  },
+  must_not_claim_no_changes: {
+    coverage: "indirect",
+    basis: "the duplicate event must be discovered as a visible card",
+    tests: ["duplicate-key warning alone cannot waive amount evidence"],
+  },
+  old_and_new_amount_delta_must_remain_visible: {
+    coverage: "indirect",
+    basis: "the duplicate event needs both amounts on one visible card at their positions",
+    tests: ["duplicate-key warning alone cannot waive amount evidence", "hidden event"],
+  },
+  unresolved_identity_does_not_waive_text_change_detection: {
+    coverage: "indirect",
+    basis: "an unresolved group does not replace the required card",
+    tests: ["duplicate-key warning alone cannot waive amount evidence"],
+  },
+  duplicate_key_warning_alone_is_not_a_pass: {
+    coverage: "indirect",
+    basis: "an ambiguous_identity group without the card fails the event",
+    tests: ["duplicate-key warning alone cannot waive amount evidence"],
+  },
+  must_not_claim_complete_or_no_changes: {
+    coverage: "indirect",
+    basis: "the coverage event needs status partial and a visible coverage region",
+    tests: ["incorrect complete"],
+  },
+  text_elsewhere_on_page_does_not_prove_full_coverage: {
+    coverage: "indirect",
+    basis: "the coverage region must cover the image region, not the whole page",
+    tests: ["generic warning", "wrong region"],
+  },
+  renewal_classification_must_not_hide_amount_change: {
+    coverage: "indirect",
+    basis: "the amount event needs its own visible Material/Review card; a RollForward card does not satisfy it",
+    tests: ["wrong category"],
+  },
+  all_source_text_preserved: {
+    coverage: "unsupported",
+    basis: "the result lists only differences, so it cannot show that every extracted character was compared; the scorer also does not compare extraction with layout.json; R16's other invariants only rule out false claims",
+    tests: [],
+  },
+  ligature_geometry_not_uniformly_guessed: {
+    coverage: "unsupported",
+    basis: "the fine-geometry check (browser only) accepts boxes inside the ligature glyph and cannot tell a uniform split from glyph geometry; Node runs check no final geometry",
+    tests: [],
+  },
+  all_aircraft_values_attached_to_original_identity: {
+    coverage: "unsupported",
+    basis: "unchanged rows produce no card, so the result does not show which old row each new row was matched to; R23's other invariants only catch a reported false value change",
+    tests: [],
+  },
+  same_logical_row_order: {
+    coverage: "unsupported",
+    basis: "row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order",
+    tests: [],
+  },
+};
+// Amounts: thousands-separated numbers, or any number written right after a currency code.
+const CODES = "USD|EUR|GBP|JPY|CHF|CNY|HKD|SGD|MYR|AUD|CAD",
+  CURRENCY = new RegExp(`\\b(?:${CODES})(?![A-Za-z])`, "g"),
+  AMOUNT = new RegExp(`\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=\\b(?:${CODES})\\s?)\\d+(?:\\.\\d+)?`, "g");
+const money = (text: string) => [
+  ...[...text.matchAll(AMOUNT)].map((m) => m[0]),
+  ...[...text.matchAll(CURRENCY)].map((m) => m[0]),
+];
+const minus = (a: string[], b: string[]) => {
+  const rest = [...b];
+  return a.filter((x) => {
+    const i = rest.indexOf(x);
+    if (i < 0) return true;
+    rest.splice(i, 1);
+    return false;
+  });
+};
+// Amount or currency changes asserted by any card, apart from the deltas the case's events declare.
+function moneyChanges(result: CompareResult, expected: Expected): string[] {
+  const removed = expected.events.flatMap((e) => minus(money(e.old ?? ""), money(e.new ?? ""))),
+    added = expected.events.flatMap((e) => minus(money(e.new ?? ""), money(e.old ?? "")));
+  const allowed = (r: string[], a: string[]) =>
+    !minus(r, removed).length && !minus(a, added).length;
+  const out: string[] = [];
+  for (const d of result.differences.filter((d) => d.kind === "Replaced" || d.kind === "Moved")) {
+    const r = minus(money(d.oldText), money(d.newText)),
+      a = minus(money(d.newText), money(d.oldText));
+    if ((r.length || a.length) && !allowed(r, a))
+      out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
+  }
+  const gone = result.differences.filter((d) => d.kind === "Removed").flatMap((d) => money(d.oldText)),
+    come = result.differences.filter((d) => d.kind === "Added").flatMap((d) => money(d.newText));
+  const r = minus(gone, come),
+    a = minus(come, gone);
+  if ((r.length || a.length) && !allowed(r, a))
+    out.push(`added/removed cards change ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
+  return out;
+}
+type Checked = { result: CompareResult; expected: Expected; layout: Layout };
+// Directly checked invariants: each returns the violations it finds.
+const DIRECT: Record<string, (c: Checked) => string[]> = {
+  no_content_differences: ({ result }) =>
+    result.differences.length ? ["False content differences in control"] : [],
+  no_false_text_added_or_removed: ({ result }) =>
+    result.differences.some((d) => d.hasTextChange) ? ["False text delta in reflow control"] : [],
+  no_false_clause_moves: ({ result }) =>
+    result.differences.some((d) => d.kind === "Moved") ? ["False move caused by pagination"] : [],
+  no_material_differences: ({ result }) =>
+    result.differences.some(
+      (d) => d.category === "Material" || (d.hasTextChange && d.category !== "Cosmetic"),
+    )
+      ? ["False substantive change; Review is not an exemption"]
+      : [],
+  no_false_row_additions_or_deletions: ({ result }) =>
+    result.differences.some((d) => d.structurePath?.table && d.hasTextChange)
+      ? ["False table value/entity delta"]
+      : [],
+  moved_clause_has_no_internal_word_edits: ({ result }) =>
+    result.differences.some((d) => d.kind === "Moved" && d.hasTextChange)
+      ? ["False internal move edit"]
+      : [],
+  must_not_classify_as_unchanged_duration_roll_forward: ({ result }) =>
+    result.differences.some(
+      (d) => d.structurePath?.field === "policy_period" && d.category === "RollForward",
+    )
+      ? ["Changed duration mislabeled renewal"]
+      : [],
+  grouping_allowed_only_with_all_occurrence_locations: ({ result, expected, layout }) => {
+    const event = expected.events[0],
+      d = result.differences.find((d) => clean(d.oldText).includes(clean(event.old ?? "")));
+    if (!d) return [];
+    return (["before", "after"] as const).flatMap((s) => {
+      const side = s === "before" ? "left" : "right";
+      const locs = d.occurrences.flatMap((o) => o[side]);
+      return expected.evidence_locations[event.event_id][s].every((r) =>
+        located(locs, [r], layout[s].pages, side),
+      )
+        ? []
+        : ["Missing repeated-header occurrence"];
+    });
+  },
+  agreed_value_unchanged: ({ result, expected }) => moneyChanges(result, expected),
+  no_amount_or_currency_change: ({ result, expected }) => moneyChanges(result, expected),
+};
+// Process exit: 0 strict PASS, 2 only registered coverage gaps, 1 any failure or unregistered gap.
+export const exitCode = (s: ReturnType<typeof summarize>) =>
+  s.status === "PASS" ? 0 : s.knownGapsOnly ? 2 : 1;
 // Which identity check applies to an event; test is null when no identity rule decides the match.
 export function identityRule(e: Expected["events"][number]): {
   applicability: IdentityCheck["applicability"];
@@ -145,7 +399,14 @@ export function identityRule(e: Expected["events"][number]): {
 }
 // One status for a run: any failure is FAIL, otherwise any unevaluated case keeps it from PASS.
 export function summarize(
-  records: { caseId: string; status: string; events?: EventScore[] }[],
+  records: {
+    caseId: string;
+    status: string;
+    eventStatus?: string;
+    events?: EventScore[];
+    notEvaluated?: NotEvaluated[];
+    invariants?: InvariantScore[];
+  }[],
 ) {
   const ids = (keep: (s: string) => boolean) =>
     records.filter((r) => keep(r.status)).map((r) => r.caseId);
@@ -153,6 +414,16 @@ export function summarize(
     notEvaluated = ids((s) => s === "NOT_EVALUATED"),
     failed = ids((s) => s !== "PASS" && s !== "NOT_EVALUATED");
   const events = records.flatMap((r) => r.events ?? []);
+  const byEvents = (keep: (s: string) => boolean) =>
+    records.filter((r) => keep(r.eventStatus ?? r.status)).map((r) => r.caseId);
+  const eventFailed = byEvents((s) => s !== "PASS" && s !== "NOT_EVALUATED"),
+    eventOpen = byEvents((s) => s === "NOT_EVALUATED");
+  const coverageGaps = records.flatMap((r) =>
+    (r.notEvaluated ?? []).map((n) => ({ caseId: r.caseId, ...n })),
+  );
+  const invariantNames = (c: InvariantScore["coverage"]) => [
+    ...new Set(records.flatMap((r) => (r.invariants ?? []).filter((i) => i.coverage === c).map((i) => i.name))),
+  ];
   const by = (keep: (e: EventScore) => boolean) =>
     events.filter(keep).map((e) => e.eventId);
   return {
@@ -165,6 +436,22 @@ export function summarize(
     total: records.length,
     failed,
     notEvaluated,
+    // Only gaps that are registered as unsupported invariants; anything else exits as a failure.
+    knownGapsOnly: !failed.length && coverageGaps.every((g) => g.kind === "invariant_unsupported"),
+    coverageGaps,
+    eventRegression: {
+      status: (eventFailed.length ? "FAIL" : eventOpen.length ? "NOT_EVALUATED" : "PASS") as CaseStatus,
+      passed: byEvents((s) => s === "PASS").length,
+      total: records.length,
+      failed: eventFailed,
+      notEvaluated: eventOpen,
+    },
+    invariantCoverage: {
+      direct: invariantNames("direct"),
+      indirect: invariantNames("indirect"),
+      unsupported: invariantNames("unsupported"),
+      unknown: invariantNames("unknown"),
+    },
     identityApplicability: {
       checked: by((e) => e.identity?.applicability === "checked"),
       notApplicable: by((e) => e.identity?.applicability === "not_applicable"),
@@ -233,9 +520,11 @@ export function grade(
 ): {
   caseId: string;
   status: CaseStatus;
+  eventStatus: CaseStatus;
   faults: string[];
-  notEvaluated: { eventId: string; reason: string }[];
+  notEvaluated: NotEvaluated[];
   events: EventScore[];
+  invariants: InvariantScore[];
 } {
   const faults: string[] = [];
   const parsed = ResultSchema.safeParse(input);
@@ -247,8 +536,10 @@ export function grade(
         "Invalid result schema: " +
           parsed.error.issues.map((x) => x.path.join(".")).join(","),
       ],
+      eventStatus: "FAIL",
       notEvaluated: [],
       events: [],
+      invariants: [],
     };
   const result = parsed.data;
   if (result.documentHashes.some((h, i) => h !== docs[i].contentHash))
@@ -456,73 +747,46 @@ export function grade(
       ...(verdict === "NOT_EVALUATED" ? { reason: rule.reason } : {}),
     };
   });
-  const notEvaluated = events
+  const notEvaluated: NotEvaluated[] = events
     .filter((ev) => ev.verdict === "NOT_EVALUATED")
-    .map((ev) => ({ eventId: ev.eventId, reason: ev.reason ?? "" }));
+    .map((ev) => ({
+      eventId: ev.eventId,
+      kind: ev.branch === "unknown" ? "unknown_detection_branch" : "identity_unsupported",
+      reason: ev.reason ?? "",
+    }));
   for (const ev of events)
     if (ev.verdict === "FAIL")
       faults.push("Required event failed: " + ev.eventId);
-  const inv = expected.invariants;
-  if (inv.includes("no_content_differences") && result.differences.length)
-    faults.push("False content differences in control");
-  if (
-    inv.includes("no_false_text_added_or_removed") &&
-    result.differences.some((d) => d.hasTextChange)
-  )
-    faults.push("False text delta in reflow control");
-  if (
-    inv.includes("no_false_clause_moves") &&
-    result.differences.some((d) => d.kind === "Moved")
-  )
-    faults.push("False move caused by pagination");
-  if (
-    inv.includes("no_material_differences") &&
-    result.differences.some(
-      (d) =>
-        d.category === "Material" ||
-        (d.hasTextChange && d.category !== "Cosmetic"),
-    )
-  )
-    faults.push("False substantive change; Review is not an exemption");
-  if (
-    inv.includes("no_false_row_additions_or_deletions") &&
-    result.differences.some((d) => d.structurePath?.table && d.hasTextChange)
-  )
-    faults.push("False table value/entity delta");
-  if (
-    inv.includes("moved_clause_has_no_internal_word_edits") &&
-    result.differences.some((d) => d.kind === "Moved" && d.hasTextChange)
-  )
-    faults.push("False internal move edit");
-  if (
-    inv.includes("must_not_classify_as_unchanged_duration_roll_forward") &&
-    result.differences.some(
-      (d) =>
-        d.structurePath?.field === "policy_period" &&
-        d.category === "RollForward",
-    )
-  )
-    faults.push("Changed duration mislabeled renewal");
-  if (inv.includes("grouping_allowed_only_with_all_occurrence_locations")) {
-    const event = expected.events[0],
-      d = result.differences.find((d) =>
-        clean(d.oldText).includes(clean(event.old ?? "")),
-      );
-    if (d) {
-      for (const s of ["before", "after"] as const) {
-        const side = s === "before" ? "left" : "right";
-        const refs = expected.evidence_locations[event.event_id][s];
-        const locs = d.occurrences.flatMap((o) => o[side]);
-        if (!refs.every((r) => located(locs, [r], layout[s].pages, side)))
-          faults.push("Missing repeated-header occurrence");
-      }
+  // Each declared invariant is checked directly, follows from the event checks, or is not evaluated.
+  const eventVerdict: CaseStatus = events.some((e) => e.verdict === "FAIL") || !completeness
+    ? "FAIL"
+    : events.some((e) => e.verdict === "NOT_EVALUATED")
+      ? "NOT_EVALUATED"
+      : "PASS";
+  const invariants = expected.invariants.map((name): InvariantScore => {
+    const entry = INVARIANTS[name];
+    if (!entry) {
+      notEvaluated.push({ invariant: name, kind: "invariant_unknown", reason: "unknown invariant " + name });
+      return { name, coverage: "unknown", result: "NOT_EVALUATED", reason: "no registered check" };
     }
-  }
+    if (entry.coverage === "unsupported") {
+      notEvaluated.push({ invariant: name, kind: "invariant_unsupported", reason: entry.basis });
+      return { name, coverage: "unsupported", result: "NOT_EVALUATED", reason: entry.basis };
+    }
+    if (entry.coverage === "indirect")
+      return { name, coverage: "indirect", result: eventVerdict, reason: entry.basis };
+    const violations = DIRECT[name]({ result, expected, layout });
+    faults.push(...violations.map((v) => name + ": " + v));
+    return { name, coverage: "direct", result: violations.length ? "FAIL" : "PASS", reason: violations.join("; ") || entry.basis };
+  });
+  const eventsOpen = notEvaluated.some((n) => n.eventId);
   return {
     caseId: expected.case_id,
     status: faults.length ? "FAIL" : notEvaluated.length ? "NOT_EVALUATED" : "PASS",
+    eventStatus: faults.length ? "FAIL" : eventsOpen ? "NOT_EVALUATED" : "PASS",
     faults,
     notEvaluated,
     events,
+    invariants,
   };
 }
