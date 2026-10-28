@@ -1,0 +1,15 @@
+{
+ "versions": {
+  "chromium": "153.0.8010.12",
+  "libreoffice": "LibreOffice 24.2.7.2 420(Build:2)"
+ },
+ "files": [
+  "chromium",
+  "expected.json",
+  "libreoffice",
+  "chromium/left.pdf",
+  "chromium/right.pdf",
+  "libreoffice/left.pdf",
+  "libreoffice/right.pdf"
+ ]
+}
