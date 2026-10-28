@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Run the current R26/R11 counterexamples against an earlier scorer (default: the fixed start 2ff585b).
-# With the test file at 28afbd1:
-#   before-fix.sh            -> 13 fail: every wrong-card counterexample, plus the MSN guard (no invariant results yet)
-#   before-fix.sh d61461b    -> 8 fail: bare-number variants, field-mislabel cards, per-digit locations, delete/add swaps
-#   before-fix.sh 7ea1fb3    -> 5 fail: field-mislabel cards, per-digit locations, delete/add swaps
-#   before-fix.sh 74783d6    -> 3 fail: field-mislabel cards, per-digit locations
-#   before-fix.sh fececbf    -> 1 fails: only the per-digit locations
+# With the test file at 55e669a:
+#   before-fix.sh            -> 17 fail: every wrong-card counterexample, plus the MSN guard (no invariant results yet)
+#   before-fix.sh d61461b    -> 12 fail: bare numbers, field mislabels, per-digit and whole-row citations, delete/add swaps
+#   before-fix.sh 7ea1fb3    -> 9 fail: field mislabels, per-digit and whole-row citations, delete/add swaps
+#   before-fix.sh 74783d6    -> 7 fail: field mislabels, per-digit and whole-row citations
+#   before-fix.sh fececbf    -> 4 fail: per-digit and whole-row citations
+#   before-fix.sh 28afbd1    -> 3 fail: only the whole-row citations
 set -u
 repo=$(git rev-parse --show-toplevel)
 dir=$(mktemp -d)
