@@ -163,6 +163,7 @@ export const INVARIANTS: Record<
       "R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change",
       "R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED",
       "R26: with run-level geometry a wrong row pairing still fails",
+      "R26: delete + add cards claiming different parts of an unchanged amount cell fail",
       "R26: row-wide locations that layout.json does not cover are NOT_EVALUATED",
     ],
   },
@@ -397,23 +398,36 @@ function moneyChanges(
     else if (!r.length && !a.length && (rc.length || ac.length))
       out.push(`card ${d.id} claims ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside amount cells that keep their values`);
   }
-  const pool = { gone: [] as string[], come: [] as string[] },
+  const group = () => ({ gone: [] as string[], come: [] as string[], goneClaimed: [] as string[], comeClaimed: [] as string[] });
+  const pool = group(),
     records = new Map<string, typeof pool>();
   for (const d of result.differences.filter((d) => d.kind === "Removed" || d.kind === "Added")) {
     const who = d.structurePath?.rowKey ?? d.structurePath?.entity,
       key = who + "|" + (d.structurePath?.field ?? "");
-    const group = who ? (records.get(key) ?? records.set(key, { gone: [], come: [] }).get(key)!) : pool;
-    if (d.kind === "Removed") group.gone.push(...cardMoney(d, "left").all);
-    else group.come.push(...cardMoney(d, "right").all);
+    const g = who ? (records.get(key) ?? records.set(key, group()).get(key)!) : pool;
+    if (d.kind === "Removed") {
+      const m = cardMoney(d, "left");
+      g.gone.push(...m.all);
+      g.goneClaimed.push(...m.claimed);
+    } else {
+      const m = cardMoney(d, "right");
+      g.come.push(...m.all);
+      g.comeClaimed.push(...m.claimed);
+    }
   }
   for (const [key, g] of records) {
     const r = minus(g.gone, g.come),
-      a = minus(g.come, g.gone);
+      a = minus(g.come, g.gone),
+      rc = minus(g.goneClaimed, g.comeClaimed),
+      ac = minus(g.comeClaimed, g.goneClaimed);
     if (r.length && a.length) {
       if (!allowed(r, a)) out.push(`record ${key} delete/add cards change ${r.join(",")} to ${a.join(",")}`);
     } else {
       pool.gone.push(...r);
       pool.come.push(...a);
+      // The record's cells cancel, yet its delete and add cards assert different amount text.
+      if (!r.length && !a.length && (rc.length || ac.length))
+        out.push(`record ${key} delete/add cards claim ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside amount cells that keep their values`);
     }
   }
   const r = minus(pool.gone, pool.come),

@@ -824,11 +824,11 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.invariants.map((i) => i.result)).toEqual(["PASS", "PASS"]);
   });
   // Delete + add cards: amounts may cancel only within one record and field.
-  const oneSided = (kind: "Added" | "Removed", id: string, loc: SourceLocation, rowKey: string | null): Difference => {
+  const oneSided = (kind: "Added" | "Removed", id: string, loc: SourceLocation, rowKey: string | null, field = "agreed_value"): Difference => {
     const card = replaced(id, loc, loc, {
       section: "aircraft_schedule",
       entity: rowKey,
-      field: "agreed_value",
+      field,
       table: "aircraft_schedule",
       rowKey,
     });
@@ -859,6 +859,19 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       { invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" },
     ]);
     expect(exitCode(summarize([score]))).toBe(1);
+  });
+  it("R26: delete + add cards claiming different parts of an unchanged amount cell fail", () => {
+    // One record, unchanged 100020: the Removed card cites "100", the Added card "020".
+    const x = r26(true, ["100020", "200010"]);
+    const [l, r] = x.docs;
+    x.result.differences.push(
+      oneSided("Removed", "out", slice(lineLoc(l, "left", "l5"), 0, 3), "SYN-1026-001", "registration"),
+      oneSided("Added", "in", slice(lineLoc(r, "right", "l5"), 3, 6), "SYN-1026-001", "registration"),
+    );
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+    expect(score.status).toBe("FAIL");
   });
   it("R26: one record shown as delete + add with the same amount passes", () => {
     const x = r26();
