@@ -454,12 +454,13 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
   });
 });
 // Layout runs and source locations taken from a synthetic document, one run per line.
-const layoutOf = (d: DocInput) => ({
+const layoutOf = (d: DocInput, paths: Record<string, string> = {}) => ({
   pages: d.pages.map((p) => ({
     text_runs: p.lines.map((l) => {
       const chars = l.charIds.map((id) => p.chars.find((c) => c.id === id)!);
       return {
         run_id: l.id,
+        logical_path: paths[l.id] ?? null,
         text: chars.map((c) => c.text).join(""),
         direction: [1, 0],
         characters: chars.map((c) => ({
@@ -540,6 +541,14 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       { text: "USD", x: 300, y: 180 },
       { text: bare ? "200000" : "200,000", x: 360, y: 180 },
     ]);
+  const cells = (row: string, first: number) =>
+    Object.fromEntries(
+      ["registration", "serial", "msn", "currency", "agreed_value"].map((f, i) => [
+        `l${first + i}`,
+        `aircraft_schedule.${row}.${f}`,
+      ]),
+    );
+  const paths = { ...cells("SYN-1026-001", 1), ...cells("SYN-1026-003", 6) };
   const r26 = (bare = false) => {
     const left = table("TEST-C941", bare),
       right = table("TEST-RENAMED", bare);
@@ -591,7 +600,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     return {
       docs: [left, right] as [DocInput, DocInput],
       expected,
-      layout: { before: layoutOf(left), after: layoutOf(right) } as Layout,
+      layout: { before: layoutOf(left, paths), after: layoutOf(right, paths) } as Layout,
       result,
       wrong,
     };
@@ -611,6 +620,14 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.events[0].verdict).toBe("PASS");
       expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
     });
+  it("R26: a wrong bare-number amount card fails whatever field it claims; layout.json names the cell", () => {
+    const x = r26(true);
+    x.result.differences.push({ ...x.wrong, structurePath: { ...x.wrong.structurePath!, field: "registration" } });
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
   it("R26: a bare-number identifier change (MSN) is not taken for an amount change", () => {
     const x = r26(true);
     x.expected.invariants = ["agreed_value_unchanged", "no_amount_or_currency_change"];
@@ -689,6 +706,14 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       { text: "EUROPEAN LIMIT:", x: 40, y: 210 },
       { text: "EUR 2,000,000", x: 180, y: 210 },
     ]);
+  const R11_PATHS = {
+    l0: "risk_details.sum_insured.label",
+    l1: "risk_details.sum_insured",
+    l2: "risk_details.deductible.label",
+    l3: "risk_details.deductible",
+    l4: "risk_details.limit.label",
+    l5: "risk_details.limit",
+  };
   const r11 = (bare = false) => {
     const left = policy("SUMS INSURED:", bare),
       right = policy("SUM INSURED:", bare);
@@ -734,7 +759,10 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       right,
       docs: [left, right] as [DocInput, DocInput],
       expected,
-      layout: { before: layoutOf(left), after: layoutOf(right) } as Layout,
+      layout: {
+        before: layoutOf(left, R11_PATHS),
+        after: layoutOf(right, R11_PATHS),
+      } as Layout,
       result,
     };
   };
@@ -757,6 +785,19 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.status).toBe("FAIL");
       expect(score.faults.join("\n")).toContain("no_amount_or_currency_change");
     });
+  it("R11: a wrong bare-number amount card filed under a non-amount field fails", () => {
+    const x = r11(true);
+    x.result.differences.push(
+      replaced("wrong", lineLoc(x.left, "left", "l1"), lineLoc(x.right, "right", "l3"), {
+        section: "risk_details",
+        field: "endorsement",
+      }),
+    );
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("no_amount_or_currency_change");
+  });
   it("R11: the label change attached to another field fails", () => {
     const x = r11();
     x.result.differences[0].structurePath!.field = "deductible.label";

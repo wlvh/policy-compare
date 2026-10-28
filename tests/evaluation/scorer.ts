@@ -35,6 +35,7 @@ export type Layout = {
 type LayoutPage = {
   text_runs: {
     run_id: string;
+    logical_path?: string | null;
     text: string;
     direction: number[];
     characters: { quad_tl_tr_br_bl: number[][] }[];
@@ -151,13 +152,19 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
-    tests: ["R26: correct registration card plus a wrong agreed-value card fails"],
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field or whose locations sit on a layout.json amount cell; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
+    tests: [
+      "R26: correct registration card plus a wrong agreed-value card fails",
+      "R26: a wrong bare-number amount card fails whatever field it claims",
+    ],
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
-    tests: ["R11: correct label card plus a wrong"],
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field or whose locations sit on a layout.json amount cell; delete/add amounts cancel only within one record and field (across cards without a record: NOT_EVALUATED)",
+    tests: [
+      "R11: correct label card plus a wrong",
+      "R11: a wrong bare-number amount card filed under a non-amount field fails",
+    ],
   },
   header_role_must_not_exclude_text: {
     coverage: "indirect",
@@ -267,7 +274,9 @@ export const INVARIANTS: Record<
 };
 // Amounts: thousands-separated numbers or numbers right after a currency code; on a card or event
 // that names an amount field of the answers (R22/R26 agreed_value, R02/R03/R11 sum_insured, R09
-// limit) any standalone number counts too. Identifiers such as an MSN stay out unless so declared.
+// limit), or in a card location on a layout.json run whose logical path ends in such a field, any
+// standalone number counts too. The layout says what a cell is whatever field the card claims;
+// identifiers such as an MSN stay out.
 const CODES = "USD|EUR|GBP|JPY|CHF|CNY|HKD|SGD|MYR|AUD|CAD",
   AMOUNT_FIELDS = ["agreed_value", "sum_insured", "limit", "header_limit", "deductible"],
   CURRENCY = new RegExp(`\\b(?:${CODES})(?![A-Za-z])`, "g"),
@@ -295,18 +304,33 @@ const minus = (a: string[], b: string[]) => {
 function moneyChanges(
   result: CompareResult,
   expected: Expected,
+  layout: Layout,
 ): { violations: string[]; open: string[] } {
   const of = (e: Expected["events"][number], text: string | null) =>
     money(text ?? "", amountField(e.logical_path));
   const removed = expected.events.flatMap((e) => minus(of(e, e.old), of(e, e.new))),
     added = expected.events.flatMap((e) => minus(of(e, e.new), of(e, e.old)));
-  const cardMoney = (d: Difference, text: string) => money(text, amountField(d.structurePath?.field));
+  const cardMoney = (d: Difference, side: "left" | "right") => {
+    const text = side === "left" ? d.oldText : d.newText;
+    if (amountField(d.structurePath?.field)) return money(text, true);
+    const pages = layout[side === "left" ? "before" : "after"].pages;
+    const cells = d[side].filter((loc) =>
+      pages.some((p, i) =>
+        p.text_runs.some(
+          (r) =>
+            AMOUNT_FIELDS.includes(r.logical_path?.split(".").at(-1) ?? "") &&
+            located([loc], [{ page_index: i, run_id: r.run_id }], pages, side),
+        ),
+      ),
+    );
+    return [...money(text), ...cells.flatMap((loc) => minus(money(loc.text, true), money(loc.text)))];
+  };
   const allowed = (r: string[], a: string[]) =>
     !minus(r, removed).length && !minus(a, added).length;
   const out: string[] = [];
   for (const d of result.differences.filter((d) => d.kind === "Replaced" || d.kind === "Moved")) {
-    const r = minus(cardMoney(d, d.oldText), cardMoney(d, d.newText)),
-      a = minus(cardMoney(d, d.newText), cardMoney(d, d.oldText));
+    const r = minus(cardMoney(d, "left"), cardMoney(d, "right")),
+      a = minus(cardMoney(d, "right"), cardMoney(d, "left"));
     if ((r.length || a.length) && !allowed(r, a))
       out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
   }
@@ -316,8 +340,8 @@ function moneyChanges(
     const who = d.structurePath?.rowKey ?? d.structurePath?.entity,
       key = who + "|" + (d.structurePath?.field ?? "");
     const group = who ? (records.get(key) ?? records.set(key, { gone: [], come: [] }).get(key)!) : pool;
-    if (d.kind === "Removed") group.gone.push(...cardMoney(d, d.oldText));
-    else group.come.push(...cardMoney(d, d.newText));
+    if (d.kind === "Removed") group.gone.push(...cardMoney(d, "left"));
+    else group.come.push(...cardMoney(d, "right"));
   }
   for (const [key, g] of records) {
     const r = minus(g.gone, g.come),
@@ -384,8 +408,8 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
         : ["Missing repeated-header occurrence"];
     });
   },
-  agreed_value_unchanged: ({ result, expected }) => moneyChanges(result, expected),
-  no_amount_or_currency_change: ({ result, expected }) => moneyChanges(result, expected),
+  agreed_value_unchanged: ({ result, expected, layout }) => moneyChanges(result, expected, layout),
+  no_amount_or_currency_change: ({ result, expected, layout }) => moneyChanges(result, expected, layout),
 };
 // Process exit: 0 strict PASS, 2 only registered coverage gaps, 1 any failure or unregistered gap.
 export const exitCode = (s: ReturnType<typeof summarize>) =>
