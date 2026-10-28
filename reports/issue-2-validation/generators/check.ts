@@ -3,7 +3,7 @@
 // the expected kind that carries its record, and no card may join records
 // listed in mustNotPair. expected.json is read only after the comparison.
 // usage: pnpm exec tsx reports/issue-2-validation/generators/check.ts PDF_DIR OUT_DIR
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
 import path from "node:path";
@@ -13,7 +13,7 @@ import { canonical, parseDoc, type Difference } from "../../../packages/contract
 const [pdfDir, outDir] = process.argv.slice(2).map((p) => path.resolve(p));
 const squash = (s: string) => s.replace(/\s+/g, "");
 const report: Record<string, unknown>[] = [];
-for (const generator of readdirSync(pdfDir).filter((d) => !d.includes(".")).sort())
+for (const generator of ["chromium", "libreoffice"])
   for (const engine of ["mupdf", "pdfjs"] as EngineName[]) {
     const { extractPdf } = await loadEngine(engine);
     const files = ["left", "right"].map((s) => path.join(pdfDir, generator, s + ".pdf"));

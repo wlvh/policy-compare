@@ -1,8 +1,9 @@
 // Diagnostic for the row-identity scope review: recomputes every unique
-// identity link rowIdentity can form (same section+title scope, same
-// position among non-value cells, unique on both sides) and compares the
-// physical x position of the linking cell on both sides. A link whose cells
-// start more than 3 pt apart would join different columns or tables.
+// identity link rowIdentity can form (same section+title scope, same column
+// of the recovered row, unique on both sides) and compares where the linking
+// cell starts on both sides. A link whose cells start more than 3 pt apart
+// suggests different columns. Equal starts do not show the rows are in the
+// same physical table: two tables under one title can share a column start.
 // usage: pnpm exec tsx reports/issue-2-validation/identity-columns.ts INPUTS OUT_JSON
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -11,7 +12,7 @@ import { structure, type Unit } from "../../packages/compare-core/structure";
 import { parseDoc } from "../../packages/contracts/index";
 import { aviationProfile } from "../../profiles/aviation";
 const [inputs, out] = process.argv.slice(2);
-// Same definitions as packages/compare-core/index.ts rowIdentity().
+// Same definitions as packages/compare-core/index.ts rowIdentity() at eec627f.
 const valueLike = (c: string) => /%|\d[.,]\d|\b(?:USD|EUR|GBP)\b|[$€£]|\d{1,2}\/\d{1,2}\/\d{2,4}/u.test(c);
 const counter = (c: string) => { const m = c.match(/^\D{0,8}?(\d{1,4})\.?$/u); return m ? Number(m[1]) : null; };
 const counting = (rs: Unit[]) => {
@@ -35,8 +36,8 @@ const owners = (rs: Unit[], numbered: boolean) => {
       return { c, x: ref ? ref.char.quad[0] : NaN };
     });
     if (numbered && counter(r.rowCells![0]) !== null) cells = cells.slice(1);
-    cells.map((o) => ({ ...o, c: o.c.normalize("NFKC") })).filter((o) => o.c.length >= 2 && !valueLike(o.c))
-      .forEach((o, k) => { const key = k + "\u0000" + o.c; m.set(key, [...(m.get(key) ?? []), { row: r, x: o.x }]); });
+    cells.map((o, k) => ({ ...o, k, c: o.c.normalize("NFKC") })).filter((o) => o.c.length >= 2 && !valueLike(o.c))
+      .forEach((o) => { const key = o.k + "\u0000" + o.c; m.set(key, [...(m.get(key) ?? []), { row: r, x: o.x }]); });
   }
   return m;
 };

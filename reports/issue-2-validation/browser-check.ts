@@ -6,6 +6,11 @@
 // layer; MuPDF draws native glyph quads). For aggregated page-furniture
 // cards every occurrence button must bring both sides to that occurrence's
 // pages and highlight it there.
+// With FURNITURE_DIR (left.pdf, right.pdf, expected.json from generators/),
+// it also checks cards whose repeated line varies inside one version: kind,
+// category, the explanation shown on the card, the occurrence count, and that
+// the occurrences of the changed pages and of a page that kept the old text
+// open those pages with their highlight.
 // usage: pnpm exec tsx reports/issue-2-validation/browser-check.ts INPUTS OUT_DIR
 //   env: PDFJS_URL (default http://127.0.0.1:4174), MUPDF_URL (http://127.0.0.1:4175),
 //        CHROMIUM_PATH to use a locally installed Chromium.
@@ -136,8 +141,78 @@ try {
       console.log(JSON.stringify({ engine, pair, highlights: record.highlights.map((h: any) => `${h.name}:${h.status}`), navigation: record.navigation.map((n: any) => `${n.name}:${n.status}`) }));
       await context.close();
     }
+  if (process.env.FURNITURE_DIR)
+    for (const engine of ["pdfjs", "mupdf"] as const) {
+      const dir = path.resolve(process.env.FURNITURE_DIR);
+      const expected = JSON.parse(readFileSync(path.join(dir, "expected.json"), "utf8"));
+      const context = await browser.newContext({ viewport: { width: 1500, height: 1000 }, acceptDownloads: true });
+      const page = await context.newPage();
+      await page.goto(urls[engine]);
+      await expect(page.locator("main")).toHaveAttribute("data-engine-ready", "true", { timeout: 30000 });
+      await page.getByLabel("基准 PDF", { exact: true }).setInputFiles(path.join(dir, "left.pdf"));
+      await page.getByLabel("待审 PDF", { exact: true }).setInputFiles(path.join(dir, "right.pdf"));
+      await page.getByRole("button", { name: "开始比较", exact: true }).click();
+      await expect(page.locator("[data-status]")).toHaveAttribute("data-status", /complete_for_scope|partial/, { timeout: 120000 });
+      const download = page.waitForEvent("download");
+      await page.getByRole("button", { name: "导出 JSON", exact: true }).click();
+      const file = path.join(out, `furniture-${engine}-browser.json`);
+      await (await download).saveAs(file);
+      const result = JSON.parse(readFileSync(file, "utf8")) as { coreVersion: string; status: string; differences: Card[] };
+      const record: any = { engine, pair: "furniture", coreVersion: result.coreVersion, status: result.status, cards: result.differences.length, furniture: [] };
+      const pagesOf = (locs: Loc[]) => [...new Set(locs.map((l) => l.pageIndex + 1))].sort((a, b) => a - b);
+      for (const want of expected.cards) {
+        const hits = result.differences.filter((d) => d.oldText.includes(want.old) && d.newText.includes(want.new));
+        const entry: any = { id: want.id, what: want.what, cards: hits.map((d) => d.id) };
+        record.furniture.push(entry);
+        if (hits.length !== 1) { entry.status = "FAIL"; entry.reason = `expected one card, found ${hits.length}`; continue; }
+        const d = hits[0];
+        const changedRight = d.occurrences.flatMap((o) => o.right).filter((l) => l.text.includes(want.new));
+        const keptRight = d.occurrences.flatMap((o) => o.right).filter((l) => l.text.includes(want.old));
+        const card = page.locator(".card").filter({ hasText: d.reviewReasons[0].slice(0, 60) }).first();
+        await card.click();
+        const shown = (await card.textContent()) ?? "";
+        entry.kind = d.kind; entry.category = d.category; entry.reason = d.reviewReasons.join("");
+        entry.occurrences = d.occurrences.length;
+        entry.buttons = await card.locator(".occurrences button").count();
+        entry.changedRightPages = pagesOf(changedRight);
+        entry.keptOldRightPages = pagesOf(keptRight);
+        entry.reasonShownOnCard = shown.includes(d.reviewReasons[0].slice(0, 80));
+        entry.visited = [];
+        // The first changed occurrence and every occurrence that kept the old text.
+        const targets = d.occurrences.map((o, k) => ({ o, k })).filter(({ o }) =>
+          o.right.some((l) => l.text.includes(want.new)) || o.right.some((l) => l.text.includes(want.old)) || o.left.length);
+        const picks = [...new Set([targets.findIndex(({ o }) => o.right.some((l) => l.text.includes(want.new))),
+          ...targets.map(({ o }, i) => (o.right.some((l) => l.text.includes(want.old)) ? i : -1)).filter((i) => i >= 0),
+          targets.findIndex(({ o }) => o.left.length > 0)])].filter((i) => i >= 0).map((i) => targets[i]);
+        for (const { o, k } of picks) {
+          await card.getByRole("button", { name: `出现位置 ${k + 1}`, exact: true }).click();
+          const visit: any = { occurrence: k + 1, label: (await card.getByRole("button", { name: `出现位置 ${k + 1}`, exact: true }).textContent())?.trim() };
+          for (const [index, side] of (["left", "right"] as const).entries()) {
+            const locs = o[side];
+            if (!locs.length) continue;
+            await expect.poll(() => readyPage(page, index), { timeout: 30000 }).toBe(locs[0].pageIndex);
+            await expect.poll(async () => (await polygons(page, index)).length, { timeout: 15000 }).toBeGreaterThan(0);
+            const drawn = (await polygons(page, index)).map((q) => box([q])), src = box(locs.flatMap((l) => l.quads));
+            visit[side] = { page: locs[0].pageIndex + 1, text: locs.map((l) => l.text).join(""), polygons: drawn.length, insideSource: drawn.every((b) => within(b, src)) };
+          }
+          entry.visited.push(visit);
+        }
+        entry.status =
+          d.kind === want.kind && d.category === want.category &&
+          JSON.stringify(entry.changedRightPages) === JSON.stringify(want.rightPages) &&
+          JSON.stringify(entry.keptOldRightPages) === JSON.stringify(want.keptOldOnRightPages ?? []) &&
+          (!want.keptOldOnRightPages || entry.reason.includes(`待审版第 ${want.keptOldOnRightPages.join("、")} 页仍为基准版文字`)) &&
+          entry.reasonShownOnCard && entry.buttons === entry.occurrences &&
+          entry.visited.length > 0 && entry.visited.every((v: any) => ["left", "right"].every((s) => !v[s] || (v[s].polygons > 0 && v[s].insideSource)))
+            ? "PASS" : "FAIL";
+        await page.screenshot({ path: path.join(out, `furniture-${engine}-${want.id}.png`) });
+      }
+      records.push(record);
+      console.log(JSON.stringify({ engine, pair: "furniture", furniture: record.furniture.map((f: any) => `${f.id}:${f.status}`) }));
+      await context.close();
+    }
 } finally {
   await browser.close();
 }
 writeFileSync(path.join(out, "browser-check.json"), JSON.stringify({ browser: "chromium " + browser.version(), records }, null, 1) + "\n");
-if (records.some((r) => [...r.highlights, ...r.navigation].some((x: any) => x.status !== "PASS"))) process.exitCode = 1;
+if (records.some((r) => [...(r.highlights ?? []), ...(r.navigation ?? []), ...(r.furniture ?? [])].some((x: any) => x.status !== "PASS"))) process.exitCode = 1;
