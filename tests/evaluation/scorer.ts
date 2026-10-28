@@ -150,12 +150,12 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field",
     tests: ["R26: correct registration card plus a wrong agreed-value card fails"],
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field",
     tests: ["R11: correct label card plus a wrong"],
   },
   header_role_must_not_exclude_text: {
@@ -264,12 +264,19 @@ export const INVARIANTS: Record<
     tests: [],
   },
 };
-// Amounts: thousands-separated numbers, or any number written right after a currency code.
+// Amounts: thousands-separated numbers or numbers right after a currency code; on a card or event
+// that names an amount field of the answers (R22/R26 agreed_value, R02/R03/R11 sum_insured, R09
+// limit) any standalone number counts too. Identifiers such as an MSN stay out unless so declared.
 const CODES = "USD|EUR|GBP|JPY|CHF|CNY|HKD|SGD|MYR|AUD|CAD",
+  AMOUNT_FIELDS = ["agreed_value", "sum_insured", "limit", "header_limit", "deductible"],
   CURRENCY = new RegExp(`\\b(?:${CODES})(?![A-Za-z])`, "g"),
-  AMOUNT = new RegExp(`\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=\\b(?:${CODES})\\s?)\\d+(?:\\.\\d+)?`, "g");
-const money = (text: string) => [
-  ...[...text.matchAll(AMOUNT)].map((m) => m[0]),
+  NUMBER = `\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=\\b(?:${CODES})\\s?)\\d+(?:\\.\\d+)?`,
+  AMOUNT = new RegExp(NUMBER, "g"),
+  DECLARED_AMOUNT = new RegExp(`${NUMBER}|(?<![\\w.,-])\\d+(?:\\.\\d+)?(?![\\w,-]|\\.\\d)`, "g");
+const amountField = (path: string | null | undefined) =>
+  (path ?? "").split(".").some((p) => AMOUNT_FIELDS.includes(p));
+const money = (text: string, declared = false) => [
+  ...[...text.matchAll(declared ? DECLARED_AMOUNT : AMOUNT)].map((m) => m[0]),
   ...[...text.matchAll(CURRENCY)].map((m) => m[0]),
 ];
 const minus = (a: string[], b: string[]) => {
@@ -283,19 +290,22 @@ const minus = (a: string[], b: string[]) => {
 };
 // Amount or currency changes asserted by any card, apart from the deltas the case's events declare.
 function moneyChanges(result: CompareResult, expected: Expected): string[] {
-  const removed = expected.events.flatMap((e) => minus(money(e.old ?? ""), money(e.new ?? ""))),
-    added = expected.events.flatMap((e) => minus(money(e.new ?? ""), money(e.old ?? "")));
+  const of = (e: Expected["events"][number], text: string | null) =>
+    money(text ?? "", amountField(e.logical_path));
+  const removed = expected.events.flatMap((e) => minus(of(e, e.old), of(e, e.new))),
+    added = expected.events.flatMap((e) => minus(of(e, e.new), of(e, e.old)));
+  const cardMoney = (d: Difference, text: string) => money(text, amountField(d.structurePath?.field));
   const allowed = (r: string[], a: string[]) =>
     !minus(r, removed).length && !minus(a, added).length;
   const out: string[] = [];
   for (const d of result.differences.filter((d) => d.kind === "Replaced" || d.kind === "Moved")) {
-    const r = minus(money(d.oldText), money(d.newText)),
-      a = minus(money(d.newText), money(d.oldText));
+    const r = minus(cardMoney(d, d.oldText), cardMoney(d, d.newText)),
+      a = minus(cardMoney(d, d.newText), cardMoney(d, d.oldText));
     if ((r.length || a.length) && !allowed(r, a))
       out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
   }
-  const gone = result.differences.filter((d) => d.kind === "Removed").flatMap((d) => money(d.oldText)),
-    come = result.differences.filter((d) => d.kind === "Added").flatMap((d) => money(d.newText));
+  const gone = result.differences.filter((d) => d.kind === "Removed").flatMap((d) => cardMoney(d, d.oldText)),
+    come = result.differences.filter((d) => d.kind === "Added").flatMap((d) => cardMoney(d, d.newText));
   const r = minus(gone, come),
     a = minus(come, gone);
   if ((r.length || a.length) && !allowed(r, a))

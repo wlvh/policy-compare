@@ -525,21 +525,24 @@ const replaced = (
 });
 describe("one correct event card cannot offset an extra wrong card (#10)", () => {
   // R26: registration renamed, every agreed value unchanged.
-  const table = (registration: string) =>
+  // Columns: registration, serial, MSN (a bare-number identifier), currency, agreed value.
+  const table = (registration: string, bare: boolean) =>
     textDoc([
       { text: "SCHEDULE OF AIRCRAFT", y: 100 },
       { text: "TEST-A789", x: 40, y: 150 },
       { text: "SYN-1026-001", x: 150, y: 150 },
+      { text: "1315", x: 240, y: 150 },
       { text: "USD", x: 300, y: 150 },
-      { text: "100,000", x: 360, y: 150 },
+      { text: bare ? "100000" : "100,000", x: 360, y: 150 },
       { text: registration, x: 40, y: 180 },
       { text: "SYN-1026-003", x: 150, y: 180 },
+      { text: "1748", x: 240, y: 180 },
       { text: "USD", x: 300, y: 180 },
-      { text: "200,000", x: 360, y: 180 },
+      { text: bare ? "200000" : "200,000", x: 360, y: 180 },
     ]);
-  const r26 = () => {
-    const left = table("TEST-C941"),
-      right = table("TEST-RENAMED");
+  const r26 = (bare = false) => {
+    const left = table("TEST-C941", bare),
+      right = table("TEST-RENAMED", bare);
     const expected: Expected = {
       case_id: "R26_key_change",
       required_status: "complete_for_scope",
@@ -559,8 +562,8 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       coverage_requirements: [],
       evidence_locations: {
         "R26_key_change:E1": {
-          before: [{ page_index: 0, run_id: "l5" }],
-          after: [{ page_index: 0, run_id: "l5" }],
+          before: [{ page_index: 0, run_id: "l6" }],
+          after: [{ page_index: 0, run_id: "l6" }],
         },
       },
     };
@@ -569,7 +572,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     result.unresolved = [];
     result.coverage = [];
     result.differences = [
-      replaced("registration", lineLoc(left, "left", "l5"), lineLoc(right, "right", "l5"), {
+      replaced("registration", lineLoc(left, "left", "l6"), lineLoc(right, "right", "l6"), {
         section: "aircraft_schedule",
         entity: "SYN-1026-003",
         field: "registration",
@@ -578,7 +581,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       }),
     ];
     // Wrong pairing: old side of row SYN-1026-001 (100,000) against new side of row SYN-1026-003 (200,000).
-    const wrong = replaced("wrong-amount", lineLoc(left, "left", "l4"), lineLoc(right, "right", "l8"), {
+    const wrong = replaced("wrong-amount", lineLoc(left, "left", "l5"), lineLoc(right, "right", "l10"), {
       section: "aircraft_schedule",
       entity: "SYN-1026-001",
       field: "agreed_value",
@@ -593,9 +596,10 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       wrong,
     };
   };
-  for (const fine of [false, true])
-    it(`R26: correct registration card plus a wrong agreed-value card fails (fine geometry ${fine})`, () => {
-      const x = r26();
+  for (const bare of [false, true])
+    for (const fine of [false, true])
+    it(`R26: correct registration card plus a wrong agreed-value card fails (${bare ? "100000" : "100,000"}, fine geometry ${fine})`, () => {
+      const x = r26(bare);
       expect(ResultSchema.safeParse(x.result).success).toBe(true);
       expect(grade(x.result, x.expected, x.layout, x.docs, fine).status).toBe("PASS");
       x.result.differences.push(x.wrong);
@@ -607,24 +611,41 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.events[0].verdict).toBe("PASS");
       expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
     });
+  it("R26: a bare-number identifier change (MSN) is not taken for an amount change", () => {
+    const x = r26(true);
+    x.expected.invariants = ["agreed_value_unchanged", "no_amount_or_currency_change"];
+    x.result.differences.push(
+      replaced("msn", lineLoc(x.docs[0], "left", "l3"), lineLoc(x.docs[1], "right", "l8"), {
+        section: "aircraft_schedule",
+        entity: "SYN-1026-001",
+        field: "msn",
+        table: "aircraft_schedule",
+        rowKey: "SYN-1026-001",
+      }),
+    );
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("PASS");
+    expect(score.invariants.map((i) => i.result)).toEqual(["PASS", "PASS"]);
+  });
   it("R26: matching the row by the renamed registration instead of the serial fails", () => {
     const x = r26();
     x.result.differences[0].structurePath!.rowKey = "TEST-C941";
     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
   // R11: label alias only; neither amount nor currency may change.
-  const policy = (label: string) =>
+  const policy = (label: string, bare: boolean) =>
     textDoc([
       { text: label, x: 40, y: 150 },
-      { text: "USD 2,000,000", x: 180, y: 150 },
+      { text: bare ? "2000000" : "USD 2,000,000", x: 180, y: 150 },
       { text: "DEDUCTIBLE:", x: 40, y: 180 },
-      { text: "USD 10,000", x: 180, y: 180 },
+      { text: bare ? "10000" : "USD 10,000", x: 180, y: 180 },
       { text: "EUROPEAN LIMIT:", x: 40, y: 210 },
       { text: "EUR 2,000,000", x: 180, y: 210 },
     ]);
-  const r11 = () => {
-    const left = policy("SUMS INSURED:"),
-      right = policy("SUM INSURED:");
+  const r11 = (bare = false) => {
+    const left = policy("SUMS INSURED:", bare),
+      right = policy("SUM INSURED:", bare);
     const expected: Expected = {
       case_id: "R11_label_alias",
       required_status: "complete_for_scope",
@@ -671,12 +692,13 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       result,
     };
   };
-  for (const [name, rightLine] of [
-    ["amount", "l3"],
-    ["currency", "l5"],
+  for (const [name, rightLine, bare] of [
+    ["amount", "l3", false],
+    ["bare-number amount", "l3", true],
+    ["currency", "l5", false],
   ] as const)
     it(`R11: correct label card plus a wrong ${name} card fails`, () => {
-      const x = r11();
+      const x = r11(bare);
       expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
       x.result.differences.push(
         replaced("wrong", lineLoc(x.left, "left", "l1"), lineLoc(x.right, "right", rightLine), {
