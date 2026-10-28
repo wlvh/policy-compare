@@ -153,7 +153,7 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (a card whose delete/insert operations assert, in its own citation order, a change inside cells that keep their values fails); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (the amount text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
     tests: [
       "R26: correct registration card plus a wrong agreed-value card fails",
       "R26: a wrong bare-number amount card fails whatever field it claims",
@@ -161,6 +161,7 @@ export const INVARIANTS: Record<
       "R26: a wrong card citing whole rows cannot hide the amount change",
       "R26: a card claiming a change inside an unchanged amount cell by citing part of it fails",
       "R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change",
+      "R26: splitting the claimed amount into one operation per glyph cannot hide the change",
       "R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED",
       "R26: with run-level geometry a wrong row pairing still fails",
       "R26: delete + add cards claiming different parts of an unchanged amount cell fail",
@@ -169,7 +170,7 @@ export const INVARIANTS: Record<
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (a card whose delete/insert operations assert, in its own citation order, a change inside cells that keep their values fails); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (the amount text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
     tests: [
       "R11: correct label card plus a wrong",
       "R11: a wrong bare-number amount card filed under a non-amount field fails",
@@ -325,19 +326,19 @@ function moneyChanges(
   const isAmount = (r: LayoutRun) => AMOUNT_FIELDS.includes(r.logical_path?.split(".").at(-1) ?? "");
   // The layout.json cells a card cites are found by geometry, whether it cites glyphs, cells or whole
   // rows. `all` holds the bare value of every cited amount cell from the layout, whatever field the
-  // card claims. `claimed` holds the amount text the card's delete or insert operations assert, read
-  // in the card's own citation order, so reordering or partial citations cannot hide a claimed change.
-  // Evidence the geometry cannot attribute is unverifiable: digits of a bare number outside every run,
-  // or a run-level location that changes text across an amount cell and other cells.
+  // card claims. `claimed` maps each amount cell to the text the card's delete or insert operations
+  // assert in it, joined in the card's own citation order across locations and operations, so neither
+  // reordering nor splitting citations can hide a claimed change. Evidence the geometry cannot
+  // attribute is unverifiable: digits of a bare number outside every run, or a run-level location
+  // that changes text across an amount cell and other cells.
   const cardMoney = (d: Difference, side: "left" | "right") => {
     const text = side === "left" ? d.oldText : d.newText;
-    if (amountField(d.structurePath?.field)) {
-      const all = money(text, true);
-      return { all, claimed: all };
-    }
+    if (amountField(d.structurePath?.field))
+      return { all: money(text, true), claimed: new Map([[`card ${d.id}`, text]]) };
     const pages = layout[side === "left" ? "before" : "after"].pages;
     const cells = new Map<string, string>(),
-      claimed: string[] = [];
+      claimed = new Map<string, string>();
+    const claim = (key: string, t: string) => claimed.set(key, (claimed.get(key) ?? "") + t);
     const cite = (loc: SourceLocation) => {
       const runs = (pages[loc.pageIndex]?.text_runs ?? [])
         .filter((r) => r.characters.length)
@@ -360,28 +361,26 @@ function moneyChanges(
       return { chars, exact, hits, covered };
     };
     for (const loc of d[side]) cite(loc);
-    for (const op of d.textOps) {
-      // The op's characters that fall in amount cells, in citation order, split where the cell changes.
-      const parts: { key: string; text: string }[] = [];
-      const add = (key: string, text: string) =>
-        parts.at(-1)?.key === key ? (parts.at(-1)!.text += text) : parts.push({ key, text });
+    for (const op of d.textOps)
       for (const loc of op[side]) {
         const { chars, exact, hits, covered } = cite(loc);
         if (op.kind === "equal") continue;
         if (exact)
           chars.forEach((c, i) => {
             const r = hits[i].find(isAmount);
-            add(r ? `${loc.pageIndex}/${r.run_id}` : "", c);
+            if (r) claim(`${loc.pageIndex}/${r.run_id}`, c);
           });
-        else if (covered.length === 1 && isAmount(covered[0])) add(`${loc.pageIndex}/${covered[0].run_id}`, loc.text);
+        else if (covered.length === 1 && isAmount(covered[0])) claim(`${loc.pageIndex}/${covered[0].run_id}`, loc.text);
         else if (covered.some(isAmount))
           unexplained.add(`card ${d.id} changes "${loc.text}" across an amount cell and other cells with run-level geometry`);
-        else add("", loc.text);
       }
-      for (const p of parts) if (p.key) claimed.push(...money(p.text, true));
-    }
     return { all: [...money(text), ...[...cells.values()].flatMap(bare)], claimed };
   };
+  // Claimed amounts per cell; claims of several cards on one cell join in card order.
+  const merge = (into: Map<string, string>, from: Map<string, string>) => {
+    for (const [k, t] of from) into.set(k, (into.get(k) ?? "") + t);
+  };
+  const tokens = (m: Map<string, string>) => [...m.values()].flatMap((t) => money(t, true));
   const allowed = (r: string[], a: string[]) =>
     !minus(r, removed).length && !minus(a, added).length;
   const out: string[] = [];
@@ -390,15 +389,15 @@ function moneyChanges(
       R = cardMoney(d, "right");
     const r = minus(L.all, R.all),
       a = minus(R.all, L.all),
-      rc = minus(L.claimed, R.claimed),
-      ac = minus(R.claimed, L.claimed);
+      rc = minus(tokens(L.claimed), tokens(R.claimed)),
+      ac = minus(tokens(R.claimed), tokens(L.claimed));
     if ((r.length || a.length) && !allowed(r, a))
       out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
     // The cited cells keep their values, yet the card's operations assert a change inside them.
     else if (!r.length && !a.length && (rc.length || ac.length))
       out.push(`card ${d.id} claims ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside amount cells that keep their values`);
   }
-  const group = () => ({ gone: [] as string[], come: [] as string[], goneClaimed: [] as string[], comeClaimed: [] as string[] });
+  const group = () => ({ gone: [] as string[], come: [] as string[], goneClaimed: new Map<string, string>(), comeClaimed: new Map<string, string>() });
   const pool = group(),
     records = new Map<string, typeof pool>();
   for (const d of result.differences.filter((d) => d.kind === "Removed" || d.kind === "Added")) {
@@ -408,18 +407,18 @@ function moneyChanges(
     if (d.kind === "Removed") {
       const m = cardMoney(d, "left");
       g.gone.push(...m.all);
-      g.goneClaimed.push(...m.claimed);
+      merge(g.goneClaimed, m.claimed);
     } else {
       const m = cardMoney(d, "right");
       g.come.push(...m.all);
-      g.comeClaimed.push(...m.claimed);
+      merge(g.comeClaimed, m.claimed);
     }
   }
   for (const [key, g] of records) {
     const r = minus(g.gone, g.come),
       a = minus(g.come, g.gone),
-      rc = minus(g.goneClaimed, g.comeClaimed),
-      ac = minus(g.comeClaimed, g.goneClaimed);
+      rc = minus(tokens(g.goneClaimed), tokens(g.comeClaimed)),
+      ac = minus(tokens(g.comeClaimed), tokens(g.goneClaimed));
     if (r.length && a.length) {
       if (!allowed(r, a)) out.push(`record ${key} delete/add cards change ${r.join(",")} to ${a.join(",")}`);
     } else {

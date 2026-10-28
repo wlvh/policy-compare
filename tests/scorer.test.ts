@@ -783,6 +783,26 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
   });
+  it("R26: splitting the claimed amount into one operation per glyph cannot hide the change", () => {
+    // As above, but every glyph sits in its own delete or insert operation.
+    const x = r26(true, ["100020", "200010"]);
+    const L = glyphs(lineLoc(x.docs[0], "left", "l5")),
+      R = glyphs(lineLoc(x.docs[1], "right", "l5"), [4, 1, 2, 3, 0, 5]);
+    const card = replaced("ops", L[0], R[0], { section: "aircraft_schedule", entity: "SYN-1026-001", field: "registration", table: "aircraft_schedule", rowKey: "SYN-1026-001" });
+    Object.assign(card, {
+      left: L,
+      right: R,
+      oldText: "100020",
+      newText: "200010",
+      textOps: [
+        ...L.map((l) => ({ kind: "delete" as const, text: l.text, left: [l], right: [] })),
+        ...R.map((r) => ({ kind: "insert" as const, text: r.text, left: [], right: [r] })),
+      ],
+    });
+    const score = graded(x, card);
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+    expect(score.status).toBe("FAIL");
+  });
   it("R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED", () => {
     // Each extra row is one shared box; layout.json covers only the MSN cells.
     const x = r26(true, undefined, { ...ROWS, coarse: true, cover: ["msn"] });
