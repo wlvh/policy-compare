@@ -893,6 +893,19 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
   });
+  it("R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards", () => {
+    // Unchanged 100020: six Removed cards cite its digits in order, six Added cards back "200010".
+    const x = r26(true, ["100020", "200010"]);
+    const [l, r] = x.docs;
+    x.result.differences.push(
+      ...glyphs(lineLoc(l, "left", "l5")).map((g, i) => oneSided("Removed", `out${i}`, g, "SYN-1026-001")),
+      ...glyphs(lineLoc(r, "right", "l5"), [4, 1, 2, 3, 0, 5]).map((g, i) => oneSided("Added", `in${i}`, g, "SYN-1026-001")),
+    );
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+    expect(score.status).toBe("FAIL");
+  });
   it("R26: one record shown as delete + add with the same amount passes", () => {
     const x = r26();
     const [l, r] = x.docs;

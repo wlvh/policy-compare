@@ -153,7 +153,7 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (the amount text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
     tests: [
       "R26: correct registration card plus a wrong agreed-value card fails",
       "R26: a wrong bare-number amount card fails whatever field it claims",
@@ -162,6 +162,7 @@ export const INVARIANTS: Record<
       "R26: a card claiming a change inside an unchanged amount cell by citing part of it fails",
       "R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change",
       "R26: splitting the claimed amount into one operation per glyph cannot hide the change",
+      "R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards",
       "R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED",
       "R26: with run-level geometry a wrong row pairing still fails",
       "R26: delete + add cards claiming different parts of an unchanged amount cell fail",
@@ -170,7 +171,7 @@ export const INVARIANTS: Record<
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (the amount text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)",
     tests: [
       "R11: correct label card plus a wrong",
       "R11: a wrong bare-number amount card filed under a non-amount field fails",
@@ -333,8 +334,9 @@ function moneyChanges(
   // that changes text across an amount cell and other cells.
   const cardMoney = (d: Difference, side: "left" | "right") => {
     const text = side === "left" ? d.oldText : d.newText;
-    if (amountField(d.structurePath?.field))
-      return { all: money(text, true), claimed: new Map([[`card ${d.id}`, text]]) };
+    // A card that declares an amount field makes every run it cites an amount cell.
+    const declared = amountField(d.structurePath?.field),
+      amountRun = (r: LayoutRun) => declared || isAmount(r);
     const pages = layout[side === "left" ? "before" : "after"].pages;
     const cells = new Map<string, string>(),
       claimed = new Map<string, string>();
@@ -347,7 +349,7 @@ function moneyChanges(
         const b = box([[q[0], q[1]], [q[2], q[3]], [q[4], q[5]], [q[6], q[7]]]);
         return runs.filter((x) => inside(b, x.b)).map((x) => x.r);
       });
-      for (const r of hits.flat()) if (isAmount(r)) cells.set(`${loc.pageIndex}/${r.run_id}`, r.text);
+      for (const r of hits.flat()) if (amountRun(r)) cells.set(`${loc.pageIndex}/${r.run_id}`, r.text);
       const chars = Array.from(loc.text),
         exact = chars.length === hits.length,
         covered = [...new Set(hits.flat())];
@@ -367,11 +369,11 @@ function moneyChanges(
         if (op.kind === "equal") continue;
         if (exact)
           chars.forEach((c, i) => {
-            const r = hits[i].find(isAmount);
+            const r = hits[i].find(amountRun);
             if (r) claim(`${loc.pageIndex}/${r.run_id}`, c);
           });
-        else if (covered.length === 1 && isAmount(covered[0])) claim(`${loc.pageIndex}/${covered[0].run_id}`, loc.text);
-        else if (covered.some(isAmount))
+        else if (covered.length === 1 && amountRun(covered[0])) claim(`${loc.pageIndex}/${covered[0].run_id}`, loc.text);
+        else if (covered.some(amountRun) && /\d/.test(loc.text))
           unexplained.add(`card ${d.id} changes "${loc.text}" across an amount cell and other cells with run-level geometry`);
       }
     return { all: [...money(text), ...[...cells.values()].flatMap(bare)], claimed };
