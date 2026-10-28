@@ -143,6 +143,63 @@ class RecordIdentity(unittest.TestCase):
         self.assertEqual(summary['tableRowEvents']['changeCorrectlyAttributed'], ['52'])
         self.assertEqual(summary['tableRowEvents']['fullRowRecovered'], [])
 
+    # Review of PR #11 (fixed in #9): the completeness check reads the full
+    # source text of the accepted record unit, not its 80-character preview,
+    # and never the other units of the card.
+    LONG = ('ATR 72-600 | 1315 | Kestrel Regional Airways Holdings Limited (Operator and Lessee) | 20,490,000',
+            'ATR 72-600 | 1315 | Kestrel Regional Airways Holdings Limited (Operator and Lessee) | 19,210,000')
+
+    def test_a_long_row_in_one_source_unit_is_full(self):
+        row = lambda v: 'ATR 72-600 1315 Kestrel Regional Airways Holdings Limited (Operator and Lessee) ' + v
+        self.assertGreater(len(row('20,490,000')), 80)
+        whole = card('w', 'Replaced', [(11, 'a', row('20,490,000'))], [(11, 'b', row('19,210,000'))])
+        _, ev = run([change(52, 'ac_1315', 'Replaced', *self.LONG, VALUE, pages=(11, 11))], result([whole]))
+        self.assertEqual(ev['52']['verdict'], 'correct')
+        self.assertTrue(ev['52']['row']['fullRowRecovered'])
+
+    def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
+        name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
+        split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
+                     [(11, 'b', 'ATR 72-600 1315 19,210,000'), (11, 'd', name)])
+        _, ev = run([change(52, 'ac_1315', 'Replaced', *self.LONG, VALUE, pages=(11, 11))], result([split]))
+        self.assertEqual(ev['52']['verdict'], 'correct')
+        self.assertFalse(ev['52']['row']['fullRowRecovered'])
+        self.assertEqual([r['unitId'] for r in ev['52']['row']['acceptedRecord']['left']], ['a'])
+
+
+class MovedIsNotAddedOrRemoved(unittest.TestCase):
+    """Review of PR #11 (fixed in #9): a card that keeps the text on both sides,
+    such as an unchanged move, neither adds nor removes it."""
+    TEXT = 'Proof of Loss: The Insured shall provide Underwriters with complete documentation.'
+
+    def test_unchanged_move_is_not_a_removal(self):
+        moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)], category='Review')
+        summary, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0))], result([moved]))
+        self.assertNotEqual(ev['30']['verdict'], 'correct')
+        self.assertEqual(ev['30']['acceptedCards'], [])
+        self.assertEqual((summary['acceptedCards'], summary['unexplainedCards']), (0, 1))
+
+    def test_unchanged_move_is_not_an_addition(self):
+        moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)], category='Review')
+        summary, ev = run([change(31, 'pol', 'Added', right=self.TEXT, pages=(0, 5))], result([moved]))
+        self.assertNotEqual(ev['31']['verdict'], 'correct')
+        self.assertEqual(ev['31']['acceptedCards'], [])
+        self.assertEqual((summary['acceptedCards'], summary['unexplainedCards']), (0, 1))
+
+    def test_real_removal_and_addition_are_still_accepted(self):
+        removed = card('r', 'Removed', [(4, 'a', self.TEXT)])
+        added = card('n', 'Added', right=[(5, 'b', self.TEXT)])
+        summary, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0)),
+                           change(31, 'pol', 'Added', right=self.TEXT, pages=(0, 5))], result([removed, added]))
+        self.assertEqual((ev['30']['verdict'], ev['30']['acceptedCards']), ('correct', ['r']))
+        self.assertEqual((ev['31']['verdict'], ev['31']['acceptedCards']), ('correct', ['n']))
+        self.assertEqual(summary['unexplainedCards'], 0)
+
+    def test_text_removed_inside_a_replaced_card_is_still_a_removal(self):
+        rewritten = card('w', 'Replaced', [(4, 'a', 'Claims. ' + self.TEXT)], [(4, 'b', 'Claims.')])
+        _, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0))], result([rewritten]))
+        self.assertEqual((ev['30']['verdict'], ev['30']['acceptedCards']), ('correct', ['w']))
+
 
 class AddedRemovedRows(unittest.TestCase):
     ADDED = change(63, 'ac_55228', 'Added', right='Airbus A220 | 55228 | VH-JXP | 39,000,000', pages=(0, 11))

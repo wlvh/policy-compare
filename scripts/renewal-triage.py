@@ -23,7 +23,10 @@ in one unit of a card of its own kind: inside a neighbour row's card it is
 
 Matching is whitespace-normalised substring search, so superscripts and line
 breaks can hide present text: "not_located" means the script could not locate
-it, not that the product missed it. Page-furniture (Header) events are listed
+it, not that the product missed it. An Added/Removed paragraph is accepted only
+on a card that adds or removes it; a card that keeps the text on the other side
+too (an unchanged move) does not count. A row is fully recovered when every
+author cell is in the full source text of the accepted record units. Page-furniture (Header) events are listed
 separately and are not evaluable: the result contract has no furniture role.
 The script does not check highlight geometry, and "unexplained" cards are a
 noise estimate, not a false-positive rate.
@@ -35,7 +38,7 @@ import re
 import sys
 
 RANK = {'Material': 0, 'Review': 1, 'RollForward': 2, 'Cosmetic': 3}
-TOOL = 'renewal-triage/2'
+TOOL = 'renewal-triage/3'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -322,12 +325,19 @@ def row_cells(atoms, change, ctx):
 
 def paragraph_atom(atom, change, ctx):
     side = 'right' if change['kind'] == 'Added' else 'left'
+    other = 'left' if side == 'right' else 'right'
     t, wanted = atom['new'] if side == 'right' else atom['old'], ctx['wanted'][side]
-    hits = [d for d in ctx['diffs'] if t in side_text(d, side) and on_pages(d[side], wanted)]
+    held = [d for d in ctx['diffs'] if t in side_text(d, side) and on_pages(d[side], wanted)]
     cands = [candidate(d, {side: t}, ctx['wanted'], 'not_applicable', 'paragraph event: no record identity')
-             for d in hits]
+             for d in held]
+    # The card must add or remove the text: one that keeps it on the other side
+    # too (an unchanged move, unchanged context) does neither.
+    hits = [d for d in held if t not in side_text(d, other)]
     if hits:
         return 'found', 'correct', hits, cands, [], ''
+    if held:
+        return 'kept_on_other_side', 'not_located', [], cands, [], \
+            'every card holding the text keeps it on the other side too (e.g. an unchanged move)'
     un = unresolved_hits(ctx['result'], side, t, wanted)
     if un:
         return 'unresolved_only', 'not_evaluable', [], cands, un, 'only in a product unresolved group'
@@ -403,8 +413,15 @@ def triage(change, result, family, claimed):
         lc, rc = cells(change.get('left_text') or ''), cells(change.get('right_text') or '')
         full = None
         if record and change['kind'] == 'Replaced':
+            card = next(d for d in result['differences'] if d['id'] == record['card'])
+
+            def source(side, r):
+                """Full text of one accepted record location; refs keep only a preview."""
+                return next((l['text'] for l in card[side] if l['pageIndex'] + 1 == r['page']
+                             and l['unitId'] == r['unitId'] and l['rawRange'] == r['rawRange']), r['text'])
+
             def holds(side, row):
-                text = norm(' '.join(r['text'] for r in record[side]))
+                text = norm(' '.join(source(side, r) for r in record[side]))
                 return all(bounded(c, text) for c in row if c)
             full = holds('left', lc) and holds('right', rc)
         elif record:
