@@ -1,0 +1,4 @@
+commit 47d4b503eab1f33b906edcbf589ae67af187cc4a
+v24.19.0
+10.12.1
+Python 3.13.17
