@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Run the current R26/R11 counterexamples against an earlier scorer (default: the fixed start 2ff585b).
-# With the test file at 402e66e, failures per earlier scorer (logs in reports/invariant-coverage/402e66e/):
-#   before-fix.sh            -> 24 (every wrong-card counterexample, plus the MSN guard: no invariant results yet)
-#   before-fix.sh d61461b    -> 19    before-fix.sh 7ea1fb3 -> 16    before-fix.sh 74783d6 -> 14
-#   before-fix.sh fececbf    -> 9     before-fix.sh 28afbd1 -> 8     before-fix.sh 55e669a -> 7
-#   before-fix.sh c5acdb8    -> 6     before-fix.sh f2d953f -> 3     before-fix.sh 8ca503f -> 2
-#   before-fix.sh bb85bc4    -> 1: a declared-field claim split across delete/add cards
+# With the test file at f2e0e10, failures per earlier scorer (logs in reports/invariant-coverage/f2e0e10/):
+#   before-fix.sh            -> 25 (every wrong-card counterexample, plus the MSN guard: no invariant results yet)
+#   before-fix.sh d61461b    -> 20    before-fix.sh 7ea1fb3 -> 17    before-fix.sh 74783d6 -> 15
+#   before-fix.sh fececbf    -> 10    before-fix.sh 28afbd1 -> 9     before-fix.sh 55e669a -> 8
+#   before-fix.sh c5acdb8    -> 7     before-fix.sh f2d953f -> 4     before-fix.sh 8ca503f -> 3
+#   before-fix.sh bb85bc4    -> 2     before-fix.sh 402e66e -> 1: a currency code split across delete cards
 set -u
 repo=$(git rev-parse --show-toplevel)
 dir=$(mktemp -d)
