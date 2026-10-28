@@ -1,0 +1,36 @@
+
+> policy-compare@0.1.0 test:rules:mupdf /home/user/policy-compare
+> tsx scripts/acceptance.ts mupdf
+
+R01_identical PASS 
+R02_amount PASS 
+R03_currency PASS 
+R04_decimal PASS 
+R05_negation PASS 
+R06_and_or PASS 
+R07_shorter_term PASS 
+R08_normal_renewal PASS 
+R09_header_limit PASS 
+R10_address_swap PASS 
+R11_label_alias PASS 
+R12_exact_move PASS 
+R13_move_and_replacement PASS 
+R14_short_paragraph PASS 
+R15_paragraph_split PASS 
+R16_repagination PASS 
+R17_font_change PASS 
+R18_ligature PASS 
+R19_rotated_status PASS 
+R20_plus_minus PASS 
+R21_checkbox_glyph PASS 
+R22_table_value PASS 
+R23_table_reorder PASS 
+R24_table_cross_page PASS 
+R25_duplicate_keys PASS 
+R26_key_change PASS 
+R27_mixed_scan_page PASS 
+R28_inline_scan PASS 
+R29_clause_add PASS 
+R30_clause_delete PASS 
+R31_punctuation PASS 
+R32_combined_changes PASS 

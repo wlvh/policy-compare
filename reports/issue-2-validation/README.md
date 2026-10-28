@@ -5,33 +5,55 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `fix/issue-2-renewal`，从固定起点 `85dae9820651ae82a216a18efc0da4db8522045e` 建立；PR #9，目标 `feat/policy-compare` |
-| **当前被测代码** | **`eec627f1a8ceb6bc62d7bf273d8c031989b798fa`**（第二轮：#9 审查修复）；之后的提交只增加本目录和生成器输入 |
-| 上一轮被测代码 | `e313540a65958f526d1ab727932a3ab29cc87dbc`（证据保留在 `e313540…/`，不改写） |
-| 本项产品提交 | `d17cb73`（阶段 1）、`bc6610c`（阶段 2）、`ccfd47c`（不同生成器）、`eec627f`（审查修复） |
-| 版本 | 核心 `policy-compare/0.1.0+row-identity.3`；PDF.js 适配器 `pdfjs-adapter/3`、MuPDF 适配器 `mupdf-adapter/3`；pdfjs-dist、公共 schema、`page-merkle/1` 未变 |
+| **当前被测代码** | **`6e6b54176803534c316a353d6bb76d87bdf03015`**（第三轮：A—E 反例修复）；之后的提交只增加本目录 |
+| 前几轮被测代码 | `eec627f1a8ceb6bc62d7bf273d8c031989b798fa`（第二轮）、`e313540a65958f526d1ab727932a3ab29cc87dbc`（第一轮）；证据保留在各自目录，不改写 |
+| 本项产品提交 | `d17cb73`（阶段 1）、`bc6610c`（阶段 2）、`ccfd47c`（不同生成器）、`eec627f`（第二轮审查修复）、`6e6b541`（第三轮 A—E） |
+| 版本 | 核心 `policy-compare/0.1.0+row-identity.4`；PDF.js 适配器 `pdfjs-adapter/3`、MuPDF 适配器 `mupdf-adapter/3`（本轮未变）；pdfjs-dist、公共 schema、`page-merkle/1` 未变 |
 | #5 集成 | 来源：代码 `47d4b503eab1f33b906edcbf589ae67af187cc4a`、报告 `67f02b7cd1106a568d436ed107656afd8dc76e61`（[PR #8](https://github.com/wlvh/policy-compare/pull/8)）；集成提交 `e313540`（合并提交，无冲突） |
-| 当前 SHA 的 CI | push [run 40692806831](https://github.com/wlvh/policy-compare/actions/runs/40692806831)、PR [run 40692815493](https://github.com/wlvh/policy-compare/actions/runs/40692815493)：各 5 个 job 全部成功 |
+| 当前 SHA 的 CI | `6e6b541`：push [run 40705124988](https://github.com/wlvh/policy-compare/actions/runs/40705124988)、PR [run 40705137926](https://github.com/wlvh/policy-compare/actions/runs/40705137926)：各 5 个 job 全部成功（上一轮 `eec627f`：run 40692806831、40692815493） |
 | 本地环境 | Node 24.19.0、pnpm 10.12.1、Python 3.13.17、PDF.js 6.4.299、MuPDF 1.28.1、Chromium 153（预装）、LibreOffice 24.2.7.2；Linux x86_64 云容器 |
 | 输入 | `jiehuan/falcon-mini@0eef67d`，`scripts/fetch-renewal-samples.mjs` 校验大小、Git blob 和 SHA-256；产品只读 PDF，作者答案只给分诊脚本读 |
 
 **结论的范围**：“归属错误 0”指共同分诊脚本和本报告的人工核对**没有发现**错误归属；分诊判为“未定位”“无法评价”的事件不在其内，不等于每个事件都已验证正确。`complete_for_scope` 只表示可提取文本范围内没有覆盖缺口和待核验组，不是语义正确率。
 
-## 0. 结论（当前被测代码 `eec627f`）
+## 0. 结论（当前被测代码 `6e6b541`）
 
 | 验收项 | 结论 | 证据 |
 |---|---|---|
 | 阶段 1：固定 v3 独立复核与具体缺口修复 | 完成 | 第 1 节 |
-| 阶段 2：页面附属与重复内容聚合 | 完成；第二轮修复了审查指出的两处聚合缺陷 | 第 2 节、第 R 节 |
+| 阶段 2：页面附属与重复内容聚合 | 完成；第二、三轮修复了审查指出的聚合与页码缺陷 | 第 2 节、第 R、R3 节 |
 | 阶段 3：集成 #5 | 完成，集成 SHA `e313540` | 第 5 节 |
-| #9 审查三条缺陷与 UMR 例外 | 修复；各有修复前失败的正式测试 | 第 R 节 |
-| 单元测试（不少于起点 60 项） | 91/91（起点 60 + 本项 18 + #5 13） | `eec627f…/regression/core-tests.json` |
-| 两引擎规则 32 对（#5 评分器，无“无法评价”） | MuPDF 32/32、PDF.js 32/32；浏览器同样 32/32 | `eec627f…/regression/` |
-| 审核 PDF 回归、PDF 机制（含 Chromium Type 3）、构建、浏览器测试 | 两引擎全部通过（浏览器 15/15 × 2） | `eec627f…/regression/` |
-| 当前代码重跑四次续保比较 | 卡片与逐事件结论和 `e313540` 完全相同（卡片 ID、文字、出现位置数、说明均相同）；未发现错误归属；四次都是 `complete_for_scope` | 第 3 节；`eec627f…/` |
-| 不同生成途径的一对 PDF（复用原输入） | Chromium、LibreOffice × 两引擎：10/10 事件，0 处跨记录错配；卡片与上一轮相同 | 第 4 节；`eec627f…/generators/results/` |
-| 页面附属组内文字不一致（新输入，Chromium 打印） | 两引擎 3/3 张卡类别、说明、计数正确；浏览器中逐处来源可跳转 | 第 R 节；`eec627f…/generators/furniture/`、`browser/` |
-| PDF.js 精细高亮浏览器验证 | 6 个关键记录 + 3 张聚合卡 + 3 张组内不一致卡，两引擎全部通过 | 第 4 节；`eec627f…/browser/` |
+| #9 第二轮三条缺陷与 UMR 例外 | 修复（`eec627f`）；各有修复前失败的正式测试 | 第 R 节 |
+| **第三轮五类反例 A—E** | **修复（`6e6b541`）；23 项新测试中 17 项在 `eec627f` 上失败、6 项对照通过，修复后全部通过** | 第 R3 节 |
+| 单元测试（不少于起点 60 项） | 114/114（起点 60 + 本项 41 + #5 13） | `6e6b541…/regression/core-tests.json` |
+| 两引擎规则 32 对（#5 评分器，无“无法评价”） | MuPDF 32/32、PDF.js 32/32；浏览器同样 32/32 | `6e6b541…/regression/` |
+| 审核 PDF 回归、PDF 机制（含 Chromium Type 3）、构建、浏览器测试 | 两引擎全部通过（审核回归 10/10、PDF 机制 7/7、浏览器 15/15 × 2）。MuPDF 浏览器测试第一次运行时 F7（部署服务器缓存）超时，单独重跑和整套重跑都通过，三份日志都保留，见第 R3 节 | `6e6b541…/regression/` |
+| 当前代码重跑四次续保比较 | 逐事件结论、卡数、待核验组、状态与 `eec627f` 相同；航空两引擎各 3 张卡类别改变（E：条款编号 `1.8` ×2 → Material，`HOWEVER:` 删除卡 → Review）；未发现错误归属；四次都是 `complete_for_scope` | 第 3 节；`6e6b541…/renewal-card-diff.txt` |
+| 不同生成途径的一对 PDF（复用原输入） | Chromium、LibreOffice × 两引擎：10/10 事件，0 处跨记录错配；结果与上一轮相同 | 第 4 节；`6e6b541…/generators/results/` |
+| 第三轮 margin 对（新输入，Chromium 打印） | 修复前 8 张卡（A 消失，B、C、E 为 Cosmetic）；修复后两引擎 14 张卡一致，12 项预期全部正确；浏览器中来源可跳转 | 第 R3 节；`6e6b541…/generators/margin/`、`browser/` |
+| PDF.js 精细高亮浏览器验证 | 6 个关键记录 + 3 张聚合卡 + 3 张组内不一致卡 + 12 项 margin 卡，两引擎全部通过（本轮只提交新增 margin 对的截图，其余检查与上一轮相同，结果记录在 `browser-check.json`） | 第 4 节；`6e6b541…/browser/` |
 | 真实文档试用、业务签收、指定硬件性能、生产部署 | **NOT_RUN / BLOCKED** | 第 7 节 |
+
+## R3. 第三轮：五类反例 A—E（`6e6b541`）
+
+[#2 顶部指令](https://github.com/wlvh/policy-compare/issues/2) 与 [PR #9 交接评论](https://github.com/wlvh/policy-compare/pull/9#issuecomment-6470700336) 列出五类在 `eec627f` 上复现的反例。每类先写正式测试，结果都经 `ResultSchema` 解析，断言卡片内容、类别、记录/位置来源与状态：`tests/page-furniture.test.ts`（A、B、C）、`tests/table-scope.test.ts`（D：无表头和 `Insured / Reference / Limit` 表头下的裸数 `100000` 与 `JPY 100000`，`MSN / Agreed Value / Rate` 全数字行，以及 `MSN / Operator / Agreed Value` 下 MSN 1315 的正向对照）、`tests/margin-text.test.ts`（E：页顶 y=72、正文 y=150、页底 y=815 × 普通大小写句 / 全大写句 / 金额，单侧新增的全大写页顶句；另有不变文字、页脚页码、续页标题、重分页页标题四个看守）。在 `eec627f` 的核心上 17 项失败、6 项对照通过；在 `6e6b541` 上全部通过。
+
+| 编号 | 修复前（`eec627f`） | 修复后（`6e6b541`） | 做法 |
+|---|---|---|---|
+| A 同一行高两处金额互换（x=40 / x=300） | 0 张卡、complete | 两张 Material 修改卡，每张 8 处来源都在自己的横向位置 | 附属行的分组键和跨版本候选都带签名的左右边界；跨版本要求左缘、右缘或中点之一相差不超过 12pt，基线相差不超过 12pt |
+| B `Premium rate 4% - Page n of 4` → `5% … of 5` | 费率卡 Cosmetic | Material；费率不变、只有页数变化的对照仍为 Cosmetic | 页码部分只取页码表达里的数字：`Page n`、`Page n of N`、`Page n/N`（不分大小写），或整行只有页码数字（`3`、`- 3 -`、`3 / 10`）。计数须在 n 的位置并随页递增，总页数须在 N 的位置且不变。“随页递增”“等于最大页号”不再单独成立 |
+| C `Aircraft MSN 101…104` → `201…204` | 1 张 Cosmetic 聚合卡 | 每页一张 Material 修改卡，来源在各自页 | 同上：不在页码表达里的变化数字使该行不成为附属，按正文比较 |
+| D 等额 `100000` / `JPY 100000` 连接两家公司；全数字行 `1315 / 100000 / 0.38%` → `2156 / 100000 / 0.40%` | 经金额确定配成修改，rowKey 为金额 | 删除＋新增；MSN 1315 正向对照仍以 row-identity 配对，rowKey=1315 | 明确货币（ISO 币种代码含 JPY、货币符号 `\p{Sc}`）不作身份。裸整数只有在本行**局部表头**的对应列写明 MSN、ESN、Serial、S/N 或 Registration，且两版都如此时才是身份：局部表头是同一表范围内、上方最近的不含数字的恢复行，中间只隔页边内容；对应列是与该格横向重叠最多的表头格。否则裸数只能与其他身份证据形成冲突（保持可见未决），不能单独确定配对。`No.`、`Ref` 不算；不投票、不建列映射 |
+| E 页顶/页底/标题角色直接降级 | 页顶、页底与正文全大写标题的业务句变化都是 Cosmetic，页顶金额也是 | 业务句 Review、金额 Material，来源可定位。正文位置的全大写标题改写显示为删除＋新增两张 Review 卡（标题以自身为标题上下文，不与改写后的标题配对） | 标题、页眉、页脚不再因角色归为 Cosmetic。只有：去掉显式 `Page n` 后原文相同；单侧只有页码；续页标题（`… CONTINUED / CONT'D / CONT.`，基础标题两版都有）；或页数不同、两版每页同一位置都有页标题时，新增页上不含数字和关键词的标题，才是 Cosmetic（R16 的 `POLICY WORDING`、R24 的 `SCHEDULE OF AIRCRAFT CONTINUED` 由此保持）。全大写不是豁免依据 |
+
+- **真实 PDF 上的前后对照**：`generators/make_html.py` 新增一对 `margin-*.html`（基准 4 页、待审 5 页），用原有 Chromium 打印途径输出，含 A、B、C 与 E（页顶句、页底全大写句、页顶金额、第 4 页正文位置的全大写标题）。两引擎在同一对 PDF 上修复前后的输出见 `6e6b541…/generators/margin/before-after.txt`：修复前 8 张卡（A 的两处金额变化消失；B、C、E 全部 Cosmetic）；修复后 14 张卡，两引擎一致。
+- **浏览器**（`browser-check.ts`，设置 `MARGIN_DIR`）：两引擎逐张核对 12 项预期（A1、A2、B、C1–C4、E1–E3、E4 删除与新增）的类型、类别与页码；A 每处来源的左缘都在各自位置 ±3pt 内；点开卡片（重复行点第一处和最后一处出现位置），两侧翻到对应页，高亮落在来源范围内。截图：`browser/margin-*.png`。
+- **运行记录**：
+  - MuPDF 浏览器测试第一次运行 14/15：F7（部署服务器的缓存重新验证）在换服务器后等页面请求超时（`regression/browser-tests-mupdf.first-run.log`）。F7 与本轮改动无关，同一次运行里 PDF.js 的 F7 通过。单独重跑 F7 通过（`*.F7-rerun.log`），整套重跑 15/15（`browser-tests-mupdf.log`）。
+  - `browser-check.ts` 的 margin 部分第一次运行时有核对脚本自身的错误：只在待审版第 5 页出现的那一处，也去基准版找来源。结果 A1、A2、B 被误判 FAIL，MuPDF 部分中断。导出的卡片数据是对的。修正核对脚本（只查该处出现所在的侧别，等待超时记为该项失败、不再中断全程）后重跑，全部通过；产品代码没有改。
+- **规则用例**：32 个规则用例中只有 R29、R30 的条款标题卡由 Cosmetic 变为 Review（新增条款的标题 `ADDITIONAL EXCLUSION`、删除条款的标题 `TERRITORIAL SCOPE`）；R16、R24 的标题卡仍为 Cosmetic。
+- **续保样本影响**（第 3 节）：卡数、待核验组、状态和逐事件结论都与 `eec627f` 相同；只有航空两引擎各 3 张卡的类别改变，都来自 E。A—D 没有改变任何续保卡片；身份连接核对 `identity-columns.json` 与上一轮完全相同。
+- **版本**：核心 `+row-identity.4`；适配器未变。
 
 ## R. 第二轮：#9 审查修复（`eec627f`）
 
@@ -111,8 +133,8 @@
 
 ### 2.1 做法
 
-- **识别**：一行在至少 3 页、且至少 40% 的页上、出现在页面上下边缘带（上 16%、下 12%）的同一位置，就是页面附属。数字只在找候选时替换成 `#`；页与页之间不同的数字必须随页码递增（真正的页码），否则这一行仍按正文处理。表格行上的文字只有整条基线都是附属时才算。两份文档任一份识别出的特征对两份都生效，所以 2 页的文档和 3 页的文档判断一致（R16、R24 曾因此暴露问题，已修正）。
-- **比较**：每条附属文字只比较一次，不再逐页出卡。只有已确认的页码部分（随页递增的计数和总页数）变化时为 Cosmetic；其他附属变化为 Review；**含金额或百分比的附属保持 Material**。同一版本内文字不一致的处理见第 R 节（第二轮修复）。只在一侧出现的附属按文字合成一张默认可见的卡，并把同一侧页边带里同样的文字（如封面上的水印）一起收入。
+- **识别**：一行在至少 3 页、且至少 40% 的页上、出现在页面上下边缘带（上 16%、下 12%）的同一位置，就是页面附属。数字只在找候选时替换成 `#`；页与页之间不同的数字必须随页码递增（真正的页码），否则这一行仍按正文处理（第三轮起还必须位于页码表达之中，见第 R3 节）。表格行上的文字只有整条基线都是附属时才算。两份文档任一份识别出的特征对两份都生效，所以 2 页的文档和 3 页的文档判断一致（R16、R24 曾因此暴露问题，已修正）。
+- **比较**：每条附属文字只比较一次，不再逐页出卡。只有已确认的页码部分（页码表达里随页递增的计数和总页数，第 R3 节）变化时为 Cosmetic；其他附属变化为 Review；**含金额或百分比的附属保持 Material**。同一版本内文字不一致的处理见第 R 节（第二轮修复）。只在一侧出现的附属按文字合成一张默认可见的卡，并把同一侧页边带里同样的文字（如封面上的水印）一起收入。
 - **来源**：每处出现都保留自己的原文和字符来源；卡上的出现位置按钮标注侧别和页码（如 `3 · 待审 P2`），悬停显示该处原文，可逐处跳转。出现次数的差异如果超出两份文档页数之差，卡片照样显示。
 - **重复表头**：同一张表在多页重复、不含数字的行，作为一组配对，不再形成“身份不唯一”的待核验组。
 - 页面附属不再并入正文段落；跨页时，上一页最后一行以句号或分号结束的段落就此结束（避免段落跨页吞并下一页首段）。
@@ -142,7 +164,16 @@
 
 ## 3. 四次续保比较
 
-当前代码 `eec627f…/`（上一轮 `e313540…/` 保留）：完整结果的 `.json.gz`、`environment.json`（命令、退出码、耗时、未压缩结果的 SHA-256）、共同分诊的 `*.events.json`（177 项正文 + 5 项附属，逐原子证据）、`*.summary.json` 和 `key-events.md`。两轮的卡片和逐事件结论完全相同，下表对两轮都成立。分诊工具是已集成的 #5 版本：它只按名字直接检查部分不变量，断言覆盖的完善由 #10 负责；表中“归属错误 0”是该工具和人工核对未发现，不是全部事件已被验证正确。
+当前代码 `6e6b541…/`（前两轮 `eec627f…/`、`e313540…/` 保留）：完整结果的 `.json.gz`、`environment.json`（命令、退出码、耗时、未压缩结果的 SHA-256）、共同分诊的 `*.events.json`（177 项正文 + 5 项附属，逐原子证据）、`*.summary.json` 和 `key-events.md`。三轮的逐事件结论完全相同，下表对三轮都成立。
+
+**第三轮与 `eec627f` 的差别**（逐张见 `6e6b541…/renewal-card-diff.txt`）：卡数（航空 99、商务航空 89）、待核验组（0）、状态（complete_for_scope）和 `key-events.md` 都相同；只有航空两引擎各 3 张卡的类别改变，都来自 E：
+
+| 卡 | 第二轮 | 第三轮 | 说明 |
+|---|---|---|---|
+| 新增条款编号 `1.8`（待审第 2 页、第 4 页，两张） | Cosmetic | Material | 单独成行的条款编号是标题；现在按正文规则，含数字即 Material。条款正文在相邻的 Material 新增卡里（作者事件 #4、#15，分诊“未定位”不变） |
+| 删除的 `HOWEVER:`（基准第 2 页） | Cosmetic | Review | 作者事件 #6 只是大小写（`HOWEVER:`→`However:`，作者归 Cosmetic）。产品从未把它和新版的 `However:` 配对（新版这个词并入了正文段落）；以前靠标题角色把删除卡归为 Cosmetic，现在作为可见的待复核删除卡出现，是 E 修复带来的一张噪声卡 |
+
+因此“未解释卡中的 Material”航空由 5/6（MuPDF/PDF.js）变为 7/8，商务航空仍为 3/3；未解释卡总数不变。分诊工具是已集成的 #5 版本：它只按名字直接检查部分不变量，断言覆盖的完善由 #10 负责；表中“归属错误 0”是该工具和人工核对未发现，不是全部事件已被验证正确。
 
 | 运行 | 正确归属 | 可归属分散 | 只找到一侧 | 无法评价 | 部分定位 | 分诊未定位 | **归属错误** | 排除 |
 |---|---|---|---|---|---|---|---|---|
@@ -158,8 +189,8 @@
 | 事件 | 分诊结论 | 实际情况 |
 |---|---|---|
 | 航空 #3 | 未定位 | 保期卡存在（见 1.5），序数上标使脚本找不到 |
-| 航空 #4、#15 | 未定位 | 新增条款 1.8：编号单独成 Cosmetic 卡，正文在相邻的 Material 新增卡 |
-| 航空 #6 | 无法评价 | `HOWEVER:`→`However:` 删、增分卡，作者段落只有这一个词（v3 看守用例记录的已知残留） |
+| 航空 #4、#15 | 未定位 | 新增条款 1.8：编号单独成卡（第三轮起为 Material，此前 Cosmetic），正文在相邻的 Material 新增卡 |
+| 航空 #6 | 无法评价 | `HOWEVER:`→`However:` 删、增分卡，作者段落只有这一个词（v3 看守用例记录的已知残留）；删除卡第三轮起为 Review |
 | 航空 #7 | 可归属分散 | (b) 总限额删、增两卡都显示作者整句，均为 Material |
 | 航空 #28、#82（MuPDF） | 部分定位 / 未定位 | MuPDF 抽取把相邻词连在一起，脚本片段对不上；卡片存在 |
 | 航空 #32、#34 | 部分定位 | 含序数上标的日期原子未定位，其余原子同卡正确 |
@@ -193,7 +224,7 @@
 
 生成的 HTML、PDF、比较结果（gzip）与 `generator-check.json`（每次比较的输入和结果 SHA-256、逐事件卡片）都已提交；不同生成器的卡数、坐标本来就不同，不要求一致。
 
-### 4.2 浏览器中的精细高亮与来源导航（`browser/`；当前代码的结果在 `eec627f…/browser/`，另含第 R 节的三张组内不一致卡）
+### 4.2 浏览器中的精细高亮与来源导航（`browser/`；当前代码的结果在 `6e6b541…/browser/`，另含第 R 节的三张组内不一致卡和第 R3 节的 margin 对；上一轮截图在 `eec627f…/browser/`）
 
 `browser-check.ts` 在构建好的两套页面中载入两对续保样本，导出结果后逐项点击：
 
@@ -212,7 +243,12 @@
 
 - **身份列序是恢复行的列序**，不是物理列：空单元格不形成簇，所以同一物理列在缺格的行里下标会不同（只会少连、不会错连）。不做“匹配格数多数票”：如 `1206/Fenmore/Lender` 与 `4512/Northfield/Owner Trustee` 在新版互换当事人时，名称与角色两格会与 MSN 一格冲突，结果是可见的待核验组和 partial，这是有意保守。
 - **范围不等于物理表**：同一标题下的多张表共用身份范围（如航空三张附表）。横向起点检查不能排除跨表连接；若同一飞机在一张表删除、在另一张表新增，可能显示为一张修改卡。
-- **页面附属组内文字不一致**：只有对方版本整组文字一致时，才能确定变体的旧值或新值；两版本组内都不一致时，变体单列为新增或删除，不推断对应关系。页码部分只认随页递增的计数和等于最后页号的总页数，其他页码写法（如罗马数字、“第 n 页”中文数字）不豁免。
+- **页面附属组内文字不一致**：只有对方版本整组文字一致时，才能确定变体的旧值或新值；两版本组内都不一致时，变体单列为新增或删除，不推断对应关系。
+- **页码表达**（第 R3 节）：只认 `Page n`、`Page n of N`、`Page n/N` 和整行只有页码数字（`3`、`- 3 -`、`3 / 10`）。其他写法（`p. 3`、`第 n 页`、罗马数字、前后带其他文字的 `n/N`）不豁免，重分页时会出现可见的卡。整行只有数字且随页递增就视为页码，即使从 101 开始（可能是整卷连续页码，也可能是别的编号，无法区分）。不在页边重复的单行只认显式 `Page n`。
+- **裸数身份**（第 R3 节）：裸整数只在本行局部表头对应列写明 MSN、ESN、Serial、S/N 或 Registration 时才是身份。表头缺失、换了标题或被正文隔断时，只靠裸数连接的两行显示为删除＋新增（有意保守）。“局部表头”取上方最近的不含数字的恢复行，不建列映射；名称全无数字的数据行也会被当成表头，这只会让判断更保守。没有列入的写法（如 `Tail No.`、`Fleet No.`）下的裸数不作身份。
+- **标题与页边文字的类别**（第 R3 节）：标题、页眉、页脚的文字变化按正文规则归类：含数字即 Material（例如单独成行的条款编号 `1.8`），否则看关键词，没有命中为 Review。正文规则的关键词按完整词匹配（`not`、`cover`、`exclud`、`loss`、`liability`、`and`、`or`），所以 `covers/covered/coverage`、`excludes/excluded/exclusion` 不命中，`The insurer covers war risks.` → `… excludes …` 这类业务句是 Review。**Review 只表示需要人看，不代表产品已判断出它的业务重要性**；本轮不扩充自然语言分类。
+- **改写的标题不与新标题配对**：标题以自身为标题上下文，改写后显示为删除＋新增两张卡（都可见、可定位）；紧随其后、同时被改动的正文也可能因此分成删除＋新增。续保样本中 `HOWEVER:`→`However:` 的删除卡因此由隐藏的 Cosmetic 变为可见的 Review。
+- **重分页页标题的豁免**需要两版每页同一位置都有页标题、新增页标题数不超过页数差、且标题不含数字和关键词；不满足时新增页标题为 Review（R16 满足）。
 - **两列清单**（代码 | 名称，如条款清单）不是表格行（只有两簇），相邻清单项会合成段落：商务航空 #16、#17 的删除/新增项显示在相邻项的修改卡里，可见、可定位，但不是单独成卡。
 - **类别**：没有数字和关键词的行变化（如机库飞机清单加入 M-FNKE）显示为 Review，不是 Material；保期显示为 Material，不识别为 RollForward；序数上标日期（`16th`）不解析。弯撇号改直撇号会出一张 Material 卡。
 - **页面附属**需要至少 3 页、40% 页数的重复；更短的文档只能借用另一份文档的识别结果。附属变化（UMR、条码）统一为 Review，含金额的为 Material。
@@ -248,13 +284,14 @@ for e in pdfjs mupdf; do
   POLICY_BROWSER_CHANNEL=bundled pnpm test:browser:$e
 done
 
-# 不同生成器（需要 Chromium 与 LibreOffice）；第二轮复用 e313540…/generators/pdf 的原 PDF
+# 不同生成器（需要 Chromium 与 LibreOffice）；第二、三轮复用 e313540…/generators/pdf 的原 PDF
 python3 reports/issue-2-validation/generators/make_html.py tmp/gen
-pnpm exec tsx reports/issue-2-validation/generators/print.ts tmp/gen tmp/gen-pdf   # 另输出 tmp/gen-pdf/furniture/
+pnpm exec tsx reports/issue-2-validation/generators/print.ts tmp/gen tmp/gen-pdf   # 另输出 tmp/gen-pdf/furniture/ 与 tmp/gen-pdf/margin/
 pnpm exec tsx reports/issue-2-validation/generators/check.ts reports/issue-2-validation/e313540a65958f526d1ab727932a3ab29cc87dbc/generators/pdf tmp/gen-out
 
-# 浏览器精细高亮、来源导航与组内文字不一致卡（先 pnpm preview:pdfjs --port 4174 与 pnpm preview:mupdf --port 4175）
+# 浏览器精细高亮、来源导航、组内文字不一致卡与第三轮 margin 对（先 pnpm preview:pdfjs --port 4174 与 pnpm preview:mupdf --port 4175）
 FURNITURE_DIR=reports/issue-2-validation/eec627f1a8ceb6bc62d7bf273d8c031989b798fa/generators/furniture/pdf \
+MARGIN_DIR=reports/issue-2-validation/6e6b54176803534c316a353d6bb76d87bdf03015/generators/margin/pdf \
   pnpm exec tsx reports/issue-2-validation/browser-check.ts tmp/renewal-inputs tmp/browser-check
 ```
 

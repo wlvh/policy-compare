@@ -259,23 +259,29 @@ try {
         for (const { k, locs } of visits) {
           if (k >= 0) await card.getByRole("button", { name: `出现位置 ${k + 1}`, exact: true }).click();
           const visit: any = { occurrence: k + 1 || null };
-          for (const [index, side] of (["left", "right"] as const).entries()) {
-            const here = locs[side].length ? locs[side] : side === "left" ? d.left : d.right;
-            if (!here.length) continue;
-            await expect.poll(() => readyPage(page, index), { timeout: 30000 }).toBe(here[0].pageIndex);
-            await expect.poll(async () => (await polygons(page, index)).length, { timeout: 15000 }).toBeGreaterThan(0);
-            const drawn = (await polygons(page, index)).map((q) => box([q])),
-              src = box(here.filter((l) => l.pageIndex === here[0].pageIndex).flatMap((l) => l.quads));
-            visit[side] = { page: here[0].pageIndex + 1, text: here.map((l) => l.text).join(""), polygons: drawn.length, insideSource: drawn.every((b) => within(b, src)) };
-          }
           entry.visited.push(visit);
+          try {
+            for (const [index, side] of (["left", "right"] as const).entries()) {
+              // An occurrence shows only its own sides; a plain card falls back
+              // to its sources when its changed text is on one side only.
+              const here = k >= 0 || locs[side].length ? locs[side] : side === "left" ? d.left : d.right;
+              if (!here.length) continue;
+              await expect.poll(() => readyPage(page, index), { timeout: 30000 }).toBe(here[0].pageIndex);
+              await expect.poll(async () => (await polygons(page, index)).length, { timeout: 15000 }).toBeGreaterThan(0);
+              const drawn = (await polygons(page, index)).map((q) => box([q])),
+                src = box(here.filter((l) => l.pageIndex === here[0].pageIndex).flatMap((l) => l.quads));
+              visit[side] = { page: here[0].pageIndex + 1, text: here.map((l) => l.text).join(""), polygons: drawn.length, insideSource: drawn.every((b) => within(b, src)) };
+            }
+          } catch (e) {
+            visit.error = String(e).split("\n")[0];
+          }
         }
         entry.status =
           d.kind === want.kind && d.category === want.category &&
           JSON.stringify(entry.leftPages) === JSON.stringify(want.left) &&
           JSON.stringify(entry.rightPages) === JSON.stringify(want.right) &&
           (want.x === undefined || all.every((l) => Math.abs(l.quads[0][0] - want.x) < 3)) &&
-          entry.visited.length > 0 && entry.visited.every((v: any) => (v.left || v.right) && ["left", "right"].every((s) => !v[s] || (v[s].polygons > 0 && v[s].insideSource)))
+          entry.visited.length > 0 && entry.visited.every((v: any) => !v.error && (v.left || v.right) && ["left", "right"].every((s) => !v[s] || (v[s].polygons > 0 && v[s].insideSource)))
             ? "PASS" : "FAIL";
         await page.screenshot({ path: path.join(out, `margin-${engine}-${want.id}.png`) });
       }
