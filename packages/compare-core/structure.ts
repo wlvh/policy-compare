@@ -116,6 +116,67 @@ function pageFurniture(lines: Line[], known: FurnitureSignature[]) {
   }
   return found;
 }
+/**
+ * A cell whose lines are centred on its row (LibreOffice, spreadsheets) has
+ * lines above and below the row's baseline. Such a stack is consecutive in
+ * extraction order, aligned and at line spacing; the line or placed stack just
+ * before or after it in extraction order lies beside it on a baseline strictly
+ * between its first and last line. Its lines are then placed on that baseline
+ * for row recovery only.
+ */
+function centredCells(lines: Line[]) {
+  const aligned = (a: Line, b: Line) => {
+    const [a0, a1] = span(a),
+      [b0, b1] = span(b);
+    return Math.abs(a0 - b0) < 1 || Math.abs(a1 - b1) < 1 || Math.abs(a0 + a1 - b0 - b1) < 2;
+  };
+  const stacks: [number, number][] = [],
+    stackOf = new Map<Line, number>();
+  for (let i = 0, j = 1; i < lines.length; i = j, j = i + 1) {
+    const size = lines[i].refs[0].char.size;
+    if (!lines[i].text.trim()) continue;
+    while (
+      j < lines.length &&
+      lines[j].p === lines[i].p &&
+      lines[j].text.trim() &&
+      aligned(lines[j], lines[i]) &&
+      Math.abs(lines[j].refs[0].char.size - size) < 0.1 * size &&
+      top(lines[j]) - top(lines[j - 1]) > 0.3 * size &&
+      top(lines[j]) - top(lines[j - 1]) <= 1.6 * size
+    )
+      j++;
+    if (j - i < 2) continue;
+    for (let k = i; k < j; k++) stackOf.set(lines[k], stacks.length);
+    stacks.push([i, j]);
+  }
+  const placed = new Map<Line, number>();
+  for (let changed = true; changed; ) {
+    changed = false;
+    for (const [i, j] of stacks) {
+      if (placed.has(lines[i])) continue;
+      const stack = lines.slice(i, j),
+        size = stack[0].refs[0].char.size,
+        x0 = Math.min(...stack.map((g) => span(g)[0])),
+        x1 = Math.max(...stack.map((g) => span(g)[1]));
+      for (const n of [lines[i - 1], lines[j]]) {
+        const y = n && (placed.get(n) ?? (stackOf.has(n) ? undefined : top(n)));
+        if (
+          y === undefined ||
+          n.p !== stack[0].p ||
+          !n.text.trim() ||
+          y <= top(stack[0]) + 0.3 * size ||
+          y >= top(stack.at(-1)!) - 0.3 * size ||
+          !(span(n)[1] < x0 || span(n)[0] > x1)
+        )
+          continue;
+        for (const g of stack) placed.set(g, y);
+        changed = true;
+        break;
+      }
+    }
+  }
+  return placed;
+}
 export function structure(
   doc: DocInput,
   profile: Profile,
@@ -176,7 +237,9 @@ export function structure(
     Object.assign(unit, normalize(raw, all));
   }
   const consumed = new Set<(typeof lines)[number]>(),
-    position = new Map(lines.map((g, n) => [g, n]));
+    position = new Map(lines.map((g, n) => [g, n])),
+    centred = centredCells(lines),
+    baseline = (g: (typeof lines)[number]) => centred.get(g) ?? top(g);
   for (let i = 0; i < lines.length; i++) {
     checkpoint?.();
     const row = lines[i],
@@ -324,20 +387,21 @@ export function structure(
     // line is joined to its cell only when it sits directly under the cell,
     // aligned with it, in the same type size.
     if (section !== profile.table.name) {
-      const size = row.refs[0].char.size;
+      const size = row.refs[0].char.size,
+        level = baseline(row);
       let end = i + 1;
       while (
         end < lines.length &&
         lines[end].p === row.p &&
         lines[end].text.trim() &&
-        top(lines[end]) > y - 0.3 * size &&
-        top(lines[end]) - y < 4 * size
+        baseline(lines[end]) > level - 0.3 * size &&
+        baseline(lines[end]) - level < 4 * size
       )
         end++;
       const window = lines
         .slice(i, end)
         .filter((g) => !consumed.has(g) && !furniture.has(g));
-      const members = window.filter((g) => Math.abs(top(g) - y) < 0.3 * size);
+      const members = window.filter((g) => Math.abs(baseline(g) - level) < 0.3 * size);
       if (members.length >= 3) {
         const group = members.sort((a, b) => span(a)[0] - span(b)[0]);
         const cells = [[group[0]]];
@@ -345,6 +409,8 @@ export function structure(
           if (span(group[j])[0] - span(group[j - 1])[1] > size)
             cells.push([group[j]]);
           else cells.at(-1)!.push(group[j]);
+        // Lines of one cell read top to bottom.
+        for (const c of cells) c.sort((a, b) => top(a) - top(b) || span(a)[0] - span(b)[0]);
         if (cells.length >= 3) {
           const bounds = cells.map((c) => [span(c[0])[0], span(c.at(-1)!)[1]]);
           const column = (g: (typeof lines)[number]) => {

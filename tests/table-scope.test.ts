@@ -145,3 +145,47 @@ describe("identical text does not consume a record from another table", () => {
     expect(added).toEqual(expect.arrayContaining(["MSN 1001 Alpha Air", "USD 100,000"]));
   });
 });
+
+describe("cells centred on their row (LibreOffice, spreadsheets)", () => {
+  // A two-line cell centred on the row has one line above and one below the
+  // baseline of the single-line cells; lines are in extraction order.
+  const row = (y: number, cells: (string | [string, string])[]) =>
+    cells.flatMap((cell, j) => {
+      const x = 40 + j * 110;
+      return typeof cell === "string"
+        ? [{ text: cell, x, y }]
+        : [
+            { text: cell[0], x, y: y - 5 },
+            { text: cell[1], x, y: y + 6 },
+          ];
+    });
+  const doc = (lessee: [string, string], insurer: [string, string]) =>
+    textDoc([
+      { text: "SCHEDULE OF AIRCRAFT", y: 150 },
+      ...row(190, [["De Havilland", "Dash 8-400"], "4370", "CC-LUV", "10,270,000", "Lumen Air"]),
+      ...row(225, [["De Havilland", "Dash 8-400"], "4551", "C-MRP", "12,680,000", lessee]),
+      ...row(260, [["De Havilland", "Dash 8-400"], "4582", "C-YVR", "12,880,000", "Kestrel Air"]),
+      { text: "WRITTEN LINES", y: 320 },
+      ...row(360, [["Halberd Specialty", "Insurance Ltd"], ["HSI-AV-24-", "0117"], "15.0%", "08/10/2024"]),
+      ...row(395, [insurer, ["CIA-AV-25-", "0311"], "10.0%", "04/10/2024"]),
+    ]);
+  it("a change in a centred cell stays on its record and nothing else changes", () => {
+    const r = compare(
+      doc(["Kestrel", "Connect"], ["Corvane", "Insurance AG"]),
+      doc(["Coral Bay", "Regional Airways"], ["Corvane", "Insurance AG"]),
+    );
+    expect(r.differences).toHaveLength(1);
+    expect(r.differences[0].oldText).toBe("De Havilland Dash 8-400 4551 C-MRP 12,680,000 Kestrel Connect");
+    expect(r.differences[0].newText).toBe("De Havilland Dash 8-400 4551 C-MRP 12,680,000 Coral Bay Regional Airways");
+    expect(r.differences[0].matchEvidence.method).toBe("row-identity");
+  });
+  it("adjacent centred cells join the row through each other", () => {
+    const r = compare(
+      doc(["Kestrel", "Connect"], ["Corvane", "Insurance AG"]),
+      doc(["Kestrel", "Connect"], ["Corvane", "Re AG"]),
+    );
+    expect(r.differences).toHaveLength(1);
+    expect(r.differences[0].oldText).toBe("Corvane Insurance AG CIA-AV-25- 0311 10.0% 04/10/2024");
+    expect(r.differences[0].newText).toBe("Corvane Re AG CIA-AV-25- 0311 10.0% 04/10/2024");
+  });
+});
