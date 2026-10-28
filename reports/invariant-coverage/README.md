@@ -5,11 +5,11 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `fix/scorer-invariant-coverage`，从 `2ff585bce56e5b43a6fb00572ad9d99b98e4fefc`（PR #9 head）建立 |
-| 被测代码提交 | **当前 `c5acdb8`**（第七轮：金额格除整格值外，还比较卡片实际引用到的部分），证据在 [`c5acdb8/`](c5acdb8/)。各轮证据都保留、没有覆盖：第六轮 `55e669a`（按几何关系找金额格）在 [`55e669a/`](55e669a/)；第五轮 `28afbd1`（碎片按原文顺序拼接）在 [`28afbd1/`](28afbd1/)；第四轮 `fececbf`（金额单元格以 layout.json 为准）在 [`fececbf/`](fececbf/)；第三轮 `74783d6`（删除/新增卡的金额只在同一记录内抵消）在 [`74783d6/`](74783d6/)；第二轮 `7ea1fb3`（裸整数金额）在 [`7ea1fb3/`](7ea1fb3/)；第一轮 `d61461b` 在 [`verification/`](verification/) 和 [`register.json`](register.json) |
+| 被测代码提交 | **当前 `f2d953f`**（第八轮：按卡片自己的引用顺序读它声称的金额文字；几何无法归属的证据判无法评价），证据在 [`f2d953f/`](f2d953f/)。各轮证据都保留、没有覆盖：第七轮 `c5acdb8` 在 [`c5acdb8/`](c5acdb8/)；第六轮 `55e669a`（按几何关系找金额格）在 [`55e669a/`](55e669a/)；第五轮 `28afbd1`（碎片按原文顺序拼接）在 [`28afbd1/`](28afbd1/)；第四轮 `fececbf`（金额单元格以 layout.json 为准）在 [`fececbf/`](fececbf/)；第三轮 `74783d6`（删除/新增卡的金额只在同一记录内抵消）在 [`74783d6/`](74783d6/)；第二轮 `7ea1fb3`（裸整数金额）在 [`7ea1fb3/`](7ea1fb3/)；第一轮 `d61461b` 在 [`verification/`](verification/) 和 [`register.json`](register.json) |
 | 被测产品代码 | 与 `e313540` 相同，本项没有修改产品文件 |
 | 改动文件 | `tests/evaluation/scorer.ts`、`tests/scorer.test.ts`、`scripts/acceptance.ts`、`tests/browser/rules.spec.ts`、`.github/workflows/ci.yml` |
 | 工具 | Node v24.19.0、pnpm 10.12.1；Python 3.13.17（本地）/ 3.12（CI 环境，本地也用 3.12.3 跑过） |
-| 机器可读登记 | [`c5acdb8/register.json`](c5acdb8/register.json)（当前）：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
+| 机器可读登记 | [`f2d953f/register.json`](f2d953f/register.json)（当前）：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
 
 “invariant（验收断言）”指答案 `expected.json` 里除逐事件要求以外的整体要求，例如“不得出现金额变化”。32 对答案中共有 **31 种**（按名称去重计的种数，不是用例数）。
 
@@ -137,6 +137,30 @@ Codex 复核第六轮时指出了一个问题，而且是第六轮自己引入�
 
 修复前的失败可以重现：`verification/before-fix.sh 55e669a`，输出见 [`c5acdb8/before-fix-55e669a.log`](c5acdb8/before-fix-55e669a.log)，恰好这 1 项失败。在各轮 scorer 上，这项测试只在 `2ff585b`、`d61461b`、`7ea1fb3`、`74783d6`、`55e669a` 上失败。第六轮的整行反例、第五轮的逐字拆分等其他测试，结论都不变。真实数据也没有变化：几何核查输出与第六轮逐字相同，每个用例的结果逐项相同。
 
+### 第八轮：引用顺序与只有整行坐标的情况（`f2d953f`）
+
+Codex 复核第七轮，又指出两种伪造方式，都成立：
+
+- **打乱引用顺序**：一个两侧都没变的 `100020` 格，伪造卡在右侧按 `[4,1,2,3,0,5]` 的顺序逐字引用，凑出 `200010`，声称 `100020 → 200010`。第七轮把引用到的字符按格内顺序重排，两侧都还原成 `100020`，结果判 PASS。
+- **只有整行坐标**：有些位置只有一个整行共用的坐标框，没有逐字坐标（Node 下的 PDF.js 就是这样）。如果 layout.json 只覆盖了 MSN 格，原来的回退条件“碰到任一文字块就算有解释”会被满足，其中的 `100000` 就漏掉了。
+
+这已经是同一个金额检查连续第八轮被找到漏洞，所以这一轮不再逐个打补丁，而是把可以判定的范围写成明确规则（见第 5 节“金额检查的可判定范围”）：
+
+- **卡片声称了什么**：只读卡片的删除、新增操作。按卡片自己的引用顺序，取出落在金额格里的字符，并按格切分。整格值不变、声称的金额文字却不同，判 FAIL。引用顺序和引用粒度都藏不住卡片的声称。
+- **只有整行坐标时**：
+  - 位置里的每个裸数字都必须出现在它覆盖的文字块里，否则判无法评价。
+  - 删除或新增操作的整行坐标如果同时跨了金额格和其他格，就分不清改的是金额还是 MSN。这时也判无法评价，不判 PASS，也不冤判 FAIL。另外，`resolveLocation` 对整行坐标的字符顺序只核对首尾，中间可以重排，所以这类声称本来也无法核实。
+- 以上“无法评价”都是 `invariant_unverifiable`，退出码 1，不归入四项可以返回退出码 2 的已登记缺口。
+
+| 测试（schema 合法，引用都能解析，没有其他错误） | 第七轮 scorer `c5acdb8` | `f2d953f` |
+|---|---|---|
+| R26：未变的 `100020` 格，逐字乱序引用凑出 `200010` | **PASS**（假通过） | FAIL |
+| R26：只有整行坐标、layout.json 只覆盖 MSN 格的整行错误卡 | **PASS**（假通过） | NOT_EVALUATED，退出码 1 |
+| R26：只有整行坐标、layout.json 覆盖全部格子的整行错误卡 | FAIL | FAIL |
+| R26：只有整行坐标、同一条记录只改 MSN | PASS | NOT_EVALUATED，退出码 1（无法归属） |
+
+修复前的失败可以重现：`verification/before-fix.sh c5acdb8`，输出见 [`f2d953f/before-fix-c5acdb8.log`](f2d953f/before-fix-c5acdb8.log)，恰好 3 项失败。第三、四行在同一项测试里，这项测试失败是因为第四行。真实数据没有变化：Node 下 PDF.js 的位置正是整行坐标，但 R11、R26 的真实卡片不涉及金额格，数字也都能在文字块里找到。两个引擎的严格结果、事件回归和每个用例的结果都逐项相同，几何核查输出与第六轮逐字相同。
+
 ## 2. 31 种 invariant 的覆盖登记
 
 - **直接检查**：评分器里有这一条的专门检查（`DIRECT` 表）。每条都有一个负向测试，构造违反它的结果，并要求失败原因里写着这条 invariant 的名字。
@@ -229,16 +253,21 @@ Codex 复核第六轮时指出了一个问题，而且是第六轮自己引入�
 
 - **评分器比答案更严**：R22 答案允许按注册号或序列号匹配行，R26 允许按序列号匹配或显式标为身份待审，但评分器只接受序列号作为行键。当前产品用的正是序列号，所以没有影响。
 - **`Added+Removed` 未支持**：R25、R26 的事件把它列为可接受的类型，但事件匹配只看单张卡。如果产品真的输出一删一增，评分器会判 FAIL，而不是“无法评价”。这是潜在的错误失败；当前产品没有这样输出。
-- **金额格以 layout.json 为准**：卡片没有声明金额字段时，裸整数是不是金额，取决于它的坐标落在 layout.json 的哪个文字块。不论引用的是单个字、单个格还是整行，结论都一样（第六轮之前，整行引用会被漏判为 PASS，已修复）。引用的裸数字有数位落在所有文字块之外时，判 NOT_EVALUATED、退出码 1，不判 PASS。剩下的前提是 layout.json 本身：如果它把金额格的路径标错了，评分器就会跟着错。为了不把 MSN 这类标识误判为金额，本项没有把所有裸整数都当作金额。
+- **金额检查的可判定范围**（第八轮起写成明确规则）：
+  - 卡片没有声明金额字段时，按几何关系找出它引用了 layout.json 中的哪些金额格。比较两样东西：一是各格的值，看两侧配对的是不是同一金额；二是卡片删除、新增操作按自己的引用顺序声称的金额文字。能判定的情况下，结论与引用粒度（单个字、单个格、整行）和引用顺序都无关。
+  - 有逐字坐标时，裸数字的每一位都必须落在某个文字块内。只有整行坐标时，裸数字必须出现在它覆盖的文字块里；而且删除、新增操作不能同时跨金额格和其他格。不满足这些条件就判 NOT_EVALUATED（`invariant_unverifiable`，退出码 1），不判 PASS。
+  - 代价是：只有整行坐标、又跨格改动的卡片（例如同一条记录只改 MSN）只能判“无法评价”。当前真实数据中没有这种卡片。
+  - 前提是 layout.json 本身正确：如果它把金额格的路径标错了，评分器会跟着错。为了不把 MSN 这类标识误判为金额，本项没有把所有裸整数都当作金额。
 - **多余的卡只在有对应 invariant 时才拦截**：额外的、解释不了的卡，只有在该用例声明了禁止它的 invariant 时才会被拒绝，例如 `no_content_differences`、`no_material_differences` 和金额/币种检查。答案没有声明这类要求的用例，评分器不另做误报检查。
 
-## 6. 验证（当前代码提交 `c5acdb8`，本地 Linux）
+## 6. 验证（当前代码提交 `f2d953f`，本地 Linux）
 
 每一轮都在该轮的代码提交上完整重跑，证据各自放在对应目录里。
 
 | 轮次 / 代码提交（证据目录） | scorer 测试 | Python 分诊 | `verify:core` | 两个引擎的规则（Node） | 浏览器 `rules.spec.ts`（两个引擎） | 修复前反例（当轮测试文件） |
 |---|---|---|---|---|---|---|
-| 第七轮 `c5acdb8`（当前，`c5acdb8/`） | 71/71（原 32 + 新 39） | 20/20 | 125/125 | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | 通过：严格 28/32，事件 32/32，只剩已登记缺口 | `55e669a` 上恰好 1 项部分引用失败 |
+| 第八轮 `f2d953f`（当前，`f2d953f/`） | 74/74（原 32 + 新 42） | 20/20 | 128/128 | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | 通过：严格 28/32，事件 32/32，只剩已登记缺口 | `c5acdb8` 上恰好 3 项（乱序引用、整行坐标）失败 |
+| 第七轮 `c5acdb8`（`c5acdb8/`） | 71/71 | 20/20 | 125/125 | 同上 | 同上 | `55e669a` 上恰好 1 项部分引用失败 |
 | 第六轮 `55e669a`（`55e669a/`） | 70/70 | 20/20 | 124/124 | 同上 | 同上 | `28afbd1` 上恰好 3 项整行引用失败 |
 | 第五轮 `28afbd1`（`28afbd1/`） | 65/65 | 20/20 | 119/119 | 同上 | 同上 | `fececbf` 上恰好 1 项逐字拆分失败 |
 | 第四轮 `fececbf`（`fececbf/`） | 64/64 | 20/20 | 118/118 | 同上 | 同上 | `74783d6` 上恰好 2 项字段错标失败 |
@@ -246,9 +275,9 @@ Codex 复核第六轮时指出了一个问题，而且是第六轮自己引入�
 | 第二轮 `7ea1fb3`（`7ea1fb3/`） | 59/59 | 20/20 | 113/113 | 同上 | 同上 | `d61461b` 上恰好 3 项裸整数变体失败 |
 | 第一轮 `d61461b`（`verification/`） | 55/55 | 20/20 | 109/109 | 同上 | 同上 | 起点 `2ff585b` 上 4 项失败 |
 
-七轮的身份 N/A 都是 11 项。覆盖登记都是直接 10、间接 17、尚未支持 4、未知 0。
+八轮的身份 N/A 都是 11 项。覆盖登记都是直接 10、间接 17、尚未支持 4、未知 0。
 
-用 `c5acdb8` 的测试文件对各轮 scorer 依次重跑，失败数为 18 → 13 → 10 → 8 → 4 → 3 → 1 → 0。整行 MSN 看守在各轮都通过；部分引用的反例在 `fececbf`、`28afbd1` 上本来能拦住，到 `55e669a` 回退，第七轮修复。见 [`c5acdb8/before-fix-all-rounds.log`](c5acdb8/before-fix-all-rounds.log)，前几轮的对应记录保留在各自的目录中。`2ff585b` 上的 18 项里包括单格 MSN 看守：那时的 scorer 还不输出 invariant 结果，看守里的断言无从成立；这不是金额误判。
+用 `f2d953f` 的测试文件对各轮 scorer 依次重跑，失败数为 21 → 16 → 13 → 11 → 7 → 6 → 4 → 3 → 0。逐字坐标下的整行 MSN 看守在各轮都通过；部分引用的反例在 `fececbf`、`28afbd1` 上本来能拦住，到 `55e669a` 回退，第七轮修复。见 [`f2d953f/before-fix-all-rounds.log`](f2d953f/before-fix-all-rounds.log)，前几轮的对应记录保留在各自的目录中。`2ff585b` 上的 21 项里包括单格 MSN 看守：那时的 scorer 还不输出 invariant 结果，看守里的断言无从成立；这不是金额误判。
 
 本地浏览器运行使用了 Chromium 1243，通过不提交的 `tmp/playwright.local.config.ts` 设置 `executablePath`。CI 使用自己安装的浏览器，结果见 PR。
 
@@ -259,13 +288,14 @@ python3 -m unittest discover -s tests -p 'test_renewal_triage.py'
 pnpm verify:core
 pnpm test:rules:mupdf; echo "exit $?"   # 预期为 2
 pnpm test:rules:pdfjs; echo "exit $?"   # 预期为 2
-reports/invariant-coverage/verification/before-fix.sh           # 起点 2ff585b：18 项失败
-reports/invariant-coverage/verification/before-fix.sh d61461b   # 第一轮：13 项失败（裸整数、字段错标、逐字拆分、整行、部分引用、一删一增互换）
-reports/invariant-coverage/verification/before-fix.sh 7ea1fb3   # 第二轮：10 项失败（字段错标、逐字拆分、整行、部分引用、一删一增互换）
-reports/invariant-coverage/verification/before-fix.sh 74783d6   # 第三轮：8 项失败（字段错标、逐字拆分、整行、部分引用）
-reports/invariant-coverage/verification/before-fix.sh fececbf   # 第四轮：4 项失败（逐字拆分、整行）
-reports/invariant-coverage/verification/before-fix.sh 28afbd1   # 第五轮：3 项整行引用失败
-reports/invariant-coverage/verification/before-fix.sh 55e669a   # 第六轮：只有 1 项部分引用失败
+reports/invariant-coverage/verification/before-fix.sh           # 起点 2ff585b：21 项失败
+reports/invariant-coverage/verification/before-fix.sh d61461b   # 第一轮：16 项失败
+reports/invariant-coverage/verification/before-fix.sh 7ea1fb3   # 第二轮：13 项失败
+reports/invariant-coverage/verification/before-fix.sh 74783d6   # 第三轮：11 项失败
+reports/invariant-coverage/verification/before-fix.sh fececbf   # 第四轮：7 项失败
+reports/invariant-coverage/verification/before-fix.sh 28afbd1   # 第五轮：6 项失败
+reports/invariant-coverage/verification/before-fix.sh 55e669a   # 第六轮：4 项失败（部分引用、乱序引用、整行坐标）
+reports/invariant-coverage/verification/before-fix.sh c5acdb8   # 第七轮：3 项失败（乱序引用、整行坐标）
 pnpm exec tsx reports/invariant-coverage/55e669a/geometry-probe.mts mupdf   # 真实卡片的坐标框能否全部对到 layout.json
 git restore reports/core-tests.json reports/rules-mupdf.json reports/rules-pdfjs.json   # 上面的命令会改写这些已提交的报告
 ```
