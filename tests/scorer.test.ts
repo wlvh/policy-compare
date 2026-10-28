@@ -906,6 +906,19 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
   });
+  it("R26: removing an unchanged currency letter by letter across cards fails, with or without a record", () => {
+    // The USD cell of row SYN-1026-001 stays; three Removed cards cite U, S and D.
+    for (const rowKey of ["SYN-1026-001", null]) {
+      const x = r26(true);
+      x.result.differences.push(
+        ...glyphs(lineLoc(x.docs[0], "left", "l4")).map((g, i) => oneSided("Removed", `cur${i}`, g, rowKey, "currency")),
+      );
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+      expect(score.status).toBe("FAIL");
+    }
+  });
   it("R26: one record shown as delete + add with the same amount passes", () => {
     const x = r26();
     const [l, r] = x.docs;
