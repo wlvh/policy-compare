@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Run the current R26/R11 counterexamples against an earlier scorer (default: the fixed start 2ff585b).
-# With the test file at bb85bc4, failures per earlier scorer (logs in reports/invariant-coverage/bb85bc4/):
-#   before-fix.sh            -> 23 (every wrong-card counterexample, plus the MSN guard: no invariant results yet)
-#   before-fix.sh d61461b    -> 18    before-fix.sh 7ea1fb3 -> 15    before-fix.sh 74783d6 -> 13
-#   before-fix.sh fececbf    -> 8     before-fix.sh 28afbd1 -> 7     before-fix.sh 55e669a -> 6
-#   before-fix.sh c5acdb8    -> 5     before-fix.sh f2d953f -> 2
-#   before-fix.sh 8ca503f    -> 1: the claim split into one operation per glyph
+# With the test file at 402e66e, failures per earlier scorer (logs in reports/invariant-coverage/402e66e/):
+#   before-fix.sh            -> 24 (every wrong-card counterexample, plus the MSN guard: no invariant results yet)
+#   before-fix.sh d61461b    -> 19    before-fix.sh 7ea1fb3 -> 16    before-fix.sh 74783d6 -> 14
+#   before-fix.sh fececbf    -> 9     before-fix.sh 28afbd1 -> 8     before-fix.sh 55e669a -> 7
+#   before-fix.sh c5acdb8    -> 6     before-fix.sh f2d953f -> 3     before-fix.sh 8ca503f -> 2
+#   before-fix.sh bb85bc4    -> 1: a declared-field claim split across delete/add cards
 set -u
 repo=$(git rev-parse --show-toplevel)
 dir=$(mktemp -d)
