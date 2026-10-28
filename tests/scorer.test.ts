@@ -803,6 +803,30 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
   });
+  it("R26: one card swapping two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED", () => {
+    // Rows keep 100000 and 200000; one card cites them as 100000,200000 on the left and 200000,100000 on the right.
+    const x = r26(true);
+    const [l, r] = x.docs;
+    const L = [lineLoc(l, "left", "l5"), lineLoc(l, "left", "l10")],
+      R = [lineLoc(r, "right", "l10"), lineLoc(r, "right", "l5")];
+    const card = replaced("swap", L[0], R[0], { section: "aircraft_schedule", entity: null, field: "registration", table: "aircraft_schedule", rowKey: null });
+    Object.assign(card, {
+      left: L,
+      right: R,
+      oldText: "100000200000",
+      newText: "200000100000",
+      textOps: [
+        { kind: "delete", text: "100000", left: [L[0]], right: [] },
+        { kind: "delete", text: "200000", left: [L[1]], right: [] },
+        { kind: "insert", text: "200000", left: [], right: [R[0]] },
+        { kind: "insert", text: "100000", left: [], right: [R[1]] },
+      ],
+    });
+    const score = graded(x, card);
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+    expect(exitCode(summarize([score]))).toBe(1);
+  });
   it("R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED", () => {
     // Each extra row is one shared box; layout.json covers only the MSN cells.
     const x = r26(true, undefined, { ...ROWS, coarse: true, cover: ["msn"] });
