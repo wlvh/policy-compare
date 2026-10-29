@@ -1038,6 +1038,44 @@ const overlap = (a: number[], b: number[]) =>
   Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
 const area = (a: number[]) =>
   Math.max(0, a[2] - a[0]) * Math.max(0, a[3] - a[1]);
+// A document's text in reading order: pages in order, each page's lines in their order, and in a
+// line the non-whitespace scalars of its characters (a position is a character id and the scalar's
+// index in it). `next` gives the following position and what separates them: nothing, whitespace
+// in the line, or a line break.
+function readingOrder(doc: DocInput) {
+  const text = new Map<string, string>();
+  const at = new Map<string, { line: number; i: number }>();
+  const lines: { key: string; space: boolean }[][] = [];
+  for (const p of doc.pages) {
+    for (const c of p.chars) text.set(c.id, c.text);
+    for (const l of p.lines) {
+      const seq: { key: string; space: boolean }[] = [];
+      let space = false;
+      for (const id of l.charIds)
+        Array.from(text.get(id) ?? "").forEach((s, k) => {
+          if (/\s/u.test(s)) space = true;
+          else {
+            at.set(`${id}#${k}`, { line: lines.length, i: seq.length });
+            seq.push({ key: `${id}#${k}`, space });
+            space = false;
+          }
+        });
+      lines.push(seq);
+    }
+  }
+  const next = (key: string): { key: string; gap: "none" | "space" | "line" } | null => {
+    const pos = at.get(key);
+    if (!pos) return null;
+    const after = lines[pos.line][pos.i + 1];
+    if (after) return { key: after.key, gap: after.space ? "space" : "none" };
+    const line = lines.slice(pos.line + 1).find((l) => l.length);
+    return line ? { key: line[0].key, gap: "line" } : null;
+  };
+  // The positions of a location's non-whitespace characters, in its order.
+  const keys = (loc: SourceLocation) =>
+    loc.charIds.flatMap((id) => Array.from(text.get(id) ?? "").flatMap((s, k) => (/\s/u.test(s) ? [] : [`${id}#${k}`])));
+  return { next, keys };
+}
 function located(
   locs: SourceLocation[],
   refs: Evidence[],
@@ -1155,6 +1193,7 @@ export function grade(
     faults.push("Input hash or direction mismatch");
   const checkLoc = (loc: SourceLocation, side: "left" | "right") =>
     loc.side === side && resolveLocation(loc, docs);
+  const order = [readingOrder(docs[0]), readingOrder(docs[1])] as const;
   const finalGeometryValid=(loc:SourceLocation)=>{
     if(loc.precision==='run'&&(!loc.resolvedGeometry||loc.resolvedGeometry.method!=='text_layer_range'||loc.resolvedGeometry.text!==loc.text))return false;
     const page=layout[loc.side==='left'?'before':'after'].pages[loc.pageIndex];if(!page)return false;
@@ -1357,74 +1396,102 @@ export function grade(
         (kinds.length > 0 && kinds.every((k) => on(d, k as "delete" | "insert")))
       );
     };
-    // Where the card itself carries the event's old (new) text: each occurrence in the card's old (new)
-    // text, whether each of its characters comes from a location on the event's before (after) runs, and
-    // whether it holds an edit of the card on the event's runs. Whitespace is folded as in clean().
-    const spots = (d: Difference, side: "left" | "right") => {
-      const text = (side === "left" ? e.old : e.new)!;
-      const other = side === "left" ? "insert" : "delete";
-      const edit = (op: Difference["textOps"][number]) =>
-        op.kind === "delete"
-          ? located(op.left, refs.before, layout.before.pages, "left")
-          : op.kind === "insert" && located(op.right, refs.after, layout.after.pages, "right");
-      const onRuns = (l: SourceLocation) =>
-        side === "left"
-          ? located([l], refs.before, layout.before.pages, "left")
-          : located([l], refs.after, layout.after.pages, "right");
-      // The side's text by character, each with the index of its operation and whether the character's
-      // own location lies on the event's runs. An operation's text is its locations' texts in order
-      // (whitespace aside, checked against the sources above), so an operation citing several
-      // locations does not lend the event's run to the characters of its other locations.
-      const chars: { c: string; i: number; own: boolean }[] = [];
-      d.textOps.forEach((op, i) => {
-        if (op.kind === other) return;
-        const from = (side === "left" ? op.left : op.right).flatMap((l) => {
-          const on = onRuns(l);
-          return Array.from(l.text.replace(/\s/gu, ""), () => on);
-        });
-        let k = 0;
-        for (const c of op.text)
-          if (!/\s/u.test(c)) chars.push({ c, i, own: from[k++] ?? false });
-          else if (chars.length && chars.at(-1)!.c !== " ") chars.push({ c: " ", i, own: true });
-      });
-      if (chars.at(-1)?.c === " ") chars.pop();
-      const needle = Array.from(clean(text));
-      // A number of the event matches only as a whole number: an occurrence must not start or end
-      // inside a number of the card's text (digits, with at most one . or , between two digits).
-      const digit = (i: number) => /\p{Nd}/u.test(chars[i]?.c ?? "");
-      const inNumber = (i: number) => digit(i) || (/^[.,]$/.test(chars[i]?.c ?? "") && digit(i - 1) && digit(i + 1));
-      const whole = (p: number) =>
-        !(digit(p) && inNumber(p - 1)) && !(digit(p + needle.length - 1) && inNumber(p + needle.length));
-      const found: { own: boolean; edit: boolean }[] = [];
-      for (let p = 0; needle.length && p + needle.length <= chars.length; p++)
-        if (needle.every((c, j) => chars[p + j].c === c) && whole(p)) {
-          const ops = d.textOps.slice(chars[p].i, chars[p + needle.length - 1].i + 1);
-          found.push({ own: chars.slice(p, p + needle.length).every((x) => x.own), edit: ops.some(edit) });
-        }
-      return found;
-    };
-    // Which side's text the event changes: what remains of the old (new) text after the common start
-    // and end of both. An old text kept whole inside the new one (text appended or inserted) does not
-    // change on the old side.
+    // The text the event needs on a side; an empty side (a pure insertion or deletion) needs none.
+    const needs = (side: "left" | "right") => clean((side === "left" ? e.old : e.new) ?? "") !== "";
+    // The part of the old (new) text the event changes: what remains after the common start and end
+    // of both, as [from, to) in the folded text. An old text kept whole inside the new one (text
+    // appended or inserted) has no changed part on the old side.
     const changed = (() => {
       const [o, n] = [Array.from(clean(e.old ?? "")), Array.from(clean(e.new ?? ""))];
       let p = 0;
       while (p < Math.min(o.length, n.length) && o[p] === n[p]) p++;
       let q = 0;
       while (q < Math.min(o.length, n.length) - p && o[o.length - 1 - q] === n[n.length - 1 - q]) q++;
-      return { left: o.length > p + q, right: n.length > p + q };
+      return { left: [p, o.length - q], right: [p, n.length - q] } as Record<"left" | "right", [number, number]>;
     })();
+    // Where the card itself carries the event's old (new) text: each occurrence in the card's old (new)
+    // text (whitespace folded as in clean(), a number only as a whole number), and for it:
+    // - own: each character comes from a location on the event's before (after) runs;
+    // - ordered: the characters follow one another in the source as in the card, so no reordered,
+    //   repeated or skipped text; a space in the card stands for whitespace or a line break there;
+    // - edit: a character of the part the event changes is the card's own deletion (insertion) there.
+    //   An edit of whitespace alone, or elsewhere in the occurrence, does not show that change.
+    const spots = (d: Difference, side: "left" | "right") => {
+      const text = (side === "left" ? e.old : e.new)!;
+      const other = side === "left" ? "insert" : "delete";
+      const source = order[side === "left" ? 0 : 1];
+      const onRuns = (l: SourceLocation) =>
+        side === "left"
+          ? located([l], refs.before, layout.before.pages, "left")
+          : located([l], refs.after, layout.after.pages, "right");
+      // The side's text by character, each with the index of its operation, the source position it
+      // comes from and whether that position's location lies on the event's runs. An operation's text
+      // is its locations' texts in order (whitespace aside, checked against the sources above).
+      const chars: { c: string; i: number; own: boolean; key: string | null }[] = [];
+      d.textOps.forEach((op, i) => {
+        if (op.kind === other) return;
+        const from = (side === "left" ? op.left : op.right).flatMap((l) => {
+          const on = onRuns(l);
+          return source.keys(l).map((key) => ({ on, key }));
+        });
+        let k = 0;
+        for (const c of op.text)
+          if (!/\s/u.test(c)) {
+            const at = from[k++];
+            chars.push({ c, i, own: at?.on ?? false, key: at?.key ?? null });
+          } else if (chars.length && chars.at(-1)!.c !== " ") chars.push({ c: " ", i, own: true, key: null });
+      });
+      if (chars.at(-1)?.c === " ") chars.pop();
+      const needle = Array.from(clean(text));
+      const digit = (i: number) => /\p{Nd}/u.test(chars[i]?.c ?? "");
+      const inNumber = (i: number) => digit(i) || (/^[.,]$/.test(chars[i]?.c ?? "") && digit(i - 1) && digit(i + 1));
+      const whole = (p: number) =>
+        !(digit(p) && inNumber(p - 1)) && !(digit(p + needle.length - 1) && inNumber(p + needle.length));
+      const ordered = (span: typeof chars) =>
+        span.every((x, j) => {
+          if (x.c === " ") return true;
+          const y = span.slice(j + 1).find((z) => z.c !== " ");
+          if (!y) return true;
+          const next = x.key === null ? null : source.next(x.key);
+          const spaced = span[j + 1].c === " ";
+          return next !== null && next.key === y.key && (spaced ? next.gap !== "none" : next.gap !== "space");
+        });
+      const kind = side === "left" ? "delete" : "insert";
+      const [from, to] = changed[side];
+      const found: { own: boolean; ordered: boolean; edit: boolean }[] = [];
+      for (let p = 0; needle.length && p + needle.length <= chars.length; p++)
+        if (needle.every((c, j) => chars[p + j].c === c) && whole(p)) {
+          const span = chars.slice(p, p + needle.length);
+          const part = span.slice(from, to);
+          // A change of whitespace alone (nothing else in the changed part) is shown by an edit of
+          // the card on the event's runs within the occurrence.
+          const edit = part.some((x) => x.c !== " ")
+            ? part.some((x) => x.c !== " " && x.own && d.textOps[x.i].kind === kind)
+            : d.textOps
+                .slice(span[0].i, span.at(-1)!.i + 1)
+                .some((o) => o.kind === kind && onRunsOp(o));
+          found.push({ own: span.every((x) => x.own), ordered: ordered(span), edit });
+        }
+      return found;
+    };
+    const onRunsOp = (o: Difference["textOps"][number]) =>
+      o.kind === "delete"
+        ? located(o.left, refs.before, layout.before.pages, "left")
+        : located(o.right, refs.after, layout.after.pages, "right");
     // The card shows the event at the event's own text, not with the same text from elsewhere in the
-    // card (another unit kept as context, another unchanged occurrence, or paired across units): the
-    // old and the new text each occur on the event's runs, and on each side the event changes, that
-    // occurrence holds the card's edit there. A move has no edit to carry.
+    // card (another unit kept as context, another unchanged occurrence, characters from elsewhere in
+    // the run, or paired across units): the old and the new text each occur on the event's runs in the
+    // source's order, and on each side the event changes, that occurrence holds the card's edit of
+    // the changed part. A move has no edit to carry; an event with no text on either side shows nothing.
     const carried = (d: Difference) =>
       e.operation === "move" ||
-      (["left", "right"] as const).every((side) => {
-        if ((side === "left" ? e.old : e.new) === null) return true;
-        const own = spots(d, side).filter((s) => s.own);
-        return changed[side] ? own.some((s) => s.edit) : own.length > 0;
-      });
+      ((needs("left") || needs("right")) &&
+        (["left", "right"] as const).every((side) => {
+          if (!needs(side)) return true;
+          const shown = spots(d, side).filter((s) => s.own && s.ordered);
+          const [from, to] = changed[side];
+          return to > from ? shown.some((s) => s.edit) : shown.length > 0;
+        }));
     const candidates = result.differences.filter(
       (d) =>
         (e.old === null || clean(d.oldText).includes(clean(e.old))) &&
@@ -1455,7 +1522,7 @@ export function grade(
                 clean(side === "left" ? d.oldText : d.newText).includes(clean(text)) &&
                 at(d, side) &&
                 on(d, op) &&
-                spots(d, side).some((s) => s.own && s.edit),
+                spots(d, side).some((s) => s.own && s.ordered && s.edit),
             ),
           )
         : [[], []];

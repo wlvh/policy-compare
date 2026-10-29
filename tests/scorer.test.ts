@@ -1726,46 +1726,51 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       expect(summarize([score]).repeatedText, name).toEqual({ pass: [], fail: ["T1"] });
     }
   });
+  // An operation over one location per side, and a card made of operations.
+  const op = (kind: "equal" | "delete" | "insert", a: SourceLocation | null, b: SourceLocation | null, text = (a ?? b)!.text) => ({
+    kind,
+    text,
+    left: a ? [a] : [],
+    right: b ? [b] : [],
+  });
+  const of = (id: string, ops: ReturnType<typeof op>[]): Difference => {
+    const left = ops.flatMap((o) => o.left), right = ops.flatMap((o) => o.right);
+    const oldText = ops.filter((o) => o.kind !== "insert").map((o) => o.text).join("");
+    const newText = ops.filter((o) => o.kind !== "delete").map((o) => o.text).join("");
+    return { ...card(id, left, right), kind: left.length && right.length ? "Replaced" : left.length ? "Removed" : "Added", oldText, newText, hasTextChange: oldText !== newText, textOps: ops };
+  };
+  // One replace event from the old to the new text, on the lines (runs) holding them.
+  const grader = (left: DocInput, right: DocInput, old: string, neu: string, beforeLines: string | string[], afterLines: string | string[]) => (
+    differences: Difference[],
+    kinds: Expected["events"][number]["acceptable_kinds"] = ["Replaced"],
+  ) => {
+    const result = compare(left, right);
+    // Each card names the event's field, so identity is met.
+    const named = differences.map((d) => ({ ...d, structurePath: { ...d.structurePath!, field: "sum_insured" } }));
+    Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: named });
+    expect(ResultSchema.safeParse(result).success).toBe(true);
+    const before = layoutOf(left), after = layoutOf(right);
+    const runs = (l: typeof before, texts: string | string[]) =>
+      [texts].flat().map((text) => {
+        const page_index = l.pages.findIndex((p) => p.text_runs.some((r) => r.text === text));
+        return { page_index, run_id: l.pages[page_index].text_runs.find((r) => r.text === text)!.run_id };
+      });
+    const expected: Expected = {
+      case_id: "carried",
+      required_status: "complete_for_scope",
+      events: [{ event_id: "E1", logical_path: "risk_details.sum_insured", old, new: neu, operation: "replace", detection_requirement: "must_detect", acceptable_kinds: kinds, acceptable_categories: [] }],
+      invariants: [],
+      coverage_requirements: [],
+      evidence_locations: { E1: { before: runs(before, beforeLines), after: runs(after, afterLines) } },
+    };
+    return grade(result, expected, { before, after } as Layout, [left, right]);
+  };
   it("an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card", () => {
     // The event's line changes its amount and its wording; another line holds both amounts unchanged.
     const left = docOf([{ text: "USD 100 included" }, { text: "USD 100 USD 200" }]),
       right = docOf([{ text: "USD 200 excluded" }, { text: "USD 100 USD 200" }]);
     const [l0, l1] = [at(left, "left", "USD 100 included"), at(left, "left", "USD 100 USD 200")];
     const [r0, r1] = [at(right, "right", "USD 200 excluded"), at(right, "right", "USD 100 USD 200")];
-    const op = (kind: "equal" | "delete" | "insert", a: SourceLocation | null, b: SourceLocation | null) => ({
-      kind,
-      text: (a ?? b)!.text,
-      left: a ? [a] : [],
-      right: b ? [b] : [],
-    });
-    const of = (id: string, ops: ReturnType<typeof op>[]): Difference => {
-      const left = ops.flatMap((o) => o.left), right = ops.flatMap((o) => o.right);
-      const oldText = ops.filter((o) => o.kind !== "insert").map((o) => o.text).join("");
-      const newText = ops.filter((o) => o.kind !== "delete").map((o) => o.text).join("");
-      return { ...card(id, left, right), kind: left.length && right.length ? "Replaced" : left.length ? "Removed" : "Added", oldText, newText, hasTextChange: oldText !== newText, textOps: ops };
-    };
-    // One replace event from the old to the new text, on the lines holding them.
-    const grader = (left: DocInput, right: DocInput, old: string, neu: string, beforeLine: string, afterLine: string) => (
-      differences: Difference[],
-      kinds: Expected["events"][number]["acceptable_kinds"] = ["Replaced"],
-    ) => {
-      const result = compare(left, right);
-      // Each card names the event's field, so identity is met.
-      const named = differences.map((d) => ({ ...d, structurePath: { ...d.structurePath!, field: "sum_insured" } }));
-      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: named });
-      expect(ResultSchema.safeParse(result).success).toBe(true);
-      const before = layoutOf(left), after = layoutOf(right);
-      const run = (l: typeof before, text: string) => [{ page_index: 0, run_id: l.pages[0].text_runs.find((r) => r.text === text)!.run_id }];
-      const expected: Expected = {
-        case_id: "carried",
-        required_status: "complete_for_scope",
-        events: [{ event_id: "E1", logical_path: "risk_details.sum_insured", old, new: neu, operation: "replace", detection_requirement: "must_detect", acceptable_kinds: kinds, acceptable_categories: [] }],
-        invariants: [],
-        coverage_requirements: [],
-        evidence_locations: { E1: { before: run(before, beforeLine), after: run(after, afterLine) } },
-      };
-      return grade(result, expected, { before, after } as Layout, [left, right]);
-    };
     const graded = grader(left, right, "USD 100", "USD 200", "USD 100 included", "USD 200 excluded");
     // Controls: the whole line replaced, or edited glyph by glyph inside the amount.
     expect(graded([card("whole", [l0], [r0])]).status).toBe("PASS");
@@ -1859,6 +1864,96 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       op("insert", null, slice(m0, 17, 25)),
     ]);
     expect(twice([edited]).status).toBe("PASS");
+  });
+  it("an event's text is shown in the source's own order, with an effective edit in the part the event changes", () => {
+    const fails = (score: ReturnType<typeof grade>, name: string) => {
+      expect.soft(score.status, name).toBe("FAIL");
+      expect.soft(score.events[0], name).toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
+    };
+    // Characters out of the source's order: the amount line's rate digit also changes 1 -> 2.
+    const [left, right] = [docOf([{ text: "USD 100 rate 1" }]), docOf([{ text: "USD 200 rate 2" }])];
+    const [l0, r0] = [at(left, "left", "USD 100 rate 1"), at(right, "right", "USD 200 rate 2")];
+    const graded = grader(left, right, "USD 100", "USD 200", "USD 100 rate 1", "USD 200 rate 2");
+    // One location whose characters are the given ones of a line, in the given order.
+    const picked = (loc: SourceLocation, idx: number[]): SourceLocation => ({
+      ...loc,
+      rawRange: [loc.rawRange[0] + idx[0], loc.rawRange[0] + idx.at(-1)! + 1],
+      charIds: idx.map((i) => loc.charIds[i]),
+      text: idx.map((i) => Array.from(loc.text)[i]).join(""),
+      quads: idx.map((i) => loc.quads[i]),
+    });
+    const forged = {
+      // The rate digit's edit shown in the amount's place: "USD " + rate 1 -> 2 + "00".
+      reordered: of("reordered", [
+        op("equal", slice(l0, 0, 4), slice(r0, 0, 4)),
+        op("delete", slice(l0, 13, 14), null),
+        op("insert", null, slice(r0, 13, 14)),
+        op("equal", slice(l0, 5, 7), slice(r0, 5, 7)),
+      ]),
+      // The same inside one location each.
+      "one location out of order": of("one location", [
+        op("delete", picked(l0, [0, 1, 2, 3, 13, 5, 6]), null),
+        op("insert", null, picked(r0, [0, 1, 2, 3, 13, 5, 6])),
+      ]),
+      // A character cited twice instead of its neighbour.
+      duplicated: of("duplicated", [op("delete", picked(l0, [0, 1, 2, 3, 4, 5, 5]), null), op("insert", null, slice(r0, 0, 7))]),
+    };
+    for (const [name, d] of Object.entries(forged)) fails(graded([d]), name);
+    // Controls: the amount edited glyph by glyph, both edits shown, the whole line replaced.
+    const amount = [
+      op("equal", slice(l0, 0, 4), slice(r0, 0, 4)),
+      op("delete", slice(l0, 4, 5), null),
+      op("insert", null, slice(r0, 4, 5)),
+      op("equal", slice(l0, 5, 7), slice(r0, 5, 7)),
+    ];
+    expect(graded([of("amount", amount)]).status).toBe("PASS");
+    const both = [...amount, op("equal", slice(l0, 7, 13), slice(r0, 7, 13)), op("delete", slice(l0, 13, 14), null), op("insert", null, slice(r0, 13, 14))];
+    expect(graded([of("both", both)]).status).toBe("PASS");
+    expect(graded([card("whole", [l0], [r0])]).status).toBe("PASS");
+    // Across a line break the text runs on from the end of one line to the start of the next. With
+    // the two lines the other way round, "USD" ends the page and "100" comes before it.
+    const wrapped = (reversed: boolean) => {
+      const lines = (amount: string) => (reversed ? [{ text: `${amount} each loss` }, { text: "Limit USD" }] : [{ text: "Limit USD" }, { text: `${amount} each loss` }]);
+      const [wl, wr] = [docOf(lines("100")), docOf(lines("200"))];
+      const [wl0, wl1, wr0, wr1] = [at(wl, "left", "Limit USD"), at(wl, "left", "100 each loss"), at(wr, "right", "Limit USD"), at(wr, "right", "200 each loss")];
+      return grader(wl, wr, "USD 100", "USD 200", ["Limit USD", "100 each loss"], ["Limit USD", "200 each loss"])([
+        of("wrapped", [
+          op("equal", slice(wl0, 6, 9), slice(wr0, 6, 9), "USD "),
+          op("delete", slice(wl1, 0, 1), null),
+          op("insert", null, slice(wr1, 0, 1)),
+          op("equal", slice(wl1, 1, 3), slice(wr1, 1, 3)),
+        ]),
+      ]);
+    };
+    expect(wrapped(false).status).toBe("PASS");
+    fails(wrapped(true), "lines in the other order");
+    // Edits that only change spaces, inside amounts that do not change (r4415075897's input): no
+    // character of the part the event changes (1 -> 2) is edited.
+    const [sl, sr] = ["Extra USD  100; Liability USD 200.", "Extra USD 100; Liability USD  200."];
+    const [spl, spr] = [docOf([{ text: sl }]), docOf([{ text: sr }])];
+    const [s0, t0] = [at(spl, "left", sl), at(spr, "right", sr)];
+    fails(
+      grader(spl, spr, "USD 100", "USD 200", sl, sr)([of("spaces", [
+        op("equal", slice(s0, 0, 10), slice(t0, 0, 10)),
+        op("delete", slice(s0, 10, 11), null),
+        op("equal", slice(s0, 11, 30), slice(t0, 10, 29)),
+        op("insert", null, slice(t0, 29, 30)),
+        op("equal", slice(s0, 30, 34), slice(t0, 30, 34)),
+      ])]),
+      "whitespace edits",
+    );
+    // An empty side is a pure insertion or deletion: no text to find there; the other side still
+    // needs its edit (r4415128893's input).
+    const [pl, pr] = ["The insurer pays losses.", "The insurer pays approved losses."];
+    const [il, ir] = [docOf([{ text: pl }]), docOf([{ text: pr }])];
+    const [i0, j0] = [at(il, "left", pl), at(ir, "right", pr)];
+    const insertion = [op("equal", slice(i0, 0, 17), slice(j0, 0, 17)), op("insert", null, slice(j0, 17, 26)), op("equal", slice(i0, 17, 24), slice(j0, 26, 33))];
+    expect(grader(il, ir, "", "approved", pl, pr)([of("insert", insertion)]).status).toBe("PASS");
+    const [k0, m0] = [at(ir, "left", pr), at(il, "right", pl)];
+    const deletion = [op("equal", slice(k0, 0, 17), slice(m0, 0, 17)), op("delete", slice(k0, 17, 26), null), op("equal", slice(k0, 26, 33), slice(m0, 17, 24))];
+    expect(grader(ir, il, "approved", "", pr, pl)([of("delete", deletion)]).status).toBe("PASS");
+    // Nothing on either side is no event to show.
+    expect(grader(il, ir, "", "", pl, pr)([of("insert", insertion)]).events[0]).toMatchObject({ attribution: false, verdict: "FAIL" });
   });
 });
 // One violating result per directly checked invariant; the fault must name that invariant.
