@@ -62,7 +62,10 @@ when shown whole, however short, or with at least ten more of its characters
 a unit holding a changed character of the occurrence, not in a unit of it whose
 text the card leaves unchanged (renewal-triage/13). Cells of an Added/Removed row
 match only as whole numbers, and each author cell needs its own occurrence in
-the record unit (renewal-triage/14). A number at either end of the author text
+the record unit (renewal-triage/14); every author cell counts, however short, and
+overlapping cells need separate stretches of text; delete + add on separate
+cards must change the part the author edit changes on each side
+(renewal-triage/15). A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
 before a number it would split. Candidate matching, the edit check and the
@@ -92,7 +95,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/14'
+TOOL = 'renewal-triage/15'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -239,7 +242,7 @@ def in_source_order(span, known):
     return True
 
 
-def carries(span, edit):
+def carries(span, edit, within=False):
     """The occurrence carries the author edit: a character of it that the card changes. A changed
     space collapsed beside unchanged words (extra spaces around an amount) disappears under
     normalisation and is not the edit; it counts only when the part the author edit changes on
@@ -249,7 +252,9 @@ def carries(span, edit):
         return True
     lo, hi = edit if isinstance(edit, tuple) else (0, len(span))
     blank = all(x[0] == ' ' for x in span[lo:hi])
-    return any(x[2] and (x[0] != ' ' or blank) for x in span)
+    # With `within`, the change must fall in the part the author edit changes (split cards,
+    # r4416771397): there is no same-card line-up to tie an edit elsewhere to this one.
+    return any(x[2] and (x[0] != ' ' or blank) for x in (span[lo:hi] if within else span))
 
 
 def needs_edit(old, new):
@@ -362,7 +367,8 @@ def fragments(change):
     if kind in ('Added', 'Removed'):
         text = change['right_text'] if kind == 'Added' else change['left_text']
         row = cells(text)
-        for p in [c for c in (row or [opening(text)]) if len(c) >= 2]:
+        # Every author cell counts, however short (r4416771405); an opening needs two characters.
+        for p in [c for c in row if c] if row else [c for c in [opening(text)] if len(c) >= 2]:
             atoms.append({'old': p if kind == 'Removed' else None, 'new': p if kind == 'Added' else None,
                           'cell': row is not None, 'authorCategory': change['category']})
         return atoms, dropped
@@ -383,7 +389,7 @@ def on_pages(locations, wanted):
     return not wanted or bool(pages(locations) & wanted)
 
 
-def hits(d, side, needle, wanted, edit=False, only=None, changed=False):
+def hits(d, side, needle, wanted, edit=False, only=None, changed=False, within=False):
     """Qualifying occurrences of the needle on one card side: every character from a source unit on
     the wanted pages and, when the author edit changes this side, carrying changed characters (and,
     with `only`, among those starts). Each occurrence is the set of source units (page, unitId) its
@@ -391,7 +397,7 @@ def hits(d, side, needle, wanted, edit=False, only=None, changed=False):
     changed character of it (r4416699649), or all its units when no unit holds one."""
     out = []
     for i, span in occurrences(d, side, needle, wanted):
-        if not carries(span, edit) or (only is not None and i not in only):
+        if not carries(span, edit, within) or (only is not None and i not in only):
             continue
         keys = {x[1] for x in span if x[1] is not None}
         mine = {x[1] for x in span if x[1] is not None and x[2]} if changed and edit else set()
@@ -405,7 +411,7 @@ def local(d, side, needle, wanted, edit=False, only=None):
     return [u for u in units(d[side], wanted) if (u['page'], u['unitId']) in keep]
 
 
-def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=None):
+def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=None, within=False):
     """Identity status of one card for one record: confirmed, contradicted, ambiguous, unconfirmed.
     Each side is judged on one qualifying occurrence at a time (carrying the edit where `edit` says
     the side changes): the identity must sit in the units of the occurrence that makes the change,
@@ -424,7 +430,8 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
     for side, needle in needles.items():
         mine = ident[side] or ident['cells']
         best = ('unconfirmed', {'units': [], 'identity': [], 'otherRecords': []})
-        for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side), changed=True):
+        for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side), changed=True,
+                         within=within):
             us = [u for u in units(d[side], wanted[side]) if (u['page'], u['unitId']) in keys]
             own = any(holds(u['text'], mine) for u in us)
             foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
@@ -452,10 +459,10 @@ def in_context(card, needle, author):
         len(a) >= len(needle) + 10 and card in a and len(card) >= len(needle) + 10)
 
 
-def context(d, side, needle, wanted, author, edit=False):
+def context(d, side, needle, wanted, author, edit=False, within=False):
     """A qualifying occurrence whose own source units, read on the wanted pages only, show the
     author paragraph around it."""
-    for keys in hits(d, side, needle, wanted, edit):
+    for keys in hits(d, side, needle, wanted, edit, within=within):
         ids = {uid for _, uid in keys}
         text = norm(' '.join(u['text'] for u in units(d[side], wanted) if u['unitId'] in ids))
         if in_context(text, needle, author):
@@ -554,11 +561,11 @@ def text_atom(atom, change, ctx, claimed):
         # edit (el, er); lk, rk only tell whether some occurrence has it without the edit.
         if ident is None:
             author = {'left': change.get('left_text'), 'right': change.get('right_text')}
-            ok = lambda d, side, n, e: context(d, side, n, wanted[side], author[side], e)
+            ok = lambda d, side, n, e: context(d, side, n, wanted[side], author[side], e, within=bool(e))
             why = 'author paragraph text around the change, in the source units of that occurrence'
         else:
             ok = lambda d, side, n, e: judge_identity(d, {side: n}, ident, others, change, wanted,
-                                                     {side: e})[0] == 'confirmed'
+                                                     {side: e}, within=bool(e))[0] == 'confirmed'
             why = 'expected record identity in the source unit of each side\'s change'
         lk, rk = [d for d in olds if ok(d, 'left', old, False)], [d for d in news if ok(d, 'right', new, False)]
         el = [d for d in olds if ok(d, 'left', old, need['left'])]
@@ -632,6 +639,22 @@ def one_side_edit(atom, change, ctx, claimed, need):
     return 'not_found', 'not_located', [], cands, [], 'script did not locate the edited side'
 
 
+def allocate(texts, text):
+    """The author cells a unit's text holds, each cell copy with an occurrence of its own: a text
+    the row has twice is found twice only where the unit holds it twice (r4416863597), and
+    overlapping cells (USD 100, 100) need separate stretches of the text (r4417192877). Longer
+    cells take their stretch first."""
+    taken, found = [], []
+    for t in sorted(dict.fromkeys(t for t in texts if t), key=len, reverse=True):
+        left = texts.count(t)
+        for m in whole(t).finditer(text):
+            if left and all(m.end() <= a or m.start() >= b for a, b in taken):
+                taken.append((m.start(), m.end()))
+                found.append(t)
+                left -= 1
+    return found
+
+
 def row_cells(atoms, change, ctx):
     """Added/Removed table row: all cells must sit in one unit that carries the record identity."""
     diffs, result, wanted, ident, others = ctx['diffs'], ctx['result'], ctx['wanted'], ctx['ident'], ctx['others']
@@ -640,10 +663,7 @@ def row_cells(atoms, change, ctx):
     pool = []
     for d in diffs:
         for u in units(d[side], wanted[side]):
-            # Each author cell needs its own occurrence: a text the row has twice is found twice
-            # only where the unit holds it twice (r4416863597).
-            found = [t for t in dict.fromkeys(texts) if t
-                     for _ in range(min(texts.count(t), len(whole(t).findall(u['text']))))]
+            found = allocate(texts, u['text'])
             if found:
                 pool.append((d, u, found))
     mine = ident[side] if ident else []

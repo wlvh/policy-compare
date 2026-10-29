@@ -463,6 +463,27 @@ class AddedRemovedRows(unittest.TestCase):
         self.assertEqual(ev['65']['verdict'], 'correct')
         self.assertTrue(ev['65']['row']['fullRowRecovered'])
 
+    def test_a_single_character_cell_is_checked_too(self):
+        """r4416771405: the A of 1315 | A | USD 100 was dropped from the row."""
+        c = change(66, 'ac_1315', 'Added', right='1315 | A | USD 100', pages=(0, 11))
+        _, ev = run([c], result([card('x', 'Added', right=[(11, 'u1', '1315 USD 100')])]), [table('aircraft', [0], c)])
+        self.assertNotEqual(ev['66']['verdict'], 'correct')
+        self.assertFalse(ev['66']['row']['fullRowRecovered'])
+        _, ev = run([c], result([card('y', 'Added', right=[(11, 'u1', '1315 A USD 100')])]), [table('aircraft', [0], c)])
+        self.assertEqual(ev['66']['verdict'], 'correct')
+        self.assertTrue(ev['66']['row']['fullRowRecovered'])
+
+    def test_overlapping_cells_need_separate_occurrences(self):
+        """r4417192877: USD 100 and 100 are not both recovered from one "USD 100"."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(67, 'ac_1315', kind, **{side: '1315 | USD 100 | 100'}, pages=(0, 11) if kind == 'Added' else (11, 0))
+            _, ev = run([c], result([card('x', kind, **{side: [(11, 'u1', '1315 USD 100')]})]), [table('aircraft', [0], c)])
+            self.assertNotEqual(ev['67']['verdict'], 'correct', kind)
+            self.assertFalse(ev['67']['row']['fullRowRecovered'], kind)
+            _, ev = run([c], result([card('y', kind, **{side: [(11, 'u1', '1315 USD 100 100')]})]), [table('aircraft', [0], c)])
+            self.assertEqual(ev['67']['verdict'], 'correct', kind)
+
     def test_cells_scattered_over_different_records_are_not_complete(self):
         ident = card('i', 'Added', right=[(11, 'u1', '55228'), (11, 'u1', 'VH-JXP')])
         other = card('o', 'Added', right=[(11, 'u2', 'Airbus A220'), (11, 'u2', '39,000,000')])
@@ -807,6 +828,21 @@ class EditEvidence(unittest.TestCase):
         # Control: the identity in the unit that carries the edit.
         _, ev = run([row], result([two_units('Hull USD', '100 1760 1315', '200 1760 1315')]), [table('aircraft', [1], row)])
         self.assertEqual((ev['42']['verdict'], ev['42']['acceptedCards']), ('correct', ['x']))
+
+    def test_split_cards_must_change_the_part_the_edit_changes(self):
+        """r4416771397: two cards that only swap currency codes are no split of USD 100 -> USD 200."""
+        row = change(43, 'ac_1315', 'Replaced', 'ATR | 1315 | Hull USD 100', 'ATR | 1315 | Hull USD 200',
+                     [('USD 100', 'USD 200')], pages=(1, 1))
+        h = card('h', 'Replaced', [(1, 'a', '1315 Hull USD 100')], [(1, 'b', '1315 Hull EUR 100')])
+        l = card('l', 'Replaced', [(1, 'c', '1315 Liability EUR 200')], [(1, 'd', '1315 Liability USD 200')])
+        summary, ev = run([row], result([h, l]), [table('aircraft', [1], row)])
+        self.assertNotIn(ev['43']['verdict'], ('correct', 'split_attributable'))
+        self.assertEqual(ev['43']['acceptedCards'], [])
+        # Control: the old row removed on one card and the new row added on another.
+        gone = card('r', 'Removed', [(1, 'a', '1315 Hull USD 100')])
+        new = card('n', 'Added', right=[(1, 'b', '1315 Hull USD 200')])
+        _, ev = run([row], result([gone, new]), [table('aircraft', [1], row)])
+        self.assertEqual((ev['43']['verdict'], ev['43']['acceptedCards']), ('split_attributable', ['n', 'r']))
 
     PARA_SHORT = change(21, 'liab', 'Replaced', 'Liability USD 100.', 'Liability USD 200.', [('USD 100', 'USD 200')],
                         pages=(1, 1))
