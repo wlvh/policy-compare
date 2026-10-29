@@ -1,0 +1,7 @@
+# final triage tests (59134bf2bf57af1c8c52e090e56c62a543a4c624) with scripts/renewal-triage.py of 4f38eda (renewal-triage/19)
+FAIL: test_a_whole_paragraph_edit_is_its_own_context (test_renewal_triage.EditEvidence.test_a_whole_paragraph_edit_is_its_own_context)
+FAIL: test_split_paragraph_context_comes_from_the_units_carrying_the_edit (test_renewal_triage.EditEvidence.test_split_paragraph_context_comes_from_the_units_carrying_the_edit)
+FAIL: test_a_date_roll_needs_real_dates (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_date_roll_needs_real_dates)
+FAIL: test_a_page_fact_needs_whole_page_numbers (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_page_fact_needs_whole_page_numbers)
+Ran 63 tests in 0.428s
+FAILED (failures=4)
