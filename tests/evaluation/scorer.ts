@@ -95,6 +95,11 @@ export const IDENTITY_NOT_APPLICABLE: Record<
     reason:
       "document status stamp: state of the whole document, no party or record identity",
   },
+  "R16_repagination:E1": {
+    logicalPath: "document.page_heading.policy_wording",
+    reason:
+      "page title added by the repagination: no party or record identity; text, operation, category, position, visibility and completeness still apply",
+  },
 };
 const clean = (s: string) => s.replace(/\s+/g, " ").trim();
 // Which identity check applies to an event; test is null when no identity rule decides the match.
@@ -222,6 +227,47 @@ function located(
           };return quads.length>0&&(everyQuad?quads.every(valid):quads.some(valid));})()
         );
       }),
+  );
+}
+// In a control that must have no substantive change, a text-changing card is still a false
+// change unless it is exactly one declared non-Material event: the event's whole old and new
+// text (not a part of the card), an accepted kind and category, the event's sides, default
+// visibility, and every location of the card, its operations and occurrences resolving to the
+// source and lying on the event's declared runs. The case, a title style or the category alone
+// never excuse a card.
+export function declaredChange(
+  d: Difference,
+  e: Expected["events"][number],
+  refs: Record<"before" | "after", Evidence[]> | undefined,
+  layout: Layout,
+  docs: [DocInput, DocInput],
+): boolean {
+  if (
+    !refs ||
+    e.detection_requirement !== "must_detect" ||
+    e.acceptable_categories.includes("Material") ||
+    identityRule(e).applicability === "unsupported" ||
+    !(identityRule(e).test?.(d) ?? true) ||
+    !e.acceptable_kinds.includes(d.kind) ||
+    !e.acceptable_categories.includes(d.category) ||
+    !d.defaultVisible ||
+    clean(d.oldText) !== clean(e.old ?? "") ||
+    clean(d.newText) !== clean(e.new ?? "") ||
+    (e.old === null) !== (d.left.length === 0) ||
+    (e.new === null) !== (d.right.length === 0)
+  )
+    return false;
+  return ([["left", "before"], ["right", "after"]] as const).every(([side, s]) =>
+    [
+      ...d[side],
+      ...d.textOps.flatMap((o) => o[side]),
+      ...d.occurrences.flatMap((o) => o[side]),
+    ].every(
+      (l) =>
+        l.side === side &&
+        resolveLocation(l, docs) &&
+        located([l], refs[s], layout[s].pages, side, true),
+    ),
   );
 }
 export function grade(
@@ -475,12 +521,23 @@ export function grade(
     result.differences.some((d) => d.kind === "Moved")
   )
     faults.push("False move caused by pagination");
+  // Each declared event excuses at most one card.
+  const declared = new Set<string>();
+  const excused = (d: Difference) => {
+    const e = expected.events.find(
+      (e) =>
+        !declared.has(e.event_id) &&
+        declaredChange(d, e, expected.evidence_locations[e.event_id], layout, docs),
+    );
+    if (e) declared.add(e.event_id);
+    return Boolean(e);
+  };
   if (
     inv.includes("no_material_differences") &&
     result.differences.some(
       (d) =>
         d.category === "Material" ||
-        (d.hasTextChange && d.category !== "Cosmetic"),
+        (d.hasTextChange && d.category !== "Cosmetic" && !excused(d)),
     )
   )
     faults.push("False substantive change; Review is not an exemption");

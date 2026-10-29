@@ -220,7 +220,8 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
     });
     return x;
   };
-  it("the 32 pairs have exactly the 11 known N/A events in 10 cases and no unsupported path", () => {
+  // R16:E1 (the page title the repagination adds) was registered in issue #2 round 5: 11 -> 12.
+  it("the 32 pairs have exactly the 12 known N/A events in 11 cases and no unsupported path", () => {
     const text = allExpected().flatMap((c) =>
       c.events.filter(
         (e) => e.detection_requirement !== "coverage_warning_required",
@@ -232,8 +233,8 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
         .map((e) => e.event_id)
         .sort();
     expect(of("not_applicable")).toEqual(Object.keys(IDENTITY_NOT_APPLICABLE).sort());
-    expect(of("not_applicable")).toHaveLength(11);
-    expect(new Set(of("not_applicable").map((id) => id.split(":")[0])).size).toBe(10);
+    expect(of("not_applicable")).toHaveLength(12);
+    expect(new Set(of("not_applicable").map((id) => id.split(":")[0])).size).toBe(11);
     expect(of("unsupported")).toEqual([]);
     // Coverage-warning events are a separate branch and are not counted as identity events.
     const coverage = allExpected().flatMap((c) =>
@@ -441,5 +442,134 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
     for (const loc of [...add.right, ...add.textOps.flatMap((o) => o.right)])
       loc.pageIndex = 1;
     expect(failing(misplaced)).toContain("R13_move_and_replacement:E2");
+  });
+});
+// Issue #2 round 5: the repagination in R16 really adds the page title POLICY WORDING. It is a
+// declared Added/Review event; the no-change invariant excuses only the card that exactly is it.
+describe("R16: a declared added page title in a no-change control", () => {
+  const title = "POLICY WORDING";
+  const doc = (pages: [string, number][][]) =>
+    textDoc(pages.flatMap((lines, page) => lines.map(([text, y]) => ({ text, x: 40, y, page }))));
+  const before: [string, number][][] = [
+    [["POLICY SCHEDULE", 81], ["The schedule lists the insured aircraft.", 200], ["LOSS PAYMENT", 400], ["The insurer pays approved losses.", 420]],
+    [["SCHEDULE OF AIRCRAFT", 81], ["Aircraft one remains insured.", 200]],
+  ];
+  const after = (heading: string, extra: [string, number][] = []): [string, number][][] => [
+    [["POLICY SCHEDULE", 81], ["The schedule lists the insured aircraft.", 200]],
+    [[heading, 81], ...extra, ["LOSS PAYMENT", 135], ["The insurer pays approved losses.", 155]],
+    [["SCHEDULE OF AIRCRAFT", 81], ["Aircraft one remains insured.", 200]],
+  ];
+  // One layout run per line, named by its text.
+  const layoutOf = (d: DocInput) => ({
+    pages: d.pages.map((p) => ({
+      text_runs: p.lines.map((l) => {
+        const chars = l.charIds.map((id) => p.chars.find((c) => c.id === id)!);
+        return {
+          run_id: chars.map((c) => c.text).join(""),
+          text: chars.map((c) => c.text).join(""),
+          direction: [1, 0],
+          characters: chars.map((c) => ({
+            quad_tl_tr_br_bl: [[c.quad[0], c.quad[1]], [c.quad[2], c.quad[3]], [c.quad[6], c.quad[7]], [c.quad[4], c.quad[5]]],
+          })),
+        };
+      }),
+    })),
+  });
+  const r16 = (heading = title, extra: [string, number][] = [], declaredRun = title, declaredPage = 1) => {
+    const docs: [DocInput, DocInput] = [doc(before), doc(after(heading, extra))];
+    const expected: Expected = {
+      case_id: "R16_repagination",
+      required_status: "complete_for_scope",
+      events: [
+        {
+          event_id: "R16_repagination:E1",
+          logical_path: "document.page_heading.policy_wording",
+          old: null,
+          new: title,
+          operation: "add",
+          detection_requirement: "must_detect",
+          acceptable_kinds: ["Added"],
+          acceptable_categories: ["Review"],
+        },
+      ],
+      invariants: ["no_material_differences", "no_false_clause_moves", "all_source_text_preserved"],
+      coverage_requirements: [],
+      evidence_locations: {
+        "R16_repagination:E1": { before: [], after: [{ page_index: declaredPage, run_id: declaredRun }] },
+      },
+    };
+    return { docs, expected, layout: { before: layoutOf(docs[0]), after: layoutOf(docs[1]) } as Layout, result: compare(...docs) };
+  };
+  const invariant = "False substantive change; Review is not an exemption";
+  it("the exact title card passes, as one Added/Review card", () => {
+    const x = r16();
+    expect(x.result.differences.map((d) => [d.kind, d.category, d.newText])).toEqual([["Added", "Review", title]]);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score).toMatchObject({ status: "PASS", faults: [] });
+    expect(score.events[0].identity?.applicability).toBe("not_applicable");
+  });
+  it("an undeclared Review card still fails the control", () => {
+    const x = r16();
+    x.expected.events = [];
+    x.expected.evidence_locations = {};
+    expect(grade(x.result, x.expected, x.layout, x.docs).faults).toContain(invariant);
+  });
+  it("a missing title fails", () => {
+    const x = r16();
+    x.result.differences = [];
+    expect(grade(x.result, x.expected, x.layout, x.docs).faults).toContain("Required event failed: R16_repagination:E1");
+  });
+  it("another title fails, and its card is not excused", () => {
+    const x = r16("WAR EXCLUSION");
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults).toContain(invariant);
+  });
+  it("the title at another position than declared is not excused", () => {
+    const x = r16(title, [], "SCHEDULE OF AIRCRAFT", 2);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults).toContain(invariant);
+  });
+  it("a card carrying body text with the title is not excused, though it contains the title", () => {
+    const x = r16(title, [["War risks are excluded from this policy.", 100]]);
+    const [head, body] = [
+      x.result.differences.find((d) => d.newText === title)!,
+      x.result.differences.find((d) => d.newText.includes("War risks"))!,
+    ];
+    expect(head && body && head !== body).toBe(true);
+    // The same text reported as one card: every part is backed by real source.
+    x.result.differences = [
+      {
+        ...head,
+        newText: head.newText + body.newText,
+        right: [...head.right, ...body.right],
+        textOps: [...head.textOps, ...body.textOps],
+        occurrences: [...head.occurrences, ...body.occurrences],
+      },
+      ...x.result.differences.filter((d) => d !== head && d !== body),
+    ];
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.events[0].verdict).toBe("PASS");
+    expect(score.faults).toContain(invariant);
+  });
+  const kept: Record<string, (r: CompareResult) => void> = {
+    Material: (r) => {
+      r.differences[0].category = "Material";
+    },
+    "a second card for the same title": (r) => {
+      r.differences.push({ ...r.differences[0], id: r.differences[0].id + "-copy" });
+    },
+  };
+  for (const [name, mutate] of Object.entries(kept))
+    it(`${name} still fails the control`, () => {
+      const x = r16();
+      mutate(x.result);
+      expect(grade(x.result, x.expected, x.layout, x.docs).faults).toContain(invariant);
+    });
+  it("a hidden title card fails (the result schema already rejects it)", () => {
+    const x = r16();
+    (x.result.differences[0] as unknown as { defaultVisible: boolean }).defaultVisible = false;
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
 });

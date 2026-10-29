@@ -249,8 +249,12 @@ def make_cases(seed):
     b, a = fresh()
     a["layout"]["repage_clauses"] = True
     add("repagination", "条款重分页但逻辑顺序相同", "repage_preserve_logical_order", b, a,
+        [event("document.page_heading.policy_wording", None, "POLICY WORDING", operation="add",
+               kinds=["Added"], severity="reviewable", category=["Review"])],
         invariants=["no_material_differences", "no_false_clause_moves",
-                    "all_source_text_preserved"])
+                    "all_source_text_preserved"],
+        notes=["重分页实际新增页标题 POLICY WORDING（待审版第 2 页），登记为 Added/Review 必检事件；"
+               "条款正文只换页、不增删。"])
 
     b, a = fresh()
     a["layout"]["font"] = "Helvetica"
@@ -484,7 +488,7 @@ class Renderer:
             y -= leading
         return y
 
-    def new_page(self, heading=None, *, raster_only=False):
+    def new_page(self, heading=None, *, raster_only=False, heading_path=None):
         if self.page is not None:
             self.c.showPage()
         self.page = {"page_index": len(self.pages), "width_pt": WIDTH, "height_pt": HEIGHT,
@@ -497,7 +501,8 @@ class Renderer:
         self.text("SYNTHETIC TEST - NOT A REAL POLICY", 42, HEIGHT-29, size=9, role="test_notice")
         self.text("REPEATED HEADER LIMIT: " + self.doc["header_limit"],
                   42, HEIGHT-49, size=9, path="repeated_header.limit", role="header")
-        self.text(heading or self.doc["document_title"], 42, HEIGHT-81, size=15, role="heading")
+        self.text(heading or self.doc["document_title"], 42, HEIGHT-81, size=15,
+                  path=heading_path, role="heading")
         self.text("FICTIONAL FIXTURE  |  PAGE " + str(len(self.pages)), 42, 24, size=8, role="footer")
 
     def draw_clauses(self, clauses, y):
@@ -587,7 +592,8 @@ class Renderer:
             end = self.para(f["value"], 180, y, WIDTH-222, f["path"], leading=14)
             y = end - 9
         if self.doc["layout"]["repage_clauses"]:
-            self.new_page("POLICY WORDING")
+            # Repagination adds this page title: real new text, declared in R16.
+            self.new_page("POLICY WORDING", heading_path="document.page_heading.policy_wording")
             y = HEIGHT - 135
         else:
             y -= 16
