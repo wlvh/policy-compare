@@ -1,0 +1,4 @@
+Files gen-base/CASE_CATALOG.zh-CN.md and gen-new/CASE_CATALOG.zh-CN.md differ
+Files gen-base/cases/R16_repagination/expected.json and gen-new/cases/R16_repagination/expected.json differ
+Files gen-base/cases/R16_repagination/layout.json and gen-new/cases/R16_repagination/layout.json differ
+Files gen-base/manifest.json and gen-new/manifest.json differ

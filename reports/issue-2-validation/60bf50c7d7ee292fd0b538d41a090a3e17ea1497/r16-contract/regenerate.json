@@ -1,0 +1,57 @@
+{
+ "generator": "validation/generator.py at 4bf54eb (before: f3148df)",
+ "dependencies": {
+  "reportlab": "4.4.9",
+  "pypdf": "6.10.0",
+  "Pillow": "12.3.0"
+ },
+ "commands": [
+  "python validation/generator.py --output <dir>  # once with the generator before and once after 4bf54eb",
+  "diff -rq <before> <after>",
+  "python validation/fixture_checks.py"
+ ],
+ "beforeReproducesCommittedDataset": "byte-identical except fixture_check_report.json (written by fixture_checks.py)",
+ "pdfs": {
+  "count": 64,
+  "byteIdenticalBeforeAfterCommitted": true
+ },
+ "changedFiles": {
+  "cases/R16_repagination/expected.json": {
+   "before": "ca6e1a9daa92672a4f5517a61a2733e75266981990d5ebca56a2085da4d4fb60",
+   "after": "0b4a64b06fcfb0d26b00019cce7ad8d222602d398826715ddaec75690441842b"
+  },
+  "cases/R16_repagination/layout.json": {
+   "before": "c7179201c9f94862183d1dee944717da8d07574a06975391ea52b0dede65e3fd",
+   "after": "1a695bacf84e70537e3fbec3119039df94304e5bd7dfc0601123c1d5902eacee"
+  },
+  "manifest.json": {
+   "before": "80dbba2ca9fafb8f0a28633764572114cd7f47bc782d1bfb49f121a9d1eadd14",
+   "after": "a941131ce4caaa23cb36b7292311dd710bed166da4fbce1c62820acabbff2a8c"
+  },
+  "CASE_CATALOG.zh-CN.md": {
+   "before": "f39b2fd4b4da4f372d27740224ff035c12354ac3b613170dc9b93e53ec97313d",
+   "after": "bae3f1918016e13fc6d5f726acd23a890c1c18465aa0f7f319834160340b6b8f"
+  }
+ },
+ "fixtureChecks": {
+  "status": "passed",
+  "assertions": 183354,
+  "totals": {
+   "cases": 32,
+   "pdfs": 64,
+   "pages": 130,
+   "text_runs": 4172,
+   "source_characters": 87102,
+   "image_regions": 4,
+   "events": 30,
+   "must_detect_events": 27,
+   "coverage_only_events": 2,
+   "ambiguous_group_events": 1
+  },
+  "failures": 0
+ },
+ "notChanged": {
+  "PACKAGE_MANIFEST.json": "hash list of the original 2026-10-26 execution package, kept as that record",
+  "validation/GENERATION_REPORT.json": "report of the original generation run, kept as that record"
+ }
+}
