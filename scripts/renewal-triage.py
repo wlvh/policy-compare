@@ -65,7 +65,9 @@ match only as whole numbers, and each author cell needs its own occurrence in
 the record unit (renewal-triage/14); every author cell counts, however short, and
 overlapping cells need separate stretches of text; delete + add on separate
 cards must change the part the author edit changes on each side
-(renewal-triage/15). A number at either end of the author text
+(renewal-triage/15). A number does not match inside a signed one, cells are
+allocated over every candidate stretch, and the full-row check of a Replaced
+row allocates its cells the same way (renewal-triage/16). A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
 before a number it would split. Candidate matching, the edit check and the
@@ -95,7 +97,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/15'
+TOOL = 'renewal-triage/16'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -149,8 +151,10 @@ def opening(text):
 def whole(needle):
     """Whole-token pattern: no letter or digit beside it, and no number continued past it by "."
     or "," and a digit, so "1315" is not in "21,315,000" nor "USD 100" in "USD 100,000"
-    (r4416863588)."""
-    return re.compile(r'(?<![0-9A-Za-z])(?<![0-9][.,])' + re.escape(needle) + r'(?![0-9A-Za-z])(?![.,][0-9])')
+    (r4416863588); a number is not the unsigned part of a signed one ("100" in "-100",
+    r4417384098)."""
+    sign = r'(?<![-\u2212+])' if needle[:1].isdigit() else ''
+    return re.compile(r'(?<![0-9A-Za-z])(?<![0-9][.,])' + sign + re.escape(needle) + r'(?![0-9A-Za-z])(?![.,][0-9])')
 
 
 def bounded(needle, text):
@@ -640,19 +644,31 @@ def one_side_edit(atom, change, ctx, claimed, need):
 
 
 def allocate(texts, text):
-    """The author cells a unit's text holds, each cell copy with an occurrence of its own: a text
-    the row has twice is found twice only where the unit holds it twice (r4416863597), and
-    overlapping cells (USD 100, 100) need separate stretches of the text (r4417192877). Longer
-    cells take their stretch first."""
-    taken, found = [], []
-    for t in sorted(dict.fromkeys(t for t in texts if t), key=len, reverse=True):
-        left = texts.count(t)
-        for m in whole(t).finditer(text):
-            if left and all(m.end() <= a or m.start() >= b for a, b in taken):
-                taken.append((m.start(), m.end()))
-                found.append(t)
-                left -= 1
-    return found
+    """The author cells a unit's text holds, each cell copy with a stretch of the text of its own:
+    a text the row has twice is found twice only where the unit holds it twice (r4416863597), and
+    overlapping cells (USD 100, 100) need separate stretches (r4417192877). Every candidate
+    stretch, overlapping ones included, is tried, so an allocation is found whenever one exists
+    (r4417384107); the result holds as many cells as can be placed."""
+    cells = sorted((t for t in texts if t), key=len, reverse=True)
+    spans = {t: [(m.start(), m.end()) for i in range(len(text)) for m in [whole(t).match(text, i)] if m]
+             for t in set(cells)}
+    best = []
+
+    def place(k, taken, found):
+        nonlocal best
+        if len(found) + len(cells) - k <= len(best):
+            return
+        if k == len(cells):
+            best = list(found)
+            return
+        for a, b in spans[cells[k]]:
+            if all(b <= x or a >= y for x, y in taken):
+                place(k + 1, taken + [(a, b)], found + [cells[k]])
+                if len(best) == len(cells):
+                    return
+        place(k + 1, taken, found)
+    place(0, [], [])
+    return best
 
 
 def row_cells(atoms, change, ctx):
@@ -808,7 +824,9 @@ def triage(change, result, declared, family, claimed):
             return norm(' '.join(source(k, r) for k in keys for r in (record or {}).get(k, [])))
         full = None
         if record and change['kind'] == 'Replaced':
-            full = all(bounded(c, text('left')) for c in lc if c) and all(bounded(c, text('right')) for c in rc if c)
+            # Each author cell needs its own stretch of the record text (r4417329496).
+            full = all(len(allocate(row, text(side))) == len([c for c in row if c])
+                       for side, row in (('left', lc or []), ('right', rc or [])))
         elif record:
             full = all(a['verdict'] == 'correct' for a in detail)
         shown = text('left', 'right', 'refs')
