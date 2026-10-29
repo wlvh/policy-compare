@@ -1,0 +1,8 @@
+mupdf R11_label_alias cards 1 cited quads 50 mapped 50 amount cells 
+mupdf R26_key_change cards 1 cited quads 42 mapped 42 amount cells 
+mupdf R22_table_value cards 1 cited quads 36 mapped 36 amount cells left:2,250,000 | right:2,500,000
+mupdf R02_amount cards 1 cited quads 52 mapped 52 amount cells left:USD 2,000,000 | right:USD 4,000,000
+pdfjs R11_label_alias cards 1 cited quads 7 mapped 7 amount cells 
+pdfjs R26_key_change cards 1 cited quads 6 mapped 6 amount cells 
+pdfjs R22_table_value cards 1 cited quads 10 mapped 10 amount cells left:2,250,000 | right:2,500,000
+pdfjs R02_amount cards 1 cited quads 8 mapped 8 amount cells left:USD 2,000,000 | right:USD 4,000,000
