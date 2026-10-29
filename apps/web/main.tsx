@@ -56,9 +56,12 @@ const basis = (d: Difference) =>
     : d.left.length && d.right.length
       ? (bases[d.matchEvidence.method] ?? d.matchEvidence.method)
       : "";
+// What a stated fact says, nothing more: page_number_only is a text form (the
+// numbers of "Page n" expressions), not a claim that the printed number is the
+// PDF page.
 const facts: Record<Fact, string> = {
   whitespace_only: "仅空白字符变化",
-  page_number_only: "仅已确认的页码变化",
+  page_number_only: "仅分页表达（Page n）中的数字变化",
   dates_rolled_forward_one_year: "期间两端日期各顺延一年",
   continued_heading: "两版都有的标题加续页字样",
 };
@@ -666,7 +669,9 @@ function App() {
                 {d.facts.length > 0 && (
                   <div className="facts">
                     {d.facts.map((f) => (
-                      <span key={f}>{facts[f]}</span>
+                      <span key={f}>
+                        {f === "page_number_only" && !(d.oldText && d.newText) ? "仅分页表达（Page n）" : facts[f]}
+                      </span>
                     ))}
                   </div>
                 )}
