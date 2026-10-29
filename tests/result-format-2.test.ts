@@ -235,6 +235,23 @@ describe("text operations pair characters only within corresponding tokens", () 
     const d = one("Cuba, Democratic People's Republic", "Cuba, Haiti, Democratic People's Republic");
     expect(edits(d)).toEqual([["insert", "Haiti, "]]);
   });
+  it("spaces and stray letters do not pair unrelated words", () => {
+    // Real card bizav #26 (round 11): the whole-token alignment paired the
+    // spaces of an appended clause with the spaces of a deleted paragraph, and
+    // the characters between with letters of unrelated words ("No li" deleted,
+    // "a" kept, "bility claims" deleted). Words, numbers and punctuation anchor
+    // the alignment; a space alone does not.
+    const lead =
+      "Loss record (five years to 31 March 2024): two hull claims, being a hangar rash incident to M-FNKD (USD 186,000) and a bird strike to M-CHLS (USD 412,500)";
+    const d = one(
+      `${lead}. No liability claims. Estimated annual utilisation is 5,400 flight hours across the fleet, of which approximately 35% is Charter.`,
+      `${lead} and a tail strike on landing to ZJ-FLX (USD 1,260,000). No liability claims.`,
+    );
+    expect(edits(d)).toEqual([
+      ["insert", " and a tail strike on landing to ZJ-FLX (USD 1,260,000)"],
+      ["delete", ". Estimated annual utilisation is 5,400 flight hours across the fleet, of which approximately 35% is Charter"],
+    ]);
+  });
   it("the unchanged start and end of a text stop at a word boundary", () => {
     // A character-level common start paired the S of Sudan with the S of South
     // and showed "outh S" as inserted.

@@ -520,6 +520,11 @@ function textOps(
   const xt = at.slice(p, at.length - s).map(shift),
     yt = bt.slice(p, bt.length - s).map(shift);
   let over = false;
+  const equal = (i: number, j: number) => ops.push({ kind: "equal", i: prefix + i, j: prefix + j, text: x[i] });
+  const replaced = (i0: number, i1: number, j0: number, j1: number) => {
+    for (let i = i0; i < i1; i++) ops.push({ kind: "delete", i: prefix + i, j: prefix + j0, text: x[i] });
+    for (let j = j0; j < j1; j++) ops.push({ kind: "insert", i: prefix + i1, j: prefix + j, text: y[j] });
+  };
   // Beyond the budget a stretch is shown as deleted and inserted whole, once
   // recorded as unresolved.
   const whole = (i0: number, i1: number, j0: number, j1: number) => {
@@ -532,39 +537,56 @@ function textOps(
         defaultVisible: true,
       });
     over = true;
-    for (let i = i0; i < i1; i++) ops.push({ kind: "delete", i: prefix + i, j: prefix + j0, text: x[i] });
-    for (let j = j0; j < j1; j++) ops.push({ kind: "insert", i: prefix + i1, j: prefix + j, text: y[j] });
+    replaced(i0, i1, j0, j1);
   };
-  if (xt.length * yt.length > budget.diffProducts) whole(0, x.length, 0, y.length);
+  // Two ranges compared character by character after their common start and
+  // end ("approv|ed" -> "schedul|ed"). With `spaces`, only spaces count as
+  // common at the ends and the rest is replaced whole.
+  const chars = (i0: number, i1: number, j0: number, j1: number, spaces = false) => {
+    const same = (i: number, j: number) => x[i] === y[j] && (!spaces || /\s/u.test(x[i]));
+    let e = 0;
+    for (; i0 + e < i1 && j0 + e < j1 && same(i0 + e, j0 + e); e++) equal(i0 + e, j0 + e);
+    [i0, j0] = [i0 + e, j0 + e];
+    let f = 0;
+    while (i1 - f > i0 && j1 - f > j0 && same(i1 - 1 - f, j1 - 1 - f)) f++;
+    const xs = x.slice(i0, i1 - f),
+      ys = y.slice(j0, j1 - f);
+    if (spaces) replaced(i0, i1 - f, j0, j1 - f);
+    else if (xs.length * ys.length > budget.diffProducts) whole(i0, i1 - f, j0, j1 - f);
+    else
+      for (const [kind, i, j] of lcs(xs, ys, (u, v) => u === v))
+        ops.push({ kind, i: prefix + i0 + i, j: prefix + j0 + j, text: kind === "insert" ? ys[j] : xs[i] });
+    for (let k = f; k > 0; k--) equal(i1 - k, j1 - k);
+  };
+  // Words, numbers and punctuation anchor the alignment; a space alone does
+  // not, so the spaces of an added clause are never paired with those of a
+  // deleted one, nor the letters between them.
+  const xc = xt.filter((t) => !/^\s/u.test(t.text)),
+    yc = yt.filter((t) => !/^\s/u.test(t.text));
+  if (xc.length * yc.length > budget.diffProducts) whole(0, x.length, 0, y.length);
   else {
-    // A stretch of tokens changed on both sides, compared character by
-    // character after its common start and end ("approv|ed" -> "schedul|ed").
-    const stretch = (i0: number, i1: number, j0: number, j1: number) => {
-      const equal = (i: number, j: number) =>
-        ops.push({ kind: "equal", i: prefix + i, j: prefix + j, text: x[i] });
-      let e = 0;
-      while (i0 + e < i1 && j0 + e < j1 && x[i0 + e] === y[j0 + e]) equal(i0 + e, j0 + e++);
-      [i0, j0] = [i0 + e, j0 + e];
-      let f = 0;
-      while (i1 - f > i0 && j1 - f > j0 && x[i1 - 1 - f] === y[j1 - 1 - f]) f++;
-      const xs = x.slice(i0, i1 - f),
-        ys = y.slice(j0, j1 - f);
-      if (xs.length * ys.length > budget.diffProducts) whole(i0, i1 - f, j0, j1 - f);
-      else
-        for (const [kind, i, j] of lcs(xs, ys, (u, v) => u === v))
-          ops.push({ kind, i: prefix + i0 + i, j: prefix + j0 + j, text: kind === "insert" ? ys[j] : xs[i] });
-      for (let k = f; k > 0; k--) equal(i1 - k, j1 - k);
+    // Between two anchors, tokens a0..a1 and b0..b1 (characters i0..i1 and
+    // j0..j1) are paired in order when both sides hold as many (a row of
+    // amounts); otherwise the stretch is replaced whole.
+    const stretch = (a0: number, a1: number, b0: number, b1: number, i0: number, i1: number, j0: number, j1: number) => {
+      if (a1 - a0 !== b1 - b0) return chars(i0, i1, j0, j1, true);
+      for (let k = 0; k < a1 - a0; k++) {
+        const [u, v] = [xc[a0 + k], yc[b0 + k]];
+        chars(i0, u.start, j0, v.start);
+        chars(u.start, u.end, v.start, v.end);
+        [i0, j0] = [u.end, v.end];
+      }
+      chars(i0, i1, j0, j1);
     };
-    let [ci, cj] = [0, 0];
-    for (const [kind, ti, tj] of lcs(xt.map((t) => t.text), yt.map((t) => t.text), (u, v) => u === v)) {
+    let [ta, tb, ci, cj] = [0, 0, 0, 0];
+    for (const [kind, ti, tj] of lcs(xc.map((t) => t.text), yc.map((t) => t.text), (u, v) => u === v)) {
       if (kind !== "equal") continue;
-      const [u, v] = [xt[ti], yt[tj]];
-      stretch(ci, u.start, cj, v.start);
-      for (let k = 0; k < u.end - u.start; k++)
-        ops.push({ kind: "equal", i: prefix + u.start + k, j: prefix + v.start + k, text: x[u.start + k] });
-      [ci, cj] = [u.end, v.end];
+      const [u, v] = [xc[ti], yc[tj]];
+      stretch(ta, ti, tb, tj, ci, u.start, cj, v.start);
+      for (let k = 0; k < u.end - u.start; k++) equal(u.start + k, v.start + k);
+      [ta, tb, ci, cj] = [ti + 1, tj + 1, u.end, v.end];
     }
-    stretch(ci, x.length, cj, y.length);
+    stretch(ta, xc.length, tb, yc.length, ci, x.length, cj, y.length);
   }
   for (let k = suffix; k > 0; k--)
     ops.push({
@@ -612,7 +634,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.2+ops.2",
+    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.2+ops.3",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
