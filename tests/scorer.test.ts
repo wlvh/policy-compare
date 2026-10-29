@@ -2115,6 +2115,10 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       const score = signed([card("line", [at(plainDoc, "left", "Hull 100 included")], [at(shownDoc, "right", shown)])]);
       expect.soft(score.events[0], shown).toMatchObject(verdict === "FAIL" ? { discovery: true, attribution: false, verdict } : { verdict });
     }
+    // Both values signed (#2's r4417560178): -100 -> -200 is not the event 100 -> 200.
+    const [signedOld, signedNew] = [docOf([{ text: "Hull -100 included" }]), docOf([{ text: "Hull -200 included" }])];
+    const bothSigned = grader(signedOld, signedNew, "100 included", "200 included", "Hull -100 included", "Hull -200 included");
+    expect.soft(bothSigned([card("line", [at(signedOld, "left", "Hull -100 included")], [at(signedNew, "right", "Hull -200 included")])]).events[0], "both signed").toMatchObject({ attribution: false, verdict: "FAIL" });
     // Each side whose fragment changes (beyond the old and new texts' common start and end) must
     // carry the edit itself: here the new amount is only another, unchanged USD 200 of the same run.
     const [same, sameNew] = [docOf([{ text: "USD 100; USD 200 included" }]), docOf([{ text: "USD 200; USD 200 excluded" }])];
