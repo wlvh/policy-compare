@@ -1,0 +1,5 @@
+# final triage tests (441a81d7019769a4fd7ee6e17487d2e0fcb81c5e) with scripts/renewal-triage.py of c14276c (renewal-triage/17)
+FAIL: test_identical_cells_are_allocated_without_trying_their_orders (test_renewal_triage.AddedRemovedRows.test_identical_cells_are_allocated_without_trying_their_orders)
+FAIL: test_a_same_card_paragraph_edit_needs_the_author_paragraph (test_renewal_triage.EditEvidence.test_a_same_card_paragraph_edit_needs_the_author_paragraph)
+Ran 57 tests in 4.185s
+FAILED (failures=2)
