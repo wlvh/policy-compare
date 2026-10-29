@@ -1,0 +1,862 @@
+{
+ "old": "reports/issue-2-validation/80af5b1bcd752e95886f0c98c4494b91f778cd9d",
+ "new": "reports/issue-2-validation/9ccc044678487bc44a77e1bf15ac601ae11edfc5",
+ "runs": [
+  {
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "verdicts": [
+    {
+     "correct": 81,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    {
+     "correct": 77,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 5,
+     "partly_located": 3
+    }
+   ],
+   "buckets": {
+    "confirmed_pairing_lost": 4
+   },
+   "events": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    }
+   ]
+  },
+  {
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "verdicts": [
+    {
+     "correct": 83,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    {
+     "correct": 79,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 5,
+     "partly_located": 2
+    }
+   ],
+   "buckets": {
+    "confirmed_pairing_lost": 4
+   },
+   "events": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    }
+   ]
+  },
+  {
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "verdicts": [
+    {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    {
+     "correct": 67,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    }
+   ],
+   "buckets": {
+    "confirmed_pairing_lost": 5,
+    "other": 2,
+    "split_or_unresolved_gained": 1
+   },
+   "events": [
+    {
+     "id": "38",
+     "block": "code_aw",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "39",
+     "block": "code_ax",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "67",
+     "block": "cp_9H-FNK_Fenmore",
+     "kind": "Removed",
+     "bucket": "other",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "69",
+     "block": "cp_M-FNKB_Selwyn",
+     "kind": "Replaced",
+     "bucket": "split_or_unresolved_gained",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Added/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "70",
+     "block": "cp_M-FNKE_Northfield",
+     "kind": "Added",
+     "bucket": "other",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Added/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Replaced/row-identity",
+       "Replaced/row-identity",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "correct",
+      "accepted": [
+       "Added/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Added/unmatched",
+       "Added/unmatched",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "71",
+     "block": "hg_iom",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "72",
+     "block": "hg_mla",
+     "kind": "Removed",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "73",
+     "block": "hg_dxb",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    }
+   ]
+  },
+  {
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "verdicts": [
+    {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    {
+     "correct": 68,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    }
+   ],
+   "buckets": {
+    "confirmed_pairing_lost": 5,
+    "other": 2,
+    "split_or_unresolved_gained": 1
+   },
+   "events": [
+    {
+     "id": "38",
+     "block": "code_aw",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "39",
+     "block": "code_ax",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "67",
+     "block": "cp_9H-FNK_Fenmore",
+     "kind": "Removed",
+     "bucket": "other",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "69",
+     "block": "cp_M-FNKB_Selwyn",
+     "kind": "Replaced",
+     "bucket": "split_or_unresolved_gained",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Added/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "70",
+     "block": "cp_M-FNKE_Northfield",
+     "kind": "Added",
+     "bucket": "other",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Added/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Replaced/row-identity",
+       "Replaced/row-identity",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "correct",
+      "accepted": [
+       "Added/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Added/unmatched",
+       "Added/unmatched",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "71",
+     "block": "hg_iom",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "72",
+     "block": "hg_mla",
+     "kind": "Removed",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Replaced/row-identity",
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "correct",
+      "accepted": [
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    },
+    {
+     "id": "73",
+     "block": "hg_dxb",
+     "kind": "Replaced",
+     "bucket": "confirmed_pairing_lost",
+     "old": {
+      "verdict": "correct",
+      "accepted": [
+       "Replaced/row-identity"
+      ],
+      "held": [
+       "Replaced/row-identity"
+      ],
+      "paired": true,
+      "inUnresolvedGroup": false
+     },
+     "new": {
+      "verdict": "split_attributable",
+      "accepted": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "held": [
+       "Added/unmatched",
+       "Removed/unmatched"
+      ],
+      "paired": false,
+      "inUnresolvedGroup": false
+     }
+    }
+   ]
+  }
+ ]
+}

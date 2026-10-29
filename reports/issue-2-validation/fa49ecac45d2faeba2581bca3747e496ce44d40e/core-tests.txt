@@ -1,0 +1,17 @@
+ ❯ tests/scorer.test.ts (116 tests | 1 failed) 1033ms
+     × the 32 pairs have exactly the 12 known N/A events in 11 cases and no unsupported path 13ms
+     ✓ R24: an undeclared continued schedule heading passes the control by its sources 6ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > the 32 pairs have exactly the 12 known N/A events in 11 cases and no unsupported path
+AssertionError: expected [ 'R24_table_cross_page:E1' ] to deeply equal []
++ Received
++ [
++   "R24_table_cross_page:E1",
+ ❯ tests/scorer.test.ts:340:31
+ Test Files  1 failed | 14 passed (15)
+      Tests  1 failed | 268 passed (269)
+
+python3 -m unittest (tests/test_renewal_triage.py):
+Ran 35 tests in 0.216s
+
+OK
