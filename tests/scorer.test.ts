@@ -2009,6 +2009,23 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ])]),
       "whitespace edits",
     );
+    // Real edits, but only of the part the event keeps (r4415913728's input): the currency codes
+    // swap while both amounts stay; no character of 1 -> 2 is edited.
+    const [cl, cr] = ["1315 Hull USD 100; Liability EUR 200.", "1315 Hull EUR 100; Liability USD 200."];
+    const [cdl, cdr] = [docOf([{ text: cl }]), docOf([{ text: cr }])];
+    const [c0, d0] = [at(cdl, "left", cl), at(cdr, "right", cr)];
+    fails(
+      grader(cdl, cdr, "USD 100", "USD 200", cl, cr)([of("codes", [
+        op("equal", slice(c0, 0, 10), slice(d0, 0, 10)),
+        op("delete", slice(c0, 10, 13), null),
+        op("insert", null, slice(d0, 10, 13)),
+        op("equal", slice(c0, 13, 29), slice(d0, 13, 29)),
+        op("delete", slice(c0, 29, 32), null),
+        op("insert", null, slice(d0, 29, 32)),
+        op("equal", slice(c0, 32, 37), slice(d0, 32, 37)),
+      ])]),
+      "currency codes swapped",
+    );
     // An empty side is a pure insertion or deletion: no text to find there; the other side still
     // needs its edit (r4415128893's input).
     const [pl, pr] = ["The insurer pays losses.", "The insurer pays approved losses."];
