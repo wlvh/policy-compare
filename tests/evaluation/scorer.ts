@@ -941,9 +941,12 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
 // it, whitespace included (a space added on one page makes that page's own variant), with the
 // counter of an explicit page expression read against its own page ("Page 3" on
 // page 3 and "Page 4" on page 4 are one variant, "Page 99" on page 3 another) when that counter
-// counts with the pages: on either side, the occurrences the card cites show it with different
-// values and one offset to their pages. A counter that does not count (the same "Page 1" printed on
-// every page), a page total and every other number stay as printed.
+// counts with the pages. Each side decides from the occurrences the card cites there: the counter
+// counts when they show it with different values and one offset to their pages, and it is fixed
+// when they show one value on two or more pages; a side that shows neither takes the other side's
+// reading (#2's r4417303223: the product recognises a repeated line of either document in both, its
+// own document's reading first). A fixed counter (the same "Page 1" printed on every page), a page
+// total and every other number stay as printed.
 const counters = (t: string) => [...t.matchAll(PAGE_EXPRESSION)].map((m) => m[1]);
 // Only a counter printed plainly (its value written the usual way) is read against its page: "Page
 // 03" or a counter in digits Number() cannot read stays as printed, its own variant.
@@ -965,26 +968,34 @@ const sourceText = (locs: SourceLocation[], doc: DocInput) =>
     })
     .join(" ");
 function variants(d: Difference) {
-  const counting = new Set<number>();
+  // Per side and counter position: true when it counts, false when it is fixed, absent when the
+  // side shows neither.
+  const reading = { left: new Map<number, boolean>(), right: new Map<number, boolean>() };
   for (const side of ["left", "right"] as const) {
     const lines = d.occurrences
       .filter((o) => o[side].length)
       .map((o) => ({ cs: counters(sideText(o[side])), page: o[side][0].pageIndex + 1 }));
     for (let k = 0; k < Math.max(0, ...lines.map((l) => l.cs.length)); k++) {
       const at = lines.filter((l) => l.cs[k] !== undefined && plain(l.cs[k])).map((l) => ({ v: Number(l.cs[k]), page: l.page }));
-      if (at.length >= 2 && new Set(at.map((x) => x.v)).size > 1 && new Set(at.map((x) => x.v - x.page)).size === 1) counting.add(k);
+      if (at.length < 2) continue;
+      if (new Set(at.map((x) => x.v)).size === 1) reading[side].set(k, false);
+      else if (new Set(at.map((x) => x.v - x.page)).size === 1) reading[side].set(k, true);
     }
   }
-  return (text: string, page: number) => {
+  return (text: string, page: number, side: "left" | "right") => {
     let k = 0;
-    return text.replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) && plain(n) ? m.replace(n, `#${Number(n) - page}`) : m));
+    const other = side === "left" ? "right" : "left";
+    return text.replace(PAGE_EXPRESSION, (m, n: string) => {
+      const j = k++;
+      return (reading[side].get(j) ?? reading[other].get(j)) && plain(n) ? m.replace(n, `#${Number(n) - page}`) : m;
+    });
   };
 }
 // A card's own text on a side, from the source of the locations it shows there, read as a variant;
 // "" when the card shows nothing there.
 const ownText = (d: Difference, side: "left" | "right", docs: [DocInput, DocInput], variant = variants(d)) => {
   const card = side === "left" ? d.left : d.right;
-  return card.length ? variant(sourceText(card, docs[side === "left" ? 0 : 1]), card[0].pageIndex + 1) : "";
+  return card.length ? variant(sourceText(card, docs[side === "left" ? 0 : 1]), card[0].pageIndex + 1, side) : "";
 };
 // A card's occurrences of its own text on a side, by their source texts and pages.
 const ownOccurrences = (d: Difference, side: "left" | "right", docs: [DocInput, DocInput]) => {
@@ -992,7 +1003,7 @@ const ownOccurrences = (d: Difference, side: "left" | "right", docs: [DocInput, 
   if (!(side === "left" ? d.left : d.right).length) return [];
   const own = ownText(d, side, docs, variant);
   const doc = docs[side === "left" ? 0 : 1];
-  return d.occurrences.filter((o) => o[side].length > 0 && variant(sourceText(o[side], doc), o[side][0].pageIndex + 1) === own);
+  return d.occurrences.filter((o) => o[side].length > 0 && variant(sourceText(o[side], doc), o[side][0].pageIndex + 1, side) === own);
 };
 const sameLocation = (a: SourceLocation, b: SourceLocation) =>
   a.side === b.side && a.pageIndex === b.pageIndex && a.charIds.join("\u0000") === b.charIds.join("\u0000");

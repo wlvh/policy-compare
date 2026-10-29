@@ -1856,6 +1856,27 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     expect(graded().faults).toEqual([]);
     expect(graded((d) => (d.repeat!.right = 4)).faults).toEqual([expect.stringContaining("states occurrence or page counts that differ")]);
   });
+  it("a counter is read per side: a fixed Page 1 against a counting Page 1 .. 4 (#2's r4417303223)", () => {
+    // Each side decides from its own occurrences whether a counter counts with the pages or stays
+    // the same; only a side that shows neither takes the other side's reading. "Page 1" printed on
+    // every old page is one variant as printed, the counting new pages one variant read against
+    // their pages: the product's card counts 4 -> 4.
+    const four = (v: (p: number) => string) => docOf([0, 1, 2, 3].flatMap((page) => [{ text: v(page), y: 120, page }, { text: `Ordinary body on page ${page + 1}`, y: 300, page }]));
+    const [fixed, counting] = [four(() => "Page 1"), four((p) => `Page ${p + 1}`)];
+    for (const [name, left, right] of [["fixed -> counting", fixed, counting], ["counting -> fixed", counting, fixed]] as const) {
+      const graded = (mutate: (d: Difference) => void = () => {}) => {
+        const result = compare(left, right);
+        Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [] });
+        expect(result.differences, name).toHaveLength(1);
+        expect(result.differences[0].repeat, name).toMatchObject({ left: 4, right: 4 });
+        mutate(result.differences[0]);
+        const expected: Expected = { case_id: "fixed-counting", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+        return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]);
+      };
+      expect(graded().faults, name).toEqual([]);
+      expect(graded((d) => (d.repeat!.left = 1)).faults, name).toEqual([expect.stringContaining("states occurrence or page counts that differ")]);
+    }
+  });
   it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
     // Two pages before, three after; the header repeats on every page. A body line on the first new
     // page repeats the words but is not part of the generated set.
