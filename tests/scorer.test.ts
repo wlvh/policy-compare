@@ -1778,6 +1778,25 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     const same = [0, 1, 2].map((page) => ({ side: "left" as const, page }));
     expect(counted(["Page 1", "Page 1", "Page 1"], ["Page 1", "Page 1", "Page 1", "Page 1"], [0, 0], [...same, ...[0, 1, 2, 3].map((page) => ({ side: "right" as const, page }))], [3, 4])).toEqual([]);
   });
+  it("a repeated line's variant keeps its whitespace as the source prints it (#2's r4416942422)", () => {
+    // Four pages; a trailing space is added to the line on page 3 only. The product's card counts the
+    // spaced variant 4 -> 1 and lists the three unchanged new lines as context.
+    const four = (v: (p: number) => string) => docOf([0, 1, 2, 3].flatMap((page) => [{ text: v(page), y: 120, page }, { text: `Ordinary body on page ${page + 1}`, y: 300, page }]));
+    const [left, right] = [four(() => "Limit USD 1000"), four((p) => (p === 2 ? "Limit USD 1000 " : "Limit USD 1000"))];
+    const graded = (mutate: (d: Difference) => void = () => {}) => {
+      const result = compare(left, right);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [] });
+      expect(result.differences).toHaveLength(1);
+      mutate(result.differences[0]);
+      const expected: Expected = { case_id: "spaced", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+      return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]);
+    };
+    expect(graded().faults).toEqual([]);
+    // Counting the unchanged lines too states 4 -> 4 for the spaced text, which occurs once.
+    expect(graded((d) => (d.repeat!.right = 4)).faults).toEqual([
+      expect.stringContaining("states occurrence or page counts that differ"),
+    ]);
+  });
   it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
     // Two pages before, three after; the header repeats on every page. A body line on the first new
     // page repeats the words but is not part of the generated set.
