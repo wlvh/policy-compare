@@ -189,6 +189,7 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})(?:\\s*(?:no\\.?|nr\\.?|nu
  * "Registration pending").
  */
 const namesIdentity = (u: Unit) => u.rowCells!.some((c) => identityName.test(c.normalize("NFKC").trim()));
+const namesColumn = (u: Unit) => u.rowCells!.some((c) => identityHeading.test(c.normalize("NFKC").trim()));
 /**
  * The heading row of each recovered row: the closest digit-free row above it
  * in the same section and title, with nothing but page margins in between.
@@ -204,8 +205,9 @@ const namesIdentity = (u: Unit) => u.rowCells!.some((c) => identityName.test(c.n
  * and keeps that table's scope, so a digit-free record can neither leave its
  * table through the shared scope, be taken for a repeated header, nor head the
  * rows below it. A later digit-free row with a cell that names an identifier
- * starts a table of its own (two tables with no text between them); any other
- * second heading line is not read.
+ * starts a table of its own (two tables with no text between them); one with
+ * a cell that only ends with an identifier's name ends the table without
+ * heading the rows after it; any other second heading line is not read.
  */
 function rowHeadings(left: Unit[], right: Unit[]) {
   const headings = new Map<Unit, Unit>(),
@@ -234,6 +236,17 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         p = u.refs.find(Boolean)!.page.pageIndex,
         before = page.get(t);
       page.set(t, p);
+      if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u) && namesColumn(u)) {
+        // A cell ending with an identifier's name ("Aircraft Registration")
+        // may head another table or be a record's value ("Pending
+        // Registration"): the table ends here, and neither this row nor the
+        // rows after it are read under its heading row or share its scope
+        // (r4417587174).
+        current.delete(t);
+        open.delete(t);
+        broken.add(t);
+        continue;
+      }
       if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u)) {
         // A digit-free row inside a table another row started is one of its
         // records (G-AAAA | Alpha Air | Lead) or a further heading line: it
@@ -267,6 +280,32 @@ function rowHeadings(left: Unit[], right: Unit[]) {
   return { headings, scopes, starts };
 }
 /**
+ * Identity cells of a recovered row by the column they stand in: the heading
+ * row's column (the heading cell the row's cell overlaps most), or for a cell
+ * naming its identifier ("MSN 1") that name. A missing cell does not shift a
+ * value into another column; two cells under one column say nothing about
+ * either.
+ */
+function identityCells(r: Unit, headings: Map<Unit, Unit>) {
+  const h = headings.get(r);
+  const heading = (k: number) => {
+    const [x0, x1] = r.rowSpans![k];
+    if (!h) return null;
+    const overlap = h.rowSpans!.map(([a, b]) => Math.min(b, x1) - Math.max(a, x0)),
+      j = overlap.indexOf(Math.max(...overlap));
+    return overlap[j] > 0 ? { j, text: h.rowCells![j] } : null;
+  };
+  const cells = r.rowCells!.flatMap((c0, k): [string, string][] => {
+    const c = c0.normalize("NFKC"),
+      at = heading(k),
+      named = c.match(identityPrefix)?.[0].toLowerCase();
+    if (valueLike(c)) return [];
+    if (at && identityHeading.test(at.text)) return [[`column ${at.j}`, c]];
+    return named ? [[`named ${named}`, c]] : [];
+  });
+  return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+}
+/**
  * Rows recovered from one baseline pair only through identity evidence (see
  * IDENTITY), within one table: the same section, title and heading row. Two
  * tables under one title are two scopes. An identity cell whose column and
@@ -291,30 +330,7 @@ function rowIdentity(
     for (const u of us) if (u.rowCells) m.set(scope(u), [...(m.get(scope(u)) ?? []), u]);
     return m;
   };
-  // The heading over a cell is the cell of the heading row it overlaps most.
-  const heading = (r: Unit, k: number) => {
-    const h = headings.get(r),
-      [x0, x1] = r.rowSpans![k];
-    if (!h) return null;
-    const overlap = h.rowSpans!.map(([a, b]) => Math.min(b, x1) - Math.max(a, x0)),
-      j = overlap.indexOf(Math.max(...overlap));
-    return overlap[j] > 0 ? { j, text: h.rowCells![j] } : null;
-  };
-  // Identity cells of a row by the column they stand in: the heading row's
-  // column, or for a cell naming its identifier ("MSN 1") that name. A missing
-  // cell does not shift a value into another column; two cells under one
-  // column say nothing about either.
-  const identities = (r: Unit) => {
-    const cells = r.rowCells!.flatMap((c0, k): [string, string][] => {
-      const c = c0.normalize("NFKC"),
-        h = heading(r, k),
-        named = c.match(identityPrefix)?.[0].toLowerCase();
-      if (valueLike(c)) return [];
-      if (h && identityHeading.test(h.text)) return [[`column ${h.j}`, c]];
-      return named ? [[`named ${named}`, c]] : [];
-    });
-    return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
-  };
+  const identities = (r: Unit) => identityCells(r, headings);
   const owners = (rows: Unit[]) => {
     const m = new Map<string, Unit[]>();
     for (const r of rows)
@@ -663,7 +679,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.15+facts.4+repeat.8+ops.4",
+    coreVersion: VERSION + "+row-identity.16+facts.4+repeat.8+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -995,12 +1011,21 @@ export function compare(
       : null;
   const el = map(la, usedL, rawKey),
     er = map(rb, usedR, rawKey);
+  // Equal row text is one record only with its identifiers in the same
+  // columns: missing cells can move them (r4417643759).
+  const sameIds = (a: Unit, b: Unit) => {
+    if (!a.rowCells || !b.rowCells) return true;
+    const x = identityCells(a, headings),
+      y = identityCells(b, headings);
+    return x.size === y.size && [...x].every(([k, c]) => y.get(k) === c);
+  };
   for (const [key, as] of el) {
     checkpoint?.();
     const bs = er.get(key);
     if (!bs) continue;
-    if (as.length === 1 && bs.length === 1) bind(as[0], bs[0], "unique-exact");
-    else if (
+    if (as.length === 1 && bs.length === 1) {
+      if (sameIds(as[0], bs[0])) bind(as[0], bs[0], "unique-exact");
+    } else if (
       as.every((u) => ["page_heading", "footer", "heading"].includes(u.role))
     ) {
       const a = aggregate(as, "repeat-left-" + as[0].id),
@@ -1021,7 +1046,8 @@ export function compare(
           candidates.length === 1 &&
           as.filter(
             (x) => x.path.section === a.path.section && x.title === a.title,
-          ).length === 1
+          ).length === 1 &&
+          sameIds(a, candidates[0])
         )
           bind(a, candidates[0], "exact-context");
       }
