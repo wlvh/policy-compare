@@ -1851,7 +1851,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     return { ...card(id, left, right), kind: left.length && right.length ? "Replaced" : left.length ? "Removed" : "Added", oldText, newText, hasTextChange: oldText !== newText, textOps: ops };
   };
   // One replace event from the old to the new text, on the lines (runs) holding them.
-  const grader = (left: DocInput, right: DocInput, old: string, neu: string, beforeLines: string | string[], afterLines: string | string[]) => (
+  const grader = (left: DocInput, right: DocInput, old: string, neu: string, beforeLines: string | string[], afterLines: string | string[], operation = "replace") => (
     differences: Difference[],
     kinds: Expected["events"][number]["acceptable_kinds"] = ["Replaced"],
   ) => {
@@ -1869,7 +1869,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     const expected: Expected = {
       case_id: "carried",
       required_status: "complete_for_scope",
-      events: [{ event_id: "E1", logical_path: "risk_details.sum_insured", old, new: neu, operation: "replace", detection_requirement: "must_detect", acceptable_kinds: kinds, acceptable_categories: [] }],
+      events: [{ event_id: "E1", logical_path: "risk_details.sum_insured", old, new: neu, operation, detection_requirement: "must_detect", acceptable_kinds: kinds, acceptable_categories: [] }],
       invariants: [],
       coverage_requirements: [],
       evidence_locations: { E1: { before: runs(before, beforeLines), after: runs(after, afterLines) } },
@@ -1953,6 +1953,14 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ]);
     expect.soft(amounts([digit("liability", [14, 32], 28)]).events[0], "the other amount's edit").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
     expect(amounts([digit("hull", [0, 12], 9)]).status).toBe("PASS");
+    // The same with the card's text cut inside the source's number: "USD 100" taken from "USD 1000".
+    const cut = of("cut", [
+      op("equal", slice(t0, 24, 28), slice(n0, 24, 28)),
+      op("delete", slice(t0, 28, 29), null),
+      op("insert", null, slice(n0, 28, 29)),
+      op("equal", slice(t0, 29, 31), slice(n0, 29, 31)),
+    ]);
+    expect.soft(amounts([cut]).events[0], "cut inside a number of the source").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
     expect(amounts([card("line", [t0], [n0])]).status).toBe("PASS");
     // Each side whose fragment changes (beyond the old and new texts' common start and end) must
     // carry the edit itself: here the new amount is only another, unchanged USD 200 of the same run.
@@ -2070,6 +2078,16 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ])]),
       "currency codes swapped",
     );
+    // A move carries no edit, but its text must still be shown where it is, as a whole number
+    // (r4416120281): a Moved card citing only "USD 1000" does not show the move of "USD 100".
+    const [ml, mr] = ["USD 100; Liability USD 1000", "Other wording stays."];
+    const [mvl, mvr] = [docOf([{ text: ml }, { text: mr }]), docOf([{ text: mr }, { text: ml }])];
+    const [n0, q0] = [at(mvl, "left", ml), at(mvr, "right", ml)];
+    const moved = (d: Difference) => grader(mvl, mvr, "USD 100", "USD 100", ml, ml, "move")([{ ...d, kind: "Moved" }], ["Moved"]);
+    fails(moved(of("thousand", [op("equal", slice(n0, 19, 27), slice(q0, 19, 27))])), "move shown by another number");
+    // The first digits of the source's "1000" cut out as "USD 100": whole in the card, not in the source.
+    fails(moved(of("cut", [op("equal", slice(n0, 19, 26), slice(q0, 19, 26))])), "a number cut out of a longer one");
+    expect(moved(of("line", [op("equal", n0, q0)])).status).toBe("PASS");
     // An empty side is a pure insertion or deletion: no text to find there; the other side still
     // needs its edit (r4415128893's input).
     const [pl, pr] = ["The insurer pays losses.", "The insurer pays approved losses."];
