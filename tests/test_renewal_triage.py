@@ -19,27 +19,42 @@ triage = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(triage)
 
 
-def loc(side, page, unit, text):
-    return {'side': side, 'pageIndex': page - 1, 'unitId': unit, 'rawRange': [0, len(text)], 'charIds': ['c'],
-            'text': text, 'quads': [[0, 0, 1, 0, 0, 1, 1, 1]], 'direction': [1, 0], 'precision': 'native'}
+def loc(side, page, unit, text, start=0):
+    return {'side': side, 'pageIndex': page - 1, 'unitId': unit, 'rawRange': [start, start + len(text)],
+            'charIds': ['c'], 'text': text, 'quads': [[0, 0, 1, 0, 0, 1, 1, 1]], 'direction': [1, 0],
+            'precision': 'native'}
+
+
+def placed(cells):
+    """(page, unit, text) cells in reading order with their raw start in the unit: the cells of one
+    unit follow each other with one raw space between, as a source unit reads."""
+    at, out = {}, []
+    for page, unit, text in cells:
+        start = at.get((page, unit), 0)
+        out.append((page, unit, text, start))
+        at[(page, unit)] = start + len(text) + 1
+    return out
 
 
 def ops(left, right):
     """Text operations as the product reports them: the common prefix and suffix are equal, the rest
-    is deleted and inserted, and each part keeps the source units its characters come from."""
+    is deleted and inserted, and each part keeps the source units and raw positions its characters
+    come from."""
     def chars(cells):
         out = []
-        for i, (page, unit, text) in enumerate(cells):
-            out += ([(' ', (page, unit))] if i else []) + [(c, (page, unit)) for c in text]
+        for i, (page, unit, text, start) in enumerate(placed(cells)):
+            out += ([(' ', (page, unit, start - 1))] if i else []) + [(c, (page, unit, start + k)) for k, c in enumerate(text)]
         return out
 
     def locs(side, part):
         out = []
-        for c, (page, unit) in part:
-            if out and (out[-1]['pageIndex'] + 1, out[-1]['unitId']) == (page, unit):
-                out[-1] = loc(side, page, unit, out[-1]['text'] + c)
+        for c, (page, unit, at) in part:
+            if c == ' ':
+                continue
+            if out and (out[-1]['pageIndex'] + 1, out[-1]['unitId']) == (page, unit) and out[-1]['rawRange'][1] == at:
+                out[-1] = loc(side, page, unit, out[-1]['text'] + c, out[-1]['rawRange'][0])
             else:
-                out.append(loc(side, page, unit, c))
+                out.append(loc(side, page, unit, c, at))
         return out
     a, b = chars(left), chars(right)
     p = 0
@@ -60,13 +75,13 @@ def card(id, kind, left=(), right=(), row_key=None, table=None, confidence='cand
     return {'id': id, 'kind': kind, 'facts': list(facts),
             'structurePath': {'section': 'clauses', 'entity': None, 'field': None, 'table': table,
                               'rowKey': row_key, 'confidence': confidence},
-            'left': [loc('left', *c) for c in left], 'right': [loc('right', *c) for c in right],
+            'left': [loc('left', *c) for c in placed(left)], 'right': [loc('right', *c) for c in placed(right)],
             'oldText': old, 'newText': new, 'hasTextChange': old != new, 'textOps': ops(left, right)}
 
 
 def group(left=(), right=()):
     return {'reason': 'ambiguous_match', 'message': 'm', 'defaultVisible': True,
-            'left': [loc('left', *c) for c in left], 'right': [loc('right', *c) for c in right]}
+            'left': [loc('left', *c) for c in placed(left)], 'right': [loc('right', *c) for c in placed(right)]}
 
 
 def result(diffs, unresolved=()):
@@ -581,6 +596,82 @@ class WholeNumbers(unittest.TestCase):
         text = 'Aggregate limit is increased to USD 1,250,000 in all.'
         atoms, _ = triage.fragments(change(9, 'limit', 'Moved', text, text))
         self.assertEqual(atoms[0]['old'], 'Aggregate limit is increased to USD')
+
+
+def raw_card(id, left, right, operations):
+    """A card with its own text operations: left/right are the cited source units
+    (page, unit, text), each operation (kind, text, left pieces, right pieces) with pieces
+    (page, unit, text, raw start), so order and adjacency in the source can be set exactly."""
+    piece = lambda side: lambda x: loc(side, *x)
+    old = ''.join(t for k, t, _, _ in operations if k in ('equal', 'delete'))
+    new = ''.join(t for k, t, _, _ in operations if k in ('equal', 'insert'))
+    return {'id': id, 'kind': 'Replaced', 'facts': [],
+            'structurePath': {'section': 'clauses', 'entity': None, 'field': None, 'table': None,
+                              'rowKey': None, 'confidence': 'candidate'},
+            'left': [loc('left', p, u, t) for p, u, t in left], 'right': [loc('right', p, u, t) for p, u, t in right],
+            'oldText': old, 'newText': new, 'hasTextChange': old != new,
+            'textOps': [{'kind': k, 'text': t, 'left': list(map(piece('left'), l)), 'right': list(map(piece('right'), r))}
+                        for k, t, l, r in operations]}
+
+
+class EditEvidence(unittest.TestCase):
+    """Reviews of PR #11 r4415075897 and r4415128893, and the source-order gap: a card proves an
+    author edit only by an occurrence of the author text read in source order (inside a word or
+    number each character right after the previous one) that carries a change inside the part
+    the edit changes. A pure insertion or deletion needs no text on its empty side; its other side
+    still needs the edit and the record identity or author paragraph around it."""
+    PARA = change(13, 'liab', 'Replaced', 'Extra USD 100; Liability USD 100.', 'Extra USD 100; Liability USD 200.',
+                  [('USD 100', 'USD 200')], pages=(1, 1))
+
+    def test_whitespace_edits_beside_the_amounts_are_not_the_amount_change(self):
+        L, R = 'Extra USD  100; Liability USD 200.', 'Extra USD 100; Liability USD  200.'
+        x = raw_card('x', [(1, 'a', L)], [(1, 'b', R)], [
+            ('equal', 'Extra USD ', [(1, 'a', 'Extra USD ', 0)], [(1, 'b', 'Extra USD ', 0)]),
+            ('delete', ' ', [(1, 'a', ' ', 10)], []),
+            ('equal', '100; Liability USD ', [(1, 'a', '100; Liability USD ', 11)], [(1, 'b', '100; Liability USD ', 10)]),
+            ('insert', ' ', [], [(1, 'b', ' ', 29)]),
+            ('equal', '200.', [(1, 'a', '200.', 30)], [(1, 'b', '200.', 30)])])
+        summary, ev = run([self.PARA], result([x]))
+        self.assertNotEqual(ev['13']['verdict'], 'correct')
+        self.assertEqual((ev['13']['acceptedCards'], summary['unexplainedCards']), ([], 1))
+        # Control: a card changing the amount itself.
+        y = card('y', 'Replaced', [(1, 'a', 'Extra USD 100; Liability USD 100.')], [(1, 'b', 'Extra USD 100; Liability USD 200.')])
+        _, ev = run([self.PARA], result([y]))
+        self.assertEqual((ev['13']['verdict'], ev['13']['acceptedCards']), ('correct', ['y']))
+
+    def test_a_pure_insertion_or_deletion_is_accepted_on_its_card(self):
+        old, new = 'The insurer pays losses.', 'The insurer pays approved losses.'
+        for kind, edit, (l, r) in (('insert', ('', 'approved'), (old, new)), ('delete', ('approved', ''), (new, old))):
+            c = change(20, 'pay', 'Replaced', l, r, [edit])
+            summary, ev = run([c], result([card('x', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])]))
+            self.assertEqual((ev['20']['verdict'], ev['20']['acceptedCards'], summary['unexplainedCards']),
+                             ('correct', ['x'], 0), kind)
+        # The same word added in another paragraph is not this insertion.
+        c = change(20, 'pay', 'Replaced', old, new, [('', 'approved')])
+        other = card('y', 'Replaced', [(1, 'c', 'The broker the operations.')], [(1, 'd', 'The broker approved the operations.')])
+        _, ev = run([c], result([other]))
+        self.assertNotEqual(ev['20']['verdict'], 'correct')
+        self.assertEqual(ev['20']['acceptedCards'], [])
+
+    def test_characters_out_of_source_order_are_not_an_occurrence(self):
+        left = [(1, 'a', 'Liability USD 100.')]
+        def amount(pieces, unit_text):
+            return raw_card('x', left, [(1, 'b', unit_text)], [
+                ('equal', 'Liability ', [(1, 'a', 'Liability ', 0)], [(1, 'b', 'Liability ', 0)]),
+                ('delete', 'USD 100', [(1, 'a', 'USD 100', 10)], []),
+                ('insert', 'USD 200', [], pieces),
+                ('equal', '.', [(1, 'a', '.', 17)], [(1, 'b', '.', 17)])])
+        # "USD 200" read from "200 USD" backwards, and from "USD 2X00" skipping the X.
+        for pieces, unit_text in (([(1, 'b', 'USD', 14), (1, 'b', ' 200', 9)], 'Liability 200 USD.'),
+                                  ([(1, 'b', 'USD 2', 10), (1, 'b', '00', 16)], 'Liability USD 2X00.')):
+            _, ev = run([self.PARA_SHORT], result([amount(pieces, unit_text)]))
+            self.assertNotEqual(ev['21']['verdict'], 'correct', unit_text)
+        # Control: the same text in source order.
+        _, ev = run([self.PARA_SHORT], result([amount([(1, 'b', 'USD 200', 10)], 'Liability USD 200.')]))
+        self.assertEqual(ev['21']['verdict'], 'correct')
+
+    PARA_SHORT = change(21, 'liab', 'Replaced', 'Liability USD 100.', 'Liability USD 200.', [('USD 100', 'USD 200')],
+                        pages=(1, 1))
 
 
 class FactsFormatsExclusionsFurniture(unittest.TestCase):

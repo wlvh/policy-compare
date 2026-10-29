@@ -150,7 +150,13 @@ export const DifferenceSchema = z.object({
   }),
   reviewReasons: z.array(z.string()),
   occurrences: z.array(
-    z.object({ left: z.array(LocationSchema), right: z.array(LocationSchema) }),
+    z.object({
+      left: z.array(LocationSchema),
+      right: z.array(LocationSchema),
+      // Result format 2: an occurrence of the same repeated line with another
+      // text, listed for checking; `repeat` does not count it.
+      context: z.literal(true).optional(),
+    }),
   ),
 });
 export const UnresolvedSchema = z.object({
@@ -216,10 +222,14 @@ export const ResultSchema = z.object({
  *   groups are explicit statements that the correspondence was not determined.
  * - `facts` are only stated when the comparison itself proves them (see
  *   `FactSchema`); they say nothing about business relevance.
- * - `repeat` gives, for a line repeated across pages, its occurrence counts and
- *   the two documents' page counts, without explaining one by the other. A card
+ * - `repeat` gives, for a line repeated across pages, how many times the card's
+ *   own text variant occurs on each side and the two documents' page counts,
+ *   without explaining one by the other. A page counter is read against its own
+ *   page, so "Page 3" on page 3 and "Page 4" on page 4 are one variant. A card
  *   whose two texts are equal (`kind: "Replaced"`, `hasTextChange: false`)
- *   reports only that these occurrence counts differ.
+ *   reports only that these occurrence counts differ. Occurrences marked
+ *   `context` are the same line with another text, listed for checking and not
+ *   counted.
  * - `status: "complete_for_scope"` means processing of the extracted text ended
  *   with no recorded coverage gap and no unresolved group; it does not claim that
  *   nothing was missed or that the result is correct.
@@ -230,10 +240,12 @@ export const FactSchema = z.enum([
   // the ends trimmed; an absent side reads as empty text, so a line of
   // whitespace on one side only is included. Two words joined or split differ.
   "whitespace_only",
-  // The difference lies only in the confirmed page numbers of explicit page
-  // expressions ("Page n", "Page n of N", "Page n/N") on a repeated page line
-  // or a heading or page-margin line; text on one side only consists of
-  // nothing but such expressions.
+  // A text form, stated on a repeated page line or a heading or page-margin
+  // line: the two texts differ only in the numbers of explicit page expressions
+  // ("Page n", "Page n of N", "Page n/N"); a text on one side only consists of
+  // nothing but such expressions and whitespace. It does not say the printed
+  // number is right or equals the PDF page; amounts, percentages and any change
+  // outside those expressions are never this fact.
   "page_number_only",
   // Both dates of a period move exactly one year; the text outside them is equal.
   "dates_rolled_forward_one_year",

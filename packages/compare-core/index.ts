@@ -11,7 +11,7 @@ import {
 } from "../contracts/index";
 import { aviationProfile, type Profile } from "../../profiles/aviation";
 import {
-  furnitureContent,
+  furnitureVariant,
   furnitureSignatures,
   maskedPageNumbers,
   structure,
@@ -27,9 +27,10 @@ export type Budget = Profile["budget"];
 type Pair = { a: Unit; b: Unit; method: string; score: number | null };
 /**
  * An aggregate of repeated occurrences. `repeats` are the card's occurrences
- * on its side; `others` are occurrences of the same repeated line on that side
- * that kept a different text; `separate` lists both sides' occurrences one by
- * one instead of side by side; `note` explains a version whose text varies.
+ * on its side, the ones its count is; `others` are occurrences of the same
+ * repeated line on that side with another text, listed as context and not
+ * counted; `separate` lists both sides' occurrences one by one instead of side
+ * by side; `note` explains a version whose text varies.
  */
 type Repeated = Unit & {
   repeats?: Unit[];
@@ -37,8 +38,10 @@ type Repeated = Unit & {
   separate?: boolean;
   note?: string;
 };
-const content = (u: Unit) =>
-  u.furniture ? furnitureContent(u.rawText, u.furniture) : u.rawText.trim();
+const variant = (u: Unit) =>
+  u.furniture
+    ? furnitureVariant(u.rawText, u.furniture, u.refs.find(Boolean)!.page.pageIndex + 1)
+    : u.rawText.trim();
 const locations = (u: Unit | undefined, side: "left" | "right") =>
   u ? sourceLocations(u.refs, side, u.id) : [];
 
@@ -178,22 +181,50 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
 /**
  * The heading row of each recovered row: the closest digit-free row above it
  * in the same section and title, with nothing but page margins in between.
+ * Its table is that section, title and heading row; a heading row repeated
+ * with only titles and page margins in between (a table continued on the next
+ * page) continues it. When either version has two or more tables with the same
+ * section, title and heading row, nothing says which corresponds to which, so
+ * each is a scope of its own; rows without a heading row share the scope of
+ * their section and title.
  */
 function rowHeadings(left: Unit[], right: Unit[]) {
-  const headings = new Map<Unit, Unit>();
-  for (const us of [left, right]) {
-    const current = new Map<string, Unit>();
+  const headings = new Map<Unit, Unit>(),
+    scopes = new Map<Unit, string>();
+  const sides = [left, right].map((us) => {
+    const current = new Map<string, Unit>(),
+      last = new Map<string, { text: string; n: number }>(),
+      broken = new Set<string>(),
+      count = new Map<string, number>(),
+      table = new Map<Unit, [string, number]>();
     for (const u of us) {
       if (!u.rowCells) {
         if (!["furniture", "page_heading", "footer", "whitespace"].includes(u.role)) current.clear();
+        if (!["furniture", "page_heading", "footer", "whitespace", "heading"].includes(u.role))
+          for (const t of last.keys()) broken.add(t);
         continue;
       }
       const t = u.path.section + "\u0000" + u.title;
-      if (!/\p{N}/u.test(u.rawText)) current.set(t, u);
-      else if (current.has(t)) headings.set(u, current.get(t)!);
+      if (!/\p{N}/u.test(u.rawText)) {
+        const prev = last.get(t),
+          key = t + "\u0000" + u.rawText;
+        const n = prev && prev.text === u.rawText && !broken.has(t) ? prev.n : (count.get(key) ?? 0) + 1;
+        count.set(key, Math.max(n, count.get(key) ?? 0));
+        last.set(t, { text: u.rawText, n });
+        broken.delete(t);
+        current.set(t, u);
+      } else if (current.has(t)) {
+        headings.set(u, current.get(t)!);
+        table.set(u, [t + "\u0000" + current.get(t)!.rawText, last.get(t)!.n]);
+      }
     }
-  }
-  return headings;
+    return { count, table };
+  });
+  sides.forEach(({ table }, side) => {
+    for (const [u, [key, n]] of table)
+      scopes.set(u, sides.every((x) => x.count.get(key) === 1) ? key : `${key}\u0000${side}\u0000${n}`);
+  });
+  return { headings, scopes };
 }
 /**
  * Rows recovered from one baseline pair only through identity evidence (see
@@ -227,15 +258,23 @@ function rowIdentity(
     if (!h) return null;
     const overlap = h.rowSpans!.map(([a, b]) => Math.min(b, x1) - Math.max(a, x0)),
       j = overlap.indexOf(Math.max(...overlap));
-    return overlap[j] > 0 ? h.rowCells![j] : null;
+    return overlap[j] > 0 ? { j, text: h.rowCells![j] } : null;
   };
-  // Identity cells of a row by their column in the recovered row.
-  const identities = (r: Unit) =>
-    new Map(
-      r.rowCells!
-        .map((c, k) => [k, c.normalize("NFKC")] as const)
-        .filter(([k, c]) => (identityHeading.test(heading(r, k) ?? "") || identityPrefix.test(c)) && !valueLike(c)),
-    );
+  // Identity cells of a row by the column they stand in: the heading row's
+  // column, or for a cell naming its identifier ("MSN 1") that name. A missing
+  // cell does not shift a value into another column; two cells under one
+  // column say nothing about either.
+  const identities = (r: Unit) => {
+    const cells = r.rowCells!.flatMap((c0, k): [string, string][] => {
+      const c = c0.normalize("NFKC"),
+        h = heading(r, k),
+        named = c.match(identityPrefix)?.[0].toLowerCase();
+      if (valueLike(c)) return [];
+      if (h && identityHeading.test(h.text)) return [[`column ${h.j}`, c]];
+      return named ? [[`named ${named}`, c]] : [];
+    });
+    return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+  };
   const owners = (rows: Unit[]) => {
     const m = new Map<string, Unit[]>();
     for (const r of rows)
@@ -511,7 +550,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.8+facts.3",
+    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.2",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -576,9 +615,8 @@ export function compare(
   phase?.("matching");
   // A recovered table is its section, title and heading row: one title can
   // stand above several tables.
-  const headings = rowHeadings(la, rb),
-    tableScope = (u: Unit) =>
-      `${u.path.section}\u0000${u.title}\u0000${headings.get(u)?.rawText ?? ""}`;
+  const { headings, scopes } = rowHeadings(la, rb),
+    tableScope = (u: Unit) => scopes.get(u) ?? `${u.path.section}\u0000${u.title}\u0000`;
   const bind = (
     a: Unit,
     b: Unit,
@@ -686,15 +724,17 @@ export function compare(
   };
   const pageList = (us: Unit[]) =>
     us.map((u) => u.refs.find(Boolean)!.page.pageIndex + 1).join("、");
-  // One repeated line of both versions. Occurrences whose text is the same,
-  // page-number parts aside, form one group per version, and a text found in
-  // both versions is unchanged. Any other text is a variant; its counterpart is
-  // known only when the other version has a single text throughout, otherwise
-  // it is shown as added or removed. Same page numbers never pair occurrences.
+  // One repeated line of both versions. Occurrences of the same variant (the
+  // same text once a page counter is read against its own page) form one group
+  // per version; a variant is unchanged only when both versions have it the
+  // same number of times. A variant on one side only has a counterpart only
+  // when the other version has a single variant throughout (one or several new
+  // texts for one old text, or the reverse); that single group is then not
+  // also reported as unmatched. Same page numbers never pair occurrences.
   const compareRepeated = (as: Unit[], bs: Unit[]) => {
     const texts = (us: Unit[]) => {
       const m = new Map<string, Unit[]>();
-      for (const u of us) m.set(content(u), [...(m.get(content(u)) ?? []), u]);
+      for (const u of us) m.set(variant(u), [...(m.get(variant(u)) ?? []), u]);
       return m;
     };
     const L = texts(as),
@@ -707,6 +747,8 @@ export function compare(
       );
       return;
     }
+    const quote = (us: Unit[]) =>
+      `“${us[0].rawText.trim()}”` + (new Set(us.map((u) => u.rawText.trim())).size > 1 ? "等（页码随所在页）" : "");
     for (const [own, other, isRight] of [
       [R, L, true],
       [L, R, false],
@@ -716,26 +758,49 @@ export function compare(
       for (const [text, us] of own) {
         if (other.has(text)) continue;
         const kept = other.size === 1 ? [...other.values()][0] : null;
+        // This version's only variant is the counterpart of the other
+        // version's variants, on their cards.
+        if (!kept && own.size === 1) continue;
         const note =
           `本版组内文字不一致：${name}第 ${pageList(us)} 页为${isRight ? "新" : "旧"}文字` +
           (kept
             ? unchanged.length
-              ? `；${name}第 ${pageList(unchanged)} 页仍为${otherName}文字“${kept[0].rawText.trim()}”`
+              ? `；${name}第 ${pageList(unchanged)} 页仍为${otherName}文字${quote(kept)}`
               : ""
             : `，${otherName}没有相同文字`);
-        const variant = repeated(us, `furniture-${isRight ? "right" : "left"}-${us[0].id}`, {
+        const card = repeated(us, `furniture-${isRight ? "right" : "left"}-${us[0].id}`, {
           others: unchanged,
           separate: true,
           note,
         });
-        if (!kept) singles.push(isRight ? [undefined, variant] : [variant, undefined]);
+        if (!kept) singles.push(isRight ? [undefined, card] : [card, undefined]);
         else {
           const whole = repeated(kept, `furniture-${isRight ? "left" : "right"}-${kept[0].id}`);
-          isRight
-            ? bind(whole, variant, "page-furniture")
-            : bind(variant, whole, "page-furniture");
+          isRight ? bind(whole, card, "page-furniture") : bind(card, whole, "page-furniture");
         }
       }
+    }
+    // A variant both versions have is unchanged only if its count is. Its count
+    // change is its own card, the line's other variants listed as context; when
+    // it is the single counterpart of the other version's variants, those cards
+    // already list its occurrences.
+    const oneSided = (own: Map<string, Unit[]>, other: Map<string, Unit[]>) =>
+      [...own.keys()].some((t) => !other.has(t));
+    if ((L.size === 1 && oneSided(R, L)) || (R.size === 1 && oneSided(L, R))) return;
+    for (const [text, ls] of L) {
+      const rs = R.get(text);
+      if (!rs || rs.length === ls.length) continue;
+      const others = (m: Map<string, Unit[]>) => [...m].filter(([t]) => t !== text).flatMap(([, us]) => us);
+      const [lo, ro] = [others(L), others(R)];
+      const note =
+        "同一行的其他写法只作上下文，不计入本写法的次数" +
+        (lo.length ? `：基准版第 ${pageList(lo)} 页` : "") +
+        (ro.length ? `${lo.length ? "；" : "："}待审版第 ${pageList(ro)} 页` : "");
+      bind(
+        repeated(ls, "furniture-left-" + ls[0].id, { others: lo, separate: true, note }),
+        repeated(rs, "furniture-right-" + rs[0].id, { others: ro, separate: true }),
+        "page-furniture",
+      );
     }
   };
   const lf = map(la, usedL, furnitureKey),
@@ -1145,10 +1210,12 @@ export function compare(
     if (ra?.separate || rb2?.separate) {
       // Occurrences are listed one by one; nothing implies which page of one
       // version corresponds to which page of the other.
-      for (const u of [...(ar ?? []), ...(ra?.others ?? [])])
-        d.occurrences.push({ left: locations(u, "left"), right: [] });
-      for (const u of [...(br ?? []), ...(rb2?.others ?? [])])
-        d.occurrences.push({ left: [], right: locations(u, "right") });
+      // The line's occurrences with another text are context: listed for
+      // checking, not counted in `repeat`.
+      for (const u of ar ?? []) d.occurrences.push({ left: locations(u, "left"), right: [] });
+      for (const u of ra?.others ?? []) d.occurrences.push({ left: locations(u, "left"), right: [], context: true });
+      for (const u of br ?? []) d.occurrences.push({ left: [], right: locations(u, "right") });
+      for (const u of rb2?.others ?? []) d.occurrences.push({ left: [], right: locations(u, "right"), context: true });
     } else if (ar || br) {
       for (let i = 0; i < Math.max(ar?.length ?? 0, br?.length ?? 0); i++)
         d.occurrences.push({
