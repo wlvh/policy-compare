@@ -1,0 +1,5 @@
+# Renewal results on the joint tree 3b3fb2e against #2's run on 9ccc044 (reports/issue-2-validation/9ccc044…/)
+aviation_2024_vs_2025-mupdf result sha256 e3e86146c9cd85c2a5dd8e1c94f72bcd14f60d517c70a2c907429370f16e8aba; #2's e3e86146c9cd85c2a5dd8e1c94f72bcd14f60d517c70a2c907429370f16e8aba; events identical: yes
+aviation_2024_vs_2025-pdfjs result sha256 b129989ea5fce44d5ccfda0eb61462cc779265bba229937acd1a6bdd214090d7; #2's b129989ea5fce44d5ccfda0eb61462cc779265bba229937acd1a6bdd214090d7; events identical: yes
+bizav_2024_vs_2025-mupdf result sha256 31071f1382de315c70bcb4383180d173a642dd7c25b2ae0955f63d3180ead0b4; #2's 31071f1382de315c70bcb4383180d173a642dd7c25b2ae0955f63d3180ead0b4; events identical: yes
+bizav_2024_vs_2025-pdfjs result sha256 2be0169cc8fa28097fb9400f408110693736e00b45e86778d99ed3e2bcc1bfd1; #2's 2be0169cc8fa28097fb9400f408110693736e00b45e86778d99ed3e2bcc1bfd1; events identical: yes

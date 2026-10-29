@@ -1,0 +1,6 @@
+ Test Files  1 failed (1)
+      Tests  88 failed | 28 passed (116)
+   Start at  12:46:15
+   Duration  2.02s (transform 49%, tests 42%, import 8%)
+
+JSON report written to /tmp/claude-0/-home-user-policy-compare/ab27d908-d06b-5d48-b945-9d8487a308b7/scratchpad/tmp.0VtFyXk4To/reports/core-tests.json
