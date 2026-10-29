@@ -1663,7 +1663,54 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["page count", (d: Difference) => (d.repeat!.rightPages = 2)],
       ["occurrence count", (d: Difference) => (d.repeat!.right = 2)],
     ] as const)
-      expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences it cites"]);
+      expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]);
+  });
+  it("repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954)", () => {
+    // Four pages; the new version changes the limit on page 2 only.
+    const lines = (limit: (p: number) => string) =>
+      docOf([0, 1, 2, 3].flatMap((page) => [{ text: `Hull limit USD ${limit(page)}`, y: 40, page }, { text: `Body ${page + 1}.`, page }]));
+    const [left, right] = [lines(() => "1,000,000"), lines((p) => (p === 1 ? "2,000,000" : "1,000,000"))];
+    const [o, n] = ["Hull limit USD 1,000,000", "Hull limit USD 2,000,000"];
+    // A fixed set for the old limit: 4 lines before, 3 after (page 2 changed).
+    const oldSet = {
+      requirement_id: "T1",
+      text: o,
+      counts: { before: 4, after: 3 },
+      occurrences: {
+        before: [0, 1, 2, 3].map((p) => ({ page_index: p, run_id: at(left, "left", o, p).unitId, text: o })),
+        after: [0, 2, 3].map((p) => ({ page_index: p, run_id: at(right, "right", o, p).unitId, text: o })),
+      },
+    };
+    const score = (repeat: Difference["repeat"], sets: Expected["repeated_text_requirements"] = []) => {
+      const occ = [0, 1, 2, 3].map((p) => ({ left: [at(left, "left", o, p)], right: [at(right, "right", p === 1 ? n : o, p)] }));
+      const d = { ...card("limit", [occ[1].left[0]], [occ[1].right[0]]), occurrences: occ, repeat };
+      const result = compare(left, right);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: [d] });
+      expect(ResultSchema.safeParse(result).success).toBe(true);
+      const expected: Expected = { case_id: "variant", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {}, repeated_text_requirements: sets };
+      return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]);
+    };
+    const graded = (repeat: Difference["repeat"]) => score(repeat).faults;
+    // 4 occurrences of the old limit, 1 of the new; the 3 unchanged new-side lines are context.
+    expect(graded({ left: 4, right: 1, leftPages: 4, rightPages: 4 })).toEqual([]);
+    // The card reports the set's text on the old side; on the new side its own text is the new
+    // limit, and the set's lines it cites there are context: not "outside the set", not counted.
+    const withSet = score({ left: 4, right: 1, leftPages: 4, rightPages: 4 }, [oldSet]);
+    expect(withSet.faults).toEqual([]);
+    expect(withSet.repeatedText).toMatchObject([{ requirementId: "T1", pass: true, cards: ["limit"] }]);
+    expect(score({ left: 3, right: 1, leftPages: 4, rightPages: 4 }, [oldSet]).faults).toContain("repeated text T1: card limit states 3 -> 1 occurrences; the set has 4 -> 3");
+    const wrong = ["card limit states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"];
+    expect(graded({ left: 4, right: 4, leftPages: 4, rightPages: 4 }), "context counted").toEqual(wrong);
+    expect(graded({ left: 3, right: 1, leftPages: 4, rightPages: 4 }), "an old occurrence left out of the count").toEqual(wrong);
+    // A running line whose only difference is its page expression's number is one variant.
+    const paged = (pages: number) => docOf(Array.from({ length: pages }, (_, page) => ({ text: `FIXTURE | PAGE ${page + 1}`, y: 40, page })));
+    const [pl, pr] = [paged(2), paged(3)];
+    const occ = [0, 1, 2].map((p) => ({ left: p < 2 ? [at(pl, "left", `FIXTURE | PAGE ${p + 1}`, p)] : [], right: [at(pr, "right", `FIXTURE | PAGE ${p + 1}`, p)] }));
+    const running = { ...card("running", [occ[0].left[0]], [occ[0].right[0]]), textOps: [{ kind: "equal" as const, text: "FIXTURE | PAGE 1", left: occ[0].left, right: occ[0].right }], occurrences: occ, repeat: { left: 2, right: 3, leftPages: 2, rightPages: 3 } };
+    const result = compare(pl, pr);
+    Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: [running] });
+    const expected: Expected = { case_id: "running", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+    expect(grade(result, expected, { before: layoutOf(pl), after: layoutOf(pr) } as Layout, [pl, pr]).faults).toEqual([]);
   });
   it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
     // Two pages before, three after; the header repeats on every page. A body line on the first new

@@ -923,6 +923,14 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     }
   }
 }
+// Two occurrence texts are one variant when they are the same once the numbers of explicit page
+// expressions are masked, whitespace aside (a running "Page n" counts with its page).
+const variantOf = (t: string) => pageNumbers(t).masked.replace(/\s/gu, "");
+// A card's occurrences of its own old (new) text on a side, by their source-validated texts.
+const ownOccurrences = (d: Difference, side: "left" | "right") =>
+  d.occurrences.filter(
+    (o) => o[side].length > 0 && variantOf(o[side].map((l) => l.text).join("")) === variantOf(side === "left" ? d.oldText : d.newText),
+  );
 // Whether a text change is form only by the shared definitions above (whitespace, confirmed page
 // numbers, continued heading), whether or not the card states it. This only decides between a
 // contradiction and an open question in a no-change control; it never allows a change there.
@@ -1267,16 +1275,17 @@ export function grade(
       if (held === null)
         claimsOpen.push({ card: d.id, kind: "claim_unverifiable", reason: `card ${d.id} states ${fact}; its sources cannot decide it here` });
     }
-    // A repeated line's counts: the two documents' page counts, and the occurrences the card cites
-    // on each side (whether a document holds further, uncited occurrences is not checked).
+    // A repeated line's counts: the two documents' page counts, and on each side the occurrences of
+    // the card's own text it cites; other variants it cites there are context, not counted (whether
+    // a document holds further, uncited occurrences is not checked).
     if (
       d.repeat &&
       (d.repeat.leftPages !== docs[0].pages.length ||
         d.repeat.rightPages !== docs[1].pages.length ||
-        d.repeat.left !== d.occurrences.filter((o) => o.left.length).length ||
-        d.repeat.right !== d.occurrences.filter((o) => o.right.length).length)
+        d.repeat.left !== ownOccurrences(d, "left").length ||
+        d.repeat.right !== ownOccurrences(d, "right").length)
     )
-      faults.push(`card ${d.id} states occurrence or page counts that differ from the documents' page counts or from the occurrences it cites`);
+      faults.push(`card ${d.id} states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites`);
   }
   const required = expected.required_status;
   const completeness =
@@ -1294,21 +1303,25 @@ export function grade(
     const sides = ["left", "right"] as const;
     const runs = { left: req.occurrences.before, right: req.occurrences.after };
     const pages = { left: layout.before.pages, right: layout.after.pages };
-    const reporting = result.differences.filter(
-      (d) => !unsourced.has(d.id) && d.repeat && d.occurrences.some((o) => sides.some((s) => located(o[s], runs[s], pages[s], s))),
-    );
+    // A card reports the set on a side when the occurrences of its own text there lie on the set's
+    // runs; what it cites there of another variant is context.
+    const own = (d: Difference, s: "left" | "right") => ownOccurrences(d, s).flatMap((o) => o[s]);
+    const reports = (d: Difference, s: "left" | "right") => located(own(d, s), runs[s], pages[s], s);
+    const reporting = result.differences.filter((d) => !unsourced.has(d.id) && d.repeat && sides.some((s) => reports(d, s)));
     const problems: string[] = [];
     if (!reporting.length) problems.push("no card reports its occurrence counts");
     else if (!reporting.some((d) => d.defaultVisible)) problems.push("no card reporting it is visible");
     for (const d of reporting) {
-      for (const s of sides) {
-        const locs = d.occurrences.flatMap((o) => o[s]);
+      const checked = sides.filter((s) => reports(d, s));
+      for (const s of checked) {
+        const locs = own(d, s);
         if (locs.some((l) => !located([l], runs[s], pages[s], s)))
           problems.push(`card ${d.id} cites an occurrence outside the set on the ${s} side`);
         if (runs[s].some((r) => !located(locs, [r], pages[s], s)))
           problems.push(`card ${d.id} leaves out an occurrence of the set on the ${s} side`);
       }
-      if (d.repeat!.left !== req.counts.before || d.repeat!.right !== req.counts.after)
+      const counts = { left: req.counts.before, right: req.counts.after };
+      if (checked.some((s) => d.repeat![s] !== counts[s]))
         problems.push(`card ${d.id} states ${d.repeat!.left} -> ${d.repeat!.right} occurrences; the set has ${req.counts.before} -> ${req.counts.after}`);
     }
     faults.push(...problems.map((p) => `repeated text ${req.requirement_id}: ${p}`));
