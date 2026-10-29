@@ -177,7 +177,14 @@ const valueLike = (cell: string) => VALUE.test(cell) || MONTH_DATE.test(cell);
  */
 const IDENTITY = "MSN|ESN|S\\/N|serial|registration|(?:re)?insurer";
 const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
-  identityPrefix = new RegExp(`^(?:${IDENTITY})\\b`, "iu");
+  identityPrefix = new RegExp(`^(?:${IDENTITY})\\b`, "iu"),
+  identityName = new RegExp(`^(?:${IDENTITY})$`, "iu");
+/**
+ * A row with a cell that is nothing but an identifier's name ("Registration")
+ * names a column: it is a heading row. A record's cells carry values
+ * ("Registration G-AAAA", "Registration pending").
+ */
+const namesIdentity = (u: Unit) => u.rowCells!.some((c) => identityName.test(c.normalize("NFKC").trim()));
 /**
  * The heading row of each recovered row: the closest digit-free row above it
  * in the same section and title, with nothing but page margins in between.
@@ -190,7 +197,10 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
  * repeats its heading after a page break) is a heading; a later digit-free row
  * of the same unbroken table is one of its records (or a further heading line)
  * and keeps that table's scope, so a digit-free record can neither leave its
- * table through the shared scope nor be taken for a repeated header.
+ * table through the shared scope, be taken for a repeated header, nor head the
+ * rows below it. A later digit-free row with a cell that names an identifier
+ * starts a table of its own (two tables with no text between them); any other
+ * second heading line is not read.
  */
 function rowHeadings(left: Unit[], right: Unit[]) {
   const headings = new Map<Unit, Unit>(),
@@ -215,14 +225,11 @@ function rowHeadings(left: Unit[], right: Unit[]) {
       }
       const t = u.path.section + "\u0000" + u.title;
       const s = open.get(t);
-      if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text) {
+      if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u)) {
         // A digit-free row inside a table another row started is one of its
         // records (G-AAAA | Alpha Air | Lead) or a further heading line: it
-        // keeps that table's scope. Rows below it still read it as their
-        // heading.
-        const key = t + "\u0000" + u.rawText;
-        count.set(key, Math.max(s.n, count.get(key) ?? 0));
-        current.set(t, u);
+        // keeps that table's scope, and the rows below it keep the table's
+        // heading row, never a record's values (r4416878288).
         table.set(u, [s.key, s.n]);
       } else if (!/\p{N}/u.test(u.rawText)) {
         const prev = last.get(t),
@@ -645,7 +652,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.10+facts.4+repeat.4+ops.4",
+    coreVersion: VERSION + "+row-identity.11+facts.4+repeat.4+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
