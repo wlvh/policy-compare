@@ -419,12 +419,14 @@ function moneyChanges(
     const cells = new Map<string, string>(),
       claimed = new Map<string, string>(),
       cellText = new Map<string, string>(),
+      editedCells = new Map<string, string>(),
       edited: string[] = [];
     // Each claimed character is also kept by its source identity, to tell one edit reported twice
     // from complementary pieces of a cell.
     const claim = (key: string, t: string, r: LayoutRun, ids: (string | undefined)[], page: number) => {
       claimed.set(key, (claimed.get(key) ?? "") + t);
       cellText.set(key, r.text);
+      if (key.startsWith("amount:")) editedCells.set(key, r.text);
       for (const id of ids) if (id !== undefined) edited.push(`${page}/${id}`);
     };
     const cite = (loc: SourceLocation) => {
@@ -468,9 +470,14 @@ function moneyChanges(
       claimed,
       textTokens: money(text),
       cells,
+      editedCells,
       edit: { id: d.id, cellText, edited },
     };
   };
+  // The whole amounts of the amount cells a card's operations edit, each cell once: an edit of a
+  // sign, separator or digit inside such a cell changes the amount it belongs to, even when the
+  // edited characters form no amount themselves (r4417081378: "-" -> "+" in -100,020 -> +100,020).
+  const cellAmounts = (m: Map<string, string>) => [...m.values()].flatMap((t) => money(t, true));
   // Claimed amounts per cell; claims of several cards on one cell join in card order.
   const merge = (into: Map<string, string>, from: Map<string, string>) => {
     for (const [k, t] of from) into.set(k, (into.get(k) ?? "") + t);
@@ -533,8 +540,13 @@ function moneyChanges(
       a = minus(R.all, L.all),
       rc = minus(tokens(L.claimed), tokens(R.claimed)),
       ac = minus(tokens(R.claimed), tokens(L.claimed));
+    const rv = minus(cellAmounts(L.editedCells), cellAmounts(R.editedCells)),
+      av = minus(cellAmounts(R.editedCells), cellAmounts(L.editedCells));
     if ((r.length || a.length) && !allowed(r, a))
       out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
+    // The card's text shows no amount change, yet the amount cells it edits change their amounts.
+    else if (!r.length && !a.length && (rv.length || av.length) && !allowed(rv, av))
+      out.push(`card ${d.id} edits amount cells whose amounts change ${rv.join(",") || "-"} to ${av.join(",") || "-"}`);
     // The cited cells keep their values, yet the card's operations assert a change inside them.
     else if (!r.length && !a.length && (rc.length || ac.length))
       out.push(`card ${d.id} claims ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside amount or currency cells that keep their values`);
@@ -552,6 +564,8 @@ function moneyChanges(
     comeText: [] as string[],
     goneCells: new Map<string, string>(),
     comeCells: new Map<string, string>(),
+    goneEdited: new Map<string, string>(),
+    comeEdited: new Map<string, string>(),
     goneEdits: [] as Edit[],
     comeEdits: [] as Edit[],
   });
@@ -567,6 +581,7 @@ function moneyChanges(
     merge(removed ? g.goneClaimed : g.comeClaimed, m.claimed);
     (removed ? g.goneText : g.comeText).push(...m.textTokens);
     for (const [k, t] of m.cells) (removed ? g.goneCells : g.comeCells).set(k, t);
+    for (const [k, t] of m.editedCells) (removed ? g.goneEdited : g.comeEdited).set(k, t);
     (removed ? g.goneEdits : g.comeEdits).push(m.edit);
   }
   for (const [key, g] of records) {
@@ -577,7 +592,9 @@ function moneyChanges(
     const r = minus(gone, come),
       a = minus(come, gone),
       rc = minus(tokens(g.goneClaimed), tokens(g.comeClaimed)),
-      ac = minus(tokens(g.comeClaimed), tokens(g.goneClaimed));
+      ac = minus(tokens(g.comeClaimed), tokens(g.goneClaimed)),
+      rv = minus(cellAmounts(g.goneEdited), cellAmounts(g.comeEdited)),
+      av = minus(cellAmounts(g.comeEdited), cellAmounts(g.goneEdited));
     const twice = [...spread(g.goneEdits).twice, ...spread(g.comeEdits).twice],
       split = splitVerdict(r, a, rc, ac, g.goneEdits, g.comeEdits);
     if (twice.length)
@@ -591,8 +608,11 @@ function moneyChanges(
     } else {
       pool.gone.push(...r);
       pool.come.push(...a);
+      // The record's delete and add cards show no amount change, yet the amount cells they edit change.
+      if (!r.length && !a.length && (rv.length && av.length) && !allowed(rv, av))
+        out.push(`record ${key} delete/add cards edit amount cells whose amounts change ${rv.join(",")} to ${av.join(",")}`);
       // The record's cells cancel, yet its delete and add cards assert different amount text.
-      if (!r.length && !a.length && (rc.length || ac.length))
+      else if (!r.length && !a.length && (rc.length || ac.length))
         out.push(`record ${key} delete/add cards claim ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside amount or currency cells that keep their values`);
       else if (!r.length && !a.length && (minus(g.gone, g.come).length || minus(g.come, g.gone).length))
         unexplained.add(`record ${key} delete/add cards cite one amount cell in several cards; the values balance only when each cell counts once`);
