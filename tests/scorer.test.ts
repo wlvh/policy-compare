@@ -323,7 +323,7 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
     return x;
   };
   // R16:E1 (the page title the repagination adds) was registered in issue #2 round 5: 11 -> 12.
-  it("the 32 pairs have exactly the 12 known N/A events in 11 cases and no unsupported path", () => {
+  it("the 32 pairs have exactly the 13 known N/A events in 12 cases and no unsupported path", () => {
     const text = allExpected().flatMap((c) =>
       c.events.filter(
         (e) => e.detection_requirement !== "coverage_warning_required",
@@ -335,8 +335,8 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
         .map((e) => e.event_id)
         .sort();
     expect(of("not_applicable")).toEqual(Object.keys(IDENTITY_NOT_APPLICABLE).sort());
-    expect(of("not_applicable")).toHaveLength(12);
-    expect(new Set(of("not_applicable").map((id) => id.split(":")[0])).size).toBe(11);
+    expect(of("not_applicable")).toHaveLength(13);
+    expect(new Set(of("not_applicable").map((id) => id.split(":")[0])).size).toBe(12);
     expect(of("unsupported")).toEqual([]);
     // Coverage-warning events are a separate branch and are not counted as identity events.
     const coverage = allExpected().flatMap((c) =>
@@ -1644,6 +1644,87 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["occurrence count", (d: Difference) => (d.repeat!.right = 2)],
     ] as const)
       expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences it cites"]);
+  });
+  it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
+    // Two pages before, three after; the header repeats on every page. A body line on the first new
+    // page repeats the words but is not part of the generated set.
+    const left = docOf([{ text: "RUNNING HEADER", y: 40 }, { text: "Body one." }, { text: "RUNNING HEADER", y: 40, page: 1 }, { text: "Body two.", page: 1 }]),
+      right = docOf([
+        { text: "RUNNING HEADER", y: 40 },
+        { text: "Body one." },
+        { text: "RUNNING HEADER", y: 200 },
+        { text: "RUNNING HEADER", y: 40, page: 1 },
+        { text: "Body two.", page: 1 },
+        { text: "RUNNING HEADER", y: 40, page: 2 },
+        { text: "Body three.", page: 2 },
+      ]);
+    // The header line of a page, by its baseline.
+    const headerLine = (d: DocInput, page: number, y = 40) => d.pages[page].lines.find((l) => l.baseline[1] === y)!.id;
+    const header = (d: DocInput, side: "left" | "right", page: number, y = 40) => lineLoc(d, side, headerLine(d, page, y));
+    const set = (d: DocInput, pages: number[]) => pages.map((p) => ({ page_index: p, run_id: headerLine(d, p), text: "RUNNING HEADER" }));
+    const repeated = (id: string, l: SourceLocation[], r: SourceLocation[], cut?: [number, number]): Difference => {
+      const part = (loc: SourceLocation) => (cut ? slice(loc, ...cut) : loc);
+      const occ = Array.from({ length: Math.max(l.length, r.length) }, (_, i) => ({ left: l[i] ? [part(l[i])] : [], right: r[i] ? [part(r[i])] : [] }));
+      const text = part(l[0]).text;
+      return {
+        ...card(id, [occ[0].left[0]], [occ[0].right[0]]),
+        textOps: [{ kind: "equal", text, left: occ[0].left, right: occ[0].right }],
+        occurrences: occ,
+        repeat: { left: l.length, right: r.length, leftPages: 2, rightPages: 3 },
+      };
+    };
+    const graded = (cards: Difference[]) => {
+      const result = compare(left, right);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: cards });
+      expect(ResultSchema.safeParse(result).success).toBe(true);
+      const expected: Expected = {
+        case_id: "repeated-set",
+        required_status: "complete_for_scope",
+        events: [],
+        invariants: [],
+        coverage_requirements: [],
+        evidence_locations: {},
+        repeated_text_requirements: [
+          { requirement_id: "T1", text: "RUNNING HEADER", counts: { before: 2, after: 3 }, occurrences: { before: set(left, [0, 1]), after: set(right, [0, 1, 2]) } },
+        ],
+      };
+      return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]);
+    };
+    const [l, r] = [[0, 1].map((p) => header(left, "left", p)), [0, 1, 2].map((p) => header(right, "right", p))];
+    // One card, or the text split over two cards, each citing every occurrence of the set.
+    for (const [name, cards] of [
+      ["one card", [repeated("all", l, r)]],
+      ["split over two cards", [repeated("running", l, r, [0, 7]), repeated("header", l, r, [8, 14])]],
+    ] as const) {
+      const score = graded([...cards]);
+      expect(score.faults, name).toEqual([]);
+      expect(score.repeatedText, name).toMatchObject([{ requirementId: "T1", pass: true }]);
+      expect(summarize([score]).repeatedText, name).toEqual({ pass: ["T1"], fail: [] });
+    }
+    const failing: [string, Difference[], string[]][] = [
+      ["no card", [], ["repeated text T1: no card reports its occurrence counts"]],
+      [
+        "an occurrence left out",
+        [repeated("short", l, r.slice(0, 2))],
+        ["repeated text T1: card short leaves out an occurrence of the set on the right side", "repeated text T1: card short states 2 -> 2 occurrences; the set has 2 -> 3"],
+      ],
+      [
+        "an occurrence outside the set",
+        [repeated("extra", l, [...r, header(right, "right", 0, 200)])],
+        ["repeated text T1: card extra cites an occurrence outside the set on the right side", "repeated text T1: card extra states 2 -> 4 occurrences; the set has 2 -> 3"],
+      ],
+      [
+        "one of two split cards incomplete",
+        [repeated("running", l, r, [0, 7]), repeated("header", l, r.slice(0, 2), [8, 14])],
+        ["repeated text T1: card header leaves out an occurrence of the set on the right side", "repeated text T1: card header states 2 -> 2 occurrences; the set has 2 -> 3"],
+      ],
+    ];
+    for (const [name, cards, faults] of failing) {
+      const score = graded(cards);
+      expect(score.status, name).toBe("FAIL");
+      expect(score.faults, name).toEqual(faults);
+      expect(summarize([score]).repeatedText, name).toEqual({ pass: [], fail: ["T1"] });
+    }
   });
   it("an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card", () => {
     // The event's line changes its amount and its wording; another line holds both amounts unchanged.

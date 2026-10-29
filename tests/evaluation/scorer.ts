@@ -23,6 +23,14 @@ export type Expected = {
   invariants: string[];
   coverage_requirements: { side: string; page_index: number; reason: string }[];
   evidence_locations: Record<string, Record<"before" | "after", Evidence[]>>;
+  // Generated text whose number of occurrences differs between the versions, with every occurrence
+  // (page and run) on each side, taken from the generator's layout records (R16, R24).
+  repeated_text_requirements?: {
+    requirement_id: string;
+    text: string;
+    counts: Record<"before" | "after", number>;
+    occurrences: Record<"before" | "after", (Evidence & { text: string })[]>;
+  }[];
 };
 type Evidence = {
   page_index: number;
@@ -71,6 +79,8 @@ export type NotEvaluated = {
   card?: string;
   reason: string;
 };
+// One fixed set of repeated generated text: the cards reporting it and what they get wrong.
+export type RepeatedTextScore = { requirementId: string; pass: boolean; cards: string[]; problems: string[] };
 export type InvariantScore = {
   name: string;
   coverage: "direct" | "indirect" | "unsupported" | "unknown";
@@ -134,6 +144,11 @@ export const IDENTITY_NOT_APPLICABLE: Record<
     logicalPath: "document.page_heading.policy_wording",
     reason:
       "page title added by the repagination: no party or record identity; text, operation, stated facts, position, visibility and completeness still apply",
+  },
+  "R24_table_cross_page:E1": {
+    logicalPath: "document.page_heading.schedule_of_aircraft_continued",
+    reason:
+      "continued title added by the table's page break: no party or record identity; text, operation, stated facts, position, visibility and completeness still apply",
   },
 };
 const clean = (s: string) => s.replace(/\s+/g, " ").trim();
@@ -929,6 +944,7 @@ export function summarize(
     events?: EventScore[];
     notEvaluated?: NotEvaluated[];
     invariants?: InvariantScore[];
+    repeatedText?: RepeatedTextScore[];
   }[],
 ) {
   const ids = (keep: (s: string) => boolean) =>
@@ -983,6 +999,13 @@ export function summarize(
       requirementUnmet: by((e) => e.identity?.outcome === "requirement_unmet"),
       wrong: by((e) => e.identity?.outcome === "wrong_statement"),
     },
+    // The answers' fixed sets of repeated generated text: complete and correctly counted, or not.
+    repeatedText: Object.fromEntries(
+      (["pass", "fail"] as const).map((k) => [
+        k,
+        records.flatMap((r) => r.repeatedText ?? []).filter((t) => t.pass === (k === "pass")).map((t) => t.requirementId),
+      ]),
+    ) as Record<"pass" | "fail", string[]>,
     // Invariant results by coverage; indirect results restate the event checks and add no evidence.
     invariantResults: Object.fromEntries(
       (["direct", "indirect", "unsupported", "unknown"] as const).map((c) => [
@@ -1109,6 +1132,7 @@ export function grade(
   notEvaluated: NotEvaluated[];
   events: EventScore[];
   invariants: InvariantScore[];
+  repeatedText: RepeatedTextScore[];
 } {
   const faults: string[] = [];
   const parsed = ResultSchemaV2.safeParse(input);
@@ -1124,6 +1148,7 @@ export function grade(
       notEvaluated: [],
       events: [],
       invariants: [],
+      repeatedText: [],
     };
   const result = parsed.data;
   if (result.documentHashes.some((h, i) => h !== docs[i].contentHash))
@@ -1223,6 +1248,35 @@ export function grade(
         result.unresolved.some((u) => u.reason === "ambiguous_identity")
       : result.status === required;
   if (!completeness) faults.push("Wrong global completeness state");
+  // The answer's fixed sets of repeated generated text (R16, R24). Every card reporting such a text
+  // (an occurrence on one of the set's runs) must cite exactly the set's runs on each side and state
+  // its counts, and one of them must be visible. The form is free: a text may be split over several
+  // cards. Only these sets are checked for completeness; other repeat counts are checked within the
+  // card's own citations.
+  const repeatedText = (expected.repeated_text_requirements ?? []).map((req): RepeatedTextScore => {
+    const sides = ["left", "right"] as const;
+    const runs = { left: req.occurrences.before, right: req.occurrences.after };
+    const pages = { left: layout.before.pages, right: layout.after.pages };
+    const reporting = result.differences.filter(
+      (d) => !unsourced.has(d.id) && d.repeat && d.occurrences.some((o) => sides.some((s) => located(o[s], runs[s], pages[s], s))),
+    );
+    const problems: string[] = [];
+    if (!reporting.length) problems.push("no card reports its occurrence counts");
+    else if (!reporting.some((d) => d.defaultVisible)) problems.push("no card reporting it is visible");
+    for (const d of reporting) {
+      for (const s of sides) {
+        const locs = d.occurrences.flatMap((o) => o[s]);
+        if (locs.some((l) => !located([l], runs[s], pages[s], s)))
+          problems.push(`card ${d.id} cites an occurrence outside the set on the ${s} side`);
+        if (runs[s].some((r) => !located(locs, [r], pages[s], s)))
+          problems.push(`card ${d.id} leaves out an occurrence of the set on the ${s} side`);
+      }
+      if (d.repeat!.left !== req.counts.before || d.repeat!.right !== req.counts.after)
+        problems.push(`card ${d.id} states ${d.repeat!.left} -> ${d.repeat!.right} occurrences; the set has ${req.counts.before} -> ${req.counts.after}`);
+    }
+    faults.push(...problems.map((p) => `repeated text ${req.requirement_id}: ${p}`));
+    return { requirementId: req.requirement_id, pass: !problems.length, cards: reporting.map((d) => d.id), problems };
+  });
   const events = expected.events.map((e): EventScore => {
     if (e.detection_requirement === "coverage_warning_required") {
       const findings = expected.coverage_requirements.every((req) =>
@@ -1518,5 +1572,6 @@ export function grade(
     notEvaluated,
     events,
     invariants,
+    repeatedText,
   };
 }
