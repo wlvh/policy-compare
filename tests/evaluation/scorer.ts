@@ -1396,17 +1396,28 @@ export function grade(
         }
       return found;
     };
+    // Which side's text the event changes: what remains of the old (new) text after the common start
+    // and end of both. An old text kept whole inside the new one (text appended or inserted) does not
+    // change on the old side.
+    const changed = (() => {
+      const [o, n] = [Array.from(clean(e.old ?? "")), Array.from(clean(e.new ?? ""))];
+      let p = 0;
+      while (p < Math.min(o.length, n.length) && o[p] === n[p]) p++;
+      let q = 0;
+      while (q < Math.min(o.length, n.length) - p && o[o.length - 1 - q] === n[n.length - 1 - q]) q++;
+      return { left: o.length > p + q, right: n.length > p + q };
+    })();
     // The card shows the event at the event's own text, not with the same text from elsewhere in the
-    // card (another unit kept as context, or paired across units): the old and the new text each occur
-    // on the event's runs, and one of those occurrences holds the card's edit there (an old text kept
-    // whole inside the new one carries no edit itself). A move has no edit to carry.
-    const carried = (d: Difference) => {
-      if (e.operation === "move") return true;
-      const found = (["left", "right"] as const).map((side) =>
-        (side === "left" ? e.old : e.new) === null ? null : spots(d, side).filter((s) => s.own),
-      );
-      return found.every((f) => f === null || f.length > 0) && found.some((f) => f?.some((s) => s.edit));
-    };
+    // card (another unit kept as context, another unchanged occurrence, or paired across units): the
+    // old and the new text each occur on the event's runs, and on each side the event changes, that
+    // occurrence holds the card's edit there. A move has no edit to carry.
+    const carried = (d: Difference) =>
+      e.operation === "move" ||
+      (["left", "right"] as const).every((side) => {
+        if ((side === "left" ? e.old : e.new) === null) return true;
+        const own = spots(d, side).filter((s) => s.own);
+        return changed[side] ? own.some((s) => s.edit) : own.length > 0;
+      });
     const candidates = result.differences.filter(
       (d) =>
         (e.old === null || clean(d.oldText).includes(clean(e.old))) &&

@@ -1825,6 +1825,27 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     expect.soft(amounts([digit("liability", [14, 32], 28)]).events[0], "the other amount's edit").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
     expect(amounts([digit("hull", [0, 12], 9)]).status).toBe("PASS");
     expect(amounts([card("line", [t0], [n0])]).status).toBe("PASS");
+    // Each side whose fragment changes (beyond the old and new texts' common start and end) must
+    // carry the edit itself: here the new amount is only another, unchanged USD 200 of the same run.
+    const [same, sameNew] = [docOf([{ text: "USD 100; USD 200 included" }]), docOf([{ text: "USD 200; USD 200 excluded" }])];
+    const [s0, m0] = [at(same, "left", "USD 100; USD 200 included"), at(sameNew, "right", "USD 200; USD 200 excluded")];
+    const twice = grader(same, sameNew, "USD 100", "USD 200", "USD 100; USD 200 included", "USD 200; USD 200 excluded");
+    const borrowedNew = of("borrowed new", [
+      op("delete", slice(s0, 0, 9), null),
+      op("equal", slice(s0, 9, 17), slice(m0, 9, 17)),
+      op("delete", slice(s0, 17, 25), null),
+      op("insert", null, slice(m0, 17, 25)),
+    ]);
+    expect.soft(twice([borrowedNew]).events[0], "the new amount borrowed").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
+    const edited = of("edited", [
+      op("equal", slice(s0, 0, 4), slice(m0, 0, 4)),
+      op("delete", slice(s0, 4, 5), null),
+      op("insert", null, slice(m0, 4, 5)),
+      op("equal", slice(s0, 5, 17), slice(m0, 5, 17)),
+      op("delete", slice(s0, 17, 25), null),
+      op("insert", null, slice(m0, 17, 25)),
+    ]);
+    expect(twice([edited]).status).toBe("PASS");
   });
 });
 // One violating result per directly checked invariant; the fault must name that invariant.
