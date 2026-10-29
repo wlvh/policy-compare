@@ -889,16 +889,17 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     case "whitespace_only":
       return words(a ?? "") === words(b ?? "");
     // Both sides: only numbers inside explicit page expressions differ, the rest of the text (the
-    // expressions' words included) is the same; a one-sided text is nothing but such expressions and
-    // whitespace. It says nothing about the printed numbers being right. The contract states it only
-    // on a repeated page line, a heading or a page-margin line (r4416542441). Of these the sources
-    // show only the first: the card's own text, by the occurrences it cites, printed on two or more
-    // pages of a document. On any other line the text form holds but its scope stays open.
+    // expressions' words and every whitespace character included, r4417386694) is the same; a
+    // one-sided text is nothing but such expressions and whitespace. It says nothing about the
+    // printed numbers being right. The contract states it only on a repeated page line, a heading or
+    // a page-margin line (r4416542441). Of these the sources show only the first: the card's own
+    // text, by the occurrences it cites, printed on two or more pages of a document. On any other
+    // line the text form holds but its scope stays open.
     case "page_number_only": {
       let form: boolean;
       if (a !== null && b !== null) {
         const [x, y] = [pageNumbers(a), pageNumbers(b)];
-        form = words(x.masked) === words(y.masked) && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
+        form = x.masked === y.masked && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
       } else {
         const one = (a ?? b)!;
         form = pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
