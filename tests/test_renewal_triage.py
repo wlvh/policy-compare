@@ -545,6 +545,44 @@ class OneQualifyingHit(unittest.TestCase):
         self.assertEqual(ev['13']['verdict'], 'not_located')
 
 
+class WholeNumbers(unittest.TestCase):
+    """Review of PR #11 (r4413938264): a number at either end of the author text matches only as a
+    whole number. "USD 100" inside "USD 1000" or "USD 100,000", or "0.0425%" inside "10.0425%", is
+    another value, so a card changing it is no evidence for the author edit."""
+    ROW = change(52, 'ac_1315', 'Replaced', 'ATR | 1315 | USD 100', 'ATR | 1315 | USD 200',
+                 [('USD 100', 'USD 200')], pages=(11, 11))
+    RATE = change(87, 'rate_1_1', 'Replaced', '1.1 | Contingent Hull | 0.0425%', '1.1 | Contingent Hull | 0.0450%',
+                  [('0.0425%', '0.0450%')], pages=(20, 19))
+
+    def amount(self, old, new):
+        c = card('x', 'Replaced', [(11, 'a', f'1315 Liability {old}')], [(11, 'b', f'1315 Liability {new}')])
+        return run([self.ROW], result([c]), [table('aircraft', [1], self.ROW)])
+
+    def rate(self, old, new):
+        c = card('x', 'Replaced', [(20, 'a', f'1.1 Contingent Hull {old}')], [(19, 'b', f'1.1 Contingent Hull {new}')])
+        return run([self.RATE], result([c]), [table('premium rates', [0, 1], self.RATE)])
+
+    def test_a_longer_number_is_not_the_author_value(self):
+        for old, new in (('USD 1000', 'USD 2000'), ('USD 100,000', 'USD 200,000'), ('USD 100.5', 'USD 200.5')):
+            summary, ev = self.amount(old, new)
+            self.assertEqual((ev['52']['verdict'], ev['52']['acceptedCards'], summary['unexplainedCards']),
+                             ('not_located', [], 1), old)
+        _, ev = self.rate('10.0425%', '10.0450%')
+        self.assertEqual(ev['87']['verdict'], 'not_located')
+        # Controls: the value itself, also before a full stop or after other text.
+        for old, new in (('USD 100', 'USD 200'), ('USD 100.', 'USD 200.')):
+            _, ev = self.amount(old, new)
+            self.assertEqual((ev['52']['verdict'], ev['52']['acceptedCards']), ('correct', ['x']), old)
+        _, ev = self.rate('0.0425%', '0.0450%')
+        self.assertEqual(ev['87']['verdict'], 'correct')
+
+    def test_a_cut_opening_does_not_end_inside_a_number(self):
+        # The 40-character opening of a moved paragraph would cut "USD 1,250,000" after "USD 1,25".
+        text = 'Aggregate limit is increased to USD 1,250,000 in all.'
+        atoms, _ = triage.fragments(change(9, 'limit', 'Moved', text, text))
+        self.assertEqual(atoms[0]['old'], 'Aggregate limit is increased to USD')
+
+
 class FactsFormatsExclusionsFurniture(unittest.TestCase):
     def test_stated_facts_are_rechecked_against_the_card_texts(self):
         cards = [card('w', 'Replaced', [(1, 'a', 'Limit  USD 5,000')], [(1, 'b', 'Limit USD 5,000')], facts=['whitespace_only']),

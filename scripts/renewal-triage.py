@@ -41,7 +41,10 @@ edit in another unit) is not evidence. A side the author edit leaves as it is
 
 Text counts only where it is found in sources on the author's pages: an
 occurrence whose every character comes from a source unit on a stated page
-(any page when none is stated). Candidate matching, the edit check and the
+(any page when none is stated). A number at either end of the author text
+matches only as a whole number (renewal-triage/8): "USD 100" inside
+"USD 1000" or "USD 100,000" is another value; a 40-character opening ends
+before a number it would split. Candidate matching, the edit check and the
 evidence written out all use the source units of such occurrences; a card
 holding the text on another page, with unrelated text on the stated page, is
 not evidence.
@@ -67,7 +70,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/7'
+TOOL = 'renewal-triage/8'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -91,6 +94,31 @@ def pages(locations):
 
 def cells(text):
     return [norm(c) for c in text.split(' | ')] if text and ' | ' in text else None
+
+
+NUMBER = re.compile(r'\d(?:[.,]?\d)*')
+
+
+def splits_number(text):
+    """Positions strictly inside a number of the text: a match starting or ending there would cut
+    the number ("USD 100" in "USD 1000" or "USD 100,000", "0.0425%" in "10.0425%")."""
+    return {i for m in NUMBER.finditer(text) for i in range(m.start() + 1, m.end())}
+
+
+def occurs(needle, text):
+    """Substring search that takes a number at either end of the needle only as a whole number."""
+    cut, i = splits_number(text), text.find(needle) if needle else -1
+    while i >= 0 and (i in cut or i + len(needle) in cut):
+        i = text.find(needle, i + 1)
+    return i >= 0
+
+
+def opening(text):
+    """The first 40 characters of a text, ending before a number the cut would split."""
+    t = norm(text)
+    if len(t) > 40 and 40 in splits_number(t):
+        return t[:next(m.start() for m in NUMBER.finditer(t) if m.start() < 40 < m.end())].rstrip()
+    return t[:40]
 
 
 def bounded(needle, text):
@@ -157,15 +185,18 @@ def needs_edit(old, new):
 
 def found(d, side, needle, wanted):
     """Occurrences of the needle in one card side whose characters all come from source units on
-    the wanted pages (any page when none is wanted): per occurrence, its (char, unit, changed)."""
+    the wanted pages (any page when none is wanted): per occurrence, its (char, unit, changed).
+    A number at either end of the needle counts only as a whole number (r4413938264)."""
     chars = marked(d, side)
     text = ''.join(c for c, _, _ in chars)
+    cut = splits_number(text)
     out = []
     i = text.find(needle) if needle else -1
     while i >= 0:
         span = chars[i:i + len(needle)]
         owners = [unit for _, unit, _ in span if unit is not None]
-        if owners and (not wanted or all(page in wanted for page, _ in owners)):
+        if owners and (not wanted or all(page in wanted for page, _ in owners)) \
+                and i not in cut and i + len(needle) not in cut:
             out.append(span)
         i = text.find(needle, i + 1)
     return out
@@ -217,12 +248,12 @@ def fragments(change):
     if kind in ('Added', 'Removed'):
         text = change['right_text'] if kind == 'Added' else change['left_text']
         row = cells(text)
-        for p in [c for c in (row or [norm(text)[:40]]) if len(c) >= 2]:
+        for p in [c for c in (row or [opening(text)]) if len(c) >= 2]:
             atoms.append({'old': p if kind == 'Removed' else None, 'new': p if kind == 'Added' else None,
                           'cell': row is not None, 'authorCategory': change['category']})
         return atoms, dropped
     if kind == 'Moved':
-        atoms.append({'old': norm(change['left_text'])[:40], 'new': norm(change['right_text'])[:40],
+        atoms.append({'old': opening(change['left_text']), 'new': opening(change['right_text']),
                       'cell': False, 'opening': True, 'authorCategory': change['category']})
     for e in change.get('edits', []):
         if norm(e['old']) == norm(e['new']):
@@ -327,7 +358,7 @@ def unresolved_hits(result, side, needle, wanted, row_cell=False):
     hits = []
     for i, u in enumerate(result['unresolved']):
         for unit in units(u[side], wanted):
-            if (bounded(needle, unit['text']) if row_cell else needle in unit['text']):
+            if (bounded(needle, unit['text']) if row_cell else occurs(needle, unit['text'])):
                 hits.append({'group': i, 'reason': u['reason'], 'side': side, 'page': unit['page'],
                              'unitId': unit['unitId']})
     return hits
