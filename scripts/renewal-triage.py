@@ -49,9 +49,10 @@ changed character of that occurrence; a changed space collapsed beside
 unchanged words (extra spaces around an amount) is not the edit unless the
 author edit itself only changes spaces. On one card, the old and the new
 occurrence must line up in the card's edit script (renewal-triage/10): the
-unchanged characters of each are exactly those of the other, and no other
-unchanged character lies between them; currency codes swapped while the
-amounts stay paired elsewhere do not show "USD 100" -> "USD 200". A pure insertion or deletion needs no
+unchanged characters of the context the author edit keeps on each side are
+paired with the other occurrence, and every unchanged character between the two
+belongs to one of them; currency codes swapped while the amounts stay paired
+elsewhere do not show "USD 100" -> "USD 200". A pure insertion or deletion needs no
 text on its empty side; its other side needs the edit with the record identity
 or the author paragraph in that occurrence's own units. A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
@@ -280,19 +281,24 @@ def unchanged_script(d):
                   for k, c in enumerate(op['text']) if not space(c))
 
 
-def lined_up(left, right, unchanged):
-    """An old and a new occurrence on one card line up in the card's edit script: the unchanged
-    characters of each are exactly those of the other, and no other unchanged character lies
-    between them. Otherwise the two texts are paired with other text and the card's edits show
-    some other change (r4415913728: currency codes swapped while the amounts stay paired
-    elsewhere). Which copy of a repeated word the card marks as inserted does not matter."""
-    lp = {x[4][:2] for x in left if x[4] and x[4][2]}
-    rp = {x[4][:2] for x in right if x[4] and x[4][2]}
-    if lp != rp:
+def lined_up(left, right, unchanged, need):
+    """An old and a new occurrence on one card line up in the card's edit script: every unchanged
+    character of the context the author edit keeps on one side (outside the part `need` says it
+    changes there) is paired with a character of the other occurrence, and every unchanged
+    character between the two belongs to one of them. Otherwise the two texts are paired with other
+    text and the card's edits show some other change (r4415913728: currency codes swapped while
+    the amounts stay paired elsewhere). The part the edit changes may be paired elsewhere (an
+    inserted clause repeating the words after it), and which copy of a repeated word the card marks
+    as inserted does not matter."""
+    def places(span, cut=None):
+        lo, hi = cut if isinstance(cut, tuple) else (0, 0)
+        return {x[4][:2] for k, x in enumerate(span) if x[4] and x[4][2] and not lo <= k < hi}
+    la, ra = places(left), places(right)
+    if not (places(left, need['left']) <= ra and places(right, need['right']) <= la):
         return False
-    places = [x[4][:2] for x in left + right if x[4]]
-    lo, hi = min(places), max(places)
-    return all(p in lp for p in unchanged if lo < p < hi)
+    every = [x[4][:2] for x in left + right if x[4]]
+    lo, hi = min(every), max(every)
+    return all(p in la | ra for p in unchanged if lo < p < hi)
 
 
 def located(d, side, needle, wanted):
@@ -480,7 +486,7 @@ def text_atom(atom, change, ctx, claimed):
         unchanged = unchanged_script(d)
         lo = [(i, s) for i, s in occurrences(d, 'left', old, wanted['left']) if carries(s, need['left'])]
         ro = [(j, s) for j, s in occurrences(d, 'right', new, wanted['right']) if carries(s, need['right'])]
-        both = [(i, j) for i, l in lo for j, r in ro if lined_up(l, r, unchanged)]
+        both = [(i, j) for i, l in lo for j, r in ro if lined_up(l, r, unchanged, need)]
         if not (shows(d, 'left', old) and shows(d, 'right', new)) or not both:
             # The card holds both texts but does not make this edit there: no evidence for or against.
             cands.append(candidate(d, needles, wanted, edit=False))

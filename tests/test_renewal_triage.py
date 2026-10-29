@@ -724,6 +724,34 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([c], result([first]))
         self.assertEqual((ev['16']['verdict'], ev['16']['acceptedCards']), ('correct', ['x']))
 
+    def test_an_inserted_clause_may_repeat_the_words_after_it(self):
+        """The card may pair the words an insertion repeats with the old text after it and mark
+        the later copy as inserted: the context the edit keeps still lines up."""
+        L = 'Claims: a bird strike (USD 412,500) and a ground claim.'
+        R = 'Claims: a bird strike (USD 412,500) and a tail strike and a ground claim.'
+        old, new = 'a bird strike (USD 412,500)', 'a bird strike (USD 412,500) and a tail strike'
+        c = change(22, 'loss', 'Replaced', L, R, [(old, new)])
+        kept, added = 'Claims: a bird strike (USD 412,500) and a ', 'tail strike and a '
+        x = raw_card('x', [(1, 'a', L)], [(1, 'b', R)], [
+            ('equal', kept, [(1, 'a', kept, 0)], [(1, 'b', kept, 0)]),
+            ('insert', added, [], [(1, 'b', added, len(kept))]),
+            ('equal', 'ground claim.', [(1, 'a', 'ground claim.', len(kept))], [(1, 'b', 'ground claim.', len(kept + added))])])
+        _, ev = run([c], result([x]))
+        self.assertEqual((ev['22']['verdict'], ev['22']['acceptedCards']), ('correct', ['x']))
+        # Control: the old and new amounts replaced at two ends of the card, unchanged text between.
+        c = change(23, 'liab', 'Replaced', 'USD 100 lorem ipsum dolor EUR 7', 'EUR 9 lorem ipsum dolor USD 200',
+                   [('USD 100', 'USD 200')])
+        mid = ' lorem ipsum dolor '
+        y = raw_card('y', [(1, 'a', 'USD 100' + mid + 'EUR 7')], [(1, 'b', 'EUR 9' + mid + 'USD 200')], [
+            ('delete', 'USD 100', [(1, 'a', 'USD 100', 0)], []),
+            ('insert', 'EUR 9', [], [(1, 'b', 'EUR 9', 0)]),
+            ('equal', mid, [(1, 'a', mid, 7)], [(1, 'b', mid, 5)]),
+            ('delete', 'EUR 7', [(1, 'a', 'EUR 7', 26)], []),
+            ('insert', 'USD 200', [], [(1, 'b', 'USD 200', 24)])])
+        _, ev = run([c], result([y]))
+        self.assertNotEqual(ev['23']['verdict'], 'correct')
+        self.assertEqual(ev['23']['acceptedCards'], [])
+
     PARA_SHORT = change(21, 'liab', 'Replaced', 'Liability USD 100.', 'Liability USD 200.', [('USD 100', 'USD 200')],
                         pages=(1, 1))
 
