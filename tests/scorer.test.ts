@@ -1601,6 +1601,9 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["page expression form changed", docOf([{ text: "Page 3" }]), docOf([{ text: "Page 3 of 11" }]), ["Page 3"], ["Page 3 of 11"], ["page_number_only"]],
       ["a rate beside the page number", docOf([{ text: "Page 3 of 10 rate 4%" }]), docOf([{ text: "Page 3 of 11 rate 5%" }]), ["Page 3 of 10 rate 4%"], ["Page 3 of 11 rate 5%"], ["page_number_only"]],
       ["an amount beside the page number", docOf([{ text: "Page 3 of 10 USD 100" }]), docOf([{ text: "Page 3 of 10 USD 200" }]), ["Page 3 of 10 USD 100"], ["Page 3 of 10 USD 200"], ["page_number_only"]],
+      // A page expression's number is a whole number: the "1" of "Page 1.1" is not one (r4416744456).
+      ["a decimal after Page", docOf([{ text: "Schedule Page 1.1" }]), docOf([{ text: "Schedule Page 2.1" }]), ["Schedule Page 1.1"], ["Schedule Page 2.1"], ["page_number_only"]],
+      ["a total cut out of a longer number", docOf([{ text: "Page 3 of 10,5" }]), docOf([{ text: "Page 3 of 11,5" }]), ["Page 3 of 10,5"], ["Page 3 of 11,5"], ["page_number_only"]],
       ["one side not only page expressions", docOf([{ text: "Row one" }]), docOf([{ text: "Row one" }, { text: "Draft Page 2" }]), [], ["Draft Page 2"], ["page_number_only"]],
       // The base heading is missing from the old version.
       ["continued heading without its base", docOf([{ text: "Row one" }]), docOf([{ text: "SCHEDULE OF AIRCRAFT" }, { text: "SCHEDULE OF AIRCRAFT CONTINUED", page: 1 }]), [], ["SCHEDULE OF AIRCRAFT CONTINUED"], ["continued_heading"]],

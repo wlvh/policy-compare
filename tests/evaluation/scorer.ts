@@ -867,8 +867,9 @@ const lineTexts = (doc: DocInput) =>
   );
 // A text's explicit page expressions ("Page n", "Page n of N", "Page n/N"): their numbers, in
 // order, and the text with those numbers masked (the words "Page" and "of" kept). Whether a printed
-// number is the page's real place in the PDF is not part of the fact.
-const PAGE_EXPRESSION = /\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/giu;
+// number is the page's real place in the PDF is not part of the fact. n and N are whole numbers of
+// the text: the "1" of "Page 1.1" or the "10" of "of 10,5" is not one.
+const PAGE_EXPRESSION = /\bpage\s*(\p{N}+)(?![.,]?\p{N})(?:\s*(?:of|\/)\s*(\p{N}+)(?![.,]?\p{N}))?/giu;
 function pageNumbers(text: string) {
   const numbers: string[] = [];
   const masked = text.replace(PAGE_EXPRESSION, (m, n: string, of?: string) => {
