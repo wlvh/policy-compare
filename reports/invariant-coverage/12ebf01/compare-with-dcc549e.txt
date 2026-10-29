@@ -1,0 +1,4 @@
+rules-mupdf identical to dcc549e apart from commit
+rules-pdfjs identical to dcc549e apart from commit
+browser-rules-mupdf identical to dcc549e apart from commit
+browser-rules-pdfjs identical to dcc549e apart from commit
