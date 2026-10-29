@@ -191,8 +191,18 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})(?:\\s*(?:no\\.?|nr\\.?|nu
 const namesIdentity = (u: Unit) => u.rowCells!.some((c) => identityName.test(c.normalize("NFKC").trim()));
 const namesColumn = (u: Unit) => u.rowCells!.some((c) => identityHeading.test(c.normalize("NFKC").trim()));
 /**
+ * A row that can head a table: digit-free, or with a cell that is an
+ * identifier's name and no amount, percentage or date, so a year in another
+ * column heading does not hide the identity columns ("Registration | Insurer
+ * | 2026 Limit", r4418068282). A record with a value ("Reinsurer | 25%") is no
+ * heading.
+ */
+const headingLike = (u: Unit) =>
+  !/\p{N}/u.test(u.rawText) || (namesIdentity(u) && !u.rowCells!.some((c) => valueLike(c.normalize("NFKC"))));
+/**
  * The heading row of each recovered row: the closest digit-free row above it
- * in the same section and title, with nothing but page margins in between.
+ * (or one that names an identifier and holds no value, see headingLike) in the
+ * same section and title, with nothing but page margins in between.
  * Its table is that section, title and heading row; a heading row repeated on
  * a later page with only titles and page margins in between (a table continued
  * on the next page) continues it, and on the same page starts another table
@@ -255,7 +265,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         // record's values (r4416878288).
         headings.set(u, current.get(t)!);
         table.set(u, [s.key, s.n]);
-      } else if (!/\p{N}/u.test(u.rawText)) {
+      } else if (headingLike(u)) {
         const prev = last.get(t),
           key = t + "\u0000" + u.rawText;
         const n = prev && prev.text === u.rawText && !broken.has(t) && p > before! ? prev.n : (count.get(key) ?? 0) + 1;
@@ -284,7 +294,9 @@ function rowHeadings(left: Unit[], right: Unit[]) {
  * row's column (the heading cell the row's cell overlaps most), or for a cell
  * naming its identifier ("MSN 1") that name. A missing cell does not shift a
  * value into another column; two cells under one column say nothing about
- * either.
+ * either. A value-like cell under an identity heading (an amount, or a dotted
+ * serial such as AB12.34) is kept as a guard ("value" key): it links no rows,
+ * but rows that differ in it are not one record (r4418369400).
  */
 function identityCells(r: Unit, headings: Map<Unit, Unit>) {
   const h = headings.get(r);
@@ -299,8 +311,8 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
     const c = c0.normalize("NFKC"),
       at = heading(k),
       named = c.match(identityPrefix)?.[0].toLowerCase();
+    if (at && identityHeading.test(at.text)) return [[`${valueLike(c) ? "value" : "column"} ${at.j}`, c]];
     if (valueLike(c)) return [];
-    if (at && identityHeading.test(at.text)) return [[`column ${at.j}`, c]];
     return named ? [[`named ${named}`, c]] : [];
   });
   return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
@@ -334,7 +346,8 @@ function rowIdentity(
   const owners = (rows: Unit[]) => {
     const m = new Map<string, Unit[]>();
     for (const r of rows)
-      for (const [k, c] of identities(r)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
+      for (const [k, c] of identities(r))
+        if (!k.startsWith("value ")) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
     return m;
   };
   const lt = tables(left),
@@ -679,7 +692,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.16+facts.4+repeat.8+ops.4",
+    coreVersion: VERSION + "+row-identity.18+facts.4+repeat.8+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -983,12 +996,14 @@ export function compare(
   // table instance, so a record repeated on several pages does not merge the
   // tables it sits in (r4416744444). An occurrence count that pagination does
   // not explain is shown on the card.
+  // A record groups only with copies that hold the same identifiers in the
+  // same columns (r4418369390).
   const headerKey = (u: Unit) =>
-    !u.rowCells || /\p{N}/u.test(u.rawText)
+    !u.rowCells || (/\p{N}/u.test(u.rawText) && !starts.has(u))
       ? null
       : starts.has(u)
         ? `${u.path.section}\u0000${u.title}\u0000${u.rawText}`
-        : `${tableScope(u)}\u0000${u.rawText}`;
+        : `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...identityCells(u, headings)].sort())}`;
   const rh = map(rb, usedR, headerKey);
   for (const [key, as] of map(la, usedL, headerKey)) {
     const bs = rh.get(key),
