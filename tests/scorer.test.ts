@@ -2084,6 +2084,14 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     ]);
     expect.soft(amounts([cut]).events[0], "cut inside a number of the source").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
     expect(amounts([card("line", [t0], [n0])]).status).toBe("PASS");
+    // A sign right before a number is part of it, as for amounts (f0173ed; #2's r4417384098): the
+    // card's new value -200 is not the event's 200. A hyphen after a digit or letter is no sign.
+    for (const [shown, verdict] of [["Hull -200 included", "FAIL"], ["Hull −200 included", "FAIL"], ["Hull 200 included", "PASS"], ["Hull 1-200 included", "PASS"]] as const) {
+      const [plainDoc, shownDoc] = [docOf([{ text: "Hull 100 included" }]), docOf([{ text: shown }])];
+      const signed = grader(plainDoc, shownDoc, "100 included", "200 included", "Hull 100 included", shown);
+      const score = signed([card("line", [at(plainDoc, "left", "Hull 100 included")], [at(shownDoc, "right", shown)])]);
+      expect.soft(score.events[0], shown).toMatchObject(verdict === "FAIL" ? { discovery: true, attribution: false, verdict } : { verdict });
+    }
     // Each side whose fragment changes (beyond the old and new texts' common start and end) must
     // carry the edit itself: here the new amount is only another, unchanged USD 200 of the same run.
     const [same, sameNew] = [docOf([{ text: "USD 100; USD 200 included" }]), docOf([{ text: "USD 200; USD 200 excluded" }])];

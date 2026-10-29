@@ -1154,11 +1154,17 @@ function readingOrder(doc: DocInput) {
     return Array.from(text.get(id) ?? "")[Number(k)] ?? "";
   };
   // Whether the character at a position continues a number of the source in the given direction:
-  // a digit right beside it, or a "." or "," right beside it with a digit right beyond.
+  // a digit right beside it, or a "." or "," right beside it with a digit right beyond. Before it,
+  // a sign right beside it is part of the number too (as for amounts), unless the sign itself
+  // follows a letter, digit, "." or "," right beside it ("1-100", "SYN-1026").
   const continuesNumber = (key: string, step: typeof next) => {
     const a = step(key);
     if (!a || a.gap !== "none") return false;
     if (/\p{Nd}/u.test(scalar(a.key))) return true;
+    if (step === prev && /^[-−+]$/u.test(scalar(a.key))) {
+      const b = prev(a.key);
+      return !b || b.gap !== "none" || !/^[\p{L}\p{N}_.,]$/u.test(scalar(b.key));
+    }
     const b = /^[.,]$/.test(scalar(a.key)) ? step(a.key) : null;
     return b !== null && b.gap === "none" && /\p{Nd}/u.test(scalar(b.key));
   };
