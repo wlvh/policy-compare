@@ -194,3 +194,51 @@ describe("result format 2", () => {
     expect(r.differences.length).toBeGreaterThan(0);
   });
 });
+
+// Issue #2, round 11 (review r4415913728 and the real row ZJ-FLX): text
+// operations pair characters only inside corresponding words and numbers. A
+// character-level diff over a whole row paired the comma of 7,400 with the comma
+// of 71,600, so its "unchanged" characters crossed from one value to another and
+// no operation showed 7,400 -> 7,750 at its place.
+describe("text operations pair characters only within corresponding tokens", () => {
+  // Equal pairs (old index, new index) of a card's operations.
+  const pairs = (d: CompareResultV2["differences"][number]) => {
+    const out: [number, number][] = [];
+    let i = 0,
+      j = 0;
+    for (const o of d.textOps) {
+      const n = Array.from(o.text).length;
+      if (o.kind === "equal") for (let k = 0; k < n; k++) out.push([i + k, j + k]);
+      if (o.kind !== "insert") i += n;
+      if (o.kind !== "delete") j += n;
+    }
+    return out;
+  };
+  // No equal pair links a character inside one span to a character outside the other.
+  const aligned = (d: CompareResultV2["differences"][number], old: string, now: string) => {
+    const l0 = Array.from(d.oldText).length - Array.from(d.oldText.slice(d.oldText.indexOf(old))).length,
+      r0 = Array.from(d.newText).length - Array.from(d.newText.slice(d.newText.indexOf(now))).length,
+      [l1, r1] = [l0 + Array.from(old).length, r0 + Array.from(now).length];
+    return pairs(d).every(([i, j]) => (i < l0) === (j < r0) && (i >= l1) === (j >= r1));
+  };
+  it("a row of amounts: each changed amount is paired with its own new value", () => {
+    const row = (v: string) => `The agreed premium schedule for aircraft ZJ-FLX as signed by both parties reads ${v} for the period`;
+    const d = one(row("0.38% 73,150 7,400 5,775 86,325"), row("0.40% 71,600 7,750 6,265 85,615"));
+    for (const [old, now] of [["0.38%", "0.40%"], ["73,150", "71,600"], ["7,400", "7,750"], ["5,775", "6,265"], ["86,325", "85,615"]])
+      expect(aligned(d, old, now), old).toBe(true);
+  });
+  it("controls: an edit inside one amount, a changed word, an insertion", () => {
+    const amount = one("Limit USD 12,500 in full", "Limit USD 13,750 in full");
+    expect(aligned(amount, "12,500", "13,750")).toBe(true);
+    expect(edits(amount).map(([, t]) => t).join("")).toMatch(/^[\d,]+$/u);
+    expect(edits(one("The deductible is USD 1,000,000 each and every loss.", "The deductible is USD 1,000,000 each and any loss."))).toEqual([["delete", "ever"], ["insert", "an"]]);
+    const d = one("Cuba, Democratic People's Republic", "Cuba, Haiti, Democratic People's Republic");
+    expect(edits(d)).toEqual([["insert", "Haiti, "]]);
+  });
+  it("the unchanged start and end of a text stop at a word boundary", () => {
+    // A character-level common start paired the S of Sudan with the S of South
+    // and showed "outh S" as inserted.
+    expect(edits(one("Sudan, Chad and Iran are listed", "South Sudan, Chad and Iran are listed"))).toEqual([["insert", "South "]]);
+    expect(edits(one("Listed are Iran, Chad and Sudan", "Listed are Iran, Chad and Sudan Republic"))).toEqual([["insert", " Republic"]]);
+  });
+});

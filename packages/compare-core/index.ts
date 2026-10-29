@@ -433,6 +433,50 @@ function facts(
   }
   return [];
 }
+/**
+ * Tokens of a text as code-point ranges: a run of letters, a number with its
+ * inner separators ("7,400", "0.0425"), a run of whitespace, or one other
+ * character.
+ */
+function tokens(cs: string[]) {
+  const kind = (c: string | undefined) =>
+    c === undefined ? "" : /\p{L}/u.test(c) ? "L" : /\p{N}/u.test(c) ? "N" : /\s/u.test(c) ? "S" : "P";
+  const out: { start: number; end: number; text: string }[] = [];
+  let k = 0;
+  while (k < cs.length) {
+    const t = kind(cs[k]);
+    let e = k + 1;
+    if (t !== "P")
+      while (
+        e < cs.length &&
+        (kind(cs[e]) === t || (t === "N" && /^[.,]$/u.test(cs[e]) && kind(cs[e + 1]) === "N"))
+      )
+        e++;
+    out.push({ start: k, end: e, text: cs.slice(k, e).join("") });
+    k = e;
+  }
+  return out;
+}
+/** A longest-common-subsequence edit script: (kind, index in xs, index in ys). */
+function lcs<T>(xs: T[], ys: T[], same: (p: T, q: T) => boolean) {
+  const width = ys.length + 1,
+    dp = new Uint32Array((xs.length + 1) * width);
+  for (let i = xs.length - 1; i >= 0; i--)
+    for (let j = ys.length - 1; j >= 0; j--)
+      dp[i * width + j] = same(xs[i], ys[j])
+        ? 1 + dp[(i + 1) * width + j + 1]
+        : Math.max(dp[(i + 1) * width + j], dp[i * width + j + 1]);
+  const out: ["equal" | "delete" | "insert", number, number][] = [];
+  let i = 0,
+    j = 0;
+  while (i < xs.length || j < ys.length) {
+    if (i < xs.length && j < ys.length && same(xs[i], ys[j])) out.push(["equal", i++, j++]);
+    else if (i < xs.length && (j === ys.length || dp[(i + 1) * width + j] >= dp[i * width + j + 1]))
+      out.push(["delete", i++, j]);
+    else out.push(["insert", i, j++]);
+  }
+  return out;
+}
 function textOps(
   a: Unit | undefined,
   b: Unit | undefined,
@@ -441,16 +485,23 @@ function textOps(
 ): Difference["textOps"] {
   const aa = Array.from(a?.rawText ?? ""),
     bb = Array.from(b?.rawText ?? "");
-  let prefix = 0;
-  while (prefix < aa.length && prefix < bb.length && aa[prefix] === bb[prefix])
-    prefix++;
-  let suffix = 0;
+  // Words and numbers are paired first, so an unchanged character is paired
+  // only inside corresponding tokens: the comma of 7,400 is never "kept" as the
+  // comma of 71,600, nor the S of Sudan as the S of South. Characters are then
+  // compared within each changed stretch.
+  const at = tokens(aa),
+    bt = tokens(bb);
+  let p = 0;
+  while (p < at.length && p < bt.length && at[p].text === bt[p].text) p++;
+  let s = 0;
   while (
-    suffix < aa.length - prefix &&
-    suffix < bb.length - prefix &&
-    aa[aa.length - 1 - suffix] === bb[bb.length - 1 - suffix]
+    s < at.length - p &&
+    s < bt.length - p &&
+    at[at.length - 1 - s].text === bt[bt.length - 1 - s].text
   )
-    suffix++;
+    s++;
+  const prefix = p ? at[p - 1].end : 0,
+    suffix = s ? aa.length - at[at.length - s].start : 0;
   const x = aa.slice(prefix, aa.length - suffix),
     y = bb.slice(prefix, bb.length - suffix);
   const ops: {
@@ -461,53 +512,59 @@ function textOps(
   }[] = [];
   for (let i = 0; i < prefix; i++)
     ops.push({ kind: "equal", i, j: i, text: aa[i] });
-  if (x.length * y.length > budget.diffProducts) {
-    result.unresolved.push({
-      reason: "word_diff_budget",
-      message: "词级差异工作量超过上限；保留双方完整原文，定位降级",
-      left: locations(a, "left"),
-      right: locations(b, "right"),
-      defaultVisible: true,
-    });
-    for (let i = 0; i < x.length; i++)
-      ops.push({ kind: "delete", i: prefix + i, j: prefix, text: x[i] });
-    for (let j = 0; j < y.length; j++)
-      ops.push({ kind: "insert", i: prefix, j: prefix + j, text: y[j] });
-  } else {
-    const width = y.length + 1,
-      dp = new Uint32Array((x.length + 1) * width);
-    for (let i = x.length - 1; i >= 0; i--)
-      for (let j = y.length - 1; j >= 0; j--)
-        dp[i * width + j] =
-          x[i] === y[j]
-            ? 1 + dp[(i + 1) * width + j + 1]
-            : Math.max(dp[(i + 1) * width + j], dp[i * width + j + 1]);
-    let i = 0,
-      j = 0;
-    while (i < x.length || j < y.length) {
-      if (i < x.length && j < y.length && x[i] === y[j]) {
+  const shift = (t: { start: number; end: number; text: string }) => ({
+    ...t,
+    start: t.start - prefix,
+    end: t.end - prefix,
+  });
+  const xt = at.slice(p, at.length - s).map(shift),
+    yt = bt.slice(p, bt.length - s).map(shift);
+  let over = false;
+  // Beyond the budget a stretch is shown as deleted and inserted whole, once
+  // recorded as unresolved.
+  const whole = (i0: number, i1: number, j0: number, j1: number) => {
+    if (!over)
+      result.unresolved.push({
+        reason: "word_diff_budget",
+        message: "词级差异工作量超过上限；保留双方完整原文，定位降级",
+        left: locations(a, "left"),
+        right: locations(b, "right"),
+        defaultVisible: true,
+      });
+    over = true;
+    for (let i = i0; i < i1; i++) ops.push({ kind: "delete", i: prefix + i, j: prefix + j0, text: x[i] });
+    for (let j = j0; j < j1; j++) ops.push({ kind: "insert", i: prefix + i1, j: prefix + j, text: y[j] });
+  };
+  if (xt.length * yt.length > budget.diffProducts) whole(0, x.length, 0, y.length);
+  else {
+    // A stretch of tokens changed on both sides, compared character by
+    // character after its common start and end ("approv|ed" -> "schedul|ed").
+    const stretch = (i0: number, i1: number, j0: number, j1: number) => {
+      const equal = (i: number, j: number) =>
         ops.push({ kind: "equal", i: prefix + i, j: prefix + j, text: x[i] });
-        i++;
-        j++;
-      } else if (
-        i < x.length &&
-        (j === y.length || dp[(i + 1) * width + j] >= dp[i * width + j + 1])
-      ) {
-        ops.push({
-          kind: "delete",
-          i: prefix + i++,
-          j: prefix + j,
-          text: x[i - 1],
-        });
-      } else {
-        ops.push({
-          kind: "insert",
-          i: prefix + i,
-          j: prefix + j++,
-          text: y[j - 1],
-        });
-      }
+      let e = 0;
+      while (i0 + e < i1 && j0 + e < j1 && x[i0 + e] === y[j0 + e]) equal(i0 + e, j0 + e++);
+      [i0, j0] = [i0 + e, j0 + e];
+      let f = 0;
+      while (i1 - f > i0 && j1 - f > j0 && x[i1 - 1 - f] === y[j1 - 1 - f]) f++;
+      const xs = x.slice(i0, i1 - f),
+        ys = y.slice(j0, j1 - f);
+      if (xs.length * ys.length > budget.diffProducts) whole(i0, i1 - f, j0, j1 - f);
+      else
+        for (const [kind, i, j] of lcs(xs, ys, (u, v) => u === v))
+          ops.push({ kind, i: prefix + i0 + i, j: prefix + j0 + j, text: kind === "insert" ? ys[j] : xs[i] });
+      for (let k = f; k > 0; k--) equal(i1 - k, j1 - k);
+    };
+    let [ci, cj] = [0, 0];
+    for (const [kind, ti, tj] of lcs(xt.map((t) => t.text), yt.map((t) => t.text), (u, v) => u === v)) {
+      if (kind !== "equal") continue;
+      const [u, v] = [xt[ti], yt[tj]];
+      stretch(ci, u.start, cj, v.start);
+      for (let k = 0; k < u.end - u.start; k++)
+        ops.push({ kind: "equal", i: prefix + u.start + k, j: prefix + v.start + k, text: x[u.start + k] });
+      [ci, cj] = [u.end, v.end];
     }
+    stretch(ci, x.length, cj, y.length);
   }
   for (let k = suffix; k > 0; k--)
     ops.push({
@@ -555,7 +612,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.2",
+    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.2+ops.2",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
