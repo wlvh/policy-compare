@@ -1382,9 +1382,15 @@ export function grade(
       });
       if (chars.at(-1)?.c === " ") chars.pop();
       const needle = Array.from(clean(text));
+      // A number of the event matches only as a whole number: an occurrence must not start or end
+      // inside a number of the card's text (digits, with at most one . or , between two digits).
+      const digit = (i: number) => /\p{Nd}/u.test(chars[i]?.c ?? "");
+      const inNumber = (i: number) => digit(i) || (/^[.,]$/.test(chars[i]?.c ?? "") && digit(i - 1) && digit(i + 1));
+      const whole = (p: number) =>
+        !(digit(p) && inNumber(p - 1)) && !(digit(p + needle.length - 1) && inNumber(p + needle.length));
       const found: { own: boolean; edit: boolean }[] = [];
       for (let p = 0; needle.length && p + needle.length <= chars.length; p++)
-        if (needle.every((c, j) => chars[p + j].c === c)) {
+        if (needle.every((c, j) => chars[p + j].c === c) && whole(p)) {
           const ops = d.textOps.slice(chars[p].i, chars[p + needle.length - 1].i + 1);
           found.push({ own: ops.every(own), edit: ops.some(edit) });
         }

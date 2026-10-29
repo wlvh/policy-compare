@@ -1810,6 +1810,21 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     const [k0, x0] = [at(kept, "left", "Cover applies"), at(extended, "right", "Cover applies to hull")];
     const appended = grader(kept, extended, "Cover applies", "Cover applies to hull", "Cover applies", "Cover applies to hull");
     expect(appended([of("tail", [op("equal", k0, slice(x0, 0, 13)), op("insert", null, slice(x0, 13, 21))])]).status).toBe("PASS");
+    // A number of the event matches only as a whole number: in one run holding two amounts, the
+    // edit of USD 1000 does not show the event USD 100 -> USD 200.
+    const [two, twoNew] = [docOf([{ text: "Hull USD 100; Liability USD 1000" }]), docOf([{ text: "Hull USD 200; Liability USD 2000" }])];
+    const [t0, n0] = [at(two, "left", "Hull USD 100; Liability USD 1000"), at(twoNew, "right", "Hull USD 200; Liability USD 2000")];
+    const amounts = grader(two, twoNew, "USD 100", "USD 200", "Hull USD 100; Liability USD 1000", "Hull USD 200; Liability USD 2000");
+    const digit = (id: string, [a, b]: [number, number], pos: number) =>
+      of(id, [
+        op("equal", slice(t0, a, pos), slice(n0, a, pos)),
+        op("delete", slice(t0, pos, pos + 1), null),
+        op("insert", null, slice(n0, pos, pos + 1)),
+        op("equal", slice(t0, pos + 1, b), slice(n0, pos + 1, b)),
+      ]);
+    expect.soft(amounts([digit("liability", [14, 32], 28)]).events[0], "the other amount's edit").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
+    expect(amounts([digit("hull", [0, 12], 9)]).status).toBe("PASS");
+    expect(amounts([card("line", [t0], [n0])]).status).toBe("PASS");
   });
 });
 // One violating result per directly checked invariant; the fault must name that invariant.
