@@ -1,0 +1,8 @@
+# Product of 9354b84 graded by the 9354b84 scorer (Codex r4418530241 on PR #9).
+## declared header REPEATED HEADER LIMIT: Page 1..4 -> last Page 5: product policy-compare/0.1.0+row-identity.18+facts.4+repeat.8+ops.4
+  card Removed " Page 4" -> "" repeat {"left":1,"right":0,"leftPages":4,"rightPages":4} facts [] occurrences 4
+  card Added "" -> " Page 5" repeat {"left":0,"right":1,"leftPages":4,"rightPages":4} facts [] occurrences 4
+  scorer: FAIL; faults ["card d-5de9def1490035f5a44d states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites","card d-5de9def1490035f5a44d marks an occurrence of its own text as context"]; open []
+## control: plain Page 1..4 -> last Page 5: product policy-compare/0.1.0+row-identity.18+facts.4+repeat.8+ops.4
+  card Replaced "Page 1" -> "Page 5" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4} facts ["page_number_only"] occurrences 8
+  scorer: PASS; faults []; open []
