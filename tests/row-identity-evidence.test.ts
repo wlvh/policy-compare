@@ -163,6 +163,25 @@ describe("identity belongs to its own column and its own table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
   });
+  it("digit-free data rows (r4415822173): two tables with one heading, a paragraph between, are not one table", () => {
+    const head: Cells = ["Registration", "Operator", "Status"];
+    const doc = (first: Cells, second: Cells) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([head, first], 180),
+        { text: "The second table lists the reserve fleet.", y: 260 },
+        ...place([head, second], 300),
+      ]);
+    const r = ResultSchemaV2.parse(
+      compare(
+        doc(["Registration G-AAAA", "Alpha Air", "Lead"], ["Registration G-BBBB", "Beta Air", "Lead"]),
+        doc(["Registration G-CCCC", "Gamma Air", "Lead"], ["Registration G-AAAA", "Delta Air", "Lead"]),
+      ),
+    );
+    expect(crossPaired(r, "Alpha Air", "Delta Air")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
+  });
   it("control: one table continued on the next page under its repeated heading row still pairs by registration", () => {
     const head: Cells = ["Registration", "Operator", "Value"];
     const doc = (value: string) =>

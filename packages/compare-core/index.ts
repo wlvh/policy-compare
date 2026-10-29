@@ -186,7 +186,9 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
  * page) continues it. When either version has two or more tables with the same
  * section, title and heading row, nothing says which corresponds to which, so
  * each is a scope of its own; rows without a heading row share the scope of
- * their section and title.
+ * their section and title. A digit-free row has the scope of the table it
+ * heads, so a digit-free record cannot leave its table through that shared
+ * scope.
  */
 function rowHeadings(left: Unit[], right: Unit[]) {
   const headings = new Map<Unit, Unit>(),
@@ -213,6 +215,9 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         last.set(t, { text: u.rawText, n });
         broken.delete(t);
         current.set(t, u);
+        // A digit-free row is taken for a heading, but it may be a record (G-AAAA | Alpha Air):
+        // it keeps the scope of the table it starts, never the shared scope of its title.
+        table.set(u, [key, n]);
       } else if (current.has(t)) {
         headings.set(u, current.get(t)!);
         table.set(u, [t + "\u0000" + current.get(t)!.rawText, last.get(t)!.n]);
