@@ -1508,7 +1508,8 @@ export function grade(
       // The side's text by character, each with the index of its operation, the source position it
       // comes from and whether that position's location lies on the event's runs. An operation's text
       // is its locations' texts in order (whitespace aside, checked against the sources above).
-      const chars: { c: string; i: number; own: boolean; key: string | null }[] = [];
+      // `off` is the character's place in its operation's text, shared by both sides of an equal one.
+      const chars: { c: string; i: number; off: number; own: boolean; key: string | null }[] = [];
       d.textOps.forEach((op, i) => {
         if (op.kind === other) return;
         const from = (side === "left" ? op.left : op.right).flatMap((l) => {
@@ -1516,11 +1517,12 @@ export function grade(
           return source.keys(l).map((key) => ({ on, key }));
         });
         let k = 0;
-        for (const c of op.text)
+        Array.from(op.text).forEach((c, off) => {
           if (!/\s/u.test(c)) {
             const at = from[k++];
-            chars.push({ c, i, own: at?.on ?? false, key: at?.key ?? null });
-          } else if (chars.length && chars.at(-1)!.c !== " ") chars.push({ c: " ", i, own: true, key: null });
+            chars.push({ c, i, off, own: at?.on ?? false, key: at?.key ?? null });
+          } else if (chars.length && chars.at(-1)!.c !== " ") chars.push({ c: " ", i, off, own: true, key: null });
+        });
       });
       if (chars.at(-1)?.c === " ") chars.pop();
       const needle = Array.from(clean(text));
@@ -1546,21 +1548,51 @@ export function grade(
       };
       const kind = side === "left" ? "delete" : "insert";
       const [from, to] = changed[side];
-      const found: { own: boolean; ordered: boolean; edit: boolean }[] = [];
+      const found: { span: typeof chars; own: boolean; ordered: boolean; edit: boolean }[] = [];
       for (let p = 0; needle.length && p + needle.length <= chars.length; p++)
         if (needle.every((c, j) => chars[p + j].c === c) && whole(p)) {
           const span = chars.slice(p, p + needle.length);
-          const part = span.slice(from, to);
-          // A change of whitespace alone (nothing else in the changed part) is shown by an edit of
-          // the card on the event's runs within the occurrence.
-          const edit = part.some((x) => x.c !== " ")
-            ? part.some((x) => x.c !== " " && x.own && d.textOps[x.i].kind === kind)
+          // A character of the occurrence that the card itself deletes (inserts). Which copy of a
+          // repeated word or digit the card marks is its alignment, so the edit may lie anywhere in
+          // the occurrence; whether the two occurrences belong together is lined() below. A change
+          // of whitespace alone (nothing else in the changed part) is shown by an edit of the card on
+          // the event's runs within the occurrence; otherwise an edit of whitespace is not the change.
+          const edit = span.slice(from, to).some((x) => x.c !== " ")
+            ? span.some((x) => x.c !== " " && x.own && d.textOps[x.i].kind === kind)
             : d.textOps
                 .slice(span[0].i, span.at(-1)!.i + 1)
                 .some((o) => o.kind === kind && onRunsOp(o));
-          found.push({ own: span.every((x) => x.own), ordered: ordered(span), edit });
+          found.push({ span, own: span.every((x) => x.own), ordered: ordered(span), edit });
         }
       return found;
+    };
+    // On one card the old and the new occurrence line up in the card's edit: where the card keeps
+    // what the event keeps (each side's text outside the part the event changes there), it pairs it
+    // with the other occurrence; and no text the card keeps lies between the two occurrences outside
+    // them. So the old text paired with other new text, and the new text with other old text, is not
+    // the event's change.
+    type Span = ReturnType<typeof spots>[number]["span"];
+    const lined = (d: Difference, l: Span, r: Span) => {
+      const place = (x: Span[number]) => `${x.i}:${x.off}`;
+      const solid = { left: l.filter((x) => x.c !== " "), right: r.filter((x) => x.c !== " ") };
+      const held = { left: new Set(solid.left.map(place)), right: new Set(solid.right.map(place)) };
+      for (const [span, side, other] of [[l, "left", "right"], [r, "right", "left"]] as const) {
+        const [from, to] = changed[side];
+        const kept = [...span.slice(0, from), ...span.slice(to)].filter((x) => x.c !== " " && d.textOps[x.i].kind === "equal");
+        if (kept.some((x) => !held[other].has(place(x)))) return false;
+      }
+      const all = [...solid.left, ...solid.right];
+      const before = (a: Span[number], b: Span[number]) => a.i < b.i || (a.i === b.i && a.off < b.off);
+      const [lo, hi] = all.reduce(([a, b], x) => [before(x, a) ? x : a, before(b, x) ? x : b], [all[0], all[0]]);
+      for (let i = lo.i; i <= hi.i; i++) {
+        if (d.textOps[i].kind !== "equal") continue;
+        const between = Array.from(d.textOps[i].text).some((c, off) => {
+          const x = { c, i, off, own: true, key: null };
+          return !/\s/u.test(c) && before(lo, x) && before(x, hi) && !held.left.has(place(x)) && !held.right.has(place(x));
+        });
+        if (between) return false;
+      }
+      return true;
     };
     const onRunsOp = (o: Difference["textOps"][number]) =>
       o.kind === "delete"
@@ -1569,17 +1601,20 @@ export function grade(
     // The card shows the event at the event's own text, not with the same text from elsewhere in the
     // card (another unit kept as context, another unchanged occurrence, characters from elsewhere in
     // the run, or paired across units): the old and the new text each occur on the event's runs in the
-    // source's order, and on each side the event changes, that occurrence holds the card's edit of
-    // the changed part. A move changes no text, so it has no edit to carry, but its text is still
-    // shown where it is; an event with no text on either side shows nothing.
-    const carried = (d: Difference) =>
-      (needs("left") || needs("right")) &&
-      (["left", "right"] as const).every((side) => {
-        if (!needs(side)) return true;
-        const shown = spots(d, side).filter((s) => s.own && s.ordered);
+    // source's order; on each side the event changes, that occurrence holds the card's own edit; and
+    // with text on both sides, the two occurrences line up in the card's edit. A move changes no
+    // text, so it has no edit to carry, but its text is still shown where it is; an event with no
+    // text on either side shows nothing.
+    const carried = (d: Difference) => {
+      if (!needs("left") && !needs("right")) return false;
+      const [l, r] = (["left", "right"] as const).map((side) => {
+        if (!needs(side)) return null;
         const [from, to] = changed[side];
-        return to > from ? shown.some((s) => s.edit) : shown.length > 0;
+        return spots(d, side).filter((s) => s.own && s.ordered && (to <= from || s.edit));
       });
+      if (l === null || r === null) return (l ?? r)!.length > 0;
+      return l.some((a) => r.some((b) => lined(d, a.span, b.span)));
+    };
     const candidates = result.differences.filter(
       (d) =>
         (e.old === null || clean(d.oldText).includes(clean(e.old))) &&
