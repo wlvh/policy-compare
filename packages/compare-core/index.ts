@@ -331,7 +331,15 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
     if (at) return [];
     return named ? [[`named ${named}`, c]] : [];
   });
-  return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+  const m = new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+  // A cell under no heading cell (an identifier right-aligned under a short
+  // heading) cannot be placed: when the heading names an identity column the
+  // row has no cell in, that identifier may be the one that is unknown, so
+  // the row's identity is incomplete and it links no row (r4418900383).
+  const loose = h && r.rowCells!.some((c, k) => !heading(k) && !valueLike(c.normalize("NFKC")));
+  if (loose && h!.rowCells!.some((t, j) => identityHeading.test(t.normalize("NFKC").trim()) && !m.has(`column ${j}`)))
+    m.set("incomplete", "");
+  return m;
 }
 /**
  * Rows recovered from one baseline pair only through identity evidence (see
@@ -362,8 +370,9 @@ function rowIdentity(
   const owners = (rows: Unit[]) => {
     const m = new Map<string, Unit[]>();
     for (const r of rows)
-      for (const [k, c] of identities(r))
-        if (!valueLike(c)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
+      if (!identities(r).has("incomplete"))
+        for (const [k, c] of identities(r))
+          if (!valueLike(c)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
     return m;
   };
   const lt = tables(left),
@@ -708,7 +717,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.20+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.21+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
