@@ -1,5 +1,7 @@
 # 保单比对项目开发代理启动指令
 
+> **当前项目原则见根目录 [`AGENTS.md`](AGENTS.md)。** 本文件及 `IMPLEMENTATION_PLAN.zh-CN.md` 等旧方案只作历史和实现参考；与项目原则冲突时，以 `AGENTS.md` 为准。
+
 将下方完整指令粘贴给本地 Codex，或能访问本执行包的云端 Claude Code。方案和验证资料必须已放入当前项目目录或其子目录；ChatGPT 文件链接不能代替实际文件。
 
 ```text
