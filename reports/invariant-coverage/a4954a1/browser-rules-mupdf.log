@@ -1,0 +1,57 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (41.5s)
+
+
+  1) tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 21
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "case": "R24_table_cross_page",
+    +     "eventStatus": "PASS",
+    +     "events": Array [],
+    +     "faults": Array [],
+    +     "notEvaluated": Array [
+    +       Object {
+    +         "invariant": "no_material_differences",
+    +         "kind": "invariant_unverifiable",
+    +         "reason": "card d-ce9de0faf0fec2ea67e1 changes text undeclared; its sources prove continued_heading, but this control declares no such change",
+    +       },
+    +       Object {
+    +         "invariant": "same_logical_row_order",
+    +         "kind": "invariant_unsupported",
+    +         "reason": "row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order",
+    +       },
+    +     ],
+    +     "status": "NOT_EVALUATED",
+    +   },
+    + ]
+
+      112 |         events: r.events,
+      113 |       })),
+    > 114 |   ).toEqual([]);
+          |     ^
+      115 | });
+      116 |
+        at /home/user/policy-compare/tests/browser/rules.spec.ts:114:5
+
+    Error Context: test-results/mupdf/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/mupdf/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/mupdf/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 
+exit 1
