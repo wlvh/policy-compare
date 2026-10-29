@@ -1,0 +1,8 @@
+# final triage tests (094f3a8; the triage tests are unchanged since aeaec53) with scripts/renewal-triage.py of b0f41cb (renewal-triage/11)
+FAIL: test_a_cell_amount_matches_only_as_a_whole_number
+FAIL: test_repeated_cells_need_their_own_occurrences
+FAIL: test_a_pure_insertion_or_deletion_is_accepted_on_its_card
+FAIL: test_the_identity_sits_in_a_unit_the_edit_changes
+FAIL: test_an_edit_spanning_units_takes_identity_only_from_those_units
+Ran 47 tests in 0.672s
+FAILED (failures=5)
