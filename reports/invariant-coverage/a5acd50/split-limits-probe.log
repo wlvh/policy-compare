@@ -1,0 +1,18 @@
+# git apply reports/invariant-coverage/a5acd50/split-limits-probe.patch && pnpm exec vitest run tests/scorer.test.ts -t 'PROBE segmentation'; git checkout tests/scorer.test.ts
+# commit a5acd50acfb46f2baa575b6af72f95d31e3d4e23
+PROBE formatted 100,020, record SYN-1026-001 | whole + whole | schema true | PASS | exit 0 | [] | []
+PROBE formatted 100,020, record SYN-1026-001 | glyphs + whole | schema true | FAIL | exit 1 | ["agreed_value_unchanged: added/removed cards change - to 100,020"] | []
+PROBE formatted 100,020, record SYN-1026-001 | whole + glyphs | schema true | FAIL | exit 1 | ["agreed_value_unchanged: added/removed cards change 100,020 to -"] | []
+PROBE formatted 100,020, record SYN-1026-001 | glyphs + glyphs | schema true | PASS | exit 0 | [] | []
+PROBE formatted 100,020, record SYN-1026-001 | whole twice + whole | schema true | FAIL | exit 1 | ["agreed_value_unchanged: added/removed cards change 100,020 to -"] | []
+PROBE bare 100020, no record | whole + whole | schema true | NOT_EVALUATED | exit 1 | [] | ["1 removed amount(s) cancel only against added cards that show no common record"]
+PROBE bare 100020, no record | glyphs + whole | schema true | FAIL | exit 1 | ["agreed_value_unchanged: added/removed cards change 100020,100020,100020,100020,100020 to -"] | []
+PROBE bare 100020, no record | whole + glyphs | schema true | FAIL | exit 1 | ["agreed_value_unchanged: added/removed cards change - to 100020,100020,100020,100020,100020"] | []
+PROBE bare 100020, no record | glyphs + glyphs | schema true | NOT_EVALUATED | exit 1 | [] | ["6 removed amount(s) cancel only against added cards that show no common record"]
+PROBE bare 100020, no record | whole twice + whole | schema true | FAIL | exit 1 | ["agreed_value_unchanged: added/removed cards change 100020 to -"] | []
+PROBE bare 100020, record SYN-1026-001 | whole + whole | schema true | PASS | exit 0 | [] | []
+PROBE bare 100020, record SYN-1026-001 | glyphs + whole | schema true | NOT_EVALUATED | exit 1 | [] | ["record SYN-1026-001|agreed_value delete/add cards cite one amount cell in several cards; the values balance only when each cell counts once"]
+PROBE bare 100020, record SYN-1026-001 | whole + glyphs | schema true | NOT_EVALUATED | exit 1 | [] | ["record SYN-1026-001|agreed_value delete/add cards cite one amount cell in several cards; the values balance only when each cell counts once"]
+PROBE bare 100020, record SYN-1026-001 | glyphs + glyphs | schema true | PASS | exit 0 | [] | []
+PROBE bare 100020, record SYN-1026-001 | whole twice + whole | schema true | FAIL | exit 1 | ["agreed_value_unchanged: record SYN-1026-001|agreed_value delete/add cards claim 100020100020 to 100020 inside amount or currency cells that keep their values"] | []
+      Tests  1 passed | 80 skipped (81)
