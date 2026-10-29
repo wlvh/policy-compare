@@ -1358,7 +1358,14 @@ export function grade(
       const held = factHolds(fact, d, docs);
       if (held === false) faults.push(`card ${d.id} states ${fact}, which its source texts disprove`);
       if (held === null)
-        claimsOpen.push({ card: d.id, kind: "claim_unverifiable", reason: `card ${d.id} states ${fact}; its sources cannot decide it here` });
+        claimsOpen.push({
+          card: d.id,
+          kind: "claim_unverifiable",
+          reason:
+            fact === "page_number_only"
+              ? `card ${d.id} states page_number_only; only page numbers differ, but its sources do not show a repeated page line, and a heading or page-margin line cannot be established from them`
+              : `card ${d.id} states ${fact}; its sources cannot decide it here`,
+        });
     }
     // Two occurrences citing the same source characters on a side are one occurrence listed twice;
     // counting both would let the list back a count the documents do not hold (r4416805143).

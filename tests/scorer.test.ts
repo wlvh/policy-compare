@@ -1673,7 +1673,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       control(docOf([{ text: a, y: 300 }]), docOf([{ text: b, y: 300 }]), ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], facts)], []);
     const stated = body(["page_number_only"]);
     expect(stated).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
-    expect(stated.notEvaluated).toMatchObject([{ kind: "claim_unverifiable", reason: "card c states page_number_only; its sources cannot decide it here" }]);
+    expect(stated.notEvaluated).toMatchObject([{ kind: "claim_unverifiable", reason: "card c states page_number_only; only page numbers differ, but its sources do not show a repeated page line, and a heading or page-margin line cannot be established from them" }]);
     expect(exitCode(summarize([stated]))).toBe(1);
     // Control: the same card without the fact passes; a text form the sources disprove still fails.
     expect(body([]).status).toBe("PASS");
