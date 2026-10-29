@@ -975,7 +975,7 @@ PR #9 上还有 4 个 #2 的产品审阅线程未关闭（[r4412115000](https://
 
 ### 0.32 联合树 `b3e84c8`：合入 #2 的 `441a81d`（分配耗时的第二次修复）
 
-本项用普通合并提交 `b3e84c8` 合入 #2 的 `441a81d`，只改分诊（`scripts/renewal-triage.py` 及其测试），产品、评分器代码与 `8d1f1ea` 相同。
+本项用普通合并提交 `b3e84c8` 合入 #2 的 `441a81d`，只改分诊（`scripts/renewal-triage.py` 及其测试），产品、评分器代码与 `8d1f1ea` 相同。之后又用 `1a754fc` 合入 #2 的 `50da244`（只有 `reports/`），两个分支在 `reports/` 以外完全相同。
 
 **更正**：第 0.31 节和 [r4417631513](https://github.com/wlvh/policy-compare/pull/11#discussion_r4417631513) 线程里，我只测到 10 个相同格子就判定 `be1ed04` 已修复并关闭了线程，测得太少。#2 自己发现，`be1ed04` 去掉的只是排列组合的搜索，仍然是 2 的 n 次方。本项按同一探针复测（[`b3e84c8/probes/alloc-time-probe.log`](b3e84c8/probes/alloc-time-probe.log)）：
 
@@ -989,6 +989,7 @@ PR #9 上还有 4 个 #2 的产品审阅线程未关闭（[r4412115000](https://
 |---|---|
 | Python 分诊 / scorer | 57/57、125/125 |
 | 已修发现的探针 | 结果与 `be1ed04` 相同；[PR #11 评论 6507993515](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6507993515)（拆到两张卡时，上下文取自未改动的单元）仍复现，留给 #2 |
+| 新发现 [PR #11 评论 6508515495](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6508515495) | 卡片把 `USD 100,000` 拆成相邻的两段 `[0, 17)`、`[17, 21)`（在逗号前切开）。分诊拼接时插入空格，得到 `USD 100 ,000`，于是作者格 `USD 100` 判 `correct`、整行已恢复（新增、删除两种都是）；同样的文字作为一处位置时判 `partly_located`。在 `441a81d` 上复现（[探针](b3e84c8/probes/split-number-triage-probe.log)），留给 #2。评分器按来源字符顺序判断数字边界，不受影响 |
 | 续保 | 用 `8d1f1ea` 的四份产品结果重新分诊（[`b3e84c8/renewal/compare.txt`](b3e84c8/renewal/compare.txt)）：逐事件不变 |
 | 规则、浏览器、构建 | 产品与评分器代码未变，本地未重跑，沿用 `8d1f1ea`；CI 在本提交上全套运行 |
 
