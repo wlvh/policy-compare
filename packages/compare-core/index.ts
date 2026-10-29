@@ -178,11 +178,12 @@ const valueLike = (cell: string) => VALUE.test(cell) || MONTH_DATE.test(cell);
 const IDENTITY = "MSN|ESN|S\\/N|serial|registration|(?:re)?insurer";
 const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
   identityPrefix = new RegExp(`^(?:${IDENTITY})\\b`, "iu"),
-  identityName = new RegExp(`^(?:${IDENTITY})$`, "iu");
+  identityName = new RegExp(`^(?:${IDENTITY})(?:\\s*(?:no\\.?|nr\\.?|number|#))?$`, "iu");
 /**
- * A row with a cell that is nothing but an identifier's name ("Registration")
- * names a column: it is a heading row. A record's cells carry values
- * ("Registration G-AAAA", "Registration pending").
+ * A row with a cell that is nothing but an identifier's name, possibly with a
+ * number qualifier ("Registration", "Serial No.", r4417210539), names a column:
+ * it is a heading row. A record's cells carry values ("Registration G-AAAA",
+ * "Registration pending").
  */
 const namesIdentity = (u: Unit) => u.rowCells!.some((c) => identityName.test(c.normalize("NFKC").trim()));
 /**
@@ -654,7 +655,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.12+facts.4+repeat.6+ops.4",
+    coreVersion: VERSION + "+row-identity.13+facts.4+repeat.6+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
