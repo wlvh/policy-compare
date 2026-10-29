@@ -110,6 +110,28 @@ describe("other facts the texts prove", () => {
     );
     expect(d.facts).toEqual(["dates_rolled_forward_one_year"]);
   });
+  // PR #11 r4414375279: two consecutive annual periods are not the stated fact
+  // when an end date does not move exactly one year (29 February -> 28 February).
+  it("consecutive annual periods across a leap day: no fact, the date edit shown", () => {
+    const d = one(
+      "PERIOD: 1 March 2023 to 29 February 2024 coverage includes war risks",
+      "PERIOD: 1 March 2024 to 28 February 2025 coverage includes war risks",
+    );
+    expect(d.facts).toEqual([]);
+    // The card holds the field value as written, both dates included.
+    expect([d.oldText.trim(), d.newText.trim()]).toEqual([
+      "1 March 2023 to 29 February 2024 coverage includes war risks",
+      "1 March 2024 to 28 February 2025 coverage includes war risks",
+    ]);
+    expect(edits(d).length).toBeGreaterThan(0);
+  });
+  it("each date one year later, same day and month, whatever the period's length: the fact", () => {
+    const d = one(
+      "PERIOD: 1 April 2024 to 30 September 2024 coverage includes war risks",
+      "PERIOD: 1 April 2025 to 30 September 2025 coverage includes war risks",
+    );
+    expect(d.facts).toEqual(["dates_rolled_forward_one_year"]);
+  });
   it("the same period with a changed word: no fact", () => {
     const d = one(
       "PERIOD: 01 April 2024 to 31 March 2025 coverage includes war risks",

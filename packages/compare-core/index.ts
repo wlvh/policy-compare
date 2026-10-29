@@ -340,8 +340,10 @@ function datePeriod(text: string): [number, number] | null {
  *   repeated page line, or the numbers of explicit "Page n" expressions in a
  *   heading or margin line. A line on one side only holds nothing but such
  *   page-number expressions.
- * - dates_rolled_forward_one_year: both dates of an annual period move to the
- *   following period and the rest of the text is equal.
+ * - dates_rolled_forward_one_year: each of the two dates of a period moves
+ *   exactly one calendar year (same day and month, the year plus one) and the
+ *   rest of the text is equal. Consecutive annual periods are not enough:
+ *   29 February 2024 -> 28 February 2025 is not one year later.
  * - continued_heading: a heading on one side only that is a heading of both
  *   versions with an explicit "continued" suffix.
  */
@@ -370,10 +372,9 @@ function facts(
     const before = datePeriod(old),
       after = datePeriod(now);
     if (before && after) {
-      const oneDay = 86400000;
-      const annual = (v: [number, number]) => {
-        const s = new Date(v[0]),
-          e = new Date(v[1] + oneDay);
+      const oneYearLater = (x: number, y: number) => {
+        const s = new Date(x),
+          e = new Date(y);
         return (
           e.getUTCFullYear() === s.getUTCFullYear() + 1 &&
           e.getUTCMonth() === s.getUTCMonth() &&
@@ -381,7 +382,7 @@ function facts(
         );
       };
       const withoutDates = (text: string) => text.replace(/\d{1,2} [A-Za-z]+ \d{4}/g, "<date>");
-      if (annual(before) && annual(after) && after[0] === before[1] + oneDay &&
+      if (oneYearLater(before[0], after[0]) && oneYearLater(before[1], after[1]) &&
           withoutDates(old) === withoutDates(now))
         return ["dates_rolled_forward_one_year"];
     }
@@ -510,7 +511,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.8+facts.2",
+    coreVersion: VERSION + "+row-identity.8+facts.3",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
