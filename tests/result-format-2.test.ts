@@ -252,6 +252,19 @@ describe("text operations pair characters only within corresponding tokens", () 
       ["delete", ". Estimated annual utilisation is 5,400 flight hours across the fleet, of which approximately 35% is Charter"],
     ]);
   });
+  it("two different words in the same place share only their common start and end", () => {
+    // Real card (aviation, round 11): "Baltic Aero Technics" -> "Changi Engine
+    // Centre" kept an "e" and an "n" of Technics as those of Centre.
+    expect(edits(one("Maintenance is performed by Baltic Aero Technics under contract.", "Maintenance is performed by Changi Engine Centre under contract."))).toEqual([
+      ["delete", "Baltic"],
+      ["insert", "Changi"],
+      ["delete", "Aero"],
+      ["insert", "Engine"],
+      ["delete", "Technics"],
+      ["insert", "Centre"],
+    ]);
+    expect(edits(one("The limit is USD 73,150 per aircraft.", "The limit is USD 71,600 per aircraft."))).toEqual([["delete", "3,15"], ["insert", "1,60"]]);
+  });
   it("the unchanged start and end of a text stop at a word boundary", () => {
     // A character-level common start paired the S of Sudan with the S of South
     // and showed "outh S" as inserted.

@@ -487,8 +487,7 @@ function textOps(
     bb = Array.from(b?.rawText ?? "");
   // Words and numbers are paired first, so an unchanged character is paired
   // only inside corresponding tokens: the comma of 7,400 is never "kept" as the
-  // comma of 71,600, nor the S of Sudan as the S of South. Characters are then
-  // compared within each changed stretch.
+  // comma of 71,600, nor the S of Sudan as the S of South.
   const at = tokens(aa),
     bt = tokens(bb);
   let p = 0;
@@ -539,9 +538,9 @@ function textOps(
     over = true;
     replaced(i0, i1, j0, j1);
   };
-  // Two ranges compared character by character after their common start and
-  // end ("approv|ed" -> "schedul|ed"). With `spaces`, only spaces count as
-  // common at the ends and the rest is replaced whole.
+  // Two ranges keep their common start and end ("approv|ed" -> "schedul|ed",
+  // "7,|400" -> "7,|750"); the rest is replaced, never matched letter by
+  // letter. With `spaces`, only spaces count as common.
   const chars = (i0: number, i1: number, j0: number, j1: number, spaces = false) => {
     const same = (i: number, j: number) => x[i] === y[j] && (!spaces || /\s/u.test(x[i]));
     let e = 0;
@@ -549,13 +548,7 @@ function textOps(
     [i0, j0] = [i0 + e, j0 + e];
     let f = 0;
     while (i1 - f > i0 && j1 - f > j0 && same(i1 - 1 - f, j1 - 1 - f)) f++;
-    const xs = x.slice(i0, i1 - f),
-      ys = y.slice(j0, j1 - f);
-    if (spaces) replaced(i0, i1 - f, j0, j1 - f);
-    else if (xs.length * ys.length > budget.diffProducts) whole(i0, i1 - f, j0, j1 - f);
-    else
-      for (const [kind, i, j] of lcs(xs, ys, (u, v) => u === v))
-        ops.push({ kind, i: prefix + i0 + i, j: prefix + j0 + j, text: kind === "insert" ? ys[j] : xs[i] });
+    replaced(i0, i1 - f, j0, j1 - f);
     for (let k = f; k > 0; k--) equal(i1 - k, j1 - k);
   };
   // Words, numbers and punctuation anchor the alignment; a space alone does
@@ -567,7 +560,8 @@ function textOps(
   else {
     // Between two anchors, tokens a0..a1 and b0..b1 (characters i0..i1 and
     // j0..j1) are paired in order when both sides hold as many (a row of
-    // amounts); otherwise the stretch is replaced whole.
+    // amounts), each pair keeping only its common start and end; otherwise the
+    // stretch is replaced whole.
     const stretch = (a0: number, a1: number, b0: number, b1: number, i0: number, i1: number, j0: number, j1: number) => {
       if (a1 - a0 !== b1 - b0) return chars(i0, i1, j0, j1, true);
       for (let k = 0; k < a1 - a0; k++) {
@@ -634,7 +628,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.2+ops.3",
+    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.2+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
