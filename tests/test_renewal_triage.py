@@ -540,10 +540,11 @@ class AddedRemovedRows(unittest.TestCase):
 
     def test_identical_cells_are_allocated_without_trying_their_orders(self):
         """r4417631513: ten identical cells against nine copies took seconds, each more ten times longer."""
-        start = time.monotonic()
-        self.assertEqual(triage.allocate(['0'] * 10, ' '.join(['0'] * 9)), ['0'] * 9)
+        for n in (10, 24):
+            start = time.monotonic()
+            self.assertEqual(triage.allocate(['0'] * n, ' '.join(['0'] * (n - 1))), ['0'] * (n - 1))
+            self.assertLess(time.monotonic() - start, 1.0, n)
         self.assertEqual(triage.allocate(['0 0', '0', '0'], '0 0 0'), ['0 0', '0'])
-        self.assertLess(time.monotonic() - start, 1.0)
 
     def test_cells_scattered_over_different_records_are_not_complete(self):
         ident = card('i', 'Added', right=[(11, 'u1', '55228'), (11, 'u1', 'VH-JXP')])

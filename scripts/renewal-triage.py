@@ -695,19 +695,23 @@ def allocate(texts, text):
     (r4417384107); the result holds as many cells as can be placed. Copies of one cell are
     interchangeable: they take stretches in text order, and once one is left out so are the rest,
     so their orders are not tried one by one (r4417631513)."""
-    cells = sorted((t for t in texts if t), key=len, reverse=True)
+    cells = sorted((t for t in texts if t), key=lambda t: (-len(t), t))
     spans = {t: [(m.start(), m.end()) for i in range(len(text)) for m in [whole(t).match(text, i)] if m]
              for t in set(cells)}
     best = []
 
     def place(k, taken, found, prev):
         nonlocal best
-        if len(found) + len(cells) - k <= len(best):
-            return
         if k == len(cells):
-            best = list(found)
+            if len(found) > len(best):
+                best = list(found)
             return
+        # The copies from k on can take at most the stretches after the previous copy's.
         copy = k > 0 and cells[k] == cells[k - 1]
+        run = next((j for j in range(k, len(cells)) if cells[j] != cells[k]), len(cells)) - k
+        room = 0 if copy and prev is None else len(spans[cells[k]]) - (prev + 1 if copy else 0)
+        if len(found) + min(run, room) + len(cells) - k - run <= len(best):
+            return
         if not (copy and prev is None):
             for n, (a, b) in enumerate(spans[cells[k]]):
                 if copy and n <= prev:
