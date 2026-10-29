@@ -281,6 +281,29 @@ describe("identity belongs to its own column and its own table", () => {
     // Control: the same row in the same columns is unchanged.
     expect(ResultSchemaV2.parse(compare(doc(["123", "456", null, "10%"]), doc(["123", "456", null, "10%"]))).differences).toEqual([]);
   });
+  it("a heading row with a year in another cell (2026 Limit) still names its identity columns (r4418068282)", () => {
+    const run2 = (head: Cells, a: Cells, b: Cells) =>
+      ResultSchemaV2.parse(
+        compare(textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, a], 180, 0, 160)]), textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, b], 180, 0, 160)])),
+      );
+    const head: Cells = ["Registration", "Insurer", "2026 Limit"];
+    // Different registrations: the insurer named in a cell does not make them one record.
+    const r = run2(head, ["G-AAAA", "Insurer Alpha", "USD 1000"], ["G-BBBB", "Insurer Alpha", "USD 2000"]);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "G-AAAA", "left"), visible(r, "G-BBBB", "right")]).toEqual([true, true]);
+    // Control: the same registration pairs under that heading.
+    const c = run2(head, ["G-AAAA", "Insurer Alpha", "USD 1000"], ["G-AAAA", "Insurer Alpha", "USD 2000"]);
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
+  it("control: a record with an amount is no heading, though a cell names an identifier (Reinsurer)", () => {
+    const doc = (share: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([["Registration", "Role", "Share"], ["G-AAAA", "Reinsurer", "25%"], ["G-BBBB", "Lead", share]], 180, 0, 160),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("30%"), doc("35%")));
+    expect(r.differences.map((d) => [d.matchEvidence.method, d.oldText, d.newText])).toEqual([["row-identity", "G-BBBB Lead 30%", "G-BBBB Lead 35%"]]);
+  });
   it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
     const run2 = (head: Cells, a: Cells, b: Cells) =>
       ResultSchemaV2.parse(compare(textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, a], 180)]), textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, b], 180)])));

@@ -191,8 +191,18 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})(?:\\s*(?:no\\.?|nr\\.?|nu
 const namesIdentity = (u: Unit) => u.rowCells!.some((c) => identityName.test(c.normalize("NFKC").trim()));
 const namesColumn = (u: Unit) => u.rowCells!.some((c) => identityHeading.test(c.normalize("NFKC").trim()));
 /**
+ * A row that can head a table: digit-free, or with a cell that is an
+ * identifier's name and no amount, percentage or date, so a year in another
+ * column heading does not hide the identity columns ("Registration | Insurer
+ * | 2026 Limit", r4418068282). A record with a value ("Reinsurer | 25%") is no
+ * heading.
+ */
+const headingLike = (u: Unit) =>
+  !/\p{N}/u.test(u.rawText) || (namesIdentity(u) && !u.rowCells!.some((c) => valueLike(c.normalize("NFKC"))));
+/**
  * The heading row of each recovered row: the closest digit-free row above it
- * in the same section and title, with nothing but page margins in between.
+ * (or one that names an identifier and holds no value, see headingLike) in the
+ * same section and title, with nothing but page margins in between.
  * Its table is that section, title and heading row; a heading row repeated on
  * a later page with only titles and page margins in between (a table continued
  * on the next page) continues it, and on the same page starts another table
@@ -255,7 +265,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         // record's values (r4416878288).
         headings.set(u, current.get(t)!);
         table.set(u, [s.key, s.n]);
-      } else if (!/\p{N}/u.test(u.rawText)) {
+      } else if (headingLike(u)) {
         const prev = last.get(t),
           key = t + "\u0000" + u.rawText;
         const n = prev && prev.text === u.rawText && !broken.has(t) && p > before! ? prev.n : (count.get(key) ?? 0) + 1;
@@ -679,7 +689,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.16+facts.4+repeat.8+ops.4",
+    coreVersion: VERSION + "+row-identity.17+facts.4+repeat.8+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -984,7 +994,7 @@ export function compare(
   // tables it sits in (r4416744444). An occurrence count that pagination does
   // not explain is shown on the card.
   const headerKey = (u: Unit) =>
-    !u.rowCells || /\p{N}/u.test(u.rawText)
+    !u.rowCells || (/\p{N}/u.test(u.rawText) && !starts.has(u))
       ? null
       : starts.has(u)
         ? `${u.path.section}\u0000${u.title}\u0000${u.rawText}`
