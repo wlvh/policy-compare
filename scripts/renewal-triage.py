@@ -21,9 +21,26 @@ or the author paragraph (text) around the change. An Added/Removed row must sit
 in one unit of a card of its own kind: inside a neighbour row's card it is
 "merged" (not evaluable); paired against a different record it is misattributed.
 
+A Replaced or Moved edit is accepted, on one card or as a delete + add split,
+only on cards whose text operations change that very fragment, in a source unit
+that holds it: a card holding the old text on the left and the new text on the
+right without changing them there (an unchanged move, unchanged context, an
+edit in another unit) is not evidence. A side the author edit leaves as it is
+(an author move, an insertion's left side) needs no change.
+
+Text counts only where it is found in sources on the author's pages: an
+occurrence whose every character comes from a source unit on a stated page
+(any page when none is stated). Candidate matching, the edit check and the
+evidence written out all use the source units of such occurrences; a card
+holding the text on another page, with unrelated text on the stated page, is
+not evidence.
+
 Matching is whitespace-normalised substring search, so superscripts and line
 breaks can hide present text: "not_located" means the script could not locate
-it, not that the product missed it. Page-furniture (Header) events are listed
+it, not that the product missed it. An Added/Removed paragraph is accepted only
+on a card that adds or removes it; a card that keeps the text on the other side
+too (an unchanged move) does not count. A row is fully recovered when every
+author cell is in the full source text of the accepted record units. Page-furniture (Header) events are listed
 separately and are not evaluable: the result contract has no furniture role.
 The script does not check highlight geometry, and "unexplained" cards are a
 noise estimate, not a false-positive rate.
@@ -35,15 +52,22 @@ import re
 import sys
 
 RANK = {'Material': 0, 'Review': 1, 'RollForward': 2, 'Cosmetic': 3}
-TOOL = 'renewal-triage/2'
+TOOL = 'renewal-triage/5'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
 
+QUOTES = {'’': "'", '‘': "'", '“': '"', '”': '"'}
+
+
 def norm(s):
-    for a, b in (('’', "'"), ('‘', "'"), ('“', '"'), ('”', '"')):
+    for a, b in QUOTES.items():
         s = s.replace(a, b)
     return re.sub(r'\s+', ' ', s).strip()
+
+
+def space(c):
+    return re.match(r'\s', c) is not None
 
 
 def pages(locations):
@@ -81,6 +105,68 @@ def units(locations, wanted):
 
 def side_text(d, side):
     return norm(d['oldText'] if side == 'left' else d['newText'])
+
+
+def marked(d, side):
+    """One card side rebuilt from its text operations and normalised as norm() does: per character,
+    its source unit (page, unitId) and whether the card changes it (deleted left, inserted right)."""
+    changed = 'delete' if side == 'left' else 'insert'
+    out = []
+    for op in d.get('textOps') or []:
+        if op['kind'] not in ('equal', changed):
+            continue
+        # Operation text and its source locations agree once whitespace is removed.
+        owners = [(l['pageIndex'] + 1, l['unitId']) for l in op[side] for c in l['text'] if not space(c)]
+        k = 0
+        for c in op['text']:
+            flag = op['kind'] == changed
+            if space(c):
+                if out and out[-1][0] == ' ':
+                    out[-1] = (' ', None, out[-1][2] or flag)
+                elif out:
+                    out.append((' ', None, flag))
+                continue
+            out.append((QUOTES.get(c, c), owners[k] if k < len(owners) else None, flag))
+            k += 1
+    while out and out[-1][0] == ' ':
+        out.pop()
+    return out
+
+
+def needs_edit(old, new):
+    """Sides an author edit changes: what remains of each after the common prefix and suffix."""
+    p = 0
+    while p < min(len(old), len(new)) and old[p] == new[p]:
+        p += 1
+    s = 0
+    while s < min(len(old), len(new)) - p and old[-1 - s] == new[-1 - s]:
+        s += 1
+    return {'left': len(old) > p + s, 'right': len(new) > p + s}
+
+
+def found(d, side, needle, wanted):
+    """Occurrences of the needle in one card side whose characters all come from source units on
+    the wanted pages (any page when none is wanted): per occurrence, its (char, unit, changed)."""
+    chars = marked(d, side)
+    text = ''.join(c for c, _, _ in chars)
+    out = []
+    i = text.find(needle) if needle else -1
+    while i >= 0:
+        span = chars[i:i + len(needle)]
+        owners = [unit for _, unit, _ in span if unit is not None]
+        if owners and (not wanted or all(page in wanted for page, _ in owners)):
+            out.append(span)
+        i = text.find(needle, i + 1)
+    return out
+
+
+def located(d, side, needle, wanted):
+    return bool(found(d, side, needle, wanted))
+
+
+def edited(d, side, needle, wanted):
+    """The card changes the needle itself, in an occurrence on the wanted pages."""
+    return any(flag for span in found(d, side, needle, wanted) for _, _, flag in span)
 
 
 def identifier_like(cell):
@@ -139,10 +225,9 @@ def on_pages(locations, wanted):
 
 
 def local(d, side, needle, wanted):
-    """Units of a card side holding the needle; the whole side if it spans units."""
-    us = units(d[side], wanted)
-    hit = [u for u in us if needle in u['text']]
-    return hit or us
+    """Source units of a card side that the needle's occurrences on the wanted pages come from."""
+    keep = {unit for span in found(d, side, needle, wanted) for _, unit, _ in span if unit is not None}
+    return [u for u in units(d[side], wanted) if (u['page'], u['unitId']) in keep]
 
 
 def judge_identity(d, needles, ident, others, change, wanted):
@@ -178,11 +263,11 @@ def evidence(d, side, needle, wanted):
     return [ref(l) for u in local(d, side, needle, wanted) for l in u['locs']] if needle else []
 
 
-def candidate(d, needles, wanted, identity=None, reason=None, seen=None):
+def candidate(d, needles, wanted, identity=None, reason=None, seen=None, edit=None):
     sp = d.get('structurePath') or {}
     return {'card': d['id'], 'kind': d['kind'], 'category': d['category'],
             'table': sp.get('table'), 'rowKey': sp.get('rowKey'), 'confidence': sp.get('confidence'),
-            'identity': identity, 'identityReason': reason, 'identityCells': seen or None,
+            'identity': identity, 'identityReason': reason, 'identityCells': seen or None, 'editShown': edit,
             'left': evidence(d, 'left', needles.get('left'), wanted['left']),
             'right': evidence(d, 'right', needles.get('right'), wanted['right'])}
 
@@ -203,16 +288,25 @@ def text_atom(atom, change, ctx, claimed):
     diffs, result, wanted = ctx['diffs'], ctx['result'], ctx['wanted']
     old, new, ident, others = atom['old'], atom['new'], ctx['ident'], ctx['others']
     needles = {'left': old, 'right': new}
-    oc = [d for d in diffs if old in side_text(d, 'left') and on_pages(d['left'], wanted['left'])]
-    nc = [d for d in diffs if new in side_text(d, 'right') and on_pages(d['right'], wanted['right'])]
+    need = needs_edit(old, new)
+
+    def shows(d, side, needle):
+        return not need[side] or edited(d, side, needle, wanted[side])
+    oc = [d for d in diffs if located(d, 'left', old, wanted['left'])]
+    nc = [d for d in diffs if located(d, 'right', new, wanted['right'])]
     same = [d for d in oc if d in nc]
-    cands, accepted, suspects, open_ = [], [], [], []
+    cands, accepted, suspects, open_, unedited = [], [], [], [], []
     for d in same:
+        if not (shows(d, 'left', old) and shows(d, 'right', new)):
+            # The card holds both texts but does not make this edit: no evidence for or against.
+            cands.append(candidate(d, needles, wanted, edit=False))
+            unedited.append(d)
+            continue
         if ident is None:
             status, why, seen = 'not_applicable', 'paragraph event: no record identity', None
         else:
             status, why, seen = judge_identity(d, needles, ident, others, change, wanted)
-        cands.append(candidate(d, needles, wanted, status, why, seen))
+        cands.append(candidate(d, needles, wanted, status, why, seen, edit=True if any(need.values()) else None))
         if status in ('confirmed', 'not_applicable'):
             accepted.append(d)
         elif status == 'contradicted' and not (claimed.get(d['id'], set()) - {ctx['id']}):
@@ -245,10 +339,18 @@ def text_atom(atom, change, ctx, claimed):
                 d, {side: n}, ident, others, change, wanted)[0] == 'confirmed']
             lk, rk = judged(olds, 'left', old), judged(news, 'right', new)
             why = 'expected record identity in each side unit'
+        el, er = [d for d in lk if shows(d, 'left', old)], [d for d in rk if shows(d, 'right', new)]
+        if el and er:
+            return 'split_attributable', 'split_attributable', el + er, cands, ou + nu, 'separate cards; ' + why
         if lk and rk:
-            return 'split_attributable', 'split_attributable', lk + rk, cands, ou + nu, 'separate cards; ' + why
+            return ('separate_cards_without_edit', 'not_evaluable', [], cands, ou + nu,
+                    'separate cards with the context, but the ' + ' and '.join(
+                        s for s, e in (('left', el), ('right', er)) if not e) + ' card does not change the text')
         return ('separate_cards', 'not_evaluable', [], cands, ou + nu,
                 'separate cards without verifiable common context (' + why + ')')
+    if unedited:
+        return ('same_card_without_edit', 'not_evaluable', [], cands, ou + nu,
+                'cards hold both texts but none changes them here (e.g. an unchanged move)')
     if (olds or ou) and (news or nu):
         return ('in_unresolved_group', 'not_evaluable', [], cands, ou + nu,
                 'one or both sides only in a product unresolved group')
@@ -322,12 +424,19 @@ def row_cells(atoms, change, ctx):
 
 def paragraph_atom(atom, change, ctx):
     side = 'right' if change['kind'] == 'Added' else 'left'
+    other = 'left' if side == 'right' else 'right'
     t, wanted = atom['new'] if side == 'right' else atom['old'], ctx['wanted'][side]
-    hits = [d for d in ctx['diffs'] if t in side_text(d, side) and on_pages(d[side], wanted)]
+    held = [d for d in ctx['diffs'] if located(d, side, t, wanted)]
     cands = [candidate(d, {side: t}, ctx['wanted'], 'not_applicable', 'paragraph event: no record identity')
-             for d in hits]
+             for d in held]
+    # The card must add or remove the text: one that keeps it on the other side
+    # too (an unchanged move, unchanged context) does neither.
+    hits = [d for d in held if t not in side_text(d, other)]
     if hits:
         return 'found', 'correct', hits, cands, [], ''
+    if held:
+        return 'kept_on_other_side', 'not_located', [], cands, [], \
+            'every card holding the text keeps it on the other side too (e.g. an unchanged move)'
     un = unresolved_hits(ctx['result'], side, t, wanted)
     if un:
         return 'unresolved_only', 'not_evaluable', [], cands, un, 'only in a product unresolved group'
@@ -403,8 +512,15 @@ def triage(change, result, family, claimed):
         lc, rc = cells(change.get('left_text') or ''), cells(change.get('right_text') or '')
         full = None
         if record and change['kind'] == 'Replaced':
+            card = next(d for d in result['differences'] if d['id'] == record['card'])
+
+            def source(side, r):
+                """Full text of one accepted record location; refs keep only a preview."""
+                return next((l['text'] for l in card[side] if l['pageIndex'] + 1 == r['page']
+                             and l['unitId'] == r['unitId'] and l['rawRange'] == r['rawRange']), r['text'])
+
             def holds(side, row):
-                text = norm(' '.join(r['text'] for r in record[side]))
+                text = norm(' '.join(source(side, r) for r in record[side]))
                 return all(bounded(c, text) for c in row if c)
             full = holds('left', lc) and holds('right', rc)
         elif record:

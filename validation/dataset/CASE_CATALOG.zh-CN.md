@@ -19,7 +19,7 @@
 | R13_move_and_replacement | 原样移动与原位相似新增竞争 | 2 | 2 | 2 | complete_for_scope |
 | R14_short_paragraph | 十词短段落只改一个词 | 2 | 2 | 1 | complete_for_scope |
 | R15_paragraph_split | 一段改为两段但文字相同 | 2 | 2 | 0 | complete_for_scope |
-| R16_repagination | 条款重分页但逻辑顺序相同 | 2 | 3 | 0 | complete_for_scope |
+| R16_repagination | 条款重分页但逻辑顺序相同 | 2 | 3 | 1 | complete_for_scope |
 | R17_font_change | 字体和字号改变但文字相同 | 2 | 2 | 0 | complete_for_scope |
 | R18_ligature | fi 连字与两个字符的来源映射 | 2 | 2 | 1 | complete_for_scope |
 | R19_rotated_status | 旋转状态文字改变 | 2 | 2 | 1 | complete_for_scope |

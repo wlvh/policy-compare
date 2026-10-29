@@ -114,6 +114,11 @@ export const IDENTITY_NOT_APPLICABLE: Record<
     reason:
       "document status stamp: state of the whole document, no party or record identity",
   },
+  "R16_repagination:E1": {
+    logicalPath: "document.page_heading.policy_wording",
+    reason:
+      "page title added by the repagination: no party or record identity; text, operation, category, position, visibility and completeness still apply",
+  },
 };
 const clean = (s: string) => s.replace(/\s+/g, " ").trim();
 // How each answer invariant is evaluated. "direct": its own check below; "indirect": it can only
@@ -126,8 +131,9 @@ export const INVARIANTS: Record<
   no_content_differences: { coverage: "direct", basis: "no difference card at all", tests: [] },
   no_material_differences: {
     coverage: "direct",
-    basis: "no Material card and no text change outside Cosmetic",
-    tests: ["Review does not excuse false text in control"],
+    basis:
+      "no Material card and no text change outside Cosmetic, except one card per declared non-Material event whose whole text, kind, category, sides, visibility and every source location match that event",
+    tests: ["Review does not excuse false text in control", "R16"],
   },
   no_false_text_added_or_removed: { coverage: "direct", basis: "no card with a text change", tests: [] },
   no_false_clause_moves: { coverage: "direct", basis: "no Moved card", tests: [] },
@@ -570,7 +576,12 @@ function moneyChanges(
         ],
   };
 }
-type Checked = { result: CompareResult; expected: Expected; layout: Layout };
+type Checked = {
+  result: CompareResult;
+  expected: Expected;
+  layout: Layout;
+  docs: [DocInput, DocInput];
+};
 // Directly checked invariants: each returns the violations it finds, plus what it could not decide.
 const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; open: string[] }> = {
   no_content_differences: ({ result }) =>
@@ -579,12 +590,26 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
     result.differences.some((d) => d.hasTextChange) ? ["False text delta in reflow control"] : [],
   no_false_clause_moves: ({ result }) =>
     result.differences.some((d) => d.kind === "Moved") ? ["False move caused by pagination"] : [],
-  no_material_differences: ({ result }) =>
-    result.differences.some(
-      (d) => d.category === "Material" || (d.hasTextChange && d.category !== "Cosmetic"),
+  no_material_differences: ({ result, expected, layout, docs }) => {
+    // Each declared event excuses at most one card.
+    const declared = new Set<string>();
+    const excused = (d: Difference) => {
+      const e = expected.events.find(
+        (e) =>
+          !declared.has(e.event_id) &&
+          declaredChange(d, e, expected.evidence_locations[e.event_id], layout, docs),
+      );
+      if (e) declared.add(e.event_id);
+      return Boolean(e);
+    };
+    return result.differences.some(
+      (d) =>
+        d.category === "Material" ||
+        (d.hasTextChange && d.category !== "Cosmetic" && !excused(d)),
     )
       ? ["False substantive change; Review is not an exemption"]
-      : [],
+      : [];
+  },
   no_false_row_additions_or_deletions: ({ result }) =>
     result.differences.some((d) => d.structurePath?.table && d.hasTextChange)
       ? ["False table value/entity delta"]
@@ -777,6 +802,47 @@ function located(
           };return quads.length>0&&(everyQuad?quads.every(valid):quads.some(valid));})()
         );
       }),
+  );
+}
+// In a control that must have no substantive change, a text-changing card is still a false
+// change unless it is exactly one declared non-Material event: the event's whole old and new
+// text (not a part of the card), an accepted kind and category, the event's sides, default
+// visibility, and every location of the card, its operations and occurrences resolving to the
+// source and lying on the event's declared runs. The case, a title style or the category alone
+// never excuse a card.
+export function declaredChange(
+  d: Difference,
+  e: Expected["events"][number],
+  refs: Record<"before" | "after", Evidence[]> | undefined,
+  layout: Layout,
+  docs: [DocInput, DocInput],
+): boolean {
+  if (
+    !refs ||
+    e.detection_requirement !== "must_detect" ||
+    e.acceptable_categories.includes("Material") ||
+    identityRule(e).applicability === "unsupported" ||
+    !(identityRule(e).test?.(d) ?? true) ||
+    !e.acceptable_kinds.includes(d.kind) ||
+    !e.acceptable_categories.includes(d.category) ||
+    !d.defaultVisible ||
+    clean(d.oldText) !== clean(e.old ?? "") ||
+    clean(d.newText) !== clean(e.new ?? "") ||
+    (e.old === null) !== (d.left.length === 0) ||
+    (e.new === null) !== (d.right.length === 0)
+  )
+    return false;
+  return ([["left", "before"], ["right", "after"]] as const).every(([side, s]) =>
+    [
+      ...d[side],
+      ...d.textOps.flatMap((o) => o[side]),
+      ...d.occurrences.flatMap((o) => o[side]),
+    ].every(
+      (l) =>
+        l.side === side &&
+        resolveLocation(l, docs) &&
+        located([l], refs[s], layout[s].pages, side, true),
+    ),
   );
 }
 export function grade(
@@ -1043,7 +1109,7 @@ export function grade(
     }
     if (entry.coverage === "indirect")
       return { name, coverage: "indirect", result: eventVerdict, reason: entry.basis };
-    const checked = DIRECT[name]({ result, expected, layout });
+    const checked = DIRECT[name]({ result, expected, layout, docs });
     const { violations, open } = Array.isArray(checked) ? { violations: checked, open: [] } : checked;
     faults.push(...violations.map((v) => name + ": " + v));
     if (!violations.length && open.length) {

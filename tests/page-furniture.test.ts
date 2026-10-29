@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { compare } from "../packages/compare-core/index";
-import type { CompareResult } from "../packages/contracts/index";
+import { ResultSchema, type CompareResult, type SourceLocation } from "../packages/contracts/index";
 import { textDoc } from "./helpers";
 
 // Pages are 600 x 850; the margin bands are above y=136 and below y=748.
@@ -66,6 +66,13 @@ describe("page furniture is compared once, with every occurrence", () => {
     expect(r.differences[0].occurrences).toHaveLength(4);
     expect(r.differences[0].occurrences.every((o) => o.left.length && o.right.length)).toBe(true);
   });
+  it("a repeated header limit written against its currency code stays Material", () => {
+    const doc = (limit: string) => pages(4, (p) => [{ text: `Hull limit USD${limit}`, x: 40, y: 60 }, body(p)]);
+    const r = compare(doc("1000000"), doc("2000000"));
+    expect(r.differences.map((d) => [d.kind, d.category, d.oldText, d.newText])).toEqual([
+      ["Replaced", "Material", "Hull limit USD1000000", "Hull limit USD2000000"],
+    ]);
+  });
   it("amounts that do not count with the pages are content, not furniture", () => {
     const totals = ["1,000", "2,500", "900", "4,000"];
     const doc = (second: string) =>
@@ -96,5 +103,146 @@ describe("a table header repeated on each page is not an identity conflict", () 
     expect(r.differences).toHaveLength(1);
     expect(r.differences[0].oldText).toBe("G-AB10 Operator C USD 2,000,000");
     expect(r.differences[0].newText).toBe("G-AB10 Operator C USD 2,400,000");
+  });
+});
+
+// Review of PR #9: a repeated line whose text differs between occurrences
+// must not be judged by its first occurrence, and only confirmed page-number
+// parts are exempt from content classification.
+describe("variants inside a repeated line stay visible", () => {
+  const four = (header: (page: number) => string) =>
+    pages(4, (p) => [
+      { text: header(p), x: 40, y: 60 },
+      { text: `Ordinary body on page ${p + 1}`, x: 40, y: 300 },
+    ]);
+  const pagesOf = (locs: { pageIndex: number }[]) => [...new Set(locs.map((l) => l.pageIndex))].sort();
+  it("a limit changed on one page only is a Material change with both values located", () => {
+    const r = compare(
+      four(() => "Hull limit any one aircraft USD 1,000,000"),
+      four((p) => `Hull limit any one aircraft USD ${p === 1 ? "2,000,000" : "1,000,000"}`),
+    );
+    const changed = r.differences.filter((d) => d.newText.includes("2,000,000"));
+    expect(changed).toHaveLength(1);
+    const [d] = changed;
+    expect([d.kind, d.category, d.defaultVisible]).toEqual(["Replaced", "Material", true]);
+    expect(d.oldText).toContain("1,000,000");
+    expect(pagesOf(d.right)).toEqual([1]);
+    expect(d.left.length).toBeGreaterThan(0);
+    const right = d.occurrences.flatMap((o) => o.right);
+    expect(right.filter((l) => l.text.includes("2,000,000")).map((l) => l.pageIndex)).toEqual([1]);
+    expect(d.textOps.some((o) => o.kind !== "equal" && o.right.some((l) => l.pageIndex === 1))).toBe(true);
+    expect(r.differences.every((x) => x.category !== "Cosmetic")).toBe(true);
+  });
+  it("a limit on the page-number line keeps its Material change", () => {
+    const r = compare(
+      four((p) => `Page ${p + 1} - Hull limit USD 1,000,000`),
+      four((p) => `Page ${p + 1} - Hull limit USD 2,000,000`),
+    );
+    expect(r.differences).toHaveLength(1);
+    expect(r.differences[0].category).toBe("Material");
+    expect(r.differences[0].oldText).toContain("1,000,000");
+    expect(r.differences[0].newText).toContain("2,000,000");
+    expect(r.differences[0].occurrences).toHaveLength(4);
+  });
+  it("only the page number changing on that line stays noise-free", () => {
+    const doc = (count: number) =>
+      pages(count, (p) => [
+        { text: `Page ${p + 1} of ${count} - Hull limit USD 1,000,000`, x: 40, y: 60 },
+        { text: `Ordinary body on page ${p + 1}.`, x: 40, y: 300 },
+      ]);
+    const r = compare(doc(4), doc(5));
+    expect(r.differences.filter((d) => d.category === "Material")).toHaveLength(1);
+    expect(r.differences.filter((d) => d.category === "Material")[0].newText).toBe("Ordinary body on page 5.");
+    expect(furniture(r).map((d) => d.category)).toEqual(["Cosmetic"]);
+  });
+  it("a page still carrying the old reference is named on the change card", () => {
+    const r = compare(
+      four(() => "UMR B1234AV2024"),
+      four((p) => (p === 2 ? "UMR B1234AV2024" : "UMR B1234AV2025")),
+    );
+    expect(r.differences).toHaveLength(1);
+    const [d] = r.differences;
+    expect([d.kind, d.category, d.oldText, d.newText]).toEqual(["Replaced", "Review", "UMR B1234AV2024", "UMR B1234AV2025"]);
+    // The change itself points only at pages that changed ...
+    expect(pagesOf(d.right)).not.toContain(2);
+    const right = d.occurrences.flatMap((o) => o.right);
+    expect(right.filter((l) => l.text === "UMR B1234AV2025").map((l) => l.pageIndex)).toEqual([0, 1, 3]);
+    // ... while the page that kept the old text is named and reachable.
+    expect(d.reviewReasons.join("")).toMatch(/待审版第 3 页仍为基准版文字“UMR B1234AV2024”/);
+    expect(right.filter((l) => l.text === "UMR B1234AV2024").map((l) => l.pageIndex)).toEqual([2]);
+    expect(d.occurrences.flatMap((o) => o.left).map((l) => l.pageIndex)).toEqual([0, 1, 2, 3]);
+  });
+});
+
+// Review of PR #9, third round: a repeated line keeps its own horizontal place
+// across versions, and only an actual page-number expression is exempt.
+describe("a repeated line keeps its place, and only real page numbers are exempt", () => {
+  const withBody = (count: number, rows: (page: number, count: number) => Line[]) =>
+    pages(count, (p) => [...rows(p, count), { text: `Ordinary body on page ${p + 1}`, x: 40, y: 300 }]);
+  const x = (l: SourceLocation) => l.quads[0][0];
+  const about = (r: CompareResult, text: string) =>
+    r.differences.filter((d) => (d.oldText + d.newText).includes(text));
+  it("A: amounts swapped between two places are two Material changes, each at its own place", () => {
+    const doc = (first: string, second: string) =>
+      withBody(4, () => [
+        { text: first, x: 40, y: 60 },
+        { text: second, x: 300, y: 60 },
+      ]);
+    const r = ResultSchema.parse(compare(doc("USD 1000", "USD 2000"), doc("USD 2000", "USD 1000")));
+    expect(r.status).toBe("complete_for_scope");
+    expect(r.differences).toHaveLength(2);
+    for (const [place, old, now] of [
+      [40, "USD 1000", "USD 2000"],
+      [300, "USD 2000", "USD 1000"],
+    ] as const) {
+      const d = r.differences.find((d) => d.oldText === old)!;
+      expect([d.kind, d.category, d.newText, d.defaultVisible]).toEqual(["Replaced", "Material", now, true]);
+      expect(d.structurePath?.section).toBe("page_furniture");
+      const sources = d.occurrences.flatMap((o) => [...o.left, ...o.right]);
+      expect(sources).toHaveLength(8);
+      expect(sources.every((l) => Math.abs(x(l) - place) < 1)).toBe(true);
+      expect([...d.left, ...d.right].every((l) => Math.abs(x(l) - place) < 1)).toBe(true);
+      expect(d.occurrences.flatMap((o) => o.right).map((l) => l.pageIndex)).toEqual([0, 1, 2, 3]);
+    }
+  });
+  it("B: a rate equal to the page total stays content; only the page expression is exempt", () => {
+    const doc = (count: number, rate: string) =>
+      withBody(count, (p, n) => [{ text: `Premium rate ${rate} - Page ${p + 1} of ${n}`, x: 40, y: 60 }]);
+    const r = ResultSchema.parse(compare(doc(4, "4%"), doc(5, "5%")));
+    const rate = about(r, "Premium rate");
+    expect(rate).toHaveLength(1);
+    expect([rate[0].kind, rate[0].category]).toEqual(["Replaced", "Material"]);
+    expect([rate[0].oldText, rate[0].newText]).toEqual(["Premium rate 4% - Page 1 of 4", "Premium rate 5% - Page 1 of 5"]);
+    expect(rate[0].occurrences.flatMap((o) => o.left).map((l) => l.pageIndex)).toEqual([0, 1, 2, 3]);
+    expect(rate[0].occurrences.flatMap((o) => o.right).map((l) => l.pageIndex)).toEqual([0, 1, 2, 3, 4]);
+    // Control: the same rate with only the page numbers changing is noise-free.
+    const same = ResultSchema.parse(compare(doc(4, "4%"), doc(5, "4%")));
+    expect(about(same, "Premium rate").map((d) => d.category)).toEqual(["Cosmetic"]);
+  });
+  it("C: business numbers that count with the pages are compared as content", () => {
+    const doc = (first: number) => withBody(4, (p) => [{ text: `Aircraft MSN ${first + p}`, x: 40, y: 120 }]);
+    const r = ResultSchema.parse(compare(doc(101), doc(201)));
+    const msn = about(r, "Aircraft MSN");
+    expect(msn.some((d) => d.category === "Cosmetic")).toBe(false);
+    // The body line above continues across the page break onto the next
+    // line, so a card may hold both; each MSN is still changed on its page.
+    expect(msn).toHaveLength(4);
+    for (let p = 0; p < 4; p++) {
+      const d = msn.find((d) => d.oldText.endsWith(`Aircraft MSN ${101 + p}`))!;
+      expect([d.kind, d.category]).toEqual(["Replaced", "Material"]);
+      expect(d.newText).toBe(d.oldText.replace(`MSN ${101 + p}`, `MSN ${201 + p}`));
+      for (const [side, value] of [[d.left, 101 + p], [d.right, 201 + p]] as const) {
+        const at = side.filter((l) => l.text.includes(`MSN ${value}`));
+        expect(at.map((l) => [l.pageIndex, Math.round(x(l))])).toEqual([[p, 40]]);
+      }
+    }
+    // Control: a page number at the same place is still exempt.
+    const numbered = ResultSchema.parse(
+      compare(
+        withBody(4, (p) => [{ text: `Page ${p + 1}`, x: 40, y: 120 }]),
+        withBody(5, (p) => [{ text: `Page ${p + 1}`, x: 40, y: 120 }]),
+      ),
+    );
+    expect(about(numbered, "Page ").every((d) => d.category === "Cosmetic")).toBe(true);
   });
 });

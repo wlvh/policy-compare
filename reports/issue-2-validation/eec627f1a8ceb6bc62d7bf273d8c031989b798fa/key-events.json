@@ -1,0 +1,8682 @@
+{
+ "aviation_2024_vs_2025-mupdf": {
+  "keyEvents": [
+   {
+    "range": "承保份额",
+    "id": 36,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN24117",
+      "new": "AVN25129",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     },
+     {
+      "old": "22.5%",
+      "new": "25.0%",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     },
+     {
+      "old": "02/10/2024",
+      "new": "01/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ALD 3392 (Slip Leader)"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-ee405bc5a6e3c040e9e0",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "ALD 3392 (Slip Leader)",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "ALD 3392 (Slip Leader) AVN24117 22.5% 02/10/2024",
+      "newText": "ALD 3392 (Slip Leader) AVN25129 25.0% 01/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 37,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "24AV0381",
+      "new": "25AV0412",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2aaec2798fd2e3a47a7d"
+      ]
+     },
+     {
+      "old": "03/10/2024",
+      "new": "02/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2aaec2798fd2e3a47a7d"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "MKV 1426"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-2aaec2798fd2e3a47a7d",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "MKV 1426",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "MKV 1426 24AV0381 15.0% 03/10/2024",
+      "newText": "MKV 1426 25AV0412 15.0% 02/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 38,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "HX-AV-2210",
+      "new": "HX-AV-2587",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3a1c8587593b5ec9c901"
+      ]
+     },
+     {
+      "old": "12.5%",
+      "new": "10.0%",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3a1c8587593b5ec9c901"
+      ]
+     },
+     {
+      "old": "03/10/2024",
+      "new": "02/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3a1c8587593b5ec9c901"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "HPX 0624"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-3a1c8587593b5ec9c901",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "HPX 0624",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2587 10.0% 02/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 39,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "SLD 2988",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ba6c7579da1cdbbbc907"
+      ]
+     },
+     {
+      "old": "2988/AV/24/117",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ba6c7579da1cdbbbc907"
+      ]
+     },
+     {
+      "old": "10.0%",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ba6c7579da1cdbbbc907"
+      ]
+     },
+     {
+      "old": "04/10/2024",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ba6c7579da1cdbbbc907"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "SLD 2988"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-ba6c7579da1cdbbbc907",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       8
+      ],
+      "rightPages": [],
+      "oldText": "SLD 2988 2988/AV/24/117 10.0% 04/10/2024",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 40,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "TIC/AV/24/0093",
+      "new": "TIC/AV/25/0093",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-320295476a22f7453dd7"
+      ]
+     },
+     {
+      "old": "07/10/2024",
+      "new": "06/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-320295476a22f7453dd7"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Tamesis Insurance Company Limited"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-320295476a22f7453dd7",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Tamesis Insurance Company Limited",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "Tamesis Insurance Company Limited TIC/AV/24/0093 15.0% 07/10/2024",
+      "newText": "Tamesis Insurance Company Limited TIC/AV/25/0093 15.0% 06/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 41,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "NRE-24-55210",
+      "new": "NRE-25-60877",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d8ddf911af2c195243b2"
+      ]
+     },
+     {
+      "old": "07/10/2024",
+      "new": "06/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d8ddf911af2c195243b2"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Nordvik Re Europe SE"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d8ddf911af2c195243b2",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Nordvik Re Europe SE",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "Nordvik Re Europe SE NRE-24-55210 10.0% 07/10/2024",
+      "newText": "Nordvik Re Europe SE NRE-25-60877 10.0% 06/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 42,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "HSI24AV117",
+      "new": "HSI25AV129",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4f436497364a4cbdec89"
+      ]
+     },
+     {
+      "old": "08/10/2024",
+      "new": "07/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4f436497364a4cbdec89"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Halberd Specialty Insurance Ltd"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4f436497364a4cbdec89",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Halberd Specialty Insurance Ltd",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "Halberd Specialty Insurance Ltd HSI24AV117 15.0% 08/10/2024",
+      "newText": "Halberd Specialty Insurance Ltd HSI25AV129 15.0% 07/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 43,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Corvane Insurance AG",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dc6ff9056f544ff0d490"
+      ]
+     },
+     {
+      "old": null,
+      "new": "CIA-AV-25-0311",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dc6ff9056f544ff0d490"
+      ]
+     },
+     {
+      "old": null,
+      "new": "10.0%",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dc6ff9056f544ff0d490"
+      ]
+     },
+     {
+      "old": null,
+      "new": "08/10/2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dc6ff9056f544ff0d490"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Corvane Insurance AG"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-dc6ff9056f544ff0d490",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       8
+      ],
+      "oldText": "",
+      "newText": "Corvane Insurance AG CIA-AV-25-0311 10.0% 08/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 48,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "ATR 72-600",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1dcb611ceca5a5bbf852"
+      ]
+     },
+     {
+      "old": "1760",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1dcb611ceca5a5bbf852"
+      ]
+     },
+     {
+      "old": "ZK-ENV",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1dcb611ceca5a5bbf852"
+      ]
+     },
+     {
+      "old": "2013",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1dcb611ceca5a5bbf852"
+      ]
+     },
+     {
+      "old": "70",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1dcb611ceca5a5bbf852"
+      ]
+     },
+     {
+      "old": "16,040,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1dcb611ceca5a5bbf852"
+      ]
+     },
+     {
+      "old": "Tasman Commuter",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1dcb611ceca5a5bbf852"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1760"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-1dcb611ceca5a5bbf852",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       11
+      ],
+      "rightPages": [],
+      "oldText": "ATR 72-600 1760 ZK-ENV 2013 70 16,040,000 Tasman Commuter",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 49,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Bombardier CRJ900",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d0d40e21965a4994ddbf"
+      ]
+     },
+     {
+      "old": "15423",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d0d40e21965a4994ddbf"
+      ]
+     },
+     {
+      "old": "PR-DBY",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d0d40e21965a4994ddbf"
+      ]
+     },
+     {
+      "old": "2020",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d0d40e21965a4994ddbf"
+      ]
+     },
+     {
+      "old": "90",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d0d40e21965a4994ddbf"
+      ]
+     },
+     {
+      "old": "16,360,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d0d40e21965a4994ddbf"
+      ]
+     },
+     {
+      "old": "Selva Linhas Aereas",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d0d40e21965a4994ddbf"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15423"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d0d40e21965a4994ddbf",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       11
+      ],
+      "rightPages": [],
+      "oldText": "Bombardier CRJ900 15423 PR-DBY 2020 90 16,360,000 Selva Linhas Aereas",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 50,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "De Havilland Dash 8-400",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d98a9fd344901b54e314"
+      ]
+     },
+     {
+      "old": "4566",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d98a9fd344901b54e314"
+      ]
+     },
+     {
+      "old": "LN-XJY",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d98a9fd344901b54e314"
+      ]
+     },
+     {
+      "old": "2021",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d98a9fd344901b54e314"
+      ]
+     },
+     {
+      "old": "78",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d98a9fd344901b54e314"
+      ]
+     },
+     {
+      "old": "10,140,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d98a9fd344901b54e314"
+      ]
+     },
+     {
+      "old": "Aurora Regional Airways",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d98a9fd344901b54e314"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4566"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d98a9fd344901b54e314",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       12
+      ],
+      "rightPages": [],
+      "oldText": "De Havilland Dash 8-400 4566 LN-XJY 2021 78 10,140,000 Aurora Regional Airways",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 51,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Embraer E175",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f1a7295dac53f477f750"
+      ]
+     },
+     {
+      "old": "17000873",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f1a7295dac53f477f750"
+      ]
+     },
+     {
+      "old": "VH-ZEL",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f1a7295dac53f477f750"
+      ]
+     },
+     {
+      "old": "2019",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f1a7295dac53f477f750"
+      ]
+     },
+     {
+      "old": "76",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f1a7295dac53f477f750"
+      ]
+     },
+     {
+      "old": "22,450,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f1a7295dac53f477f750"
+      ]
+     },
+     {
+      "old": "Meridian Skies",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f1a7295dac53f477f750"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000873"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-f1a7295dac53f477f750",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       13
+      ],
+      "rightPages": [],
+      "oldText": "Embraer E175 17000873 VH-ZEL 2019 76 22,450,000 Meridian Skies",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 63,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Airbus A220-100",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f53ed43917cf48e18d90"
+      ]
+     },
+     {
+      "old": null,
+      "new": "55228",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f53ed43917cf48e18d90"
+      ]
+     },
+     {
+      "old": null,
+      "new": "VH-JXP",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f53ed43917cf48e18d90"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f53ed43917cf48e18d90"
+      ]
+     },
+     {
+      "old": null,
+      "new": "116",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f53ed43917cf48e18d90"
+      ]
+     },
+     {
+      "old": null,
+      "new": "39,000,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f53ed43917cf48e18d90"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Meridian Skies",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f53ed43917cf48e18d90"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "55228"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-f53ed43917cf48e18d90",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       11
+      ],
+      "oldText": "",
+      "newText": "Airbus A220-100 55228 VH-JXP 2025 116 39,000,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 64,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Airbus A220-100",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-862c5298c28fc5a25607"
+      ]
+     },
+     {
+      "old": null,
+      "new": "55211",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-862c5298c28fc5a25607"
+      ]
+     },
+     {
+      "old": null,
+      "new": "VH-JDA",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-862c5298c28fc5a25607"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-862c5298c28fc5a25607"
+      ]
+     },
+     {
+      "old": null,
+      "new": "116",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-862c5298c28fc5a25607"
+      ]
+     },
+     {
+      "old": null,
+      "new": "41,150,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-862c5298c28fc5a25607"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Meridian Skies",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-862c5298c28fc5a25607"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "55211"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-862c5298c28fc5a25607",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       11
+      ],
+      "oldText": "",
+      "newText": "Airbus A220-100 55211 VH-JDA 2025 116 41,150,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 65,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "ATR 72-600",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f5ade9b725998d07887a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "1748",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f5ade9b725998d07887a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "RP-C3483",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f5ade9b725998d07887a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2024",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f5ade9b725998d07887a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "70",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f5ade9b725998d07887a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "15,580,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f5ade9b725998d07887a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Lumen Air",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f5ade9b725998d07887a"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1748"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-f5ade9b725998d07887a",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       11
+      ],
+      "oldText": "",
+      "newText": "ATR 72-600 1748 RP-C3483 2024 70 15,580,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 66,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Embraer E175",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6fe334d778ae7ea20f38"
+      ]
+     },
+     {
+      "old": null,
+      "new": "17000913",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6fe334d778ae7ea20f38"
+      ]
+     },
+     {
+      "old": null,
+      "new": "C-AJB",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6fe334d778ae7ea20f38"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2024",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6fe334d778ae7ea20f38"
+      ]
+     },
+     {
+      "old": null,
+      "new": "76",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6fe334d778ae7ea20f38"
+      ]
+     },
+     {
+      "old": null,
+      "new": "23,340,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6fe334d778ae7ea20f38"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Kestrel Connect",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6fe334d778ae7ea20f38"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000913"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-6fe334d778ae7ea20f38",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       13
+      ],
+      "oldText": "",
+      "newText": "Embraer E175 17000913 C-AJB 2024 76 23,340,000 Kestrel Connect"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 52,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "20,490,000",
+      "new": "19,210,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-62de939baf05bd4c688b"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1315"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-62de939baf05bd4c688b",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1315",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "ATR 72-600 1315 CS-BTE 2012 70 20,490,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1315 CS-BTE 2012 70 19,210,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 53,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "16,900,000",
+      "new": "15,640,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a682772ffd9895e10084"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15256"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-a682772ffd9895e10084",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15256",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15256 CC-AXW 2013 90 16,900,000 Andes Pacific Airlines",
+      "newText": "Bombardier CRJ900 15256 CC-AXW 2013 90 15,640,000 Andes Pacific Airlines"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 54,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "15,500,000",
+      "new": "14,310,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-efc6a928a76a02a34282"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15381"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-efc6a928a76a02a34282",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15381",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15381 XA-THL 2011 90 15,500,000 Coral Bay Airways",
+      "newText": "Bombardier CRJ900 15381 XA-THL 2011 90 14,310,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 55,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "10,270,000",
+      "new": "9,810,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-cb7e1d44062dc227c325"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4370"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-cb7e1d44062dc227c325",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4370",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 10,270,000 Andes Pacific Airlines",
+      "newText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 9,810,000 Andes Pacific Airlines"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 56,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "13,570,000",
+      "new": "12,790,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2461366863b348fe5733"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4503"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-2461366863b348fe5733",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4503",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 13,570,000 Lumen Air",
+      "newText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 12,790,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 57,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "25,400,000",
+      "new": "23,710,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c9f895c88eb558da014c"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000589"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-c9f895c88eb558da014c",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "17000589",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "Embraer E175 17000589 PR-CJD 2022 76 25,400,000 Selva Linhas Aereas",
+      "newText": "Embraer E175 17000589 PR-CJD 2022 76 23,710,000 Selva Linhas Aereas"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 58,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "25,890,000",
+      "new": "24,660,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ad473beaa314585e331a"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000834"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-ad473beaa314585e331a",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "17000834",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer E175 17000834 XA-RHB 2016 76 25,890,000 Coral Bay Airways",
+      "newText": "Embraer E175 17000834 XA-RHB 2016 76 24,660,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 59,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "26,400,000",
+      "new": "25,220,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6b8ffa61d1edd27c8e72"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "19000543"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-6b8ffa61d1edd27c8e72",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "19000543",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer E190 19000543 VH-NWL 2013 98 26,400,000 Meridian Skies",
+      "newText": "Embraer E190 19000543 VH-NWL 2013 98 25,220,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "range": "机队承租人",
+    "id": 60,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Aurora Regional Airways",
+      "new": "Tasman Commuter",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a2509356596b65b6f78"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15361"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-0a2509356596b65b6f78",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15361",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Aurora Regional Airways",
+      "newText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Tasman Commuter"
+     }
+    ]
+   },
+   {
+    "range": "机队承租人",
+    "id": 61,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Kestrel Connect",
+      "new": "Coral Bay Airways",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-23a4fac9c302d2ce561c"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4551"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-23a4fac9c302d2ce561c",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "机队承租人",
+    "id": 62,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Tasman Commuter",
+      "new": "Lumen Air",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-44d88e16f0a73df80be1"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "19000394"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-44d88e16f0a73df80be1",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "19000394",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer E190 19000394 ZK-GVG 2020 98 21,610,000 Tasman Commuter",
+      "newText": "Embraer E190 19000394 ZK-GVG 2020 98 21,610,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 67,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "CF34-10E5",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1648a74a76d22c529710"
+      ]
+     },
+     {
+      "old": "9995860",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1648a74a76d22c529710"
+      ]
+     },
+     {
+      "old": "Hamburg, Germany – Elbe Engine Works",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1648a74a76d22c529710"
+      ]
+     },
+     {
+      "old": "6,980,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1648a74a76d22c529710"
+      ]
+     },
+     {
+      "old": "Serviceable",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1648a74a76d22c529710"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9995860"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-1648a74a76d22c529710",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       14
+      ],
+      "rightPages": [],
+      "oldText": "CF34-10E5 9995860 Hamburg, Germany – Elbe Engine Works 6,980,000 Serviceable",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 68,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "PW127M",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b99635458b262403d1a8"
+      ]
+     },
+     {
+      "old": "ED3109",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b99635458b262403d1a8"
+      ]
+     },
+     {
+      "old": "Montreal, Canada – St Laurent MRO",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b99635458b262403d1a8"
+      ]
+     },
+     {
+      "old": "3,260,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b99635458b262403d1a8"
+      ]
+     },
+     {
+      "old": "Serviceable",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b99635458b262403d1a8"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ED3109"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-b99635458b262403d1a8",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       14
+      ],
+      "rightPages": [],
+      "oldText": "PW127M ED3109 Montreal, Canada – St Laurent MRO 3,260,000 Serviceable",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 69,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Tallinn, Estonia – Baltic Aero Technics",
+      "new": "Singapore – Changi Engine Centre",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6e1a9be9044a34ad2a0f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1949020"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-6e1a9be9044a34ad2a0f",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1949020",
+      "leftPages": [
+       14
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "CF34-8C5 1949020 Tallinn, Estonia – Baltic Aero Technics 3,620,000 Serviceable",
+      "newText": "CF34-8C5 1949020 Singapore – Changi Engine Centre 3,620,000 Serviceable"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 70,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Brisbane, Australia – Eagle Farm MRO",
+      "new": "In transit",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aaeaea5656587ea6544"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "FA4440"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-3aaeaea5656587ea6544",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "FA4440",
+      "leftPages": [
+       14
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "PW150A FA4440 Brisbane, Australia – Eagle Farm MRO 2,700,000 Quick engine change",
+      "newText": "PW150A FA4440 In transit 2,700,000 Quick engine change"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 71,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "3,630,000",
+      "new": "3,340,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-34a217b4b96b3b0b2772"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1951410"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-34a217b4b96b3b0b2772",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1951410",
+      "leftPages": [
+       14
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "CF34-8E5 1951410 On lease to operator (see Schedule A) 3,630,000 Quick engine change",
+      "newText": "CF34-8E5 1951410 On lease to operator (see Schedule A) 3,340,000 Quick engine change"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 72,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "PW127XT-M",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4fb7943d290684f82c0d"
+      ]
+     },
+     {
+      "old": null,
+      "new": "EH0412",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4fb7943d290684f82c0d"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Shannon, Ireland – Lessor Store",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4fb7943d290684f82c0d"
+      ]
+     },
+     {
+      "old": null,
+      "new": "4,150,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4fb7943d290684f82c0d"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Serviceable",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4fb7943d290684f82c0d"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "EH0412"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4fb7943d290684f82c0d",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       13
+      ],
+      "oldText": "",
+      "newText": "PW127XT-M EH0412 Shannon, Ireland – Lessor Store 4,150,000 Serviceable"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 73,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "1760",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c24e1a1ffa74598d5296"
+      ]
+     },
+     {
+      "old": "Caldera Capital Partners LLP",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c24e1a1ffa74598d5296"
+      ]
+     },
+     {
+      "old": "Security Trustee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c24e1a1ffa74598d5296"
+      ]
+     },
+     {
+      "old": "AVN67C",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c24e1a1ffa74598d5296"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1760"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-c24e1a1ffa74598d5296",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "1760 Caldera Capital Partners LLP Security Trustee AVN67C",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 74,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "15423",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-5863bc10962d7279318b"
+      ]
+     },
+     {
+      "old": "Caldera Capital Partners LLP",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-5863bc10962d7279318b"
+      ]
+     },
+     {
+      "old": "Security Trustee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-5863bc10962d7279318b"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-5863bc10962d7279318b"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15423"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-5863bc10962d7279318b",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "15423 Caldera Capital Partners LLP Security Trustee AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 75,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "4566",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-12e3691691e3655fd7c2"
+      ]
+     },
+     {
+      "old": "Fenmore Aviation Funding Ltd",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-12e3691691e3655fd7c2"
+      ]
+     },
+     {
+      "old": "Lender / Loss Payee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-12e3691691e3655fd7c2"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-12e3691691e3655fd7c2"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4566"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-12e3691691e3655fd7c2",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       16
+      ],
+      "rightPages": [],
+      "oldText": "4566 Fenmore Aviation Funding Ltd Lender / Loss Payee AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 76,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "17000873",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ca6d12c06b6f8f7e103c"
+      ]
+     },
+     {
+      "old": "Ostra Export Finance Agency",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ca6d12c06b6f8f7e103c"
+      ]
+     },
+     {
+      "old": "Lender",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ca6d12c06b6f8f7e103c"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ca6d12c06b6f8f7e103c"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000873"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-ca6d12c06b6f8f7e103c",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       16
+      ],
+      "rightPages": [],
+      "oldText": "17000873 Ostra Export Finance Agency Lender AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 77,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Ostra Export Finance Agency",
+      "new": "Northfield Bank plc",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d4459b00c2754a2a9c21"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1351"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d4459b00c2754a2a9c21",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1351",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "1351 Ostra Export Finance Agency Lender AVN67B",
+      "newText": "1351 Northfield Bank plc Lender AVN67B"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 78,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN67B",
+      "new": "AVN67C",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4399dd827cfcab441567"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15393"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4399dd827cfcab441567",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15393",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "15393 Harrowgate Leasing Partners No. 3 Ltd Head Lessor AVN67B",
+      "newText": "15393 Harrowgate Leasing Partners No. 3 Ltd Head Lessor AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 79,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "55228",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c69fe5079b3ba224d43c"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Fenmore Aviation Funding Ltd",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c69fe5079b3ba224d43c"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Lender / Loss Payee",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c69fe5079b3ba224d43c"
+      ]
+     },
+     {
+      "old": null,
+      "new": "AVN67C",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c69fe5079b3ba224d43c"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "55228"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-c69fe5079b3ba224d43c",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       16
+      ],
+      "oldText": "",
+      "newText": "55228 Fenmore Aviation Funding Ltd Lender / Loss Payee AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 3,
+    "kind": "Replaced",
+    "verdict": "not_located",
+    "atoms": [
+     {
+      "old": "16th October 2024 to 15th October 2025",
+      "new": "16th October 2025 to 15th October 2026",
+      "state": "not_found",
+      "verdict": "not_located",
+      "reason": "script did not locate either side",
+      "category": null,
+      "accepted": []
+     }
+    ],
+    "expectedIdentity": null,
+    "fullRowRecovered": null,
+    "cards": []
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 55,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "10,270,000",
+      "new": "9,810,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-cb7e1d44062dc227c325"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4370"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-cb7e1d44062dc227c325",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4370",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 10,270,000 Andes Pacific Airlines",
+      "newText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 9,810,000 Andes Pacific Airlines"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 56,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "13,570,000",
+      "new": "12,790,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2461366863b348fe5733"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4503"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-2461366863b348fe5733",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4503",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 13,570,000 Lumen Air",
+      "newText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 12,790,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 60,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Aurora Regional Airways",
+      "new": "Tasman Commuter",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a2509356596b65b6f78"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15361"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-0a2509356596b65b6f78",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15361",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Aurora Regional Airways",
+      "newText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Tasman Commuter"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 61,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Kestrel Connect",
+      "new": "Coral Bay Airways",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-23a4fac9c302d2ce561c"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4551"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-23a4fac9c302d2ce561c",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 91,
+    "kind": "Replaced",
+    "verdict": "not_evaluable",
+    "atoms": [
+     {
+      "old": "USD 350,000,000 Sum",
+      "new": "USD 400,000,000 Sum",
+      "state": "same_card_identity_unconfirmed",
+      "verdict": "not_evaluable",
+      "reason": "same card, but the record identity is unconfirmed",
+      "category": null,
+      "accepted": []
+     },
+     {
+      "old": "USD 2,150",
+      "new": "USD 2,390",
+      "state": "same_card_identity_unconfirmed",
+      "verdict": "not_evaluable",
+      "reason": "same card, but the record identity is unconfirmed",
+      "category": null,
+      "accepted": []
+     },
+     {
+      "old": "USD 1,640",
+      "new": "USD 1,720",
+      "state": "same_card_identity_unconfirmed",
+      "verdict": "not_evaluable",
+      "reason": "same card, but the record identity is unconfirmed",
+      "category": null,
+      "accepted": []
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "2.1"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": null,
+    "cards": []
+   }
+  ],
+  "pageFurniture": [
+   {
+    "id": "H1",
+    "left": "B4417K240093/ALD3392AVN24117",
+    "right": "B4417K250093/ALD3392AVN25129",
+    "cards": [
+     {
+      "id": "d-b5ce5d7d2cc806370b7a",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 20,
+      "leftPages": 20,
+      "rightPages": 19,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 20 页、待审 19 页；逐处来源见出现位置"
+      ],
+      "oldText": "UMR: B4417K240093/ALD3392AVN24117",
+      "newText": "UMR: B4417K250093/ALD3392AVN25129"
+     }
+    ],
+    "otherCardsWithText": []
+   }
+  ]
+ },
+ "aviation_2024_vs_2025-pdfjs": {
+  "keyEvents": [
+   {
+    "range": "承保份额",
+    "id": 36,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN24117",
+      "new": "AVN25129",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a3233cbde682d4567087"
+      ]
+     },
+     {
+      "old": "22.5%",
+      "new": "25.0%",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a3233cbde682d4567087"
+      ]
+     },
+     {
+      "old": "02/10/2024",
+      "new": "01/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a3233cbde682d4567087"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ALD 3392 (Slip Leader)"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-a3233cbde682d4567087",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "ALD 3392 (Slip Leader)",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "ALD 3392 (Slip Leader) AVN24117 22.5% 02/10/2024",
+      "newText": "ALD 3392 (Slip Leader) AVN25129 25.0% 01/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 37,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "24AV0381",
+      "new": "25AV0412",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d26436b8860df3130136"
+      ]
+     },
+     {
+      "old": "03/10/2024",
+      "new": "02/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d26436b8860df3130136"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "MKV 1426"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d26436b8860df3130136",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "MKV 1426",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "MKV 1426 24AV0381 15.0% 03/10/2024",
+      "newText": "MKV 1426 25AV0412 15.0% 02/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 38,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "HX-AV-2210",
+      "new": "HX-AV-2587",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b9d5a29191c1dc684c70"
+      ]
+     },
+     {
+      "old": "12.5%",
+      "new": "10.0%",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b9d5a29191c1dc684c70"
+      ]
+     },
+     {
+      "old": "03/10/2024",
+      "new": "02/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b9d5a29191c1dc684c70"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "HPX 0624"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-b9d5a29191c1dc684c70",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "HPX 0624",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2587 10.0% 02/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 39,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "SLD 2988",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-10ec1755ebbeada13216"
+      ]
+     },
+     {
+      "old": "2988/AV/24/117",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-10ec1755ebbeada13216"
+      ]
+     },
+     {
+      "old": "10.0%",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-10ec1755ebbeada13216"
+      ]
+     },
+     {
+      "old": "04/10/2024",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-10ec1755ebbeada13216"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "SLD 2988"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-10ec1755ebbeada13216",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       8
+      ],
+      "rightPages": [],
+      "oldText": "SLD 2988 2988/AV/24/117 10.0% 04/10/2024",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 40,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "TIC/AV/24/0093",
+      "new": "TIC/AV/25/0093",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-e19465bcbe6507a771ae"
+      ]
+     },
+     {
+      "old": "07/10/2024",
+      "new": "06/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-e19465bcbe6507a771ae"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Tamesis Insurance Company Limited"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-e19465bcbe6507a771ae",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Tamesis Insurance Company Limited",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "Tamesis Insurance Company Limited TIC/AV/24/0093 15.0% 07/10/2024",
+      "newText": "Tamesis Insurance Company Limited TIC/AV/25/0093 15.0% 06/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 41,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "NRE-24-55210",
+      "new": "NRE-25-60877",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c94b1c9b7dcbeb017aac"
+      ]
+     },
+     {
+      "old": "07/10/2024",
+      "new": "06/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c94b1c9b7dcbeb017aac"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Nordvik Re Europe SE"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-c94b1c9b7dcbeb017aac",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Nordvik Re Europe SE",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "Nordvik Re Europe SE NRE-24-55210 10.0% 07/10/2024",
+      "newText": "Nordvik Re Europe SE NRE-25-60877 10.0% 06/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 42,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "HSI24AV117",
+      "new": "HSI25AV129",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0b56c07b454e7a2794fd"
+      ]
+     },
+     {
+      "old": "08/10/2024",
+      "new": "07/10/2025",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0b56c07b454e7a2794fd"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Halberd Specialty Insurance Ltd"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-0b56c07b454e7a2794fd",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Halberd Specialty Insurance Ltd",
+      "leftPages": [
+       8
+      ],
+      "rightPages": [
+       8
+      ],
+      "oldText": "Halberd Specialty Insurance Ltd HSI24AV117 15.0% 08/10/2024",
+      "newText": "Halberd Specialty Insurance Ltd HSI25AV129 15.0% 07/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "承保份额",
+    "id": 43,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Corvane Insurance AG",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d7110b93f0098094b9ad"
+      ]
+     },
+     {
+      "old": null,
+      "new": "CIA-AV-25-0311",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d7110b93f0098094b9ad"
+      ]
+     },
+     {
+      "old": null,
+      "new": "10.0%",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d7110b93f0098094b9ad"
+      ]
+     },
+     {
+      "old": null,
+      "new": "08/10/2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d7110b93f0098094b9ad"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Corvane Insurance AG"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d7110b93f0098094b9ad",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       8
+      ],
+      "oldText": "",
+      "newText": "Corvane Insurance AG CIA-AV-25-0311 10.0% 08/10/2025"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 48,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "ATR 72-600",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-bc559d4bec9418bf340b"
+      ]
+     },
+     {
+      "old": "1760",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-bc559d4bec9418bf340b"
+      ]
+     },
+     {
+      "old": "ZK-ENV",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-bc559d4bec9418bf340b"
+      ]
+     },
+     {
+      "old": "2013",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-bc559d4bec9418bf340b"
+      ]
+     },
+     {
+      "old": "70",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-bc559d4bec9418bf340b"
+      ]
+     },
+     {
+      "old": "16,040,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-bc559d4bec9418bf340b"
+      ]
+     },
+     {
+      "old": "Tasman Commuter",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-bc559d4bec9418bf340b"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1760"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-bc559d4bec9418bf340b",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       11
+      ],
+      "rightPages": [],
+      "oldText": "ATR 72-600 1760 ZK-ENV 2013 70 16,040,000 Tasman Commuter",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 49,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Bombardier CRJ900",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aa0fb9b228f63ab6b62"
+      ]
+     },
+     {
+      "old": "15423",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aa0fb9b228f63ab6b62"
+      ]
+     },
+     {
+      "old": "PR-DBY",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aa0fb9b228f63ab6b62"
+      ]
+     },
+     {
+      "old": "2020",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aa0fb9b228f63ab6b62"
+      ]
+     },
+     {
+      "old": "90",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aa0fb9b228f63ab6b62"
+      ]
+     },
+     {
+      "old": "16,360,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aa0fb9b228f63ab6b62"
+      ]
+     },
+     {
+      "old": "Selva Linhas Aereas",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3aa0fb9b228f63ab6b62"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15423"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-3aa0fb9b228f63ab6b62",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       11
+      ],
+      "rightPages": [],
+      "oldText": "Bombardier CRJ900 15423 PR-DBY 2020 90 16,360,000 Selva Linhas Aereas",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 50,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "De Havilland Dash 8-400",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a59a1cf8f2f160929d3f"
+      ]
+     },
+     {
+      "old": "4566",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a59a1cf8f2f160929d3f"
+      ]
+     },
+     {
+      "old": "LN-XJY",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a59a1cf8f2f160929d3f"
+      ]
+     },
+     {
+      "old": "2021",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a59a1cf8f2f160929d3f"
+      ]
+     },
+     {
+      "old": "78",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a59a1cf8f2f160929d3f"
+      ]
+     },
+     {
+      "old": "10,140,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a59a1cf8f2f160929d3f"
+      ]
+     },
+     {
+      "old": "Aurora Regional Airways",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a59a1cf8f2f160929d3f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4566"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-a59a1cf8f2f160929d3f",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       12
+      ],
+      "rightPages": [],
+      "oldText": "De Havilland Dash 8-400 4566 LN-XJY 2021 78 10,140,000 Aurora Regional Airways",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 51,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Embraer E175",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a64e88772f8c4b1c4b5"
+      ]
+     },
+     {
+      "old": "17000873",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a64e88772f8c4b1c4b5"
+      ]
+     },
+     {
+      "old": "VH-ZEL",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a64e88772f8c4b1c4b5"
+      ]
+     },
+     {
+      "old": "2019",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a64e88772f8c4b1c4b5"
+      ]
+     },
+     {
+      "old": "76",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a64e88772f8c4b1c4b5"
+      ]
+     },
+     {
+      "old": "22,450,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a64e88772f8c4b1c4b5"
+      ]
+     },
+     {
+      "old": "Meridian Skies",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a64e88772f8c4b1c4b5"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000873"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4a64e88772f8c4b1c4b5",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       13
+      ],
+      "rightPages": [],
+      "oldText": "Embraer E175 17000873 VH-ZEL 2019 76 22,450,000 Meridian Skies",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 63,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Airbus A220-100",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9af26c949b7111465422"
+      ]
+     },
+     {
+      "old": null,
+      "new": "55228",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9af26c949b7111465422"
+      ]
+     },
+     {
+      "old": null,
+      "new": "VH-JXP",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9af26c949b7111465422"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9af26c949b7111465422"
+      ]
+     },
+     {
+      "old": null,
+      "new": "116",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9af26c949b7111465422"
+      ]
+     },
+     {
+      "old": null,
+      "new": "39,000,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9af26c949b7111465422"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Meridian Skies",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9af26c949b7111465422"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "55228"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-9af26c949b7111465422",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       11
+      ],
+      "oldText": "",
+      "newText": "Airbus A220-100 55228 VH-JXP 2025 116 39,000,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 64,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Airbus A220-100",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a417896e65814ffeea6"
+      ]
+     },
+     {
+      "old": null,
+      "new": "55211",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a417896e65814ffeea6"
+      ]
+     },
+     {
+      "old": null,
+      "new": "VH-JDA",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a417896e65814ffeea6"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a417896e65814ffeea6"
+      ]
+     },
+     {
+      "old": null,
+      "new": "116",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a417896e65814ffeea6"
+      ]
+     },
+     {
+      "old": null,
+      "new": "41,150,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a417896e65814ffeea6"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Meridian Skies",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0a417896e65814ffeea6"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "55211"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-0a417896e65814ffeea6",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       11
+      ],
+      "oldText": "",
+      "newText": "Airbus A220-100 55211 VH-JDA 2025 116 41,150,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 65,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "ATR 72-600",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0f67a6ee86152becee93"
+      ]
+     },
+     {
+      "old": null,
+      "new": "1748",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0f67a6ee86152becee93"
+      ]
+     },
+     {
+      "old": null,
+      "new": "RP-C3483",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0f67a6ee86152becee93"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2024",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0f67a6ee86152becee93"
+      ]
+     },
+     {
+      "old": null,
+      "new": "70",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0f67a6ee86152becee93"
+      ]
+     },
+     {
+      "old": null,
+      "new": "15,580,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0f67a6ee86152becee93"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Lumen Air",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-0f67a6ee86152becee93"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1748"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-0f67a6ee86152becee93",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       11
+      ],
+      "oldText": "",
+      "newText": "ATR 72-600 1748 RP-C3483 2024 70 15,580,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 66,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Embraer E175",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-05851794d8430f383ded"
+      ]
+     },
+     {
+      "old": null,
+      "new": "17000913",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-05851794d8430f383ded"
+      ]
+     },
+     {
+      "old": null,
+      "new": "C-AJB",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-05851794d8430f383ded"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2024",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-05851794d8430f383ded"
+      ]
+     },
+     {
+      "old": null,
+      "new": "76",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-05851794d8430f383ded"
+      ]
+     },
+     {
+      "old": null,
+      "new": "23,340,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-05851794d8430f383ded"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Kestrel Connect",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-05851794d8430f383ded"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000913"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-05851794d8430f383ded",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       13
+      ],
+      "oldText": "",
+      "newText": "Embraer E175 17000913 C-AJB 2024 76 23,340,000 Kestrel Connect"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 52,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "20,490,000",
+      "new": "19,210,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6932077b86e0a6ae2df2"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1315"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-6932077b86e0a6ae2df2",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1315",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "ATR 72-600 1315 CS-BTE 2012 70 20,490,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1315 CS-BTE 2012 70 19,210,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 53,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "16,900,000",
+      "new": "15,640,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2148b6088c0156c3deb6"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15256"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-2148b6088c0156c3deb6",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15256",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15256 CC-AXW 2013 90 16,900,000 Andes Pacific Airlines",
+      "newText": "Bombardier CRJ900 15256 CC-AXW 2013 90 15,640,000 Andes Pacific Airlines"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 54,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "15,500,000",
+      "new": "14,310,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-5e3f21d9accb4e2e2858"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15381"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-5e3f21d9accb4e2e2858",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15381",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15381 XA-THL 2011 90 15,500,000 Coral Bay Airways",
+      "newText": "Bombardier CRJ900 15381 XA-THL 2011 90 14,310,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 55,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "10,270,000",
+      "new": "9,810,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-46bf6443ead528c38341"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4370"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-46bf6443ead528c38341",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4370",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 10,270,000 Andes Pacific Airlines",
+      "newText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 9,810,000 Andes Pacific Airlines"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 56,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "13,570,000",
+      "new": "12,790,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-10652e8163fa984bf475"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4503"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-10652e8163fa984bf475",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4503",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 13,570,000 Lumen Air",
+      "newText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 12,790,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 57,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "25,400,000",
+      "new": "23,710,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-06597f418f4fd18c464c"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000589"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-06597f418f4fd18c464c",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "17000589",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "Embraer E175 17000589 PR-CJD 2022 76 25,400,000 Selva Linhas Aereas",
+      "newText": "Embraer E175 17000589 PR-CJD 2022 76 23,710,000 Selva Linhas Aereas"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 58,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "25,890,000",
+      "new": "24,660,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-cf6ed6bfd44631457867"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000834"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-cf6ed6bfd44631457867",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "17000834",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer E175 17000834 XA-RHB 2016 76 25,890,000 Coral Bay Airways",
+      "newText": "Embraer E175 17000834 XA-RHB 2016 76 24,660,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 59,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "26,400,000",
+      "new": "25,220,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-64cae367c16f0d518176"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "19000543"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-64cae367c16f0d518176",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "19000543",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer E190 19000543 VH-NWL 2013 98 26,400,000 Meridian Skies",
+      "newText": "Embraer E190 19000543 VH-NWL 2013 98 25,220,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "range": "机队承租人",
+    "id": 60,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Aurora Regional Airways",
+      "new": "Tasman Commuter",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-117acaab95865f00cf77"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15361"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-117acaab95865f00cf77",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15361",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Aurora Regional Airways",
+      "newText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Tasman Commuter"
+     }
+    ]
+   },
+   {
+    "range": "机队承租人",
+    "id": 61,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Kestrel Connect",
+      "new": "Coral Bay Airways",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-714af9a25d83b7b8138e"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4551"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-714af9a25d83b7b8138e",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "机队承租人",
+    "id": 62,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Tasman Commuter",
+      "new": "Lumen Air",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1b27c84ded99455705b0"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "19000394"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-1b27c84ded99455705b0",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "19000394",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer E190 19000394 ZK-GVG 2020 98 21,610,000 Tasman Commuter",
+      "newText": "Embraer E190 19000394 ZK-GVG 2020 98 21,610,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 67,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "CF34-10E5",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c202e133f51e988a3e0b"
+      ]
+     },
+     {
+      "old": "9995860",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c202e133f51e988a3e0b"
+      ]
+     },
+     {
+      "old": "Hamburg, Germany – Elbe Engine Works",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c202e133f51e988a3e0b"
+      ]
+     },
+     {
+      "old": "6,980,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c202e133f51e988a3e0b"
+      ]
+     },
+     {
+      "old": "Serviceable",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c202e133f51e988a3e0b"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9995860"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-c202e133f51e988a3e0b",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       14
+      ],
+      "rightPages": [],
+      "oldText": "CF34-10E5 9995860 Hamburg, Germany – Elbe Engine Works 6,980,000 Serviceable",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 68,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "PW127M",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b8c576186e30cb40c61d"
+      ]
+     },
+     {
+      "old": "ED3109",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b8c576186e30cb40c61d"
+      ]
+     },
+     {
+      "old": "Montreal, Canada – St Laurent MRO",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b8c576186e30cb40c61d"
+      ]
+     },
+     {
+      "old": "3,260,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b8c576186e30cb40c61d"
+      ]
+     },
+     {
+      "old": "Serviceable",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b8c576186e30cb40c61d"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ED3109"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-b8c576186e30cb40c61d",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       14
+      ],
+      "rightPages": [],
+      "oldText": "PW127M ED3109 Montreal, Canada – St Laurent MRO 3,260,000 Serviceable",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 69,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Tallinn, Estonia – Baltic Aero Technics",
+      "new": "Singapore – Changi Engine Centre",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-82e2f9a86a4dddac244f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1949020"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-82e2f9a86a4dddac244f",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1949020",
+      "leftPages": [
+       14
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "CF34-8C5 1949020 Tallinn, Estonia – Baltic Aero Technics 3,620,000 Serviceable",
+      "newText": "CF34-8C5 1949020 Singapore – Changi Engine Centre 3,620,000 Serviceable"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 70,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Brisbane, Australia – Eagle Farm MRO",
+      "new": "In transit",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-34e095da004b5c00a85d"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "FA4440"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-34e095da004b5c00a85d",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "FA4440",
+      "leftPages": [
+       14
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "PW150A FA4440 Brisbane, Australia – Eagle Farm MRO 2,700,000 Quick engine change",
+      "newText": "PW150A FA4440 In transit 2,700,000 Quick engine change"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 71,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "3,630,000",
+      "new": "3,340,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dfa182927f9e3b8dd8cd"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1951410"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-dfa182927f9e3b8dd8cd",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1951410",
+      "leftPages": [
+       14
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "CF34-8E5 1951410 On lease to operator (see Schedule A) 3,630,000 Quick engine change",
+      "newText": "CF34-8E5 1951410 On lease to operator (see Schedule A) 3,340,000 Quick engine change"
+     }
+    ]
+   },
+   {
+    "range": "发动机",
+    "id": 72,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "PW127XT-M",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ecf66cdd250fa7890753"
+      ]
+     },
+     {
+      "old": null,
+      "new": "EH0412",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ecf66cdd250fa7890753"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Shannon, Ireland – Lessor Store",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ecf66cdd250fa7890753"
+      ]
+     },
+     {
+      "old": null,
+      "new": "4,150,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ecf66cdd250fa7890753"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Serviceable",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ecf66cdd250fa7890753"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "EH0412"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-ecf66cdd250fa7890753",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       13
+      ],
+      "oldText": "",
+      "newText": "PW127XT-M EH0412 Shannon, Ireland – Lessor Store 4,150,000 Serviceable"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 73,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "1760",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c5551a0957e13214fbf8"
+      ]
+     },
+     {
+      "old": "Caldera Capital Partners LLP",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c5551a0957e13214fbf8"
+      ]
+     },
+     {
+      "old": "Security Trustee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c5551a0957e13214fbf8"
+      ]
+     },
+     {
+      "old": "AVN67C",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-c5551a0957e13214fbf8"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1760"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-c5551a0957e13214fbf8",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "1760 Caldera Capital Partners LLP Security Trustee AVN67C",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 74,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "15423",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dfb81937f1f07f7f70bd"
+      ]
+     },
+     {
+      "old": "Caldera Capital Partners LLP",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dfb81937f1f07f7f70bd"
+      ]
+     },
+     {
+      "old": "Security Trustee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dfb81937f1f07f7f70bd"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dfb81937f1f07f7f70bd"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15423"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-dfb81937f1f07f7f70bd",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "15423 Caldera Capital Partners LLP Security Trustee AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 75,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "4566",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-abae56bb2ed6c969a10d"
+      ]
+     },
+     {
+      "old": "Fenmore Aviation Funding Ltd",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-abae56bb2ed6c969a10d"
+      ]
+     },
+     {
+      "old": "Lender / Loss Payee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-abae56bb2ed6c969a10d"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-abae56bb2ed6c969a10d"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4566"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-abae56bb2ed6c969a10d",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       16
+      ],
+      "rightPages": [],
+      "oldText": "4566 Fenmore Aviation Funding Ltd Lender / Loss Payee AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 76,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "17000873",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dd9902dedb63147be54f"
+      ]
+     },
+     {
+      "old": "Ostra Export Finance Agency",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dd9902dedb63147be54f"
+      ]
+     },
+     {
+      "old": "Lender",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dd9902dedb63147be54f"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-dd9902dedb63147be54f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "17000873"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-dd9902dedb63147be54f",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       16
+      ],
+      "rightPages": [],
+      "oldText": "17000873 Ostra Export Finance Agency Lender AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 77,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Ostra Export Finance Agency",
+      "new": "Northfield Bank plc",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b9e5589975c3f909f943"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "1351"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-b9e5589975c3f909f943",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1351",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       14
+      ],
+      "oldText": "1351 Ostra Export Finance Agency Lender AVN67B",
+      "newText": "1351 Northfield Bank plc Lender AVN67B"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 78,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN67B",
+      "new": "AVN67C",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-47517321d3a9df626c3b"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15393"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-47517321d3a9df626c3b",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15393",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "15393 Harrowgate Leasing Partners No. 3 Ltd Head Lessor AVN67B",
+      "newText": "15393 Harrowgate Leasing Partners No. 3 Ltd Head Lessor AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 79,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "55228",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6d7b6420017294352db1"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Fenmore Aviation Funding Ltd",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6d7b6420017294352db1"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Lender / Loss Payee",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6d7b6420017294352db1"
+      ]
+     },
+     {
+      "old": null,
+      "new": "AVN67C",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6d7b6420017294352db1"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "55228"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-6d7b6420017294352db1",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       16
+      ],
+      "oldText": "",
+      "newText": "55228 Fenmore Aviation Funding Ltd Lender / Loss Payee AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 3,
+    "kind": "Replaced",
+    "verdict": "not_located",
+    "atoms": [
+     {
+      "old": "16th October 2024 to 15th October 2025",
+      "new": "16th October 2025 to 15th October 2026",
+      "state": "not_found",
+      "verdict": "not_located",
+      "reason": "script did not locate either side",
+      "category": null,
+      "accepted": []
+     }
+    ],
+    "expectedIdentity": null,
+    "fullRowRecovered": null,
+    "cards": []
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 55,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "10,270,000",
+      "new": "9,810,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-46bf6443ead528c38341"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4370"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-46bf6443ead528c38341",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4370",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 10,270,000 Andes Pacific Airlines",
+      "newText": "De Havilland Dash 8-400 4370 CC-LUV 2010 78 9,810,000 Andes Pacific Airlines"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 56,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "13,570,000",
+      "new": "12,790,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-10652e8163fa984bf475"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4503"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-10652e8163fa984bf475",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4503",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 13,570,000 Lumen Air",
+      "newText": "De Havilland Dash 8-400 4503 RP-C7626 2018 78 12,790,000 Lumen Air"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 60,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Aurora Regional Airways",
+      "new": "Tasman Commuter",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-117acaab95865f00cf77"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "15361"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-117acaab95865f00cf77",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "15361",
+      "leftPages": [
+       11
+      ],
+      "rightPages": [
+       11
+      ],
+      "oldText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Aurora Regional Airways",
+      "newText": "Bombardier CRJ900 15361 LN-AWL 2014 90 12,170,000 Tasman Commuter"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 61,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Kestrel Connect",
+      "new": "Coral Bay Airways",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-714af9a25d83b7b8138e"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "4551"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-714af9a25d83b7b8138e",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "leftPages": [
+       12
+      ],
+      "rightPages": [
+       12
+      ],
+      "oldText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 91,
+    "kind": "Replaced",
+    "verdict": "not_evaluable",
+    "atoms": [
+     {
+      "old": "USD 350,000,000 Sum",
+      "new": "USD 400,000,000 Sum",
+      "state": "same_card_identity_unconfirmed",
+      "verdict": "not_evaluable",
+      "reason": "same card, but the record identity is unconfirmed",
+      "category": null,
+      "accepted": []
+     },
+     {
+      "old": "USD 2,150",
+      "new": "USD 2,390",
+      "state": "same_card_identity_unconfirmed",
+      "verdict": "not_evaluable",
+      "reason": "same card, but the record identity is unconfirmed",
+      "category": null,
+      "accepted": []
+     },
+     {
+      "old": "USD 1,640",
+      "new": "USD 1,720",
+      "state": "same_card_identity_unconfirmed",
+      "verdict": "not_evaluable",
+      "reason": "same card, but the record identity is unconfirmed",
+      "category": null,
+      "accepted": []
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "2.1"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": null,
+    "cards": []
+   }
+  ],
+  "pageFurniture": [
+   {
+    "id": "H1",
+    "left": "B4417K240093/ALD3392AVN24117",
+    "right": "B4417K250093/ALD3392AVN25129",
+    "cards": [
+     {
+      "id": "d-250aed858feee5cea71c",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 20,
+      "leftPages": 20,
+      "rightPages": 19,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 20 页、待审 19 页；逐处来源见出现位置"
+      ],
+      "oldText": "UMR: B4417K240093/ALD3392AVN24117",
+      "newText": "UMR: B4417K250093/ALD3392AVN25129"
+     }
+    ],
+    "otherCardsWithText": []
+   }
+  ]
+ },
+ "bizav_2024_vs_2025-mupdf": {
+  "keyEvents": [
+   {
+    "range": "机队新增/退出",
+    "id": 41,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Embraer Legacy 500",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2b2a4ead93468eec3efa"
+      ]
+     },
+     {
+      "old": "55000097",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2b2a4ead93468eec3efa"
+      ]
+     },
+     {
+      "old": "9H-FNK",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2b2a4ead93468eec3efa"
+      ]
+     },
+     {
+      "old": "2018",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2b2a4ead93468eec3efa"
+      ]
+     },
+     {
+      "old": "2/8",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2b2a4ead93468eec3efa"
+      ]
+     },
+     {
+      "old": "11,600,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2b2a4ead93468eec3efa"
+      ]
+     },
+     {
+      "old": "USD 150,000,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-2b2a4ead93468eec3efa"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9H-FNK"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-2b2a4ead93468eec3efa",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       13
+      ],
+      "rightPages": [],
+      "oldText": "Embraer Legacy 500 55000097 9H-FNK 2018 2/8 11,600,000 USD 150,000,000",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 63,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Gulfstream G700",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-52c3643cea0685ad2f0a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "85017",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-52c3643cea0685ad2f0a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "M-FNKE",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-52c3643cea0685ad2f0a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-52c3643cea0685ad2f0a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "4/16",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-52c3643cea0685ad2f0a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "78,500,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-52c3643cea0685ad2f0a"
+      ]
+     },
+     {
+      "old": null,
+      "new": "USD 300,000,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-52c3643cea0685ad2f0a"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKE"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-52c3643cea0685ad2f0a",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       13
+      ],
+      "oldText": "",
+      "newText": "Gulfstream G700 85017 M-FNKE 2025 4/16 78,500,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 43,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "28,500,000",
+      "new": "26,400,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4c0dab8fcef367bcb2f1"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKA"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4c0dab8fcef367bcb2f1",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Global 6000",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 28,500,000 USD 300,000,000",
+      "newText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 26,400,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 44,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "48,750,000",
+      "new": "46,100,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-187a3a176c134132ad77"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKC"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-187a3a176c134132ad77",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Gulfstream G650ER",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Gulfstream G650ER 6418 M-FNKC 2020 4/14 48,750,000 USD 300,000,000",
+      "newText": "Gulfstream G650ER 6418 M-FNKC 2020 4/14 46,100,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 45,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "17,900,000",
+      "new": "16,750,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-a1bbbfcbbb2bc59e35d8"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKD"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-a1bbbfcbbb2bc59e35d8",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Gulfstream G280",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Gulfstream G280 2231 M-FNKD 2019 2/9 17,900,000 USD 200,000,000",
+      "newText": "Gulfstream G280 2231 M-FNKD 2019 2/9 16,750,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 46,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "21,400,000",
+      "new": "19,600,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4ceb0bc8539e3510025e"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ZJ-FAL"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4ceb0bc8539e3510025e",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dassault Falcon 7X",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Dassault Falcon 7X 284 ZJ-FAL 2016 3/12 21,400,000 USD 300,000,000",
+      "newText": "Dassault Falcon 7X 284 ZJ-FAL 2016 3/12 19,600,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 47,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "19,250,000",
+      "new": "17,900,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1079203269f11274196f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ZJ-FLX"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-1079203269f11274196f",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dassault Falcon 2000LXS",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 19,250,000 USD 200,000,000",
+      "newText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 17,900,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 48,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "17,300,000",
+      "new": "16,500,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-115982ff0313777f6902"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9H-PRT"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-115982ff0313777f6902",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Embraer Praetor 600",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer Praetor 600 60800112 9H-PRT 2021 2/9 17,300,000 USD 150,000,000",
+      "newText": "Embraer Praetor 600 60800112 9H-PRT 2021 2/9 16,500,000 USD 150,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 49,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "12,100,000",
+      "new": "11,350,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d1fe66672bb5e655e9f8"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-LATT"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d1fe66672bb5e655e9f8",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Cessna Citation Latitude",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 12,100,000 USD 150,000,000",
+      "newText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 11,350,000 USD 150,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 50,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "18,400,000",
+      "new": "17,450,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-81434524be25c231e6a5"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-CHLS"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-81434524be25c231e6a5",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Challenger 350",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 18,400,000 USD 200,000,000",
+      "newText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 17,450,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 51,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "9,200,000",
+      "new": "8,600,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-192d1ce7b89a25f84aea"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-HELI"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-192d1ce7b89a25f84aea",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Airbus Helicopters H145",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 9,200,000 USD 100,000,000",
+      "newText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 8,600,000 USD 100,000,000"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 67,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "9H-FNK",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ec7b6b7e5e5551513cf3"
+      ]
+     },
+     {
+      "old": "Fenmore Aviation Funding Ltd",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ec7b6b7e5e5551513cf3"
+      ]
+     },
+     {
+      "old": "Lender / Loss Payee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ec7b6b7e5e5551513cf3"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-ec7b6b7e5e5551513cf3"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9H-FNK",
+      "Fenmore Aviation Funding Ltd"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-ec7b6b7e5e5551513cf3",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "9H-FNK Fenmore Aviation Funding Ltd Lender / Loss Payee AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 68,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Northfield Bank plc",
+      "new": "Ostra Export Finance Agency",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-572c4f1516f96b567bd7"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKD"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-572c4f1516f96b567bd7",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "M-FNKD",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "M-FNKD Northfield Bank plc Lender / Loss Payee AVN67B",
+      "newText": "M-FNKD Ostra Export Finance Agency Lender / Loss Payee AVN67B"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 69,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN67B",
+      "new": "AVN67C",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b25d1abf64132548e030"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKB",
+      "Selwyn Aircraft Finance Designated Activity Company"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-b25d1abf64132548e030",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Selwyn Aircraft Finance Designated Activity Company",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67B",
+      "newText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 70,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "M-FNKE",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b78f6dd13df920aa3cc8"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Northfield Bank plc",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b78f6dd13df920aa3cc8"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Lender / Loss Payee",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b78f6dd13df920aa3cc8"
+      ]
+     },
+     {
+      "old": null,
+      "new": "AVN67C",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b78f6dd13df920aa3cc8"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKE",
+      "Northfield Bank plc"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-b78f6dd13df920aa3cc8",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       15
+      ],
+      "oldText": "",
+      "newText": "M-FNKE Northfield Bank plc Lender / Loss Payee AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "机库",
+    "id": 71,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "M-FNKA, M-FNKD",
+      "new": "M-FNKA, M-FNKD, M-FNKE",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Review",
+      "accepted": [
+       "d-fb9c85e693aa064767c4"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Isle of Man (EGNS)"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-fb9c85e693aa064767c4",
+      "kind": "Replaced",
+      "category": "Review",
+      "method": "row-identity",
+      "rowKey": "Isle of Man (EGNS)",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "Isle of Man (EGNS) Ronaldsway Aviation Services M-FNKA, M-FNKD, M-PCNG, M-HELI Shared",
+      "newText": "Isle of Man (EGNS) Ronaldsway Aviation Services M-FNKA, M-FNKD, M-FNKE, M-PCNG, M-HELI Shared"
+     }
+    ]
+   },
+   {
+    "range": "机库",
+    "id": 72,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Malta (LMML)",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3b0f81140821fde6da1a"
+      ]
+     },
+     {
+      "old": "Valletta Business Aviation",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3b0f81140821fde6da1a"
+      ]
+     },
+     {
+      "old": "9H-FNK",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3b0f81140821fde6da1a"
+      ]
+     },
+     {
+      "old": "Shared",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-3b0f81140821fde6da1a"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Malta (LMML)"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-3b0f81140821fde6da1a",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "Malta (LMML) Valletta Business Aviation 9H-FNK Shared",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机库",
+    "id": 73,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Al Maktoum Executive Hangars",
+      "new": "Desert Falcon Hangar Company",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d85be33ed74f0acab9a0"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Dubai (OMDW)"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d85be33ed74f0acab9a0",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dubai (OMDW)",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "Dubai (OMDW) Al Maktoum Executive Hangars M-CHLS, 9H-PRT Shared",
+      "newText": "Dubai (OMDW) Desert Falcon Hangar Company M-CHLS, 9H-PRT Shared"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 5,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "From 1 June 2024 to 31 May 2025",
+      "new": "From 1 June 2025 to 31 May 2026",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4a46c9615f18f2969646"
+      ]
+     }
+    ],
+    "expectedIdentity": null,
+    "fullRowRecovered": null,
+    "cards": [
+     {
+      "id": "d-4a46c9615f18f2969646",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "joint-local-alignment",
+      "rowKey": null,
+      "leftPages": [
+       2
+      ],
+      "rightPages": [
+       2
+      ],
+      "oldText": "From 1 June 2024 to 31 May 2025 both days inclusive Standard",
+      "newText": "From 1 June 2025 to 31 May 2026 both days inclusive Standard"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 43,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "28,500,000",
+      "new": "26,400,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4c0dab8fcef367bcb2f1"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKA"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4c0dab8fcef367bcb2f1",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Global 6000",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 28,500,000 USD 300,000,000",
+      "newText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 26,400,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 47,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "19,250,000",
+      "new": "17,900,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-1079203269f11274196f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ZJ-FLX"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-1079203269f11274196f",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dassault Falcon 2000LXS",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 19,250,000 USD 200,000,000",
+      "newText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 17,900,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 49,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "12,100,000",
+      "new": "11,350,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-d1fe66672bb5e655e9f8"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-LATT"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d1fe66672bb5e655e9f8",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Cessna Citation Latitude",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 12,100,000 USD 150,000,000",
+      "newText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 11,350,000 USD 150,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 50,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "18,400,000",
+      "new": "17,450,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-81434524be25c231e6a5"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-CHLS"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-81434524be25c231e6a5",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Challenger 350",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 18,400,000 USD 200,000,000",
+      "newText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 17,450,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 51,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "9,200,000",
+      "new": "8,600,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-192d1ce7b89a25f84aea"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-HELI"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-192d1ce7b89a25f84aea",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Airbus Helicopters H145",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 9,200,000 USD 100,000,000",
+      "newText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 8,600,000 USD 100,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 69,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN67B",
+      "new": "AVN67C",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-b25d1abf64132548e030"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKB",
+      "Selwyn Aircraft Finance Designated Activity Company"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-b25d1abf64132548e030",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Selwyn Aircraft Finance Designated Activity Company",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67B",
+      "newText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67C"
+     }
+    ]
+   }
+  ],
+  "pageFurniture": [
+   {
+    "id": "H1",
+    "left": "B0731AVNGN2240088",
+    "right": "B0731AVNGN2250088",
+    "cards": [
+     {
+      "id": "d-a0a287292bd880a34f31",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "B0731AVNGN2240088",
+      "newText": "B0731AVNGN2250088"
+     },
+     {
+      "id": "d-f4a684f57d010fed8d15",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "9921/9921/N/A/B0731AVNGN2240088",
+      "newText": "9921/9921/N/A/B0731AVNGN2250088"
+     }
+    ],
+    "otherCardsWithText": [
+     {
+      "id": "d-82d38dba5d0aaf0ee53d",
+      "kind": "Replaced",
+      "category": "Material",
+      "section": "clauses",
+      "oldText": "Unique Market Reference / Contract Number: B0731AVNGN2240088",
+      "newText": "Unique Market Reference / Contract Number: B0731AVNGN2250088"
+     },
+     {
+      "id": "d-825dbb4e96e95802c0f4",
+      "kind": "Replaced",
+      "category": "Material",
+      "section": "clauses",
+      "oldText": "B0731AVNGN2240088",
+      "newText": "B0731AVNGN2250088"
+     }
+    ]
+   },
+   {
+    "id": "H2",
+    "left": "CLW01008621900",
+    "right": "CLW01009337400",
+    "cards": [
+     {
+      "id": "d-0719c7ae7254ad353ef6",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "C L W 0 1 0 0 8 6 2 1 9 0 0",
+      "newText": "C L W 0 1 0 0 9 3 3 7 4 0 0"
+     }
+    ],
+    "otherCardsWithText": []
+   },
+   {
+    "id": "H3",
+    "left": "",
+    "right": "Draft",
+    "cards": [
+     {
+      "id": "d-b250ffb977a3507ff701",
+      "kind": "Added",
+      "category": "Review",
+      "occurrences": 38,
+      "leftPages": 0,
+      "rightPages": 19,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 0 页、待审 19 页，仅待审版有；逐处来源见出现位置"
+      ],
+      "oldText": "",
+      "newText": "Draft"
+     }
+    ],
+    "otherCardsWithText": []
+   },
+   {
+    "id": "H4",
+    "left": "Page n of N",
+    "right": "Page n of N（N 不同）",
+    "cards": [
+     {
+      "id": "d-940e8ae601a4e7abbe0a",
+      "kind": "Replaced",
+      "category": "Cosmetic",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页码，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "Page 1 of 17",
+      "newText": "Page 1 of 18"
+     }
+    ],
+    "otherCardsWithText": []
+   }
+  ]
+ },
+ "bizav_2024_vs_2025-pdfjs": {
+  "keyEvents": [
+   {
+    "range": "机队新增/退出",
+    "id": 41,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Embraer Legacy 500",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-70209481bd3fa99b943f"
+      ]
+     },
+     {
+      "old": "55000097",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-70209481bd3fa99b943f"
+      ]
+     },
+     {
+      "old": "9H-FNK",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-70209481bd3fa99b943f"
+      ]
+     },
+     {
+      "old": "2018",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-70209481bd3fa99b943f"
+      ]
+     },
+     {
+      "old": "2/8",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-70209481bd3fa99b943f"
+      ]
+     },
+     {
+      "old": "11,600,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-70209481bd3fa99b943f"
+      ]
+     },
+     {
+      "old": "USD 150,000,000",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-70209481bd3fa99b943f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9H-FNK"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-70209481bd3fa99b943f",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       13
+      ],
+      "rightPages": [],
+      "oldText": "Embraer Legacy 500 55000097 9H-FNK 2018 2/8 11,600,000 USD 150,000,000",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机队新增/退出",
+    "id": 63,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "Gulfstream G700",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4bc5afa6b5bdef0abc4f"
+      ]
+     },
+     {
+      "old": null,
+      "new": "85017",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4bc5afa6b5bdef0abc4f"
+      ]
+     },
+     {
+      "old": null,
+      "new": "M-FNKE",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4bc5afa6b5bdef0abc4f"
+      ]
+     },
+     {
+      "old": null,
+      "new": "2025",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4bc5afa6b5bdef0abc4f"
+      ]
+     },
+     {
+      "old": null,
+      "new": "4/16",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4bc5afa6b5bdef0abc4f"
+      ]
+     },
+     {
+      "old": null,
+      "new": "78,500,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4bc5afa6b5bdef0abc4f"
+      ]
+     },
+     {
+      "old": null,
+      "new": "USD 300,000,000",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4bc5afa6b5bdef0abc4f"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKE"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4bc5afa6b5bdef0abc4f",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       13
+      ],
+      "oldText": "",
+      "newText": "Gulfstream G700 85017 M-FNKE 2025 4/16 78,500,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 43,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "28,500,000",
+      "new": "26,400,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-03b893082395430facca"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKA"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-03b893082395430facca",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Global 6000",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 28,500,000 USD 300,000,000",
+      "newText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 26,400,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 44,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "48,750,000",
+      "new": "46,100,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-faa82465b7a8e3d8b1ed"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKC"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-faa82465b7a8e3d8b1ed",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Gulfstream G650ER",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Gulfstream G650ER 6418 M-FNKC 2020 4/14 48,750,000 USD 300,000,000",
+      "newText": "Gulfstream G650ER 6418 M-FNKC 2020 4/14 46,100,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 45,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "17,900,000",
+      "new": "16,750,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-58a5db14660e43bb13c6"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKD"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-58a5db14660e43bb13c6",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Gulfstream G280",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Gulfstream G280 2231 M-FNKD 2019 2/9 17,900,000 USD 200,000,000",
+      "newText": "Gulfstream G280 2231 M-FNKD 2019 2/9 16,750,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 46,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "21,400,000",
+      "new": "19,600,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-02e2c4121e0f07f23b0c"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ZJ-FAL"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-02e2c4121e0f07f23b0c",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dassault Falcon 7X",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Dassault Falcon 7X 284 ZJ-FAL 2016 3/12 21,400,000 USD 300,000,000",
+      "newText": "Dassault Falcon 7X 284 ZJ-FAL 2016 3/12 19,600,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 47,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "19,250,000",
+      "new": "17,900,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4e8e4857b4ab8a449880"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ZJ-FLX"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4e8e4857b4ab8a449880",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dassault Falcon 2000LXS",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 19,250,000 USD 200,000,000",
+      "newText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 17,900,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 48,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "17,300,000",
+      "new": "16,500,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-6582640995c4859ccb3b"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9H-PRT"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-6582640995c4859ccb3b",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Embraer Praetor 600",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Embraer Praetor 600 60800112 9H-PRT 2021 2/9 17,300,000 USD 150,000,000",
+      "newText": "Embraer Praetor 600 60800112 9H-PRT 2021 2/9 16,500,000 USD 150,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 49,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "12,100,000",
+      "new": "11,350,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9ab5eacdd062a8144957"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-LATT"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-9ab5eacdd062a8144957",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Cessna Citation Latitude",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 12,100,000 USD 150,000,000",
+      "newText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 11,350,000 USD 150,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 50,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "18,400,000",
+      "new": "17,450,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4cf3bf601add02bee682"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-CHLS"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4cf3bf601add02bee682",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Challenger 350",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 18,400,000 USD 200,000,000",
+      "newText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 17,450,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "机队价值重估",
+    "id": 51,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "9,200,000",
+      "new": "8,600,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-278e71552afd24cfc548"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-HELI"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-278e71552afd24cfc548",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Airbus Helicopters H145",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 9,200,000 USD 100,000,000",
+      "newText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 8,600,000 USD 100,000,000"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 67,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "9H-FNK",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4556b2b2ea0c44f0967a"
+      ]
+     },
+     {
+      "old": "Fenmore Aviation Funding Ltd",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4556b2b2ea0c44f0967a"
+      ]
+     },
+     {
+      "old": "Lender / Loss Payee",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4556b2b2ea0c44f0967a"
+      ]
+     },
+     {
+      "old": "AVN67B",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4556b2b2ea0c44f0967a"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "9H-FNK",
+      "Fenmore Aviation Funding Ltd"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4556b2b2ea0c44f0967a",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "9H-FNK Fenmore Aviation Funding Ltd Lender / Loss Payee AVN67B",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 68,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Northfield Bank plc",
+      "new": "Ostra Export Finance Agency",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f64988c758864ec48786"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKD"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-f64988c758864ec48786",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "M-FNKD",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "M-FNKD Northfield Bank plc Lender / Loss Payee AVN67B",
+      "newText": "M-FNKD Ostra Export Finance Agency Lender / Loss Payee AVN67B"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 69,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN67B",
+      "new": "AVN67C",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-fb8e2504d83024665d58"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKB",
+      "Selwyn Aircraft Finance Designated Activity Company"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-fb8e2504d83024665d58",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Selwyn Aircraft Finance Designated Activity Company",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67B",
+      "newText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "合同方",
+    "id": 70,
+    "kind": "Added",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": null,
+      "new": "M-FNKE",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f61cc663d7ff293f9615"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Northfield Bank plc",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f61cc663d7ff293f9615"
+      ]
+     },
+     {
+      "old": null,
+      "new": "Lender / Loss Payee",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f61cc663d7ff293f9615"
+      ]
+     },
+     {
+      "old": null,
+      "new": "AVN67C",
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-f61cc663d7ff293f9615"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKE",
+      "Northfield Bank plc"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-f61cc663d7ff293f9615",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [],
+      "rightPages": [
+       15
+      ],
+      "oldText": "",
+      "newText": "M-FNKE Northfield Bank plc Lender / Loss Payee AVN67C"
+     }
+    ]
+   },
+   {
+    "range": "机库",
+    "id": 71,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "M-FNKA, M-FNKD",
+      "new": "M-FNKA, M-FNKD, M-FNKE",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Review",
+      "accepted": [
+       "d-d8dbe3aabd011c8e7bcf"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Isle of Man (EGNS)"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-d8dbe3aabd011c8e7bcf",
+      "kind": "Replaced",
+      "category": "Review",
+      "method": "row-identity",
+      "rowKey": "Isle of Man (EGNS)",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "Isle of Man (EGNS) Ronaldsway Aviation Services M-FNKA, M-FNKD, M-PCNG, M-HELI Shared",
+      "newText": "Isle of Man (EGNS) Ronaldsway Aviation Services M-FNKA, M-FNKD, M-FNKE, M-PCNG, M-HELI Shared"
+     }
+    ]
+   },
+   {
+    "range": "机库",
+    "id": 72,
+    "kind": "Removed",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Malta (LMML)",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-63ae2e73b72f51f02445"
+      ]
+     },
+     {
+      "old": "Valletta Business Aviation",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-63ae2e73b72f51f02445"
+      ]
+     },
+     {
+      "old": "9H-FNK",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-63ae2e73b72f51f02445"
+      ]
+     },
+     {
+      "old": "Shared",
+      "new": null,
+      "state": "in_record",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-63ae2e73b72f51f02445"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Malta (LMML)"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-63ae2e73b72f51f02445",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "leftPages": [
+       15
+      ],
+      "rightPages": [],
+      "oldText": "Malta (LMML) Valletta Business Aviation 9H-FNK Shared",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "range": "机库",
+    "id": 73,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "Al Maktoum Executive Hangars",
+      "new": "Desert Falcon Hangar Company",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-caa31504859224a5b529"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "Dubai (OMDW)"
+     ],
+     "source": "identifier_like_cell"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-caa31504859224a5b529",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dubai (OMDW)",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "Dubai (OMDW) Al Maktoum Executive Hangars M-CHLS, 9H-PRT Shared",
+      "newText": "Dubai (OMDW) Desert Falcon Hangar Company M-CHLS, 9H-PRT Shared"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 5,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "From 1 June 2024 to 31 May 2025",
+      "new": "From 1 June 2025 to 31 May 2026",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-5c69ea543dc31d7dd29c"
+      ]
+     }
+    ],
+    "expectedIdentity": null,
+    "fullRowRecovered": null,
+    "cards": [
+     {
+      "id": "d-5c69ea543dc31d7dd29c",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "joint-local-alignment",
+      "rowKey": null,
+      "leftPages": [
+       2
+      ],
+      "rightPages": [
+       2
+      ],
+      "oldText": "From 1 June 2024 to 31 May 2025 both days inclusive Standard",
+      "newText": "From 1 June 2025 to 31 May 2026 both days inclusive Standard"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 43,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "28,500,000",
+      "new": "26,400,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-03b893082395430facca"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKA"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-03b893082395430facca",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Global 6000",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 28,500,000 USD 300,000,000",
+      "newText": "Bombardier Global 6000 9781 M-FNKA 2017 4/13 26,400,000 USD 300,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 47,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "19,250,000",
+      "new": "17,900,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4e8e4857b4ab8a449880"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "ZJ-FLX"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4e8e4857b4ab8a449880",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Dassault Falcon 2000LXS",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 19,250,000 USD 200,000,000",
+      "newText": "Dassault Falcon 2000LXS 352 ZJ-FLX 2018 2/10 17,900,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 49,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "12,100,000",
+      "new": "11,350,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-9ab5eacdd062a8144957"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-LATT"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-9ab5eacdd062a8144957",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Cessna Citation Latitude",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 12,100,000 USD 150,000,000",
+      "newText": "Cessna Citation Latitude 680A-0311 M-LATT 2020 2/8 11,350,000 USD 150,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 50,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "18,400,000",
+      "new": "17,450,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-4cf3bf601add02bee682"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-CHLS"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-4cf3bf601add02bee682",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Bombardier Challenger 350",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 18,400,000 USD 200,000,000",
+      "newText": "Bombardier Challenger 350 20864 M-CHLS 2021 2/9 17,450,000 USD 200,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 51,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "9,200,000",
+      "new": "8,600,000",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-278e71552afd24cfc548"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-HELI"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-278e71552afd24cfc548",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Airbus Helicopters H145",
+      "leftPages": [
+       13
+      ],
+      "rightPages": [
+       13
+      ],
+      "oldText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 9,200,000 USD 100,000,000",
+      "newText": "Airbus Helicopters H145 20517 M-HELI 2019 1/8 8,600,000 USD 100,000,000"
+     }
+    ]
+   },
+   {
+    "range": "保期与换行/合并残留",
+    "id": 69,
+    "kind": "Replaced",
+    "verdict": "correct",
+    "atoms": [
+     {
+      "old": "AVN67B",
+      "new": "AVN67C",
+      "state": "same_card",
+      "verdict": "correct",
+      "reason": "",
+      "category": "Material",
+      "accepted": [
+       "d-fb8e2504d83024665d58"
+      ]
+     }
+    ],
+    "expectedIdentity": {
+     "cells": [
+      "M-FNKB",
+      "Selwyn Aircraft Finance Designated Activity Company"
+     ],
+     "source": "author_block_id"
+    },
+    "fullRowRecovered": true,
+    "cards": [
+     {
+      "id": "d-fb8e2504d83024665d58",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "Selwyn Aircraft Finance Designated Activity Company",
+      "leftPages": [
+       15
+      ],
+      "rightPages": [
+       15
+      ],
+      "oldText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67B",
+      "newText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67C"
+     }
+    ]
+   }
+  ],
+  "pageFurniture": [
+   {
+    "id": "H1",
+    "left": "B0731AVNGN2240088",
+    "right": "B0731AVNGN2250088",
+    "cards": [
+     {
+      "id": "d-b72685c04485b66093f9",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "B0731AVNGN2240088",
+      "newText": "B0731AVNGN2250088"
+     },
+     {
+      "id": "d-2e06c512c4fd4bbdc1a8",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "9921/9921/N/A/B0731AVNGN2240088",
+      "newText": "9921/9921/N/A/B0731AVNGN2250088"
+     }
+    ],
+    "otherCardsWithText": [
+     {
+      "id": "d-a95f35177f8c97052561",
+      "kind": "Replaced",
+      "category": "Material",
+      "section": "clauses",
+      "oldText": "Unique Market Reference / Contract Number: B0731AVNGN2240088",
+      "newText": "Unique Market Reference / Contract Number: B0731AVNGN2250088"
+     },
+     {
+      "id": "d-a71e6cc5ebbc93277c2a",
+      "kind": "Replaced",
+      "category": "Material",
+      "section": "clauses",
+      "oldText": "B0731AVNGN2240088",
+      "newText": "B0731AVNGN2250088"
+     }
+    ]
+   },
+   {
+    "id": "H2",
+    "left": "CLW01008621900",
+    "right": "CLW01009337400",
+    "cards": [
+     {
+      "id": "d-fbfba506cbab8d525a34",
+      "kind": "Replaced",
+      "category": "Review",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "C L W 0 1 0 0 8 6 2 1 9 0 0",
+      "newText": "C L W 0 1 0 0 9 3 3 7 4 0 0"
+     }
+    ],
+    "otherCardsWithText": []
+   },
+   {
+    "id": "H3",
+    "left": "",
+    "right": "Draft",
+    "cards": [
+     {
+      "id": "d-2299f9c43e4b5e963879",
+      "kind": "Added",
+      "category": "Review",
+      "occurrences": 38,
+      "leftPages": 0,
+      "rightPages": 19,
+      "reviewReasons": [
+       "页面附属：跨页重复的页眉页脚文字，基准 0 页、待审 19 页，仅待审版有；逐处来源见出现位置"
+      ],
+      "oldText": "",
+      "newText": "Draft"
+     }
+    ],
+    "otherCardsWithText": []
+   },
+   {
+    "id": "H4",
+    "left": "Page n of N",
+    "right": "Page n of N（N 不同）",
+    "cards": [
+     {
+      "id": "d-f7e713c0b2bcf6239a45",
+      "kind": "Replaced",
+      "category": "Cosmetic",
+      "occurrences": 18,
+      "leftPages": 17,
+      "rightPages": 18,
+      "reviewReasons": [
+       "页面附属：跨页重复的页码，基准 17 页、待审 18 页；逐处来源见出现位置"
+      ],
+      "oldText": "Page 1 of 17",
+      "newText": "Page 1 of 18"
+     }
+    ],
+    "otherCardsWithText": []
+   }
+  ]
+ }
+}

@@ -5,7 +5,26 @@
   "oracle_origin": "explicit_source_mutation",
   "scope": "extracted_text",
   "required_status": "complete_for_scope",
-  "events": [],
+  "events": [
+    {
+      "event_id": "R16_repagination:E1",
+      "logical_path": "document.page_heading.policy_wording",
+      "operation": "add",
+      "old": null,
+      "new": "POLICY WORDING",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Added"
+      ],
+      "acceptable_categories": [
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
   "invariants": [
     "no_material_differences",
     "no_false_clause_moves",
@@ -13,7 +32,19 @@
   ],
   "coverage_requirements": [],
   "default_text_change_visibility": "visible_no_automatic_folding",
-  "notes": [],
+  "notes": [
+    "重分页实际新增页标题 POLICY WORDING（待审版第 2 页），登记为 Added/Review 必检事件；条款正文只换页、不增删。"
+  ],
   "source_sha256": "bcb90ee3a8ecfb5c99914440a9db64aa2c27e9f0e6540a30e4f802b0a7cc2109",
-  "evidence_locations": {}
+  "evidence_locations": {
+    "R16_repagination:E1": {
+      "before": [],
+      "after": [
+        {
+          "page_index": 1,
+          "run_id": "run_0027"
+        }
+      ]
+    }
+  }
 }

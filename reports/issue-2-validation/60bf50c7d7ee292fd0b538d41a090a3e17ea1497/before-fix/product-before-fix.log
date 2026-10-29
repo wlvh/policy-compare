@@ -1,0 +1,97 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/review-core.test.ts (13 tests | 1 failed) 115ms
+   ✓ independent review regressions F1/F3/F4 (10)
+     ✓ F1 repeated keys cannot erase swaps when heading ownership is stable 29ms
+     ✓ F1 repeated keys cannot erase swaps when heading ownership is unresolved 12ms
+     ✓ F1 preserves section-field ownership (top=true, qualifier=false) 4ms
+     ✓ F1 preserves section-field ownership (top=true, qualifier=true) 5ms
+     ✓ F1 preserves section-field ownership (top=false, qualifier=false) 3ms
+     ✓ F1 preserves section-field ownership (top=false, qualifier=true) 5ms
+     ✓ F3 local ambiguity does not suppress independent addition 9ms
+     ✓ F3 local ambiguity does not suppress independent removal 4ms
+     ✓ F4 renewal requires unchanged non-date content (date-only control) 5ms
+     ✓ F4 renewal requires unchanged non-date content (mixed change) 3ms
+   ❯ explicit numbered chapter headings keep field ownership (3)
+     × SECTION 10.1 / SECTION 10.2: only the first sum insured changes 24ms
+     ✓ CHAPTER 3 / CHAPTER 4: only the first sum insured changes 3ms
+     ✓ SECTION A / SECTION B: only the first sum insured changes 6ms
+ ❯ tests/table-scope.test.ts (26 tests | 1 failed) 206ms
+   ✓ wrapped table cells stay with their row (3)
+     ✓ a wrapped list cell does not become a heading that splits the table 42ms
+     ✓ an amount after a wrapped cell is compared on its own record 25ms
+     ✓ in a compact table the next row is never taken for a wrapped line 5ms
+   ✓ identical text does not consume a record from another table (2)
+     ✓ an unchanged copy added to another schedule does not hide a value change 6ms
+     ✓ exact split/merge cannot take a row that identity evidence binds 10ms
+   ✓ cells centred on their row (LibreOffice, spreadsheets) (2)
+     ✓ a change in a centred cell stays on its record and nothing else changes 13ms
+     ✓ adjacent centred cells join the row through each other 15ms
+   ✓ identity cells keep their recovered column (review of PR #9) (1)
+     ✓ a name that moved to another column does not make two records one 3ms
+   ✓ amounts and unexplained bare numbers are not record identity (15)
+     ✓ an equal 100000 does not bind two companies 18ms
+     ✓ an equal JPY 100000 does not bind two companies 3ms
+     ✓ an equal 100000 does not bind two companies under a header 4ms
+     ✓ an equal JPY 100000 does not bind two companies under a header 3ms
+     ✓ an equal value does not bind two different MSNs in an all-number row 3ms
+     ✓ an equal USD100000 does not bind two companies 2ms
+     ✓ an equal 100000JPY does not bind two companies 2ms
+     ✓ an equal 2025-01-01 does not bind two companies 2ms
+     ✓ an equal 1 January 2025 does not bind two companies 3ms
+     ✓ an equal USD100000 does not bind two companies under a header 3ms
+     ✓ an equal 100000JPY does not bind two companies under a header 3ms
+     ✓ an equal 2025-01-01 does not bind two companies under a header 3ms
+     ✓ an equal 1 January 2025 does not bind two companies under a header 3ms
+     ✓ a registration that contains a currency code still identifies the record 4ms
+     ✓ a bare MSN under its local MSN header still identifies the record 3ms
+   ❯ an explicitly headed MSN column is not a row counter (3)
+     ✓ MSN 01 and 02 kept while the names swap stay a visible conflict 5ms
+     × MSN 1 and 2 kept while the names swap stay a visible conflict 14ms
+     ✓ a No. column counting 1..n is still a row number when a row is inserted 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/review-core.test.ts > explicit numbered chapter headings keep field ownership > SECTION 10.1 / SECTION 10.2: only the first sum insured changes
+AssertionError: expected 'partial' to be 'complete_for_scope' // Object.is equality
+
+Expected: "complete_for_scope"
+Received: "partial"
+
+ ❯ tests/review-core.test.ts:41:20
+     39|   const doc=(value:string)=>textDoc([{text:first,y:170},{text:`SUM INS…
+     40|   const r=ResultSchema.parse(compare(doc('100,000'),doc('150,000')));
+     41|   expect(r.status).toBe('complete_for_scope');expect(r.unresolved).toH…
+       |                    ^
+     42|   const changed=r.differences.filter(d=>d.hasTextChange);expect(change…
+     43|   expect(changed[0].structurePath?.section).toBe(first);expect(changed…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/table-scope.test.ts > an explicitly headed MSN column is not a row counter > MSN 1 and 2 kept while the names swap stay a visible conflict
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/table-scope.test.ts:307:84
+    305|         ),
+    306|       );
+    307|       expect(r.differences.some((d) => d.matchEvidence.method === "row…
+       |                                                                                    ^
+    308|       expect(r.unresolved.some((u) => u.reason === "ambiguous_identity…
+    309|       expect(r.status).toBe("partial");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 37 passed (39)
+   Start at  06:45:21
+   Duration  475ms (tests 54%, import 33%, transform 12%, worker 1%)
+
+JSON report written to reports/core-tests.json

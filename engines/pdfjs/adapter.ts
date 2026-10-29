@@ -102,7 +102,7 @@ export class PdfJsSession implements PdfSessionApi {
       extractor: {
         name: "PDF.js",
         version: EXTRACTOR_VERSION,
-        adapterVersion: "pdfjs-adapter/2",
+        adapterVersion: "pdfjs-adapter/3",
         options: {
           ...TEXT_OPTIONS,
           geometry: "engine_run; browser text_layer_range",

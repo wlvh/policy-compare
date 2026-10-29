@@ -1,0 +1,33 @@
+{
+ "candidateCards": {
+  "editShown=None accepted=False": 32,
+  "editShown=None accepted=True": 199,
+  "editShown=True accepted=False": 572,
+  "editShown=True accepted=True": 1876
+ },
+ "probe": {
+  "result": "aviation_2024_vs_2025-mupdf.json.gz",
+  "as_saved": {
+   "verdicts": {
+    "correct": 82,
+    "not_located": 4,
+    "not_evaluable": 2,
+    "split_attributable": 1,
+    "partly_located": 3
+   },
+   "acceptedCards": 89,
+   "unexplainedCards": 10
+  },
+  "replaced_cards_without_edits": {
+   "verdicts": {
+    "not_evaluable": 58,
+    "not_located": 4,
+    "split_attributable": 1,
+    "correct": 28,
+    "partly_located": 1
+   },
+   "acceptedCards": 31,
+   "unexplainedCards": 67
+  }
+ }
+}

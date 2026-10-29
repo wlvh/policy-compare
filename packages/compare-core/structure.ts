@@ -12,11 +12,75 @@ export type Unit = MappedText & {
   tableRow?: string;
   /** Cell texts of a row recovered from one baseline, left to right. */
   rowCells?: string[];
+  /** Horizontal extent of each recovered cell, in page units. */
+  rowSpans?: [number, number][];
   /** Repeated page furniture: digit pattern, position and page numbering. */
   furniture?: Furniture;
   title: string;
 };
-export type Furniture = { pattern: string; y: number; pageNumber: boolean };
+export type Furniture = {
+  pattern: string;
+  /** Place of the repeated line: left and right edge and baseline. */
+  x0: number;
+  x1: number;
+  y: number;
+  pageNumber: boolean;
+  /** Positions, among the line's numbers, of its page counter and page total. */
+  pageTokens: number[];
+};
+const NUMBER = /\p{N}+(?:[.,]\p{N}+)*/gu;
+/**
+ * Page-number expressions: "Page 3", "Page 3 of 10" or "Page 3/10" anywhere in
+ * a line, or a line that holds nothing but the page number ("3", "- 3 -",
+ * "3 / 10"). An "of", a slash or a number that counts with the pages is not a
+ * page number by itself.
+ */
+const PAGE_EXPRESSIONS = [
+  /\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/dgiu,
+  /^[^\p{L}\p{N}]*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?[^\p{L}\p{N}]*$/dgiu,
+];
+/** Positions, among a line's numbers, of page counters and page totals. */
+export function pageSlots(text: string) {
+  const starts = [...text.matchAll(NUMBER)].map((m) => m.index),
+    counter: number[] = [],
+    total: number[] = [];
+  for (const re of PAGE_EXPRESSIONS)
+    for (const m of text.matchAll(re)) {
+      const [, n, of] = m.indices!;
+      counter.push(starts.indexOf(n![0]));
+      if (of) total.push(starts.indexOf(of[0]));
+    }
+  return { counter, total };
+}
+/**
+ * Text with its explicit "Page n" expressions left out. A line that is not
+ * repeated furniture has no page counting to show that a bare number is one.
+ */
+export const withoutPageNumbers = (text: string) =>
+  text.replace(PAGE_EXPRESSIONS[0], " ").trim();
+/**
+ * Furniture text with its whole page-number expressions ("Page n of N", "- n -")
+ * left out, but only those whose counter is a confirmed page token.
+ */
+export function withoutFurniturePages(text: string, f: Furniture) {
+  const starts = [...text.matchAll(NUMBER)].map((m) => m.index),
+    drop = new Set<number>();
+  for (const re of PAGE_EXPRESSIONS)
+    for (const m of text.matchAll(re))
+      if (f.pageTokens.includes(starts.indexOf(m.indices![1]![0])))
+        for (let i = m.index!; i < m.index! + m[0].length; i++) drop.add(i);
+  return text
+    .split("")
+    .filter((_, i) => !drop.has(i))
+    .join("");
+}
+/** Furniture text with only its confirmed page-number parts replaced. */
+export function furnitureContent(text: string, f: Furniture) {
+  let k = 0;
+  return text
+    .trim()
+    .replace(NUMBER, (n) => (f.pageTokens.includes(k++) ? "#" : n));
+}
 type Line = { p: DocInput["pages"][number]; refs: Ref[]; text: string };
 const span = (g: Line) => {
   const xs = g.refs.flatMap((r) => [0, 2, 4, 6].map((k) => r.char.quad[k]));
@@ -41,12 +105,16 @@ function documentLines(doc: DocInput) {
   );
   return { separators, lines: all.filter((r) => !separators.includes(r)) };
 }
-export type FurnitureSignature = Furniture & { x0: number; x1: number };
+export type FurnitureSignature = Furniture;
 /**
  * Page furniture is a line repeated at the same place in the top or bottom
  * band of at least three pages and 40% of a document. Digits are replaced
- * only to find candidates: a number that differs between pages must count
- * with the page (a page number); otherwise the line is content.
+ * only to find candidates. Each number of the line must then stay the same on
+ * every page or be the page counter of a page-number expression, counting with
+ * the page; a constant number in the total place of that expression is the
+ * page total. Any other changing number makes the line content. Only the
+ * counter and total are page-number parts; other numbers, even one equal to
+ * the page total or one that counts with the pages, are content.
  */
 function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
   const need = Math.max(3, Math.ceil(0.4 * pageCount)),
@@ -64,20 +132,27 @@ function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
         !c.members.some((m) => m.p === g.p),
     );
     if (group) group.members.push(g);
-    else groups.push({ pattern, x0, x1, y, pageNumber: false, members: [g] });
+    else groups.push({ pattern, x0, x1, y, pageNumber: false, pageTokens: [], members: [g] });
   }
   return groups.flatMap(({ members, ...c }) => {
     if (members.length < need) return [];
-    const runs = members.map((m) => (m.text.match(/\p{N}+/gu) ?? []).map(Number)),
-      varying = new Set(members.map((m) => m.text.trim())).size > 1;
-    const counted = runs[0].every((_, j) =>
-      runs.every(
-        (r, n) =>
-          r[j] === runs[0][j] ||
-          r[j] - members[n].p.pageIndex === runs[0][j] - members[0].p.pageIndex,
+    const values = members.map((m) =>
+        (m.text.match(NUMBER) ?? []).map((n) => Number(n.replace(/[.,]/g, ""))),
       ),
+      positions = values[0].map((_, j) => j),
+      slots = pageSlots(members[0].text.trim()),
+      fixed = (j: number) => values.every((v) => v[j] === values[0][j]),
+      counters = positions.filter(
+        (j) =>
+          !fixed(j) &&
+          slots.counter.includes(j) &&
+          new Set(values.map((v, n) => v[j] - members[n].p.pageIndex)).size === 1,
+      );
+    if (positions.some((j) => !fixed(j) && !counters.includes(j))) return [];
+    const pageTokens = positions.filter(
+      (j) => counters.includes(j) || (counters.length > 0 && fixed(j) && slots.total.includes(j)),
     );
-    return varying && !counted ? [] : [{ ...c, pageNumber: varying }];
+    return [{ ...c, pageNumber: counters.length > 0, pageTokens }];
   });
 }
 /** Furniture signatures of one document, shared with the other document. */
@@ -102,7 +177,15 @@ function pageFurniture(lines: Line[], known: FurnitureSignature[]) {
           Math.abs(c.y - top(g)) <= 2 &&
           (Math.abs(c.x0 - x0) <= 2 || Math.abs(c.x1 - x1) <= 2),
       );
-    if (s) found.set(g, { pattern, y: s.y, pageNumber: s.pageNumber });
+    if (s)
+      found.set(g, {
+        pattern,
+        x0: s.x0,
+        x1: s.x1,
+        y: s.y,
+        pageNumber: s.pageNumber,
+        pageTokens: s.pageTokens,
+      });
   }
   for (const g of [...found.keys()]) {
     const size = g.refs[0].char.size,
@@ -269,13 +352,15 @@ export function structure(
     const isTop = y < 110,
       isFooter = y > row.p.height - 50;
     // Amounts, dates, registrations and clause codes are not headings, even in
-    // capitals; outline numbers such as "2.1" still are.
-    const letters = (text.match(/\p{L}/gu) ?? []).length,
-      digits = (text.match(/\p{N}/gu) ?? []).length,
+    // capitals; outline numbers such as "2.1", alone or after SECTION or
+    // CHAPTER, still are.
+    const rest = text.replace(/^(?:SECTION|CHAPTER)\s+\d{1,2}(?:\.\d{1,2})*\.?(?=[\s:]|$)/u, ""),
+      letters = (rest.match(/\p{L}/gu) ?? []).length,
+      digits = (rest.match(/\p{N}/gu) ?? []).length,
       codeLike =
         !/^\d{1,2}(?:\.\d{1,2})*\.?$/u.test(text) &&
-        (/\p{L}\p{N}|\p{N}\p{L}/u.test(text) ||
-          digits >= 0.3 * (letters + digits));
+        (/\p{L}\p{N}|\p{N}\p{L}/u.test(rest) ||
+          (digits > 0 && digits >= 0.3 * (letters + digits)));
     const heading =
       /^[\p{Lu}\d][\p{Lu}\d\s:&/().,-]{2,}$/u.test(text) &&
       text.length < 100 &&
@@ -455,6 +540,10 @@ export function structure(
             "body",
           );
           u.rowCells = parts.map((c) => c.map((g) => g.text.trim()).join(" "));
+          u.rowSpans = parts.map((c) => [
+            Math.min(...c.map((g) => span(g)[0])),
+            Math.max(...c.map((g) => span(g)[1])),
+          ]);
           u.path.table = "recovered_rows";
           active = null;
           continue;

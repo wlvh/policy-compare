@@ -1,0 +1,59 @@
+........tests/test_renewal_triage.py:437: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpbpq0dtpq/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+tests/test_renewal_triage.py:438: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpbpq0dtpq/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+tests/test_renewal_triage.py:441: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpbpq0dtpq/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..............FFFFF.....
+======================================================================
+FAIL: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, unchanged move]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 263, in test_cards_without_the_edit_are_not_accepted
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'correct' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, called Replaced]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 263, in test_cards_without_the_edit_are_not_accepted
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'correct' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, right record]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 263, in test_cards_without_the_edit_are_not_accepted
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'correct' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, only another unit changed]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 263, in test_cards_without_the_edit_are_not_accepted
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'correct' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [split, two unchanged moves]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 263, in test_cards_without_the_edit_are_not_accepted
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'split_attributable' unexpectedly found in ('correct', 'split_attributable')
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.111s
+
+FAILED (failures=5)

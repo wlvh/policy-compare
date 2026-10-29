@@ -1,5 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {compare} from '../packages/compare-core/index';
+import {ResultSchema} from '../packages/contracts/index';
 import {textDoc} from './helpers';
 
 describe('independent review regressions F1/F3/F4',()=>{
@@ -30,5 +31,16 @@ describe('independent review regressions F1/F3/F4',()=>{
  for(const changed of [false,true])it(`F4 renewal requires unchanged non-date content (${changed?'mixed change':'date-only control'})`,()=>{
   const a=textDoc([{text:'PERIOD: 01 April 2024 to 31 March 2025 coverage includes war risks'}]),b=textDoc([{text:`PERIOD: 01 April 2025 to 31 March 2026 coverage ${changed?'excludes':'includes'} war risks`}]);
   const r=compare(a,b);expect(r.differences).toHaveLength(1);expect(r.differences[0].category).toBe(changed?'Material':'RollForward');expect(r.differences[0].defaultVisible).toBe(true);
+ });
+});
+
+describe('explicit numbered chapter headings keep field ownership',()=>{
+ for(const [first,second] of [['SECTION 10.1','SECTION 10.2'],['CHAPTER 3','CHAPTER 4'],['SECTION A','SECTION B']])it(`${first} / ${second}: only the first sum insured changes`,()=>{
+  const doc=(value:string)=>textDoc([{text:first,y:170},{text:`SUM INSURED: USD ${value}`,y:190},{text:second,y:210},{text:'SUM INSURED: USD 100,000',y:230}]);
+  const r=ResultSchema.parse(compare(doc('100,000'),doc('150,000')));
+  expect(r.status).toBe('complete_for_scope');expect(r.unresolved).toHaveLength(0);
+  const changed=r.differences.filter(d=>d.hasTextChange);expect(changed).toHaveLength(1);
+  expect(changed[0].structurePath?.section).toBe(first);expect(changed[0].structurePath?.field).toBe('sum_insured');
+  expect(changed[0].oldText).toContain('100,000');expect(changed[0].newText).toContain('150,000');expect(changed[0].category).toBe('Material');
  });
 });
