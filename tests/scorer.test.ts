@@ -998,6 +998,63 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       }
     }
   });
+  it("R26: the saved segmentation inputs: split cells are NOT_EVALUATED, one edit reported twice and a claimed change fail", () => {
+    // Cell l5 of row SYN-1026-001 keeps its value; Removed and Added cards cite it whole or glyph by glyph.
+    const at = (x: ReturnType<typeof r26>, side: "left" | "right") => lineLoc(x.docs[side === "left" ? 0 : 1], side, "l5");
+    const cuts: [string, (x: ReturnType<typeof r26>, back: number[]) => [SourceLocation[], SourceLocation[]]][] = [
+      ["whole + whole", (x) => [[at(x, "left")], [at(x, "right")]]],
+      ["glyphs + whole", (x) => [glyphs(at(x, "left")), [at(x, "right")]]],
+      ["whole + glyphs", (x) => [[at(x, "left")], glyphs(at(x, "right"))]],
+      ["glyphs + glyphs", (x) => [glyphs(at(x, "left")), glyphs(at(x, "right"))]],
+      ["whole twice + whole", (x) => [[at(x, "left"), at(x, "left")], [at(x, "right")]]],
+      ["whole + glyphs backing another amount", (x, back) => [[at(x, "left")], glyphs(at(x, "right"), back)]],
+    ];
+    // label, bare amounts, amounts, row key, glyph order backing 200,010 / 200010, expected status per cut
+    const variants: [string, boolean, string[], string | null, number[], string[]][] = [
+      ["formatted 100,020 with a record", false, ["100,020", "200,010"], "SYN-1026-001", [5, 1, 2, 3, 4, 0, 6], ["PASS", "NOT_EVALUATED", "NOT_EVALUATED", "PASS", "FAIL", "FAIL"]],
+      ["bare 100020 without a record", true, ["100020", "200010"], null, [4, 1, 2, 3, 0, 5], ["NOT_EVALUATED", "NOT_EVALUATED", "NOT_EVALUATED", "NOT_EVALUATED", "FAIL", "FAIL"]],
+      ["bare 100020 with a record", true, ["100020", "200010"], "SYN-1026-001", [4, 1, 2, 3, 0, 5], ["PASS", "NOT_EVALUATED", "NOT_EVALUATED", "PASS", "FAIL", "FAIL"]],
+    ];
+    for (const [label, bare, amounts, rowKey, back, want] of variants)
+      cuts.forEach(([cut, cite], i) => {
+        const name = `${label}: ${cut}`;
+        const x = r26(bare, amounts);
+        const [gone, come] = cite(x, back);
+        x.result.differences.push(
+          ...gone.map((g, j) => oneSided("Removed", `out${j}`, g, rowKey)),
+          ...come.map((g, j) => oneSided("Added", `in${j}`, g, rowKey)),
+        );
+        expect(ResultSchema.safeParse(x.result).success, name).toBe(true);
+        expect([...gone, ...come].every((l) => resolveLocation(l, x.docs)), name).toBe(true);
+        const score = grade(x.result, x.expected, x.layout, x.docs);
+        expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged")), name).toEqual([]);
+        expect(score.status, name).toBe(want[i]);
+        if (want[i] === "NOT_EVALUATED") {
+          expect(score.notEvaluated, name).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+          expect(exitCode(summarize([score])), name).toBe(1);
+        }
+        // One deletion cited twice fails for that reason; the doubled citation is never read as an amount.
+        if (cut === "whole twice + whole") {
+          expect(score.faults.join("\n"), name).toContain("one edit is reported twice");
+          expect(score.faults.join("\n"), name).not.toMatch(/100,?020,?100,?020/);
+        }
+        if (cut === "whole + glyphs backing another amount") expect(score.faults.join("\n"), name).toMatch(/200,?010/);
+      });
+  });
+  it("R26: a split cell left unevaluated does not hide a wrong pairing in another record", () => {
+    const x = r26(false, ["100,020", "200,010"]);
+    const [l, r] = x.docs;
+    x.result.differences.push(
+      ...glyphs(lineLoc(l, "left", "l5")).map((g, j) => oneSided("Removed", `out${j}`, g, "SYN-1026-001")),
+      oneSided("Added", "in", lineLoc(r, "right", "l5"), "SYN-1026-001"),
+      oneSided("Removed", "wrong-out", lineLoc(l, "left", "l10"), "SYN-1026-003"),
+      oneSided("Added", "wrong-in", lineLoc(r, "right", "l5"), "SYN-1026-003"),
+    );
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("record SYN-1026-003|agreed_value delete/add cards change 200,010 to 100,020");
+  });
   it("R26: one record shown as delete + add with the same amount passes", () => {
     const x = r26();
     const [l, r] = x.docs;
