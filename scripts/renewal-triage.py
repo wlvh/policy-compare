@@ -56,7 +56,9 @@ elsewhere do not show "USD 100" -> "USD 200". A card that changes both texts
 without lining them up is reported as such ("same_card_unaligned",
 renewal-triage/11), not as a card that leaves them unchanged. A pure insertion or deletion needs no
 text on its empty side; its other side needs the edit with the record identity
-or the author paragraph in that occurrence's own units. A number at either end of the author text
+or the author paragraph in that occurrence's own units. The paragraph counts
+when shown whole, however short, or with at least ten more of its characters
+(renewal-triage/12). A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
 before a number it would split. Candidate matching, the edit check and the
@@ -86,7 +88,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/11'
+TOOL = 'renewal-triage/12'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -423,9 +425,13 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
 
 
 def in_context(card, needle, author):
-    """Card shows the author paragraph around the change, not just the changed words."""
+    """Card shows the author paragraph around the change, not just the changed words: the whole
+    paragraph, however short (r4416398168), or at least ten more of its characters."""
     a = norm(author or '')
-    return len(a) >= len(needle) + 10 and needle in card and (a in card or (card in a and len(card) >= len(needle) + 10))
+    if needle not in card:
+        return False
+    return (a in card and len(a) > len(needle)) or (
+        len(a) >= len(needle) + 10 and card in a and len(card) >= len(needle) + 10)
 
 
 def context(d, side, needle, wanted, author, edit=False):
