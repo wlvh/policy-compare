@@ -9,14 +9,16 @@ written as "a | b | c" that were Added/Removed, one per opening fragment for
 other Added/Removed paragraphs. Each atom keeps its candidate cards (text on
 the stated pages) apart from the cards finally accepted for it.
 
-Table rows need record identity. It comes only from an acceptance-side
-declaration (--identity, e.g. scripts/renewal-identity.json), bound to the
-unchanged author changes file by its SHA-256: per table, the author events it
-holds and which author-row cells hold the record's identifier, with the
-printed column heading or layout that shows it. The product never reads it.
-Block ids and "the first name-like cell" are not identity; a row whose table
-declares no identity is not evaluated (its candidate cards are still listed).
-A card is accepted for a row when all of that side's identity cells sit in a
+Table rows need record identity. It comes only from a reviewer's declaration
+(--identity, e.g. scripts/renewal-identity.json): per table, the author events
+it holds and which author-row cells are the per-side source anchor, with the
+printed heading or layout they were read from. These are anchors a reviewer set
+from the frozen author events and the PDFs, not business keys the author
+confirmed; the SHA-256 of the author changes file only binds the declaration to
+that file version. The product never reads it. Block ids and "the first
+name-like cell" are not identity; a row whose table declares no anchor is not
+evaluated (its candidate cards are still listed). A card is accepted for a row
+when all of that side's anchor cells (AND; each side its own author row) sit in a
 source unit of the occurrence that makes the change (renewal-triage/7): an
 unchanged occurrence of the same text, or another unit of the card, lends no
 identity. A rowKey that is not a cell of the row,
@@ -274,7 +276,8 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None):
             foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
             st = ('confirmed' if own and not foreign else 'contradicted' if foreign and not own
                   else 'ambiguous' if foreign else 'unconfirmed')
-            if order.index(st) < order.index(best[0]):
+            # The first occurrence is written out even when unconfirmed, so its units can be checked.
+            if order.index(st) < order.index(best[0]) or not best[1]['units']:
                 best = (st, {'units': [u['unitId'] for u in us], 'identity': mine if own else [],
                              'otherRecords': foreign})
         status.append(best[0])

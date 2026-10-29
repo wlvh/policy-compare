@@ -514,6 +514,9 @@ class OneQualifyingHit(unittest.TestCase):
         _, ev = run([c], result([x]), [table('rows', [0], c)])
         self.assertNotEqual(ev['52']['verdict'], 'correct')
         self.assertEqual(ev['52']['acceptedCards'], [])
+        # The unconfirmed occurrence is written out: its own units, without the identity.
+        self.assertEqual(ev['52']['atomEvidence'][0]['candidates'][0]['identityCells']['left'],
+                         {'units': ['b', 'c'], 'identity': [], 'otherRecords': []})
         # Control: one unit holds the identity and the edit.
         y = card('y', 'Replaced', [(11, 'a', '1315 USD 100 Alpha')], [(11, 'b', '1315 USD 200 Alpha')])
         _, ev = run([c], result([y]), [table('rows', [0], c)])
