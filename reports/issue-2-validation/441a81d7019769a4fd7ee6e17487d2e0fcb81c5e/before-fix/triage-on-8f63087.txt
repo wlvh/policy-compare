@@ -1,0 +1,7 @@
+# final triage tests (441a81d7019769a4fd7ee6e17487d2e0fcb81c5e) with scripts/renewal-triage.py of 8f63087 (renewal-triage/16)
+FAIL: test_a_source_range_listed_twice_is_one_occurrence (test_renewal_triage.AddedRemovedRows.test_a_source_range_listed_twice_is_one_occurrence)
+FAIL: test_identical_cells_are_allocated_without_trying_their_orders (test_renewal_triage.AddedRemovedRows.test_identical_cells_are_allocated_without_trying_their_orders)
+FAIL: test_a_same_card_paragraph_edit_needs_the_author_paragraph (test_renewal_triage.EditEvidence.test_a_same_card_paragraph_edit_needs_the_author_paragraph)
+FAIL: test_a_replaced_value_does_not_match_a_signed_value (test_renewal_triage.RecordIdentity.test_a_replaced_value_does_not_match_a_signed_value)
+Ran 57 tests in 4.302s
+FAILED (failures=4)

@@ -1,0 +1,6 @@
+# final tests (441a81d7019769a4fd7ee6e17487d2e0fcb81c5e) with product, interface, contract and triage code of c14276c
+     × a qualified identifier heading inside a table (Aircraft Registration) ends that table (r4417587174) 18ms
+     × rows with the same text but identifiers in other columns are not the same record (r4417643759) 8ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 14 passed (15)
+      Tests  2 failed | 308 passed (310)

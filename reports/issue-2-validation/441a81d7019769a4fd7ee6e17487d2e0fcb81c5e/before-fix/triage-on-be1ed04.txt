@@ -1,0 +1,4 @@
+# final triage tests (441a81d7019769a4fd7ee6e17487d2e0fcb81c5e) with scripts/renewal-triage.py of be1ed04 (renewal-triage/18)
+FAIL: test_identical_cells_are_allocated_without_trying_their_orders (test_renewal_triage.AddedRemovedRows.test_identical_cells_are_allocated_without_trying_their_orders)
+Ran 57 tests in 19.297s
+FAILED (failures=1)
