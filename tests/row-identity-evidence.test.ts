@@ -163,6 +163,16 @@ describe("identity belongs to its own column and its own table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
   });
+  it("two tables with one heading on the same page, nothing between, are not one table (r4417493798)", () => {
+    const head: Cells = ["Registration", "Operator", "Value"];
+    const doc = (first: Cells, second: Cells) => textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, first, head, second], 180)]);
+    const r = ResultSchemaV2.parse(
+      compare(doc(["G-AAAA", "Alpha Air", "USD 1000"], ["G-BBBB", "Beta Air", "USD 2000"]), doc(["G-CCCC", "Gamma Air", "USD 3000"], ["G-AAAA", "Delta Air", "USD 4000"])),
+    );
+    expect(crossPaired(r, "Alpha Air", "Delta Air")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
+  });
   it("digit-free data rows (r4415822173): two tables with one heading, a paragraph between, are not one table", () => {
     const head: Cells = ["Registration", "Operator", "Status"];
     const doc = (first: Cells, second: Cells) =>
