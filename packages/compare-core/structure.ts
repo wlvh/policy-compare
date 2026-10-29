@@ -58,6 +58,22 @@ export function pageSlots(text: string) {
  */
 export const withoutPageNumbers = (text: string) =>
   text.replace(PAGE_EXPRESSIONS[0], " ").trim();
+/**
+ * Furniture text with its whole page-number expressions ("Page n of N", "- n -")
+ * left out, but only those whose counter is a confirmed page token.
+ */
+export function withoutFurniturePages(text: string, f: Furniture) {
+  const starts = [...text.matchAll(NUMBER)].map((m) => m.index),
+    drop = new Set<number>();
+  for (const re of PAGE_EXPRESSIONS)
+    for (const m of text.matchAll(re))
+      if (f.pageTokens.includes(starts.indexOf(m.indices![1]![0])))
+        for (let i = m.index!; i < m.index! + m[0].length; i++) drop.add(i);
+  return text
+    .split("")
+    .filter((_, i) => !drop.has(i))
+    .join("");
+}
 /** Furniture text with only its confirmed page-number parts replaced. */
 export function furnitureContent(text: string, f: Furniture) {
   let k = 0;

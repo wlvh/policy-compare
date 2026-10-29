@@ -13,6 +13,7 @@ import {
   furnitureSignatures,
   structure,
   withoutPageNumbers,
+  withoutFurniturePages,
   type Furniture,
   type Unit,
 } from "./structure";
@@ -349,23 +350,37 @@ function category(
   layoutOnly: Set<Unit> = new Set(),
 ): Difference["category"] {
   const u = b ?? a!;
-  // Only confirmed page-number parts are cosmetic; any other change in
-  // repeated furniture is Review, and Material when it carries an amount.
+  // Cosmetic needs evidence that only the form changed: equal text, a confirmed
+  // page number, whitespace, an explicit label alias or a continuation heading.
+  // Lacking digits or keywords, or the role of the line, is not such evidence.
+  // Repeated furniture: only confirmed page-number parts are cosmetic; a line
+  // on one side only is cosmetic when nothing but its page number is left. Any
+  // other change is Review, and Material when it carries an amount.
   if (u.role === "furniture") {
     const texts = [a, b].filter((x): x is Unit => !!x).map(content);
     if (a && b ? texts[0] === texts[1] || a.matchText === b.matchText
-        : u.furniture?.pageNumber && !/\p{N}/u.test(texts[0]))
+        : u.furniture?.pageNumber && !/\S/u.test(withoutFurniturePages(u.rawText, u.furniture)))
       return "Cosmetic";
     return valueLike(texts.join(" ")) ? "Material" : "Review";
   }
-  if (["label", "table_header", "whitespace"].includes(u.role)) return "Cosmetic";
+  if (u.role === "whitespace") return "Cosmetic";
   if (a && b && a.matchText === b.matchText) return "Cosmetic";
+  // A label or table header is compared by its words. Two profile labels of the
+  // same field, party and section (SUMS INSURED: / SUM INSURED:) are an
+  // explicit alias; INSURED: and REINSURED: name different parties.
+  if (u.role === "label" || u.role === "table_header") {
+    if (a && b && a.role === "label" && b.role === "label" && a.path.field &&
+        (["field", "entity", "section"] as const).every((k) => a.path[k] === b.path[k]) &&
+        a.path.confidence !== "unresolved" && b.path.confidence !== "unresolved")
+      return "Cosmetic";
+    return substantive.test((a?.rawText ?? "") + (b?.rawText ?? "")) ? "Material" : "Review";
+  }
   // A heading, or a line at the top or bottom of a page, is compared as content:
   // neither its place nor its capitals show that a change is only layout. A
   // changed page number is, and so is a heading with evidence of repagination.
   if (["page_heading", "footer", "heading"].includes(u.role)) {
     const kept = [a, b].filter((x): x is Unit => !!x).map((x) => withoutPageNumbers(x.rawText));
-    if (a && b ? kept[0] === kept[1] : !/[\p{L}\p{N}]/u.test(kept[0]) || layoutOnly.has(u))
+    if (a && b ? kept[0] === kept[1] : !/\S/u.test(kept[0]) || layoutOnly.has(u))
       return "Cosmetic";
   }
   if (a && b && u.path.field === "policy_period") {
@@ -517,7 +532,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.6",
+    coreVersion: VERSION + "+row-identity.7",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",

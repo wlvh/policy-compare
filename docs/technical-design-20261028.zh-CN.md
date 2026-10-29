@@ -158,6 +158,8 @@
 
 （issue #2 第三、四轮复核后更新）标题、页眉、页脚不再因角色本身归为 Cosmetic：只有去掉显式“Page n”页码后原文相同、单侧只含页码，或续页标题（“… CONTINUED” 且基础标题两版都有）才是 Cosmetic；其余按正文规则归为 Material 或 Review。第三轮曾对“页数不同、两版每页同一位置都有页标题时新增页上的无数字标题”豁免，第四轮因没有正面证据（同样会隐藏 `WAR EXCLUSION`、`POLICY CANCELLED`）而取消，R16 的 `POLICY WORDING` 因此为 Review。
 
+（issue #2 第六轮复核后更新）Cosmetic 必须有“只有形式变化”的具体证据：两侧文字按既有规范化相等、只变化已确认的页码、纯空白行、同一字段/主体/章节的两个完整 profile 标签（显式别名，如 `SUMS INSURED:`→`SUM INSURED:`），或明确的续页标题。没有数字、没有命中关键词、行的角色（标签、表头、页眉页脚）本身都不是证据：单侧重复行去掉已确认的完整页码表达后还剩文字（如 `War risks excluded Page n`、`Draft Page n`）按内容归类；标签、表头的增删或改名至少 Review（`INSURED:`→`REINSURED:` 不是别名）；页边单侧行去掉页码后只要不是纯空白（如 `☑`）就按正文规则归类。
+
 原文完全相同但判定移动的正文，目前默认归 Review。所有变化默认可见，分类用于排序/筛选，不授权删除低优先级原文。当前排序为 Material、Review、RollForward、Cosmetic，再按来源位置与稳定 ID 排序。
 
 ### 3.5 完整性、高亮与用户界面
