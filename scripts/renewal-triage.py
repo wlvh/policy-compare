@@ -28,6 +28,13 @@ right without changing them there (an unchanged move, unchanged context, an
 edit in another unit) is not evidence. A side the author edit leaves as it is
 (an author move, an insertion's left side) needs no change.
 
+Text counts only where it is found in sources on the author's pages: an
+occurrence whose every character comes from a source unit on a stated page
+(any page when none is stated). Candidate matching, the edit check and the
+evidence written out all use the source units of such occurrences; a card
+holding the text on another page, with unrelated text on the stated page, is
+not evidence.
+
 Matching is whitespace-normalised substring search, so superscripts and line
 breaks can hide present text: "not_located" means the script could not locate
 it, not that the product missed it. An Added/Removed paragraph is accepted only
@@ -45,7 +52,7 @@ import re
 import sys
 
 RANK = {'Material': 0, 'Review': 1, 'RollForward': 2, 'Cosmetic': 3}
-TOOL = 'renewal-triage/4'
+TOOL = 'renewal-triage/5'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -137,17 +144,29 @@ def needs_edit(old, new):
     return {'left': len(old) > p + s, 'right': len(new) > p + s}
 
 
-def edited(d, side, needle, wanted):
-    """The card changes the needle itself, in a source unit of this side that holds it."""
-    keep = {(u['page'], u['unitId']) for u in local(d, side, needle, wanted)}
+def found(d, side, needle, wanted):
+    """Occurrences of the needle in one card side whose characters all come from source units on
+    the wanted pages (any page when none is wanted): per occurrence, its (char, unit, changed)."""
     chars = marked(d, side)
     text = ''.join(c for c, _, _ in chars)
-    i = text.find(needle)
+    out = []
+    i = text.find(needle) if needle else -1
     while i >= 0:
-        if any(flag and unit in keep for _, unit, flag in chars[i:i + len(needle)]):
-            return True
+        span = chars[i:i + len(needle)]
+        owners = [unit for _, unit, _ in span if unit is not None]
+        if owners and (not wanted or all(page in wanted for page, _ in owners)):
+            out.append(span)
         i = text.find(needle, i + 1)
-    return False
+    return out
+
+
+def located(d, side, needle, wanted):
+    return bool(found(d, side, needle, wanted))
+
+
+def edited(d, side, needle, wanted):
+    """The card changes the needle itself, in an occurrence on the wanted pages."""
+    return any(flag for span in found(d, side, needle, wanted) for _, _, flag in span)
 
 
 def identifier_like(cell):
@@ -206,10 +225,9 @@ def on_pages(locations, wanted):
 
 
 def local(d, side, needle, wanted):
-    """Units of a card side holding the needle; the whole side if it spans units."""
-    us = units(d[side], wanted)
-    hit = [u for u in us if needle in u['text']]
-    return hit or us
+    """Source units of a card side that the needle's occurrences on the wanted pages come from."""
+    keep = {unit for span in found(d, side, needle, wanted) for _, unit, _ in span if unit is not None}
+    return [u for u in units(d[side], wanted) if (u['page'], u['unitId']) in keep]
 
 
 def judge_identity(d, needles, ident, others, change, wanted):
@@ -274,8 +292,8 @@ def text_atom(atom, change, ctx, claimed):
 
     def shows(d, side, needle):
         return not need[side] or edited(d, side, needle, wanted[side])
-    oc = [d for d in diffs if old in side_text(d, 'left') and on_pages(d['left'], wanted['left'])]
-    nc = [d for d in diffs if new in side_text(d, 'right') and on_pages(d['right'], wanted['right'])]
+    oc = [d for d in diffs if located(d, 'left', old, wanted['left'])]
+    nc = [d for d in diffs if located(d, 'right', new, wanted['right'])]
     same = [d for d in oc if d in nc]
     cands, accepted, suspects, open_, unedited = [], [], [], [], []
     for d in same:
@@ -408,7 +426,7 @@ def paragraph_atom(atom, change, ctx):
     side = 'right' if change['kind'] == 'Added' else 'left'
     other = 'left' if side == 'right' else 'right'
     t, wanted = atom['new'] if side == 'right' else atom['old'], ctx['wanted'][side]
-    held = [d for d in ctx['diffs'] if t in side_text(d, side) and on_pages(d[side], wanted)]
+    held = [d for d in ctx['diffs'] if located(d, side, t, wanted)]
     cands = [candidate(d, {side: t}, ctx['wanted'], 'not_applicable', 'paragraph event: no record identity')
              for d in held]
     # The card must add or remove the text: one that keeps it on the other side

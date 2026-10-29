@@ -293,6 +293,60 @@ class ReplacementNeedsTheEdit(unittest.TestCase):
                 self.assertEqual(summary['unexplainedCards'], 0)
 
 
+class PagesBoundTheText(unittest.TestCase):
+    """Review of PR #11 (T4, fixed in #9): the text must be found in sources on the author's pages.
+    A card holding it on another page, with unrelated text on the stated page, is not evidence."""
+    TEXT = 'Proof of Loss: The Insured shall provide Underwriters with complete documentation.'
+    OTHER = 'Unrelated wording that stays on its page.'
+
+    def removed(self, left, pages):
+        return change(30, 'pol', 'Removed', left=self.TEXT, pages=pages), card('w', 'Removed', left)
+
+    def added(self, right, pages):
+        return change(31, 'pol', 'Added', right=self.TEXT, pages=pages), card('w', 'Added', right=right)
+
+    def test_text_only_on_another_page_is_not_accepted(self):
+        cases = {
+            'removed': self.removed([(1, 'a', self.TEXT), (2, 'b', self.OTHER)], (2, 0)),
+            'added': self.added([(1, 'a', self.TEXT), (2, 'b', self.OTHER)], (0, 2)),
+            'replaced': (change(40, 'hull', 'Replaced', 'Hull USD 100 applies.', 'Hull USD 200 applies.',
+                                [('USD 100', 'USD 200')], pages=(2, 2)),
+                         card('w', 'Replaced', [(1, 'a', 'Hull USD 100 applies.'), (2, 'c', self.OTHER)],
+                              [(1, 'b', 'Hull USD 200 applies.'), (2, 'd', self.OTHER)])),
+        }
+        for name, (event, wrong) in cases.items():
+            with self.subTest(name):
+                summary, ev = run([event], result([wrong]))
+                e = ev[str(event['id'])]
+                self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+                self.assertEqual(e['acceptedCards'], [])
+                self.assertEqual((summary['acceptedCards'], summary['unexplainedCards']), (0, 1))
+
+    def test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source(self):
+        spanning = change(30, 'pol', 'Removed', left=self.TEXT, pages=(1, 0))
+        spanning['left_pages'] = [1, 2]
+        cases = {
+            'removed on its page': (*self.removed([(1, 'a', self.OTHER), (2, 'b', self.TEXT)], (2, 0)), 'left', {(2, 'b')}),
+            'added on its page': (*self.added([(1, 'a', self.OTHER), (2, 'b', self.TEXT)], (0, 2)), 'right', {(2, 'b')}),
+            'no page stated': (*self.removed([(1, 'a', self.TEXT), (2, 'b', self.OTHER)], (0, 0)), 'left', {(1, 'a')}),
+            'across the stated pages': (spanning, card('w', 'Removed', [(1, 'a', 'Proof of Loss: The Insured shall'),
+                                                                     (2, 'b', 'provide Underwriters with complete documentation.')]),
+                                        'left', {(1, 'a'), (2, 'b')}),
+        }
+        for name, (event, right_card, side, where) in cases.items():
+            with self.subTest(name):
+                summary, ev = run([event], result([right_card]))
+                e = ev[str(event['id'])]
+                self.assertEqual((e['verdict'], e['acceptedCards']), ('correct', ['w']))
+                self.assertEqual(summary['unexplainedCards'], 0)
+                refs = e['atomEvidence'][0]['candidates'][0][side]
+                self.assertEqual({(r['page'], r['unitId']) for r in refs}, where)
+        # Starting on page 1, the paragraph is not on page 2 alone.
+        only_two = dict(spanning, left_pages=[2])
+        _, ev = run([only_two], result([cases['across the stated pages'][1]]))
+        self.assertEqual(ev['30']['acceptedCards'], [])
+
+
 class AddedRemovedRows(unittest.TestCase):
     ADDED = change(63, 'ac_55228', 'Added', right='Airbus A220 | 55228 | VH-JXP | 39,000,000', pages=(0, 11))
 
