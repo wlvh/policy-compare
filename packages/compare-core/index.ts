@@ -654,7 +654,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.12+facts.4+repeat.5+ops.4",
+    coreVersion: VERSION + "+row-identity.12+facts.4+repeat.6+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",

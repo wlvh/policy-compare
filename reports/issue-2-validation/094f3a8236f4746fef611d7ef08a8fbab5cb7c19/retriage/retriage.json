@@ -1,0 +1,3045 @@
+{
+ "identity": {
+  "path": "scripts/renewal-identity.json",
+  "sha256": "b6420cd39240e879d9b2e1b66ec9420b1c6661cb1872acd28355cd8714edd861",
+  "readByOldScript": true
+ },
+ "oldScript": {
+  "rev": "2b9c225",
+  "sha256": "d8371699fa5a0c8316efcecbd733d4752ab9286caf328e9dc7bf1761aa2955fc"
+ },
+ "newScript": {
+  "rev": "0e34d77fea42c1af4606447cf39d5e005cd99d89",
+  "sha256": "29d20711454ca81c71e15b6e95a64362e9bbeb4096eb764b6c1c4908ecc984e6"
+ },
+ "runs": [
+  {
+   "set": "v3-85dae98",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "a9220f317b648fb5ace4cffcf06e3c1b62bdb432d00013e6fea7ece9e2163122",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 4,
+     "not_evaluable": 5,
+     "split_attributable": 1,
+     "partly_located": 3,
+     "one_side_only": 1
+    },
+    "acceptedCards": 87,
+    "unexplainedCards": 19,
+    "fullRowRecovered": 45,
+    "changeCorrectlyAttributed": 50
+   },
+   "new": {
+    "verdicts": {
+     "correct": 77,
+     "not_located": 4,
+     "not_evaluable": 6,
+     "split_attributable": 1,
+     "partly_located": 3,
+     "one_side_only": 1
+    },
+    "acceptedCards": 87,
+    "unexplainedCards": 19,
+    "fullRowRecovered": 45,
+    "changeCorrectlyAttributed": 49
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "9b9de6198946bb0e98a128f0e6d0cafa52a1bc0928ec9f16a04629a09b60bf0f",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 80,
+     "not_located": 3,
+     "not_evaluable": 5,
+     "split_attributable": 1,
+     "partly_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 45,
+    "changeCorrectlyAttributed": 50
+   },
+   "new": {
+    "verdicts": {
+     "correct": 79,
+     "not_located": 3,
+     "not_evaluable": 6,
+     "split_attributable": 1,
+     "partly_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 45,
+    "changeCorrectlyAttributed": 49
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "bdfa1f82676e38b62dd79e616336b6eeebf9f6ee6480579a6aef8bd87dc571ea",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 70,
+     "split_attributable": 3,
+     "not_evaluable": 5,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 13,
+    "fullRowRecovered": 34,
+    "changeCorrectlyAttributed": 40
+   },
+   "new": {
+    "verdicts": {
+     "correct": 68,
+     "split_attributable": 3,
+     "not_evaluable": 7,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 13,
+    "fullRowRecovered": 34,
+    "changeCorrectlyAttributed": 38
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "8711eadc5fd18fa41ba5ccba4efc74bdd0550740f2583a54bbe9b1029b4842e5",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 71,
+     "split_attributable": 3,
+     "not_evaluable": 5,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 13,
+    "fullRowRecovered": 34,
+    "changeCorrectlyAttributed": 40
+   },
+   "new": {
+    "verdicts": {
+     "correct": 69,
+     "split_attributable": 3,
+     "not_evaluable": 7,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 13,
+    "fullRowRecovered": 34,
+    "changeCorrectlyAttributed": 38
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "6c22378267e4bffcfad3b00486e789eb1d81bd62e7574fb3acea99d8b51e8c65",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 80,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "a0abbb70ea218d14e86f32717bc1565b978bb4b113350f29a8e5be4cba4e7d3f",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 83,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "dbd462052f13400b3be0dc85b274350ae9da6110368abd16523c3c3ecc0baba7",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 70,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "ceb0b690f0fdfebd7b52706560e1b5437f5c2d53a286d8a587bdba035d38106b",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 71,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "f5be16d9982e02c66810cae7f70d1536845a50cf251edb33edbf879c4d58c108",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 80,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "9a572e67425f1a73cc32c65a24ead89d4e184d89c2fd6331101cc389a6d0ee34",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 83,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "698586e4f9be868d7f29362cf0cf5c6ab622170a6f7e1d59a42f745815780168",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 70,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "dbcbdc1ba8c527964d10d97722609723efb171781d959a5c78a861166280c45a",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 71,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "bfb76956d62cfd36f78292fd946ffc237473d847fe084ca39fec23f7e3bf3d44",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 80,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "28aa1202fd09530f6f013f0e51db644f5ee6f66c0f4249f18c8af719edfb7b05",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 83,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "5b9363484861a365662fc0958e3914cf551f40abf709112f4261b331729785fc",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 70,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "1a73a53bd50c95a9aa02867723d2e7bd5f492f9487a695f8e0682bdc8fcd27fb",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 71,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "4c03879310c3482b14d49acfb4f2049682d3db621d829425c45bde1619478a90",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 80,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "1669304b4606ce7253d4362fbbb0091636d568c0c85c982dcb42ad3de1dadd3c",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 83,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "0d664502b2d7bf1b80507d629a547030a4fe76aed313f772be5278fcc8ee7502",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 70,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "8b746a79cf2631ec87c8851f081d9024b1d01936f2b12e9c6655a02ae2940dd6",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 71,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "9c817481052f114aa5da209d8a4b2a4397f857111e3d22076969132002752146",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 80,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 11,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "c533cf5e95f3f98ab2d0dc18a25310e2f60b9c3f612ec896763ae6a72c809bd7",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 83,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 53
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 53,
+    "changeCorrectlyAttributed": 52
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "5a190266ea0c1a2d972018ef9469e39ba7c9960682a2021fdaa3ce4df4695372",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 70,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "5c3d473ae038a9d79fc17a9ded95aac9a83409317581ce2fc9df3de93c8ec126",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "new": {
+    "verdicts": {
+     "correct": 71,
+     "split_attributable": 2,
+     "not_evaluable": 6,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "9ccc044",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "e3e86146c9cd85c2a5dd8e1c94f72bcd14f60d517c70a2c907429370f16e8aba",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "verdicts": {
+     "correct": 77,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 5,
+     "partly_located": 3
+    },
+    "acceptedCards": 92,
+    "unexplainedCards": 19,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 49
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 5,
+     "partly_located": 3
+    },
+    "acceptedCards": 92,
+    "unexplainedCards": 19,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "9ccc044",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "b129989ea5fce44d5ccfda0eb61462cc779265bba229937acd1a6bdd214090d7",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "verdicts": {
+     "correct": 79,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 5,
+     "partly_located": 2
+    },
+    "acceptedCards": 93,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 49
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 5,
+     "partly_located": 2
+    },
+    "acceptedCards": 93,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "9ccc044",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "31071f1382de315c70bcb4383180d173a642dd7c25b2ae0955f63d3180ead0b4",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "verdicts": {
+     "correct": 67,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 37
+   },
+   "new": {
+    "verdicts": {
+     "correct": 65,
+     "split_attributable": 7,
+     "not_evaluable": 6,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 35
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "9ccc044",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "2be0169cc8fa28097fb9400f408110693736e00b45e86778d99ed3e2bcc1bfd1",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "verdicts": {
+     "correct": 68,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 37
+   },
+   "new": {
+    "verdicts": {
+     "correct": 66,
+     "split_attributable": 7,
+     "not_evaluable": 6,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 35
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "dabc8c2",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "116e1598377eb262e155131f79ec4f0e906b704197e8ecf4cbbe26f620e975c3",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.3",
+   "old": {
+    "verdicts": {
+     "correct": 77,
+     "not_located": 4,
+     "not_evaluable": 3,
+     "split_attributable": 5,
+     "partly_located": 3
+    },
+    "acceptedCards": 92,
+    "unexplainedCards": 19,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 49
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 5,
+     "partly_located": 3
+    },
+    "acceptedCards": 92,
+    "unexplainedCards": 19,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ],
+      [
+       "d-ee405bc5a6e3c040e9e0"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "dabc8c2",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "7a2de2790674236c6f41c03029fc7a149cc2a10e32bbac99a46454aa6ff95728",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.3",
+   "old": {
+    "verdicts": {
+     "correct": 79,
+     "not_located": 3,
+     "not_evaluable": 3,
+     "split_attributable": 5,
+     "partly_located": 2
+    },
+    "acceptedCards": 93,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 49
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 5,
+     "partly_located": 2
+    },
+    "acceptedCards": 93,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 49,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "36",
+     "block": "wl_ald",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a3233cbde682d4567087"
+      ],
+      [
+       "d-a3233cbde682d4567087"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "dabc8c2",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "127b54f2745a5041148e04d37c5822b37efe798e08448cf038ec0dc6beb7fc4f",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.3",
+   "old": {
+    "verdicts": {
+     "correct": 67,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 37
+   },
+   "new": {
+    "verdicts": {
+     "correct": 65,
+     "split_attributable": 7,
+     "not_evaluable": 6,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 35
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1a6240e212496ec92e7d"
+      ],
+      [
+       "d-1a6240e212496ec92e7d"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-2f4a617741ad72996c62"
+      ],
+      [
+       "d-2f4a617741ad72996c62"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "dabc8c2",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "28e7dd7f6689b3bfc551e0037102abf92213357235f8b168958d688d57252881",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.3",
+   "old": {
+    "verdicts": {
+     "correct": 68,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 37
+   },
+   "new": {
+    "verdicts": {
+     "correct": 66,
+     "split_attributable": 7,
+     "not_evaluable": 6,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 35
+   },
+   "changedEvents": [
+    {
+     "id": "57",
+     "block": "pr_ZJ-FLX",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b63baa7fa397034a02e5"
+      ],
+      [
+       "d-b63baa7fa397034a02e5"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card_unaligned",
+       "same_card"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    },
+    {
+     "id": "58",
+     "block": "pr_9H-PRT",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d5cac419976fd8f5f60e"
+      ],
+      [
+       "d-d5cac419976fd8f5f60e"
+      ]
+     ],
+     "fullRowRecovered": [
+      true,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card"
+      ],
+      [
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card",
+       "same_card_unaligned"
+      ]
+     ],
+     "reasons": [
+      "cards change both texts, but their edits pair them with other text, not with each other"
+     ]
+    }
+   ]
+  }
+ ]
+}
