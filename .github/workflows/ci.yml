@@ -23,9 +23,13 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: python -m unittest discover -s tests -p 'test_renewal_triage.py' -v
+  # Independent checks keep running after another check fails, once their prerequisites (install,
+  # build, browser download) succeeded; each failed step still fails the job. One engine's failure
+  # does not cancel the other.
   functional:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         engine: [pdfjs, mupdf]
     steps:
@@ -41,15 +45,25 @@ jobs:
           mkdir -p reports
           node --input-type=module -e 'import fs from "node:fs"; import os from "node:os"; fs.writeFileSync(`reports/ci-environment-${process.env.ENGINE}.json`, JSON.stringify({commit:process.env.GITHUB_SHA,runId:process.env.GITHUB_RUN_ID,engine:process.env.ENGINE,node:process.version,platform:process.platform,arch:process.arch,cpu:os.cpus()[0].model,memoryBytes:os.totalmem(),purpose:"functional checks only; not target-device performance acceptance"},null,2)+"\n")'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm install:${{ matrix.engine }}
-      - run: pnpm verify:core
-      - run: pnpm build:${{ matrix.engine }}
-      - run: pnpm exec tsx scripts/pdf-check.ts ${{ matrix.engine }}
+      - id: engine
+        run: pnpm install:${{ matrix.engine }}
+      - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
+        run: pnpm verify:core
+      - id: build
+        if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
+        run: pnpm build:${{ matrix.engine }}
+      - if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm exec tsx scripts/pdf-check.ts ${{ matrix.engine }}
       # Exit 2 means the only open items are registered coverage gaps (strict status NOT_EVALUATED, see the log and rules report).
-      - run: pnpm test:rules:${{ matrix.engine }} || test $? -eq 2
-      - run: pnpm exec tsx scripts/review-check.ts ${{ matrix.engine }}
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:browser:${{ matrix.engine }}
+      - if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm test:rules:${{ matrix.engine }} || test $? -eq 2
+      - if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm exec tsx scripts/review-check.ts ${{ matrix.engine }}
+      - id: browsers
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm exec playwright install --with-deps chromium
+      - if: ${{ !cancelled() && steps.browsers.outcome == 'success' }}
+        run: pnpm test:browser:${{ matrix.engine }}
         env:
           POLICY_BROWSER_CHANNEL: bundled
       - uses: actions/upload-artifact@v4
@@ -72,6 +86,7 @@ jobs:
   linux-container:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         engine: [pdfjs, mupdf]
     steps:
