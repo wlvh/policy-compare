@@ -228,6 +228,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
       open = new Map<string, { text: string; key: string; n: number }>(),
       last = new Map<string, { text: string; n: number }>(),
       broken = new Set<string>(),
+      closed = new Map<string, [string, number]>(),
       page = new Map<string, number>(),
       count = new Map<string, number>(),
       table = new Map<Unit, [string, number]>();
@@ -236,6 +237,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         if (!["furniture", "page_heading", "footer", "whitespace"].includes(u.role)) {
           current.clear();
           open.clear();
+          closed.clear();
         }
         if (!["furniture", "page_heading", "footer", "whitespace", "heading"].includes(u.role))
           for (const t of last.keys()) broken.add(t);
@@ -251,10 +253,17 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         // may head another table or be a record's value ("Pending
         // Registration"): the table ends here, and neither this row nor the
         // rows after it are read under its heading row or share its scope
-        // (r4417587174).
+        // (r4417587174). The rows after it are a scope of their own, without
+        // a heading row, not the shared scope of the title (PR #9 comment
+        // 6508226511).
         current.delete(t);
         open.delete(t);
         broken.add(t);
+        const key = t + "\u0000" + u.rawText,
+          n = (count.get(key) ?? 0) + 1;
+        count.set(key, n);
+        closed.set(t, [key, n]);
+        table.set(u, [key, n]);
         continue;
       }
       if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u)) {
@@ -274,12 +283,13 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         broken.delete(t);
         current.set(t, u);
         open.set(t, { text: u.rawText, key, n });
+        closed.delete(t);
         starts.add(u);
         table.set(u, [key, n]);
       } else if (current.has(t)) {
         headings.set(u, current.get(t)!);
         table.set(u, [t + "\u0000" + current.get(t)!.rawText, s!.n]);
-      }
+      } else if (closed.has(t)) table.set(u, closed.get(t)!);
     }
     return { count, table };
   });
@@ -295,8 +305,10 @@ function rowHeadings(left: Unit[], right: Unit[]) {
  * naming its identifier ("MSN 1") that name. A missing cell does not shift a
  * value into another column; two cells under one column say nothing about
  * either. A value-like cell under an identity heading (an amount, or a dotted
- * serial such as AB12.34) is kept as a guard ("value" key): it links no rows,
- * but rows that differ in it are not one record (r4418369400).
+ * serial such as AB12.34) keeps its column: it links no rows (see
+ * rowIdentity), but rows that differ in that column are not one record,
+ * whichever of the two cells looks like a value (r4418369400, r4418461107).
+ * The heading is read as NFKC, as namesIdentity does (Ｒｅｇｉｓｔｒａｔｉｏｎ).
  */
 function identityCells(r: Unit, headings: Map<Unit, Unit>) {
   const h = headings.get(r);
@@ -311,7 +323,7 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
     const c = c0.normalize("NFKC"),
       at = heading(k),
       named = c.match(identityPrefix)?.[0].toLowerCase();
-    if (at && identityHeading.test(at.text)) return [[`${valueLike(c) ? "value" : "column"} ${at.j}`, c]];
+    if (at && identityHeading.test(at.text.normalize("NFKC").trim())) return [[`column ${at.j}`, c]];
     if (valueLike(c)) return [];
     return named ? [[`named ${named}`, c]] : [];
   });
@@ -347,7 +359,7 @@ function rowIdentity(
     const m = new Map<string, Unit[]>();
     for (const r of rows)
       for (const [k, c] of identities(r))
-        if (!k.startsWith("value ")) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
+        if (!valueLike(c)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
     return m;
   };
   const lt = tables(left),
@@ -692,7 +704,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.18+facts.4+repeat.8+ops.4",
+    coreVersion: VERSION + "+row-identity.19+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",

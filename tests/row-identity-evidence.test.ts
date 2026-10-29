@@ -325,9 +325,57 @@ describe("identity belongs to its own column and its own table", () => {
     const r = run2(["AB12.34", "Insurer Alpha", "USD 1000"], ["AB56.78", "Insurer Alpha", "USD 2000"]);
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "AB12.34", "left"), visible(r, "AB56.78", "right")]).toEqual([true, true]);
+    // A plain serial against a dotted one, either way, is a conflict too (r4418461107).
+    for (const [a, b] of [["AB1234", "AB56.78"], ["AB56.78", "AB1234"]]) {
+      const m = run2([a, "Insurer Alpha", "USD 1000"], [b, "Insurer Alpha", "USD 2000"]);
+      expect(m.differences.some((d) => d.matchEvidence.method === "row-identity"), `${a} -> ${b}`).toBe(false);
+    }
     // Control: the same serial pairs (through the insurer the cell names).
     const c = run2(["AB12.34", "Insurer Alpha", "USD 1000"], ["AB12.34", "Insurer Alpha", "USD 2000"]);
     expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
+  it("a full-width identity heading (Ｒｅｇｉｓｔｒａｔｉｏｎ) still names its column (PR #9 comment 6508095436)", () => {
+    const run2 = (a: Cells, b: Cells) =>
+      ResultSchemaV2.parse(
+        compare(
+          textDoc([{ text: "SCHEDULE", y: 150 }, ...place([["Ｒｅｇｉｓｔｒａｔｉｏｎ", "Insurer", "Status"], a], 180, 0, 160)]),
+          textDoc([{ text: "SCHEDULE", y: 150 }, ...place([["Ｒｅｇｉｓｔｒａｔｉｏｎ", "Insurer", "Status"], b], 180, 0, 160)]),
+        ),
+      );
+    const r = run2(["G-AAAA", "Insurer Alpha", "Active"], ["G-BBBB", "Insurer Alpha", "Lead"]);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "G-AAAA", "left"), visible(r, "G-BBBB", "right")]).toEqual([true, true]);
+    // Control: the same registration pairs.
+    expect(run2(["G-AAAA", "Insurer Alpha", "Active"], ["G-AAAA", "Insurer Alpha", "Lead"]).differences.map((d) => d.matchEvidence.method)).toEqual([
+      "row-identity",
+    ]);
+  });
+  it("rows after two closed tables do not bind across them (PR #9 comment 6508226511)", () => {
+    // Aircraft Registration and Engine Serial each end the table before them;
+    // the rows after each are their own scope, not one shared fallback.
+    const doc = (second: Cells, fourth: Cells) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place(
+          [
+            ["MSN", "Operator", "Value"], ["100", "Zed", "USD 10"],
+            ["Aircraft Registration", "Operator", "Value"], second,
+            ["ESN", "Operator", "Value"], ["200", "Yan", "USD 20"],
+            ["Engine Serial", "Operator", "Value"], fourth,
+          ],
+          180, 0, 220,
+        ),
+      ]);
+    const r = ResultSchemaV2.parse(
+      compare(doc(["MSN 123", "Alpha", "USD 100"], ["MSN 456", "Beta", "USD 300"]), doc(["MSN 789", "Gamma", "USD 200"], ["MSN 123", "Delta", "USD 400"])),
+    );
+    expect(crossPaired(r, "Alpha", "Delta")).toBe(false);
+    expect([visible(r, "Alpha", "left"), visible(r, "Delta", "right")]).toEqual([true, true]);
+    // Control: within one closed table the named MSN still pairs.
+    const c = ResultSchemaV2.parse(
+      compare(doc(["MSN 123", "Alpha", "USD 100"], ["MSN 456", "Beta", "USD 300"]), doc(["MSN 123", "Alpha", "USD 200"], ["MSN 456", "Beta", "USD 300"])),
+    );
+    expect(c.differences.map((d) => [d.matchEvidence.method, d.newText])).toEqual([["row-identity", "MSN 123 Alpha USD 200"]]);
   });
   it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
     const run2 = (head: Cells, a: Cells, b: Cells) =>

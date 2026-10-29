@@ -438,6 +438,14 @@ export function structure(
       );
       if (row.text.length > label.length) {
         active = add(row.refs.slice(n), "field", field, entity, key, sc);
+        // A declared header that is also repeated page furniture keeps its
+        // page counter, read against its page like the line it comes from
+        // (r4418530241).
+        const f = furniture.get(row);
+        if (f) {
+          const before = (label.match(NUMBER) ?? []).length;
+          active.furniture = { ...f, pageTokens: f.pageTokens.map((j) => j - before).filter((j) => j >= 0) };
+        }
       } else {
         const next = lines[i + 1];
         if (
