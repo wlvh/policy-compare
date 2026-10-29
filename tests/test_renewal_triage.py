@@ -436,6 +436,33 @@ class AddedRemovedRows(unittest.TestCase):
         self.assertEqual(ev['63']['verdict'], 'correct')
         self.assertTrue(ev['63']['row']['fullRowRecovered'])
 
+    def test_a_cell_amount_matches_only_as_a_whole_number(self):
+        """r4416863588: "USD 100" inside "USD 100,000" is another amount, for Added and Removed rows."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(64, 'ac_1315', kind, **{side: '1315 | Hull | USD 100'}, pages=(0, 11) if kind == 'Added' else (11, 0))
+            unit = lambda text: [(11, 'u1', text)]
+            other = card('x', kind, **{side: unit('1315 Hull USD 100,000')})
+            _, ev = run([c], result([other]), [table('aircraft', [0], c)])
+            self.assertNotEqual(ev['64']['verdict'], 'correct', kind)
+            self.assertFalse(ev['64']['row']['fullRowRecovered'], kind)
+            own = card('y', kind, **{side: unit('1315 Hull USD 100')})
+            _, ev = run([c], result([own]), [table('aircraft', [0], c)])
+            self.assertEqual(ev['64']['verdict'], 'correct', kind)
+
+    def test_repeated_cells_need_their_own_occurrences(self):
+        """r4416863597: two author cells "USD 100" are not both recovered from one "USD 100"."""
+        c = change(65, 'ac_1315', 'Added', right='1315 | USD 100 | USD 100', pages=(0, 11))
+        short = card('x', 'Added', right=[(11, 'u1', '1315 USD 100')])
+        _, ev = run([c], result([short]), [table('aircraft', [0], c)])
+        self.assertNotEqual(ev['65']['verdict'], 'correct')
+        self.assertFalse(ev['65']['row']['fullRowRecovered'])
+        self.assertEqual(ev['65']['atoms'], ['in_record', 'in_record', 'record_short'])
+        whole = card('y', 'Added', right=[(11, 'u1', '1315 USD 100 USD 100')])
+        _, ev = run([c], result([whole]), [table('aircraft', [0], c)])
+        self.assertEqual(ev['65']['verdict'], 'correct')
+        self.assertTrue(ev['65']['row']['fullRowRecovered'])
+
     def test_cells_scattered_over_different_records_are_not_complete(self):
         ident = card('i', 'Added', right=[(11, 'u1', '55228'), (11, 'u1', 'VH-JXP')])
         other = card('o', 'Added', right=[(11, 'u2', 'Airbus A220'), (11, 'u2', '39,000,000')])
