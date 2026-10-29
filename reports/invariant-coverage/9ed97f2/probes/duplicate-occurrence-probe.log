@@ -1,0 +1,8 @@
+scorer scorer-935b6e4.ts; product output as is: card " USD 1000" -> " USD 2000" repeat {"left":4,"right":4,"leftPages":4,"rightPages":4} occurrences 4
+  PASS; faults []
+scorer scorer-935b6e4.ts; first occurrence listed twice, counts 5/5: card " USD 1000" -> " USD 2000" repeat {"left":5,"right":5,"leftPages":4,"rightPages":4} occurrences 5
+  PASS; faults []
+scorer scorer.ts; product output as is: card " USD 1000" -> " USD 2000" repeat {"left":4,"right":4,"leftPages":4,"rightPages":4} occurrences 4
+  PASS; faults []
+scorer scorer.ts; first occurrence listed twice, counts 5/5: card " USD 1000" -> " USD 2000" repeat {"left":5,"right":5,"leftPages":4,"rightPages":4} occurrences 5
+  FAIL; faults ["card d-a60ed9517e3c168bc2ee lists the same source characters in two occurrences on the left side","card d-a60ed9517e3c168bc2ee lists the same source characters in two occurrences on the right side"]

@@ -1,0 +1,16 @@
+## r4417244277 one-sided Draft with Draft  on page 3: product policy-compare/0.1.0+row-identity.13+facts.4+repeat.7+ops.4
+  card Added "" -> "Draft" repeat {"left":0,"right":3,"leftPages":4,"rightPages":4} facts [] occurrences 3
+  card Added "" -> "Draft " repeat {"left":0,"right":1,"leftPages":4,"rightPages":4} facts [] occurrences 1
+  scorer: PASS; faults []; open []
+## one-sided page counters Page 1..4: product policy-compare/0.1.0+row-identity.13+facts.4+repeat.7+ops.4
+  card Added "" -> "Page 1" repeat {"left":0,"right":4,"leftPages":4,"rightPages":4} facts ["page_number_only"] occurrences 4
+  scorer: PASS; faults []; open []
+## page counter Page 03 (paired): product policy-compare/0.1.0+row-identity.13+facts.4+repeat.7+ops.4
+  card Replaced "Page 1" -> "Page 03" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4} facts ["page_number_only"] occurrences 8
+  scorer: PASS; faults []; open []
+## page total 4 -> 5 (paired): product policy-compare/0.1.0+row-identity.13+facts.4+repeat.7+ops.4
+  card Replaced "Page 1 of 4" -> "Page 1 of 5" repeat {"left":4,"right":4,"leftPages":4,"rightPages":4} facts ["page_number_only"] occurrences 4
+  scorer: PASS; faults []; open []
+## single heading line Page 3 -> Page 4: product policy-compare/0.1.0+row-identity.13+facts.4+repeat.7+ops.4
+  card Replaced "Schedule Page 3" -> "Schedule Page 4" repeat null facts ["page_number_only"] occurrences 0
+  scorer: NOT_EVALUATED; faults []; open ["card d-6138585bb46b1a88c1b7 states page_number_only; its sources cannot decide it here"]

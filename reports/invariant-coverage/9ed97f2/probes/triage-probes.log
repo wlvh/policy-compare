@@ -1,0 +1,20 @@
+=== tri-4d6b086: scripts/renewal-triage.py and tests/test_renewal_triage.py from 4d6b086 (renewal-triage/14)
+two currency-only cards (split path): split_attributable accepted=['h', 'l'] unexplained=0
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: correct fullRowRecovered=True atoms=['in_record', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record']
+control: Removed + Added cards: split_attributable accepted=['c', 'g'] unexplained=0
+Added r4417192877: one USD 100 for the cells USD 100 and 100: correct fullRowRecovered=True unexplained=0
+Added control: both shown: correct fullRowRecovered=True unexplained=0
+Removed r4417192877: one USD 100 for the cells USD 100 and 100: correct fullRowRecovered=True unexplained=0
+Removed control: both shown: correct fullRowRecovered=True unexplained=0
+=== tri-5989361: scripts/renewal-triage.py and tests/test_renewal_triage.py from 5989361 (renewal-triage/15)
+two currency-only cards (split path): not_evaluable accepted=[] unexplained=2
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: partly_located fullRowRecovered=False atoms=['in_record', 'not_found', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record', 'in_record']
+control: Removed + Added cards: split_attributable accepted=['c', 'g'] unexplained=0
+Added r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Added control: both shown: correct fullRowRecovered=True unexplained=0
+Removed r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Removed control: both shown: correct fullRowRecovered=True unexplained=0

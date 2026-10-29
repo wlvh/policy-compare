@@ -1,0 +1,6 @@
+scorer scorer-f0173ed.ts; product policy-compare/0.1.0+row-identity.13+facts.4+repeat.7+ops.4
+  card Replaced " USD 1000" -> " USD1000" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4} context 3
+  FAIL; faults ["card d-4bee4f296c21e356f7de states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites","card d-4bee4f296c21e356f7de marks an occurrence of its own text as context"]
+scorer scorer.ts; product policy-compare/0.1.0+row-identity.13+facts.4+repeat.7+ops.4
+  card Replaced " USD 1000" -> " USD1000" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4} context 3
+  PASS; faults []
