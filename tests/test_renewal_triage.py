@@ -249,6 +249,25 @@ class RecordIdentity(unittest.TestCase):
         self.assertEqual(ev['52']['verdict'], 'correct')
         self.assertTrue(ev['52']['row']['fullRowRecovered'])
 
+    def test_an_identity_after_the_preview_is_on_the_record(self):
+        # Review r4415969212: the primary identity metric read the 80-character
+        # previews and missed an MSN printed after a long operator name.
+        name = 'Kestrel Regional Airways Holdings Limited (Operator, Lessee and Manager)'
+        row = lambda v: f'{name} ATR 72-600 1315 {v}'
+        self.assertGreater(row('').index('1315'), 80)
+        whole = card('w', 'Replaced', [(11, 'a', row('20,490,000'))], [(11, 'b', row('19,210,000'))])
+        c = change(52, 'ac_1315', 'Replaced', f'{name} | ATR 72-600 | 1315 | 20,490,000',
+                   f'{name} | ATR 72-600 | 1315 | 19,210,000', VALUE, pages=(11, 11))
+        summary, ev = run([c], result([whole]), [table('aircraft', [2], c)])
+        self.assertEqual(ev['52']['verdict'], 'correct')
+        self.assertTrue(ev['52']['row']['primaryIdentityOnRecord'])
+        self.assertEqual(summary['tableRowEvents']['acceptedWithoutPrimaryIdentity'], [])
+        added = card('n', 'Added', right=[(11, 'b', row('19,210,000'))])
+        c = change(63, 'ac_1315', 'Added', '', f'{name} | ATR 72-600 | 1315 | 19,210,000', pages=(0, 11))
+        summary, ev = run([c], result([added]), [table('aircraft', [2], c)])
+        self.assertEqual(ev['63']['verdict'], 'correct')
+        self.assertTrue(ev['63']['row']['primaryIdentityOnRecord'])
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],

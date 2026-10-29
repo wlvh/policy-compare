@@ -728,22 +728,22 @@ def triage(change, result, declared, family, claimed):
             {'card': c['card'], 'left': c['left'], 'right': c['right']}
             for a in detail for c in a['candidates'] if c['card'] in a['accepted']), None)
         lc, rc = cells(change.get('left_text') or ''), cells(change.get('right_text') or '')
+        card = record and next(d for d in result['differences'] if d['id'] == record['card'])
+
+        def source(key, r):
+            """Full text of one accepted record location; refs keep only a preview (r4415969212)."""
+            sides = ('left', 'right') if key == 'refs' else (key,)
+            return next((l['text'] for side in sides for l in card[side] if l['pageIndex'] + 1 == r['page']
+                         and l['unitId'] == r['unitId'] and l['rawRange'] == r['rawRange']), r['text'])
+
+        def text(*keys):
+            return norm(' '.join(source(k, r) for k in keys for r in (record or {}).get(k, [])))
         full = None
         if record and change['kind'] == 'Replaced':
-            card = next(d for d in result['differences'] if d['id'] == record['card'])
-
-            def source(side, r):
-                """Full text of one accepted record location; refs keep only a preview."""
-                return next((l['text'] for l in card[side] if l['pageIndex'] + 1 == r['page']
-                             and l['unitId'] == r['unitId'] and l['rawRange'] == r['rawRange']), r['text'])
-
-            def holds(side, row):
-                text = norm(' '.join(source(side, r) for r in record[side]))
-                return all(bounded(c, text) for c in row if c)
-            full = holds('left', lc) and holds('right', rc)
+            full = all(bounded(c, text('left')) for c in lc if c) and all(bounded(c, text('right')) for c in rc if c)
         elif record:
             full = all(a['verdict'] == 'correct' for a in detail)
-        shown = norm(' '.join(r['text'] for k in ('left', 'right', 'refs') for r in (record or {}).get(k, [])))
+        shown = text('left', 'right', 'refs')
         record = {'expectedIdentity': ident, 'acceptedRecord': record, 'fullRowRecovered': full,
                   'primaryIdentityOnRecord': bool(record and ident['cells'] and bounded(ident['cells'][0], shown)),
                   'cells': {'left': len([c for c in lc or [] if c]), 'right': len([c for c in rc or [] if c])}}
