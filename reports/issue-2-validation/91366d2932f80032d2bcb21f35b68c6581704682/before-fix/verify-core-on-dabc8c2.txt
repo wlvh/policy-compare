@@ -1,0 +1,27 @@
+# final product tests (91366d2) with product, interface, contract and triage code of round 10 (dabc8c2)
+     × two spellings both present, their counts swapped 3+1 -> 1+3: each count change is shown 16ms
+     × a later page's page number changed (Page 3 -> Page 99) is shown, not hidden by the first page 4ms
+     × page counters in digits Number() cannot read stay content (r4416542434) 18ms
+     × a page counter is a whole number: Page 1.1 .. 1.4 is not a counting Page 1 (r4416744456) 14ms
+     × a profile-declared repeated header is split into its variants too (r4416656228) 25ms
+     × a whitespace edit on one page of a repeated line is shown (r4416942422) 7ms
+     × a page counter printed differently on one page is its own variant (r4417060269) 4ms
+     × a repeated line on one side only keeps its variants apart too (r4417244277) 4ms
+     × a fixed Page 1 on every page against a counting Page 1 .. 4 is shown (r4417303223) 4ms
+     × one text replaced by several: one card per new text, the old group not also unmatched 10ms
+     × controls: a single changed page, a page keeping the old text, repagination 15ms
+     × a row of amounts: each changed amount is paired with its own new value 31ms
+     × spaces and stray letters do not pair unrelated words 16ms
+     × two different words in the same place share only their common start and end 6ms
+     × the unchanged start and end of a text stop at a word boundary 3ms
+     × MSN | ESN | Serial | Share: 123/456 under MSN/ESN vs ESN/Serial is not one record 26ms
+     × two tables with the same title and heading row, a paragraph between, are not one table 19ms
+     × digit-free data rows (r4415822173): two tables with one heading, a paragraph between, are not one table 12ms
+     × a digit-free record that moves to the other table on every page is shown (r4416744444) 23ms
+     × a digit-free record does not become the heading of the rows below it (r4416878288) 8ms
+     × a digit-free record is read under its table's heading row (r4416942407) 5ms
+     × repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954) 68ms
+     × a repeated line's variant keeps its whitespace as the source prints it (#2's r4416942422) 16ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 23 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  4 failed | 11 passed (15)
+      Tests  23 failed | 279 passed (302)

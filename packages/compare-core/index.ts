@@ -655,7 +655,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.13+facts.4+repeat.7+ops.4",
+    coreVersion: VERSION + "+row-identity.13+facts.4+repeat.8+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -832,7 +832,15 @@ export function compare(
     const L = texts(as),
       R = texts(bs);
     if (L.size === 1 && R.size === 1) {
-      bind(repeated(as, `${prefix}-left-` + as[0].id), repeated(bs, `${prefix}-right-` + bs[0].id), method);
+      // Two different variants whose first occurrences read alike (Page 1 on
+      // every page against a counting Page 1 .. 4, r4417303223) are shown by
+      // an occurrence that differs; every occurrence stays on the card.
+      const shown = (us: Unit[], other: string, id: string) => {
+        const i = L.keys().next().value === R.keys().next().value ? -1 : us.findIndex((u) => u.rawText !== other);
+        return Object.assign(repeated(i > 0 ? [us[i], ...us.filter((_, k) => k !== i)] : us, id), { repeats: us });
+      };
+      const b = shown(bs, as[0].rawText, `${prefix}-right-` + bs[0].id);
+      bind(shown(as, b.rawText, `${prefix}-left-` + as[0].id), b, method);
       return;
     }
     const quote = (us: Unit[]) =>

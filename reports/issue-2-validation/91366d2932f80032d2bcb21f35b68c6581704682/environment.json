@@ -1,0 +1,50 @@
+{
+ "testedCommit": "91366d2932f80032d2bcb21f35b68c6581704682",
+ "node": "v24.19.0",
+ "pnpm": "10.12.1",
+ "python": "3.13.17",
+ "platform": "Linux x86_64",
+ "engines": {
+  "pdfjs-dist": "6.4.299",
+  "mupdf": "1.28.1"
+ },
+ "inputs": {
+  "status": "VERIFIED_INPUTS_ONLY",
+  "sourceRevision": "0eef67dd6cbe477ab625885220686c674640fb88",
+  "files": 10,
+  "pdfCount": 4,
+  "output": "tmp/renewal-inputs",
+  "classification": "synthetic_renewal_pairs"
+ },
+ "exitCodeMeaning": "0 complete_for_scope, 2 partial (coverage or unresolved groups present), 3 failed",
+ "runs": [
+  {
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "exitCode": 0,
+   "seconds": 3.28,
+   "resultSha256": "9868d467ac52376b8d93bbb9a522f0301b1d80cdf513d06969ce5db630491b13"
+  },
+  {
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "exitCode": 0,
+   "seconds": 2.49,
+   "resultSha256": "e4203451901b9aef9ad3b860a9f75ec4a08e1ba44f1f3f353f9e7ccd931c63c8"
+  },
+  {
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "exitCode": 0,
+   "seconds": 5.52,
+   "resultSha256": "3957a1e31fdf67794e156ffaab12a00ec704ab38e2b93f5ce560fe0a60263dcd"
+  },
+  {
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "exitCode": 0,
+   "seconds": 4.8,
+   "resultSha256": "fcaa5844545a9277345082f5c069899c09c2b9796c4d2ba0641dcc5078694a90"
+  }
+ ]
+}

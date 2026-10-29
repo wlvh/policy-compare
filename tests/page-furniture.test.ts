@@ -395,6 +395,20 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
     );
     expect(cards).toHaveLength(2);
   });
+  it("a fixed Page 1 on every page against a counting Page 1 .. 4 is shown (r4417303223)", () => {
+    // Each side is a single variant (Page 1 fixed; Page #0 counting) and both
+    // first occurrences read "Page 1", so the card was suppressed.
+    for (const [left, right] of [
+      [(_: number) => "Page 1", (p: number) => `Page ${p + 1}`],
+      [(p: number) => `Page ${p + 1}`, (_: number) => "Page 1"],
+    ] as const) {
+      const r = ResultSchema.parse(compare(four(left, 120), four(right, 120)));
+      expect(r.differences).toHaveLength(1);
+      const [d] = r.differences;
+      expect(d.oldText).not.toBe(d.newText);
+      expect([d.repeat?.left, d.repeat?.right, own(d, "left"), own(d, "right")]).toEqual([4, 4, [0, 1, 2, 3], [0, 1, 2, 3]]);
+    }
+  });
   it("one text replaced by several: one card per new text, the old group not also unmatched", () => {
     const r = ResultSchema.parse(
       compare(four(() => "Limit USD 1000"), four((p) => (p === 3 ? "Limit USD 3000" : "Limit USD 2000"))),
