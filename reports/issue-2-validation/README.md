@@ -5,35 +5,77 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `fix/issue-2-renewal`，从固定起点 `85dae9820651ae82a216a18efc0da4db8522045e` 建立；PR #9，目标 `feat/policy-compare` |
-| **当前被测代码** | **`60bf50c7d7ee292fd0b538d41a090a3e17ea1497`**（第五轮）：产品代码 `f3148df`（一位 MSN、数字章节标题），R16 验收修订 `4bf54eb`（生成器、R16 答案、#5 评分器的一个不变量分支），分诊脚本 `60bf50c`（T3）；之后的提交只增加本目录 |
-| 前几轮被测代码 | `ee0f0a5f259b2cff43b27a16fc8af57f3bd22f59`（第四轮）、`6e6b54176803534c316a353d6bb76d87bdf03015`（第三轮）、`eec627f1a8ceb6bc62d7bf273d8c031989b798fa`（第二轮）、`e313540a65958f526d1ab727932a3ab29cc87dbc`（第一轮）；证据保留在各自目录，不改写 |
-| 本项产品提交 | `d17cb73`（阶段 1）、`bc6610c`（阶段 2）、`ccfd47c`（不同生成器）、`eec627f`（第二轮审查修复）、`6e6b541`（第三轮 A—E）、`384d88b`（第四轮 D1—D3、E）、`f3148df`（第五轮）；分诊脚本 `ee0f0a5`（第四轮 T1、T2）、`60bf50c`（第五轮 T3），均按 #2 决定 A 在本项修；验收修订 `4bf54eb`（第五轮 R16，按 #2 授权） |
-| 版本 | 核心 `policy-compare/0.1.0+row-identity.6`；分诊 `renewal-triage/4`；PDF.js 适配器 `pdfjs-adapter/3`、MuPDF 适配器 `mupdf-adapter/3`（未变）；pdfjs-dist、公共 schema、`page-merkle/1` 未变 |
+| **当前被测代码** | **`80af5b1bcd752e95886f0c98c4494b91f778cd9d`**（第六轮）：产品代码 `7d909f1`（Cosmetic 出口需要证据），分诊脚本 `80af5b1`（T4 页范围）；之后的提交只增加本目录 |
+| 前几轮被测代码 | `60bf50c7d7ee292fd0b538d41a090a3e17ea1497`（第五轮）、`ee0f0a5f259b2cff43b27a16fc8af57f3bd22f59`（第四轮）、`6e6b54176803534c316a353d6bb76d87bdf03015`（第三轮）、`eec627f1a8ceb6bc62d7bf273d8c031989b798fa`（第二轮）、`e313540a65958f526d1ab727932a3ab29cc87dbc`（第一轮）；证据保留在各自目录，不改写 |
+| 本项产品提交 | `d17cb73`（阶段 1）、`bc6610c`（阶段 2）、`ccfd47c`（不同生成器）、`eec627f`（第二轮审查修复）、`6e6b541`（第三轮 A—E）、`384d88b`（第四轮 D1—D3、E）、`f3148df`（第五轮）、`7d909f1`（第六轮）；分诊脚本 `ee0f0a5`（第四轮 T1、T2）、`60bf50c`（第五轮 T3）、`80af5b1`（第六轮 T4），均按 #2 决定 A 在本项修；验收修订 `4bf54eb`（第五轮 R16，按 #2 授权） |
+| 版本 | 核心 `policy-compare/0.1.0+row-identity.7`；分诊 `renewal-triage/5`；PDF.js 适配器 `pdfjs-adapter/3`、MuPDF 适配器 `mupdf-adapter/3`（未变）；pdfjs-dist、公共 schema、`page-merkle/1` 未变 |
 | #5 集成 | 来源：代码 `47d4b503eab1f33b906edcbf589ae67af187cc4a`、报告 `67f02b7cd1106a568d436ed107656afd8dc76e61`（[PR #8](https://github.com/wlvh/policy-compare/pull/8)）；集成提交 `e313540`（合并提交，无冲突） |
-| 当前 SHA 的 CI | **`60bf50c`：成功，两次运行共 10 个 job 全部成功**：PR [run 40833281528](https://github.com/wlvh/policy-compare/actions/runs/40833281528)、push [run 40833273862](https://github.com/wlvh/policy-compare/actions/runs/40833273862)。两次运行中两引擎的 functional job 都跑完全部 19 个步骤（含 `test:rules`、审核回归、浏览器测试），没有被取消或跳过的步骤；两个 Linux 容器与 fixture 构造均成功。上一轮 `ee0f0a5` 因 R16 失败（run 40718741295、40718731547；`b479715` 的 push run 另有一次 runner 上 Docker 不可用的基础设施失败，同提交 PR run 中该 job 通过），记录保留 |
+| 当前 SHA 的 CI | **`80af5b1`：成功，两次运行共 10 个 job 全部成功**：PR [run 40841829995](https://github.com/wlvh/policy-compare/actions/runs/40841829995)、push [run 40841820547](https://github.com/wlvh/policy-compare/actions/runs/40841820547)。两引擎 functional job 的全部步骤（含 `test:rules`、审核回归、浏览器测试，MuPDF 的取消生命周期测试也在其中）都跑完，没有被取消或跳过的步骤；Linux 容器与 fixture 构造均成功。上一轮 `60bf50c`/`72f0cd1` 全绿（run 40833281528、40833273862、40833709802、40833701717）；更早 `ee0f0a5`/`b479715` 的红色运行（R16）与当时的 Docker 基础设施失败记录保留 |
 | 本地环境 | Node 24.19.0、pnpm 10.12.1、Python 3.13.17、PDF.js 6.4.299、MuPDF 1.28.1、Chromium 153（预装）、LibreOffice 24.2.7.2；Linux x86_64 云容器 |
 | 输入 | `jiehuan/falcon-mini@0eef67d`，`scripts/fetch-renewal-samples.mjs` 校验大小、Git blob 和 SHA-256；产品只读 PDF，作者答案只给分诊脚本读 |
 
 **结论的范围**：“归属错误 0”指共同分诊脚本和本报告的人工核对**没有发现**错误归属；分诊判为“未定位”“无法评价”的事件不在其内，不等于每个事件都已验证正确。`complete_for_scope` 只表示可提取文本范围内没有覆盖缺口和待核验组，不是语义正确率。
 
-## 0. 结论（当前被测代码 `60bf50c`：产品 `f3148df` + R16 验收修订 `4bf54eb` + 分诊 `60bf50c`）
+## 0. 结论（当前被测代码 `80af5b1`：产品 `7d909f1` + 分诊 `80af5b1`）
 
-本轮按 #2 的授权修订了 R16 的验收契约（不是产品豁免）：重分页时生成器确实新增了页标题 `POLICY WORDING`，现在把它登记为有准确来源的 Added / Review 必检事件；产品照旧把任何新页标题显示为 Review。第四轮的 R16 FAIL 记录（`ee0f0a5…/regression/failures/`）保留。
+第五轮的全部结果（R16 正式事件、一位 MSN、章节归属、T3）保留，未重做；第五轮报告与 20 份重评原样保留。本轮只做 #2 列明的两项：`category()` 的 Cosmetic 出口需要证据，分诊 T4 页范围。
 
 | 验收项 | 结论 | 证据 |
 |---|---|---|
-| 阶段 1—4 的全部修复（第二轮三条缺陷与 UMR 例外、第三轮 A—E、第四轮 D1—D3、E、T1、T2） | 保持（原测试全部通过；续保卡片与第四轮逐张相同） | 第 1—5、R、R3、R4 节 |
-| **第五轮产品：一位 MSN、数字章节标题 `SECTION 10.1`** | **修复（`f3148df`，核心 `+row-identity.6`）；新增 4 项测试，修复前 2 项失败、2 项对照通过** | 第 R5 节；`60bf50c…/before-fix/` |
-| **R16 验收修订** | **完成（`4bf54eb`）；64 份 PDF 字节不变；评分器 9 项新测试 + N/A 计数，修复前 3 项失败** | 第 R5 节；`60bf50c…/r16-contract/` |
-| **第五轮分诊 T3（原样内容冒充替换）** | **修复（`60bf50c`，`renewal-triage/4`）；5 个反例修复前都被接受、修复后都不接受；5 个正向对照通过** | 第 R5 节 |
-| 单元测试 | 141/141（第四轮 128 + 产品 4 + 评分器 9）；分诊单元测试 28/28（原 26 + 2 个参数化测试，共 10 个子用例） | `60bf50c…/regression/` |
-| 两引擎规则 32 对（已集成的 #5 评分器） | **MuPDF 32/32、PDF.js 32/32，无 NOT_EVALUATED**；身份 N/A 12 项（原 11 项 + `R16_repagination:E1`）。浏览器规则两引擎 32/32。**覆盖边界**：这是 #5 评分器；#10 的严格评分器中 `all_source_text_preserved` 仍未支持，严格 R16 仍为 NOT_EVALUATED，**不能称严格 32/32** | `60bf50c…/regression/rules-*.json` |
-| 审核 PDF 回归、PDF 机制（含 Chromium Type 3）、构建、浏览器测试 | 两引擎：审核回归 10/10、PDF 机制 7/7、构建通过、浏览器 15/15 | `60bf50c…/regression/` |
-| 重跑四次续保比较 | 产品卡片与 `ee0f0a5` **逐张相同**（ID、类别、文字、出现位置数、结构路径）；待核验组 0；四次都是 `complete_for_scope`；`key-events.json` 与身份列核对逐字节相同 | `60bf50c…/renewal-card-diff.txt` |
-| 新分诊脚本重评（冻结 v3、`eec627f`、`6e6b541`、`ee0f0a5`、本轮最终各四份，共 20 份） | **0 个事件变化**：逐事件结论、接受卡、correct/split_attributable、未解释卡、整行完整全部不变。检查确实生效（见第 R5 节探针） | `60bf50c…/retriage/` |
-| 不同生成途径的一对 PDF（复用原输入） | 10/10 × 4，0 处跨记录错配；卡片与第四轮相同 | `60bf50c…/generators/` |
-| 浏览器精细高亮与来源导航 | 6 个关键记录、3 张聚合卡、3 张组内不一致卡、12 项 margin 卡，两引擎全部通过 | `60bf50c…/browser/` |
+| 阶段 1—5 的全部修复 | 保持（原测试全部通过；R16 仍为正式 Added/Review 事件） | 第 1—5、R、R3—R5 节 |
+| **第六轮产品：Cosmetic 出口需要证据** | **修复（`7d909f1`，核心 `+row-identity.7`）；21 项新测试，修复前 11 项失败、8 项对照通过（另 2 项保留出口的对照为修复后补充）** | 第 R6 节；`80af5b1…/before-fix/` |
+| **第六轮分诊 T4：文字须来自作者所给页的来源** | **修复（`80af5b1`，`renewal-triage/5`）；修复前增删两种错页与“跨页段落只给第 2 页”被接受，修复后都不接受；正向对照通过** | 第 R6 节 |
+| 单元测试 | 162/162（第五轮 141 + 21）；分诊单元测试 30/30（原 28 + 2 个参数化测试） | `80af5b1…/regression/` |
+| 两引擎规则 32 对（#5 评分器） | MuPDF 32/32、PDF.js 32/32，无 NOT_EVALUATED，身份 N/A 12 项；浏览器规则两引擎 32/32；32 个用例的状态、卡片数与第五轮相同。严格口径不变：#10 中严格 R16 仍为 NOT_EVALUATED，不能称严格 32/32 | `80af5b1…/regression/rules-*.json` |
+| 审核 PDF 回归、PDF 机制、构建、浏览器测试 | 两引擎：审核回归 10/10、PDF 机制 7/7、构建通过。浏览器：PDF.js 15/15；**MuPDF 第一次 14/15**（取消 20 次的生命周期测试，一次取消后 5 秒内仍剩 2 个 worker），同一构建再跑一次 15/15。本轮没有改动 `apps/`、`engines/`，两次记录都保留，失败按间歇性的 worker 清理问题报告，不算通过 | `80af5b1…/regression/`、`regression/browser-mupdf-first-run/` |
+| 重跑四次续保比较 | 产品卡片与 `60bf50c`（`72f0cd1` 的被测代码）**逐张相同**，0 张变化。原因已核对：四份结果中 Cosmetic 卡只有 3 张——航空 MuPDF 一张两侧规范化后文字相同的条款卡，商务航空两引擎的页码行 `Page 1 of 17 → 18`——都不依赖本轮收窄的出口 | `80af5b1…/renewal-card-diff.txt` |
+| 新分诊脚本重评（冻结 v3、`eec627f`、`6e6b541`、`ee0f0a5`、`60bf50c` 各四份及本轮最终四份，共 24 份） | **0 个事件变化**。检查确实生效：把作者所给页改到同一卡上不含该文字的另一页，16 个探针中旧脚本仍接受 4 个（商务航空 #84，两组两引擎），新脚本 0 个 | `80af5b1…/retriage/` |
+| 不同生成途径的一对 PDF | 10/10 × 4，0 处跨记录错配；卡片与第五轮相同 | `80af5b1…/generators/` |
+| 浏览器精细高亮与来源导航 | 两引擎 24 项全部通过 | `80af5b1…/browser/` |
 | 真实文档试用、业务签收、指定硬件性能、生产部署 | **NOT_RUN / BLOCKED** | 第 7 节 |
+
+## R6. 第六轮：Cosmetic 出口的证据、分诊 T4（产品 `7d909f1`，分诊 `80af5b1`）
+
+依据 [#2 顶部指令（2026-10-29，第六轮）](https://github.com/wlvh/policy-compare/issues/2) 与 [PR #9 开发指令](https://github.com/wlvh/policy-compare/pull/9#issuecomment-6491176816)。范围只限 `category()` 的 Cosmetic 返回及其直接使用的页码、别名、续页证据；没有扩关键词、日期/币种表，也没有改配对或聚合数量。
+
+### 产品（`7d909f1`，核心 `+row-identity.7`）
+
+原则：Cosmetic 必须有“只有形式变化”的具体证据；没有数字、没有命中关键词、行的角色都不是证据。
+
+| 出口 | 修复前 | 修复后 | 依靠的证据 | 测试 |
+|---|---|---|---|---|
+| 页面附属行两侧都有 | 按页码位换成 `#` 后文字相同，或规范化文字相同 → Cosmetic | 不变 | 只差已确认的页码 | `page-furniture`：页码卡、只变页码的行 |
+| 页面附属行只在一侧 | 有页码且页码以外**不含数字** → Cosmetic：`War risks excluded Page n`、`Draft Page n` 四张卡全是 Cosmetic | 去掉**已确认页码所在的完整页码表达**（`Page n of N`、`- n -` 等）后**只剩空白**才 Cosmetic；否则按内容：业务文字 Review，含金额 Material | 页码表达之外没有文字 | `cosmetic-evidence`：业务措辞、Draft（Review）、金额（Material）、`Page n`、`- n -`（Cosmetic），增删两方向 |
+| `whitespace` 角色 | Cosmetic | 不变（这个角色只给去掉空白后为空的行） | 纯空白 | `cosmetic-evidence`：空白行 |
+| 两侧规范化文字相同 | Cosmetic | 不变 | 文字等价 | `core`：连字 `Office`/`Ofﬁce` |
+| `label`、`table_header` 角色 | **凭角色直接 Cosmetic**：单独增删 `DEDUCTIBLE:`、一组 profile 表头、`INSURED:`→`REINSURED:` 都是 Cosmetic | 两个完整 profile 标签、同一字段、同一主体、同一章节、归属可靠时才是显式别名（Cosmetic）；其余增删或改名按内容规则，Review，含数字或关键词为 Material。不会因为“有字段”就落入 Material | 显式别名 | `cosmetic-evidence`：标签增删、表头增删（Review）、`INSURED:`→`REINSURED:`（非 Cosmetic）、R11 `SUMS INSURED:`→`SUM INSURED:`（Cosmetic）、相同表头（无卡）；规则 R11 |
+| 标题、页眉、页脚两侧都有 | 去掉 `Page n` 后相同 → Cosmetic | 不变 | 只差页码 | `margin-text`：页脚页码变化 |
+| 标题、页眉、页脚只在一侧 | 去掉 `Page n` 后**没有字母数字** → Cosmetic：页顶单侧 `☑` 是 Cosmetic | 去掉 `Page n` 后**只剩空白**才 Cosmetic；`☑` 按既有实质符号规则为 Material | 只剩页码 | `cosmetic-evidence`：`☑` 增删（Material）、单侧 `Page 3`（Cosmetic） |
+| 续页标题（`layoutOnly`） | 基础标题两版都有、只加明确 continued 后缀 → Cosmetic | 不变 | 续页重复 | `margin-text`：续页标题；规则 R24 |
+
+标签例子只证明“角色不能单独豁免”：带值的 `INSURED:`→`REINSURED:` 在修复前也有字段 Material 卡，并不是整条业务变化都被隐藏。R16 的新页标题仍是 Review，R24 续页标题、纯页码、金额附属、UMR、单页异常等既有控制都保持。
+
+测试：`tests/cosmetic-evidence.test.ts` 21 项，经 `ResultSchema`；修复前 11 项失败、8 项对照通过（`before-fix/product-before-fix.log`），保留出口的 2 项对照（空白行、单侧 `Page 3`）在修复前后都通过。全部单元测试 162/162。
+
+**类别变化**：四次续保 0 张变化，32 个规则用例状态与卡片数不变，不同生成器卡片不变。本轮的修正针对的输入（单侧业务附属行、单独增删标签/表头、页顶符号）在这些样本里没有出现；变化在新测试中可见。
+
+### 分诊 T4（`80af5b1`，`renewal-triage/5`）
+
+[PR #11 线程](https://github.com/wlvh/policy-compare/pull/11#discussion_r4409598934)：作者声明第 2 页的增删段落，卡片只在第 1 页含该段，同卡第 2 页另有无关文字，仍判 correct、接受卡、unexplained=0；输出证据退回到第 2 页的无关单元。
+
+- **做法**：文字只在“该侧文字（由卡片 textOps 重建）中、每个字符都来自作者所给页上的来源单元”的出现处算数（未给页时不限）。候选匹配（Replaced、Moved、Added/Removed 段落）、T3 的实际编辑检查和输出证据都用这些出现处的来源单元，不再退回同页其他单元。表格行单元格与页面附属清单不变。
+- **测试**：Added、Removed 段落只在另一页时不接受（修复前接受）；从第 1 页开始的段落不算第 2 页的段落（修复前接受）；Replaced 的同构输入保持不接受（T3 已挡住）；所给页、未给页、跨越所给两页的段落都接受，且证据只来自其自身单元。修复后 30/30。
+
+### 重评（只重跑分诊，不重新提取 PDF）
+
+`retriage.py` 用 `60bf50c`（旧）与 `80af5b1`（新）脚本重评第五轮已有的 20 份结果和本轮最终四份，共 24 份：**逐事件结论、接受卡、correct/split_attributable、未解释卡、整行完整全部不变，0 个事件变化**（`retriage/retriage.md`）。
+
+0 变化的原因已核对：24 份结果中，被接受的“原子 × 卡片”里只有很少一部分落在跨多页的卡上（第五轮的 20 份中为 3,605 中的 62 个），且这些全部的证据都在作者所给页。为确认检查确实生效，`retriage/page-probe.py` 对这类事件把作者所给页改到同一卡上不含该文字的另一页（`page-probe.json`）：16 个探针中旧脚本仍接受 4 个（商务航空 #84，`60bf50c` 与本轮两组、两引擎），新脚本 0 个。即 T4 描述的错页接受在原答案下没有发生，答案页一旦不对，新脚本不再接受。
+
+### 其余验收
+
+- 续保四次：产品卡片与 `60bf50c` 逐张相同；`key-events.json` 与身份列核对逐字节相同。
+- 规则、浏览器规则、审核回归、PDF 机制、不同生成器、来源导航同上表。MuPDF 浏览器第一次运行的取消测试失败已单独保存，见上表。
 
 ## R5. 第五轮：R16 验收修订、一位 MSN、数字章节标题、分诊 T3（产品 `f3148df`，验收修订 `4bf54eb`，分诊 `60bf50c`）
 
@@ -331,6 +373,7 @@
 - **标题与页边文字的类别**（第 R3 节）：标题、页眉、页脚的文字变化按正文规则归类：含数字即 Material（例如单独成行的条款编号 `1.8`），否则看关键词，没有命中为 Review。正文规则的关键词按完整词匹配（`not`、`cover`、`exclud`、`loss`、`liability`、`and`、`or`），所以 `covers/covered/coverage`、`excludes/excluded/exclusion` 不命中，`The insurer covers war risks.` → `… excludes …` 这类业务句是 Review。**Review 只表示需要人看，不代表产品已判断出它的业务重要性**；本轮不扩充自然语言分类。
 - **改写的标题不与新标题配对**：标题以自身为标题上下文，改写后显示为删除＋新增两张卡（都可见、可定位）；紧随其后、同时被改动的正文也可能因此分成删除＋新增。续保样本中 `HOWEVER:`→`However:` 的删除卡因此由隐藏的 Cosmetic 变为可见的 Review。
 - **新页标题**（第 R4、R5 节）：新增页上的标题一律至少 Review，即使只是重分页带来的页标题（R16 的 `POLICY WORDING`）。产品无法从位置区分版式标题和业务标题。R16 现在通过，是因为验收答案登记了这处真实新增文字（第 R5 节），不是产品识别出它无业务意义；真实文档重分页时，新页标题会作为可见的 Review 卡出现。
+- **Cosmetic 的证据**（第 R6 节）：只认两侧规范化文字相同、已确认的页码、纯空白行、同字段/主体/章节的两个完整 profile 标签（显式别名）和明确的续页标题。别的写法即使只是形式变化也不会被认出，例如单侧出现的纯装饰行（`* * *`）、未列入 profile 的同义标签、`p. 3` 这类页码，都显示为 Review。这是有意保守，只增加需要人看的卡，不隐藏变化。
 - **评分口径**（第 R5 节）：#5 评分器在“无业务变化”的用例里只放过与已声明的非 Material 事件**整卡精确一致**的卡；它仍不检查 `all_source_text_preserved`。#10 的严格评分器中该项未支持，严格 R16 为 NOT_EVALUATED。
 - **两列清单**（代码 | 名称，如条款清单）不是表格行（只有两簇），相邻清单项会合成段落：商务航空 #16、#17 的删除/新增项显示在相邻项的修改卡里，可见、可定位，但不是单独成卡。
 - **类别**：没有数字和关键词的行变化（如机库飞机清单加入 M-FNKE）显示为 Review，不是 Material；保期显示为 Material，不识别为 RollForward；序数上标日期（`16th`）不解析。弯撇号改直撇号会出一张 Material 卡。
@@ -370,6 +413,14 @@ python3 $P/retriage.py tmp/renewal-inputs $P/<HEAD>/retriage ee0f0a5 v3-85dae98=
   ee0f0a5=$P/ee0f0a5f259b2cff43b27a16fc8af57f3bd22f59 final-<HEAD7>=$P/<HEAD>
 python3 $P/<HEAD>/retriage/edit-check-probe.py $P/<HEAD>/retriage \
   tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json $P/<HEAD>/aviation_2024_vs_2025-mupdf.json.gz
+
+# 第六轮：旧脚本 60bf50c 与当前脚本重评 24 份结果，并用页范围探针检查 T4 生效
+git show 60bf50c:scripts/renewal-triage.py > /tmp/triage-60bf50c.py
+python3 $P/retriage.py tmp/renewal-inputs $P/<HEAD>/retriage 60bf50c v3-85dae98=reports/v3-review/results \
+  eec627f=$P/eec627f1a8ceb6bc62d7bf273d8c031989b798fa 6e6b541=$P/6e6b54176803534c316a353d6bb76d87bdf03015 \
+  ee0f0a5=$P/ee0f0a5f259b2cff43b27a16fc8af57f3bd22f59 60bf50c=$P/60bf50c7d7ee292fd0b538d41a090a3e17ea1497 final-<HEAD7>=$P/<HEAD>
+python3 $P/<HEAD>/retriage/page-probe.py /tmp/triage-60bf50c.py scripts/renewal-triage.py tmp/renewal-inputs \
+  final-<HEAD7>=$P/<HEAD> 60bf50c=$P/60bf50c7d7ee292fd0b538d41a090a3e17ea1497
 
 # 第五轮 R16 数据集：用固定依赖（validation/requirements.txt）分别以修改前后的生成器生成并比较
 python validation/generator.py --output <dir> && diff -rq <before-dir> <after-dir> && python validation/fixture_checks.py

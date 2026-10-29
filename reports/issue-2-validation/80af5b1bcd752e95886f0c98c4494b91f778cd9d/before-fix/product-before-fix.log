@@ -1,0 +1,123 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/cosmetic-evidence.test.ts (19 tests | 11 failed) 276ms
+   ❯ a one-sided repeated line is cosmetic only when nothing but its page number is left (10)
+     × business wording, added: Review 90ms
+     × business wording, removed: Review 10ms
+     × a draft mark, added: Review 30ms
+     × a draft mark, removed: Review 29ms
+     ✓ an amount, added: Material 9ms
+     ✓ an amount, removed: Material 26ms
+     ✓ only Page n, added: Cosmetic 26ms
+     ✓ only Page n, removed: Cosmetic 17ms
+     ✓ only - n -, added: Cosmetic 6ms
+     ✓ only - n -, removed: Cosmetic 5ms
+   ❯ a label or table header is not cosmetic by its role alone (7)
+     × a label alone, added: at least Review, with its source 2ms
+     × a label alone, removed: at least Review, with its source 2ms
+     × a profile table header, added: at least Review, with its source 2ms
+     × a profile table header, removed: at least Review, with its source 3ms
+     × a label that names another party (INSURED: -> REINSURED:) is at least Review 2ms
+     ✓ R11: an explicit alias of the same field (SUMS INSURED: -> SUM INSURED:) stays Cosmetic 1ms
+     ✓ an unchanged table header gives no card 2ms
+   ❯ a one-sided mark at the top of a page keeps the content rule (2)
+     × ☑ added: Material, as the substantive-symbol rule says 6ms
+     × ☑ removed: Material, as the substantive-symbol rule says 3ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cosmetic-evidence.test.ts > a one-sided repeated line is cosmetic only when nothing but its page number is left > business wording, added: Review
+ FAIL  tests/cosmetic-evidence.test.ts > a one-sided repeated line is cosmetic only when nothing but its page number is left > business wording, removed: Review
+ FAIL  tests/cosmetic-evidence.test.ts > a one-sided repeated line is cosmetic only when nothing but its page number is left > a draft mark, added: Review
+ FAIL  tests/cosmetic-evidence.test.ts > a one-sided repeated line is cosmetic only when nothing but its page number is left > a draft mark, removed: Review
+AssertionError: expected [ 'Cosmetic' ] to deeply equal [ 'Review' ]
+
+- Expected
++ Received
+
+  [
+-   "Review",
++   "Cosmetic",
+  ]
+
+ ❯ tests/cosmetic-evidence.test.ts:38:68
+     36|         const r = run(left, right);
+     37|         expect(r.differences.length).toBeGreaterThan(0);
+     38|         expect([...new Set(r.differences.map((d) => d.category))]).toE…
+       |                                                                    ^
+     39|         expect(sourced(r)).toBe(true);
+     40|       });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  tests/cosmetic-evidence.test.ts > a label or table header is not cosmetic by its role alone > a label alone, added: at least Review, with its source
+ FAIL  tests/cosmetic-evidence.test.ts > a label or table header is not cosmetic by its role alone > a label alone, removed: at least Review, with its source
+ FAIL  tests/cosmetic-evidence.test.ts > a label or table header is not cosmetic by its role alone > a profile table header, added: at least Review, with its source
+ FAIL  tests/cosmetic-evidence.test.ts > a label or table header is not cosmetic by its role alone > a profile table header, removed: at least Review, with its source
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/cosmetic-evidence.test.ts:59:69
+     57|         const r = run(left, right);
+     58|         expect(r.differences.length).toBeGreaterThan(0);
+     59|         expect(r.differences.every((d) => d.category === "Review")).to…
+       |                                                                     ^
+     60|         expect(sourced(r)).toBe(true);
+     61|       });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  tests/cosmetic-evidence.test.ts > a label or table header is not cosmetic by its role alone > a label that names another party (INSURED: -> REINSURED:) is at least Review
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/cosmetic-evidence.test.ts:65:66
+     63|     const r = run(textDoc([{ text: "INSURED:", x: 40, y: 150 }]), text…
+     64|     expect(r.differences.length).toBeGreaterThan(0);
+     65|     expect(r.differences.some((d) => d.category === "Cosmetic")).toBe(…
+       |                                                                  ^
+     66|     expect(sourced(r)).toBe(true);
+     67|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  tests/cosmetic-evidence.test.ts > a one-sided mark at the top of a page keeps the content rule > ☑ added: Material, as the substantive-symbol rule says
+ FAIL  tests/cosmetic-evidence.test.ts > a one-sided mark at the top of a page keeps the content rule > ☑ removed: Material, as the substantive-symbol rule says
+AssertionError: expected [ 'Cosmetic' ] to deeply equal [ 'Material' ]
+
+- Expected
++ Received
+
+  [
+-   "Material",
++   "Cosmetic",
+  ]
+
+ ❯ tests/cosmetic-evidence.test.ts:88:52
+     86|     it(`☑ ${direction}: Material, as the substantive-symbol rule says`…
+     87|       const r = run(left, right);
+     88|       expect(r.differences.map((d) => d.category)).toEqual(["Material"…
+       |                                                    ^
+     89|       expect(sourced(r)).toBe(true);
+     90|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  11 failed | 8 passed (19)
+   Start at  08:01:55
+   Duration  623ms (tests 61%, import 29%, transform 8%, worker 1%)
+
+JSON report written to reports/core-tests.json

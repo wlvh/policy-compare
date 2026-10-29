@@ -1,0 +1,305 @@
+{
+ "summary": {
+  "probes": 16,
+  "oldStillAccepts": 4,
+  "newStillAccepts": 0
+ },
+ "probes": [
+  {
+   "set": "final-80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 10,
+   "side": "left",
+   "statedPagesMovedTo": [
+    2
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "final-80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 17,
+   "side": "right",
+   "statedPagesMovedTo": [
+    5
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "final-80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 47,
+   "side": "left",
+   "statedPagesMovedTo": [
+    9
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "final-80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 10,
+   "side": "left",
+   "statedPagesMovedTo": [
+    2
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "final-80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 17,
+   "side": "right",
+   "statedPagesMovedTo": [
+    5
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "final-80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 47,
+   "side": "left",
+   "statedPagesMovedTo": [
+    9
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "final-80af5b1",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 84,
+   "side": "right",
+   "statedPagesMovedTo": [
+    19
+   ],
+   "old": {
+    "verdict": "correct",
+    "acceptedCards": [
+     "d-649774e185d47897da3a"
+    ]
+   },
+   "new": {
+    "verdict": "not_located",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "final-80af5b1",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 84,
+   "side": "right",
+   "statedPagesMovedTo": [
+    19
+   ],
+   "old": {
+    "verdict": "correct",
+    "acceptedCards": [
+     "d-bf65b6d9ef62b9d071b7"
+    ]
+   },
+   "new": {
+    "verdict": "not_located",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 10,
+   "side": "left",
+   "statedPagesMovedTo": [
+    2
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 17,
+   "side": "right",
+   "statedPagesMovedTo": [
+    5
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 47,
+   "side": "left",
+   "statedPagesMovedTo": [
+    9
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 10,
+   "side": "left",
+   "statedPagesMovedTo": [
+    2
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 17,
+   "side": "right",
+   "statedPagesMovedTo": [
+    5
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 47,
+   "side": "left",
+   "statedPagesMovedTo": [
+    9
+   ],
+   "old": {
+    "verdict": "not_evaluable",
+    "acceptedCards": []
+   },
+   "new": {
+    "verdict": "one_side_only",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "event": 84,
+   "side": "right",
+   "statedPagesMovedTo": [
+    19
+   ],
+   "old": {
+    "verdict": "correct",
+    "acceptedCards": [
+     "d-649774e185d47897da3a"
+    ]
+   },
+   "new": {
+    "verdict": "not_located",
+    "acceptedCards": []
+   }
+  },
+  {
+   "set": "60bf50c",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "event": 84,
+   "side": "right",
+   "statedPagesMovedTo": [
+    19
+   ],
+   "old": {
+    "verdict": "correct",
+    "acceptedCards": [
+     "d-bf65b6d9ef62b9d071b7"
+    ]
+   },
+   "new": {
+    "verdict": "not_located",
+    "acceptedCards": []
+   }
+  }
+ ]
+}
