@@ -24,13 +24,44 @@ def loc(side, page, unit, text):
             'text': text, 'quads': [[0, 0, 1, 0, 0, 1, 1, 1]], 'direction': [1, 0], 'precision': 'native'}
 
 
+def ops(left, right):
+    """Text operations as the product reports them: the common prefix and suffix are equal, the rest
+    is deleted and inserted, and each part keeps the source units its characters come from."""
+    def chars(cells):
+        out = []
+        for i, (page, unit, text) in enumerate(cells):
+            out += ([(' ', (page, unit))] if i else []) + [(c, (page, unit)) for c in text]
+        return out
+
+    def locs(side, part):
+        out = []
+        for c, (page, unit) in part:
+            if out and (out[-1]['pageIndex'] + 1, out[-1]['unitId']) == (page, unit):
+                out[-1] = loc(side, page, unit, out[-1]['text'] + c)
+            else:
+                out.append(loc(side, page, unit, c))
+        return out
+    a, b = chars(left), chars(right)
+    p = 0
+    while p < min(len(a), len(b)) and a[p][0] == b[p][0]:
+        p += 1
+    s = 0
+    while s < min(len(a), len(b)) - p and a[-1 - s][0] == b[-1 - s][0]:
+        s += 1
+    parts = [('equal', a[:p], b[:p]), ('delete', a[p:len(a) - s], []), ('insert', [], b[p:len(b) - s]),
+             ('equal', a[len(a) - s:], b[len(b) - s:])]
+    return [{'kind': k, 'text': ''.join(c for c, _ in (l or r)), 'left': locs('left', l), 'right': locs('right', r)}
+            for k, l, r in parts if l or r]
+
+
 def card(id, kind, left=(), right=(), category='Material', row_key=None, table=None, confidence='candidate'):
     """left/right: (page, unitId, text) cells in reading order."""
+    old, new = ' '.join(c[2] for c in left), ' '.join(c[2] for c in right)
     return {'id': id, 'kind': kind, 'category': category,
             'structurePath': {'section': 'clauses', 'entity': None, 'field': None, 'table': table,
                               'rowKey': row_key, 'confidence': confidence},
             'left': [loc('left', *c) for c in left], 'right': [loc('right', *c) for c in right],
-            'oldText': ' '.join(c[2] for c in left), 'newText': ' '.join(c[2] for c in right)}
+            'oldText': old, 'newText': new, 'hasTextChange': old != new, 'textOps': ops(left, right)}
 
 
 def group(left=(), right=()):
@@ -199,6 +230,67 @@ class MovedIsNotAddedOrRemoved(unittest.TestCase):
         rewritten = card('w', 'Replaced', [(4, 'a', 'Claims. ' + self.TEXT)], [(4, 'b', 'Claims.')])
         _, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0))], result([rewritten]))
         self.assertEqual((ev['30']['verdict'], ev['30']['acceptedCards']), ('correct', ['w']))
+
+
+class ReplacementNeedsTheEdit(unittest.TestCase):
+    """Review of PR #11 (fixed in #9): a Replaced or Moved-with-edit atom is accepted only on cards
+    whose text operations change that very fragment, in the unit that holds it. Holding the old text
+    on the left and the new text on the right is not enough, on one card or on two."""
+    PARA = 'Hull USD 100; liability USD 200.'
+    EDIT = change(40, 'hull', 'Replaced', 'Hull USD 100 applies.', 'Hull USD 200 applies.', [('USD 100', 'USD 200')])
+    ROW = change(41, 'ac_1315', 'Replaced', 'ATR 72-600 | 1315 | USD 100', 'ATR 72-600 | 1315 | USD 200',
+                 [('USD 100', 'USD 200')])
+
+    def test_cards_without_the_edit_are_not_accepted(self):
+        unchanged = {
+            'same card, unchanged move': ([self.EDIT], [card('m', 'Moved', [(1, 'a', self.PARA)], [(1, 'b', self.PARA)],
+                                                              category='Review')]),
+            'same card, called Replaced': ([self.EDIT], [card('m', 'Replaced', [(1, 'a', self.PARA)],
+                                                               [(1, 'b', self.PARA)])]),
+            'same card, right record': ([self.ROW], [card('m', 'Moved', [(1, 'a', '1315 ' + self.PARA)],
+                                                          [(1, 'b', '1315 ' + self.PARA)], row_key='1315')]),
+            'same card, only another unit changed': ([self.EDIT], [card(
+                'm', 'Replaced', [(1, 'a', self.PARA), (1, 'c', 'Deductible USD 5,000')],
+                [(1, 'b', self.PARA), (1, 'd', 'Deductible USD 7,500')])]),
+            'split, two unchanged moves': ([self.EDIT], [
+                card('o', 'Moved', [(1, 'a', 'Hull USD 100 applies.')], [(1, 'b', 'Hull USD 100 applies.')]),
+                card('n', 'Moved', [(1, 'c', 'Hull USD 200 applies.')], [(1, 'd', 'Hull USD 200 applies.')])]),
+        }
+        for name, (events, cards) in unchanged.items():
+            with self.subTest(name):
+                summary, ev = run(events, result(cards))
+                e = ev[str(events[0]['id'])]
+                self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+                self.assertEqual(e['acceptedCards'], [])
+                self.assertEqual((summary['acceptedCards'], summary['unexplainedCards']), (0, len(cards)))
+
+    def test_cards_with_the_edit_are_still_accepted(self):
+        moved = change(42, 'pol', 'Moved', self.PARA, self.PARA, pages=(1, 2))
+        insert = change(43, 'pay', 'Replaced', 'The insurer pays approved losses.',
+                        'The insurer pays approved covered losses.', [('approved losses', 'approved covered losses')])
+        edited = {
+            # The old value still appears elsewhere on the right after a real replacement.
+            'same card, old value kept elsewhere': (self.EDIT, [card(
+                'r', 'Replaced', [(1, 'a', 'Hull USD 100 applies; liability USD 100.')],
+                [(1, 'b', 'Hull USD 200 applies; liability USD 100.')])], 'correct', ['r']),
+            'same card, right record': (self.ROW, [card('r', 'Replaced', [(1, 'a', 'ATR 72-600 1315 USD 100')],
+                                                        [(1, 'b', 'ATR 72-600 1315 USD 200')], row_key='1315')],
+                                        'correct', ['r']),
+            'split, removed and added': (self.EDIT, [card('o', 'Removed', [(1, 'a', 'Hull USD 100 applies.')]),
+                                                     card('n', 'Added', right=[(1, 'b', 'Hull USD 200 applies.')])],
+                                         'split_attributable', ['n', 'o']),
+            # An author move without an edit is still met by the unchanged move on the stated pages.
+            'author move, unchanged move': (moved, [card('m', 'Moved', [(1, 'a', self.PARA)], [(2, 'b', self.PARA)],
+                                                         category='Review')], 'correct', ['m']),
+            'insertion only': (insert, [card('i', 'Replaced', [(1, 'a', 'The insurer pays approved losses.')],
+                                             [(1, 'b', 'The insurer pays approved covered losses.')])], 'correct', ['i']),
+        }
+        for name, (event, cards, verdict, accepted) in edited.items():
+            with self.subTest(name):
+                summary, ev = run([event], result(cards))
+                e = ev[str(event['id'])]
+                self.assertEqual((e['verdict'], e['acceptedCards']), (verdict, accepted))
+                self.assertEqual(summary['unexplainedCards'], 0)
 
 
 class AddedRemovedRows(unittest.TestCase):
