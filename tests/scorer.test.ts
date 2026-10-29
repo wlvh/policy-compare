@@ -2015,7 +2015,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     ]);
     expect(twice([edited]).status).toBe("PASS");
   });
-  it("an event's text is shown in the source's own order, with an effective edit in the part the event changes", () => {
+  it("an event's text is shown in the source's own order, carrying the card's own edit, the old and new occurrences lined up in that edit", () => {
     const fails = (score: ReturnType<typeof grade>, name: string) => {
       expect.soft(score.status, name).toBe("FAIL");
       expect.soft(score.events[0], name).toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
@@ -2131,6 +2131,36 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     expect(grader(ir, il, "approved", "", pr, pl)([of("delete", deletion)]).status).toBe("PASS");
     // Nothing on either side is no event to show.
     expect(grader(il, ir, "", "", pl, pr)([of("insert", insertion)]).events[0]).toMatchObject({ attribution: false, verdict: "FAIL" });
+    {
+      // Which copy of a repeated word the card marks as inserted is its alignment: "South Sudan, " ->
+      // "South Sudan, Sudan, " is shown with either Sudan inserted (#2's renewal-triage/10 control).
+      const [sa, sb] = ["Iran, South Sudan, Syria.", "Iran, South Sudan, Sudan, Syria."];
+      const [sl, sr] = [docOf([{ text: sa }]), docOf([{ text: sb }])];
+      const [s0, t0] = [at(sl, "left", sa), at(sr, "right", sb)];
+      const sudan = grader(sl, sr, "South Sudan, ", "South Sudan, Sudan, ", sa, sb);
+      expect(sudan([of("first", [op("equal", slice(s0, 0, 11), slice(t0, 0, 11)), op("insert", null, slice(t0, 11, 18)), op("equal", slice(s0, 11, 25), slice(t0, 18, 32))])]).status, "the first Sudan inserted").toBe("PASS");
+      expect(sudan([of("second", [op("equal", slice(s0, 0, 18), slice(t0, 0, 18)), op("insert", null, slice(t0, 18, 25)), op("equal", slice(s0, 18, 25), slice(t0, 25, 32))])]).status, "the second Sudan inserted").toBe("PASS");
+      // An inserted clause whose repeated words the card pairs with the old text after it.
+      const [ca, cb] = ["Claims: a bird strike (USD 412,500) and a ground claim.", "Claims: a bird strike (USD 412,500) and a tail strike and a ground claim."];
+      const [ql, qr] = [docOf([{ text: ca }]), docOf([{ text: cb }])];
+      const [c0, d0] = [at(ql, "left", ca), at(qr, "right", cb)];
+      const [kept, added] = [42, 18];
+      expect(
+        grader(ql, qr, "a bird strike (USD 412,500)", "a bird strike (USD 412,500) and a tail strike", ca, cb)([
+          of("clause", [op("equal", slice(c0, 0, kept), slice(d0, 0, kept)), op("insert", null, slice(d0, kept, kept + added)), op("equal", slice(c0, kept, ca.length), slice(d0, kept + added, cb.length))]),
+        ]).status,
+        "an inserted clause",
+      ).toBe("PASS");
+      // The old and the new amount at the two ends of a card, each paired with another value and
+      // unchanged text between them, do not show "USD 100 -> USD 200" as one change; the line replaced
+      // whole does.
+      const [ea, eb] = ["USD 100 lorem ipsum dolor EUR 7", "EUR 9 lorem ipsum dolor USD 200"];
+      const [el, er] = [docOf([{ text: ea }]), docOf([{ text: eb }])];
+      const [e0, f0] = [at(el, "left", ea), at(er, "right", eb)];
+      const ends = grader(el, er, "USD 100", "USD 200", ea, eb);
+      fails(ends([of("ends", [op("delete", slice(e0, 0, 7), null), op("insert", null, slice(f0, 0, 5)), op("equal", slice(e0, 7, 26), slice(f0, 5, 24)), op("delete", slice(e0, 26, 31), null), op("insert", null, slice(f0, 24, 31))])]), "the amounts at the two ends");
+      expect(ends([of("whole", [op("delete", e0, null), op("insert", null, f0)])]).status, "the line replaced whole").toBe("PASS");
+    }
   });
 });
 // One violating result per directly checked invariant; the fault must name that invariant.
