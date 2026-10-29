@@ -935,6 +935,9 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
 // values and one offset to their pages. A counter that does not count (the same "Page 1" printed on
 // every page), a page total and every other number stay as printed.
 const counters = (t: string) => [...t.matchAll(PAGE_EXPRESSION)].map((m) => m[1]);
+// Only a counter printed plainly (its value written the usual way) is read against its page: "Page
+// 03" or a counter in digits Number() cannot read stays as printed, its own variant.
+const plain = (n: string) => String(Number(n)) === n;
 const sideText = (locs: SourceLocation[]) => locs.map((l) => l.text).join("");
 // The source text of some locations: on each page, every character from the first location's start
 // to the last one's end in raw order, so whitespace between two cited pieces is kept as printed.
@@ -958,13 +961,13 @@ function variants(d: Difference) {
       .filter((o) => o[side].length)
       .map((o) => ({ cs: counters(sideText(o[side])), page: o[side][0].pageIndex + 1 }));
     for (let k = 0; k < Math.max(0, ...lines.map((l) => l.cs.length)); k++) {
-      const at = lines.filter((l) => l.cs[k] !== undefined).map((l) => ({ v: Number(l.cs[k]), page: l.page }));
+      const at = lines.filter((l) => l.cs[k] !== undefined && plain(l.cs[k])).map((l) => ({ v: Number(l.cs[k]), page: l.page }));
       if (at.length >= 2 && new Set(at.map((x) => x.v)).size > 1 && new Set(at.map((x) => x.v - x.page)).size === 1) counting.add(k);
     }
   }
   return (text: string, page: number) => {
     let k = 0;
-    return text.replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) ? m.replace(n, `#${Number(n) - page}`) : m));
+    return text.replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) && plain(n) ? m.replace(n, `#${Number(n) - page}`) : m));
   };
 }
 // A card's own text on a side, from the source of the locations it shows there, read as a variant;

@@ -1797,6 +1797,22 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       expect.stringContaining("states occurrence or page counts that differ"),
     ]);
   });
+  it("a page counter printed other than plainly stays as printed in its variant (#2's r4417060269)", () => {
+    // Page 1 .. Page 4; the third becomes "Page 03". Only a plainly printed counter is read against
+    // its page, so "Page 03" is its own variant: the product's card counts it 4 -> 1, the rest context.
+    const four = (v: (p: number) => string) => docOf([0, 1, 2, 3].flatMap((page) => [{ text: v(page), y: 120, page }, { text: `Ordinary body on page ${page + 1}`, y: 300, page }]));
+    const [left, right] = [four((p) => `Page ${p + 1}`), four((p) => (p === 2 ? "Page 03" : `Page ${p + 1}`))];
+    const graded = (mutate: (d: Difference) => void = () => {}) => {
+      const result = compare(left, right);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [] });
+      expect(result.differences).toHaveLength(1);
+      mutate(result.differences[0]);
+      const expected: Expected = { case_id: "zeros", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+      return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]);
+    };
+    expect(graded().faults).toEqual([]);
+    expect(graded((d) => (d.repeat!.right = 4)).faults).toEqual([expect.stringContaining("states occurrence or page counts that differ")]);
+  });
   it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
     // Two pages before, three after; the header repeats on every page. A body line on the first new
     // page repeats the words but is not part of the generated set.
