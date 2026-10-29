@@ -1,0 +1,4 @@
+rules-mupdf identical to b4f97b6 apart from commit
+rules-pdfjs identical to b4f97b6 apart from commit
+browser-rules-mupdf identical to b4f97b6 apart from commit
+browser-rules-pdfjs identical to b4f97b6 apart from commit

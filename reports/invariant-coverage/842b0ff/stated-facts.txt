@@ -1,0 +1,9 @@
+commit 842b0ff163e03c3a5494162065f1c284ae6eb1aa; every fact the product states on the 32 rule cases (Node extraction), from /tmp/claude-0/-home-user-policy-compare/ab27d908-d06b-5d48-b945-9d8487a308b7/scratchpad/factsprobe.mts
+mupdf R08_normal_renewal d-7e5f6b520a6742a5f07c dates_rolled_forward_one_year "01 April 2024 to 31 March 2025 (both dates inclusive)" -> "01 April 2025 to 31 March 2026 (both dates inclusive)"
+mupdf R24_table_cross_page d-ce9de0faf0fec2ea67e1 continued_heading "" -> "SCHEDULE OF AIRCRAFT CONTINUED"
+mupdf R32_combined_changes d-345f06794028d2245292 dates_rolled_forward_one_year "01 April 2024 to 31 March 2025 (both dates inclusive)" -> "01 April 2025 to 31 March 2026 (both dates inclusive)"
+mupdf stated facts: 3
+pdfjs R08_normal_renewal d-33925ec55c51629516bf dates_rolled_forward_one_year "01 April 2024 to 31 March 2025 (both dates inclusive)" -> "01 April 2025 to 31 March 2026 (both dates inclusive)"
+pdfjs R24_table_cross_page d-0692215e1b2f8aeef2ed continued_heading "" -> "SCHEDULE OF AIRCRAFT CONTINUED"
+pdfjs R32_combined_changes d-5c3c711c4a060f0965f8 dates_rolled_forward_one_year "01 April 2024 to 31 March 2025 (both dates inclusive)" -> "01 April 2025 to 31 March 2026 (both dates inclusive)"
+pdfjs stated facts: 3
