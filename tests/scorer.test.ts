@@ -943,6 +943,32 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.status).toBe("FAIL");
     }
   });
+  it("R26: removing or changing part of an unchanged currency code fails, with or without a record", () => {
+    // The USD cell of row SYN-1026-001 stays; the claims hold no whole currency code.
+    for (const rowKey of ["SYN-1026-001", null])
+      for (const field of ["currency", "agreed_value"]) {
+        const x = r26(true);
+        x.result.differences.push(oneSided("Removed", "cur-u", slice(lineLoc(x.docs[0], "left", "l4"), 0, 1), rowKey, field));
+        expect(ResultSchema.safeParse(x.result).success).toBe(true);
+        const score = grade(x.result, x.expected, x.layout, x.docs);
+        expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged")), `${rowKey} ${field}`).toEqual([]);
+        expect(score.status, `${rowKey} ${field}`).toBe("FAIL");
+      }
+    // One Replaced card: "U" on the left, "D" on the right of the same unchanged cell.
+    const x = r26(true);
+    const score = graded(
+      x,
+      replaced("cur-part", slice(lineLoc(x.docs[0], "left", "l4"), 0, 1), slice(lineLoc(x.docs[1], "right", "l4"), 2, 3), {
+        section: "aircraft_schedule",
+        entity: "SYN-1026-001",
+        field: "registration",
+        table: "aircraft_schedule",
+        rowKey: "SYN-1026-001",
+      }),
+    );
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+    expect(score.status).toBe("FAIL");
+  });
   it("R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails", () => {
     // One record and field, cell 100020 unchanged; Removed and Added cards cite it whole or glyph by glyph.
     const whole = (x: ReturnType<typeof r26>, side: "left" | "right") => [lineLoc(x.docs[side === "left" ? 0 : 1], side, "l5")];
@@ -1087,6 +1113,28 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("no_amount_or_currency_change");
+  });
+  it("R11: claiming part of the code inside an unchanged amount cell is NOT_EVALUATED", () => {
+    // "USD 2,000,000" is one sum_insured cell; letters outside a whole token may be code or wording.
+    for (const make of [
+      (x: ReturnType<typeof r11>) => oneSided("Removed", "part", slice(lineLoc(x.left, "left", "l1"), 0, 1), null, "sum_insured"),
+      (x: ReturnType<typeof r11>) =>
+        replaced("part", slice(lineLoc(x.left, "left", "l1"), 0, 1), slice(lineLoc(x.right, "right", "l1"), 1, 2), {
+          section: "risk_details",
+          field: "sum_insured",
+        }),
+    ]) {
+      const x = r11();
+      const card = make(x);
+      x.result.differences.push(card);
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      expect([...card.left, ...card.right].every((l) => resolveLocation(l, x.docs))).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.faults).toEqual([]);
+      expect(score.status).toBe("NOT_EVALUATED");
+      expect(score.notEvaluated).toMatchObject([{ invariant: "no_amount_or_currency_change", kind: "invariant_unverifiable" }]);
+      expect(exitCode(summarize([score]))).toBe(1);
+    }
   });
   it("R11: the label change attached to another field fails", () => {
     const x = r11();
