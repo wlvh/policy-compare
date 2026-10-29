@@ -3,7 +3,7 @@
   "comparison_engine_was_run": false,
   "status": "passed",
   "seed": 20261026,
-  "assertions": 183354,
+  "assertions": 183411,
   "totals": {
     "cases": 32,
     "pdfs": 64,
@@ -11,10 +11,11 @@
     "text_runs": 4172,
     "source_characters": 87102,
     "image_regions": 4,
-    "events": 30,
-    "must_detect_events": 27,
+    "events": 31,
+    "must_detect_events": 28,
     "coverage_only_events": 2,
-    "ambiguous_group_events": 1
+    "ambiguous_group_events": 1,
+    "repeated_text_requirements": 11
   },
   "failures": [],
   "cases": [

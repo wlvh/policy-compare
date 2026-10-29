@@ -10,8 +10,9 @@ usage: python3 reports/issue-2-validation/retriage.py INPUTS OUT_DIR OLD_REV SET
 Writes OUT_DIR/<SET>/<case>-<engine>.{old,new}.summary.json, the new events
 (.new.events.json.gz), and OUT_DIR/retriage.json and retriage.md.
 The current script reads the identity declaration scripts/renewal-identity.json
-(round 8); an old script runs as it was. A script that cannot read a result
-(an old script on result format 2) is recorded as such.
+(round 8). An old script that takes --identity reads the same declaration, so
+only the script differs (round 9); an older one runs as it was. A script that
+cannot read a result (an old script on result format 2) is recorded as such.
 """
 import gzip
 import hashlib
@@ -41,9 +42,9 @@ def load(directory, name):
     raise FileNotFoundError(os.path.join(directory, name))
 
 
-def triage(script, changes, result, tmp):
+def triage(script, changes, result, tmp, identity):
     events = os.path.join(tmp, 'events.json')
-    extra = ['--identity', IDENTITY] if script == NEW else []
+    extra = ['--identity', IDENTITY] if identity else []
     run = subprocess.run([sys.executable, script, changes, result, '--events', events, *extra],
                          capture_output=True, text=True)
     if run.returncode:
@@ -65,7 +66,10 @@ def main(inputs, out, old_rev, sets):
     os.makedirs(out, exist_ok=True)
     old_src = subprocess.run(['git', 'show', f'{old_rev}:scripts/renewal-triage.py'], cwd=ROOT,
                              capture_output=True, check=True).stdout
-    report = {'oldScript': {'rev': old_rev, 'sha256': sha(old_src)},
+    old_identity = b'--identity' in old_src
+    report = {'identity': {'path': os.path.relpath(IDENTITY, ROOT), 'sha256': sha(open(IDENTITY, 'rb').read()),
+                           'readByOldScript': old_identity},
+              'oldScript': {'rev': old_rev, 'sha256': sha(old_src)},
               'newScript': {'rev': subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True,
                                                   text=True, check=True).stdout.strip(),
                             'sha256': sha(open(NEW, 'rb').read())},
@@ -83,7 +87,8 @@ def main(inputs, out, old_rev, sets):
                     result = os.path.join(tmp, 'result.json')
                     with open(result, 'wb') as f:
                         f.write(raw)
-                    (so, eo), (sn, en) = (triage(s, changes, result, tmp) for s in (old_script, NEW))
+                    (so, eo), (sn, en) = (triage(s, changes, result, tmp, s == NEW or old_identity)
+                                          for s in (old_script, NEW))
                     base = os.path.join(out, name, f'{case}-{engine}')
                     for tag, summary in (('old', so), ('new', sn)):
                         if 'error' in summary:
@@ -113,7 +118,9 @@ def main(inputs, out, old_rev, sets):
                                            'old': metrics(so), 'new': metrics(sn), 'changedEvents': changed})
     with open(os.path.join(out, 'retriage.json'), 'w') as f:
         json.dump(report, f, indent=1)
-    lines = [f"# Re-triage: {report['oldScript']['rev']} -> {report['newScript']['rev']}", '',
+    lines = [f"# Re-triage: {report['oldScript']['rev']} -> {report['newScript']['rev']}"
+             f" (declaration {report['identity']['sha256'][:12]}, "
+             f"{'both scripts' if old_identity else 'new script only'})", '',
              '| set | run | verdicts (old → new) | accepted | unexplained | fullRow | changed events |',
              '|---|---|---|---|---|---|---|']
     pick = lambda m, k: m.get(k, m.get('error', '—'))

@@ -71800,7 +71800,7 @@
           },
           {
             "run_id": "run_0054",
-            "logical_path": null,
+            "logical_path": "document.page_heading.schedule_of_aircraft_continued",
             "role": "heading",
             "text": "SCHEDULE OF AIRCRAFT CONTINUED",
             "font": "FixtureSans",

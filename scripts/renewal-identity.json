@@ -1,10 +1,11 @@
 {
   "version": "renewal-identity/1",
   "about": [
-    "Acceptance-side record identity for the table-row events of the two renewal samples, read only by scripts/renewal-triage.py (--identity); the product never reads it.",
-    "Each pair is bound to its unchanged author changes.json by SHA-256. Each table lists its author events by id and the author-row cells (0-based, in the author's ' | ' order) that hold the record's identifier, with the printed column heading or layout that shows it.",
-    "A table with an empty identity list is declared without identity: its row events are not evaluated for attribution. An event in no table has no declared identity either.",
-    "Headings were read from the PDFs (MuPDF extraction, left and right); block ids and 'the first name-like cell' are not used."
+    "Reviewer-declared, per-side source anchors for the table-row events of the two renewal samples. A reviewer set them from the frozen author events (changes.json) and the PDFs; they are not business keys the author confirmed. Read only by scripts/renewal-triage.py (--identity); the product never reads it.",
+    "Each pair names its author changes file by SHA-256. The digest only binds the declaration to that file version; it does not show that an anchor is right.",
+    "Each table lists its author events by id and the author-row cells (0-based, in the author's ' | ' order) used as the anchor, with the printed heading or layout they were read from. The list is AND: every listed cell must sit in one qualifying source unit, the one of the occurrence that makes the change on the stated pages. Each side is anchored on its own author row, so where an anchor cell differs between the sides (a renamed party, a changed limit) each side uses its own text.",
+    "A table with an empty list declares no anchor: its row events are not evaluated for attribution. An event in no table has no anchor either.",
+    "Headings and layout were read from the PDFs (left and right); block ids and 'the first name-like cell' are not used."
   ],
   "pairs": [
     {
@@ -55,9 +56,17 @@
           "table": "premium rates",
           "heading": null,
           "pages": { "left": [20], "right": [19] },
+          "identity": [0, 1],
+          "basis": "No printed column heading. Each rate line prints its item number and the cover name on one baseline, the rate or premium after them (checked for these six events on left page 20 and right page 19 in MuPDF and PDF.js extraction; '2.1' and 'Contingent Liability' at y 408.58 left, 429.58 right). Both cells are the anchor: a name alone is not unique on the page ('Possessed Hull' also starts 'Possessed Hull War', 'Contingent Hull' starts 'Contingent Hull War') and an item number alone is a sequence number. For #91 and #92 the author's second cell is the cover name with the sums insured printed under it; for #91 it differs between the sides (USD 350,000,000 -> 400,000,000), so each side is anchored on its own text.",
+          "events": [87, 88, 89, 91, 92, 93]
+        },
+        {
+          "table": "premium rates, added item 1.8",
+          "heading": null,
+          "pages": { "left": [], "right": [19] },
           "identity": [],
-          "basis": "No printed column heading; the first column is an item number (1.1, 1.3, ...), not an identifier. Not evaluated for attribution.",
-          "events": [87, 88, 89, 90, 91, 92, 93]
+          "basis": "Not among the six rate events checked in round 9; no anchor is declared, so it is not evaluated for attribution.",
+          "events": [90]
         }
       ]
     },

@@ -474,6 +474,77 @@ class SidesAndSplits(unittest.TestCase):
         self.assertEqual((ev['73']['verdict'], ev['73']['atoms']), ('not_evaluable', ['separate_cards']))
 
 
+class OneQualifyingHit(unittest.TestCase):
+    """Reviews of PR #11 (r4410014301, r4411510471, r4411752201): the actual edit, the record
+    identity or paragraph context, the allowed pages and the accepted evidence all come from one
+    qualifying occurrence. Unchanged occurrences, other units of the card and other pages lend
+    nothing."""
+    ROW = change(52, 'ac_1315', 'Replaced', 'ATR | 1315 | USD 100', 'ATR | 1315 | USD 200',
+                 [('USD 100', 'USD 200')], pages=(11, 11))
+    OTHER = change(53, 'ac_1760', 'Replaced', 'ATR | 1760 | USD 100', 'ATR | 1760 | USD 200',
+                   [('USD 100', 'USD 200')], pages=(11, 11))
+
+    def edit_in(self, record):
+        """1315 unchanged in units a/c holding both values; the only edit is in the unit of `record`."""
+        return card('x', 'Replaced', [(11, 'a', '1315 USD 100 USD 200'), (11, 'b', f'{record} USD 100')],
+                    [(11, 'c', '1315 USD 100 USD 200'), (11, 'd', f'{record} USD 200')])
+
+    def test_an_unchanged_occurrence_does_not_lend_its_record_to_another_records_edit(self):
+        _, ev = run([self.ROW], result([self.edit_in('1760')]), [table('aircraft', [1], self.ROW)])
+        self.assertNotEqual(ev['52']['verdict'], 'correct')
+        self.assertEqual(ev['52']['acceptedCards'], [])
+        # Declaring the other record as well makes the wrong card a contradiction, not a pass.
+        _, ev = run([self.ROW, self.OTHER], result([self.edit_in('1760')]),
+                    [table('aircraft', [1], self.ROW, self.OTHER)])
+        self.assertNotEqual(ev['52']['verdict'], 'correct')
+        self.assertEqual(ev['53']['verdict'], 'correct')
+        # Control: the edit is in 1315's own unit.
+        own = card('o', 'Replaced', [(11, 'a', '1760 USD 100 USD 200'), (11, 'b', '1315 USD 100')],
+                   [(11, 'c', '1760 USD 100 USD 200'), (11, 'd', '1315 USD 200')])
+        _, ev = run([self.ROW], result([own]), [table('aircraft', [1], self.ROW)])
+        self.assertEqual((ev['52']['verdict'], ev['52']['acceptedCards']), ('correct', ['o']))
+        refs = ev['52']['atomEvidence'][0]['candidates'][0]
+        self.assertEqual([(r['unitId']) for r in refs['left']] + [(r['unitId']) for r in refs['right']], ['b', 'd'])
+
+    def test_an_edit_spanning_units_takes_identity_only_from_those_units(self):
+        c = change(52, 'ac_1315', 'Replaced', '1315 | USD 100 | Alpha', '1315 | USD 200 | Alpha',
+                   [('USD 100', 'USD 200')], pages=(11, 11))
+        x = card('x', 'Replaced', [(11, 'a', '1315'), (11, 'b', 'USD'), (11, 'c', '100 1760')],
+                 [(11, 'a2', '1315'), (11, 'b2', 'USD'), (11, 'c2', '200 1760')])
+        _, ev = run([c], result([x]), [table('rows', [0], c)])
+        self.assertNotEqual(ev['52']['verdict'], 'correct')
+        self.assertEqual(ev['52']['acceptedCards'], [])
+        # The unconfirmed occurrence is written out: its own units, without the identity.
+        self.assertEqual(ev['52']['atomEvidence'][0]['candidates'][0]['identityCells']['left'],
+                         {'units': ['b', 'c'], 'identity': [], 'otherRecords': []})
+        # Control: one unit holds the identity and the edit.
+        y = card('y', 'Replaced', [(11, 'a', '1315 USD 100 Alpha')], [(11, 'b', '1315 USD 200 Alpha')])
+        _, ev = run([c], result([y]), [table('rows', [0], c)])
+        self.assertEqual(ev['52']['verdict'], 'correct')
+
+    PARA = change(13, 'hull', 'Replaced', 'Hull cover is USD 100 for the aircraft.',
+                  'Hull cover is USD 200 for the aircraft.', [('USD 100', 'USD 200')], pages=(2, 2))
+
+    def split(self, page_of_paragraph):
+        old, new = self.PARA['left_text'], self.PARA['right_text']
+        if page_of_paragraph == 'both':
+            return [card('r', 'Removed', [(1, 'a', old), (2, 'b', 'USD 100')]),
+                    card('n', 'Added', right=[(1, 'c', new), (2, 'd', 'USD 200')])]
+        return [card('r', 'Removed', [(page_of_paragraph, 'a', old)]),
+                card('n', 'Added', right=[(page_of_paragraph, 'c', new)])]
+
+    def test_split_cards_take_the_paragraph_context_from_the_stated_page(self):
+        summary, ev = run([self.PARA], result(self.split('both')))
+        self.assertNotEqual(ev['13']['verdict'], 'split_attributable')
+        self.assertEqual(ev['13']['acceptedCards'], [])
+        self.assertEqual(summary['unexplainedCards'], 2)
+        # Controls: the whole paragraph on the stated page; only on another page.
+        _, ev = run([self.PARA], result(self.split(2)))
+        self.assertEqual((ev['13']['verdict'], ev['13']['acceptedCards']), ('split_attributable', ['n', 'r']))
+        _, ev = run([self.PARA], result(self.split(1)))
+        self.assertEqual(ev['13']['verdict'], 'not_located')
+
+
 class FactsFormatsExclusionsFurniture(unittest.TestCase):
     def test_stated_facts_are_rechecked_against_the_card_texts(self):
         cards = [card('w', 'Replaced', [(1, 'a', 'Limit  USD 5,000')], [(1, 'b', 'Limit USD 5,000')], facts=['whitespace_only']),

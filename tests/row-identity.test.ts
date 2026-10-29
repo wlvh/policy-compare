@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { compare } from "../packages/compare-core/index";
-import type { CompareResult } from "../packages/contracts/index";
+import type { CompareResultV2 } from "../packages/contracts/index";
 import { textDoc } from "./helpers";
 
 // Each cell is a separate extraction line on the row's baseline, as in the
@@ -15,7 +15,7 @@ const table = (rows: string[][], title = "SCHEDULE") =>
 const run = (before: string[][], after: string[][]) =>
   compare(table(before), table(after));
 // No confident card may turn one record into another.
-const crossPaired = (r: CompareResult, from: string, to: string) =>
+const crossPaired = (r: CompareResultV2, from: string, to: string) =>
   r.differences.some(
     (d) =>
       d.oldText.includes(from) &&
@@ -23,7 +23,7 @@ const crossPaired = (r: CompareResult, from: string, to: string) =>
       !d.oldText.includes(to) &&
       d.structurePath?.confidence !== "unresolved",
   );
-const card = (r: CompareResult, kind: string, text: string) =>
+const card = (r: CompareResultV2, kind: string, text: string) =>
   r.differences.find(
     (d) => d.kind === kind && (d.oldText + d.newText).includes(text),
   );

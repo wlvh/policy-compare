@@ -9,19 +9,26 @@ written as "a | b | c" that were Added/Removed, one per opening fragment for
 other Added/Removed paragraphs. Each atom keeps its candidate cards (text on
 the stated pages) apart from the cards finally accepted for it.
 
-Table rows need record identity. It comes only from an acceptance-side
-declaration (--identity, e.g. scripts/renewal-identity.json), bound to the
-unchanged author changes file by its SHA-256: per table, the author events it
-holds and which author-row cells hold the record's identifier, with the
-printed column heading or layout that shows it. The product never reads it.
-Block ids and "the first name-like cell" are not identity; a row whose table
-declares no identity is not evaluated (its candidate cards are still listed).
-A card is accepted for a row when all of that side's identity cells sit in the
-same source unit as the changed text. A rowKey that is not a cell of the row,
+Table rows need record identity. It comes only from a reviewer's declaration
+(--identity, e.g. scripts/renewal-identity.json): per table, the author events
+it holds and which author-row cells are the per-side source anchor, with the
+printed heading or layout they were read from. These are anchors a reviewer set
+from the frozen author events and the PDFs, not business keys the author
+confirmed; the SHA-256 of the author changes file only binds the declaration to
+that file version. The product never reads it. Block ids and "the first
+name-like cell" are not identity; a row whose table declares no anchor is not
+evaluated (its candidate cards are still listed). A card is accepted for a row
+when all of that side's anchor cells (AND; each side its own author row) sit in a
+source unit of the occurrence that makes the change (renewal-triage/7): an
+unchanged occurrence of the same text, or another unit of the card, lends no
+identity. A rowKey that is not a cell of the row,
 or another declared record's identity in that unit, is a contradiction
 (misattributed) unless that card is accepted by the other row's own event. Delete + add on separate cards
-counts only as an attributable split when both sides show the record (rows)
-or the author paragraph (text) around the change. An Added/Removed row must sit
+counts only as an attributable split when, on each side, the occurrence that
+makes the change shows the record (rows) or the author paragraph (text) in its
+own source units read on the stated pages; another page of the card lends no
+context. The edit, the identity or context, the stated pages and the evidence
+written out all come from that one occurrence. An Added/Removed row must sit
 in one unit of a card of its own kind: inside a neighbour row's card it is
 "merged" (not evaluable); paired against a different record it is misattributed.
 
@@ -60,7 +67,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/6'
+TOOL = 'renewal-triage/7'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -231,14 +238,26 @@ def on_pages(locations, wanted):
     return not wanted or bool(pages(locations) & wanted)
 
 
-def local(d, side, needle, wanted):
-    """Source units of a card side that the needle's occurrences on the wanted pages come from."""
-    keep = {unit for span in found(d, side, needle, wanted) for _, unit, _ in span if unit is not None}
+def hits(d, side, needle, wanted, edit=False):
+    """Qualifying occurrences of the needle on one card side: every character from a source unit on
+    the wanted pages and, when the author edit changes this side, carrying changed characters. Each
+    occurrence is the set of source units (page, unitId) its characters come from."""
+    return [{unit for _, unit, _ in span if unit is not None} for span in found(d, side, needle, wanted)
+            if not edit or any(flag for _, _, flag in span)]
+
+
+def local(d, side, needle, wanted, edit=False):
+    """Source units of a card side that the needle's qualifying occurrences come from."""
+    keep = set().union(*hits(d, side, needle, wanted, edit))
     return [u for u in units(d[side], wanted) if (u['page'], u['unitId']) in keep]
 
 
-def judge_identity(d, needles, ident, others, change, wanted):
-    """Identity status of one card for one record: confirmed, contradicted, ambiguous, unconfirmed."""
+def judge_identity(d, needles, ident, others, change, wanted, edit=None):
+    """Identity status of one card for one record: confirmed, contradicted, ambiguous, unconfirmed.
+    Each side is judged on one qualifying occurrence at a time (carrying the edit where `edit` says
+    the side changes): the identity must sit in the units of the occurrence that makes the change,
+    not in an unchanged occurrence or another unit of the card."""
+    edit = edit or {}
     sp = d.get('structurePath') or {}
     if sp.get('confidence') == 'unresolved':
         return 'product_unresolved', 'product marked the row identity unresolved', {}
@@ -246,19 +265,27 @@ def judge_identity(d, needles, ident, others, change, wanted):
     row_text = norm((change.get('left_text') or '') + ' | ' + (change.get('right_text') or ''))
     if key and not bounded(norm(key), row_text):
         return 'contradicted', f'rowKey {key!r} is not a cell of this record', {}
+    order = ('confirmed', 'contradicted', 'ambiguous', 'unconfirmed')
     seen, status = {}, []
     for side, needle in needles.items():
-        us = local(d, side, needle, wanted[side])
         mine = ident[side] or ident['cells']
-        own = any(holds(u['text'], mine) for u in us)
-        foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
-        seen[side] = {'units': [u['unitId'] for u in us], 'identity': mine if own else [], 'otherRecords': foreign}
-        status.append('confirmed' if own and not foreign else 'contradicted' if foreign and not own
-                      else 'ambiguous' if foreign else 'unconfirmed')
+        best = ('unconfirmed', {'units': [], 'identity': [], 'otherRecords': []})
+        for keys in hits(d, side, needle, wanted[side], edit.get(side, False)):
+            us = [u for u in units(d[side], wanted[side]) if (u['page'], u['unitId']) in keys]
+            own = any(holds(u['text'], mine) for u in us)
+            foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
+            st = ('confirmed' if own and not foreign else 'contradicted' if foreign and not own
+                  else 'ambiguous' if foreign else 'unconfirmed')
+            # The first occurrence is written out even when unconfirmed, so its units can be checked.
+            if order.index(st) < order.index(best[0]) or not best[1]['units']:
+                best = (st, {'units': [u['unitId'] for u in us], 'identity': mine if own else [],
+                             'otherRecords': foreign})
+        status.append(best[0])
+        seen[side] = best[1]
     for s in ('contradicted', 'ambiguous', 'unconfirmed'):
         if s in status:
             return s, f'record unit on {", ".join(k for k, v in zip(needles, status) if v == s)}: {s}', seen
-    return 'confirmed', 'declared identity in the same source unit as the change', seen
+    return 'confirmed', 'declared identity in the source unit that makes the change', seen
 
 
 def in_context(card, needle, author):
@@ -267,17 +294,32 @@ def in_context(card, needle, author):
     return len(a) >= len(needle) + 10 and needle in card and (a in card or (card in a and len(card) >= len(needle) + 10))
 
 
-def evidence(d, side, needle, wanted):
-    return [ref(l) for u in local(d, side, needle, wanted) for l in u['locs']] if needle else []
+def context(d, side, needle, wanted, author, edit=False):
+    """A qualifying occurrence whose own source units, read on the wanted pages only, show the
+    author paragraph around it."""
+    for keys in hits(d, side, needle, wanted, edit):
+        ids = {uid for _, uid in keys}
+        text = norm(' '.join(u['text'] for u in units(d[side], wanted) if u['unitId'] in ids))
+        if in_context(text, needle, author):
+            return True
+    return False
 
 
-def candidate(d, needles, wanted, identity=None, reason=None, seen=None, edit=None):
+def evidence(d, side, needle, wanted, edit=False):
+    return [ref(l) for u in local(d, side, needle, wanted, edit) for l in u['locs']] if needle else []
+
+
+def candidate(d, needles, wanted, identity=None, reason=None, seen=None, edit=None, need=None):
+    """need: sides that the author edit changes. Their evidence is the occurrences that carry the
+    edit, as for an accepted card; a card without such an occurrence lists all its occurrences."""
     sp = d.get('structurePath') or {}
+    need = need or {}
+    side = lambda k: (evidence(d, k, needles.get(k), wanted[k], need.get(k, False))
+                      or evidence(d, k, needles.get(k), wanted[k]))
     return {'card': d['id'], 'kind': d['kind'], 'facts': d.get('facts'),
             'table': sp.get('table'), 'rowKey': sp.get('rowKey'), 'confidence': sp.get('confidence'),
             'identity': identity, 'identityReason': reason, 'identityCells': seen or None, 'editShown': edit,
-            'left': evidence(d, 'left', needles.get('left'), wanted['left']),
-            'right': evidence(d, 'right', needles.get('right'), wanted['right'])}
+            'left': side('left'), 'right': side('right')}
 
 
 def unresolved_hits(result, side, needle, wanted, row_cell=False):
@@ -313,8 +355,9 @@ def text_atom(atom, change, ctx, claimed):
         if ident is None:
             status, why, seen = 'not_applicable', 'paragraph event: no record identity', None
         else:
-            status, why, seen = judge_identity(d, needles, ident, others, change, wanted)
-        cands.append(candidate(d, needles, wanted, status, why, seen, edit=True if any(need.values()) else None))
+            status, why, seen = judge_identity(d, needles, ident, others, change, wanted, need)
+        cands.append(candidate(d, needles, wanted, status, why, seen, edit=True if any(need.values()) else None,
+                               need=need))
         if status in ('confirmed', 'not_applicable'):
             accepted.append(d)
         elif status == 'contradicted' and not (claimed.get(d['id'], set()) - {ctx['id']}):
@@ -334,20 +377,23 @@ def text_atom(atom, change, ctx, claimed):
     ou = unresolved_hits(result, 'left', old, wanted['left'])
     nu = unresolved_hits(result, 'right', new, wanted['right'])
     for d in olds:
-        cands.append(candidate(d, {'left': old}, wanted))
+        cands.append(candidate(d, {'left': old}, wanted, need=need))
     for d in news:
-        cands.append(candidate(d, {'right': new}, wanted))
+        cands.append(candidate(d, {'right': new}, wanted, need=need))
     if olds and news:
+        # The context or identity must sit with the occurrence on the stated pages that makes the
+        # edit (el, er); lk, rk only tell whether some occurrence has it without the edit.
         if ident is None:
-            lk = [d for d in olds if in_context(side_text(d, 'left'), old, change.get('left_text'))]
-            rk = [d for d in news if in_context(side_text(d, 'right'), new, change.get('right_text'))]
-            why = 'author paragraph text around the change'
+            author = {'left': change.get('left_text'), 'right': change.get('right_text')}
+            ok = lambda d, side, n, e: context(d, side, n, wanted[side], author[side], e)
+            why = 'author paragraph text around the change, in the source units of that occurrence'
         else:
-            judged = lambda ds, side, n: [d for d in ds if judge_identity(
-                d, {side: n}, ident, others, change, wanted)[0] == 'confirmed']
-            lk, rk = judged(olds, 'left', old), judged(news, 'right', new)
-            why = 'expected record identity in each side unit'
-        el, er = [d for d in lk if shows(d, 'left', old)], [d for d in rk if shows(d, 'right', new)]
+            ok = lambda d, side, n, e: judge_identity(d, {side: n}, ident, others, change, wanted,
+                                                     {side: e})[0] == 'confirmed'
+            why = 'expected record identity in the source unit of each side\'s change'
+        lk, rk = [d for d in olds if ok(d, 'left', old, False)], [d for d in news if ok(d, 'right', new, False)]
+        el = [d for d in olds if ok(d, 'left', old, need['left'])]
+        er = [d for d in news if ok(d, 'right', new, need['right'])]
         if el and er:
             return 'split_attributable', 'split_attributable', el + er, cands, ou + nu, 'separate cards; ' + why
         if lk and rk:
