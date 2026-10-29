@@ -1,0 +1,6 @@
+== renewal-triage at 72b87c4
+identity only in the unchanged unit ("1315 USD" + "100 1760" -> "200 1760"): correct accepted=['x']
+control: identity in the edited unit ("Hull USD" + "100 1760 1315" -> "200 1760 1315"): correct accepted=['x']
+== renewal-triage at 8c48dac
+identity only in the unchanged unit ("1315 USD" + "100 1760" -> "200 1760"): not_evaluable accepted=[]
+control: identity in the edited unit ("Hull USD" + "100 1760 1315" -> "200 1760 1315"): correct accepted=['x']

@@ -1,0 +1,12 @@
+== renewal-triage /13 at 8c48dac (unchanged at d5de336)
+-- codex_r27_triage_probe.py (r4416771397, r4416771405)
+two currency-only cards (split path): split_attributable accepted=['h', 'l'] unexplained=0
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: correct fullRowRecovered=True atoms=['in_record', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record']
+-- codex_r28_triage_probe.py (r4416863588, r4416863597)
+r4416863588: amount cell inside a longer amount: correct fullRowRecovered=True unexplained=0
+r4416863588: the same, Removed: correct fullRowRecovered=True unexplained=0
+control: the whole row: correct fullRowRecovered=True unexplained=0
+r4416863597: two equal amount cells, one shown: correct fullRowRecovered=True unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0

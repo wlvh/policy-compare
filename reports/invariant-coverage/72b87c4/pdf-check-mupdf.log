@@ -1,0 +1,41 @@
+syntax error: expected object number
+format error: cannot find startxref
+trying to repair broken xref
+repairing PDF document
+{
+  subject: 'real_pdf_adapter_mechanisms',
+  engine: 'mupdf',
+  nodeFineRender: 'PASS',
+  status: 'PASS',
+  checks: [
+    {
+      name: 'actual PDF non-BMP, combining mark and ligature preserved',
+      status: 'PASS'
+    },
+    {
+      name: 'rotation + nonzero CropBox + UserUnit use one display transform',
+      status: 'PASS'
+    },
+    {
+      name: 'password failures and successful local authentication',
+      status: 'PASS'
+    },
+    {
+      name: 'Chromium-printed Type 3 header/footer text is extracted, not a page failure',
+      status: 'PASS'
+    },
+    {
+      name: 'corrupt PDF is failed, not empty complete',
+      status: 'PASS'
+    },
+    {
+      name: 'page failure retains other real extracted pages',
+      status: 'PASS'
+    },
+    {
+      name: 'destroy invalidates document and repeated cleanup is safe',
+      status: 'PASS'
+    }
+  ]
+}
+exit 0
