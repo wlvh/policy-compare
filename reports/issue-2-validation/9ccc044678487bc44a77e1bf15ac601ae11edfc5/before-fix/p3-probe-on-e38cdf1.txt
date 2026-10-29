@@ -1,0 +1,18 @@
+A320 | complete_for_scope | unresolved 0
+   ["Removed","unmatched",null,"candidate","G-AAAA 123 A320",""]
+   ["Added","unmatched",null,"candidate","","G-BBBB 456 A320"]
+names, no heading row | complete_for_scope | unresolved 0
+   ["Added","unmatched",null,"candidate","","Alpha Air A-1 USD 200,000"]
+   ["Removed","unmatched",null,"candidate","Alpha Air A-1 USD 100,000",""]
+   ["Added","unmatched",null,"candidate","","Beta Air B-2 USD 100,000"]
+   ["Removed","unmatched",null,"candidate","Beta Air B-2 USD 200,000",""]
+MSN 1/2 prefix | complete_for_scope | unresolved 0
+   ["Replaced","row-identity","MSN 1","candidate","MSN 1 Alpha 10%","MSN 1 Beta 10%"]
+   ["Replaced","row-identity","MSN 2","candidate","MSN 2 Beta 20%","MSN 2 Alpha 20%"]
+same MSN, other registration | partial | unresolved 1
+   ["Replaced","unresolved-row-identity",null,"unresolved","1315 G-AAAA USD 1,000","1315 G-ZZZZ USD 1,000"]
+same title, two tables | complete_for_scope | unresolved 0
+   ["Added","unmatched",null,"candidate","","G-CCCC Gamma Air USD 3,000"]
+   ["Removed","unmatched",null,"candidate","G-AAAA Alpha Air USD 1,000",""]
+   ["Added","unmatched",null,"candidate","","G-AAAA South Bank plc 2021"]
+   ["Removed","unmatched",null,"candidate","G-BBBB North Bank plc 2019",""]

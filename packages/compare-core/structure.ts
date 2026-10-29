@@ -31,14 +31,12 @@ export type Furniture = {
 const NUMBER = /\p{N}+(?:[.,]\p{N}+)*/gu;
 /**
  * Page-number expressions: "Page 3", "Page 3 of 10" or "Page 3/10" anywhere in
- * a line, or a line that holds nothing but the page number ("3", "- 3 -",
- * "3 / 10"). An "of", a slash or a number that counts with the pages is not a
- * page number by itself.
+ * a line. A number alone on its line ("3", "- 3 -", "3%"), even one counting
+ * with the pages, is content: it may as well be a value or a record number.
+ * An "of", a slash or a number that counts with the pages is not a page number
+ * by itself.
  */
-const PAGE_EXPRESSIONS = [
-  /\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/dgiu,
-  /^[^\p{L}\p{N}]*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?[^\p{L}\p{N}]*$/dgiu,
-];
+const PAGE_EXPRESSIONS = [/\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/dgiu];
 /** Positions, among a line's numbers, of page counters and page totals. */
 export function pageSlots(text: string) {
   const starts = [...text.matchAll(NUMBER)].map((m) => m.index),
@@ -59,8 +57,8 @@ export function pageSlots(text: string) {
 export const withoutPageNumbers = (text: string) =>
   text.replace(PAGE_EXPRESSIONS[0], " ").trim();
 /**
- * Furniture text with its whole page-number expressions ("Page n of N", "- n -")
- * left out, but only those whose counter is a confirmed page token.
+ * Furniture text with its whole page-number expressions ("Page n of N") left
+ * out, but only those whose counter is a confirmed page token.
  */
 export function withoutFurniturePages(text: string, f: Furniture) {
   const starts = [...text.matchAll(NUMBER)].map((m) => m.index),
@@ -73,6 +71,26 @@ export function withoutFurniturePages(text: string, f: Furniture) {
     .split("")
     .filter((_, i) => !drop.has(i))
     .join("");
+}
+/**
+ * A line's raw text with its page numbers replaced, nothing else changed: the
+ * confirmed page tokens of a repeated page line, or else the counter and total
+ * of each explicit "Page n" expression.
+ */
+export function maskedPageNumbers(u: { rawText: string; furniture?: Furniture }) {
+  if (u.furniture) {
+    let k = 0;
+    return u.rawText.replace(NUMBER, (n) => (u.furniture!.pageTokens.includes(k++) ? "#" : n));
+  }
+  let out = "",
+    at = 0;
+  for (const m of u.rawText.matchAll(PAGE_EXPRESSIONS[0]))
+    for (const r of m.indices!.slice(1))
+      if (r) {
+        out += u.rawText.slice(at, r[0]) + "#";
+        at = r[1];
+      }
+  return out + u.rawText.slice(at);
 }
 /** Furniture text with only its confirmed page-number parts replaced. */
 export function furnitureContent(text: string, f: Furniture) {

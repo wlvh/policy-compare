@@ -32,6 +32,7 @@ for e in mupdf pdfjs; do
       "$inputs/testdata/renewal/$c/changes.json" \
       "$out/$c-$e.json" \
       --events "$out/$c-$e.events.json" \
+      --identity scripts/renewal-identity.json \
       > "$out/$c-$e.summary.json"
     runs+=("{\"case\":\"$c\",\"engine\":\"$e\",\"exitCode\":$code,\"seconds\":$(python3 -c "print(round($end-$start,2))"),\"resultSha256\":\"$(sha256sum "$out/$c-$e.json" | cut -d' ' -f1)\"}")
   done

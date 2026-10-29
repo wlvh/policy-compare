@@ -1,16 +1,19 @@
 import {
   VERSION,
+  RESULT_VERSION,
   digest,
   snapshotDigest,
-  type CompareResult,
-  type Difference,
+  type CompareResultV2 as CompareResult,
+  type DifferenceV2 as Difference,
   type DocInput,
+  type Fact,
   type SourceLocation,
 } from "../contracts/index";
 import { aviationProfile, type Profile } from "../../profiles/aviation";
 import {
   furnitureContent,
   furnitureSignatures,
+  maskedPageNumbers,
   structure,
   withoutPageNumbers,
   withoutFurniturePages,
@@ -162,49 +165,21 @@ const VALUE = new RegExp(
 );
 const MONTH_DATE = /\b\d{1,2}(?:st|nd|rd|th)?\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?,?\s+\d{4}\b/iu;
 const valueLike = (cell: string) => VALUE.test(cell) || MONTH_DATE.test(cell);
-/** Column headings that name a record's own number (not "No." or "Ref"). */
-const identityHeading = /\b(?:MSN|ESN|S\/N|serial|registration)\b/iu;
-const counter = (cell: string) => {
-  const m = cell.match(/^\D{0,8}?(\d{1,4})\.?$/u);
-  return m ? Number(m[1]) : null;
-};
 /**
- * Rows recovered from one baseline pair only through identity evidence. Identity
- * cells are the non-value cells of a row (amounts, shares and dates are compared,
- * never used as identity); a first column counting 0..n or 1..n is a row number.
- * A cell whose column in the recovered row and text are unique within the same
- * table on both sides links two rows. A bare number could be an amount or a
- * count as well as an id: it identifies a record only under the row's own
- * column heading naming an MSN, ESN, serial or registration, on both sides.
- * Without that heading it can still contradict other links but never binds
- * rows by itself. A row linked to exactly one row binds; rows whose links
- * conflict stay unresolved together. Rows are never paired by text similarity.
+ * Names of a record's own identifier. A cell is identity evidence only when
+ * its local column heading names one ("MSN", "Serial No.", "Registration",
+ * "(Re)insurer") or the cell itself starts with one ("MSN 1"). A row number
+ * ("No."), a model, a status, a name under another heading, an amount or a
+ * date is never identity, however unique.
  */
-function rowIdentity(
-  left: Unit[],
-  right: Unit[],
-  usedL: Set<Unit>,
-  usedR: Set<Unit>,
-  bind: (a: Unit, b: Unit, method: string) => void,
-  result: CompareResult,
-) {
-  const tables = (us: Unit[]) => {
-    const m = new Map<string, Unit[]>();
-    for (const u of us)
-      if (u.rowCells) {
-        const t = u.path.section + "\u0000" + u.title;
-        m.set(t, [...(m.get(t) ?? []), u]);
-      }
-    return m;
-  };
-  const counting = (rows: Unit[]) => {
-    const n = rows
-      .map((r) => counter(r.rowCells![0]))
-      .filter((x): x is number => x !== null);
-    return n.length >= 2 && n[0] <= 1 && n.every((x, i) => x === n[0] + i);
-  };
-  // The heading row of a run of rows is the closest digit-free row above
-  // them in the same table, with nothing but page margins in between.
+const IDENTITY = "MSN|ESN|S\\/N|serial|registration|(?:re)?insurer";
+const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
+  identityPrefix = new RegExp(`^(?:${IDENTITY})\\b`, "iu");
+/**
+ * The heading row of each recovered row: the closest digit-free row above it
+ * in the same section and title, with nothing but page margins in between.
+ */
+function rowHeadings(left: Unit[], right: Unit[]) {
   const headings = new Map<Unit, Unit>();
   for (const us of [left, right]) {
     const current = new Map<string, Unit>();
@@ -218,6 +193,33 @@ function rowIdentity(
       else if (current.has(t)) headings.set(u, current.get(t)!);
     }
   }
+  return headings;
+}
+/**
+ * Rows recovered from one baseline pair only through identity evidence (see
+ * IDENTITY), within one table: the same section, title and heading row. Two
+ * tables under one title are two scopes. An identity cell whose column and
+ * text are unique within its table on both sides links two rows; uniqueness
+ * only checks the link. A row linked to exactly one row binds, unless the two
+ * rows hold different identifiers in the same identity column; rows whose
+ * links conflict stay unresolved together. Rows are never paired by text
+ * similarity; rows without identity evidence stay unpaired.
+ */
+function rowIdentity(
+  left: Unit[],
+  right: Unit[],
+  usedL: Set<Unit>,
+  usedR: Set<Unit>,
+  bind: (a: Unit, b: Unit, method: string) => void,
+  result: CompareResult,
+  headings: Map<Unit, Unit>,
+  scope: (u: Unit) => string,
+) {
+  const tables = (us: Unit[]) => {
+    const m = new Map<string, Unit[]>();
+    for (const u of us) if (u.rowCells) m.set(scope(u), [...(m.get(scope(u)) ?? []), u]);
+    return m;
+  };
   // The heading over a cell is the cell of the heading row it overlaps most.
   const heading = (r: Unit, k: number) => {
     const h = headings.get(r),
@@ -227,52 +229,35 @@ function rowIdentity(
       j = overlap.indexOf(Math.max(...overlap));
     return overlap[j] > 0 ? h.rowCells![j] : null;
   };
-  const owners = (rows: Unit[], numbered: boolean) => {
-    const m = new Map<string, { row: Unit; firm: boolean }[]>();
-    for (const r of rows) {
-      // A first column counting 1..n is a row number unless its own heading
-      // names it as the record's number (MSN 01, 02, ...).
-      const skip =
-        numbered && counter(r.rowCells![0]) !== null && !identityHeading.test(heading(r, 0) ?? "") ? 1 : 0;
-      // The key keeps the cell's column in the recovered row, counted before
-      // value cells are left out, so the same text in another column of a
-      // different record is not identity evidence.
-      // A one-character cell is too common to be identity, unless its own
-      // heading names the record's number (MSN 1, 2, ...).
+  // Identity cells of a row by their column in the recovered row.
+  const identities = (r: Unit) =>
+    new Map(
       r.rowCells!
         .map((c, k) => [k, c.normalize("NFKC")] as const)
-        .filter(
-          ([k, c]) =>
-            k >= skip && (c.length >= 2 || identityHeading.test(heading(r, k) ?? "")) && !valueLike(c),
-        )
-        .forEach(([k, c]) => {
-          const key = k + "\u0000" + c,
-            firm = !/^\p{N}+$/u.test(c) || identityHeading.test(heading(r, k) ?? "");
-          m.set(key, [...(m.get(key) ?? []), { row: r, firm }]);
-        });
-    }
+        .filter(([k, c]) => (identityHeading.test(heading(r, k) ?? "") || identityPrefix.test(c)) && !valueLike(c)),
+    );
+  const owners = (rows: Unit[]) => {
+    const m = new Map<string, Unit[]>();
+    for (const r of rows)
+      for (const [k, c] of identities(r)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
     return m;
   };
   const lt = tables(left),
     rt = tables(right);
   const links = new Map<Unit, Set<Unit>>(),
-    via = new Map<Unit, string>(),
-    firmly = new Set<Unit>();
+    via = new Map<Unit, string>();
   for (const [t, rows] of lt) {
     const others = rt.get(t);
     if (!others) continue;
-    const numbered = counting(rows) || counting(others);
-    const ro = owners(others, numbered);
-    for (const [key, as] of owners(rows, numbered)) {
+    const ro = owners(others);
+    for (const [key, as] of owners(rows)) {
       const bs = ro.get(key);
       if (as.length !== 1 || bs?.length !== 1) continue;
-      const [a, b] = [as[0].row, bs[0].row],
-        firm = as[0].firm && bs[0].firm;
+      const [a, b] = [as[0], bs[0]];
       if (usedL.has(a) || usedR.has(b)) continue;
       links.set(a, (links.get(a) ?? new Set()).add(b));
       links.set(b, (links.get(b) ?? new Set()).add(a));
-      if (firm ? !firmly.has(a) : !via.has(a)) via.set(a, key.split("\u0000")[1]);
-      if (firm) firmly.add(a);
+      if (!via.has(a)) via.set(a, key.split("\u0000")[1]);
     }
   }
   const leftSide = new Set(left),
@@ -292,11 +277,12 @@ function rowIdentity(
     const as = group.filter((u) => leftSide.has(u)).sort(byOrder),
       bs = group.filter((u) => !leftSide.has(u)).sort(byOrder);
     if (as.length === 1 && bs.length === 1) {
-      // Rows linked only by bare numbers stay apart: removed and added.
-      if (!firmly.has(as[0])) continue;
-      as[0].path.rowKey = bs[0].path.rowKey = via.get(as[0]) ?? null;
-      bind(as[0], bs[0], "row-identity");
-      continue;
+      const [x, y] = [identities(as[0]), identities(bs[0])];
+      if ([...x].every(([k, c]) => !y.has(k) || y.get(k) === c)) {
+        as[0].path.rowKey = bs[0].path.rowKey = via.get(as[0]) ?? null;
+        bind(as[0], bs[0], "row-identity");
+        continue;
+      }
     }
     const x = aggregate(as, "row-conflict-left-" + as[0].id, true),
       y = aggregate(bs, "row-conflict-right-" + bs[0].id, true);
@@ -306,7 +292,7 @@ function rowIdentity(
     result.unresolved.push({
       reason: "ambiguous_identity",
       message:
-        "表格行的身份证据互相冲突（例如编号与名称指向不同行）；未自动配对，组内原文变化仍展示",
+        "表格行的身份证据互相冲突（例如两个身份列指向不同行，或同一身份列的值不同）；未自动配对，组内原文变化仍展示",
       left: locations(x, "left"),
       right: locations(y, "right"),
       defaultVisible: true,
@@ -344,49 +330,46 @@ function datePeriod(text: string): [number, number] | null {
     ? (dates as [number, number])
     : null;
 }
-function category(
+/**
+ * Facts the two texts themselves prove about a difference. They state what
+ * changed, never whether it matters, and nothing else in the line (an
+ * unchanged amount, a keyword, its role or a profile field) adds to them.
+ * - whitespace_only: the words are the same once runs of whitespace are
+ *   collapsed and the ends trimmed; an absent side reads as empty text.
+ * - page_number_only: only page numbers differ: the confirmed page tokens of a
+ *   repeated page line, or the numbers of explicit "Page n" expressions in a
+ *   heading or margin line. A line on one side only holds nothing but such
+ *   page-number expressions.
+ * - dates_rolled_forward_one_year: both dates of an annual period move to the
+ *   following period and the rest of the text is equal.
+ * - continued_heading: a heading on one side only that is a heading of both
+ *   versions with an explicit "continued" suffix.
+ */
+function facts(
   a: Unit | undefined,
   b: Unit | undefined,
-  layoutOnly: Set<Unit> = new Set(),
-): Difference["category"] {
-  const u = b ?? a!;
-  // Cosmetic needs evidence that only the form changed: equal text, a confirmed
-  // page number, whitespace, an explicit label alias or a continuation heading.
-  // Lacking digits or keywords, or the role of the line, is not such evidence.
-  // Repeated furniture: only confirmed page-number parts are cosmetic; a line
-  // on one side only is cosmetic when nothing but its page number is left. Any
-  // other change is Review, and Material when it carries an amount.
-  if (u.role === "furniture") {
-    const texts = [a, b].filter((x): x is Unit => !!x).map(content);
-    if (a && b ? texts[0] === texts[1] || a.matchText === b.matchText
-        : u.furniture?.pageNumber && !/\S/u.test(withoutFurniturePages(u.rawText, u.furniture)))
-      return "Cosmetic";
-    return valueLike(texts.join(" ")) ? "Material" : "Review";
+  layoutOnly: Set<Unit>,
+): Fact[] {
+  const u = b ?? a!,
+    old = a?.rawText ?? "",
+    now = b?.rawText ?? "";
+  if (old === now) return [];
+  const words = (t: string) => t.trim().split(/\s+/u).join(" ");
+  if (words(old) === words(now)) return ["whitespace_only"];
+  const margin = ["page_heading", "footer", "heading"].includes(u.role);
+  if (u.role === "furniture" || margin) {
+    const page = (x: Unit) =>
+      x.furniture
+        ? !/\S/u.test(withoutFurniturePages(x.rawText, x.furniture))
+        : !/\S/u.test(withoutPageNumbers(x.rawText));
+    if (a && b ? maskedPageNumbers(a) === maskedPageNumbers(b) : (u.furniture?.pageNumber || margin) && page(u))
+      return ["page_number_only"];
   }
-  if (u.role === "whitespace") return "Cosmetic";
-  if (a && b && a.matchText === b.matchText) return "Cosmetic";
-  // A label or table header is compared by its words. Two profile labels of the
-  // same field, party and section (SUMS INSURED: / SUM INSURED:) are an
-  // explicit alias; INSURED: and REINSURED: name different parties.
-  if (u.role === "label" || u.role === "table_header") {
-    if (a && b && a.role === "label" && b.role === "label" && a.path.field &&
-        (["field", "entity", "section"] as const).every((k) => a.path[k] === b.path[k]) &&
-        a.path.confidence !== "unresolved" && b.path.confidence !== "unresolved")
-      return "Cosmetic";
-    return substantive.test((a?.rawText ?? "") + (b?.rawText ?? "")) ? "Material" : "Review";
-  }
-  // A heading, or a line at the top or bottom of a page, is compared as content:
-  // neither its place nor its capitals show that a change is only layout. A
-  // changed page number is, and so is a heading with evidence of repagination.
-  if (["page_heading", "footer", "heading"].includes(u.role)) {
-    const kept = [a, b].filter((x): x is Unit => !!x).map((x) => withoutPageNumbers(x.rawText));
-    if (a && b ? kept[0] === kept[1] : !/\S/u.test(kept[0]) || layoutOnly.has(u))
-      return "Cosmetic";
-  }
+  if (!(a && b) && layoutOnly.has(u)) return ["continued_heading"];
   if (a && b && u.path.field === "policy_period") {
-    const old = datePeriod(a.rawText),
-      now = datePeriod(b.rawText);
-    if (old && now) {
+    const before = datePeriod(old),
+      after = datePeriod(now);
+    if (before && after) {
       const oneDay = 86400000;
       const annual = (v: [number, number]) => {
         const s = new Date(v[0]),
@@ -397,19 +380,14 @@ function category(
           e.getUTCDate() === s.getUTCDate()
         );
       };
-      const withoutDates=(text:string)=>text.replace(/\d{1,2} [A-Za-z]+ \d{4}/g,'<date>');
-      if (annual(old) && annual(now) && now[0] === old[1] + oneDay &&
-          withoutDates(a.rawText)===withoutDates(b.rawText))
-        return "RollForward";
+      const withoutDates = (text: string) => text.replace(/\d{1,2} [A-Za-z]+ \d{4}/g, "<date>");
+      if (annual(before) && annual(after) && after[0] === before[1] + oneDay &&
+          withoutDates(old) === withoutDates(now))
+        return ["dates_rolled_forward_one_year"];
     }
-    return "Material";
   }
-  if (u.path.confidence === "unresolved") return "Review";
-  if (u.path.field || substantive.test((a?.rawText ?? "") + (b?.rawText ?? "")))
-    return "Material";
-  return "Review";
+  return [];
 }
-const substantive = /\b(?:not|cover|exclud|loss|liability|and|or)\b|\d|[±☑☐]/i;
 function textOps(
   a: Unit | undefined,
   b: Unit | undefined,
@@ -531,8 +509,8 @@ export function compare(
     throw new Error("两份文档必须由同一引擎、版本及选项提取");
   phase?.("snapshot");
   const result: CompareResult = {
-    schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.7",
+    schemaVersion: RESULT_VERSION,
+    coreVersion: VERSION + "+row-identity.8+facts.2",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -595,6 +573,11 @@ export function compare(
     if (base && tl.has(base) && tr.has(base)) layoutOnly.add(u);
   }
   phase?.("matching");
+  // A recovered table is its section, title and heading row: one title can
+  // stand above several tables.
+  const headings = rowHeadings(la, rb),
+    tableScope = (u: Unit) =>
+      `${u.path.section}\u0000${u.title}\u0000${headings.get(u)?.rawText ?? ""}`;
   const bind = (
     a: Unit,
     b: Unit,
@@ -831,7 +814,7 @@ export function compare(
   // tables it would consume a record before identity evidence is consulted.
   const rawKey = (u: Unit) =>
     eligible(u)
-      ? `${u.role}/${u.rowCells ? `${u.path.section}\u0000${u.title}\u0000` : ""}${u.rawText}`
+      ? `${u.role}/${u.rowCells ? `${tableScope(u)}\u0000` : ""}${u.rawText}`
       : null;
   const el = map(la, usedL, rawKey),
     er = map(rb, usedR, rawKey);
@@ -867,13 +850,14 @@ export function compare(
       }
     }
   }
-  rowIdentity(la, rb, usedL, usedR, bind, result);
+  rowIdentity(la, rb, usedL, usedR, bind, result, headings, tableScope);
   // Adjacent split/merge candidates are evaluated before fuzzy 1:1 locks.
   for (const [source, target, su, tu, reverse] of [
     [la, rb, usedL, usedR, false],
     [rb, la, usedR, usedL, true],
   ] as const) {
-    for (const a of source.filter((u) => !su.has(u) && u.role === "body"))
+    // Recovered table rows pair only by identity or by equal text in their table.
+    for (const a of source.filter((u) => !su.has(u) && u.role === "body" && !u.rowCells))
       for (let j = 0; j < target.length - 1; j++) {
         const b = target[j],
           c = target[j + 1];
@@ -882,6 +866,8 @@ export function compare(
           tu.has(c) ||
           b.role !== "body" ||
           c.role !== "body" ||
+          b.rowCells ||
+          c.rowCells ||
           b.path.section !== c.path.section ||
           b.title !== c.title
         )
@@ -1103,16 +1089,11 @@ export function compare(
       rb2 = b as Repeated | undefined,
       ar = ra?.repeats,
       br = rb2?.repeats;
-    // Repeated text present on fewer pages than pagination explains is shown.
-    const dropped =
-      !!ar &&
-      !!br &&
-      Math.abs(ar.length - br.length) >
-        Math.abs(left.pages.length - right.pages.length);
-    if (a && b && a.rawText === b.rawText && !moved && !dropped) return;
-    const furniture = (a ?? b!).role === "furniture",
-      pages = (us?: Unit[]) =>
-        new Set(us?.map((u) => u.refs.find(Boolean)!.page.pageIndex)).size;
+    // A repeated line whose number of occurrences changed is shown with both
+    // counts and both page counts; neither explains the other, and no page
+    // of one version is said to correspond to a page of the other.
+    const recount = !!ar && !!br && ar.length !== br.length;
+    if (a && b && a.rawText === b.rawText && !moved && !recount) return;
     const kind: Difference["kind"] = moved
       ? "Moved"
       : a && b
@@ -1123,7 +1104,6 @@ export function compare(
     const d: Difference = {
       id: "",
       kind,
-      category: moved && a?.rawText === b?.rawText ? "Review" : category(a, b, layoutOnly),
       structurePath: (a ?? b!).path,
       left: locations(a, "left"),
       right: locations(b, "right"),
@@ -1131,6 +1111,16 @@ export function compare(
       newText: b?.rawText ?? "",
       textOps: textOps(a, b, budget, result),
       hasTextChange: a?.rawText !== b?.rawText,
+      facts: facts(a, b, layoutOnly),
+      repeat:
+        ar || br
+          ? {
+              left: ar?.length ?? 0,
+              right: br?.length ?? 0,
+              leftPages: left.pages.length,
+              rightPages: right.pages.length,
+            }
+          : null,
       defaultVisible: true,
       matchEvidence: {
         method,
@@ -1142,9 +1132,9 @@ export function compare(
       reviewReasons:
         (a ?? b!).path.confidence === "unresolved"
           ? [(a??b!).path.table?"无法确定唯一表格行身份":"无法确定同名字段的唯一归属"]
-          : furniture
+          : ar || br
             ? [
-                `页面附属：跨页重复的${a && b && content(a) === content(b) ? "页码" : "页眉页脚文字"}，基准 ${pages(ar)} 页、待审 ${pages(br)} 页${a ? (b ? "" : "，仅基准版有") : "，仅待审版有"}` +
+                `这段文字出现次数：${ar?.length ?? 0} 次 → ${br?.length ?? 0} 次；文档页数：${left.pages.length} 页 → ${right.pages.length} 页` +
                   [ra?.note, rb2?.note].filter(Boolean).map((n) => "；" + n).join("") +
                   "；逐处来源见出现位置",
               ]
@@ -1217,12 +1207,9 @@ export function compare(
           Math.min(l.quads[0][1], l.quads[0][3], l.quads[0][5], l.quads[0][7])
       : -1;
   };
+  // Differences follow the document; nothing is ranked by what it changes.
   result.differences.sort(
-    (a, b) =>
-      ({ Material: 0, Review: 1, RollForward: 2, Cosmetic: 3 })[a.category] -
-        { Material: 0, Review: 1, RollForward: 2, Cosmetic: 3 }[b.category] ||
-      sourcePosition(a) - sourcePosition(b) ||
-      (a.id < b.id ? -1 : 1),
+    (a, b) => sourcePosition(a) - sourcePosition(b) || (a.id < b.id ? -1 : 1),
   );
   result.stats.differenceCount = result.differences.length;
   result.stats.occurrenceCount = result.differences.reduce(

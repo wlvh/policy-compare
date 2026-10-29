@@ -9,6 +9,9 @@ usage: python3 reports/issue-2-validation/retriage.py INPUTS OUT_DIR OLD_REV SET
   SET=DIR  a name and a directory holding <case>-<engine>.json or .json.gz
 Writes OUT_DIR/<SET>/<case>-<engine>.{old,new}.summary.json, the new events
 (.new.events.json.gz), and OUT_DIR/retriage.json and retriage.md.
+The current script reads the identity declaration scripts/renewal-identity.json
+(round 8); an old script runs as it was. A script that cannot read a result
+(an old script on result format 2) is recorded as such.
 """
 import gzip
 import hashlib
@@ -22,6 +25,7 @@ CASES = ['aviation_2024_vs_2025', 'bizav_2024_vs_2025']
 ENGINES = ['mupdf', 'pdfjs']
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 NEW = os.path.join(ROOT, 'scripts', 'renewal-triage.py')
+IDENTITY = os.path.join(ROOT, 'scripts', 'renewal-identity.json')
 
 
 def sha(data):
@@ -39,16 +43,20 @@ def load(directory, name):
 
 def triage(script, changes, result, tmp):
     events = os.path.join(tmp, 'events.json')
-    out = subprocess.run([sys.executable, script, changes, result, '--events', events],
-                         capture_output=True, text=True, check=True).stdout
+    extra = ['--identity', IDENTITY] if script == NEW else []
+    run = subprocess.run([sys.executable, script, changes, result, '--events', events, *extra],
+                         capture_output=True, text=True)
+    if run.returncode:
+        return {'error': run.stderr.strip().splitlines()[-1]}, {}
     with open(events) as f:
-        return json.loads(out), {e['id']: e for e in json.load(f)}
+        return json.loads(run.stdout), {e['id']: e for e in json.load(f)}
 
 
 def metrics(summary):
+    if 'error' in summary:
+        return summary
     return {'verdicts': summary['verdicts'], 'acceptedCards': summary['acceptedCards'],
             'unexplainedCards': summary['unexplainedCards'],
-            'unexplainedMaterialCards': summary['unexplainedMaterialCards'],
             'fullRowRecovered': len(summary['tableRowEvents']['fullRowRecovered']),
             'changeCorrectlyAttributed': len(summary['tableRowEvents']['changeCorrectlyAttributed'])}
 
@@ -78,6 +86,10 @@ def main(inputs, out, old_rev, sets):
                     (so, eo), (sn, en) = (triage(s, changes, result, tmp) for s in (old_script, NEW))
                     base = os.path.join(out, name, f'{case}-{engine}')
                     for tag, summary in (('old', so), ('new', sn)):
+                        if 'error' in summary:
+                            with open(f'{base}.{tag}.summary.json', 'w') as f:
+                                json.dump(summary, f, indent=1)
+                            continue
                         summary['inputs']['result']['path'] = os.path.relpath(os.path.join(directory, f'{case}-{engine}.json'), ROOT)
                         summary['inputs']['changes']['path'] = os.path.relpath(changes, ROOT)
                         with open(f'{base}.{tag}.summary.json', 'w') as f:
@@ -85,7 +97,7 @@ def main(inputs, out, old_rev, sets):
                     with gzip.open(f'{base}.new.events.json.gz', 'wt') as f:
                         json.dump(list(en.values()), f)
                     changed = []
-                    for k in eo:
+                    for k in (eo if eo and en else {}):
                         a, b = eo[k], en[k]
                         fa, fb = ((x.get('row') or {}).get('fullRowRecovered') for x in (a, b))
                         if (a['verdict'], a.get('acceptedCards'), fa) != (b['verdict'], b.get('acceptedCards'), fb):
@@ -97,18 +109,19 @@ def main(inputs, out, old_rev, sets):
                                             'reasons': sorted({x['reason'] for x in b.get('atomEvidence', []) if x['reason']})})
                     report['runs'].append({'set': name, 'case': case, 'engine': engine,
                                            'resultSha256': sha(raw), 'changesSha256': sha(open(changes, 'rb').read()),
-                                           'coreVersion': so.get('coreVersion'),
+                                           'coreVersion': sn.get('coreVersion') or so.get('coreVersion'),
                                            'old': metrics(so), 'new': metrics(sn), 'changedEvents': changed})
     with open(os.path.join(out, 'retriage.json'), 'w') as f:
         json.dump(report, f, indent=1)
     lines = [f"# Re-triage: {report['oldScript']['rev']} -> {report['newScript']['rev']}", '',
-             '| set | run | verdicts (old → new) | accepted | unexplained (Material) | fullRow | changed events |',
+             '| set | run | verdicts (old → new) | accepted | unexplained | fullRow | changed events |',
              '|---|---|---|---|---|---|---|']
+    pick = lambda m, k: m.get(k, m.get('error', '—'))
     for r in report['runs']:
         o, n = r['old'], r['new']
-        lines.append(f"| {r['set']} | {r['case'].split('_')[0]} {r['engine']} | {o['verdicts']} → {n['verdicts']} | "
-                     f"{o['acceptedCards']} → {n['acceptedCards']} | {o['unexplainedCards']} ({o['unexplainedMaterialCards']}) → "
-                     f"{n['unexplainedCards']} ({n['unexplainedMaterialCards']}) | {o['fullRowRecovered']} → {n['fullRowRecovered']} | "
+        lines.append(f"| {r['set']} | {r['case'].split('_')[0]} {r['engine']} | {pick(o, 'verdicts')} → {pick(n, 'verdicts')} | "
+                     f"{pick(o, 'acceptedCards')} → {pick(n, 'acceptedCards')} | {pick(o, 'unexplainedCards')} → "
+                     f"{pick(n, 'unexplainedCards')} | {pick(o, 'fullRowRecovered')} → {pick(n, 'fullRowRecovered')} | "
                      f"{len(r['changedEvents'])} |")
     for r in report['runs']:
         for e in r['changedEvents']:

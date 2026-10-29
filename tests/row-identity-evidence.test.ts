@@ -1,0 +1,126 @@
+import { describe, it, expect } from "vitest";
+import { compare } from "../packages/compare-core/index";
+import { ResultSchemaV2, type CompareResultV2 } from "../packages/contracts/index";
+import { textDoc } from "./helpers";
+
+// Issue #2, round 8: recovered table rows are paired only through positive
+// identity evidence: a cell under its local column heading naming an
+// identifier (MSN, ESN, serial, registration, insurer), or a cell that itself
+// starts with such a name ("MSN 1"). Uniqueness only checks a candidate; a
+// model, status, amount, date or a description that happens to be unique binds
+// nothing. Identity is scoped to one table: the same title above two tables
+// with different heading rows does not make them one table.
+type Rows = string[][];
+const lines = (rows: Rows, y0: number) =>
+  rows.flatMap((row, i) => row.map((text, j) => ({ text, x: 40 + j * 130, y: y0 + i * 20 })));
+const table = (rows: Rows, title = "SCHEDULE") => textDoc([{ text: title, y: 150 }, ...lines(rows, 180)]);
+const run = (before: Rows, after: Rows) => ResultSchemaV2.parse(compare(table(before), table(after)));
+// A confident card that turns one record into another.
+const crossPaired = (r: CompareResultV2, from: string, to: string) =>
+  r.differences.some(
+    (d) =>
+      d.oldText.includes(from) &&
+      d.newText.includes(to) &&
+      !d.oldText.includes(to) &&
+      d.structurePath?.confidence !== "unresolved",
+  );
+const visible = (r: CompareResultV2, text: string, side: "left" | "right") =>
+  r.differences.some((d) => d[side].map((l) => l.text).join(" ").includes(text)) ||
+  r.unresolved.some((u) => u[side].map((l) => l.text).join(" ").includes(text));
+
+describe("a descriptive cell does not bind two records", () => {
+  it("Registration | MSN | Model: G-AAAA/123/A320 -> G-BBBB/456/A320 is not one record", () => {
+    const r = run(
+      [["Registration", "MSN", "Model"], ["G-AAAA", "123", "A320"], ["G-CCCC", "789", "B737"]],
+      [["Registration", "MSN", "Model"], ["G-BBBB", "456", "A320"], ["G-CCCC", "789", "B737"]],
+    );
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect(crossPaired(r, "G-AAAA", "G-BBBB")).toBe(false);
+    expect([visible(r, "G-AAAA", "left"), visible(r, "G-BBBB", "right")]).toEqual([true, true]);
+  });
+  it("without a heading row, unique names bind nothing; every change stays visible", () => {
+    const r = run(
+      [["Alpha Air", "A-1", "USD 100,000"], ["Beta Air", "B-2", "USD 200,000"]],
+      [["Alpha Air", "A-1", "USD 200,000"], ["Beta Air", "B-2", "USD 100,000"]],
+    );
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    for (const [text, side] of [["USD 100,000", "left"], ["USD 200,000", "right"], ["USD 200,000", "left"], ["USD 100,000", "right"]] as const)
+      expect(visible(r, text, side)).toBe(true);
+  });
+});
+
+describe("an identifier written in the cell is identity evidence", () => {
+  it("MSN 1 / MSN 2 without a heading row: the rows pair by MSN, never across MSNs", () => {
+    const r = run(
+      [["MSN 1", "Alpha", "10%"], ["MSN 2", "Beta", "20%"]],
+      [["MSN 1", "Beta", "10%"], ["MSN 2", "Alpha", "20%"]],
+    );
+    expect(crossPaired(r, "MSN 1", "MSN 2")).toBe(false);
+    expect(crossPaired(r, "MSN 2", "MSN 1")).toBe(false);
+    expect(
+      r.differences.map((d) => [d.matchEvidence.method, d.structurePath?.rowKey, d.oldText, d.newText]),
+    ).toEqual([
+      ["row-identity", "MSN 1", "MSN 1 Alpha 10%", "MSN 1 Beta 10%"],
+      ["row-identity", "MSN 2", "MSN 2 Beta 20%", "MSN 2 Alpha 20%"],
+    ]);
+  });
+  it("control: a No. column counting 1..n is not identity, so an inserted row shifts nothing", () => {
+    const r = run(
+      [["No.", "Hangar", "Value"], ["1", "Alpha Hangar", "USD 100,000"], ["2", "Beta Hangar", "USD 200,000"]],
+      [["No.", "Hangar", "Value"], ["1", "Alpha Hangar", "USD 100,000"], ["2", "Delta Hangar", "USD 250,000"], ["3", "Beta Hangar", "USD 200,000"]],
+    );
+    expect(crossPaired(r, "Beta", "Delta")).toBe(false);
+    expect(visible(r, "Delta Hangar", "right")).toBe(true);
+  });
+  it("control: an insurer code under its Insurer heading pairs the insurer's line", () => {
+    const r = run(
+      [["Insurer", "Reference", "Line"], ["HPX 0624", "HX-AV-2210", "12.5%"], ["MKV 1426", "24AV0381", "15.0%"]],
+      [["Insurer", "Reference", "Line"], ["HPX 0624", "HX-AV-2587", "10.0%"], ["MKV 1426", "25AV0412", "15.0%"]],
+    );
+    const hpx = r.differences.find((d) => d.oldText.startsWith("HPX 0624"))!;
+    expect([hpx.kind, hpx.matchEvidence.method, hpx.structurePath?.rowKey, hpx.newText]).toEqual([
+      "Replaced", "row-identity", "HPX 0624", "HPX 0624 HX-AV-2587 10.0%",
+    ]);
+  });
+});
+
+describe("explicit identity evidence that conflicts stays unresolved", () => {
+  it("MSN and registration pointing to different rows: one unresolved group", () => {
+    const r = run(
+      [["MSN", "Registration", "Value"], ["1315", "G-AAAA", "USD 1,000"], ["1316", "G-BBBB", "USD 2,000"]],
+      [["MSN", "Registration", "Value"], ["1315", "G-BBBB", "USD 1,000"], ["1316", "G-AAAA", "USD 2,000"]],
+    );
+    expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+  });
+  it("the same MSN with another registration: the identifiers disagree, so unresolved", () => {
+    const r = run(
+      [["MSN", "Registration", "Value"], ["1315", "G-AAAA", "USD 1,000"], ["1316", "G-BBBB", "USD 2,000"]],
+      [["MSN", "Registration", "Value"], ["1315", "G-ZZZZ", "USD 1,000"], ["1316", "G-BBBB", "USD 2,000"]],
+    );
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
+    expect([visible(r, "G-AAAA", "left"), visible(r, "G-ZZZZ", "right")]).toEqual([true, true]);
+  });
+});
+
+describe("the same title above two tables is not one table", () => {
+  // Under one title, an aircraft table and a contract-party table, each with
+  // its own heading row. G-AAAA leaves the first table and enters the second.
+  const doc = (aircraft: Rows, parties: Rows) =>
+    textDoc([
+      { text: "SCHEDULE", y: 150 },
+      ...lines([["Registration", "Operator", "Value"], ...aircraft], 180),
+      ...lines([["Registration", "Contract Party", "Since"], ...parties], 300),
+    ]);
+  it("a registration in each table, on different sides, binds nothing", () => {
+    const r = ResultSchemaV2.parse(
+      compare(
+        doc([["G-AAAA", "Alpha Air", "USD 1,000"]], [["G-BBBB", "North Bank plc", "2019"]]),
+        doc([["G-CCCC", "Gamma Air", "USD 3,000"]], [["G-AAAA", "South Bank plc", "2021"]]),
+      ),
+    );
+    expect(crossPaired(r, "Alpha Air", "South Bank")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+  });
+});

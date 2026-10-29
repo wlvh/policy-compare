@@ -1,0 +1,306 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/result-format-2.test.ts (16 tests | 16 failed) 94ms
+   ❯ an unchanged amount does not describe an edit beside it (2)
+     × a punctuation change: the edit, its sources, and no importance statement 26ms
+     × a word change: the edit, its sources, and no importance statement 5ms
+   ❯ a normalised match is not evidence that only the form changed (3)
+     × Limit 10² units -> Limit 102 units: the character edit is kept and no fact is stated 2ms
+     × Limit １００ units -> Limit 100 units: the character edit is kept and no fact is stated 3ms
+     × Office -> Ofﬁce: the character edit is kept and no fact is stated 2ms
+   ❯ whitespace_only is stated only when the words are the same (3)
+     × a doubled space: whitespace_only 3ms
+     × a removed space joins two words: no fact 2ms
+     × a line of whitespace on one side only: whitespace_only 2ms
+   ❯ a moved and edited paragraph keeps both statements (1)
+     × kind Moved, the word edit, sources on both sides 12ms
+   ❯ differences follow the document, whatever they change (1)
+     × a wording change above an amount change comes first 5ms
+   ❯ other facts the texts prove (5)
+     × a period whose two dates each move one year: dates_rolled_forward_one_year 4ms
+     × the same period with a changed word: no fact 3ms
+     × an explicit page number alone on one side: page_number_only 4ms
+     × a page total changed in a repeated page line: page_number_only, with both occurrence counts 11ms
+     × a continuation heading of a heading both versions have: continued_heading 4ms
+   ❯ result format 2 (1)
+     × names its version and has no category on any difference 3ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/result-format-2.test.ts > an unchanged amount does not describe an edit beside it > a punctuation change: the edit, its sources, and no importance statement
+ FAIL  tests/result-format-2.test.ts > an unchanged amount does not describe an edit beside it > a word change: the edit, its sources, and no importance statement
+AssertionError: expected 'Material' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Material"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ one tests/result-format-2.test.ts:21:13
+ ❯ tests/result-format-2.test.ts:33:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > a normalised match is not evidence that only the form changed > Limit 10² units -> Limit 102 units: the character edit is kept and no fact is stated
+ FAIL  tests/result-format-2.test.ts > a normalised match is not evidence that only the form changed > Limit １００ units -> Limit 100 units: the character edit is kept and no fact is stated
+ FAIL  tests/result-format-2.test.ts > a normalised match is not evidence that only the form changed > Office -> Ofﬁce: the character edit is kept and no fact is stated
+AssertionError: expected 'Cosmetic' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Cosmetic"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ one tests/result-format-2.test.ts:21:13
+ ❯ tests/result-format-2.test.ts:47:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > whitespace_only is stated only when the words are the same > a doubled space: whitespace_only
+AssertionError: expected 'Cosmetic' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Cosmetic"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ one tests/result-format-2.test.ts:21:13
+ ❯ tests/result-format-2.test.ts:55:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > whitespace_only is stated only when the words are the same > a removed space joins two words: no fact
+AssertionError: expected 'Material' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Material"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ one tests/result-format-2.test.ts:21:13
+ ❯ tests/result-format-2.test.ts:58:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > whitespace_only is stated only when the words are the same > a line of whitespace on one side only: whitespace_only
+AssertionError: expected 'Cosmetic' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Cosmetic"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ tests/result-format-2.test.ts:63:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > a moved and edited paragraph keeps both statements > kind Moved, the word edit, sources on both sides
+AssertionError: expected 'Review' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Review"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ tests/result-format-2.test.ts:77:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > differences follow the document, whatever they change > a wording change above an amount change comes first
+AssertionError: expected 'Material' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Material"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ tests/result-format-2.test.ts:97:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > other facts the texts prove > a period whose two dates each move one year: dates_rolled_forward_one_year
+AssertionError: expected 'RollForward' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"RollForward"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ one tests/result-format-2.test.ts:21:13
+ ❯ tests/result-format-2.test.ts:107:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > other facts the texts prove > the same period with a changed word: no fact
+AssertionError: expected 'Material' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Material"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ one tests/result-format-2.test.ts:21:13
+ ❯ tests/result-format-2.test.ts:114:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > other facts the texts prove > an explicit page number alone on one side: page_number_only
+AssertionError: expected 'Cosmetic' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Cosmetic"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ tests/result-format-2.test.ts:122:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > other facts the texts prove > a page total changed in a repeated page line: page_number_only, with both occurrence counts
+AssertionError: expected 'Cosmetic' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Cosmetic"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ tests/result-format-2.test.ts:133:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > other facts the texts prove > a continuation heading of a heading both versions have: continued_heading
+AssertionError: expected 'Cosmetic' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Cosmetic"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ tests/result-format-2.test.ts:146:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯
+
+ FAIL  tests/result-format-2.test.ts > result format 2 > names its version and has no category on any difference
+AssertionError: expected 'Material' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"Material"
+
+ ❯ run tests/result-format-2.test.ts:14:81
+     12| const run = (left: ReturnType<typeof textDoc>, right: ReturnType<typeo…
+     13|   const r = compare(left, right) as unknown as CompareResultV2;
+     14|   for (const d of r.differences) expect((d as { category?: unknown }).…
+       |                                                                                 ^
+     15|   ResultSchemaV2.parse(r);
+     16|   return r;
+ ❯ tests/result-format-2.test.ts:155:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  16 failed (16)
+   Start at  11:20:42
+   Duration  838ms (transform 68%, import 16%, tests 15%, worker 1%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json

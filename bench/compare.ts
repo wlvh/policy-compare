@@ -274,9 +274,9 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
     }, 100);
     await page.getByRole("button", { name: "开始比较", exact: true }).click();
     const interactionMs: number[] = [];
-    for (const option of ["Review", "all"]) {
+    for (const option of ["Replaced", "all"]) {
       const t = performance.now();
-      await page.getByLabel("差异分类").selectOption(option);
+      await page.getByLabel("按变化方式筛选").selectOption(option);
       interactionMs.push(performance.now() - t);
     }
     await page.waitForFunction(

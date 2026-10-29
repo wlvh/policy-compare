@@ -1,5 +1,11 @@
 // Browser check of fine highlighting and source navigation on the renewal
 // pairs, in the built app (pnpm build:<engine>; pnpm preview:<engine>).
+// Round 8 (result format 2): every card is listed by default, in the order of
+// the exported result, which follows document position; no importance label
+// is shown. A checked change is one card holding its record on both sides,
+// or one Removed card with the old text and one Added card with the new text,
+// each holding the record; each card's highlights are checked on its sides.
+// Repeated-line cards also show their occurrence counts.
 // For each selected card the highlight polygons drawn on each side must lie
 // on the card's page, inside the card's changed source runs from the
 // exported JSON (PDF.js refines engine runs to glyph ranges in the text
@@ -8,11 +14,11 @@
 // pages and highlight it there.
 // With FURNITURE_DIR (left.pdf, right.pdf, expected.json from generators/),
 // it also checks cards whose repeated line varies inside one version: kind,
-// category, the explanation shown on the card, the occurrence count, and that
+// the explanation shown on the card, the occurrence count, and that
 // the occurrences of the changed pages and of a page that kept the old text
 // open those pages with their highlight.
 // With MARGIN_DIR (left.pdf, right.pdf, expected.json of the margin pair), it
-// checks each expected card's kind, category and pages, that repeated lines
+// checks each expected card's kind and pages, that repeated lines
 // keep their own horizontal place, and that the card (or its first and last
 // occurrence) opens its pages with the highlight inside its sources.
 // usage: pnpm exec tsx reports/issue-2-validation/browser-check.ts INPUTS OUT_DIR
@@ -29,19 +35,28 @@ const urls = {
 type Loc = { side: string; pageIndex: number; quads: number[][]; text: string };
 type Card = { id: string; oldText: string; newText: string; left: Loc[]; right: Loc[];
   textOps: { kind: string; left: Loc[]; right: Loc[] }[]; occurrences: { left: Loc[]; right: Loc[] }[];
-  structurePath: { rowKey: string | null; section: string } | null; category: string; kind: string };
-const checks: Record<string, (d: Card) => boolean> = {
-  "aviation HPX share 12.5% -> 10.0%": (d) => d.oldText.includes("HPX 0624") && d.oldText.includes("12.5%") && d.newText.includes("10.0%"),
-  "aviation MSN 15256 agreed value": (d) => d.oldText.includes("15256") && d.oldText.includes("16,900,000"),
-  "aviation MSN 4551 lessee (wrapped type cell)": (d) => d.oldText.includes("4551") && d.oldText.includes("Kestrel Connect"),
-  "aviation engine ESN 1949020 location": (d) => d.oldText.includes("1949020") && d.newText.includes("Singapore"),
-  "bizav Dubai hangar operator": (d) => d.oldText.includes("Dubai (OMDW)") && d.newText.includes("Desert Falcon"),
-  "bizav M-FNKB Selwyn endorsement (wrapped party cell)": (d) => d.oldText.includes("M-FNKB") && d.oldText.includes("Selwyn") && d.newText.includes("AVN67C"),
+  structurePath: { rowKey: string | null; section: string } | null; kind: string;
+  facts: string[]; repeat: { left: number; right: number } | null; reviewReasons: string[] };
+// Each change: the words its old side and its new side must hold, record included.
+const all = (...words: string[]) => (t: string) => words.every((w) => t.includes(w));
+const checks: Record<string, [(t: string) => boolean, (t: string) => boolean]> = {
+  "aviation HPX share 12.5% -> 10.0%": [all("HPX 0624", "12.5%"), all("HPX 0624", "10.0%")],
+  "aviation MSN 15256 agreed value": [all("15256", "16,900,000"), all("15256", "15,640,000")],
+  "aviation MSN 4551 lessee (wrapped type cell)": [all("4551", "Kestrel Connect"), all("4551", "Coral Bay")],
+  "aviation engine ESN 1949020 location": [all("1949020", "Tallinn"), all("1949020", "Singapore")],
+  "bizav Dubai hangar operator": [all("Dubai (OMDW)", "Al Maktoum"), all("Dubai (OMDW)", "Desert Falcon")],
+  "bizav M-FNKB Selwyn endorsement (wrapped party cell)": [all("M-FNKB", "Selwyn", "AVN67B"), all("M-FNKB", "Selwyn", "AVN67C")],
 };
 const furnitureChecks: Record<string, (d: Card) => boolean> = {
   "aviation header UMR": (d) => d.structurePath?.section === "page_furniture" && d.oldText.includes("B4417K240093"),
+  "aviation repeated line, 20 -> 19 occurrences": (d) => d.structurePath?.section === "page_furniture" && d.oldText.trim() === "LONDON MARKET" && d.newText.trim() === "LONDON MARKET",
   "bizav Draft watermark": (d) => d.structurePath?.section === "page_furniture" && d.newText.trim() === "Draft",
   "bizav page numbers": (d) => d.structurePath?.section === "page_furniture" && /Page \d+ of \d+/.test(d.oldText),
+};
+// Where a card starts in the document: its first source, left side first.
+const position = (d: Card) => {
+  const l = d.left[0] ?? d.right[0];
+  return l ? l.pageIndex * 1_000_000 + Math.min(l.quads[0][1], l.quads[0][3], l.quads[0][5], l.quads[0][7]) : -1;
 };
 // Inside a source box: ±2 pt across, and down the line ±3 pt or 15% of its
 // height, since Node estimates a run's top and bottom from font metrics while
@@ -82,34 +97,55 @@ try {
       await (await download).saveAs(file);
       const result = JSON.parse(readFileSync(file, "utf8")) as { coreVersion: string; status: string; differences: Card[] };
       const record: any = { engine, pair, coreVersion: result.coreVersion, status: result.status, cards: result.differences.length, highlights: [], navigation: [] };
-      for (const [name, match] of Object.entries(checks)) {
+      // The list: every card shown with no filter, in the exported order, which follows the document.
+      const shown = await page.locator(".card").count();
+      const olds = await page.locator(".card .old").allTextContents();
+      const labels = await page.locator(".card .badge").allTextContents();
+      const positions = result.differences.map(position);
+      record.list = {
+        filter: await page.getByLabel("按变化方式筛选").inputValue(),
+        shownCards: shown,
+        sameOrderAsResult: olds.every((t, i) => t === (result.differences[i].oldText || "（无）")),
+        resultInPositionOrder: positions.every((p, i) => !i || positions[i - 1] <= p),
+        importanceLabelsShown: ["重要变化", "需要复核", "期间顺延", "形式变化"].filter((w) => labels.some((l) => l.includes(w))),
+        labels: [...new Set(labels)],
+        statusText: (await page.locator("[data-status] strong").textContent())?.trim(),
+      };
+      record.list.status = record.list.filter === "all" && shown === result.differences.length && record.list.sameOrderAsResult &&
+        record.list.resultInPositionOrder && !record.list.importanceLabelsShown.length ? "PASS" : "FAIL";
+      for (const [name, [was, is]] of Object.entries(checks)) {
         if (!name.startsWith(pair.split("_")[0])) continue;
-        const hits = result.differences.filter(match);
-        const entry: any = { name, cards: hits.map((d) => d.id) };
+        const one = result.differences.filter((d) => was(d.oldText) && is(d.newText));
+        const split = [result.differences.filter((d) => d.kind === "Removed" && was(d.oldText)),
+          result.differences.filter((d) => d.kind === "Added" && is(d.newText))];
+        const hits = one.length ? one : split.every((x) => x.length === 1) ? split.flat() : [];
+        const entry: any = { name, cards: hits.map((d) => d.id), form: one.length ? "one card" : "removed + added", sides: [] };
         record.highlights.push(entry);
-        if (hits.length !== 1) { entry.status = "FAIL"; entry.reason = `expected one card, found ${hits.length}`; continue; }
-        const d = hits[0];
-        const changed = d.textOps.filter((o) => o.kind !== "equal");
-        entry.rowKey = d.structurePath?.rowKey ?? null;
-        entry.card = { kind: d.kind, category: d.category, oldText: d.oldText, newText: d.newText };
-        await page.locator(".card").filter({ hasText: d.oldText.slice(0, 40) }).filter({ hasText: d.newText.slice(-25) }).first().click();
-        entry.sides = [];
-        for (const [index, side] of (["left", "right"] as const).entries()) {
-          const runs = changed.flatMap((o) => o[side]);
-          if (!runs.length) continue;
-          const pageIndex = runs[0].pageIndex;
-          await expect.poll(() => readyPage(page, index), { timeout: 30000 }).toBe(pageIndex);
-          await expect.poll(async () => (await polygons(page, index)).length, { timeout: 15000 }).toBeGreaterThan(0);
-          const drawn = (await polygons(page, index)).map((q) => box([q]));
-          const runBox = box(runs.filter((r) => r.pageIndex === pageIndex).flatMap((r) => r.quads));
-          const inside = drawn.every((b) => within(b, runBox));
-          const drawnWidth = drawn.reduce((n, b) => n + b[2] - b[0], 0);
-          entry.sides.push({ side, pageIndex, polygons: drawn.length, changedText: runs.map((r) => r.text).join("|"),
-            sourceRunBox: runBox.map((v) => +v.toFixed(1)), drawnBoxes: drawn.map((b) => b.map((v) => +v.toFixed(1))),
-            drawnWidthOverRunWidth: +(drawnWidth / (runBox[2] - runBox[0])).toFixed(3), insideSourceRuns: inside });
+        if (one.length > 1 || !hits.length) { entry.status = "FAIL"; entry.reason = `found ${one.length} cards with both sides, ${split.map((x) => x.length).join(" + ")} removed + added`; continue; }
+        entry.rowKeys = hits.map((d) => d.structurePath?.rowKey ?? null);
+        entry.cardTexts = hits.map((d) => ({ kind: d.kind, oldText: d.oldText, newText: d.newText, method: (d as any).matchEvidence?.method }));
+        for (const d of hits) {
+          const changed = d.textOps.filter((o) => o.kind !== "equal");
+          await page.locator(".card").filter({ has: page.locator(".old", { hasText: (d.oldText || "（无）").slice(0, 40) }) })
+            .filter({ has: page.locator(".new", { hasText: (d.newText || "（无）").slice(-25) }) }).first().click();
+          for (const [index, side] of (["left", "right"] as const).entries()) {
+            const runs = changed.flatMap((o) => o[side]);
+            if (!runs.length) continue;
+            const pageIndex = runs[0].pageIndex;
+            await expect.poll(() => readyPage(page, index), { timeout: 30000 }).toBe(pageIndex);
+            await expect.poll(async () => (await polygons(page, index)).length, { timeout: 15000 }).toBeGreaterThan(0);
+            const drawn = (await polygons(page, index)).map((q) => box([q]));
+            const runBox = box(runs.filter((r) => r.pageIndex === pageIndex).flatMap((r) => r.quads));
+            const inside = drawn.every((b) => within(b, runBox));
+            const drawnWidth = drawn.reduce((n, b) => n + b[2] - b[0], 0);
+            entry.sides.push({ card: d.id, side, pageIndex, polygons: drawn.length, changedText: runs.map((r) => r.text).join("|"),
+              sourceRunBox: runBox.map((v) => +v.toFixed(1)), drawnBoxes: drawn.map((b) => b.map((v) => +v.toFixed(1))),
+              drawnWidthOverRunWidth: +(drawnWidth / (runBox[2] - runBox[0])).toFixed(3), insideSourceRuns: inside });
+          }
+          await page.screenshot({ path: path.join(out, `${pair}-${engine}-${d.id}.png`) });
         }
-        entry.status = entry.sides.length && entry.sides.every((s: any) => s.polygons > 0 && s.insideSourceRuns) && entry.rowKey ? "PASS" : "FAIL";
-        await page.screenshot({ path: path.join(out, `${pair}-${engine}-${entry.cards[0]}.png`) });
+        // One card must show both sides; a removed + added pair one side each.
+        entry.status = entry.sides.length >= 2 && entry.sides.every((s: any) => s.polygons > 0 && s.insideSourceRuns) ? "PASS" : "FAIL";
       }
       for (const [name, match] of Object.entries(furnitureChecks)) {
         if (!name.startsWith(pair.split("_")[0])) continue;
@@ -119,8 +155,11 @@ try {
         if (hits.length !== 1) { entry.status = "FAIL"; entry.reason = `expected one card, found ${hits.length}`; continue; }
         const d = hits[0];
         entry.occurrences = d.occurrences.length;
-        const card = page.locator(".card").filter({ has: page.locator(".occurrences") }).filter({ hasText: (d.newText || d.oldText).slice(0, 30) }).first();
+        entry.repeat = d.repeat;
+        const card = page.locator(".card").filter({ has: page.locator(".occurrences") })
+          .filter({ hasText: (d.newText || d.oldText).slice(0, 30) }).filter({ hasText: d.reviewReasons[0] }).first();
         await card.click();
+        entry.reasonShownOnCard = ((await card.textContent()) ?? "").includes(d.reviewReasons[0]);
         const picks = [...new Set([0, Math.floor(d.occurrences.length / 2), d.occurrences.length - 1])];
         for (const k of picks) {
           await card.getByRole("button", { name: `出现位置 ${k + 1}`, exact: true }).click();
@@ -137,12 +176,12 @@ try {
           entry.visited.push(visit);
         }
         entry.buttonLabels = await card.locator(".occurrences button").evaluateAll((els) => els.slice(0, 3).map((e) => e.textContent));
-        entry.status = entry.visited.length === picks.length &&
+        entry.status = entry.visited.length === picks.length && entry.reasonShownOnCard &&
           entry.visited.every((v: any) => ["left", "right"].every((s) => !v[s] || (v[s].polygons > 0 && v[s].insideSource))) ? "PASS" : "FAIL";
         await page.screenshot({ path: path.join(out, `${pair}-${engine}-${d.id}.png`) });
       }
       records.push(record);
-      console.log(JSON.stringify({ engine, pair, highlights: record.highlights.map((h: any) => `${h.name}:${h.status}`), navigation: record.navigation.map((n: any) => `${n.name}:${n.status}`) }));
+      console.log(JSON.stringify({ engine, pair, list: record.list.status, highlights: record.highlights.map((h: any) => `${h.name}:${h.form}:${h.status}`), navigation: record.navigation.map((n: any) => `${n.name}:${n.status}`) }));
       await context.close();
     }
   if (process.env.FURNITURE_DIR)
@@ -172,10 +211,10 @@ try {
         const d = hits[0];
         const changedRight = d.occurrences.flatMap((o) => o.right).filter((l) => l.text.includes(want.new));
         const keptRight = d.occurrences.flatMap((o) => o.right).filter((l) => l.text.includes(want.old));
-        const card = page.locator(".card").filter({ hasText: d.reviewReasons[0].slice(0, 60) }).first();
+        const card = page.locator(".card").filter({ hasText: d.reviewReasons[0] }).first();
         await card.click();
         const shown = (await card.textContent()) ?? "";
-        entry.kind = d.kind; entry.category = d.category; entry.reason = d.reviewReasons.join("");
+        entry.kind = d.kind; entry.repeat = d.repeat; entry.reason = d.reviewReasons.join("");
         entry.occurrences = d.occurrences.length;
         entry.buttons = await card.locator(".occurrences button").count();
         entry.changedRightPages = pagesOf(changedRight);
@@ -202,7 +241,7 @@ try {
           entry.visited.push(visit);
         }
         entry.status =
-          d.kind === want.kind && d.category === want.category &&
+          d.kind === want.kind &&
           JSON.stringify(entry.changedRightPages) === JSON.stringify(want.rightPages) &&
           JSON.stringify(entry.keptOldRightPages) === JSON.stringify(want.keptOldOnRightPages ?? []) &&
           (!want.keptOldOnRightPages || entry.reason.includes(`待审版第 ${want.keptOldOnRightPages.join("、")} 页仍为基准版文字`)) &&
@@ -243,7 +282,7 @@ try {
         if (hits.length !== 1) { entry.status = "FAIL"; entry.reason = `expected one card, found ${hits.length}`; continue; }
         const d = hits[0];
         const all = d.occurrences.length ? d.occurrences.flatMap((o) => [...o.left, ...o.right]) : [...d.left, ...d.right];
-        entry.kind = d.kind; entry.category = d.category;
+        entry.kind = d.kind; entry.facts = d.facts;
         entry.leftPages = pagesOf(d.occurrences.length ? d.occurrences.flatMap((o) => o.left) : d.left);
         entry.rightPages = pagesOf(d.occurrences.length ? d.occurrences.flatMap((o) => o.right) : d.right);
         if (want.x !== undefined) entry.sourceX = [...new Set(all.map((l) => Math.round(l.quads[0][0])))];
@@ -277,7 +316,7 @@ try {
           }
         }
         entry.status =
-          d.kind === want.kind && d.category === want.category &&
+          d.kind === want.kind &&
           JSON.stringify(entry.leftPages) === JSON.stringify(want.left) &&
           JSON.stringify(entry.rightPages) === JSON.stringify(want.right) &&
           (want.x === undefined || all.every((l) => Math.abs(l.quads[0][0] - want.x) < 3)) &&
@@ -293,4 +332,4 @@ try {
   await browser.close();
 }
 writeFileSync(path.join(out, "browser-check.json"), JSON.stringify({ browser: "chromium " + browser.version(), records }, null, 1) + "\n");
-if (records.some((r) => [...(r.highlights ?? []), ...(r.navigation ?? []), ...(r.furniture ?? []), ...(r.margin ?? [])].some((x: any) => x.status !== "PASS"))) process.exitCode = 1;
+if (records.some((r) => [...(r.list ? [r.list] : []), ...(r.highlights ?? []), ...(r.navigation ?? []), ...(r.furniture ?? []), ...(r.margin ?? [])].some((x: any) => x.status !== "PASS"))) process.exitCode = 1;

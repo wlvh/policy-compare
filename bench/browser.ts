@@ -180,8 +180,8 @@ for (const workload of manifest) {
           .getByRole("button", { name: "开始比较", exact: true })
           .click();
         const interactionStart = performance.now();
-        await page.getByLabel("差异分类").selectOption("Review");
-        await page.getByLabel("差异分类").selectOption("all");
+        await page.getByLabel("按变化方式筛选").selectOption("Replaced");
+        await page.getByLabel("按变化方式筛选").selectOption("all");
         record.interactionMs = (performance.now() - interactionStart) / 2;
         await page.waitForFunction(
           () => {

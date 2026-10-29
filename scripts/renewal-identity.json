@@ -1,0 +1,127 @@
+{
+  "version": "renewal-identity/1",
+  "about": [
+    "Acceptance-side record identity for the table-row events of the two renewal samples, read only by scripts/renewal-triage.py (--identity); the product never reads it.",
+    "Each pair is bound to its unchanged author changes.json by SHA-256. Each table lists its author events by id and the author-row cells (0-based, in the author's ' | ' order) that hold the record's identifier, with the printed column heading or layout that shows it.",
+    "A table with an empty identity list is declared without identity: its row events are not evaluated for attribution. An event in no table has no declared identity either.",
+    "Headings were read from the PDFs (MuPDF extraction, left and right); block ids and 'the first name-like cell' are not used."
+  ],
+  "pairs": [
+    {
+      "pair": "aviation_2024_vs_2025",
+      "changes_sha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+      "tables": [
+        {
+          "table": "clause list",
+          "heading": null,
+          "pages": { "left": [5], "right": [5] },
+          "identity": [0],
+          "basis": "No printed column heading. Each clause line on page 5 starts with its form reference (AVN52E, AVN111, ...) in its own column at x about 66 pt, the title in the next column at x about 166 pt; the author rows give the reference as their first cell.",
+          "events": [19, 20, 21, 22, 23, 24, 25, 26]
+        },
+        {
+          "table": "written lines",
+          "heading": "Insurer | Reference | Written Line | Stamp Date",
+          "pages": { "left": [8], "right": [8] },
+          "identity": [0],
+          "basis": "Printed heading 'Insurer' over the first column.",
+          "events": [36, 37, 38, 39, 40, 41, 42, 43]
+        },
+        {
+          "table": "aircraft schedule",
+          "heading": "Aircraft Type | MSN | Registration | Year | Seats | Agreed Value Lessee / Operator (USD)",
+          "pages": { "left": [11, 12, 13], "right": [11, 12, 13] },
+          "identity": [1, 2],
+          "basis": "Printed headings 'MSN' and 'Registration' over the second and third columns.",
+          "events": [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66]
+        },
+        {
+          "table": "spare engines",
+          "heading": "Engine Type | ESN | Location | Agreed Value Status (USD)",
+          "pages": { "left": [13, 14], "right": [13, 14] },
+          "identity": [1],
+          "basis": "Printed heading 'ESN' over the second column.",
+          "events": [67, 68, 69, 70, 71, 72]
+        },
+        {
+          "table": "contract parties",
+          "heading": "MSN | Contract Party | Capacity | Endorsement",
+          "pages": { "left": [14, 15, 16, 17], "right": [14, 15, 16] },
+          "identity": [0, 1],
+          "basis": "Printed headings 'MSN' and 'Contract Party'. A row names one party of one aircraft, and an aircraft can have several parties, so the record is the MSN with its contract party.",
+          "events": [73, 74, 75, 76, 77, 78, 79]
+        },
+        {
+          "table": "premium rates",
+          "heading": null,
+          "pages": { "left": [20], "right": [19] },
+          "identity": [],
+          "basis": "No printed column heading; the first column is an item number (1.1, 1.3, ...), not an identifier. Not evaluated for attribution.",
+          "events": [87, 88, 89, 90, 91, 92, 93]
+        }
+      ]
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "changes_sha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+      "tables": [
+        {
+          "table": "clause list",
+          "heading": null,
+          "pages": { "left": [5], "right": [5] },
+          "identity": [0],
+          "basis": "No printed column heading. Each clause line on page 5 starts with its form reference (LSW617H, AVN111, ...) in its own column at x about 219 pt, the title in the next column at x about 291 pt; the author rows give the reference as their first cell.",
+          "events": [14, 15, 16, 17, 18]
+        },
+        {
+          "table": "written lines",
+          "heading": "(Re)insurer | Written Line | Reference",
+          "pages": { "left": [8, 9], "right": [8, 9] },
+          "identity": [0],
+          "basis": "Printed heading '(Re)insurer' over the first column.",
+          "events": [28, 29, 30, 31, 32, 33, 34]
+        },
+        {
+          "table": "premium to coding",
+          "heading": "Code | Description | Allocation",
+          "pages": { "left": [11], "right": [11] },
+          "identity": [0],
+          "basis": "Printed heading 'Code' over the first column.",
+          "events": [38, 39]
+        },
+        {
+          "table": "schedule of aircraft",
+          "heading": "Aircraft Type | Serial No. | Registration Year | Seats | Agreed Value Liability CSL (USD)",
+          "pages": { "left": [13], "right": [13] },
+          "identity": [1, 2],
+          "basis": "Printed headings 'Serial No.' and 'Registration' (printed as 'Registration Year' over the registration and year columns) over the second and third author cells.",
+          "events": [41, 43, 44, 45, 46, 47, 48, 49, 50, 51, 63]
+        },
+        {
+          "table": "premium schedule",
+          "heading": "Registration | Hull Rate | Hull (USD) | Liability (USD) | Hull War (USD) | Total (USD)",
+          "pages": { "left": [13, 14], "right": [13, 14] },
+          "identity": [0],
+          "basis": "Printed heading 'Registration' over the first column.",
+          "events": [42, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65]
+        },
+        {
+          "table": "contract parties",
+          "heading": "Registration | Contract Party | Capacity | Endorsement",
+          "pages": { "left": [15], "right": [15] },
+          "identity": [0, 1],
+          "basis": "Printed headings 'Registration' and 'Contract Party'. A registration has several parties (M-FNKA, M-FNKB and M-CHLS each appear twice on the left), so the record is the registration with its contract party.",
+          "events": [67, 68, 69, 70]
+        },
+        {
+          "table": "bases and hangarage",
+          "heading": "Base | Hangar Operator | Aircraft Normally Based | Hangar Type",
+          "pages": { "left": [15], "right": [15] },
+          "identity": [0],
+          "basis": "Printed heading 'Base' over the first column; one row per base.",
+          "events": [71, 72, 73]
+        }
+      ]
+    }
+  ]
+}
