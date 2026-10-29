@@ -304,6 +304,31 @@ describe("identity belongs to its own column and its own table", () => {
     const r = ResultSchemaV2.parse(compare(doc("30%"), doc("35%")));
     expect(r.differences.map((d) => [d.matchEvidence.method, d.oldText, d.newText])).toEqual([["row-identity", "G-BBBB Lead 30%", "G-BBBB Lead 35%"]]);
   });
+  it("records repeated on every page are grouped only with the same identifier columns (r4418369390)", () => {
+    const head: Cells = ["MSN", "ESN", "Serial", "Status"];
+    const doc = (row: Cells) =>
+      textDoc([0, 1].flatMap((page) => [{ text: "SCHEDULE", y: 150, page }, ...place([head, row], 180, page)]));
+    const r = ResultSchemaV2.parse(compare(doc(["AAA", "BBB", null, "Active"]), doc([null, "AAA", "BBB", "Active"])));
+    expect(r.differences.some((d) => d.matchEvidence.method === "repeated-table-header" && d.oldText.includes("AAA"))).toBe(false);
+    expect([visible(r, "AAA", "left"), visible(r, "AAA", "right")]).toEqual([true, true]);
+    // Control: the same record in the same columns on every page is unchanged.
+    expect(ResultSchemaV2.parse(compare(doc(["AAA", "BBB", null, "Active"]), doc(["AAA", "BBB", null, "Active"]))).differences).toEqual([]);
+  });
+  it("a value-like cell under an identity heading (Serial AB12.34) still keeps two records apart (r4418369400)", () => {
+    const run2 = (a: Cells, b: Cells) =>
+      ResultSchemaV2.parse(
+        compare(
+          textDoc([{ text: "SCHEDULE", y: 150 }, ...place([["Serial", "Insurer", "Value"], a], 180, 0, 160)]),
+          textDoc([{ text: "SCHEDULE", y: 150 }, ...place([["Serial", "Insurer", "Value"], b], 180, 0, 160)]),
+        ),
+      );
+    const r = run2(["AB12.34", "Insurer Alpha", "USD 1000"], ["AB56.78", "Insurer Alpha", "USD 2000"]);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "AB12.34", "left"), visible(r, "AB56.78", "right")]).toEqual([true, true]);
+    // Control: the same serial pairs (through the insurer the cell names).
+    const c = run2(["AB12.34", "Insurer Alpha", "USD 1000"], ["AB12.34", "Insurer Alpha", "USD 2000"]);
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
     const run2 = (head: Cells, a: Cells, b: Cells) =>
       ResultSchemaV2.parse(compare(textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, a], 180)]), textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, b], 180)])));
