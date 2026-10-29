@@ -5,10 +5,10 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `fix/issue-2-renewal`，从固定起点 `85dae9820651ae82a216a18efc0da4db8522045e` 建立；PR #9，目标 `feat/policy-compare` |
-| **当前被测代码** | **`fa49ecac45d2faeba2581bca3747e496ce44d40e`**（第九轮）：产品代码与第八轮相同（`e38cdf1`；之后只改契约注释），分诊 `cb1e844`（`renewal-triage/7`）与 `000253d`（身份声明措辞、费率锚点），验收预期 `3f3c5f3`（R24、R16），测试类型 `fa49eca`；其中合入了 #10 的联合提交 `4b72b11` |
+| **当前被测代码** | **`0d9cfc0184cbf65338745f331eebc0670d207f1c`**（第九轮）：产品代码与第八轮相同（`e38cdf1`；之后只改契约注释），分诊 `cb1e844`（`renewal-triage/7`）、`000253d`（身份声明措辞、费率锚点）与 `0d9cfc0`（`renewal-triage/8`，数字只按完整数字匹配），验收预期 `3f3c5f3`（R24、R16），测试类型 `fa49eca`；其中合入了 #10 的联合提交 `4b72b11`。主要证据在 `fa49eca…/`，`/8` 的重评在 `0d9cfc0…/` |
 | 前几轮被测代码 | `9ccc044678487bc44a77e1bf15ac601ae11edfc5`（第八轮）、`80af5b1bcd752e95886f0c98c4494b91f778cd9d`（第六轮；第七轮只交文档与取消测试修正 `f324d8b`）、`60bf50c7d7ee292fd0b538d41a090a3e17ea1497`（第五轮）、`ee0f0a5f259b2cff43b27a16fc8af57f3bd22f59`（第四轮）、`6e6b54176803534c316a353d6bb76d87bdf03015`（第三轮）、`eec627f1a8ceb6bc62d7bf273d8c031989b798fa`（第二轮）、`e313540a65958f526d1ab727932a3ab29cc87dbc`（第一轮）；证据保留在各自目录，不改写 |
-| 本项产品提交 | `d17cb73`（阶段 1）、`bc6610c`（阶段 2）、`ccfd47c`（不同生成器）、`eec627f`（第二轮审查修复）、`6e6b541`（第三轮 A—E）、`384d88b`（第四轮 D1—D3、E）、`f3148df`（第五轮）、`7d909f1`（第六轮）；分诊脚本 `ee0f0a5`（第四轮 T1、T2）、`60bf50c`（第五轮 T3）、`80af5b1`（第六轮 T4），均按 #2 决定 A 在本项修；验收修订 `4bf54eb`（第五轮 R16，按 #2 授权）；第八轮 `9dc5459`、`7161f91`、`e38cdf1`、分诊 `9ccc044`；第九轮分诊 `cb1e844`、`000253d`，验收预期 `3f3c5f3`，测试类型 `fa49eca` |
-| 版本 | 核心 `policy-compare/0.1.0+row-identity.8+facts.2`，结果格式 `policy-compare-result/2`（格式 1 `policy-compare/0.1.0` 只读）；分诊 `renewal-triage/7`，身份声明 `renewal-identity/1`（第九轮改措辞与费率表）；PDF.js 适配器 `pdfjs-adapter/3`、MuPDF 适配器 `mupdf-adapter/3`（未变）；pdfjs-dist、`page-merkle/1` 未变 |
+| 本项产品提交 | `d17cb73`（阶段 1）、`bc6610c`（阶段 2）、`ccfd47c`（不同生成器）、`eec627f`（第二轮审查修复）、`6e6b541`（第三轮 A—E）、`384d88b`（第四轮 D1—D3、E）、`f3148df`（第五轮）、`7d909f1`（第六轮）；分诊脚本 `ee0f0a5`（第四轮 T1、T2）、`60bf50c`（第五轮 T3）、`80af5b1`（第六轮 T4），均按 #2 决定 A 在本项修；验收修订 `4bf54eb`（第五轮 R16，按 #2 授权）；第八轮 `9dc5459`、`7161f91`、`e38cdf1`、分诊 `9ccc044`；第九轮分诊 `cb1e844`、`000253d`、`0d9cfc0`，验收预期 `3f3c5f3`，测试类型 `fa49eca` |
+| 版本 | 核心 `policy-compare/0.1.0+row-identity.8+facts.2`，结果格式 `policy-compare-result/2`（格式 1 `policy-compare/0.1.0` 只读）；分诊 `renewal-triage/8`，身份声明 `renewal-identity/1`（第九轮改措辞与费率表）；PDF.js 适配器 `pdfjs-adapter/3`、MuPDF 适配器 `mupdf-adapter/3`（未变）；pdfjs-dist、`page-merkle/1` 未变 |
 | #5 集成 | 来源：代码 `47d4b503eab1f33b906edcbf589ae67af187cc4a`、报告 `67f02b7cd1106a568d436ed107656afd8dc76e61`（[PR #8](https://github.com/wlvh/policy-compare/pull/8)）；集成提交 `e313540`（合并提交，无冲突） |
 | 当前 SHA 的 CI | **`fa49eca`：失败，原因已知、等 #10 消费本轮预期**。push [run 40896701005](https://github.com/wlvh/policy-compare/actions/runs/40896701005)、PR [run 40896715825](https://github.com/wlvh/policy-compare/actions/runs/40896715825)：两引擎 functional job 停在 `verify:core`，269 项中 1 项失败（`tests/scorer.test.ts` 要求 32 对里没有未支持的身份路径，新事件 `R24_table_cross_page:E1` 还没有身份规则），之后的构建、PDF 机制、规则、审核回归、浏览器步骤被跳过（PDF.js 一侧因 fail-fast 取消）；fixture 构造检查（含新的位置集检查）、分诊 35 项、两个 Linux 容器成功。合入的 `4b72b11` 与分诊修复 `cb1e844` 的 push、PR 运行全部成功；第八轮报告提交 `3bc9f38` 曾因旧评分器只认格式 1 在 `verify:core` 失败 17 项 |
 | 本地环境 | Node 24.19.0、pnpm 10.12.1、Python 3.13.17、PDF.js 6.4.299、MuPDF 1.28.1、Chromium 153（预装）、LibreOffice 24.2.7.2；Linux x86_64 云容器 |
@@ -135,7 +135,7 @@
 | 16 | **保留** | 正确归属、可归属分散、整行完整、未解释卡分开报告 |
 | 17—24 | **归 #10** | 评分器、评分测试、覆盖登记、CI 由 #10 在 PR #11 实施；本分支没有改 `tests/evaluation/scorer.ts`、`tests/scorer.test.ts`、`scripts/acceptance.ts` 或 CI，也没有加豁免。旧评分器读不了格式 2，见第 R8 节 |
 
-## 0. 结论（当前被测代码 `fa49eca`；第九轮）
+## 0. 结论（当前被测代码 `0d9cfc0`；第九轮）
 
 第九轮只收尾验收依据，不扩大产品规则：产品代码与第八轮相同，续保与规则用例的比较结果不必重跑（已存结果即本轮产品的输出）。本轮修了分诊的两处误判、写清身份声明是什么、核对了六个费率事件、给 R24 补了显式预期、修了测试类型。详情见第 R9 节；第八轮的结论原样保留在第 R8 节。
 
@@ -144,20 +144,21 @@
 | 合入 #10 联合提交 | `4b72b11` 普通合入（快进），推送后 push 与 PR 两次 CI 全部成功（run 40892350733、40892362247） | 第 R9 节 |
 | 分诊两处误判（`cb1e844`，`renewal-triage/7`） | 已修：实际编辑、身份或上下文、允许页和接受的证据须来自同一个合格命中。新测试 3 项，在 `/6` 上 2 项失败（两处误判）、1 项对照通过；分诊 35/35 | `tests/test_renewal_triage.py` |
 | 修复对已存结果的影响 | 已存 28 份结果（冻结 v3 与第二至第八轮），用同一份声明分别跑 `/6` 和 `/7`：**0 个事件变化**。两处漏洞由测试证实存在，但至今没有任何续保结论依赖它们 | `fa49eca…/retriage/` |
+| 数字前缀误判（`0d9cfc0`，`renewal-triage/8`） | 第三项 Codex P1（[r4413938264](https://github.com/wlvh/policy-compare/pull/11#discussion_r4413938264)）：`USD 100 → USD 200` 曾被一张只改 `USD 1000 → USD 2000` 的卡证明。现在作者文字两端的数字只按完整数字匹配。新测试 2 项在 `/7` 上失败；分诊 37/37；28 份已存结果在 `/7` 与 `/8` 下 0 个事件变化 | `0d9cfc0…/retriage/` |
 | 身份声明措辞（`000253d`） | 改称评审者建立的逐侧来源定位锚点；SHA 只绑定文件版本；所列格是“与”关系；各侧用自己的原文。没有新增身份表达方式 | `scripts/renewal-identity.json`、D.0 |
 | 六个费率事件（`000253d`） | 按作者行与左 20 页、右 19 页的实际来源（两引擎）核对：#87、#88、#89、#92、#93 的项目号、名称和变化在同一来源单元，补“项目号且名称”锚点；#91 的项目号 `2.1` 与名称印在同一行，但产品把 `2.1` 切成单独的标题单元，变化单元里没有项目号，**缺这一证据，记未评价** | `fa49eca…/rate-units.txt`、`rate-events.md` |
 | 第八轮失去单卡配对的四个事件 | #87、#88、#89、#93：第七轮各一张修改卡 correct，第八轮各变成一删一增，两侧都带锚点，记 split_attributable（两引擎相同）。这是能力的实际下降（审阅者要自己把两张卡对起来），不是“前后都未评价、没有影响” | `fa49eca…/event-diff/` |
 | 归属错误 | 已评价事件中 0 个 misattributed（四次比较）；未评价、未定位的事件不在其内 | 同上 |
 | R24 显式预期（`3f3c5f3`） | 登记真实新增的续页标题为必检事件；R16、R24 按版面记录列出出现次数改变的生成文字及两侧全部位置（11 项）。64 份 PDF 字节不变，构造检查通过；32 对版面中只有 R16、R24 有此类未登记文字 | `fa49eca…/generator/check.txt` |
 | 测试类型（`fa49eca`） | `tsc --noEmit` 17 → 0 个错误，没有 any 或忽略指令 | `fa49eca…/types/` |
-| 单元测试 | 本地 `verify:core` 268/269：唯一失败是 #10 的 `tests/scorer.test.ts`“12 个已知 N/A、没有不支持的路径”，因为新事件 `R24_table_cross_page:E1` 还没有身份规则，等 #10 消费本轮预期；产品测试全部通过；分诊 35/35 | `fa49eca…/core-tests.txt` |
-| 当前 SHA 的 CI | 失败，原因已知：等 #10 消费本轮预期。push [run 40896701005](https://github.com/wlvh/policy-compare/actions/runs/40896701005)、PR [run 40896715825](https://github.com/wlvh/policy-compare/actions/runs/40896715825)：两引擎 functional job 停在 `verify:core`，269 项中 1 项失败（`tests/scorer.test.ts` 要求 32 对里没有未支持的身份路径，新事件 `R24_table_cross_page:E1` 还没有身份规则），之后的构建、PDF 机制、规则、审核回归、浏览器步骤被跳过（PDF.js 一侧因 fail-fast 取消）；fixture 构造检查（含新的位置集检查）、分诊 35 项、两个 Linux 容器成功。合入的 `4b72b11` 与分诊修复 `cb1e844` 的 push、PR 运行全部成功 | 见上方表头 |
+| 单元测试 | 本地 `verify:core` 268/269：唯一失败是 #10 的 `tests/scorer.test.ts`“12 个已知 N/A、没有不支持的路径”，因为新事件 `R24_table_cross_page:E1` 还没有身份规则，等 #10 消费本轮预期；产品测试全部通过；分诊 35/35（`0d9cfc0` 后 37/37） | `fa49eca…/core-tests.txt`、`0d9cfc0…/triage-tests.txt` |
+| 当前 SHA 的 CI | `fa49eca` 失败，原因已知：等 #10 消费本轮预期（之后的 `0d9cfc0` 只改分诊脚本与其测试，其 CI 记录在 PR #9）。push [run 40896701005](https://github.com/wlvh/policy-compare/actions/runs/40896701005)、PR [run 40896715825](https://github.com/wlvh/policy-compare/actions/runs/40896715825)：两引擎 functional job 停在 `verify:core`，269 项中 1 项失败（`tests/scorer.test.ts` 要求 32 对里没有未支持的身份路径，新事件 `R24_table_cross_page:E1` 还没有身份规则），之后的构建、PDF 机制、规则、审核回归、浏览器步骤被跳过（PDF.js 一侧因 fail-fast 取消）；fixture 构造检查（含新的位置集检查）、分诊 35 项、两个 Linux 容器成功。合入的 `4b72b11` 与分诊修复 `cb1e844` 的 push、PR 运行全部成功 | 见上方表头 |
 | 规则 32 对、浏览器 | 本轮没有重跑：产品未变，最终两引擎规则、浏览器与 CI 的联合验证由 #10 在消费本轮预期后统一给出 | — |
 | 真实文档试用、业务签收、指定硬件性能、生产部署 | **NOT_RUN / BLOCKED** | 第 7 节 |
 
 **三种结论分开看**：严格验收由 #10 在联合树上给出；事件发现与归属见续保逐事件与分诊；工程放行指单元、构建、PDF 机制、审核回归和浏览器。三者不互相替代。
 
-## R9. 第九轮：收尾验收依据（被测 `fa49eca`；产品代码同第八轮）
+## R9. 第九轮：收尾验收依据（被测 `0d9cfc0`；产品代码同第八轮）
 
 依据 [#2 顶部指令（第九轮）](https://github.com/wlvh/policy-compare/issues/2) 与 [PR #9 的执行说明](https://github.com/wlvh/policy-compare/pull/9#issuecomment-6499316023)。本轮不扩大产品规则、不做界面聚合、不寻找新格式；评分器、评分测试、覆盖登记与 CI 仍归 #10。
 
@@ -168,6 +169,7 @@
 | `000253d` | 身份声明措辞；六个费率事件的锚点；未确认的命中写出自己的来源单元 |
 | `3f3c5f3` | R24 显式预期；R16、R24 出现次数改变的生成文字位置集（给 #10 消费） |
 | `fa49eca` | `tests/row-identity.test.ts` 改用格式 2 的类型 |
+| `0d9cfc0` | 分诊 `renewal-triage/8`：作者文字两端的数字只按完整数字匹配 |
 
 ### 分诊的两处误判（`cb1e844`）
 
@@ -179,6 +181,10 @@
 | [r4412433538](https://github.com/wlvh/policy-compare/pull/11#discussion_r4412433538) | 一删一增时，作者说在第 2 页，卡在第 2 页只有孤立的金额，完整段落在第 1 页；旧脚本按整张卡的文字认了上下文 | 上下文只从该次出现的来源单元、且只在允许页上读取 |
 
 测试 `OneQualifyingHit` 3 项：在 `renewal-triage/6` 上第 1、3 项失败（即两处误判），第 2 项（编辑跨几个单元时身份只从这些单元取）原来就通过，留作防护。修复后分诊 35/35。用同一份声明重评已存的 28 份结果（`fa49eca…/retriage/`）：`/6` 与 `/7` 的逐事件结论、接受卡、整行完整、未解释卡全部相同，0 个事件变化。
+
+### 数字只按完整数字匹配（`0d9cfc0`，`renewal-triage/8`）
+
+[r4413938264](https://github.com/wlvh/policy-compare/pull/11#discussion_r4413938264)：作者事件 `ac_1315` 的 `USD 100 → USD 200`，被一张只把 `1315 Liability USD 1000` 改成 `USD 2000` 的卡证明为 correct。原因是按子串查找时 `USD 100` 是 `USD 1000` 的前缀，那次出现里的 `1`、`2` 又带着卡片的改动标记。现在一次出现的起点或终点若落在卡片文字某个数字的内部（数字＝数位，中间最多隔一个 `.` 或 `,`），就不算：`USD 1000`、`USD 100,000`、`USD 100.5` 都不是 `USD 100`，`10.0425%` 也不是 `0.0425%`；`USD 100.`（句号）仍是。未决组里的查找用同一规则。段落开头截取的 40 个字符现在不会在数字中间截断（否则新规则会拒绝真实出现）；两对样本里没有任何作者文字在它自己的原文中从数字内部开始或结束。测试 `WholeNumbers` 2 项在 `/7` 上失败，修复后分诊 37/37；28 份已存结果在 `/7` 与 `/8` 下 0 个事件变化（`0d9cfc0…/retriage/`）。
 
 ### 身份声明是什么（`000253d`）
 
@@ -761,6 +767,8 @@ python3 $P/event-diff.py tmp/renewal-inputs $P/80af5b1bcd752e95886f0c98c4494b91f
 # 第九轮：费率页的来源单元与基线；费率事件在第八轮声明（git show 9ccc044:scripts/renewal-identity.json）与本轮声明下的结论（rate-events.md）
 pnpm exec tsx $P/rate-units.ts tmp/renewal-inputs > $P/<HEAD>/rate-units.txt
 python3 scripts/renewal-triage.py <changes.json> <result.json> --events <out.events.json> --identity <declaration.json>
+# 第九轮：/7（fa49eca）对 /8 重评同一批 28 份结果
+python3 $P/retriage.py tmp/renewal-inputs $P/<HEAD>/retriage fa49eca <与上一条相同的 SET=DIR>
 # 第九轮：R24/R16 预期（先以未改的生成器重生成并与仓库数据集逐字节比较，再以改后的生成器重生成）；类型检查
 python validation/generator.py --output <dir> && diff -rq <dir> validation/dataset && python validation/fixture_checks.py
 pnpm exec tsc --noEmit -p tsconfig.json
