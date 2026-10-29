@@ -302,7 +302,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
 /**
  * Identity cells of a recovered row by the column they stand in: the heading
  * row's column (the heading cell the row's cell overlaps most), or for a cell
- * naming its identifier ("MSN 1") that name. A missing cell does not shift a
+ * under no heading cell that names its identifier ("MSN 1") that name. A missing cell does not shift a
  * value into another column; two cells under one column say nothing about
  * either. A value-like cell under an identity heading (an amount, or a dotted
  * serial such as AB12.34) keeps its column: it links no rows (see
@@ -325,6 +325,10 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
       named = c.match(identityPrefix)?.[0].toLowerCase();
     if (at && identityHeading.test(at.text.normalize("NFKC").trim())) return [[`column ${at.j}`, c]];
     if (valueLike(c)) return [];
+    // A cell under another column's heading describes that column, though it
+    // starts with an identifier's name (Status: Registration pending,
+    // r4418795510); a named identifier counts only in a cell without one.
+    if (at) return [];
     return named ? [[`named ${named}`, c]] : [];
   });
   return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
@@ -704,7 +708,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.19+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.20+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",

@@ -377,6 +377,18 @@ describe("identity belongs to its own column and its own table", () => {
     );
     expect(c.differences.map((d) => [d.matchEvidence.method, d.newText])).toEqual([["row-identity", "MSN 123 Alpha USD 200"]]);
   });
+  it("a cell under a descriptive heading (Status: Registration pending) names no identifier (r4418795510)", () => {
+    const run2 = (a: Cells, b: Cells) =>
+      ResultSchemaV2.parse(
+        compare(
+          textDoc([{ text: "SCHEDULE", y: 150 }, ...place([["Status", "Operator", "Value"], a], 180, 0, 160)]),
+          textDoc([{ text: "SCHEDULE", y: 150 }, ...place([["Status", "Operator", "Value"], b], 180, 0, 160)]),
+        ),
+      );
+    const r = run2(["Registration pending", "Alpha Air", "USD 1000"], ["Registration pending", "Delta Air", "USD 2000"]);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
+  });
   it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
     const run2 = (head: Cells, a: Cells, b: Cells) =>
       ResultSchemaV2.parse(compare(textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, a], 180)]), textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, b], 180)])));
