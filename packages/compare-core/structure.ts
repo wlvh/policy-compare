@@ -113,8 +113,12 @@ export function furnitureVariant(text: string, f: Furniture, page: number) {
   let k = 0;
   return t.replace(NUMBER, (n) => {
     const j = k++;
-    const value = Number(n.replace(/[.,]/g, ""));
-    return f.pageTokens.includes(j) && counter.includes(j) && Number.isFinite(value) ? `#${value - page}` : n;
+    // Only a counter printed plainly is read against its page; "Page 03"
+    // stays as printed, its own variant beside "Page 3" (r4417060269).
+    const value = Number(n);
+    return f.pageTokens.includes(j) && counter.includes(j) && Number.isFinite(value) && n === String(value)
+      ? `#${value - page}`
+      : n;
   });
 }
 type Line = { p: DocInput["pages"][number]; refs: Ref[]; text: string };

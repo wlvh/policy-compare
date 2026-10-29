@@ -367,6 +367,16 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
       ["Limit USD 1000 ", ["whitespace_only"], 4, 1],
     ]);
   });
+  it("a page counter printed differently on one page is its own variant (r4417060269)", () => {
+    // "Page 03" on page 3 read as offset 0 like "Page 3" and the change vanished.
+    const r = ResultSchema.parse(compare(four((p) => `Page ${p + 1}`, 120), four((p) => (p === 2 ? "Page 03" : `Page ${p + 1}`), 120)));
+    const d = r.differences.filter((d) => d.newText.includes("Page 03"));
+    expect(d).toHaveLength(1);
+    expect(d[0].right.map((l) => l.pageIndex)).toEqual([2]);
+    // Control: counters printed with the same leading zeros throughout still count with the pages.
+    const zeros = (p: number) => `Page 0${p + 1}`;
+    expect(compare(four(zeros, 120), four(zeros, 120)).differences).toEqual([]);
+  });
   it("one text replaced by several: one card per new text, the old group not also unmatched", () => {
     const r = ResultSchema.parse(
       compare(four(() => "Limit USD 1000"), four((p) => (p === 3 ? "Limit USD 3000" : "Limit USD 2000"))),
