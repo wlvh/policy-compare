@@ -949,14 +949,20 @@ function variants(d: Difference) {
       .replace(/\s/gu, "");
   };
 }
+// A card's own old (new) text on a side read as a variant, or "" when the card shows nothing there.
+const ownText = (d: Difference, side: "left" | "right", variant = variants(d)) => {
+  const card = side === "left" ? d.left : d.right;
+  return card.length ? variant(side === "left" ? d.oldText : d.newText, card[0].pageIndex + 1) : "";
+};
 // A card's occurrences of its own old (new) text on a side, by their source-validated texts and pages.
 const ownOccurrences = (d: Difference, side: "left" | "right") => {
   const variant = variants(d);
-  const card = side === "left" ? d.left : d.right;
-  if (!card.length) return [];
-  const own = variant(side === "left" ? d.oldText : d.newText, card[0].pageIndex + 1);
+  if (!(side === "left" ? d.left : d.right).length) return [];
+  const own = ownText(d, side, variant);
   return d.occurrences.filter((o) => o[side].length > 0 && variant(sideText(o[side]), o[side][0].pageIndex + 1) === own);
 };
+const sameLocation = (a: SourceLocation, b: SourceLocation) =>
+  a.side === b.side && a.pageIndex === b.pageIndex && a.charIds.join("\u0000") === b.charIds.join("\u0000");
 // Whether a text change is form only by the shared definitions above (whitespace, confirmed page
 // numbers, continued heading), whether or not the card states it. This only decides between a
 // contradiction and an open question in a no-change control; it never allows a change there.
@@ -1338,6 +1344,12 @@ export function grade(
       const own = new Set([...ownOccurrences(d, "left"), ...ownOccurrences(d, "right")]);
       if (d.occurrences.some((o) => o.context && own.has(o)))
         faults.push(`card ${d.id} marks an occurrence of its own text as context`);
+      // The text a card shows on a side is one of the occurrences it counts there.
+      for (const side of ["left", "right"] as const) {
+        const counted = ownOccurrences(d, side).flatMap((o) => o[side]);
+        if ((side === "left" ? d.left : d.right).some((l) => !counted.some((c) => sameLocation(l, c))))
+          faults.push(`card ${d.id} shows its own text on the ${side} side outside the occurrences it counts there`);
+      }
     }
   }
   const required = expected.required_status;
@@ -1365,7 +1377,12 @@ export function grade(
     if (!reporting.length) problems.push("no card reports its occurrence counts");
     else if (!reporting.some((d) => d.defaultVisible)) problems.push("no card reporting it is visible");
     for (const d of reporting) {
-      const checked = sides.filter((s) => reports(d, s));
+      // A side is left out only where the card states another text: its own text there is not
+      // empty and differs from its text on the other side. Where it shows nothing or the same text,
+      // its occurrences and count there are statements about the set.
+      const texts = { left: ownText(d, "left"), right: ownText(d, "right") };
+      const other = texts.left !== "" && texts.right !== "" && texts.left !== texts.right;
+      const checked = sides.filter((s) => reports(d, s) || !other);
       for (const s of checked) {
         const locs = own(d, s);
         if (locs.some((l) => !located([l], runs[s], pages[s], s)))

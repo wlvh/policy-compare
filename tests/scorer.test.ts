@@ -1664,6 +1664,13 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["occurrence count", (d: Difference) => (d.repeat!.right = 2)],
     ] as const)
       expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]);
+    // The card shows the old line but lists no old occurrence and counts 0 there (r4416274609).
+    expect(
+      graded((d) => {
+        d.occurrences = d.occurrences.map((o) => ({ left: [], right: o.right }));
+        d.repeat!.left = 0;
+      }).faults,
+    ).toEqual(["card rep shows its own text on the left side outside the occurrences it counts there"]);
   });
   it("repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954)", () => {
     // Four pages; the new version changes the limit on page 2 only.
@@ -1828,6 +1835,30 @@ describe("result format 2: stated facts and form-only changes in controls", () =
         "one of two split cards incomplete",
         [repeated("running", l, r, [0, 7]), repeated("header", l, r.slice(0, 2), [8, 14])],
         ["repeated text T1: card header leaves out an occurrence of the set on the right side", "repeated text T1: card header states 2 -> 2 occurrences; the set has 2 -> 3"],
+      ],
+      // The same text on both sides, with no old occurrence listed and 0 counted there (r4416274609).
+      [
+        "the old side shown but not counted",
+        [{ ...repeated("unlisted", l, r), occurrences: r.map((x) => ({ left: [], right: [x] })), repeat: { left: 0, right: 3, leftPages: 2, rightPages: 3 } }],
+        [
+          "card unlisted shows its own text on the left side outside the occurrences it counts there",
+          "repeated text T1: card unlisted leaves out an occurrence of the set on the left side",
+          "repeated text T1: card unlisted states 0 -> 3 occurrences; the set has 2 -> 3",
+        ],
+      ],
+      [
+        "the text stated as added",
+        [{ ...card("added", [], [r[0]]), occurrences: r.map((x) => ({ left: [], right: [x] })), repeat: { left: 0, right: 3, leftPages: 2, rightPages: 3 } }],
+        ["repeated text T1: card added leaves out an occurrence of the set on the left side", "repeated text T1: card added states 0 -> 3 occurrences; the set has 2 -> 3"],
+      ],
+      [
+        "the same text counted off the set on one side",
+        [repeated("elsewhere", l, [header(right, "right", 0, 200)])],
+        [
+          "repeated text T1: card elsewhere cites an occurrence outside the set on the right side",
+          "repeated text T1: card elsewhere leaves out an occurrence of the set on the right side",
+          "repeated text T1: card elsewhere states 2 -> 1 occurrences; the set has 2 -> 3",
+        ],
       ],
     ];
     for (const [name, cards, faults] of failing) {
