@@ -198,6 +198,61 @@ export const ResultSchema = z.object({
   }),
   diagnostics: z.array(z.string()),
 });
+/**
+ * Result format 2 (issue #2, round 8). Format 1 (`ResultSchema`, `VERSION`) stays
+ * readable for results already produced; new results use format 2 only.
+ *
+ * - No importance category: a difference states what changed (`textOps`), whether
+ *   it moved (`kind: "Moved"`), what it was paired by (`matchEvidence`) and where
+ *   its sources are. Differences are ordered by document position.
+ * - `kind` is technical: `Added`/`Removed` mean the text was found on one side
+ *   only; with `matchEvidence.method === "unmatched"` no counterpart was found.
+ *   Neither says a business record was added or ended.
+ * - `hasTextChange` is exactly `oldText !== newText` on the source-verified raw
+ *   texts, with no normalisation; whether operations are valid or repeated is a
+ *   separate check.
+ * - `structurePath` labels (`rowKey`, `entity`, `field`) are statements the
+ *   result makes to the reader; `confidence: "unresolved"` and `unresolved`
+ *   groups are explicit statements that the correspondence was not determined.
+ * - `facts` are only stated when the comparison itself proves them (see
+ *   `FactSchema`); they say nothing about business relevance.
+ * - `repeat` gives, for a line repeated across pages, its occurrence counts and
+ *   the two documents' page counts, without explaining one by the other.
+ * - `status: "complete_for_scope"` means processing of the extracted text ended
+ *   with no recorded coverage gap and no unresolved group; it does not claim that
+ *   nothing was missed or that the result is correct.
+ */
+export const RESULT_VERSION = "policy-compare-result/2";
+export const FactSchema = z.enum([
+  // Both sides present; the raw texts differ only in whitespace characters.
+  "whitespace_only",
+  // The difference lies only in the confirmed page numbers of explicit page
+  // expressions ("Page n", "Page n of N", "Page n/N").
+  "page_number_only",
+  // Both dates of a period move exactly one year; the text outside them is equal.
+  "dates_rolled_forward_one_year",
+  // A heading on one side only that is a heading present in both versions with
+  // an explicit "continued" suffix.
+  "continued_heading",
+]);
+const count = z.number().int().nonnegative();
+export const RepeatSchema = z.object({
+  left: count,
+  right: count,
+  leftPages: count,
+  rightPages: count,
+});
+export const DifferenceSchemaV2 = DifferenceSchema.omit({ category: true }).extend({
+  facts: z.array(FactSchema),
+  repeat: RepeatSchema.nullable(),
+});
+export const ResultSchemaV2 = ResultSchema.extend({
+  schemaVersion: z.literal(RESULT_VERSION),
+  differences: z.array(DifferenceSchemaV2),
+});
+export type Fact = z.infer<typeof FactSchema>;
+export type DifferenceV2 = z.infer<typeof DifferenceSchemaV2>;
+export type CompareResultV2 = z.infer<typeof ResultSchemaV2>;
 export type DocInput = z.infer<typeof DocSchema>;
 export type Page = z.infer<typeof PageSchema>;
 export type Character = z.infer<typeof CharacterSchema>;
