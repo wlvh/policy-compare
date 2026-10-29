@@ -686,9 +686,9 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
         ];
       }),
     );
-  const r26 = (bare = false, amounts?: string[], rows?: Rows) => {
+  const r26 = (bare = false, amounts?: string[], rows?: Rows, newAmounts = amounts) => {
     const left = table("TEST-C941", bare, amounts, rows?.left),
-      right = table("TEST-RENAMED", bare, amounts, rows?.right);
+      right = table("TEST-RENAMED", bare, newAmounts, rows?.right);
     const expected: Expected = {
       case_id: "R26_key_change",
       required_status: "complete_for_scope",
@@ -798,6 +798,18 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
+  it("R26: an agreed value whose sign changes is an amount change (r4417025747)", () => {
+    // -100,020 -> 100,020 in the first record's agreed-value cell, reported on that record's card.
+    const x = r26(false, ["-100,020", "200,000"], undefined, ["100,020", "200,000"]);
+    x.result.differences.push({ ...x.wrong, id: "sign", right: [lineLoc(x.docs[1], "right", "l5")], newText: "100,020", textOps: [{ kind: "delete", text: "-", left: [slice(x.wrong.left[0], 0, 1)], right: [] }, { kind: "equal", text: "100,020", left: [slice(x.wrong.left[0], 1, 8)], right: [lineLoc(x.docs[1], "right", "l5")] }] });
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+    // Control: a hyphen between numbers is no sign; "1-100,000" keeps the amount 100,000.
+    const y = r26(false, ["1-100,000", "200,000"]);
+    expect(grade(y.result, y.expected, y.layout, y.docs).status).toBe("PASS");
   });
   // A card pairing two extra records: d.left/right cite whole rows, the text operations single cells.
   const ROWS = { left: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"], right: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"] };
