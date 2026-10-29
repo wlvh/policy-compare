@@ -54,8 +54,8 @@ describe("page furniture is compared once, with every occurrence", () => {
     expect(draft.defaultVisible).toBe(true);
     expect(draft.occurrences).toHaveLength(10);
     expect(new Set(draft.occurrences.flatMap((o) => o.right.map((l) => l.pageIndex))).size).toBe(5);
-    expect(draft.reviewReasons.join("")).toContain("待审 5 页");
-    expect(draft.reviewReasons.join("")).toContain("仅待审版有");
+    expect(draft.repeat).toEqual({ left: 0, right: 10, leftPages: 5, rightPages: 5 });
+    expect(draft.reviewReasons.join("")).toContain("这段文字出现次数：0 次 → 10 次；文档页数：5 页 → 5 页");
   });
   it("a repeated header carrying a limit is one card", () => {
     const doc = (limit: string) =>
@@ -243,6 +243,10 @@ describe("a repeated line keeps its place, and only real page numbers are exempt
         withBody(5, (p) => [{ text: `Page ${p + 1}`, x: 40, y: 120 }]),
       ),
     );
-    expect(about(numbered, "Page ").every((d) => d.facts.includes("page_number_only"))).toBe(true);
+    // Round 8: the extra page's occurrence is reported as a count change, not
+    // explained by the page count.
+    expect(about(numbered, "Page ").map((d) => [d.hasTextChange, d.facts, d.repeat])).toEqual([
+      [false, [], { left: 4, right: 5, leftPages: 4, rightPages: 5 }],
+    ]);
   });
 });

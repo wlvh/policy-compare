@@ -29,7 +29,9 @@ describe("a one-sided repeated line is page_number_only only when nothing but it
     ["a draft mark", (p) => `Draft Page ${p + 1}`, []],
     ["an amount", (p) => `Limit USD 1,000,000 Page ${p + 1}`, []],
     ["only Page n", (p) => `Page ${p + 1}`, ["page_number_only"]],
-    ["only - n -", (p) => `- ${p + 1} -`, ["page_number_only"]],
+    // Round 8: a number alone on its line is content, even when it counts
+    // with the pages; only explicit "Page n" expressions are page numbers.
+    ["only - n -", (p) => `- ${p + 1} -`, []],
   ];
   for (const [name, line, expected] of cases)
     for (const [direction, [left, right]] of both((added) => (added ? [doc(null), doc(line)] : [doc(line), doc(null)])))

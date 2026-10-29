@@ -527,7 +527,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.7+facts.1",
+    coreVersion: VERSION + "+row-identity.7+facts.2",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1098,16 +1098,11 @@ export function compare(
       rb2 = b as Repeated | undefined,
       ar = ra?.repeats,
       br = rb2?.repeats;
-    // Repeated text present on fewer pages than pagination explains is shown.
-    const dropped =
-      !!ar &&
-      !!br &&
-      Math.abs(ar.length - br.length) >
-        Math.abs(left.pages.length - right.pages.length);
-    if (a && b && a.rawText === b.rawText && !moved && !dropped) return;
-    const furniture = (a ?? b!).role === "furniture",
-      pages = (us?: Unit[]) =>
-        new Set(us?.map((u) => u.refs.find(Boolean)!.page.pageIndex)).size;
+    // A repeated line whose number of occurrences changed is shown with both
+    // counts and both page counts; neither explains the other, and no page
+    // of one version is said to correspond to a page of the other.
+    const recount = !!ar && !!br && ar.length !== br.length;
+    if (a && b && a.rawText === b.rawText && !moved && !recount) return;
     const kind: Difference["kind"] = moved
       ? "Moved"
       : a && b
@@ -1146,9 +1141,9 @@ export function compare(
       reviewReasons:
         (a ?? b!).path.confidence === "unresolved"
           ? [(a??b!).path.table?"无法确定唯一表格行身份":"无法确定同名字段的唯一归属"]
-          : furniture
+          : ar || br
             ? [
-                `页面附属：跨页重复的${a && b && content(a) === content(b) ? "页码" : "页眉页脚文字"}，基准 ${pages(ar)} 页、待审 ${pages(br)} 页${a ? (b ? "" : "，仅基准版有") : "，仅待审版有"}` +
+                `这段文字出现次数：${ar?.length ?? 0} 次 → ${br?.length ?? 0} 次；文档页数：${left.pages.length} 页 → ${right.pages.length} 页` +
                   [ra?.note, rb2?.note].filter(Boolean).map((n) => "；" + n).join("") +
                   "；逐处来源见出现位置",
               ]
