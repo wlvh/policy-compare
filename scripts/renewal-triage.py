@@ -71,7 +71,9 @@ row allocates its cells the same way (renewal-triage/16). Replaced values follow
 same sign rule, and a source range a card lists twice counts once (renewal-triage/17). A
 same-card paragraph replacement needs the author paragraph around the lined-up occurrences
 (whitespace aside, as for split cards and one-sided edits), and copies of one cell are
-allocated in text order only (renewal-triage/18).
+allocated in text order only (renewal-triage/18). Source ranges that meet join without a
+space only where the card's own text shows them together, and the full row reads only the units
+where the record's identity was confirmed (renewal-triage/19).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -102,7 +104,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/18'
+TOOL = 'renewal-triage/19'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -196,7 +198,21 @@ def pieces(locs):
     return [keep[k] for k in sorted(keep)]
 
 
-def units(locations, wanted):
+def spliced(parts, shown=''):
+    """Texts of source locations, in order, set off by spaces. Raw ranges that meet are not always
+    one word (a PDF places words apart without a space), so one that starts where the previous one
+    ends in the same unit continues its text only when the card's own text shows them together and
+    not apart: a space there would split a number the card shows whole (USD 100,000 as
+    USD 100 ,000, #11 comment 6508515495)."""
+    out, end, run = '', None, ''
+    for unit, (a, b), text in parts:
+        glued = bool(out) and end == (unit, a) and norm(run + text) in shown and norm(run + ' ' + text) not in shown
+        out, run = (out + text, run + text) if glued else ((out + ' ' if out else '') + text, text)
+        end = (unit, b)
+    return out
+
+
+def units(locations, wanted, shown=''):
     """Source units (page, unitId) of one side, in order, limited to the stated pages. A unit's
     text follows its source: its pieces in raw order, not in the order the card lists them, each
     source character once."""
@@ -206,7 +222,8 @@ def units(locations, wanted):
             continue
         out.setdefault((loc['pageIndex'] + 1, loc['unitId']), []).append(loc)
     return [{'page': k[0], 'unitId': k[1], 'locs': pieces(v),
-             'text': norm(' '.join(l['text'] for l in sorted(pieces(v), key=lambda l: l['rawRange'][0])))}
+             'text': norm(spliced(((k, l['rawRange'], l['text']) for l in sorted(pieces(v), key=lambda l: l['rawRange'][0])),
+                                  shown))}
             for k, v in out.items()]
 
 
@@ -445,7 +462,7 @@ def hits(d, side, needle, wanted, edit=False, only=None, changed=False, within=F
 def local(d, side, needle, wanted, edit=False, only=None):
     """Source units of a card side that the needle's qualifying occurrences come from."""
     keep = set().union(*hits(d, side, needle, wanted, edit, only))
-    return [u for u in units(d[side], wanted) if (u['page'], u['unitId']) in keep]
+    return [u for u in units(d[side], wanted, side_text(d, side)) if (u['page'], u['unitId']) in keep]
 
 
 def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=None, within=False):
@@ -469,7 +486,7 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
         best = ('unconfirmed', {'units': [], 'identity': [], 'otherRecords': []})
         for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side), changed=True,
                          within=within):
-            us = [u for u in units(d[side], wanted[side]) if (u['page'], u['unitId']) in keys]
+            us = [u for u in units(d[side], wanted[side], side_text(d, side)) if (u['page'], u['unitId']) in keys]
             own = any(holds(u['text'], mine) for u in us)
             foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
             st = ('confirmed' if own and not foreign else 'contradicted' if foreign and not own
@@ -503,7 +520,7 @@ def context(d, side, needle, wanted, author, edit=False, within=False, only=None
     squeeze = lambda x: re.sub(r'\s+', '', x)
     for keys in hits(d, side, needle, wanted, edit, only, within=within):
         ids = {uid for _, uid in keys}
-        text = norm(' '.join(u['text'] for u in units(d[side], wanted) if u['unitId'] in ids))
+        text = norm(' '.join(u['text'] for u in units(d[side], wanted, side_text(d, side)) if u['unitId'] in ids))
         if in_context(squeeze(text), squeeze(needle), squeeze(norm(author or ''))):
             return True
     return False
@@ -732,7 +749,7 @@ def row_cells(atoms, change, ctx):
     texts = [a['new'] if side == 'right' else a['old'] for a in atoms]
     pool = []
     for d in diffs:
-        for u in units(d[side], wanted[side]):
+        for u in units(d[side], wanted[side], side_text(d, side)):
             found = allocate(texts, u['text'])
             if found:
                 pool.append((d, u, found))
@@ -862,8 +879,13 @@ def triage(change, result, declared, family, claimed):
     verdicts = [a['verdict'] for a in detail]
     verdict = event_verdict(verdicts)
     if ident is not None:
+        def own(c, side):
+            """The record's locations: those in the units where its identity was confirmed, not
+            another record the card also edits (#11 comment 6508818754)."""
+            keep = ((c.get('identityCells') or {}).get(side) or {}).get('units')
+            return [r for r in c[side] if not keep or r['unitId'] in keep]
         record = record or next((
-            {'card': c['card'], 'left': c['left'], 'right': c['right']}
+            {'card': c['card'], 'left': own(c, 'left'), 'right': own(c, 'right')}
             for a in detail for c in a['candidates'] if c['card'] in a['accepted']), None)
         lc, rc = cells(change.get('left_text') or ''), cells(change.get('right_text') or '')
         card = record and next(d for d in result['differences'] if d['id'] == record['card'])
@@ -877,7 +899,9 @@ def triage(change, result, declared, family, claimed):
                          and l['rawRange'][0] <= a and b <= l['rawRange'][1]), r['text'])
 
         def text(*keys):
-            return norm(' '.join(source(k, r) for k in keys for r in (record or {}).get(k, [])))
+            shown = ' | '.join(side_text(card, s) for s in ('left', 'right')) if card else ''
+            return norm(spliced((((r['page'], r['unitId']), r['rawRange'], source(k, r))
+                                 for k in keys for r in (record or {}).get(k, [])), shown))
         full = None
         if record and change['kind'] == 'Replaced':
             # Each author cell needs its own stretch of the record text (r4417329496).

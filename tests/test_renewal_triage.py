@@ -292,6 +292,20 @@ class RecordIdentity(unittest.TestCase):
             _, ev = run([c], result([plain]), [table('aircraft', [0], c)])
             self.assertEqual(ev['72']['verdict'], 'correct', old)
 
+    def test_the_full_row_reads_only_the_records_identity_units(self):
+        """#11 comment 6508818754: Alpha of record 1760 does not complete record 1315."""
+        c = change(74, 'ac_1315', 'Replaced', '1315 | Alpha | USD 100', '1315 | Alpha | USD 200',
+                   [('USD 100', 'USD 200')], pages=(11, 11))
+        two = card('t', 'Replaced', [(11, 'a', '1315 Hull USD 100'), (11, 'b', '1760 Alpha USD 100')],
+                   [(11, 'c', '1315 Hull USD 200'), (11, 'd', '1760 Alpha USD 200')])
+        _, ev = run([c], result([two]), [table('aircraft', [0], c)])
+        self.assertEqual(ev['74']['verdict'], 'correct')
+        self.assertFalse(ev['74']['row']['fullRowRecovered'])
+        # Control: the record's own unit holds every cell.
+        own = card('o', 'Replaced', [(11, 'a', '1315 Alpha USD 100')], [(11, 'c', '1315 Alpha USD 200')])
+        _, ev = run([c], result([own]), [table('aircraft', [0], c)])
+        self.assertEqual((ev['74']['verdict'], ev['74']['row']['fullRowRecovered']), ('correct', True))
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
@@ -529,6 +543,25 @@ class AddedRemovedRows(unittest.TestCase):
         both = card('y', 'Added', right=[(11, 'u1', '1315'), (11, 'u1', 'USD 100'), (11, 'u1', 'USD 100')])
         _, ev = run([c], result([both]), [table('aircraft', [0], c)])
         self.assertEqual((ev['71']['verdict'], ev['71']['row']['fullRowRecovered']), ('correct', True))
+
+    def test_contiguous_source_ranges_join_without_a_space(self):
+        """#11 comment 6508515495: USD 100 is not in USD 100,000 split before the comma."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(73, 'ac_1315', kind, **{side: '1315 | Hull | USD 100'}, pages=(0, 11) if kind == 'Added' else (11, 0))
+            # The card shows 1315 Hull USD 100,000; its two locations meet before the comma.
+            split = card('x', kind, **{side: [(11, 'u1', '1315 Hull USD 100'), (11, 'u1', ',000')]})
+            split[side][1]['rawRange'] = [17, 21]
+            split['newText' if kind == 'Added' else 'oldText'] = '1315 Hull USD 100,000'
+            _, ev = run([c], result([split]), [table('aircraft', [0], c)])
+            self.assertNotEqual(ev['73']['verdict'], 'correct', kind)
+            self.assertFalse(ev['73']['row']['fullRowRecovered'], kind)
+            # Control: ranges that meet but that the card shows apart are two words (a PDF places
+            # words apart without a space in its stream).
+            apart = card('y', kind, **{side: [(11, 'u1', '1315 Hull USD'), (11, 'u1', '100')]})
+            apart[side][1]['rawRange'] = [13, 16]
+            _, ev = run([c], result([apart]), [table('aircraft', [0], c)])
+            self.assertEqual((ev['73']['verdict'], ev['73']['row']['fullRowRecovered']), ('correct', True), kind)
 
     def test_cells_find_a_non_overlapping_allocation_when_one_exists(self):
         """r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B"."""
