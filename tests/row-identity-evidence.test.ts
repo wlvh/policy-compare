@@ -236,6 +236,17 @@ describe("identity belongs to its own column and its own table", () => {
     expect(crossPaired(r, "Alpha", "Delta")).toBe(false);
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
   });
+  it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
+    const run2 = (head: Cells, a: Cells, b: Cells) =>
+      ResultSchemaV2.parse(compare(textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, a], 180)]), textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, b], 180)])));
+    const r = run2(["Registration Status", "Operator", "Value"], ["Active", "Alpha Air", "USD 1000"], ["Active", "Delta Air", "USD 2000"]);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    // Controls: an identifier label, also after a qualifier or before a number suffix, still names the column.
+    for (const label of ["Registration", "Engine MSN", "Serial No."]) {
+      const c = run2([label, "Operator", "Value"], ["G-AAAA", "Alpha Air", "USD 1000"], ["G-AAAA", "Alpha Air", "USD 2000"]);
+      expect(c.differences.map((d) => d.matchEvidence.method), label).toEqual(["row-identity"]);
+    }
+  });
   it("control: in one table a changed digit-free record pairs by the registration it names", () => {
     const head: Cells = ["Registration", "Operator", "Status"];
     const doc = (operator: string) =>

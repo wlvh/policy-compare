@@ -176,7 +176,10 @@ const valueLike = (cell: string) => VALUE.test(cell) || MONTH_DATE.test(cell);
  * date is never identity, however unique.
  */
 const IDENTITY = "MSN|ESN|S\\/N|serial|registration|(?:re)?insurer";
-const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
+// A column heading names an identifier when it ends with the label, possibly
+// after a qualifier and before a number suffix ("Aircraft Registration",
+// "Serial No."); "Registration Status" describes something else (r4417386686).
+const identityHeading = new RegExp(`\\b(?:${IDENTITY})(?:\\s*(?:no\\.?|nr\\.?|number|#))?$`, "iu"),
   identityPrefix = new RegExp(`^(?:${IDENTITY})\\b`, "iu"),
   identityName = new RegExp(`^(?:${IDENTITY})(?:\\s*(?:no\\.?|nr\\.?|number|#))?$`, "iu");
 /**
@@ -655,7 +658,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.13+facts.4+repeat.8+ops.4",
+    coreVersion: VERSION + "+row-identity.14+facts.4+repeat.8+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
