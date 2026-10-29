@@ -43,7 +43,7 @@ describe("recovered table rows bind only through identity evidence", () => {
         ["4", "Gamma Hangar", "USD 300,000"],
       ],
     );
-    expect(card(r, "Added", "Delta Hangar")?.category).toBe("Material");
+    expect(card(r, "Added", "Delta Hangar")?.facts).toEqual([]);
     expect(crossPaired(r, "Beta", "Delta")).toBe(false);
     expect(crossPaired(r, "Gamma", "Beta")).toBe(false);
   });
@@ -78,8 +78,8 @@ describe("recovered table rows bind only through identity evidence", () => {
         ["Nordvik Re", "NRE-1", "15.0%", "04/10/2025"],
       ],
     );
-    expect(card(r, "Removed", "SLD 2988")?.category).toBe("Material");
-    expect(card(r, "Added", "Corvane AG")?.category).toBe("Material");
+    expect(card(r, "Removed", "SLD 2988")?.facts).toEqual([]);
+    expect(card(r, "Added", "Corvane AG")?.facts).toEqual([]);
     expect(crossPaired(r, "SLD", "Corvane")).toBe(false);
   });
   it("amounts swapped between two companies are reported per company", () => {
@@ -103,7 +103,7 @@ describe("recovered table rows bind only through identity evidence", () => {
       "Beta Air B-2 USD 200,000",
       "Beta Air B-2 USD 100,000",
     ]);
-    expect([alpha.category, beta.category]).toEqual(["Material", "Material"]);
+    expect([alpha.facts, beta.facts]).toEqual([[], []]);
   });
   it("reordered unchanged rows produce no text change", () => {
     const rows = [
@@ -130,7 +130,7 @@ describe("recovered table rows bind only through identity evidence", () => {
     expect(hpx.newText.startsWith("HPX 0624")).toBe(true);
     expect(hpx.oldText).toContain("12.5%");
     expect(hpx.newText).toContain("10.0%");
-    expect(hpx.category).toBe("Material");
+    expect(hpx.facts).toEqual([]);
     expect(hpx.structurePath?.rowKey).toBe("HPX 0624");
   });
   it("gapped row numbers are not trusted over names", () => {
@@ -197,7 +197,7 @@ describe("structure guards for the renewal fixes", () => {
     const r = compare(doc("USD 16,680,000"), doc("USD 15,000,000"));
     expect(r.differences.some((d) => d.oldText === "USD 16,680,000")).toBe(true);
     expect(r.differences.some((d) => d.newText === "USD 15,000,000")).toBe(true);
-    expect(r.differences.every((d) => d.category === "Material")).toBe(true);
+    expect(r.differences.every((d) => d.facts.length === 0)).toBe(true);
   });
   it("a case-only heading change keeps the following limit change visible", () => {
     const doc = (word: string, limit: string) =>
@@ -210,9 +210,9 @@ describe("structure guards for the renewal fixes", () => {
       doc("HOWEVER:", "500,000,000"),
       doc("However:", "600,000,000"),
     );
-    const material = r.differences.filter((d) => d.category === "Material");
-    expect(material.some((d) => d.oldText.includes("500,000,000"))).toBe(true);
-    expect(material.some((d) => d.newText.includes("600,000,000"))).toBe(true);
+    const changed = r.differences.filter((d) => d.hasTextChange && d.facts.length === 0);
+    expect(changed.some((d) => d.oldText.includes("500,000,000"))).toBe(true);
+    expect(changed.some((d) => d.newText.includes("600,000,000"))).toBe(true);
   });
   it("two prose columns on shared baselines are not turned into table rows", () => {
     const left = [
@@ -237,7 +237,7 @@ describe("structure guards for the renewal fixes", () => {
     changed[0] = "Claims must be notified within sixty";
     const r = compare(doc(right), doc(changed));
     const d = r.differences.find((d) => d.newText.includes("sixty"))!;
-    expect(d.category).toBe("Material");
+    expect(d.facts).toEqual([]);
     expect(d.oldText).toContain("thirty");
     expect(d.structurePath?.table).toBeNull();
   });

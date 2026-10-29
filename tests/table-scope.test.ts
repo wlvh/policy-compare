@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { compare } from "../packages/compare-core/index";
-import { ResultSchema, type CompareResult } from "../packages/contracts/index";
+import { ResultSchemaV2 as ResultSchema, type CompareResultV2 as CompareResult } from "../packages/contracts/index";
 import { textDoc } from "./helpers";
 
 // Lines are listed in extraction order. A wrapped cell's second line is
@@ -48,7 +48,7 @@ describe("wrapped table cells stay with their row", () => {
     expect(iom).toHaveLength(1);
     expect(iom[0].oldText).toContain("M-HELI");
     expect(iom[0].newText).toContain("M-FNKE, M-HELI");
-    expect(r.differences.some((d) => d.category === "Cosmetic")).toBe(false);
+    expect(r.differences.some((d) => d.facts.length > 0)).toBe(false);
   });
   it("an amount after a wrapped cell is compared on its own record", () => {
     const doc = (value: string) =>
@@ -117,7 +117,7 @@ describe("identical text does not consume a record from another table", () => {
     expect(changed.matchEvidence.method).toBe("row-identity");
     const added = r.differences.find((d) => d.kind === "Added")!;
     expect(added.newText).toBe("MSN 1001 Alpha Air USD 100,000");
-    expect(added.category).toBe("Material");
+    expect(added.facts).toEqual([]);
     expect(r.differences).toHaveLength(2);
   });
   it("exact split/merge cannot take a row that identity evidence binds", () => {
@@ -231,7 +231,7 @@ describe("amounts and unexplained bare numbers are not record identity", () => {
     if (removed && added) {
       expect(removed.left.map((l) => l.text).join(" ")).toContain(old);
       expect(added.right.map((l) => l.text).join(" ")).toContain(now);
-      expect([removed.category, added.category]).not.toContain("Cosmetic");
+      expect([removed.facts, added.facts]).toEqual([[], []]);
     } else expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
   };
   for (const header of [null, ["Insured", "Reference", "Limit"]])
@@ -280,7 +280,7 @@ describe("amounts and unexplained bare numbers are not record identity", () => {
     expect(r.status).toBe("complete_for_scope");
     expect(r.differences).toHaveLength(1);
     const [d] = r.differences;
-    expect([d.kind, d.category, d.matchEvidence.method]).toEqual(["Replaced", "Material", "row-identity"]);
+    expect([d.kind, d.facts, d.matchEvidence.method]).toEqual(["Replaced", [], "row-identity"]);
     expect([d.oldText, d.newText]).toEqual(["1315 Alpha Air 100000", "1315 Delta Air 200000"]);
     expect(d.structurePath?.rowKey).toBe("1315");
   });
@@ -322,7 +322,7 @@ describe("an explicitly headed MSN column is not a row counter", () => {
       ),
     );
     const added = r.differences.find((d) => d.kind === "Added" && d.newText.includes("Delta Hangar"));
-    expect(added?.category).toBe("Material");
+    expect(added?.facts).toEqual([]);
     expect(r.differences.some((d) => d.oldText.includes("Beta") && d.newText.includes("Delta") && d.structurePath?.confidence !== "unresolved")).toBe(false);
   });
 });

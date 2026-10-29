@@ -1,16 +1,19 @@
 import {
   VERSION,
+  RESULT_VERSION,
   digest,
   snapshotDigest,
-  type CompareResult,
-  type Difference,
+  type CompareResultV2 as CompareResult,
+  type DifferenceV2 as Difference,
   type DocInput,
+  type Fact,
   type SourceLocation,
 } from "../contracts/index";
 import { aviationProfile, type Profile } from "../../profiles/aviation";
 import {
   furnitureContent,
   furnitureSignatures,
+  maskedPageNumbers,
   structure,
   withoutPageNumbers,
   withoutFurniturePages,
@@ -344,49 +347,46 @@ function datePeriod(text: string): [number, number] | null {
     ? (dates as [number, number])
     : null;
 }
-function category(
+/**
+ * Facts the two texts themselves prove about a difference. They state what
+ * changed, never whether it matters, and nothing else in the line (an
+ * unchanged amount, a keyword, its role or a profile field) adds to them.
+ * - whitespace_only: the words are the same once runs of whitespace are
+ *   collapsed and the ends trimmed; an absent side reads as empty text.
+ * - page_number_only: only page numbers differ: the confirmed page tokens of a
+ *   repeated page line, or the numbers of explicit "Page n" expressions in a
+ *   heading or margin line. A line on one side only holds nothing but such
+ *   page-number expressions.
+ * - dates_rolled_forward_one_year: both dates of an annual period move to the
+ *   following period and the rest of the text is equal.
+ * - continued_heading: a heading on one side only that is a heading of both
+ *   versions with an explicit "continued" suffix.
+ */
+function facts(
   a: Unit | undefined,
   b: Unit | undefined,
-  layoutOnly: Set<Unit> = new Set(),
-): Difference["category"] {
-  const u = b ?? a!;
-  // Cosmetic needs evidence that only the form changed: equal text, a confirmed
-  // page number, whitespace, an explicit label alias or a continuation heading.
-  // Lacking digits or keywords, or the role of the line, is not such evidence.
-  // Repeated furniture: only confirmed page-number parts are cosmetic; a line
-  // on one side only is cosmetic when nothing but its page number is left. Any
-  // other change is Review, and Material when it carries an amount.
-  if (u.role === "furniture") {
-    const texts = [a, b].filter((x): x is Unit => !!x).map(content);
-    if (a && b ? texts[0] === texts[1] || a.matchText === b.matchText
-        : u.furniture?.pageNumber && !/\S/u.test(withoutFurniturePages(u.rawText, u.furniture)))
-      return "Cosmetic";
-    return valueLike(texts.join(" ")) ? "Material" : "Review";
+  layoutOnly: Set<Unit>,
+): Fact[] {
+  const u = b ?? a!,
+    old = a?.rawText ?? "",
+    now = b?.rawText ?? "";
+  if (old === now) return [];
+  const words = (t: string) => t.trim().split(/\s+/u).join(" ");
+  if (words(old) === words(now)) return ["whitespace_only"];
+  const margin = ["page_heading", "footer", "heading"].includes(u.role);
+  if (u.role === "furniture" || margin) {
+    const page = (x: Unit) =>
+      x.furniture
+        ? !/\S/u.test(withoutFurniturePages(x.rawText, x.furniture))
+        : !/\S/u.test(withoutPageNumbers(x.rawText));
+    if (a && b ? maskedPageNumbers(a) === maskedPageNumbers(b) : (u.furniture?.pageNumber || margin) && page(u))
+      return ["page_number_only"];
   }
-  if (u.role === "whitespace") return "Cosmetic";
-  if (a && b && a.matchText === b.matchText) return "Cosmetic";
-  // A label or table header is compared by its words. Two profile labels of the
-  // same field, party and section (SUMS INSURED: / SUM INSURED:) are an
-  // explicit alias; INSURED: and REINSURED: name different parties.
-  if (u.role === "label" || u.role === "table_header") {
-    if (a && b && a.role === "label" && b.role === "label" && a.path.field &&
-        (["field", "entity", "section"] as const).every((k) => a.path[k] === b.path[k]) &&
-        a.path.confidence !== "unresolved" && b.path.confidence !== "unresolved")
-      return "Cosmetic";
-    return substantive.test((a?.rawText ?? "") + (b?.rawText ?? "")) ? "Material" : "Review";
-  }
-  // A heading, or a line at the top or bottom of a page, is compared as content:
-  // neither its place nor its capitals show that a change is only layout. A
-  // changed page number is, and so is a heading with evidence of repagination.
-  if (["page_heading", "footer", "heading"].includes(u.role)) {
-    const kept = [a, b].filter((x): x is Unit => !!x).map((x) => withoutPageNumbers(x.rawText));
-    if (a && b ? kept[0] === kept[1] : !/\S/u.test(kept[0]) || layoutOnly.has(u))
-      return "Cosmetic";
-  }
+  if (!(a && b) && layoutOnly.has(u)) return ["continued_heading"];
   if (a && b && u.path.field === "policy_period") {
-    const old = datePeriod(a.rawText),
-      now = datePeriod(b.rawText);
-    if (old && now) {
+    const before = datePeriod(old),
+      after = datePeriod(now);
+    if (before && after) {
       const oneDay = 86400000;
       const annual = (v: [number, number]) => {
         const s = new Date(v[0]),
@@ -397,19 +397,14 @@ function category(
           e.getUTCDate() === s.getUTCDate()
         );
       };
-      const withoutDates=(text:string)=>text.replace(/\d{1,2} [A-Za-z]+ \d{4}/g,'<date>');
-      if (annual(old) && annual(now) && now[0] === old[1] + oneDay &&
-          withoutDates(a.rawText)===withoutDates(b.rawText))
-        return "RollForward";
+      const withoutDates = (text: string) => text.replace(/\d{1,2} [A-Za-z]+ \d{4}/g, "<date>");
+      if (annual(before) && annual(after) && after[0] === before[1] + oneDay &&
+          withoutDates(old) === withoutDates(now))
+        return ["dates_rolled_forward_one_year"];
     }
-    return "Material";
   }
-  if (u.path.confidence === "unresolved") return "Review";
-  if (u.path.field || substantive.test((a?.rawText ?? "") + (b?.rawText ?? "")))
-    return "Material";
-  return "Review";
+  return [];
 }
-const substantive = /\b(?:not|cover|exclud|loss|liability|and|or)\b|\d|[±☑☐]/i;
 function textOps(
   a: Unit | undefined,
   b: Unit | undefined,
@@ -531,8 +526,8 @@ export function compare(
     throw new Error("两份文档必须由同一引擎、版本及选项提取");
   phase?.("snapshot");
   const result: CompareResult = {
-    schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.7",
+    schemaVersion: RESULT_VERSION,
+    coreVersion: VERSION + "+row-identity.7+facts.1",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1123,7 +1118,6 @@ export function compare(
     const d: Difference = {
       id: "",
       kind,
-      category: moved && a?.rawText === b?.rawText ? "Review" : category(a, b, layoutOnly),
       structurePath: (a ?? b!).path,
       left: locations(a, "left"),
       right: locations(b, "right"),
@@ -1131,6 +1125,16 @@ export function compare(
       newText: b?.rawText ?? "",
       textOps: textOps(a, b, budget, result),
       hasTextChange: a?.rawText !== b?.rawText,
+      facts: facts(a, b, layoutOnly),
+      repeat:
+        ar || br
+          ? {
+              left: ar?.length ?? 0,
+              right: br?.length ?? 0,
+              leftPages: left.pages.length,
+              rightPages: right.pages.length,
+            }
+          : null,
       defaultVisible: true,
       matchEvidence: {
         method,
@@ -1217,12 +1221,9 @@ export function compare(
           Math.min(l.quads[0][1], l.quads[0][3], l.quads[0][5], l.quads[0][7])
       : -1;
   };
+  // Differences follow the document; nothing is ranked by what it changes.
   result.differences.sort(
-    (a, b) =>
-      ({ Material: 0, Review: 1, RollForward: 2, Cosmetic: 3 })[a.category] -
-        { Material: 0, Review: 1, RollForward: 2, Cosmetic: 3 }[b.category] ||
-      sourcePosition(a) - sourcePosition(b) ||
-      (a.id < b.id ? -1 : 1),
+    (a, b) => sourcePosition(a) - sourcePosition(b) || (a.id < b.id ? -1 : 1),
   );
   result.stats.differenceCount = result.differences.length;
   result.stats.occurrenceCount = result.differences.reduce(

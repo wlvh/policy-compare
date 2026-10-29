@@ -224,10 +224,14 @@ export const ResultSchema = z.object({
  */
 export const RESULT_VERSION = "policy-compare-result/2";
 export const FactSchema = z.enum([
-  // Both sides present; the raw texts differ only in whitespace characters.
+  // The raw texts have the same words once runs of whitespace are collapsed and
+  // the ends trimmed; an absent side reads as empty text, so a line of
+  // whitespace on one side only is included. Two words joined or split differ.
   "whitespace_only",
   // The difference lies only in the confirmed page numbers of explicit page
-  // expressions ("Page n", "Page n of N", "Page n/N").
+  // expressions ("Page n", "Page n of N", "Page n/N") on a repeated page line
+  // or a heading or page-margin line; text on one side only consists of
+  // nothing but such expressions.
   "page_number_only",
   // Both dates of a period move exactly one year; the text outside them is equal.
   "dates_rolled_forward_one_year",

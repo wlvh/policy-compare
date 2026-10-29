@@ -74,6 +74,26 @@ export function withoutFurniturePages(text: string, f: Furniture) {
     .filter((_, i) => !drop.has(i))
     .join("");
 }
+/**
+ * A line's raw text with its page numbers replaced, nothing else changed: the
+ * confirmed page tokens of a repeated page line, or else the counter and total
+ * of each explicit "Page n" expression.
+ */
+export function maskedPageNumbers(u: { rawText: string; furniture?: Furniture }) {
+  if (u.furniture) {
+    let k = 0;
+    return u.rawText.replace(NUMBER, (n) => (u.furniture!.pageTokens.includes(k++) ? "#" : n));
+  }
+  let out = "",
+    at = 0;
+  for (const m of u.rawText.matchAll(PAGE_EXPRESSIONS[0]))
+    for (const r of m.indices!.slice(1))
+      if (r) {
+        out += u.rawText.slice(at, r[0]) + "#";
+        at = r[1];
+      }
+  return out + u.rawText.slice(at);
+}
 /** Furniture text with only its confirmed page-number parts replaced. */
 export function furnitureContent(text: string, f: Furniture) {
   let k = 0;
