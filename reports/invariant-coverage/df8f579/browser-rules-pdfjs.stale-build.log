@@ -1,0 +1,96 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (49.6s)
+
+
+  1) tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 60
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "case": "R16_repagination",
+    +     "eventStatus": "FAIL",
+    +     "events": Array [
+    +       Object {
+    +         "attribution": true,
+    +         "branch": "text",
+    +         "completeness": true,
+    +         "discovery": true,
+    +         "eventId": "R16_repagination:E1",
+    +         "falseCategoryClaims": Array [
+    +           "d-582c235602164f8598c3: Cosmetic",
+    +         ],
+    +         "identity": Object {
+    +           "applicability": "not_applicable",
+    +           "claims": Array [],
+    +           "determined": null,
+    +           "pass": null,
+    +           "reason": "page title added by the repagination: no party or record identity; text, operation, category, position, visibility and completeness still apply",
+    +         },
+    +         "pass": false,
+    +         "position": true,
+    +         "representation": "card",
+    +         "verdict": "FAIL",
+    +         "visibility": true,
+    +       },
+    +     ],
+    +     "faults": Array [
+    +       "Required event failed: R16_repagination:E1",
+    +     ],
+    +     "notEvaluated": Array [
+    +       Object {
+    +         "invariant": "all_source_text_preserved",
+    +         "kind": "invariant_unsupported",
+    +         "reason": "the result lists only differences, so it cannot show that every extracted character was compared; the scorer also does not compare extraction with layout.json; R16's other invariants only rule out false claims",
+    +       },
+    +     ],
+    +     "status": "FAIL",
+    +   },
+    +   Object {
+    +     "case": "R24_table_cross_page",
+    +     "eventStatus": "PASS",
+    +     "events": Array [],
+    +     "faults": Array [],
+    +     "notEvaluated": Array [
+    +       Object {
+    +         "invariant": "no_material_differences",
+    +         "kind": "invariant_unverifiable",
+    +         "reason": "card d-0692215e1b2f8aeef2ed presents an undeclared text change as form-only; no declared definition of form-only transforms can verify it",
+    +       },
+    +       Object {
+    +         "invariant": "same_logical_row_order",
+    +         "kind": "invariant_unsupported",
+    +         "reason": "row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order",
+    +       },
+    +     ],
+    +     "status": "NOT_EVALUATED",
+    +   },
+    + ]
+
+      112 |         events: r.events,
+      113 |       })),
+    > 114 |   ).toEqual([]);
+          |     ^
+      115 | });
+      116 |
+        at /home/user/policy-compare/tests/browser/rules.spec.ts:114:5
+
+    Error Context: test-results/pdfjs/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pdfjs/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/pdfjs/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 
+exit 1

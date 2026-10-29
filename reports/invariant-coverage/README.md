@@ -5,13 +5,103 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `fix/scorer-invariant-coverage`，从 `2ff585bce56e5b43a6fb00572ad9d99b98e4fefc`（PR #9 head）建立 |
-| 被测代码提交 | **当前 `dbf73ef`**（第十七轮：多格对应的保护也计入币种代码的一部分），证据在 [`dbf73ef/`](dbf73ef/)，同时包含第十六轮 `23e5372`（删除卡、新增卡把一个格拆到多张卡上时统一判无法评价；同一处编辑报两次判 FAIL）的修复前对照。各轮证据都保留、没有覆盖：第十五轮 `800fe91` 在 [`800fe91/`](800fe91/)；第十四轮 `a5acd50` 在 [`a5acd50/`](a5acd50/)；第十三轮 `a8cb2cc` 在 [`a8cb2cc/`](a8cb2cc/)；第十二轮 `f2e0e10` 在 [`f2e0e10/`](f2e0e10/)；第十一轮 `402e66e` 在 [`402e66e/`](402e66e/)；第十轮 `bb85bc4` 在 [`bb85bc4/`](bb85bc4/)；第九轮 `8ca503f` 在 [`8ca503f/`](8ca503f/)；第八轮 `f2d953f` 在 [`f2d953f/`](f2d953f/)；第七轮 `c5acdb8` 在 [`c5acdb8/`](c5acdb8/)；第六轮 `55e669a`（按几何关系找金额格）在 [`55e669a/`](55e669a/)；第五轮 `28afbd1`（碎片按原文顺序拼接）在 [`28afbd1/`](28afbd1/)；第四轮 `fececbf`（金额单元格以 layout.json 为准）在 [`fececbf/`](fececbf/)；第三轮 `74783d6`（删除/新增卡的金额只在同一记录内抵消）在 [`74783d6/`](74783d6/)；第二轮 `7ea1fb3`（裸整数金额）在 [`7ea1fb3/`](7ea1fb3/)；第一轮 `d61461b` 在 [`verification/`](verification/) 和 [`register.json`](register.json) |
-| 被测产品代码 | 与 `e313540` 相同，本项没有修改产品文件 |
+| 被测代码提交 | **当前 `df8f579`**（第十八轮：按来源判断事实；此前用普通合并提交 `3a25fea` 同步 #9 `2b29fd8`），证据在 [`df8f579/`](df8f579/)，见第 0 节。第十七轮 `dbf73ef`（多格对应的保护也计入币种代码的一部分）在 [`dbf73ef/`](dbf73ef/)，同时包含第十六轮 `23e5372`（删除卡、新增卡把一个格拆到多张卡上时统一判无法评价；同一处编辑报两次判 FAIL）的修复前对照。各轮证据都保留、没有覆盖：第十五轮 `800fe91` 在 [`800fe91/`](800fe91/)；第十四轮 `a5acd50` 在 [`a5acd50/`](a5acd50/)；第十三轮 `a8cb2cc` 在 [`a8cb2cc/`](a8cb2cc/)；第十二轮 `f2e0e10` 在 [`f2e0e10/`](f2e0e10/)；第十一轮 `402e66e` 在 [`402e66e/`](402e66e/)；第十轮 `bb85bc4` 在 [`bb85bc4/`](bb85bc4/)；第九轮 `8ca503f` 在 [`8ca503f/`](8ca503f/)；第八轮 `f2d953f` 在 [`f2d953f/`](f2d953f/)；第七轮 `c5acdb8` 在 [`c5acdb8/`](c5acdb8/)；第六轮 `55e669a`（按几何关系找金额格）在 [`55e669a/`](55e669a/)；第五轮 `28afbd1`（碎片按原文顺序拼接）在 [`28afbd1/`](28afbd1/)；第四轮 `fececbf`（金额单元格以 layout.json 为准）在 [`fececbf/`](fececbf/)；第三轮 `74783d6`（删除/新增卡的金额只在同一记录内抵消）在 [`74783d6/`](74783d6/)；第二轮 `7ea1fb3`（裸整数金额）在 [`7ea1fb3/`](7ea1fb3/)；第一轮 `d61461b` 在 [`verification/`](verification/) 和 [`register.json`](register.json) |
+| 被测产品代码 | 第十八轮起与 #9 `2b29fd8` 相同（经合并提交 `3a25fea` 带入，含 `7d909f1` 的 Cosmetic 证据收窄）；第十七轮及以前与 `e313540` 相同。本项没有修改产品文件 |
+| 原则与共同处置表 | [`AGENTS.md` @ `3db7f0b`](https://github.com/wlvh/policy-compare/blob/3db7f0b3c225f2fae0a5412819b5f422a3961891/AGENTS.md)（已逐字核对）；处置表在 #2 的 `reports/issue-2-validation/README.md` §D（`2b29fd8`），本项只链接、评论 |
 | 改动文件 | `tests/evaluation/scorer.ts`、`tests/scorer.test.ts`、`scripts/acceptance.ts`、`tests/browser/rules.spec.ts`、`.github/workflows/ci.yml` |
 | 工具 | Node v24.19.0、pnpm 10.12.1；Python 3.13.17（本地）/ 3.12（CI 环境，本地也用 3.12.3 跑过） |
-| 机器可读登记 | [`dbf73ef/register.json`](dbf73ef/register.json)（当前）：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
+| 机器可读登记 | [`df8f579/register.json`](df8f579/register.json)（当前）：每种 invariant 的覆盖方式、依据、对应测试、出现的用例，以及四次运行中的实际结果 |
 
 “invariant（验收断言）”指答案 `expected.json` 里除逐事件要求以外的整体要求，例如“不得出现金额变化”。32 对答案中共有 **31 种**（按名称去重计的种数，不是用例数）。
+
+## 0. 第十八轮（当前）：按来源判断事实，与 #9 同步（`3a25fea`、`df8f579`）
+
+依据：[#10 顶部指令（2026-10-29）](https://github.com/wlvh/policy-compare/issues/10) 与 [PR #11 执行通知](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6494697757)。原则以 [`AGENTS.md` @ `3db7f0b`](https://github.com/wlvh/policy-compare/blob/3db7f0b3c225f2fae0a5412819b5f422a3961891/AGENTS.md) 为准（已逐字核对，与 issue 中的文本一致）。共同处置表在 #2 的 [`reports/issue-2-validation/README.md` §D @ `2b29fd8`](https://github.com/wlvh/policy-compare/blob/2b29fd893669d5be48fda2f6b5fbe039eb5d44ac/reports/issue-2-validation/README.md)，由 #2 维护，本项只链接、评论。
+
+**这一轮只改评分器和评分测试，没有改产品、公共契约、生成器、答案或分诊脚本。** #2 的新输出版本和版本化预期还没有发布，所以本轮评的仍是旧输出（带 Material/Review/RollForward/Cosmetic）。对旧类别的读法见下面“类别”一行，是旧版本的只读口径；新输出到来后改为核对它实际给出的具体说明。
+
+### 0.1 同步 #9（普通合并提交 `3a25fea`）
+
+用普通合并提交合入 #9 固定 head `2b29fd893669d5be48fda2f6b5fbe039eb5d44ac`，带入原则文件、处置表、分诊 `renewal-triage/5` 和 R16 的 `declaredChange`。两处冲突都保留了两边：
+
+- `scorer.ts`：本项的 invariant 登记和 `DIRECT` 检查保持不变。#2 的“每个声明事件最多豁免一张卡”移进 `DIRECT.no_material_differences`，`DIRECT` 检查因此多接收 `docs`。第 12 项身份 N/A（R16:E1）原样带入。十七轮金额/币种检查没有改动。
+- `scorer.test.ts`：两组测试都保留。#2 的 R16 测试按本分支的报告方式改写了两处断言：直接检查的失败原因带 invariant 名称；精确标题那一例的严格状态是 NOT_EVALUATED，只因为登记为尚未支持的 `all_source_text_preserved`，没有任何失败，`no_material_differences` 为 PASS。
+
+合并后：scorer 95/95，`verify:core` 216/216，Python 分诊 30/30，两引擎规则与合并前相同（严格 NOT_EVALUATED 28/32，事件 32/32，退出码 2）。
+
+### 0.2 本轮改动（`df8f579`）
+
+| 项 | 改前（`3a25fea`） | 改后（`df8f579`） | 测试 |
+|---|---|---|---|
+| 文字是否改变 | 控制用例里直接用卡片自报的 `hasTextChange` | 只看**经来源校验的两侧原始文字是否不同**（`oldText !== newText`，不做 NFKC 或空白合并）。自报值是一项声明，与原文不符即 FAIL。“存在非 equal 操作”不当作同义：删掉又原样插回，两侧文字仍相同 | `a false hasTextChange flag fails…`、`deleting and re-inserting the same text…` |
+| 来源校验失败的卡 | 整例 FAIL，但控制类 invariant 自己可能显示 PASS | 这样的卡直接让 `no_false_text_added_or_removed`、`no_material_differences`、`no_false_row_additions_or_deletions`、`moved_clause_has_no_internal_word_edits` 失败：伪造的文字不能用来算出“没有变化” | `a card that fails source validation cannot show that a control holds` |
+| `no_material_differences` | 不得有 Material 卡；Cosmetic 以外不得有文字变化（**Cosmetic 卡直接放过**） | 见下方迁移说明 | `a Cosmetic label does not turn…`、`Review does not excuse…`、R16 各例 |
+| 身份 | 产品自报的 `rowKey`/`entity`/`field` 不等于答案路径，卡就不算匹配 | **归属看编辑来源**：卡的删除、插入操作落在事件声明的 layout.json 记录/字段 run 上。自报的身份是对外声明，单独判：确定（答案接受的身份）、显式未决（`rowKey=null`、`confidence=unresolved`）、未给出、错误。**只有“错误”是虚假声明**，单独判 FAIL，严格总评仍为 FAIL；此时发现、归属、位置、可见性照常报 PASS | R22、R26、R25 各例 |
+| R22 可接受的身份 | 只认序列号 | 声明的序列号，或该记录的注册号（从 layout.json 读，两侧均可）。答案没有允许显式未决：未决不是错误，但不算按要求呈现，事件 FAIL，原因写明是“未决”而不是“错误” | `R22: …` 四例 |
+| R26 可接受的身份 | 只认序列号 | 序列号，或显式未决（算“按要求呈现”，不算“确定归属”）。改名后的注册号、其他记录的键都是错误声明 | `R26: an explicit identity review…`、`…missing row key…`、`…renamed registration…` |
+| R25 | 要求 `unresolved` 且无行键 | 同上，另外卡上写了当事人或别的字段也算错误声明 | `R25: asserting a party…` |
+| `Added+Removed`（R26、R25） | 只看单张卡，永远匹配不上（潜在错误失败） | 一张 Removed 卡在事件的旧侧 run 上删除旧文字，一张 Added 卡在新侧 run 上插入新文字（两侧都是同一记录、同一字段的来源），事件只计一次；重复的半张不重复计数。新增文字落在别的记录、或者只是把旧文字原样搬走，都不算该事件 | `R26: one delete + one add card…`、`R26: a delete + add pair is not the event…`、`R26: with a delete + add pair, another record's key…` |
+| 类别 | 卡片类别必须属于 `acceptable_categories`，否则事件不匹配 | **不再评重要性**：Material 和 Review 都只表示“内容改变”，互不区分。Cosmetic（声称只有形式变化）和 RollForward（声称日期各顺延一年）是事实声明，对照答案对该事件是否允许这种说法；不允许即虚假声明，单独列在 `falseCategoryClaims`，事件 FAIL | `a Cosmetic or RollForward claim…`、`importance is not judged…`、R16 改写的一例 |
+| `no_false_row_additions_or_deletions` | 只看卡片自报的 `table` | 自报为表格卡，**或**删除/插入操作落在 layout.json 的表格记录 run 上（不含表头），并且有文字变化 | `R26: a table card that changes a record's text fails the row control by its sources…` |
+| 报告 | 事件只有 `correspondence` | 每个事件分开报：`discovery`（找到）、`attribution`（按来源归属）、`representation`（单卡或一删一增）、`identity.pass`（按要求呈现）、`identity.determined`（确定归属）、`identity.claims`、`falseCategoryClaims`（声明准确性）、`position`、`visibility`、`completeness`。汇总新增 `identityClaims` 和按覆盖方式分开的 `invariantResults` | — |
+
+**`no_material_differences` 的迁移说明**（旧名保留，含义改为控制输入真正声明的事实）：
+
+- 旧含义：不得有 Material 卡；Cosmetic 以外不得有文字变化。问题在于它同时依赖重要性标签（Material）和自报的形式标签（Cosmetic），而且 Cosmetic 卡无条件放过。
+- 新含义：**控制用例除声明的事件外没有编辑**。每处经来源校验的文字变化都必须恰好是一个声明事件（R16 的 `declaredChange`：完整文字、类型、两侧、身份、可见性、每个来源位置都要对上，每个事件只豁免一张卡；类别不再参与豁免，由事件检查单独判）。
+- 未声明的文字变化：
+  - 卡片说是内容变化（Material、Review、RollForward）→ **FAIL**。无论这处变化实际是不是形式变化，这个声明都错了：若是形式变化，说成内容变化是错的；若是内容变化，控制用例里本不该有。
+  - 卡片说是形式变化（Cosmetic）→ **NOT_EVALUATED**。只有确实不是形式变化时它才是错的，而目前没有共同、已声明的“形式变化”定义可供核对（D.3 要求产品和评分器用同一份定义，由公共规则或答案提供，不各写一套）。新的无法评价不登记为已知缺口，所以退出码是 1，不是 2。
+- 没有文字变化的卡（例如原文相同的 Moved 卡）不再由这一条判断：它们由各用例声明的移动、内容类 invariant 判断（R16 的 `no_false_clause_moves`、R01/R17 的 `no_content_differences`）。旧规则里“Material 卡一律失败”这一支依赖重要性标签，已经删除；真实产品从不把原文相同的移动标成 Material，这一支在真实数据上本来就不起作用。R15、R23、R24 没有声明移动类要求，那里的虚假移动卡现在不被任何检查拦截（旧规则也只在标成 Material 时才拦）。
+
+### 0.3 判定变化：同一组输入在 `3a25fea` 与 `df8f579` 上的结论
+
+[`df8f579/verdict-probe.log`](df8f579/verdict-probe.log)（探针补丁 [`verdict-probe.patch`](df8f579/verdict-probe.patch)，只打印结论，不改断言）：
+
+| 输入 | `3a25fea` | `df8f579` | 说明 |
+|---|---|---|---|
+| 控制用例：卡片自报 `hasTextChange=false`、Cosmetic，原文实际改变 | **PASS**（假通过） | FAIL | 自报值与原文不符 |
+| 控制用例：未声明的文字变化标为 Cosmetic | **PASS**（假通过） | NOT_EVALUATED | 无法核实“只是形式” |
+| 控制用例：同上，标为 Review | FAIL | FAIL | 不变 |
+| 行控制：记录里的文字变化，卡片没写 `table` | **PASS**（假通过） | FAIL | 按来源判断 |
+| 内容事件标为 Cosmetic / RollForward | FAIL | FAIL | 原因从“不匹配”变为“虚假类别声明”，发现与归属照常 PASS |
+| 答案只列 Review，卡片标 Material | FAIL | **PASS** | 不评重要性 |
+| R22：行键写该记录的注册号 | FAIL（比答案严） | **PASS** | 答案允许 |
+| R22：行键写别的记录的序列号或注册号 | FAIL | FAIL | 现在是“归属 PASS，身份声明错误” |
+| R22：显式未决 | FAIL | FAIL | 原因写明“未决”，不是“错误” |
+| R22：标签正确，但旧值取自另一条记录里的相同金额 | FAIL | FAIL | 归属 FAIL |
+| R26：显式未决 | FAIL（比答案严） | **PASS** | 按要求呈现，不算确定归属 |
+| R26：行键为空、没有标未决 | FAIL | FAIL | 原因写明“未给出”，不是“错误” |
+| R26：行键写改名后的注册号 | FAIL | FAIL | 归属 PASS，身份声明错误 |
+| R26：一删一增 | FAIL（潜在错误失败） | **PASS** | 答案允许 |
+| R26：一删一增，但新增的文字落在别的记录 / 只是旧文字原样搬走 | FAIL | FAIL | 归属 FAIL |
+
+本轮测试文件在合并后的 scorer `3a25fea` 上有 19 项失败（[`df8f579/before-fix-3a25fea.log`](df8f579/before-fix-3a25fea.log)）。其中一部分只是因为旧 scorer 没有新的报告字段（`attribution`、`identity.claims` 等），结论层面的变化以上表为准。原有 95 项（含十七轮金额/币种保护）在 `df8f579` 上全部通过，其中三项改动：R16“Material 仍然失败”一例按裁定 3 改写；R11 一例的测试数据把 `hasTextChange` 改为与原文相符的 `false`（两侧都是 `UU`，旧数据写的 `true` 正是现在要拦的虚假声明）；R26“按改名后的注册号匹配”一例加了断言：归属 PASS，身份声明为“错误”。
+
+### 0.4 真实数据的结果（两引擎相同）
+
+- **身份**：15 个事件确定归属（R02、R03、R04、R07、R08、R10×2、R11、R18、R20、R21、R22、R26、R32×2），R25 按要求呈现为显式未决，**0 个错误身份声明**，0 个未按要求呈现。
+- **类别声明**：0 个虚假类别声明。
+- **R24 变化**：跨页表的 `SCHEDULE OF AIRCRAFT CONTINUED` 卡（Added/Cosmetic，有文字变化，答案没有声明）原来因 Cosmetic 被放过；现在 `no_material_differences` 判 NOT_EVALUATED（`invariant_unverifiable`）。R24 本来就因 `same_logical_row_order` 无法评价，所以严格计数不变（仍是 28/32，R16、R18、R23、R24 无法评价），**但退出码从 2 变为 1**，CI 的规则步骤和浏览器规则测试因此失败。这是有意的：新的无法评价不得获得退出码 2。
+- **invariant 结果分开计**（32 个用例里的出现次数）：直接检查 PASS 16、NOT_EVALUATED 1（R24）；间接 PASS 18；尚未支持 NOT_EVALUATED 4。间接结果只是重述事件检查，不增加独立证据数。
+- 事件回归仍为 PASS 32/32。旧的 32/32、28/32 不是要维持的数字。
+- **浏览器规则**：第一次运行用的是合并前（10 月 28 日）构建的 `dist/`，产品还是 `7d909f1` 之前的版本，它把 R16 新增的页标题标成 Cosmetic。新的类别声明检查据此判 R16 事件 FAIL（虚假的“仅形式”声明），这次运行保留为 `browser-rules-*.stale-build.{log,json}`。重新构建两个引擎后再跑，结果与 Node 相同（严格 28/32，事件 32/32，0 个错误声明），只因 R24 的新无法评价而失败。
+
+### 0.5 需要 #2 一侧决定的事项
+
+1. **R24 的续页标题**：这行文字是跨页表真实新增的（与 R16 新页标题同类），答案没有登记。可以把它登记为声明事件，或者在共同的形式变化定义里列出“续页后缀”。两者都要放在答案或公共规则里，评分器不另写一套。登记之后，R24 的 `no_material_differences` 会变成可判定。
+2. **版本化预期**：现在身份可接受的形式是从答案已有的 invariant 名称推出来的（`match_row_by_registration_or_declared_serial` → 序列号或注册号；`secondary_key_or_explicit_identity_review` → 序列号或显式未决）。#2 若在答案里加入结构化的可接受身份证据，评分器改为读取该字段。R22 是否也允许显式未决，由这份预期决定。
+3. **新输出的事实说明**：新输出不再有重要性类别后，评分器只核对它实际给出的说明（例如“仅空白字符变化”“日期各顺延一年”），并从原文重新计算，不调用产品分类器，也不以产品自报为答案。
+4. **`hasTextChange` 的定义**写进公共契约（#2 已同意）。
+
+### 0.6 本轮仍不支持的范围
+
+- 未声明、标为 Cosmetic 的文字变化：无法评价，等共同的形式变化定义（见 0.5 第 1 项）。
+- `Unresolved` 作为 `result.unresolved` 里的一条（没有文字差异）不算事件的表达；只接受已有的显式未决卡。一删一增以外的多卡拼装不支持，按答案不允许的表达判 FAIL。
+- 注册号只认 layout.json 里该格的原文（去掉首尾空白），不认 `Reg. …`、`MSN …` 这类前缀写法。
+- 控制用例以外，同一事件的重复卡只计一次，不判失败（金额/币种格的重复编辑仍按第十六轮判 FAIL）。
+- `must_not_classify_as_unchanged_duration_roll_forward` 仍读卡片自报的字段；R07 的保险期间卡由事件的来源归属和类别声明检查覆盖。
+- 一张卡的类别声明正确，不能证明卡内每个片段都分类正确。
 
 ## 1. R26 / R11 假 PASS：先证明失败，再修复
 
@@ -358,11 +448,11 @@ Codex 复核第十一轮时，报了一个假 PASS 和一个误报 FAIL。
 | invariant | 用例 | 覆盖 | 依据 | 负向测试 |
 |---|---|---|---|---|
 | no_content_differences | R01 R17 | 直接 | 不得有任何差异卡 | `direct invariant check rejects a violation: …` |
-| no_material_differences | R01 R15 R16 R17 R23 R24 | 直接（既有） | 不得有 Material 卡，Cosmetic 以外不得有文字变化 | 同上；另有 `Review does not excuse false text in control` |
-| no_false_text_added_or_removed | R15 | 直接 | 不得有带文字变化的卡 | 同上 |
+| no_material_differences | R01 R15 R16 R17 R23 R24 | 直接（既有；第十八轮改为事实要求） | 每处经来源校验的文字变化都必须是一个声明事件；未声明且说成内容变化的 FAIL，说成形式变化（Cosmetic）的 NOT_EVALUATED；来源校验失败的卡 FAIL（见第 0.2 节迁移说明；第十七轮及以前：不得有 Material 卡，Cosmetic 以外不得有文字变化） | 同上；`Review does not excuse false text in control`、`a Cosmetic label does not turn…`、`a card that fails source validation…`、R16 各例 |
+| no_false_text_added_or_removed | R15 | 直接 | 不得有两侧原文不同的卡（第十八轮起不看自报的 `hasTextChange`），不得有来源校验失败的卡 | 同上；`a false hasTextChange flag fails…` |
 | no_false_clause_moves | R16 | 直接 | 不得有 Moved 卡 | 同上 |
-| no_false_row_additions_or_deletions | R23 R24 | 直接（既有） | 表格卡不得有文字变化 | 同上 |
-| moved_clause_has_no_internal_word_edits | R12 | 直接 | Moved 卡不得有文字变化 | 同上 |
+| no_false_row_additions_or_deletions | R23 R24 | 直接（既有） | 有文字变化的卡不得自报为表格卡，删除/插入操作也不得落在表格记录的 layout.json run 上（第十八轮起按来源） | 同上；`R26: a table card that changes a record's text fails the row control by its sources…` |
+| moved_clause_has_no_internal_word_edits | R12 | 直接 | Moved 卡两侧原文不得不同 | 同上 |
 | must_not_classify_as_unchanged_duration_roll_forward | R07 | 直接 | 保险期间卡不得判为 RollForward | 同上 |
 | grouping_allowed_only_with_all_occurrence_locations | R09 | 直接 | 聚合卡必须列出两侧全部重复位置 | 同上 |
 | **agreed_value_unchanged** | R26 | **直接（新增）** | 金额/币种不变；卡片声明了金额字段，或者位置落在 layout.json 的金额单元格上时，裸整数也算金额；删除/新增卡只在同一记录同一字段内抵消（见第 1 节） | R26 反例（带逗号、裸整数、字段错标、逐字拆分位置、整行引用、部分引用未变金额格、一删一增互换各一组）；layout 未覆盖时无法评价；MSN 看守（单格与整行）；同记录一删一增对照 |
@@ -373,17 +463,17 @@ Codex 复核第十一轮时，报了一个假 PASS 和一个误报 FAIL。
 | same_field_identity | R11 | 间接 | 标签事件核对字段 `sum_insured.label`，并要求类型为 Replaced | `R11: the label change attached to another field fails`、`wrong operation` |
 | same_address_identity | R18 | 间接 | 连字事件核对 original_insured 的 address | `wrong subject` |
 | exact_move_must_not_be_consumed_by_local_replacement | R13 | 间接 | 移动事件需要 Moved 卡，新增事件需要 Added 卡，各自在自己的位置 | `R13: the exact move and the similar new clause are not interchangeable` |
-| match_row_by_registration_or_declared_serial | R22 | 间接 | 金额事件核对行键（序列号）和字段 | `R26: matching the row by the renamed registration…` |
-| secondary_key_or_explicit_identity_review | R26 | 间接 | 注册号事件要求行键为序列号 | 同上 |
+| match_row_by_registration_or_declared_serial | R22 | 间接 | 金额事件的卡按编辑来源落在该记录的金额格上；行键可以是序列号或该记录的注册号（第十八轮起），别的记录的键是错误声明 | `R22: …` 四例 |
+| secondary_key_or_explicit_identity_review | R26 | 间接 | 注册号事件的卡（或一删一增两张卡）按来源落在该记录的注册号格上；行键为序列号，或显式未决（第十八轮起） | `R26: matching the row by the renamed registration…`、`R26: an explicit identity review…`、一删一增各例 |
 | duplicate_identity_must_be_reported | R25 | 间接 | 要求状态为 partial，且有 ambiguous_identity 未决组 | `R25: an unreported duplicate identity fails` |
-| must_not_assert_unique_row_identity_without_evidence | R25 | 间接 | 卡片必须为 unresolved，且没有行键 | `R25: asserting a unique row key without evidence fails` |
+| must_not_assert_unique_row_identity_without_evidence | R25 | 间接 | 卡片必须为 unresolved，且没有行键；写了当事人或别的字段也是错误声明 | `R25: asserting a unique row key without evidence fails`、`R25: asserting a party…` |
 | must_not_claim_no_changes | R25 | 间接 | 必须有可见卡 | `duplicate-key warning alone cannot waive amount evidence` |
 | old_and_new_amount_delta_must_remain_visible | R25 | 间接 | 新旧金额必须在同一张可见卡上，且位置正确 | 同上；`hidden event` |
 | unresolved_identity_does_not_waive_text_change_detection | R25 | 间接 | 未决组不能代替必需的卡 | 同上 |
 | duplicate_key_warning_alone_is_not_a_pass | R25 | 间接 | 只有未决组而没有卡，事件失败 | 同上 |
 | must_not_claim_complete_or_no_changes | R27 R28 | 间接 | 覆盖事件要求状态为 partial，并有可见的覆盖区域 | `coverage: incorrect complete` |
 | text_elsewhere_on_page_does_not_prove_full_coverage | R28 | 间接 | 覆盖区域必须对准图片区域，不能是整页 | `coverage: generic warning`、`wrong region` |
-| renewal_classification_must_not_hide_amount_change | R32 | 间接 | 金额事件必须有自己的 Material/Review 卡，RollForward 卡不算 | `wrong category` |
+| renewal_classification_must_not_hide_amount_change | R32 | 间接 | 金额事件必须有自己的卡；RollForward 声明在答案不允许时是虚假声明 | `a Cosmetic or RollForward claim…` |
 | all_source_text_preserved | R16 | **尚未支持** | 见第 4 节 | — |
 | ligature_geometry_not_uniformly_guessed | R18 | **尚未支持** | 见第 4 节 | — |
 | all_aircraft_values_attached_to_original_identity | R23 | **尚未支持** | 见第 4 节 | — |
@@ -416,7 +506,8 @@ Codex 复核第十一轮时，报了一个假 PASS 和一个误报 FAIL。
 - 本地 `pnpm test:rules:*` 现在退出码为 **2**，不是 0。`scripts/verify.ts` 会把它当作该步骤失败；这符合严格口径，而该文件不在本项范围内，所以没有改。
 - **CI**：规则步骤只接受退出码 2（`|| test $? -eq 2`）。日志里会打印严格状态和缺口用例，报告文件作为 artifact 上传。浏览器测试 `rules.spec.ts` 在以下情况失败：任何失败、事件回归不是 PASS、或出现未登记的缺口；NOT_EVALUATED 会保留在它输出的 JSON 里。这样 CI 仍能拦住回归和新出现的缺口，同时不把“尚未支持”算成通过。
 - 诊断文件（`reports/failures/`）只为会导致退出码 1 的用例写出，已登记的缺口不会每次运行都产生 8 个文件。
-- 身份 N/A 仍是原来的 11 项，没有扩大；N/A 事件的文字、操作、类别、位置检查和 R13 负向测试都保留。
+- 身份 N/A 第十七轮及以前是 11 项；第十八轮合入 #2 登记的 R16:E1（重分页新增的页标题）后是 12 项，没有其他扩大。N/A 事件的文字、操作、类别声明、位置检查和 R13 负向测试都保留。
+- **第十八轮起**，规则运行的退出码是 **1**：R24 的 `no_material_differences` 新增一项未登记的无法评价（见第 0.4 节），严格计数仍是 28/32。CI 的规则步骤和浏览器规则测试因此失败，直到答案或公共规则能让它可判定。
 
 ## 4. 尚未支持的 4 种：缺的是哪一层证据
 
@@ -439,8 +530,7 @@ Codex 复核第十一轮时，报了一个假 PASS 和一个误报 FAIL。
 
 ## 5. 其他已知边界（本项未改，如实列出）
 
-- **评分器比答案更严**：R22 答案允许按注册号或序列号匹配行，R26 允许按序列号匹配或显式标为身份待审，但评分器只接受序列号作为行键。当前产品用的正是序列号，所以没有影响。
-- **`Added+Removed` 未支持**：R25、R26 的事件把它列为可接受的类型，但事件匹配只看单张卡。如果产品真的输出一删一增，评分器会判 FAIL，而不是“无法评价”。这是潜在的错误失败；当前产品没有这样输出。
+- ~~评分器比答案更严~~、~~`Added+Removed` 未支持~~：第十八轮已按答案接受注册号、显式未决和一删一增，见第 0.2 节；仍不支持的范围见第 0.6 节。
 - **金额检查的可判定范围**（第八轮起写成明确规则）：
   - 按几何关系找出卡片引用了 layout.json 中的哪些金额格。声明了金额字段的卡，引用的每个文字块都当作金额格。比较两样东西：一是各格的值，看两侧配对的是不是同一金额；二是卡片删除、新增操作按自己的引用顺序声称的金额文字。声称的文字按“每侧、每个金额格”汇总：同一张卡的所有位置和操作合在一起；删除卡、新增卡再按同一记录、同一字段合在一起，汇总后才切成数字比较。替换卡、移动卡在单张卡内比较。能判定的情况下，结论与引用粒度（单个字、单个格、整行）和引用顺序无关；把声称的文字拆成几个位置、几个操作或几张卡，也藏不住声称的变化，不会因此判 PASS。**但这不等于“拆成几张卡都不影响结论”**：删除卡、新增卡的整格值按卡计入，切分方式会影响值的计数，范围见下面“切分方式”一条。
   - 有逐字坐标时，裸数字的每一位都必须落在某个文字块内。只有整行坐标时，裸数字必须出现在它覆盖的文字块里；而且删除、新增操作不能同时跨金额格和其他格。不满足这些条件就判 NOT_EVALUATED（`invariant_unverifiable`，退出码 1），不判 PASS。
@@ -459,13 +549,14 @@ Codex 复核第十一轮时，报了一个假 PASS 和一个误报 FAIL。
     - 第十四轮的探针输出见 [`a5acd50/split-limits-probe.log`](a5acd50/split-limits-probe.log)。这 15 种组合现在是正式测试 `R26: the saved segmentation inputs`。当前产品不用删除卡、新增卡来表示金额，R11、R26 的真实结果里没有这类卡。
 - **多余的卡只在有对应 invariant 时才拦截**：额外的、解释不了的卡，只有在该用例声明了禁止它的 invariant 时才会被拒绝，例如 `no_content_differences`、`no_material_differences` 和金额/币种检查。答案没有声明这类要求的用例，评分器不另做误报检查。
 
-## 6. 验证（当前代码提交 `dbf73ef`，本地 Linux）
+## 6. 验证（当前代码提交 `df8f579`，本地 Linux）
 
 每一轮都在该轮的代码提交上完整重跑，证据各自放在对应目录里。
 
 | 轮次 / 代码提交（证据目录） | scorer 测试 | Python 分诊 | `verify:core` | 两个引擎的规则（Node） | 浏览器 `rules.spec.ts`（两个引擎） | 修复前反例（当轮测试文件） |
 |---|---|---|---|---|---|---|
-| 第十六、十七轮 `23e5372`、`dbf73ef`（当前，`dbf73ef/`） | 86/86（原 32 + 新 54） | 20/20 | 140/140 | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | 通过：严格 28/32，事件 32/32，只剩已登记缺口 | `800fe91` 上 3 项（已保存的切分输入，及第十七轮两项）失败；`23e5372` 上恰好 2 项（多格互换代码片段）失败 |
+| 第十八轮 `df8f579`（当前，`df8f579/`；合并 `3a25fea`） | 112/112（95 + 新 17） | 30/30（合入 #2 的分诊 `/5`） | 233/233 | **退出码 1**：严格 NOT_EVALUATED 28/32，事件 32/32；R24 多一项未登记的无法评价 | **失败**（同一原因）：严格 28/32，事件 32/32，0 个错误声明；重新构建前的旧构建运行另存 | `3a25fea` 上 19 项失败，结论层面的变化见 `verdict-probe.log` |
+| 第十六、十七轮 `23e5372`、`dbf73ef`（`dbf73ef/`） | 86/86（原 32 + 新 54） | 20/20 | 140/140 | 退出码 2：严格 NOT_EVALUATED 28/32，事件 32/32 | 通过：严格 28/32，事件 32/32，只剩已登记缺口 | `800fe91` 上 3 项（已保存的切分输入，及第十七轮两项）失败；`23e5372` 上恰好 2 项（多格互换代码片段）失败 |
 | 第十五轮 `800fe91`（`800fe91/`） | 82/82 | 20/20 | 136/136 | 同上 | 同上 | `a5acd50` 上恰好 2 项（部分币种代码）失败 |
 | 第十四轮 `a5acd50`（`a5acd50/`） | 80/80 | 20/20 | 134/134 | 同上 | 同上 | `a8cb2cc` 上恰好 1 项（切分不同的重复计数）失败 |
 | 第十三轮 `a8cb2cc`（`a8cb2cc/`） | 79/79 | 20/20 | 133/133 | 同上 | 同上 | `f2e0e10` 上恰好 1 项（单卡交换两格）失败 |
@@ -482,7 +573,7 @@ Codex 复核第十一轮时，报了一个假 PASS 和一个误报 FAIL。
 | 第二轮 `7ea1fb3`（`7ea1fb3/`） | 59/59 | 20/20 | 113/113 | 同上 | 同上 | `d61461b` 上恰好 3 项裸整数变体失败 |
 | 第一轮 `d61461b`（`verification/`） | 55/55 | 20/20 | 109/109 | 同上 | 同上 | 起点 `2ff585b` 上 4 项失败 |
 
-十七轮的身份 N/A 都是 11 项。覆盖登记都是直接 10、间接 17、尚未支持 4、未知 0。
+前十七轮的身份 N/A 都是 11 项，第十八轮是 12 项（合入 R16:E1）。覆盖登记各轮都是直接 10、间接 17、尚未支持 4、未知 0。
 
 用 `dbf73ef` 的测试文件对各轮 scorer 依次重跑，失败数为 33 → 28 → 25 → 22 → 17 → 16 → 15 → 14 → 11 → 10 → 9 → 8 → 7 → 6 → 5 → 3 → 2 → 0。逐字坐标下的整行 MSN 看守在各轮都通过。部分引用的两个反例（单张卡、删除＋新增）在 `fececbf`、`28afbd1` 上本来能拦住，到 `55e669a` 回退，第七、九轮修复。见 [`dbf73ef/before-fix-all-rounds.log`](dbf73ef/before-fix-all-rounds.log)，前几轮的对应记录保留在各自的目录中。`2ff585b` 上的 33 项里包括单格 MSN 看守：那时的 scorer 还不输出 invariant 结果，看守里的断言无从成立；这不是金额误判。
 
@@ -493,8 +584,9 @@ pnpm install --frozen-lockfile && pnpm install:pdfjs && pnpm install:mupdf
 pnpm exec vitest run tests/scorer.test.ts
 python3 -m unittest discover -s tests -p 'test_renewal_triage.py'
 pnpm verify:core
-pnpm test:rules:mupdf; echo "exit $?"   # 预期为 2
-pnpm test:rules:pdfjs; echo "exit $?"   # 预期为 2
+pnpm test:rules:mupdf; echo "exit $?"   # 第十八轮起预期为 1（R24 新的无法评价），此前为 2
+pnpm test:rules:pdfjs; echo "exit $?"   # 同上
+pnpm build:mupdf && pnpm build:pdfjs     # 浏览器规则前必须重新构建：合并带入了产品改动
 reports/invariant-coverage/verification/before-fix.sh           # 起点 2ff585b：33 项失败
 reports/invariant-coverage/verification/before-fix.sh d61461b   # 第一轮：28 项失败
 reports/invariant-coverage/verification/before-fix.sh 7ea1fb3   # 第二轮：25 项失败
@@ -518,4 +610,4 @@ git restore reports/core-tests.json reports/rules-mupdf.json reports/rules-pdfjs
 
 ## 7. 与 #9 的关系
 
-本分支从 PR #9 的 head `2ff585b` 建立，PR base 为 `feat/policy-compare`。#9 合入之前，PR 的差异里会带上 #9 的提交；#9 合入后，同步 feat，让最终差异只包含本项。本项不自行合并，不切换默认分支，也不部署。
+本分支从 PR #9 的 head `2ff585b` 建立，PR base 为 `feat/policy-compare`。第十八轮按 #10 指令，用普通合并提交 `3a25fea` 同步了 #9 的固定 head `2b29fd8`，不再等 #9 先合入。之后 #2 发布最终固定代码时，再合入本分支，在联合树上验收并公布 SHA，由 #2 合入该已验证 head。本项不自行合并 PR 到 feat/main，不切换默认分支，也不部署。
