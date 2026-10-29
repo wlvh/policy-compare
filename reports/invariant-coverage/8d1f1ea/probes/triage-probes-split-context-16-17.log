@@ -1,0 +1,7 @@
+# Codex PR #11 comment 6507993515 on /16 (8f63087) and /17 (c14276c).
+=== tri-8f63087
+comment 6507993515: two cards editing only the Liability units: split_attributable accepted=['one', 'two'] unexplained=0
+control: the Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
+=== tri-c14276c
+comment 6507993515: two cards editing only the Liability units: split_attributable accepted=['one', 'two'] unexplained=0
+control: the Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
