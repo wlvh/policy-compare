@@ -665,6 +665,13 @@ class EditEvidence(unittest.TestCase):
             summary, ev = run([c], result([card('x', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])]))
             self.assertEqual((ev['20']['verdict'], ev['20']['acceptedCards'], summary['unexplainedCards']),
                              ('correct', ['x'], 0), kind)
+        # r4416398168: a short paragraph shown whole is its own context, however short.
+        for kind, edit, (l, r) in (('insert', ('', 'later'), ('Pay now.', 'Pay later now.')),
+                                   ('delete', ('later', ''), ('Pay later now.', 'Pay now.'))):
+            c = change(24, 'pay', 'Replaced', l, r, [edit])
+            summary, ev = run([c], result([card('x', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])]))
+            self.assertEqual((ev['24']['verdict'], ev['24']['acceptedCards'], summary['unexplainedCards']),
+                             ('correct', ['x'], 0), kind)
         # The same word added in another paragraph is not this insertion.
         c = change(20, 'pay', 'Replaced', old, new, [('', 'approved')])
         other = card('y', 'Replaced', [(1, 'c', 'The broker the operations.')], [(1, 'd', 'The broker approved the operations.')])
@@ -706,6 +713,8 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([row], result([swap]), [table('aircraft', [1], row)])
         self.assertNotEqual(ev['41']['verdict'], 'correct')
         self.assertEqual(ev['41']['acceptedCards'], [])
+        # The card does change both texts; the reason says that their edits do not line up.
+        self.assertEqual(ev['41']['atoms'], ['same_card_unaligned'])
         # Control: the card that changes the Hull amount itself.
         own = card('y', 'Replaced', [(1, 'a', '1315 Hull USD 100; Liability EUR 200.')],
                    [(1, 'b', '1315 Hull USD 200; Liability EUR 200.')])

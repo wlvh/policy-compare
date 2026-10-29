@@ -303,6 +303,22 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
     // Control: the same sequence on both sides gives no card.
     expect(compare(four((p) => `Page ${p + 1} of 4`, 120), four((p) => `Page ${p + 1} of 4`, 120)).differences).toEqual([]);
   });
+  it("page counters in digits Number() cannot read stay content (r4416542434)", () => {
+    // Arabic-Indic counters parsed to NaN; every offset was NaN, so the counter
+    // was taken as counting with the pages and Page ٩٩ became the same variant.
+    const arabic = (n: number) => String(n).replace(/\d/gu, (c) => "٠١٢٣٤٥٦٧٨٩"[Number(c)]);
+    const r = ResultSchema.parse(
+      compare(four((p) => `Page ${arabic(p + 1)}`, 120), four((p) => `Page ${arabic(p === 2 ? 99 : p + 1)}`, 120)),
+    );
+    // Not page furniture any more: the line is compared as content, its change shown on page 3.
+    const d = r.differences.filter((d) => d.newText.includes("Page ٩٩"));
+    expect(d).toHaveLength(1);
+    expect(d[0].oldText).toContain("Page ٣");
+    expect(d[0].right.map((l) => l.pageIndex)).toContain(2);
+    expect(d[0].facts).toEqual([]);
+    // Control: the same sequence on both sides gives no card.
+    expect(compare(four((p) => `Page ${arabic(p + 1)}`, 120), four((p) => `Page ${arabic(p + 1)}`, 120)).differences).toEqual([]);
+  });
   it("one text replaced by several: one card per new text, the old group not also unmatched", () => {
     const r = ResultSchema.parse(
       compare(four(() => "Limit USD 1000"), four((p) => (p === 3 ? "Limit USD 3000" : "Limit USD 2000"))),
