@@ -356,13 +356,16 @@ export const INVARIANTS: Record<
 // that names an amount field of the answers (R22/R26 agreed_value, R02/R03/R11 sum_insured, R09
 // limit), or in a card location on a layout.json run whose logical path ends in such a field, any
 // standalone number counts too. The layout says what a cell is whatever field the card claims;
-// identifiers such as an MSN stay out.
+// identifiers such as an MSN stay out. A sign written right before the number ("-", "−", "+", not
+// after a letter, digit, "." or ",") is part of the amount: -100,020 and 100,020 differ. A hyphen
+// between numbers ("1-100,000") is no sign; accounting parentheses are not read as one.
 const CODES = "USD|EUR|GBP|JPY|CHF|CNY|HKD|SGD|MYR|AUD|CAD",
   AMOUNT_FIELDS = ["agreed_value", "sum_insured", "limit", "header_limit", "deductible"],
   CURRENCY = new RegExp(`\\b(?:${CODES})(?![A-Za-z])`, "g"),
-  NUMBER = `\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=\\b(?:${CODES})\\s?)\\d+(?:\\.\\d+)?`,
+  SIGN = `(?:(?<![\\w.,])[-\\u2212+](?=\\d))?`,
+  NUMBER = `${SIGN}\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=\\b(?:${CODES})\\s?)${SIGN}\\d+(?:\\.\\d+)?`,
   AMOUNT = new RegExp(NUMBER, "g"),
-  DECLARED_AMOUNT = new RegExp(`${NUMBER}|(?<![\\w.,-])\\d+(?:\\.\\d+)?(?![\\w,-]|\\.\\d)`, "g");
+  DECLARED_AMOUNT = new RegExp(`${NUMBER}|(?:(?<![\\w.,])[-\\u2212+](?=\\d)|(?<![\\w.,\\u2212+-]))\\d+(?:\\.\\d+)?(?![\\w,-]|\\.\\d)`, "g");
 const amountField = (path: string | null | undefined) =>
   (path ?? "").split(".").some((p) => AMOUNT_FIELDS.includes(p));
 const money = (text: string, declared = false) => [
@@ -924,14 +927,30 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     }
   }
 }
-// The variants of a card's repeated line (shared definition): an occurrence's text, whitespace
-// aside, with the counter of an explicit page expression read against its own page ("Page 3" on
+// The variants of a card's repeated line (shared definition): an occurrence's text as the source has
+// it, whitespace included (a space added on one page makes that page's own variant), with the
+// counter of an explicit page expression read against its own page ("Page 3" on
 // page 3 and "Page 4" on page 4 are one variant, "Page 99" on page 3 another) when that counter
 // counts with the pages: on either side, the occurrences the card cites show it with different
 // values and one offset to their pages. A counter that does not count (the same "Page 1" printed on
 // every page), a page total and every other number stay as printed.
 const counters = (t: string) => [...t.matchAll(PAGE_EXPRESSION)].map((m) => m[1]);
 const sideText = (locs: SourceLocation[]) => locs.map((l) => l.text).join("");
+// The source text of some locations: on each page, every character from the first location's start
+// to the last one's end in raw order, so whitespace between two cited pieces is kept as printed.
+const sourceText = (locs: SourceLocation[], doc: DocInput) =>
+  [...new Set(locs.map((l) => l.pageIndex))]
+    .sort((a, b) => a - b)
+    .map((page) => {
+      const on = locs.filter((l) => l.pageIndex === page),
+        [lo, hi] = [Math.min(...on.map((l) => l.rawRange[0])), Math.max(...on.map((l) => l.rawRange[1]))];
+      return (doc.pages[page]?.chars ?? [])
+        .filter((c) => c.rawRange[0] >= lo && c.rawRange[1] <= hi)
+        .sort((a, b) => a.rawRange[0] - b.rawRange[0])
+        .map((c) => c.text)
+        .join("");
+    })
+    .join(" ");
 function variants(d: Difference) {
   const counting = new Set<number>();
   for (const side of ["left", "right"] as const) {
@@ -945,22 +964,22 @@ function variants(d: Difference) {
   }
   return (text: string, page: number) => {
     let k = 0;
-    return text
-      .replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) ? m.replace(n, `#${Number(n) - page}`) : m))
-      .replace(/\s/gu, "");
+    return text.replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) ? m.replace(n, `#${Number(n) - page}`) : m));
   };
 }
-// A card's own old (new) text on a side read as a variant, or "" when the card shows nothing there.
-const ownText = (d: Difference, side: "left" | "right", variant = variants(d)) => {
+// A card's own text on a side, from the source of the locations it shows there, read as a variant;
+// "" when the card shows nothing there.
+const ownText = (d: Difference, side: "left" | "right", docs: [DocInput, DocInput], variant = variants(d)) => {
   const card = side === "left" ? d.left : d.right;
-  return card.length ? variant(side === "left" ? d.oldText : d.newText, card[0].pageIndex + 1) : "";
+  return card.length ? variant(sourceText(card, docs[side === "left" ? 0 : 1]), card[0].pageIndex + 1) : "";
 };
-// A card's occurrences of its own old (new) text on a side, by their source-validated texts and pages.
-const ownOccurrences = (d: Difference, side: "left" | "right") => {
+// A card's occurrences of its own text on a side, by their source texts and pages.
+const ownOccurrences = (d: Difference, side: "left" | "right", docs: [DocInput, DocInput]) => {
   const variant = variants(d);
   if (!(side === "left" ? d.left : d.right).length) return [];
-  const own = ownText(d, side, variant);
-  return d.occurrences.filter((o) => o[side].length > 0 && variant(sideText(o[side]), o[side][0].pageIndex + 1) === own);
+  const own = ownText(d, side, docs, variant);
+  const doc = docs[side === "left" ? 0 : 1];
+  return d.occurrences.filter((o) => o[side].length > 0 && variant(sourceText(o[side], doc), o[side][0].pageIndex + 1) === own);
 };
 const sameLocation = (a: SourceLocation, b: SourceLocation) =>
   a.side === b.side && a.pageIndex === b.pageIndex && a.charIds.join("\u0000") === b.charIds.join("\u0000");
@@ -1336,18 +1355,18 @@ export function grade(
       d.repeat &&
       (d.repeat.leftPages !== docs[0].pages.length ||
         d.repeat.rightPages !== docs[1].pages.length ||
-        d.repeat.left !== ownOccurrences(d, "left").length ||
-        d.repeat.right !== ownOccurrences(d, "right").length)
+        d.repeat.left !== ownOccurrences(d, "left", docs).length ||
+        d.repeat.right !== ownOccurrences(d, "right", docs).length)
     )
       faults.push(`card ${d.id} states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites`);
     // An occurrence marked as context is the same line with another text; the mark is a claim.
     if (d.repeat) {
-      const own = new Set([...ownOccurrences(d, "left"), ...ownOccurrences(d, "right")]);
+      const own = new Set([...ownOccurrences(d, "left", docs), ...ownOccurrences(d, "right", docs)]);
       if (d.occurrences.some((o) => o.context && own.has(o)))
         faults.push(`card ${d.id} marks an occurrence of its own text as context`);
       // The text a card shows on a side is one of the occurrences it counts there.
       for (const side of ["left", "right"] as const) {
-        const counted = ownOccurrences(d, side).flatMap((o) => o[side]);
+        const counted = ownOccurrences(d, side, docs).flatMap((o) => o[side]);
         if ((side === "left" ? d.left : d.right).some((l) => !counted.some((c) => sameLocation(l, c))))
           faults.push(`card ${d.id} shows its own text on the ${side} side outside the occurrences it counts there`);
       }
@@ -1371,7 +1390,7 @@ export function grade(
     const pages = { left: layout.before.pages, right: layout.after.pages };
     // A card reports the set on a side when the occurrences of its own text there lie on the set's
     // runs; what it cites there of another variant is context.
-    const own = (d: Difference, s: "left" | "right") => ownOccurrences(d, s).flatMap((o) => o[s]);
+    const own = (d: Difference, s: "left" | "right") => ownOccurrences(d, s, docs).flatMap((o) => o[s]);
     const reports = (d: Difference, s: "left" | "right") => located(own(d, s), runs[s], pages[s], s);
     const reporting = result.differences.filter((d) => !unsourced.has(d.id) && d.repeat && sides.some((s) => reports(d, s)));
     const problems: string[] = [];
@@ -1381,7 +1400,7 @@ export function grade(
       // A side is left out only where the card states another text: its own text there is not
       // empty and differs from its text on the other side. Where it shows nothing or the same text,
       // its occurrences and count there are statements about the set.
-      const texts = { left: ownText(d, "left"), right: ownText(d, "right") };
+      const texts = { left: ownText(d, "left", docs), right: ownText(d, "right", docs) };
       const other = texts.left !== "" && texts.right !== "" && texts.left !== texts.right;
       const checked = sides.filter((s) => reports(d, s) || !other);
       for (const s of checked) {

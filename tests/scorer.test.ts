@@ -686,9 +686,9 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
         ];
       }),
     );
-  const r26 = (bare = false, amounts?: string[], rows?: Rows) => {
+  const r26 = (bare = false, amounts?: string[], rows?: Rows, newAmounts = amounts) => {
     const left = table("TEST-C941", bare, amounts, rows?.left),
-      right = table("TEST-RENAMED", bare, amounts, rows?.right);
+      right = table("TEST-RENAMED", bare, newAmounts, rows?.right);
     const expected: Expected = {
       case_id: "R26_key_change",
       required_status: "complete_for_scope",
@@ -798,6 +798,18 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+  });
+  it("R26: an agreed value whose sign changes is an amount change (r4417025747)", () => {
+    // -100,020 -> 100,020 in the first record's agreed-value cell, reported on that record's card.
+    const x = r26(false, ["-100,020", "200,000"], undefined, ["100,020", "200,000"]);
+    x.result.differences.push({ ...x.wrong, id: "sign", right: [lineLoc(x.docs[1], "right", "l5")], newText: "100,020", textOps: [{ kind: "delete", text: "-", left: [slice(x.wrong.left[0], 0, 1)], right: [] }, { kind: "equal", text: "100,020", left: [slice(x.wrong.left[0], 1, 8)], right: [lineLoc(x.docs[1], "right", "l5")] }] });
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+    // Control: a hyphen between numbers is no sign; "1-100,000" keeps the amount 100,000.
+    const y = r26(false, ["1-100,000", "200,000"]);
+    expect(grade(y.result, y.expected, y.layout, y.docs).status).toBe("PASS");
   });
   // A card pairing two extra records: d.left/right cite whole rows, the text operations single cells.
   const ROWS = { left: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"], right: ["1315 Alpha Air 100000", "1748 Alpha Air 200000"] };
@@ -1765,6 +1777,25 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     // A template printing "Page 1" on every page: the counter does not count, one variant as printed.
     const same = [0, 1, 2].map((page) => ({ side: "left" as const, page }));
     expect(counted(["Page 1", "Page 1", "Page 1"], ["Page 1", "Page 1", "Page 1", "Page 1"], [0, 0], [...same, ...[0, 1, 2, 3].map((page) => ({ side: "right" as const, page }))], [3, 4])).toEqual([]);
+  });
+  it("a repeated line's variant keeps its whitespace as the source prints it (#2's r4416942422)", () => {
+    // Four pages; a trailing space is added to the line on page 3 only. The product's card counts the
+    // spaced variant 4 -> 1 and lists the three unchanged new lines as context.
+    const four = (v: (p: number) => string) => docOf([0, 1, 2, 3].flatMap((page) => [{ text: v(page), y: 120, page }, { text: `Ordinary body on page ${page + 1}`, y: 300, page }]));
+    const [left, right] = [four(() => "Limit USD 1000"), four((p) => (p === 2 ? "Limit USD 1000 " : "Limit USD 1000"))];
+    const graded = (mutate: (d: Difference) => void = () => {}) => {
+      const result = compare(left, right);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [] });
+      expect(result.differences).toHaveLength(1);
+      mutate(result.differences[0]);
+      const expected: Expected = { case_id: "spaced", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+      return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]);
+    };
+    expect(graded().faults).toEqual([]);
+    // Counting the unchanged lines too states 4 -> 4 for the spaced text, which occurs once.
+    expect(graded((d) => (d.repeat!.right = 4)).faults).toEqual([
+      expect.stringContaining("states occurrence or page counts that differ"),
+    ]);
   });
   it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
     // Two pages before, three after; the header repeats on every page. A body line on the first new
