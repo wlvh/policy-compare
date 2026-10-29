@@ -943,6 +943,35 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.status).toBe("FAIL");
     }
   });
+  it("R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails", () => {
+    // One record and field, cell 100020 unchanged; Removed and Added cards cite it whole or glyph by glyph.
+    const whole = (x: ReturnType<typeof r26>, side: "left" | "right") => [lineLoc(x.docs[side === "left" ? 0 : 1], side, "l5")];
+    const split = (x: ReturnType<typeof r26>, side: "left" | "right", order?: number[]) =>
+      glyphs(lineLoc(x.docs[side === "left" ? 0 : 1], side, "l5"), order);
+    const cases: [string, (x: ReturnType<typeof r26>) => [SourceLocation[], SourceLocation[]], string][] = [
+      ["whole + whole", (x) => [whole(x, "left"), whole(x, "right")], "PASS"],
+      ["six glyphs + whole", (x) => [split(x, "left"), whole(x, "right")], "NOT_EVALUATED"],
+      ["whole + six glyphs", (x) => [whole(x, "left"), split(x, "right")], "NOT_EVALUATED"],
+      ["glyphs + glyphs in source order", (x) => [split(x, "left"), split(x, "right")], "PASS"],
+      ["whole + glyphs backing 200010", (x) => [whole(x, "left"), split(x, "right", [4, 1, 2, 3, 0, 5])], "FAIL"],
+    ];
+    for (const [name, cite, want] of cases) {
+      const x = r26(true, ["100020", "200010"]);
+      const [gone, come] = cite(x);
+      x.result.differences.push(
+        ...gone.map((g, i) => oneSided("Removed", `out${i}`, g, "SYN-1026-001")),
+        ...come.map((g, i) => oneSided("Added", `in${i}`, g, "SYN-1026-001")),
+      );
+      expect(ResultSchema.safeParse(x.result).success, name).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged")), name).toEqual([]);
+      expect(score.status, name).toBe(want);
+      if (want === "NOT_EVALUATED") {
+        expect(score.notEvaluated, name).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+        expect(exitCode(summarize([score])), name).toBe(1);
+      }
+    }
+  });
   it("R26: one record shown as delete + add with the same amount passes", () => {
     const x = r26();
     const [l, r] = x.docs;
