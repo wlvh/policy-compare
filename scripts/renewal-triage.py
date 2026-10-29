@@ -58,7 +58,9 @@ renewal-triage/11), not as a card that leaves them unchanged. A pure insertion o
 text on its empty side; its other side needs the edit with the record identity
 or the author paragraph in that occurrence's own units. The paragraph counts
 when shown whole, however short, or with at least ten more of its characters
-(renewal-triage/12). A number at either end of the author text
+(renewal-triage/12). On a side the edit changes, the record identity must sit in
+a unit holding a changed character of the occurrence, not in a unit of it whose
+text the card leaves unchanged (renewal-triage/13). A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
 before a number it would split. Candidate matching, the edit check and the
@@ -88,7 +90,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/12'
+TOOL = 'renewal-triage/13'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -373,13 +375,20 @@ def on_pages(locations, wanted):
     return not wanted or bool(pages(locations) & wanted)
 
 
-def hits(d, side, needle, wanted, edit=False, only=None):
+def hits(d, side, needle, wanted, edit=False, only=None, changed=False):
     """Qualifying occurrences of the needle on one card side: every character from a source unit on
     the wanted pages and, when the author edit changes this side, carrying changed characters (and,
     with `only`, among those starts). Each occurrence is the set of source units (page, unitId) its
-    characters come from."""
-    return [{x[1] for x in span if x[1] is not None} for i, span in occurrences(d, side, needle, wanted)
-            if carries(span, edit) and (only is None or i in only)]
+    characters come from; with `changed`, when the side carries an edit, only the units holding a
+    changed character of it (r4416699649), or all its units when no unit holds one."""
+    out = []
+    for i, span in occurrences(d, side, needle, wanted):
+        if not carries(span, edit) or (only is not None and i not in only):
+            continue
+        keys = {x[1] for x in span if x[1] is not None}
+        mine = {x[1] for x in span if x[1] is not None and x[2]} if changed and edit else set()
+        out.append(mine or keys)
+    return out
 
 
 def local(d, side, needle, wanted, edit=False, only=None):
@@ -392,7 +401,8 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
     """Identity status of one card for one record: confirmed, contradicted, ambiguous, unconfirmed.
     Each side is judged on one qualifying occurrence at a time (carrying the edit where `edit` says
     the side changes): the identity must sit in the units of the occurrence that makes the change,
-    not in an unchanged occurrence or another unit of the card."""
+    not in an unchanged occurrence, another unit of the card, or a unit of the occurrence whose text
+    the card leaves unchanged (r4416699649)."""
     edit = edit or {}
     sp = d.get('structurePath') or {}
     if sp.get('confidence') == 'unresolved':
@@ -406,7 +416,7 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
     for side, needle in needles.items():
         mine = ident[side] or ident['cells']
         best = ('unconfirmed', {'units': [], 'identity': [], 'otherRecords': []})
-        for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side)):
+        for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side), changed=True):
             us = [u for u in units(d[side], wanted[side]) if (u['page'], u['unitId']) in keys]
             own = any(holds(u['text'], mine) for u in us)
             foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]

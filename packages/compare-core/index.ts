@@ -628,7 +628,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.3+ops.4",
+    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.4+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -723,7 +723,8 @@ export function compare(
     return m;
   };
   const il = map(la, usedL, (u) => u.identity),
-    ir = map(rb, usedR, (u) => u.identity);
+    ir = map(rb, usedR, (u) => u.identity),
+    declared: [Unit[], Unit[]][] = [];
   for (const [key, as] of il) {
     checkpoint?.();
     const bs = ir.get(key);
@@ -740,25 +741,11 @@ export function compare(
           u.path.section === "repeated_header" || u.role === "table_header",
       )
     ) {
-      // Repeated headers retain all locations; differing content is never discarded.
-      const a = aggregate(as, "repeat-left-" + key),
-        b = aggregate(bs, "repeat-right-" + key);
-      if (
-        new Set(as.map((u) => u.rawText)).size === 1 &&
-        new Set(bs.map((u) => u.rawText)).size === 1
-      ) {
-        a.rawText = as[0].rawText;
-        a.refs = as[0].refs;
-        b.rawText = bs[0].rawText;
-        b.refs = bs[0].refs;
-        Object.assign(a, normalize(a.rawText, a.refs));
-        Object.assign(b, normalize(b.rawText, b.refs));
-      }
-      bind(a, b, "repeated-header");
+      // Repeated headers retain all locations and are compared variant by
+      // variant like page furniture (below), never as one concatenated text.
+      declared.push([as, bs]);
       as.forEach((u) => usedL.add(u));
       bs.forEach((u) => usedR.add(u));
-      (a as Unit & { repeats?: Unit[] }).repeats = as;
-      (b as Unit & { repeats?: Unit[] }).repeats = bs;
     } else if(as.every(u=>u.role==='field'||u.role==='label')&&bs.every(u=>u.role==='field'||u.role==='label')) {
       // A repeated field key is not a unique identity. First refine by a
       // stable, unique heading context; never use equal values to choose owners.
@@ -809,7 +796,7 @@ export function compare(
   // when the other version has a single variant throughout (one or several new
   // texts for one old text, or the reverse); that single group is then not
   // also reported as unmatched. Same page numbers never pair occurrences.
-  const compareRepeated = (as: Unit[], bs: Unit[]) => {
+  const compareRepeated = (as: Unit[], bs: Unit[], method = "page-furniture", prefix = "furniture") => {
     const texts = (us: Unit[]) => {
       const m = new Map<string, Unit[]>();
       for (const u of us) m.set(variant(u), [...(m.get(variant(u)) ?? []), u]);
@@ -818,11 +805,7 @@ export function compare(
     const L = texts(as),
       R = texts(bs);
     if (L.size === 1 && R.size === 1) {
-      bind(
-        repeated(as, "furniture-left-" + as[0].id),
-        repeated(bs, "furniture-right-" + bs[0].id),
-        "page-furniture",
-      );
+      bind(repeated(as, `${prefix}-left-` + as[0].id), repeated(bs, `${prefix}-right-` + bs[0].id), method);
       return;
     }
     const quote = (us: Unit[]) =>
@@ -846,15 +829,15 @@ export function compare(
               ? `；${name}第 ${pageList(unchanged)} 页仍为${otherName}文字${quote(kept)}`
               : ""
             : `，${otherName}没有相同文字`);
-        const card = repeated(us, `furniture-${isRight ? "right" : "left"}-${us[0].id}`, {
+        const card = repeated(us, `${prefix}-${isRight ? "right" : "left"}-${us[0].id}`, {
           others: unchanged,
           separate: true,
           note,
         });
         if (!kept) singles.push(isRight ? [undefined, card] : [card, undefined]);
         else {
-          const whole = repeated(kept, `furniture-${isRight ? "left" : "right"}-${kept[0].id}`);
-          isRight ? bind(whole, card, "page-furniture") : bind(card, whole, "page-furniture");
+          const whole = repeated(kept, `${prefix}-${isRight ? "left" : "right"}-${kept[0].id}`);
+          isRight ? bind(whole, card, method) : bind(card, whole, method);
         }
       }
     }
@@ -875,12 +858,13 @@ export function compare(
         (lo.length ? `：基准版第 ${pageList(lo)} 页` : "") +
         (ro.length ? `${lo.length ? "；" : "："}待审版第 ${pageList(ro)} 页` : "");
       bind(
-        repeated(ls, "furniture-left-" + ls[0].id, { others: lo, separate: true, note }),
-        repeated(rs, "furniture-right-" + rs[0].id, { others: ro, separate: true }),
-        "page-furniture",
+        repeated(ls, `${prefix}-left-` + ls[0].id, { others: lo, separate: true, note }),
+        repeated(rs, `${prefix}-right-` + rs[0].id, { others: ro, separate: true }),
+        method,
       );
     }
   };
+  for (const [as, bs] of declared) compareRepeated(as, bs, "repeated-header", "repeat");
   const lf = map(la, usedL, furnitureKey),
     rf = map(rb, usedR, furnitureKey),
     lone = { left: [] as Unit[], right: [] as Unit[] };

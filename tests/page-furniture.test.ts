@@ -319,6 +319,26 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
     // Control: the same sequence on both sides gives no card.
     expect(compare(four((p) => `Page ${arabic(p + 1)}`, 120), four((p) => `Page ${arabic(p + 1)}`, 120)).differences).toEqual([]);
   });
+  it("a profile-declared repeated header is split into its variants too (r4416656228)", () => {
+    // REPEATED HEADER LIMIT: is a declared field of the aviation profile. Its
+    // occurrences were concatenated into one card text counted four times.
+    const r = ResultSchema.parse(
+      compare(four(() => "REPEATED HEADER LIMIT: USD 1000"), four((p) => `REPEATED HEADER LIMIT: USD ${p === 2 ? 2000 : 1000}`)),
+    );
+    // The field's value is its own unit; its label is unchanged.
+    expect(r.differences.map((d) => [d.kind, d.oldText.trim(), d.newText.trim(), d.repeat?.left, d.repeat?.right])).toEqual([
+      ["Replaced", "USD 1000", "USD 2000", 4, 1],
+    ]);
+    const [d] = r.differences;
+    expect([own(d, "left"), own(d, "right"), context(d, "right")]).toEqual([[0, 1, 2, 3], [2], [0, 1, 3]]);
+    // Control: every occurrence changed alike stays one card with the plain text.
+    const all = ResultSchema.parse(
+      compare(four(() => "REPEATED HEADER LIMIT: USD 1000"), four(() => "REPEATED HEADER LIMIT: USD 2000")),
+    );
+    expect(all.differences.map((d) => [d.oldText.trim(), d.newText.trim(), d.repeat?.left, d.repeat?.right])).toEqual([
+      ["USD 1000", "USD 2000", 4, 4],
+    ]);
+  });
   it("one text replaced by several: one card per new text, the old group not also unmatched", () => {
     const r = ResultSchema.parse(
       compare(four(() => "Limit USD 1000"), four((p) => (p === 3 ? "Limit USD 3000" : "Limit USD 2000"))),
