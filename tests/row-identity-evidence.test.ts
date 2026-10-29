@@ -212,6 +212,16 @@ describe("identity belongs to its own column and its own table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "G-111", "left"), visible(r, "G-222", "right")]).toEqual([true, true]);
   });
+  it("a digit-free record is read under its table's heading row (r4416942407)", () => {
+    // The record had no heading, so only "Insurer Alpha" (named by its prefix)
+    // was identity and G-AAAA -> G-BBBB bound by it.
+    const head: Cells = ["Registration", "Insurer", "Status"];
+    const doc = (reg: string) =>
+      textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, [reg, "Insurer Alpha", "Active"]], 180)]);
+    const r = ResultSchemaV2.parse(compare(doc("G-AAAA"), doc("G-BBBB")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "G-AAAA", "left"), visible(r, "G-BBBB", "right")]).toEqual([true, true]);
+  });
   it("control: in one table a changed digit-free record pairs by the registration it names", () => {
     const head: Cells = ["Registration", "Operator", "Status"];
     const doc = (operator: string) =>

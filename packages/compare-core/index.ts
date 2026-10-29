@@ -228,8 +228,10 @@ function rowHeadings(left: Unit[], right: Unit[]) {
       if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u)) {
         // A digit-free row inside a table another row started is one of its
         // records (G-AAAA | Alpha Air | Lead) or a further heading line: it
-        // keeps that table's scope, and the rows below it keep the table's
-        // heading row, never a record's values (r4416878288).
+        // keeps that table's scope and is read under the table's heading row
+        // (r4416942407); the rows below it keep that heading row too, never a
+        // record's values (r4416878288).
+        headings.set(u, current.get(t)!);
         table.set(u, [s.key, s.n]);
       } else if (!/\p{N}/u.test(u.rawText)) {
         const prev = last.get(t),
@@ -652,7 +654,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.11+facts.4+repeat.4+ops.4",
+    coreVersion: VERSION + "+row-identity.12+facts.4+repeat.4+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
