@@ -336,13 +336,15 @@ export function structure(
     const isTop = y < 110,
       isFooter = y > row.p.height - 50;
     // Amounts, dates, registrations and clause codes are not headings, even in
-    // capitals; outline numbers such as "2.1" still are.
-    const letters = (text.match(/\p{L}/gu) ?? []).length,
-      digits = (text.match(/\p{N}/gu) ?? []).length,
+    // capitals; outline numbers such as "2.1", alone or after SECTION or
+    // CHAPTER, still are.
+    const rest = text.replace(/^(?:SECTION|CHAPTER)\s+\d{1,2}(?:\.\d{1,2})*\.?(?=[\s:]|$)/u, ""),
+      letters = (rest.match(/\p{L}/gu) ?? []).length,
+      digits = (rest.match(/\p{N}/gu) ?? []).length,
       codeLike =
         !/^\d{1,2}(?:\.\d{1,2})*\.?$/u.test(text) &&
-        (/\p{L}\p{N}|\p{N}\p{L}/u.test(text) ||
-          digits >= 0.3 * (letters + digits));
+        (/\p{L}\p{N}|\p{N}\p{L}/u.test(rest) ||
+          (digits > 0 && digits >= 0.3 * (letters + digits)));
     const heading =
       /^[\p{Lu}\d][\p{Lu}\d\s:&/().,-]{2,}$/u.test(text) &&
       text.length < 100 &&

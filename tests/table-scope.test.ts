@@ -295,23 +295,24 @@ describe("an explicitly headed MSN column is not a row counter", () => {
       ...header.map((text, j) => ({ text, x: 40 + j * 180, y: 180 })),
       ...data.flatMap((cells, i) => cells.map((text, j) => ({ text, x: 40 + j * 180, y: 220 + i * 35 }))),
     ]);
-  it("MSN 01 and 02 kept while the names swap stay a visible conflict", () => {
-    const header = ["MSN", "Operator", "Share"];
-    const r = ResultSchema.parse(
-      compare(
-        table(header, [["01", "Alpha", "10%"], ["02", "Beta", "20%"]]),
-        table(header, [["01", "Beta", "10%"], ["02", "Alpha", "20%"]]),
-      ),
-    );
-    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
-    expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
-    expect(r.status).toBe("partial");
-    const group = r.unresolved.find((u) => u.reason === "ambiguous_identity")!;
-    for (const text of ["01", "02", "Alpha", "Beta"]) {
-      expect(group.left.map((l) => l.text).join(" ")).toContain(text);
-      expect(group.right.map((l) => l.text).join(" ")).toContain(text);
-    }
-  });
+  for (const [one, two] of [["01", "02"], ["1", "2"]])
+    it(`MSN ${one} and ${two} kept while the names swap stay a visible conflict`, () => {
+      const header = ["MSN", "Operator", "Share"];
+      const r = ResultSchema.parse(
+        compare(
+          table(header, [[one, "Alpha", "10%"], [two, "Beta", "20%"]]),
+          table(header, [[one, "Beta", "10%"], [two, "Alpha", "20%"]]),
+        ),
+      );
+      expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+      expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
+      expect(r.status).toBe("partial");
+      const group = r.unresolved.find((u) => u.reason === "ambiguous_identity")!;
+      for (const text of [one, two, "Alpha", "Beta"]) {
+        expect(group.left.map((l) => l.text).join(" ")).toContain(text);
+        expect(group.right.map((l) => l.text).join(" ")).toContain(text);
+      }
+    });
   it("a No. column counting 1..n is still a row number when a row is inserted", () => {
     const header = ["No.", "Hangar", "Value"];
     const r = ResultSchema.parse(

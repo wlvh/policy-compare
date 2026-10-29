@@ -236,9 +236,14 @@ function rowIdentity(
       // The key keeps the cell's column in the recovered row, counted before
       // value cells are left out, so the same text in another column of a
       // different record is not identity evidence.
+      // A one-character cell is too common to be identity, unless its own
+      // heading names the record's number (MSN 1, 2, ...).
       r.rowCells!
         .map((c, k) => [k, c.normalize("NFKC")] as const)
-        .filter(([k, c]) => k >= skip && c.length >= 2 && !valueLike(c))
+        .filter(
+          ([k, c]) =>
+            k >= skip && (c.length >= 2 || identityHeading.test(heading(r, k) ?? "")) && !valueLike(c),
+        )
         .forEach(([k, c]) => {
           const key = k + "\u0000" + c,
             firm = !/^\p{N}+$/u.test(c) || identityHeading.test(heading(r, k) ?? "");
@@ -512,7 +517,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: VERSION,
-    coreVersion: VERSION + "+row-identity.5",
+    coreVersion: VERSION + "+row-identity.6",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
