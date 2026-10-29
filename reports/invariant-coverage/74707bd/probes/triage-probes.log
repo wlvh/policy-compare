@@ -1,0 +1,28 @@
+# Triage /15 (scripts and test helpers from 5989361) and /16 (from 8f63087); the earlier /15 probes re-run on /16.
+=== tri-5989361
+r4417329496: one of two equal amount cells shown: correct fullRowRecovered=True unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+Added r4417384098: card shows -100: correct fullRowRecovered=True unexplained=0
+Added control: card shows 100: correct fullRowRecovered=True unexplained=0
+Removed r4417384098: card shows -100: correct fullRowRecovered=True unexplained=0
+Removed control: card shows 100: correct fullRowRecovered=True unexplained=0
+Added r4417384107: exact card 1315 A A B B B: partly_located fullRowRecovered=False unexplained=0
+Removed r4417384107: exact card 1315 A A B B B: partly_located fullRowRecovered=False unexplained=0
+=== tri-8f63087
+r4417329496: one of two equal amount cells shown: correct fullRowRecovered=False unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+Added r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Added control: card shows 100: correct fullRowRecovered=True unexplained=0
+Removed r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Removed control: card shows 100: correct fullRowRecovered=True unexplained=0
+Added r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+Removed r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+two currency-only cards (split path): not_evaluable accepted=[] unexplained=2
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: partly_located fullRowRecovered=False atoms=['in_record', 'not_found', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record', 'in_record']
+control: Removed + Added cards: split_attributable accepted=['c', 'g'] unexplained=0
+Added r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Added control: both shown: correct fullRowRecovered=True unexplained=0
+Removed r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Removed control: both shown: correct fullRowRecovered=True unexplained=0
