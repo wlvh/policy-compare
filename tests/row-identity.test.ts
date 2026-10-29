@@ -82,13 +82,15 @@ describe("recovered table rows bind only through identity evidence", () => {
     expect(card(r, "Added", "Corvane AG")?.facts).toEqual([]);
     expect(crossPaired(r, "SLD", "Corvane")).toBe(false);
   });
-  it("amounts swapped between two companies are reported per company", () => {
+  it("amounts swapped between two insurers are reported per insurer", () => {
     const r = run(
       [
+        ["Insurer", "Reference", "Limit"],
         ["Alpha Air", "A-1", "USD 100,000"],
         ["Beta Air", "B-2", "USD 200,000"],
       ],
       [
+        ["Insurer", "Reference", "Limit"],
         ["Alpha Air", "A-1", "USD 200,000"],
         ["Beta Air", "B-2", "USD 100,000"],
       ],
@@ -117,10 +119,12 @@ describe("recovered table rows bind only through identity evidence", () => {
   it("a share change stays on its insurer row", () => {
     const r = run(
       [
+        ["Insurer", "Reference", "Written Line", "Stamp Date"],
         ["HPX 0624", "HX-AV-2210", "12.5%", "03/10/2024"],
         ["MKV 1426", "24AV0381", "15.0%", "03/10/2024"],
       ],
       [
+        ["Insurer", "Reference", "Written Line", "Stamp Date"],
         ["HPX 0624", "HX-AV-2587", "10.0%", "02/10/2025"],
         ["MKV 1426", "25AV0412", "15.0%", "02/10/2025"],
       ],
@@ -150,7 +154,9 @@ describe("recovered table rows bind only through identity evidence", () => {
     expect(crossPaired(r, "Beta", "Delta")).toBe(false);
     expect(crossPaired(r, "Gamma", "Beta")).toBe(false);
   });
-  it("business ids that count up keep a conflict with names unresolved", () => {
+  // Round 8: without a heading row naming them, neither the numbers nor the
+  // names are identity evidence; nothing is paired and every row is shown.
+  it("business ids that count up, without a heading, bind nothing", () => {
     const r = run(
       [
         ["101", "Alpha", "10%"],
@@ -161,13 +167,15 @@ describe("recovered table rows bind only through identity evidence", () => {
         ["102", "Alpha", "20%"],
       ],
     );
-    expect(r.status).toBe("partial");
-    expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(
-      true,
-    );
     expect(
       r.differences.some((d) => d.matchEvidence.method === "row-identity"),
     ).toBe(false);
+    expect(r.differences.map((d) => [d.kind, d.oldText + d.newText]).sort()).toEqual([
+      ["Added", "101 Beta 10%"],
+      ["Added", "102 Alpha 20%"],
+      ["Removed", "101 Alpha 10%"],
+      ["Removed", "102 Beta 20%"],
+    ]);
     expect(r.differences.every((d) => d.defaultVisible)).toBe(true);
   });
   it("the same text in a different column is not identity evidence", () => {

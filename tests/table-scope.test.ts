@@ -26,6 +26,8 @@ const card = (r: CompareResult, text: string) =>
   r.differences.filter((d) => (d.oldText + "\n" + d.newText).includes(text));
 
 describe("wrapped table cells stay with their row", () => {
+  // A bases table names no identifier column, so its rows pair only by equal
+  // text (round 8); each changed row is shown whole on its own side.
   it("a wrapped list cell does not become a heading that splits the table", () => {
     const doc = (iom: string, dubai: string) =>
       textDoc(
@@ -38,22 +40,19 @@ describe("wrapped table cells stay with their row", () => {
       doc("M-HELI", "Al Maktoum Hangars"),
       doc("M-FNKE, M-HELI", "Desert Falcon Hangars"),
     );
-    const dubai = card(r, "Dubai (OMDW)");
-    expect(dubai).toHaveLength(1);
-    expect(dubai[0].kind).toBe("Replaced");
-    expect(dubai[0].oldText).toContain("Al Maktoum Hangars");
-    expect(dubai[0].newText).toContain("Desert Falcon Hangars");
-    expect(dubai[0].structurePath?.rowKey).toBe("Dubai (OMDW)");
-    const iom = card(r, "Isle of Man (EGNS)");
-    expect(iom).toHaveLength(1);
-    expect(iom[0].oldText).toContain("M-HELI");
-    expect(iom[0].newText).toContain("M-FNKE, M-HELI");
+    expect(r.differences.map((d) => [d.kind, d.oldText, d.newText]).sort()).toEqual([
+      ["Added", "", "Dubai (OMDW) Desert Falcon Hangars M-CHLS Shared"],
+      ["Added", "", "Isle of Man (EGNS) Ronaldsway Aviation M-FNKA, M-FNKD, M-FNKE, M-HELI Shared"],
+      ["Removed", "Dubai (OMDW) Al Maktoum Hangars M-CHLS Shared", ""],
+      ["Removed", "Isle of Man (EGNS) Ronaldsway Aviation M-FNKA, M-FNKD, M-HELI Shared", ""],
+    ]);
     expect(r.differences.some((d) => d.facts.length > 0)).toBe(false);
   });
   it("an amount after a wrapped cell is compared on its own record", () => {
     const doc = (value: string) =>
       textDoc(
         rows("SPARE ENGINES", [
+          ["Engine Type", "ESN", "Location", "Value"],
           ["CF34-10E5", "9995860", ["Hamburg Engine", "Works"], value],
           ["CF34-8C5", "1949020", ["Tallinn Aero", "Technics"], "3,620,000"],
         ]),
@@ -72,6 +71,7 @@ describe("wrapped table cells stay with their row", () => {
         rows(
           "SCHEDULE",
           [
+            ["Registration", "Operator", "Value"],
             ["G-ALFA", "Alpha Air", "USD 1,000"],
             ["G-BETA", "Beta Air", beta],
             ["G-GAMA", "Gamma Air", "USD 3,000"],
@@ -162,10 +162,12 @@ describe("cells centred on their row (LibreOffice, spreadsheets)", () => {
   const doc = (lessee: [string, string], insurer: [string, string]) =>
     textDoc([
       { text: "SCHEDULE OF AIRCRAFT", y: 150 },
+      ...row(165, ["Aircraft Type", "MSN", "Registration", "Agreed Value", "Lessee"]),
       ...row(190, [["De Havilland", "Dash 8-400"], "4370", "CC-LUV", "10,270,000", "Lumen Air"]),
       ...row(225, [["De Havilland", "Dash 8-400"], "4551", "C-MRP", "12,680,000", lessee]),
       ...row(260, [["De Havilland", "Dash 8-400"], "4582", "C-YVR", "12,880,000", "Kestrel Air"]),
       { text: "WRITTEN LINES", y: 320 },
+      ...row(335, ["Insurer", "Reference", "Line", "Stamp Date"]),
       ...row(360, [["Halberd Specialty", "Insurance Ltd"], ["HSI-AV-24-", "0117"], "15.0%", "08/10/2024"]),
       ...row(395, [insurer, ["CIA-AV-25-", "0311"], "10.0%", "04/10/2024"]),
     ]);
@@ -184,9 +186,12 @@ describe("cells centred on their row (LibreOffice, spreadsheets)", () => {
       doc(["Kestrel", "Connect"], ["Corvane", "Insurance AG"]),
       doc(["Kestrel", "Connect"], ["Corvane", "Re AG"]),
     );
-    expect(r.differences).toHaveLength(1);
-    expect(r.differences[0].oldText).toBe("Corvane Insurance AG CIA-AV-25- 0311 10.0% 04/10/2024");
-    expect(r.differences[0].newText).toBe("Corvane Re AG CIA-AV-25- 0311 10.0% 04/10/2024");
+    // The insurer is the identity of a written line, and it changed: the
+    // whole row is shown on each side, nothing else changes.
+    expect(r.differences.map((d) => [d.kind, d.oldText, d.newText])).toEqual([
+      ["Removed", "Corvane Insurance AG CIA-AV-25- 0311 10.0% 04/10/2024", ""],
+      ["Added", "", "Corvane Re AG CIA-AV-25- 0311 10.0% 04/10/2024"],
+    ]);
   });
 });
 
@@ -288,6 +293,8 @@ describe("amounts and unexplained bare numbers are not record identity", () => {
 
 // Review of PR #9, fourth round: a first column counting 01, 02 is a row number
 // only when its local heading does not name it as the record's own number.
+// Round 8: only identity columns pair rows, so the MSN pairs its row and the
+// operator name is a changed cell of that record, never a link across MSNs.
 describe("an explicitly headed MSN column is not a row counter", () => {
   const table = (header: string[], data: string[][]) =>
     textDoc([
@@ -296,7 +303,7 @@ describe("an explicitly headed MSN column is not a row counter", () => {
       ...data.flatMap((cells, i) => cells.map((text, j) => ({ text, x: 40 + j * 180, y: 220 + i * 35 }))),
     ]);
   for (const [one, two] of [["01", "02"], ["1", "2"]])
-    it(`MSN ${one} and ${two} kept while the names swap stay a visible conflict`, () => {
+    it(`MSN ${one} and ${two} kept while the names swap: each row stays on its MSN`, () => {
       const header = ["MSN", "Operator", "Share"];
       const r = ResultSchema.parse(
         compare(
@@ -304,14 +311,11 @@ describe("an explicitly headed MSN column is not a row counter", () => {
           table(header, [[one, "Beta", "10%"], [two, "Alpha", "20%"]]),
         ),
       );
-      expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
-      expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
-      expect(r.status).toBe("partial");
-      const group = r.unresolved.find((u) => u.reason === "ambiguous_identity")!;
-      for (const text of [one, two, "Alpha", "Beta"]) {
-        expect(group.left.map((l) => l.text).join(" ")).toContain(text);
-        expect(group.right.map((l) => l.text).join(" ")).toContain(text);
-      }
+      expect(r.differences.map((d) => [d.matchEvidence.method, d.structurePath?.rowKey, d.oldText, d.newText])).toEqual([
+        ["row-identity", one, `${one} Alpha 10%`, `${one} Beta 10%`],
+        ["row-identity", two, `${two} Beta 20%`, `${two} Alpha 20%`],
+      ]);
+      expect(r.status).toBe("complete_for_scope");
     });
   it("a No. column counting 1..n is still a row number when a row is inserted", () => {
     const header = ["No.", "Hangar", "Value"];
