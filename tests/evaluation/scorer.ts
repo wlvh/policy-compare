@@ -1303,6 +1303,50 @@ export function grade(
         (kinds.length > 0 && kinds.every((k) => on(d, k as "delete" | "insert")))
       );
     };
+    // Where the card itself carries the event's old (new) text: each occurrence in the card's old (new)
+    // text, whether all its characters come from operations on the event's before (after) runs, and
+    // whether it holds an edit of the card on the event's runs. Whitespace is folded as in clean().
+    const spots = (d: Difference, side: "left" | "right") => {
+      const text = (side === "left" ? e.old : e.new)!;
+      const other = side === "left" ? "insert" : "delete";
+      const edit = (op: Difference["textOps"][number]) =>
+        op.kind === "delete"
+          ? located(op.left, refs.before, layout.before.pages, "left")
+          : op.kind === "insert" && located(op.right, refs.after, layout.after.pages, "right");
+      const own = (op: Difference["textOps"][number]) =>
+        op.kind === other ||
+        (side === "left"
+          ? located(op.left, refs.before, layout.before.pages, "left")
+          : located(op.right, refs.after, layout.after.pages, "right"));
+      // The side's text by character, each with the index of its operation.
+      const chars: { c: string; i: number }[] = [];
+      d.textOps.forEach((op, i) => {
+        if (op.kind !== other)
+          for (const c of op.text)
+            if (!/\s/u.test(c)) chars.push({ c, i });
+            else if (chars.length && chars.at(-1)!.c !== " ") chars.push({ c: " ", i });
+      });
+      if (chars.at(-1)?.c === " ") chars.pop();
+      const needle = Array.from(clean(text));
+      const found: { own: boolean; edit: boolean }[] = [];
+      for (let p = 0; needle.length && p + needle.length <= chars.length; p++)
+        if (needle.every((c, j) => chars[p + j].c === c)) {
+          const ops = d.textOps.slice(chars[p].i, chars[p + needle.length - 1].i + 1);
+          found.push({ own: ops.every(own), edit: ops.some(edit) });
+        }
+      return found;
+    };
+    // The card shows the event at the event's own text, not with the same text from elsewhere in the
+    // card (another unit kept as context, or paired across units): the old and the new text each occur
+    // on the event's runs, and one of those occurrences holds the card's edit there (an old text kept
+    // whole inside the new one carries no edit itself). A move has no edit to carry.
+    const carried = (d: Difference) => {
+      if (e.operation === "move") return true;
+      const found = (["left", "right"] as const).map((side) =>
+        (side === "left" ? e.old : e.new) === null ? null : spots(d, side).filter((s) => s.own),
+      );
+      return found.every((f) => f === null || f.length > 0) && found.some((f) => f?.some((s) => s.edit));
+    };
     const candidates = result.differences.filter(
       (d) =>
         (e.old === null || clean(d.oldText).includes(clean(e.old))) &&
@@ -1315,7 +1359,8 @@ export function grade(
         e.acceptable_kinds.includes(d.kind) &&
         (e.old === null || at(d, "left")) &&
         (e.new === null || at(d, "right")) &&
-        sourced(d),
+        sourced(d) &&
+        carried(d),
     );
     // Added+Removed, where the answer allows it: Removed cards deleting the old text on the event's
     // before runs and Added cards inserting the new text on its after runs (the same record and field
@@ -1331,7 +1376,8 @@ export function grade(
                 d.kind === kind &&
                 clean(side === "left" ? d.oldText : d.newText).includes(clean(text)) &&
                 at(d, side) &&
-                on(d, op),
+                on(d, op) &&
+                spots(d, side).some((s) => s.own && s.edit),
             ),
           )
         : [[], []];

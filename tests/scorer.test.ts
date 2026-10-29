@@ -1645,6 +1645,91 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     ] as const)
       expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences it cites"]);
   });
+  it("an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card", () => {
+    // The event's line changes its amount and its wording; another line holds both amounts unchanged.
+    const left = docOf([{ text: "USD 100 included" }, { text: "USD 100 USD 200" }]),
+      right = docOf([{ text: "USD 200 excluded" }, { text: "USD 100 USD 200" }]);
+    const [l0, l1] = [at(left, "left", "USD 100 included"), at(left, "left", "USD 100 USD 200")];
+    const [r0, r1] = [at(right, "right", "USD 200 excluded"), at(right, "right", "USD 100 USD 200")];
+    const op = (kind: "equal" | "delete" | "insert", a: SourceLocation | null, b: SourceLocation | null) => ({
+      kind,
+      text: (a ?? b)!.text,
+      left: a ? [a] : [],
+      right: b ? [b] : [],
+    });
+    const of = (id: string, ops: ReturnType<typeof op>[]): Difference => {
+      const left = ops.flatMap((o) => o.left), right = ops.flatMap((o) => o.right);
+      const oldText = ops.filter((o) => o.kind !== "insert").map((o) => o.text).join("");
+      const newText = ops.filter((o) => o.kind !== "delete").map((o) => o.text).join("");
+      return { ...card(id, left, right), kind: left.length && right.length ? "Replaced" : left.length ? "Removed" : "Added", oldText, newText, hasTextChange: oldText !== newText, textOps: ops };
+    };
+    // One replace event from the old to the new text, on the lines holding them.
+    const grader = (left: DocInput, right: DocInput, old: string, neu: string, beforeLine: string, afterLine: string) => (
+      differences: Difference[],
+      kinds: Expected["events"][number]["acceptable_kinds"] = ["Replaced"],
+    ) => {
+      const result = compare(left, right);
+      // Each card names the event's field, so identity is met.
+      const named = differences.map((d) => ({ ...d, structurePath: { ...d.structurePath!, field: "sum_insured" } }));
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: named });
+      expect(ResultSchema.safeParse(result).success).toBe(true);
+      const before = layoutOf(left), after = layoutOf(right);
+      const run = (l: typeof before, text: string) => [{ page_index: 0, run_id: l.pages[0].text_runs.find((r) => r.text === text)!.run_id }];
+      const expected: Expected = {
+        case_id: "carried",
+        required_status: "complete_for_scope",
+        events: [{ event_id: "E1", logical_path: "risk_details.sum_insured", old, new: neu, operation: "replace", detection_requirement: "must_detect", acceptable_kinds: kinds, acceptable_categories: [] }],
+        invariants: [],
+        coverage_requirements: [],
+        evidence_locations: { E1: { before: run(before, beforeLine), after: run(after, afterLine) } },
+      };
+      return grade(result, expected, { before, after } as Layout, [left, right]);
+    };
+    const graded = grader(left, right, "USD 100", "USD 200", "USD 100 included", "USD 200 excluded");
+    // Controls: the whole line replaced, or edited glyph by glyph inside the amount.
+    expect(graded([card("whole", [l0], [r0])]).status).toBe("PASS");
+    const glyphwise = of("glyphs", [
+      op("equal", slice(l0, 0, 4), slice(r0, 0, 4)),
+      op("delete", slice(l0, 4, 5), null),
+      op("insert", null, slice(r0, 4, 5)),
+      op("equal", slice(l0, 5, 8), slice(r0, 5, 8)),
+      op("delete", slice(l0, 8, 16), null),
+      op("insert", null, slice(r0, 8, 16)),
+    ]);
+    expect(graded([glyphwise]).status).toBe("PASS");
+    // The card reports only included → excluded on the event's line; the amounts it contains come
+    // from the unchanged line, as plain context or paired across the two lines.
+    const borrowed = {
+      context: of("context", [op("delete", slice(l0, 8, 16), null), op("insert", null, slice(r0, 8, 16)), op("equal", l1, r1)]),
+      // The event line's own amounts are cited, but paired with the unchanged line's equal amounts;
+      // the amount edits the card does report lie on the unchanged line.
+      crossed: of("crossed", [
+        op("equal", slice(l0, 0, 8), slice(r1, 0, 8)),
+        op("delete", slice(l0, 8, 16), null),
+        op("insert", null, slice(r0, 8, 16)),
+        op("equal", slice(l1, 8, 15), slice(r0, 0, 7)),
+        op("delete", slice(l1, 0, 8), null),
+        op("insert", null, slice(r0, 7, 8)),
+        op("insert", null, slice(r1, 8, 15)),
+      ]),
+    };
+    for (const [name, d] of Object.entries(borrowed)) {
+      const score = graded([d]);
+      expect.soft(score.status, name).toBe("FAIL");
+      expect.soft(score.events[0], name).toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
+    }
+    // The same on the delete + add path: the halves' amounts come from the unchanged line.
+    const removed = of("removed", [op("delete", slice(l0, 8, 16), null), op("delete", l1, null)]);
+    const added = of("added", [op("insert", null, slice(r0, 8, 16)), op("insert", null, r1)]);
+    expect.soft(graded([removed, added], ["Replaced", "Added+Removed"]).events[0], "delete + add").toMatchObject({ attribution: false, verdict: "FAIL" });
+    const honestRemoved = of("removed", [op("delete", l0, null)]), honestAdded = of("added", [op("insert", null, r0)]);
+    expect(graded([honestRemoved, honestAdded], ["Replaced", "Added+Removed"]).events[0]).toMatchObject({ representation: "delete+add", verdict: "PASS" });
+    // An old text kept whole inside the new one carries no edit itself; the new text holds the edit.
+    const [kept, extended] = [docOf([{ text: "Cover applies" }]), docOf([{ text: "Cover applies to hull" }])];
+    const [k0, x0] = [at(kept, "left", "Cover applies"), at(extended, "right", "Cover applies to hull")];
+    const appended = grader(kept, extended, "Cover applies", "Cover applies to hull", "Cover applies", "Cover applies to hull");
+    expect(appended([of("tail", [op("equal", k0, slice(x0, 0, 13)), op("insert", null, slice(x0, 13, 21))])]).status).toBe("PASS");
+  });
 });
 // One violating result per directly checked invariant; the fault must name that invariant.
 const directViolations: Record<string, (x: ReturnType<typeof example>) => void> = {
