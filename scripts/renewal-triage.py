@@ -60,7 +60,9 @@ or the author paragraph in that occurrence's own units. The paragraph counts
 when shown whole, however short, or with at least ten more of its characters
 (renewal-triage/12). On a side the edit changes, the record identity must sit in
 a unit holding a changed character of the occurrence, not in a unit of it whose
-text the card leaves unchanged (renewal-triage/13). A number at either end of the author text
+text the card leaves unchanged (renewal-triage/13). Cells of an Added/Removed row
+match only as whole numbers, and each author cell needs its own occurrence in
+the record unit (renewal-triage/14). A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
 before a number it would split. Candidate matching, the edit check and the
@@ -90,7 +92,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/13'
+TOOL = 'renewal-triage/14'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -141,9 +143,15 @@ def opening(text):
     return t[:40]
 
 
+def whole(needle):
+    """Whole-token pattern: no letter or digit beside it, and no number continued past it by "."
+    or "," and a digit, so "1315" is not in "21,315,000" nor "USD 100" in "USD 100,000"
+    (r4416863588)."""
+    return re.compile(r'(?<![0-9A-Za-z])(?<![0-9][.,])' + re.escape(needle) + r'(?![0-9A-Za-z])(?![.,][0-9])')
+
+
 def bounded(needle, text):
-    """Whole-token search, so "1315" does not match inside "21,315,000"."""
-    return bool(needle) and re.search(r'(?<![0-9A-Za-z])' + re.escape(needle) + r'(?![0-9A-Za-z])', text) is not None
+    return bool(needle) and whole(needle).search(text) is not None
 
 
 def ref(loc):
@@ -632,7 +640,10 @@ def row_cells(atoms, change, ctx):
     pool = []
     for d in diffs:
         for u in units(d[side], wanted[side]):
-            found = [t for t in texts if bounded(t, u['text'])]
+            # Each author cell needs its own occurrence: a text the row has twice is found twice
+            # only where the unit holds it twice (r4416863597).
+            found = [t for t in dict.fromkeys(texts) if t
+                     for _ in range(min(texts.count(t), len(whole(t).findall(u['text']))))]
             if found:
                 pool.append((d, u, found))
     mine = ident[side] if ident else []
@@ -651,23 +662,30 @@ def row_cells(atoms, change, ctx):
         merged = len(words) >= 2 and len(words & opposite) >= len(words) / 2
         paired = not merged
     mixed = anchor and [' / '.join(o) for o in others if o != tuple(mine) and holds(anchor[1]['text'], o)]
+    left = collections.Counter(anchor[2]) if anchor else collections.Counter()
     out = []
     for atom, t in zip(atoms, texts):
+        # This cell's own occurrence in the record unit, used up by the cell that takes it.
+        mine_here = left[t] > 0
+        left[t] -= mine_here
         where = [{'card': d['id'], 'kind': d['kind'], 'page': u['page'],
                   'unitId': u['unitId']} for d, u, f in pool if t in f]
         un = unresolved_hits(result, side, t, wanted[side], True)
-        if paired and t in anchor[2]:
+        if paired and mine_here:
             out.append(('paired_with_other_record', 'misattributed', [], where, un,
                         f'{change["kind"].lower()} row paired with another record in a {anchor[0]["kind"]} card'))
-        elif merged and t in anchor[2]:
+        elif merged and mine_here:
             out.append(('merged_into_neighbour_card', 'not_evaluable', [], where, un,
                         f'{change["kind"].lower()} row shown as extra text in a neighbour row\'s '
                         f'{anchor[0]["kind"]} card'))
-        elif anchor and t in anchor[2] and not mixed:
+        elif anchor and mine_here and not mixed:
             out.append(('in_record', 'correct', [anchor[0]], where, un, ''))
-        elif anchor and t in anchor[2]:
+        elif anchor and mine_here:
             out.append(('record_mixed', 'not_evaluable', [], where, un,
                         'record unit also carries ' + ', '.join(mixed)))
+        elif anchor and t in anchor[2]:
+            out.append(('record_short', 'not_evaluable', [], where, un,
+                        'the record unit holds this text fewer times than the author row'))
         elif anchor and (where or un):
             out.append(('outside_record', 'not_evaluable', [], where, un,
                         'cell found only outside the unit that carries the record identity'))

@@ -1,0 +1,6 @@
+# final triage tests (2f180a7) with scripts/renewal-triage.py of b0f41cb (renewal-triage/11)
+FAIL: test_a_pure_insertion_or_deletion_is_accepted_on_its_card
+FAIL: test_the_identity_sits_in_a_unit_the_edit_changes
+FAIL: test_an_edit_spanning_units_takes_identity_only_from_those_units
+Ran 45 tests in 0.385s
+FAILED (failures=3)

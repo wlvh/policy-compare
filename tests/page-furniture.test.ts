@@ -357,6 +357,16 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
       ["USD 1000", "USD 2000", 4, 4],
     ]);
   });
+  it("a whitespace edit on one page of a repeated line is shown (r4416942422)", () => {
+    // Variants were trimmed, so a trailing space added on page 3 merged with
+    // the unchanged occurrences and nothing was reported.
+    const r = ResultSchema.parse(
+      compare(four(() => "Limit USD 1000", 120), four((p) => (p === 2 ? "Limit USD 1000 " : "Limit USD 1000"), 120)),
+    );
+    expect(r.differences.map((d) => [d.newText, d.facts, d.repeat?.left, d.repeat?.right])).toEqual([
+      ["Limit USD 1000 ", ["whitespace_only"], 4, 1],
+    ]);
+  });
   it("one text replaced by several: one card per new text, the old group not also unmatched", () => {
     const r = ResultSchema.parse(
       compare(four(() => "Limit USD 1000"), four((p) => (p === 3 ? "Limit USD 3000" : "Limit USD 2000"))),

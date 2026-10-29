@@ -199,6 +199,29 @@ describe("identity belongs to its own column and its own table", () => {
     expect([visible(r, "Alpha Air", "left"), visible(r, "Alpha Air", "right")]).toEqual([true, true]);
     expect(r.differences.some((d) => d.matchEvidence.method === "repeated-table-header" && d.oldText.includes("G-AAAA"))).toBe(false);
   });
+  it("a digit-free record does not become the heading of the rows below it (r4416878288)", () => {
+    // "Registration pending" in a record's status was read as an identity
+    // heading for the next row, which then bound G-111 -> G-222 by its status.
+    const head: Cells = ["Registration", "Operator", "Status"];
+    const doc = (reg: string, operator: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([head, ["G-AAAA", "Alpha Air", "Registration pending"], [reg, operator, "Active"]], 180),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("G-111", "Beta Air"), doc("G-222", "Gamma Air")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "G-111", "left"), visible(r, "G-222", "right")]).toEqual([true, true]);
+  });
+  it("a digit-free record is read under its table's heading row (r4416942407)", () => {
+    // The record had no heading, so only "Insurer Alpha" (named by its prefix)
+    // was identity and G-AAAA -> G-BBBB bound by it.
+    const head: Cells = ["Registration", "Insurer", "Status"];
+    const doc = (reg: string) =>
+      textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, [reg, "Insurer Alpha", "Active"]], 180)]);
+    const r = ResultSchemaV2.parse(compare(doc("G-AAAA"), doc("G-BBBB")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "G-AAAA", "left"), visible(r, "G-BBBB", "right")]).toEqual([true, true]);
+  });
   it("control: in one table a changed digit-free record pairs by the registration it names", () => {
     const head: Cells = ["Registration", "Operator", "Status"];
     const doc = (operator: string) =>

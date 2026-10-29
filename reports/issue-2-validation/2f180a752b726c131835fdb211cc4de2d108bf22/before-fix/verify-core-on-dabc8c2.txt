@@ -1,0 +1,20 @@
+# final product tests (2f180a7) with product, interface, contract and triage code of round 10 (dabc8c2)
+     × a row of amounts: each changed amount is paired with its own new value 39ms
+     × spaces and stray letters do not pair unrelated words 39ms
+     × two different words in the same place share only their common start and end 20ms
+     × the unchanged start and end of a text stop at a word boundary 12ms
+     × two spellings both present, their counts swapped 3+1 -> 1+3: each count change is shown 13ms
+     × a later page's page number changed (Page 3 -> Page 99) is shown, not hidden by the first page 30ms
+     × page counters in digits Number() cannot read stay content (r4416542434) 34ms
+     × a page counter is a whole number: Page 1.1 .. 1.4 is not a counting Page 1 (r4416744456) 10ms
+     × a profile-declared repeated header is split into its variants too (r4416656228) 11ms
+     × one text replaced by several: one card per new text, the old group not also unmatched 12ms
+     × controls: a single changed page, a page keeping the old text, repagination 15ms
+     × MSN | ESN | Serial | Share: 123/456 under MSN/ESN vs ESN/Serial is not one record 22ms
+     × two tables with the same title and heading row, a paragraph between, are not one table 21ms
+     × digit-free data rows (r4415822173): two tables with one heading, a paragraph between, are not one table 16ms
+     × a digit-free record that moves to the other table on every page is shown (r4416744444) 31ms
+     × repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954) 86ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  4 failed | 11 passed (15)
+      Tests  16 failed | 277 passed (293)
