@@ -37,16 +37,21 @@ const NUMBER = /\p{N}+(?:[.,]\p{N}+)*/gu;
  * by itself.
  */
 const PAGE_EXPRESSIONS = [/\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/dgiu];
-/** Positions, among a line's numbers, of page counters and page totals. */
+/**
+ * Positions, among a line's numbers, of page counters and page totals. A
+ * capture counts only when it is a whole number of the line: the "1" of
+ * "Page 1.1" is not a page counter.
+ */
 export function pageSlots(text: string) {
-  const starts = [...text.matchAll(NUMBER)].map((m) => m.index),
+  const spans = [...text.matchAll(NUMBER)].map((m) => `${m.index}:${m.index + m[0].length}`),
     counter: number[] = [],
     total: number[] = [];
+  const at = (r: [number, number]) => spans.indexOf(`${r[0]}:${r[1]}`);
   for (const re of PAGE_EXPRESSIONS)
     for (const m of text.matchAll(re)) {
       const [, n, of] = m.indices!;
-      counter.push(starts.indexOf(n![0]));
-      if (of) total.push(starts.indexOf(of[0]));
+      if (at(n!) >= 0) counter.push(at(n!));
+      if (of && at(of) >= 0) total.push(at(of));
     }
   return { counter, total };
 }
@@ -82,11 +87,14 @@ export function maskedPageNumbers(u: { rawText: string; furniture?: Furniture })
     let k = 0;
     return u.rawText.replace(NUMBER, (n) => (u.furniture!.pageTokens.includes(k++) ? "#" : n));
   }
+  // Only a capture that is a whole number of the line ("Page 1", not the "1"
+  // of "Page 1.1").
+  const whole = new Set([...u.rawText.matchAll(NUMBER)].map((m) => `${m.index}:${m.index + m[0].length}`));
   let out = "",
     at = 0;
   for (const m of u.rawText.matchAll(PAGE_EXPRESSIONS[0]))
     for (const r of m.indices!.slice(1))
-      if (r) {
+      if (r && whole.has(`${r[0]}:${r[1]}`)) {
         out += u.rawText.slice(at, r[0]) + "#";
         at = r[1];
       }

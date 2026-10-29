@@ -182,6 +182,35 @@ describe("identity belongs to its own column and its own table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
   });
+  it("a digit-free record that moves to the other table on every page is shown (r4416744444)", () => {
+    // Repeated on two pages, the record was aggregated as a repeated table
+    // header across both tables and its move disappeared.
+    const head: Cells = ["Registration", "Operator", "Status"];
+    const A: Cells = ["Registration G-AAAA", "Alpha Air", "Lead"],
+      C: Cells = ["Registration G-CCCC", "Gamma Air", "Follow"];
+    const doc = (first: Cells[], second: Cells[]) =>
+      textDoc([0, 1].flatMap((page) => [
+        { text: "SCHEDULE", y: 150, page },
+        ...place([head, ...first], 180, page),
+        { text: "The second table lists the reserve fleet.", y: 300, page },
+        ...place([head, ...second], 340, page),
+      ]));
+    const r = ResultSchemaV2.parse(compare(doc([A], [C]), doc([], [A, C])));
+    expect([visible(r, "Alpha Air", "left"), visible(r, "Alpha Air", "right")]).toEqual([true, true]);
+    expect(r.differences.some((d) => d.matchEvidence.method === "repeated-table-header" && d.oldText.includes("G-AAAA"))).toBe(false);
+  });
+  it("control: in one table a changed digit-free record pairs by the registration it names", () => {
+    const head: Cells = ["Registration", "Operator", "Status"];
+    const doc = (operator: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([head, ["Registration G-AAAA", operator, "Lead"], ["Registration G-BBBB", "Beta Air", "Follow"]], 180),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("Alpha Air"), doc("Delta Air")));
+    expect(r.differences.map((d) => [d.kind, d.matchEvidence.method, d.oldText, d.newText])).toEqual([
+      ["Replaced", "row-identity", "Registration G-AAAA Alpha Air Lead", "Registration G-AAAA Delta Air Lead"],
+    ]);
+  });
   it("control: one table continued on the next page under its repeated heading row still pairs by registration", () => {
     const head: Cells = ["Registration", "Operator", "Value"];
     const doc = (value: string) =>

@@ -186,28 +186,45 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
  * page) continues it. When either version has two or more tables with the same
  * section, title and heading row, nothing says which corresponds to which, so
  * each is a scope of its own; rows without a heading row share the scope of
- * their section and title. A digit-free row has the scope of the table it
- * heads, so a digit-free record cannot leave its table through that shared
- * scope.
+ * their section and title. Only the digit-free row that starts a table (or
+ * repeats its heading after a page break) is a heading; a later digit-free row
+ * of the same unbroken table is one of its records (or a further heading line)
+ * and keeps that table's scope, so a digit-free record can neither leave its
+ * table through the shared scope nor be taken for a repeated header.
  */
 function rowHeadings(left: Unit[], right: Unit[]) {
   const headings = new Map<Unit, Unit>(),
-    scopes = new Map<Unit, string>();
+    scopes = new Map<Unit, string>(),
+    starts = new Set<Unit>();
   const sides = [left, right].map((us) => {
     const current = new Map<string, Unit>(),
+      open = new Map<string, { text: string; key: string; n: number }>(),
       last = new Map<string, { text: string; n: number }>(),
       broken = new Set<string>(),
       count = new Map<string, number>(),
       table = new Map<Unit, [string, number]>();
     for (const u of us) {
       if (!u.rowCells) {
-        if (!["furniture", "page_heading", "footer", "whitespace"].includes(u.role)) current.clear();
+        if (!["furniture", "page_heading", "footer", "whitespace"].includes(u.role)) {
+          current.clear();
+          open.clear();
+        }
         if (!["furniture", "page_heading", "footer", "whitespace", "heading"].includes(u.role))
           for (const t of last.keys()) broken.add(t);
         continue;
       }
       const t = u.path.section + "\u0000" + u.title;
-      if (!/\p{N}/u.test(u.rawText)) {
+      const s = open.get(t);
+      if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text) {
+        // A digit-free row inside a table another row started is one of its
+        // records (G-AAAA | Alpha Air | Lead) or a further heading line: it
+        // keeps that table's scope. Rows below it still read it as their
+        // heading.
+        const key = t + "\u0000" + u.rawText;
+        count.set(key, Math.max(s.n, count.get(key) ?? 0));
+        current.set(t, u);
+        table.set(u, [s.key, s.n]);
+      } else if (!/\p{N}/u.test(u.rawText)) {
         const prev = last.get(t),
           key = t + "\u0000" + u.rawText;
         const n = prev && prev.text === u.rawText && !broken.has(t) ? prev.n : (count.get(key) ?? 0) + 1;
@@ -215,12 +232,12 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         last.set(t, { text: u.rawText, n });
         broken.delete(t);
         current.set(t, u);
-        // A digit-free row is taken for a heading, but it may be a record (G-AAAA | Alpha Air):
-        // it keeps the scope of the table it starts, never the shared scope of its title.
+        open.set(t, { text: u.rawText, key, n });
+        starts.add(u);
         table.set(u, [key, n]);
       } else if (current.has(t)) {
         headings.set(u, current.get(t)!);
-        table.set(u, [t + "\u0000" + current.get(t)!.rawText, last.get(t)!.n]);
+        table.set(u, [t + "\u0000" + current.get(t)!.rawText, s!.n]);
       }
     }
     return { count, table };
@@ -229,7 +246,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
     for (const [u, [key, n]] of table)
       scopes.set(u, sides.every((x) => x.count.get(key) === 1) ? key : `${key}\u0000${side}\u0000${n}`);
   });
-  return { headings, scopes };
+  return { headings, scopes, starts };
 }
 /**
  * Rows recovered from one baseline pair only through identity evidence (see
@@ -628,7 +645,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.9+facts.3+repeat.4+ops.4",
+    coreVersion: VERSION + "+row-identity.10+facts.4+repeat.4+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -693,7 +710,7 @@ export function compare(
   phase?.("matching");
   // A recovered table is its section, title and heading row: one title can
   // stand above several tables.
-  const { headings, scopes } = rowHeadings(la, rb),
+  const { headings, scopes, starts } = rowHeadings(la, rb),
     tableScope = (u: Unit) => scopes.get(u) ?? `${u.path.section}\u0000${u.title}\u0000`;
   const bind = (
     a: Unit,
@@ -918,12 +935,17 @@ export function compare(
       singles.push(side === "left" ? [u, undefined] : [undefined, u]);
     }
   }
-  // A digit-free row repeated on several pages of a table is its header. An
-  // occurrence count that pagination does not explain is shown on the card.
+  // A digit-free row that starts a table and is repeated on several pages is
+  // its header. A digit-free row inside a table is grouped only within its own
+  // table instance, so a record repeated on several pages does not merge the
+  // tables it sits in (r4416744444). An occurrence count that pagination does
+  // not explain is shown on the card.
   const headerKey = (u: Unit) =>
-    u.rowCells && !/\p{N}/u.test(u.rawText)
-      ? `${u.path.section}\u0000${u.title}\u0000${u.rawText}`
-      : null;
+    !u.rowCells || /\p{N}/u.test(u.rawText)
+      ? null
+      : starts.has(u)
+        ? `${u.path.section}\u0000${u.title}\u0000${u.rawText}`
+        : `${tableScope(u)}\u0000${u.rawText}`;
   const rh = map(rb, usedR, headerKey);
   for (const [key, as] of map(la, usedL, headerKey)) {
     const bs = rh.get(key),
