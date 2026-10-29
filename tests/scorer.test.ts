@@ -1554,7 +1554,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       facts,
     };
   };
-  const control = (left: DocInput, right: DocInput, cards: (docs: [DocInput, DocInput]) => Difference[]) => {
+  const control = (left: DocInput, right: DocInput, cards: (docs: [DocInput, DocInput]) => Difference[], invariants = ["no_material_differences"]) => {
     const docs: [DocInput, DocInput] = [left, right];
     const result = compare(left, right);
     Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: cards(docs) });
@@ -1563,7 +1563,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       case_id: "format-2-control",
       required_status: "complete_for_scope",
       events: [],
-      invariants: ["no_material_differences"],
+      invariants,
       coverage_requirements: [],
       evidence_locations: {},
     };
@@ -1571,10 +1571,10 @@ describe("result format 2: stated facts and form-only changes in controls", () =
   };
   const material = (score: ReturnType<typeof grade>) =>
     score.invariants.find((i) => i.name === "no_material_differences")?.result;
-  const open = (score: ReturnType<typeof grade>, name: string) => {
+  const open = (score: ReturnType<typeof grade>, name: string, kinds = ["invariant_unverifiable"]) => {
     expect(score.faults, name).toEqual([]);
     expect(material(score), name).toBe("NOT_EVALUATED");
-    expect(score.notEvaluated.map((n) => n.kind), name).toEqual(["invariant_unverifiable"]);
+    expect(score.notEvaluated.map((n) => n.kind), name).toEqual(kinds);
     expect(exitCode(summarize([score])), name).toBe(1);
   };
   it("an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not", () => {
@@ -1593,9 +1593,11 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["printed page number not the PDF's page", docOf([{ text: "Schedule Page 3 of 10" }]), docOf([{ text: "Schedule Page 3 of 11" }]), "Schedule Page 3 of 10", "Schedule Page 3 of 11", "page_number_only"],
       ["printed counter", docOf([{ text: "Page 5 of 2" }]), docOf([{ text: "Page 6 of 2" }]), "Page 5 of 2", "Page 6 of 2", "page_number_only"],
     ];
+    // On these single lines a stated page-number fact's scope is open as well (r4416542441).
     for (const [name, left, right, a, b, fact] of cases)
       for (const facts of [[], [fact]] as Difference["facts"][]) {
-        open(control(left, right, ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], facts)]), name + facts.join());
+        const kinds = facts.includes("page_number_only") ? ["claim_unverifiable", "invariant_unverifiable"] : undefined;
+        open(control(left, right, ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], facts)]), name + facts.join(), kinds);
       }
   });
   it("R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it", () => {
@@ -1637,10 +1639,19 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     expect(spaces.status).toBe("FAIL");
     expect(spaces.faults).toEqual(["card c states page_number_only, which its source texts disprove"]);
   });
-  it("a page-number fact over several pages is decided from the texts: it holds, and the undeclared change stays open in the control", () => {
+  it("a page-number fact on a repeated page line is decided from the texts: it holds, and the undeclared change stays open in the control", () => {
     const left = docOf([{ text: "Page 1 of 2" }, { text: "Page 2 of 2", page: 1 }]),
       right = docOf([{ text: "Page 1 of 3" }, { text: "Page 2 of 3", page: 1 }, { text: "Page 3 of 3", page: 2 }]);
-    const score = control(left, right, ([l, r]) => [
+    const score = control(left, right, ([l, r]) => {
+      const occ = [0, 1, 2].map((p) => ({ left: p < 2 ? [at(l, "left", `Page ${p + 1} of 2`, p)] : [], right: [at(r, "right", `Page ${p + 1} of 3`, p)] }));
+      return [{ ...card("p", occ[0].left, occ[0].right, ["page_number_only"]), occurrences: occ, repeat: { left: 2, right: 3, leftPages: 2, rightPages: 3 } }];
+    });
+    expect(score).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
+    expect(score.notEvaluated.map((n) => n.kind)).toEqual(["invariant_unverifiable"]);
+    expect(exitCode(summarize([score]))).toBe(1);
+    // The same lines as one card citing both pages, with no occurrences: not shown to be a repeated
+    // line, so the stated fact is open too.
+    const joined = control(left, right, ([l, r]) => [
       {
         ...of("p", [
           op("delete", at(l, "left", "Page 1 of 2"), null, "Page 1 of 2 "),
@@ -1651,9 +1662,30 @@ describe("result format 2: stated facts and form-only changes in controls", () =
         facts: ["page_number_only"],
       },
     ]);
-    expect(score).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
-    expect(score.notEvaluated.map((n) => n.kind)).toEqual(["invariant_unverifiable"]);
-    expect(exitCode(summarize([score]))).toBe(1);
+    expect(joined).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
+    expect(joined.notEvaluated.map((n) => n.kind)).toEqual(["claim_unverifiable", "invariant_unverifiable"]);
+  });
+  it("a page-number fact stated on a line not shown to be a repeated page line is NOT_EVALUATED, never PASS (r4416542441)", () => {
+    // A body sentence's cross-reference changes only its page number: the text form holds, but the
+    // contract states the fact only on a repeated page line, a heading or a page-margin line.
+    const [a, b] = ["Refer to Page 3 for the exclusion.", "Refer to Page 4 for the exclusion."];
+    const body = (facts: Difference["facts"]) =>
+      control(docOf([{ text: a, y: 300 }]), docOf([{ text: b, y: 300 }]), ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], facts)], []);
+    const stated = body(["page_number_only"]);
+    expect(stated).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
+    expect(stated.notEvaluated).toMatchObject([{ kind: "claim_unverifiable", reason: "card c states page_number_only; its sources cannot decide it here" }]);
+    expect(exitCode(summarize([stated]))).toBe(1);
+    // Control: the same card without the fact passes; a text form the sources disprove still fails.
+    expect(body([]).status).toBe("PASS");
+    const wrong = control(docOf([{ text: a, y: 300 }]), docOf([{ text: "Refer to Page 4 for the exclusions.", y: 300 }]), ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", "Refer to Page 4 for the exclusions.")], ["page_number_only"])], []);
+    expect(wrong.faults).toEqual(["card c states page_number_only, which its source texts disprove"]);
+    // One occurrence listed twice is still one page: not a repeated line.
+    const twice = control(docOf([{ text: "Page 1 of 2", y: 40 }]), docOf([{ text: "Page 1 of 3", y: 40 }]), ([l, r]) => {
+      const o = { left: [at(l, "left", "Page 1 of 2")], right: [at(r, "right", "Page 1 of 3")] };
+      return [{ ...card("c", o.left, o.right, ["page_number_only"]), occurrences: [o, { left: [...o.left], right: [...o.right] }], repeat: { left: 2, right: 2, leftPages: 1, rightPages: 1 } }];
+    }, []);
+    expect(twice.notEvaluated.map((n) => n.kind)).toEqual(["claim_unverifiable"]);
+    expect(twice.faults).toContain("card c lists the same source characters in two occurrences on the left side");
   });
   it("repeat counts are checked against the documents' page counts and the occurrences the card cites", () => {
     const left = docOf([{ text: "RUNNING HEADER", y: 40 }, { text: "Body one." }, { text: "RUNNING HEADER", y: 40, page: 1 }, { text: "Body two.", page: 1 }]),
@@ -1679,6 +1711,15 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["occurrence count", (d: Difference) => (d.repeat!.right = 2)],
     ] as const)
       expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]);
+    // One occurrence listed twice, with both counts raised to match the list (r4416805143): the
+    // documents still hold 2 and 3; two entries citing the same source characters are one.
+    expect(
+      graded((d) => {
+        d.occurrences.push({ left: [...d.occurrences[0].left], right: [...d.occurrences[0].right] });
+        d.repeat!.left = 3;
+        d.repeat!.right = 4;
+      }).faults,
+    ).toEqual(["card rep lists the same source characters in two occurrences on the left side", "card rep lists the same source characters in two occurrences on the right side"]);
     // The card shows the old line but lists no old occurrence and counts 0 there (r4416274609).
     expect(
       graded((d) => {

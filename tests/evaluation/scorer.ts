@@ -890,14 +890,23 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
       return words(a ?? "") === words(b ?? "");
     // Both sides: only numbers inside explicit page expressions differ, the rest of the text (the
     // expressions' words included) is the same; a one-sided text is nothing but such expressions and
-    // whitespace. It says nothing about the printed numbers being right.
+    // whitespace. It says nothing about the printed numbers being right. The contract states it only
+    // on a repeated page line, a heading or a page-margin line (r4416542441). Of these the sources
+    // show only the first: the card's own text, by the occurrences it cites, printed on two or more
+    // pages of a document. On any other line the text form holds but its scope stays open.
     case "page_number_only": {
+      let form: boolean;
       if (a !== null && b !== null) {
         const [x, y] = [pageNumbers(a), pageNumbers(b)];
-        return words(x.masked) === words(y.masked) && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
+        form = words(x.masked) === words(y.masked) && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
+      } else {
+        const one = (a ?? b)!;
+        form = pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
       }
-      const one = (a ?? b)!;
-      return pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
+      const repeated = (["left", "right"] as const).some(
+        (side) => new Set(ownOccurrences(d, side, docs).flatMap((o) => o[side].map((l) => l.pageIndex))).size > 1,
+      );
+      return form && !repeated ? null : form;
     }
     // One side only: a heading with an explicit "continued" suffix whose base is the whole text
     // of a line in both documents.
@@ -1350,6 +1359,21 @@ export function grade(
       if (held === false) faults.push(`card ${d.id} states ${fact}, which its source texts disprove`);
       if (held === null)
         claimsOpen.push({ card: d.id, kind: "claim_unverifiable", reason: `card ${d.id} states ${fact}; its sources cannot decide it here` });
+    }
+    // Two occurrences citing the same source characters on a side are one occurrence listed twice;
+    // counting both would let the list back a count the documents do not hold (r4416805143).
+    for (const side of ["left", "right"] as const) {
+      const owner = new Map<string, number>();
+      let shared = false;
+      d.occurrences.forEach((o, i) => {
+        for (const l of o[side])
+          for (const c of l.charIds) {
+            const k = `${l.pageIndex}\u0000${c}`;
+            if ((owner.get(k) ?? i) !== i) shared = true;
+            else owner.set(k, i);
+          }
+      });
+      if (shared) faults.push(`card ${d.id} lists the same source characters in two occurrences on the ${side} side`);
     }
     // A repeated line's counts: the two documents' page counts, and on each side the occurrences of
     // the card's own text it cites; other variants it cites there are context, not counted (whether
