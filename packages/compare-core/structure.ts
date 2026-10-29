@@ -107,7 +107,8 @@ export function maskedPageNumbers(u: { rawText: string; furniture?: Furniture })
  * every other number stay as printed, as does a counter Number() cannot read.
  */
 export function furnitureVariant(text: string, f: Furniture, page: number) {
-  const t = text.trim(),
+  // Whitespace stays: a space added on one page is that page's own variant (r4416942422).
+  const t = text,
     counter = pageSlots(t).counter;
   let k = 0;
   return t.replace(NUMBER, (n) => {

@@ -41,7 +41,7 @@ type Repeated = Unit & {
 const variant = (u: Unit) =>
   u.furniture
     ? furnitureVariant(u.rawText, u.furniture, u.refs.find(Boolean)!.page.pageIndex + 1)
-    : u.rawText.trim();
+    : u.rawText;
 const locations = (u: Unit | undefined, side: "left" | "right") =>
   u ? sourceLocations(u.refs, side, u.id) : [];
 
@@ -654,7 +654,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.12+facts.4+repeat.4+ops.4",
+    coreVersion: VERSION + "+row-identity.12+facts.4+repeat.5+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
