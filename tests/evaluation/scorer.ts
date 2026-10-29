@@ -45,7 +45,12 @@ type LayoutPage = {
 export type CaseStatus = "PASS" | "FAIL" | "NOT_EVALUATED";
 export type IdentityCheck = {
   applicability: "checked" | "not_applicable" | "unsupported";
+  // Presented as the answer requires: an accepted identity claim on a visible card attributed by source.
   pass: boolean | null;
+  // A determined identity the answer accepts (an allowed unresolved one is presented, not determined).
+  determined?: boolean | null;
+  // The identity claims of the cards attributed to the event by source.
+  claims?: IdentityClaim[];
   reason: string;
 };
 export type NotEvaluated = {
@@ -71,11 +76,15 @@ export type EventScore = {
   verdict: CaseStatus;
   pass: boolean;
   discovery?: boolean;
-  correspondence?: boolean;
+  // The edit sources of a card (or of an allowed delete + add pair) lie on the event's runs.
+  attribution?: boolean;
+  representation?: "card" | "delete+add" | null;
   position?: boolean;
   visibility?: boolean;
   completeness?: boolean;
   identity: IdentityCheck | null;
+  // Category claims of the attributed cards that the answer does not allow for the event.
+  falseCategoryClaims?: string[];
   reason?: string;
 };
 const CLAUSE =
@@ -131,20 +140,30 @@ export const INVARIANTS: Record<
   no_content_differences: { coverage: "direct", basis: "no difference card at all", tests: [] },
   no_material_differences: {
     coverage: "direct",
+    // Migrated in round 18 from "no Material card and no text change outside Cosmetic".
     basis:
-      "no Material card and no text change outside Cosmetic, except one card per declared non-Material event whose whole text, kind, category, sides, visibility and every source location match that event",
-    tests: ["Review does not excuse false text in control", "R16"],
+      "every source-validated text change is a declared event (one card per event, matching its whole text, kind, sides, identity, visibility and every source location); an undeclared change presented as content (Material, Review, RollForward) fails; one presented as form-only (Cosmetic) is NOT_EVALUATED, as no declared definition of form-only transforms can verify it; a card that fails source validation fails; a card without a text change is not judged here",
+    tests: [
+      "Review does not excuse false text in control",
+      "a Cosmetic label does not turn an undeclared text change in a control into PASS",
+      "a card that fails source validation cannot show that a control holds",
+      "R16",
+    ],
   },
-  no_false_text_added_or_removed: { coverage: "direct", basis: "no card with a text change", tests: [] },
+  no_false_text_added_or_removed: {
+    coverage: "direct",
+    basis: "no card whose source-validated raw texts differ, and no card that fails source validation; the card's own hasTextChange flag is not used",
+    tests: ["a false hasTextChange flag fails, and the control still sees the source text change"],
+  },
   no_false_clause_moves: { coverage: "direct", basis: "no Moved card", tests: [] },
   no_false_row_additions_or_deletions: {
     coverage: "direct",
-    basis: "no table card with a text change",
-    tests: [],
+    basis: "no card with a source-validated text change that labels itself a table card or whose delete/insert operations lie on a table record's layout.json runs; no card that fails source validation",
+    tests: ["a table card that changes a record's text fails the row control by its sources, without a table label"],
   },
   moved_clause_has_no_internal_word_edits: {
     coverage: "direct",
-    basis: "no Moved card with a text change",
+    basis: "no Moved card whose source-validated raw texts differ; no card that fails source validation",
     tests: [],
   },
   must_not_classify_as_unchanged_duration_roll_forward: {
@@ -224,13 +243,24 @@ export const INVARIANTS: Record<
   },
   match_row_by_registration_or_declared_serial: {
     coverage: "indirect",
-    basis: "the value event checks the row key (declared serial) and field of its card; a registration-keyed match is not accepted by the scorer (stricter than the answer)",
-    tests: ["R26: matching the row by the renamed registration instead of the serial fails"],
+    basis: "the value event's card must lie on the record's value cell by its edit sources; its row key may be the declared serial or the record's registration (from layout.json); another record's key is a false identity claim and fails; an explicit identity review is not allowed by this answer",
+    tests: [
+      "R22: the record's declared serial or its registration is an accepted row key",
+      "R22: another record's serial or registration on a correctly sourced card fails as a false identity claim",
+      "R22: an explicitly unresolved identity is not wrong, but this answer does not allow it",
+      "R22: the correct record label on a card that deletes the same value from another record does not attribute the event",
+    ],
   },
   secondary_key_or_explicit_identity_review: {
     coverage: "indirect",
-    basis: "the registration event requires the serial as row key; an explicit identity review is not accepted by the scorer (stricter than the answer)",
-    tests: ["R26: matching the row by the renamed registration instead of the serial fails"],
+    basis: "the registration event's card (or one delete + one add card) must lie on the record's registration cells by its edit sources; its row key must be the declared serial, or an explicit identity review (row key null, confidence unresolved), which is presented but not determined; the renamed registration or another record's key is a false identity claim and fails",
+    tests: [
+      "R26: matching the row by the renamed registration instead of the serial fails",
+      "R26: an explicit identity review is accepted as presented, not as determined",
+      "R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer",
+      "R26: one delete + one add card on the record's registration cell is accepted once",
+      "R26: a delete + add pair is not the event when the added text lies in another record, or is the old text moved",
+    ],
   },
   duplicate_identity_must_be_reported: {
     coverage: "indirect",
@@ -239,8 +269,8 @@ export const INVARIANTS: Record<
   },
   must_not_assert_unique_row_identity_without_evidence: {
     coverage: "indirect",
-    basis: "the duplicate event requires confidence unresolved and no row key on its card",
-    tests: ["R25: asserting a unique row key without evidence fails"],
+    basis: "the duplicate event's card, attributed by its edit sources, must be explicitly unresolved (confidence unresolved, no row key); a row key or party on it is a false identity claim and fails",
+    tests: ["R25: asserting a unique row key without evidence fails", "R25: asserting a party for the duplicate group is a false identity claim"],
   },
   must_not_claim_no_changes: {
     coverage: "indirect",
@@ -581,43 +611,95 @@ type Checked = {
   expected: Expected;
   layout: Layout;
   docs: [DocInput, DocInput];
+  // Cards that failed source validation.
+  unsourced: Set<string>;
 };
+// A control is judged from source-validated text only: a card that failed source validation
+// violates it, so forged text never shows "no change".
+const unbacked = ({ result, unsourced }: Checked) =>
+  result.differences
+    .filter((d) => unsourced.has(d.id))
+    .map((d) => `card ${d.id} is not backed by its sources`);
+// layout.json runs of table records (header excluded), as evidence references of one side.
+const recordRuns = (layout: Layout, s: "before" | "after"): Evidence[] =>
+  layout[s].pages.flatMap((p, page_index) =>
+    p.text_runs
+      .filter((r) => /^aircraft_schedule\.(?!header\.)[^.]+\.[^.]+$/.test(r.logical_path ?? ""))
+      .map((r) => ({ page_index, run_id: r.run_id })),
+  );
 // Directly checked invariants: each returns the violations it finds, plus what it could not decide.
 const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; open: string[] }> = {
   no_content_differences: ({ result }) =>
     result.differences.length ? ["False content differences in control"] : [],
-  no_false_text_added_or_removed: ({ result }) =>
-    result.differences.some((d) => d.hasTextChange) ? ["False text delta in reflow control"] : [],
+  no_false_text_added_or_removed: (c) => [
+    ...unbacked(c),
+    ...(c.result.differences.some(changes) ? ["False text delta in reflow control"] : []),
+  ],
   no_false_clause_moves: ({ result }) =>
     result.differences.some((d) => d.kind === "Moved") ? ["False move caused by pagination"] : [],
-  no_material_differences: ({ result, expected, layout, docs }) => {
+  // Migrated from "no Material card and no text change outside Cosmetic": the control declares no
+  // edit beyond its events, so every source-validated text change must be a declared event. A
+  // category does not excuse a change. An undeclared change the card presents as content (Material,
+  // Review, RollForward) is false either way: a form-only change claimed as content, or a content
+  // change the control does not have. One it presents as form-only (Cosmetic) is false only if the
+  // change is not form-only, and no shared, declared definition of form-only transforms exists to
+  // verify that: NOT_EVALUATED. A card without a text change is not an edit here; moves and extra
+  // cards are judged by the case's move and content invariants.
+  no_material_differences: (c) => {
+    const { result, expected, layout, docs, unsourced } = c;
     // Each declared event excuses at most one card.
     const declared = new Set<string>();
     const excused = (d: Difference) => {
       const e = expected.events.find(
         (e) =>
           !declared.has(e.event_id) &&
-          declaredChange(d, e, expected.evidence_locations[e.event_id], layout, docs),
+          declaredChange(d, e, expected.evidence_locations[e.event_id], layout, docs, expected.invariants),
       );
       if (e) declared.add(e.event_id);
       return Boolean(e);
     };
-    return result.differences.some(
-      (d) =>
-        d.category === "Material" ||
-        (d.hasTextChange && d.category !== "Cosmetic" && !excused(d)),
-    )
-      ? ["False substantive change; Review is not an exemption"]
-      : [];
+    const undeclared = result.differences.filter((d) => !unsourced.has(d.id) && changes(d) && !excused(d));
+    const violations = [
+      ...unbacked(c),
+      ...(undeclared.some((d) => d.category !== "Cosmetic")
+        ? ["False substantive change; Review is not an exemption"]
+        : []),
+    ];
+    return {
+      violations,
+      open: undeclared
+        .filter((d) => d.category === "Cosmetic")
+        .map(
+          (d) =>
+            `card ${d.id} presents an undeclared text change as form-only; no declared definition of form-only transforms can verify it`,
+        ),
+    };
   },
-  no_false_row_additions_or_deletions: ({ result }) =>
-    result.differences.some((d) => d.structurePath?.table && d.hasTextChange)
-      ? ["False table value/entity delta"]
-      : [],
-  moved_clause_has_no_internal_word_edits: ({ result }) =>
-    result.differences.some((d) => d.kind === "Moved" && d.hasTextChange)
+  // A table card that changes text, by its own table label or by its edit sources on a record's
+  // layout.json runs.
+  no_false_row_additions_or_deletions: (c) => {
+    const { result, layout } = c;
+    const before = recordRuns(layout, "before"),
+      after = recordRuns(layout, "after");
+    const onRecord = (d: Difference) =>
+      d.textOps.some(
+        (o) =>
+          (o.kind === "delete" && located(o.left, before, layout.before.pages, "left")) ||
+          (o.kind === "insert" && located(o.right, after, layout.after.pages, "right")),
+      );
+    return [
+      ...unbacked(c),
+      ...(result.differences.some((d) => changes(d) && (d.structurePath?.table || onRecord(d)))
+        ? ["False table value/entity delta"]
+        : []),
+    ];
+  },
+  moved_clause_has_no_internal_word_edits: (c) => [
+    ...unbacked(c),
+    ...(c.result.differences.some((d) => d.kind === "Moved" && changes(d))
       ? ["False internal move edit"]
-      : [],
+      : []),
+  ],
   must_not_classify_as_unchanged_duration_roll_forward: ({ result }) =>
     result.differences.some(
       (d) => d.structurePath?.field === "policy_period" && d.category === "RollForward",
@@ -644,21 +726,41 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
 // Process exit: 0 strict PASS, 2 only registered coverage gaps, 1 any failure or unregistered gap.
 export const exitCode = (s: ReturnType<typeof summarize>) =>
   s.status === "PASS" ? 0 : s.knownGapsOnly ? 2 : 1;
-// Which identity check applies to an event; test is null when no identity rule decides the match.
-export function identityRule(e: Expected["events"][number]): {
+// What a card says about the record or party of its change. Where the change belongs is decided by
+// its edit sources (the event check); these values only judge the card's outward claim. "determined"
+// names an identity the answer accepts, "unresolved" is an explicit open identity (row key null,
+// confidence unresolved), "absent" names none, and "wrong" names another identity: only "wrong" is a
+// false claim, and a missing or unresolved identity counts only where the answer allows it.
+export type IdentityClaim = "determined" | "unresolved" | "absent" | "wrong";
+// Which identity check applies to an event; claim is null when no identity rule applies.
+export function identityRule(
+  e: Expected["events"][number],
+  invariants: string[] = [],
+  layout?: Layout,
+): {
   applicability: IdentityCheck["applicability"];
   reason: string;
-  test: ((d: Difference) => boolean) | null;
+  claim: ((d: Difference) => IdentityClaim) | null;
+  // The claims that present the identity as the answer requires.
+  accepts: IdentityClaim[];
 } {
   const pathParts = e.logical_path.split(".");
-  if (e.detection_requirement === "visible_text_delta_with_identity_review")
+  const open = (d: Difference) =>
+    d.structurePath?.confidence === "unresolved" && d.structurePath.rowKey === null;
+  if (e.detection_requirement === "visible_text_delta_with_identity_review") {
+    const field = pathParts.at(-1);
     return {
       applicability: "checked",
-      reason: "duplicate identity must stay unresolved with no asserted row key",
-      test: (d) =>
-        d.structurePath?.confidence === "unresolved" &&
-        d.structurePath.rowKey === null,
+      reason: "duplicate identity must stay explicitly unresolved, with no asserted row key or party",
+      claim: (d) => {
+        const p = d.structurePath;
+        if (p && (p.rowKey !== null || p.entity !== null || (p.field !== null && p.field !== field)))
+          return "wrong";
+        return open(d) ? "unresolved" : "absent";
+      },
+      accepts: ["unresolved"],
     };
+  }
   if (pathParts[0] === "risk_details") {
     const entity = ["original_insured", "reinsured"].includes(pathParts[1])
       ? pathParts[1]
@@ -667,29 +769,71 @@ export function identityRule(e: Expected["events"][number]): {
     return {
       applicability: "checked",
       reason: `party/field identity: entity=${entity ?? "none"}, field=${field}`,
-      test: (d) =>
-        d.structurePath?.entity === entity && d.structurePath?.field === field,
+      claim: (d) => {
+        const p = d.structurePath;
+        if (!p) return "absent";
+        if ((p.entity !== null && p.entity !== entity) || (p.field !== null && p.field !== field))
+          return "wrong";
+        return p.entity === entity && p.field === field ? "determined" : open(d) ? "unresolved" : "absent";
+      },
+      accepts: ["determined"],
     };
   }
-  if (pathParts[0] === "aircraft_schedule")
+  if (pathParts[0] === "aircraft_schedule") {
+    const [, serial, field] = pathParts;
+    // The answer's keys for the record: its declared serial; its registration (from layout.json,
+    // either side) where the case matches rows by registration or serial; and an explicit identity
+    // review where the case allows one.
+    const registrations = invariants.includes("match_row_by_registration_or_declared_serial")
+      ? (["before", "after"] as const).flatMap(
+          (s) =>
+            layout?.[s].pages.flatMap((p) =>
+              p.text_runs
+                .filter((r) => r.logical_path === `aircraft_schedule.${serial}.registration`)
+                .map((r) => r.text.trim()),
+            ) ?? [],
+        )
+      : [];
+    const keys = new Set([serial, ...registrations]);
+    const review = invariants.includes("secondary_key_or_explicit_identity_review");
     return {
       applicability: "checked",
-      reason: `table record identity: rowKey=${pathParts[1]}, field=${pathParts[2]}`,
-      test: (d) =>
-        d.structurePath?.rowKey === pathParts[1] &&
-        d.structurePath?.field === pathParts[2],
+      reason: `table record identity: rowKey ${[...keys].join(" or ")}${review ? " or an explicit identity review" : ""}, field=${field}`,
+      claim: (d) => {
+        const p = d.structurePath;
+        if (!p) return "absent";
+        if (
+          (p.rowKey !== null && !keys.has(p.rowKey)) ||
+          (p.entity !== null && !keys.has(p.entity)) ||
+          (p.field !== null && p.field !== field)
+        )
+          return "wrong";
+        return p.rowKey !== null && p.field === field ? "determined" : open(d) ? "unresolved" : "absent";
+      },
+      accepts: review ? ["determined", "unresolved"] : ["determined"],
     };
+  }
   const known = IDENTITY_NOT_APPLICABLE[e.event_id];
   if (known && known.logicalPath === e.logical_path)
-    return { applicability: "not_applicable", reason: known.reason, test: null };
+    return { applicability: "not_applicable", reason: known.reason, claim: null, accepts: [] };
   return {
     applicability: "unsupported",
     reason: known
       ? `N/A entry for ${e.event_id} names ${known.logicalPath}, event has ${e.logical_path}`
       : `no identity check for logical path ${e.logical_path}`,
-    test: null,
+    claim: null,
+    accepts: [],
   };
 }
+// What a card's category asserts as a fact, against the forms the answer allows for the event.
+// Cosmetic asserts a form-only change and RollForward a one-year roll-forward of the dates; Material
+// and Review both assert a content change, and their importance is not judged.
+const categoryAllowed = (d: Difference, e: Expected["events"][number]) =>
+  d.category === "Cosmetic" || d.category === "RollForward"
+    ? e.acceptable_categories.includes(d.category)
+    : e.acceptable_categories.some((c) => c === "Material" || c === "Review");
+// Whether a card changes text: its source-validated raw texts differ. Its own flag is a claim.
+const changes = (d: Difference) => d.oldText !== d.newText;
 // One status for a run: any failure is FAIL, otherwise any unevaluated case keeps it from PASS.
 export function summarize(
   records: {
@@ -745,6 +889,26 @@ export function summarize(
       unsupported: invariantNames("unsupported"),
       unknown: invariantNames("unknown"),
     },
+    // Identity claims of the checked events: determined, presented as an allowed explicit review,
+    // or not presented as required (wrong claims are listed separately as well).
+    identityClaims: {
+      determined: by((e) => e.identity?.determined === true),
+      presentedUnresolved: by((e) => e.identity?.pass === true && e.identity.determined === false),
+      notPresented: by((e) => e.identity?.pass === false),
+      wrong: by((e) => e.identity?.claims?.includes("wrong") ?? false),
+    },
+    // Invariant results by coverage; indirect results restate the event checks and add no evidence.
+    invariantResults: Object.fromEntries(
+      (["direct", "indirect", "unsupported", "unknown"] as const).map((c) => [
+        c,
+        Object.fromEntries(
+          (["PASS", "FAIL", "NOT_EVALUATED"] as const).map((r) => [
+            r,
+            records.flatMap((x) => x.invariants ?? []).filter((i) => i.coverage === c && i.result === r).length,
+          ]),
+        ),
+      ]),
+    ) as Record<InvariantScore["coverage"], Record<CaseStatus, number>>,
     identityApplicability: {
       checked: by((e) => e.identity?.applicability === "checked"),
       notApplicable: by((e) => e.identity?.applicability === "not_applicable"),
@@ -804,27 +968,27 @@ function located(
       }),
   );
 }
-// In a control that must have no substantive change, a text-changing card is still a false
-// change unless it is exactly one declared non-Material event: the event's whole old and new
-// text (not a part of the card), an accepted kind and category, the event's sides, default
-// visibility, and every location of the card, its operations and occurrences resolving to the
-// source and lying on the event's declared runs. The case, a title style or the category alone
-// never excuse a card.
+// In a no-change control, a text-changing card is an undeclared edit unless it is exactly one
+// declared event: the event's whole old and new text (not a part of the card), an accepted kind,
+// the event's sides, an accepted identity claim, default visibility, and every location of the card,
+// its operations and occurrences resolving to the source and lying on the event's declared runs.
+// Its category is judged by the event check, not here: the case, a title style or a category never
+// excuse a card.
 export function declaredChange(
   d: Difference,
   e: Expected["events"][number],
   refs: Record<"before" | "after", Evidence[]> | undefined,
   layout: Layout,
   docs: [DocInput, DocInput],
+  invariants: string[] = [],
 ): boolean {
+  const rule = identityRule(e, invariants, layout);
   if (
     !refs ||
     e.detection_requirement !== "must_detect" ||
-    e.acceptable_categories.includes("Material") ||
-    identityRule(e).applicability === "unsupported" ||
-    !(identityRule(e).test?.(d) ?? true) ||
+    rule.applicability === "unsupported" ||
+    (rule.claim !== null && !rule.accepts.includes(rule.claim(d))) ||
     !e.acceptable_kinds.includes(d.kind) ||
-    !e.acceptable_categories.includes(d.category) ||
     !d.defaultVisible ||
     clean(d.oldText) !== clean(e.old ?? "") ||
     clean(d.newText) !== clean(e.new ?? "") ||
@@ -889,9 +1053,12 @@ export function grade(
     if(!final.length||!final.every(q=>overlap(quadBox(q),sourceBox)/Math.max(1,area(quadBox(q)))>.35))return false;
     return located([loc],page.text_runs.map(r=>({page_index:loc.pageIndex,run_id:r.run_id})),layout[loc.side==='left'?'before':'after'].pages,loc.side,true);
   };
+  // Cards whose texts or locations fail source validation: their text cannot show that a control holds.
+  const unsourced = new Set<string>();
   for (const d of result.differences) {
+    const before = faults.length;
     if(requireFineGeometry){
-      const finalLocations=d.hasTextChange?d.textOps.filter(o=>o.kind!=='equal').flatMap(o=>[...o.left,...o.right]):[...d.left,...d.right];
+      const finalLocations=changes(d)?d.textOps.filter(o=>o.kind!=='equal').flatMap(o=>[...o.left,...o.right]):[...d.left,...d.right];
       if(!finalLocations.length||!finalLocations.every(finalGeometryValid))faults.push('Invalid final changed geometry on one or more sides: '+d.id);
     }
     const compact=(text:string)=>text.replace(/\s/gu,'');
@@ -936,6 +1103,10 @@ export function grade(
         o.right.some((l) => !checkLoc(l, "right"))
       )
         faults.push("Invalid occurrence source");
+    if (faults.length > before) unsourced.add(d.id);
+    // hasTextChange means the two raw texts differ; a flag that says otherwise is a false claim.
+    else if (d.hasTextChange !== changes(d))
+      faults.push("hasTextChange contradicts the card's source-validated texts: " + d.id);
   }
   const required = expected.required_status;
   const completeness =
@@ -977,7 +1148,7 @@ export function grade(
         branch: "coverage_warning",
         verdict: pass ? "PASS" : "FAIL",
         discovery: findings,
-        correspondence: findings,
+        attribution: findings,
         position: findings,
         visibility: findings,
         completeness: result.status === "partial",
@@ -999,6 +1170,31 @@ export function grade(
         pass: false,
         reason: "Unknown detection branch: " + e.detection_requirement,
       };
+    const refs = expected.evidence_locations[e.event_id];
+    const rule = identityRule(e, expected.invariants, layout);
+    const claimOf = (d: Difference) => rule.claim?.(d) ?? null;
+    const at = (d: Difference, side: "left" | "right") =>
+      side === "left"
+        ? located(d.left, refs.before, layout.before.pages, "left")
+        : located(d.right, refs.after, layout.after.pages, "right");
+    // A delete (insert) operation of the card on the event's before (after) runs.
+    const on = (d: Difference, kind: "delete" | "insert") =>
+      d.textOps.some((op) =>
+        op.kind === kind &&
+        (kind === "delete"
+          ? e.old !== null && located(op.left, refs.before, layout.before.pages, "left")
+          : e.new !== null && located(op.right, refs.after, layout.after.pages, "right")),
+      );
+    // A card belongs to the event by its edit sources: each kind of change it makes has an operation
+    // on the event's runs (a move without a text change, by its located sides). Its record, party or
+    // field labels are claims, judged separately.
+    const sourced = (d: Difference) => {
+      const kinds = [...new Set(d.textOps.filter((o) => o.kind !== "equal").map((o) => o.kind))];
+      return (
+        (e.operation === "move" && !changes(d)) ||
+        (kinds.length > 0 && kinds.every((k) => on(d, k as "delete" | "insert")))
+      );
+    };
     const candidates = result.differences.filter(
       (d) =>
         (e.old === null || clean(d.oldText).includes(clean(e.old))) &&
@@ -1006,34 +1202,48 @@ export function grade(
         (e.old !== null || d.kind === "Added") &&
         (e.new !== null || d.kind === "Removed"),
     );
-    const discovery = candidates.length > 0;
-    const acceptable = candidates.filter(
+    const single = candidates.filter(
       (d) =>
         e.acceptable_kinds.includes(d.kind) &&
-        e.acceptable_categories.includes(d.category),
+        (e.old === null || at(d, "left")) &&
+        (e.new === null || at(d, "right")) &&
+        sourced(d),
     );
-    const refs = expected.evidence_locations[e.event_id];
-    const positioned = acceptable.filter(
-      (d) =>
-        (e.old === null ||
-          located(d.left, refs.before, layout.before.pages, "left")) &&
-        (e.new === null ||
-          located(d.right, refs.after, layout.after.pages, "right")),
+    // Added+Removed, where the answer allows it: Removed cards deleting the old text on the event's
+    // before runs and Added cards inserting the new text on its after runs (the same record and field
+    // by source); together they show the event once, however many cards repeat a half.
+    const halves =
+      e.acceptable_kinds.includes("Added+Removed") && e.old !== null && e.new !== null
+        ? ([
+            ["Removed", "left", "delete", e.old],
+            ["Added", "right", "insert", e.new],
+          ] as const).map(([kind, side, op, text]) =>
+            result.differences.filter(
+              (d) =>
+                d.kind === kind &&
+                clean(side === "left" ? d.oldText : d.newText).includes(clean(text)) &&
+                at(d, side) &&
+                on(d, op),
+            ),
+          )
+        : [[], []];
+    const pair = halves[0].length && halves[1].length ? [...halves[0], ...halves[1]] : null;
+    const groups = [...single.map((d) => [d]), ...(pair ? [pair] : [])];
+    const attributed = groups.flat();
+    const discovery = candidates.length > 0 || pair !== null;
+    const attribution = groups.length > 0;
+    const visibility = groups.some((g) => g.every((d) => d.defaultVisible));
+    // Claims of the attributed cards: a wrong identity or a category the answer does not allow for
+    // the event is a false claim, whatever else the card shows.
+    const claims = attributed.map(claimOf).filter((c): c is IdentityClaim => c !== null);
+    const falseCategoryClaims = attributed
+      .filter((d) => !categoryAllowed(d, e))
+      .map((d) => `${d.id}: ${d.category}`);
+    const presented = groups.some((g) =>
+      g.every((d) => d.defaultVisible && (rule.claim === null || rule.accepts.includes(rule.claim(d)))),
     );
-    // N/A and unsupported events are matched without an identity rule; every other check still applies.
-    const rule = identityRule(e);
-    const identity = (d: Difference) => rule.test?.(d) ?? true;
-    const matched = positioned.filter(identity);
-    const correspondence = acceptable.some(identity) && matched.length > 0;
-    const visibility = matched.some((d) => d.defaultVisible);
-    // Changed-character evidence must land in the target run, not merely a broad field card.
-    const changed=matched.flatMap(d=>d.textOps.filter(op=>op.kind!=='equal'));
-    const kinds=[...new Set(changed.map(op=>op.kind))];
-    const precise = matched.some(d=>e.operation==='move'&&!d.hasTextChange)||
-      (kinds.length>0&&kinds.every(kind=>changed.some(op=>op.kind===kind&&
-        (kind==='delete'?e.old!==null&&located(op.left,refs.before,layout.before.pages,'left'):e.new!==null&&located(op.right,refs.after,layout.after.pages,'right')))));
-    const fineGeometry = matched.some((d) => {
-      const locations = d.hasTextChange
+    const fine = (d: Difference) => {
+      const locations = changes(d)
         ? d.textOps
             .filter((o) => o.kind !== "equal")
             .flatMap((o) => [...o.left, ...o.right])
@@ -1048,16 +1258,20 @@ export function grade(
               l.resolvedGeometry.quads.length > 0),
         )
       );
-    });
+    };
     const position =
-      matched.length > 0 && precise && (!requireFineGeometry || fineGeometry);
-    // A failed check is a proven product fault; otherwise a missing identity check leaves it unjudged.
+      attribution && (!requireFineGeometry || groups.some((g) => g.every(fine)));
+    // A failed check or a false claim is a proven product fault; otherwise a missing identity check
+    // leaves the event unjudged.
     const verdict: CaseStatus = !(
       discovery &&
-      correspondence &&
+      attribution &&
       position &&
       visibility &&
-      completeness
+      completeness &&
+      presented &&
+      !claims.includes("wrong") &&
+      !falseCategoryClaims.length
     )
       ? "FAIL"
       : rule.applicability === "unsupported"
@@ -1068,15 +1282,21 @@ export function grade(
       branch: "text",
       verdict,
       discovery,
-      correspondence,
+      attribution,
+      representation: single.length ? "card" : pair ? "delete+add" : null,
       position,
       visibility,
       completeness,
       identity: {
         applicability: rule.applicability,
-        pass: rule.test ? acceptable.some(rule.test) && matched.length > 0 : null,
+        pass: rule.claim ? attribution && presented && !claims.includes("wrong") : null,
+        determined: rule.claim
+          ? groups.some((g) => g.every((d) => claimOf(d) === "determined")) && !claims.includes("wrong")
+          : null,
+        claims,
         reason: rule.reason,
       },
+      falseCategoryClaims,
       pass: verdict === "PASS",
       ...(verdict === "NOT_EVALUATED" ? { reason: rule.reason } : {}),
     };
@@ -1109,7 +1329,7 @@ export function grade(
     }
     if (entry.coverage === "indirect")
       return { name, coverage: "indirect", result: eventVerdict, reason: entry.basis };
-    const checked = DIRECT[name]({ result, expected, layout, docs });
+    const checked = DIRECT[name]({ result, expected, layout, docs, unsourced });
     const { violations, open } = Array.isArray(checked) ? { violations: checked, open: [] } : checked;
     faults.push(...violations.map((v) => name + ": " + v));
     if (!violations.length && open.length) {

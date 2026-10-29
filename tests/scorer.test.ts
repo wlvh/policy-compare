@@ -206,6 +206,104 @@ describe("independent grader rejects dishonest outputs", () => {
     x.result.differences[0].category = "Review";
     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
+  // #10 rulings 1 and 3: a card's flags and category are claims checked against its source-validated
+  // texts and the answer; none of them can turn the same change into PASS.
+  it("a false hasTextChange flag fails, and the control still sees the source text change", () => {
+    const x = example();
+    x.expected.events = [];
+    x.expected.invariants = ["no_false_text_added_or_removed"];
+    Object.assign(x.result.differences[0], { hasTextChange: false, category: "Cosmetic" });
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults).toEqual([
+      "hasTextChange contradicts the card's source-validated texts: " + x.result.differences[0].id,
+      "no_false_text_added_or_removed: False text delta in reflow control",
+    ]);
+  });
+  it("deleting and re-inserting the same text is no text change; a true flag on it is a false claim", () => {
+    const x = example();
+    const [l, r] = x.docs;
+    x.expected.events = [];
+    x.expected.invariants = ["no_false_text_added_or_removed"];
+    const loc = (d: DocInput, side: "left" | "right") => {
+      const line = d.pages[0].lines[0];
+      const chars = line.charIds.map((id) => d.pages[0].chars.find((c) => c.id === id)!);
+      return { side, pageIndex: 0, unitId: line.id, rawRange: [chars[0].rawRange[0], chars.at(-1)!.rawRange[1]] as [number, number], charIds: [...line.charIds], text: chars.map((c) => c.text).join(""), quads: chars.map((c) => c.quad), direction: line.direction, precision: "synthetic" as const };
+    };
+    const [a, b] = [loc(l, "left"), loc(r, "right")];
+    x.result.differences = [
+      {
+        ...x.result.differences[0],
+        id: "same",
+        left: [a],
+        right: [b],
+        oldText: a.text,
+        newText: b.text,
+        textOps: [
+          { kind: "delete", text: a.text, left: [a], right: [] },
+          { kind: "insert", text: b.text, left: [], right: [b] },
+        ],
+        hasTextChange: true,
+        occurrences: [],
+      },
+    ];
+    expect(a.text).toBe(b.text);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.faults).toEqual(["hasTextChange contradicts the card's source-validated texts: same"]);
+    x.result.differences[0].hasTextChange = false;
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
+  });
+  it("a card that fails source validation cannot show that a control holds", () => {
+    const x = example();
+    x.expected.events = [];
+    x.expected.invariants = ["no_false_text_added_or_removed", "no_material_differences"];
+    // Forged equal texts: no change, if the text were believed.
+    const d = x.result.differences[0];
+    Object.assign(d, {
+      newText: d.oldText,
+      textOps: [{ kind: "equal", text: d.oldText, left: d.left, right: d.right }],
+      hasTextChange: false,
+    });
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.invariants.map((i) => [i.name, i.result])).toEqual([
+      ["no_false_text_added_or_removed", "FAIL"],
+      ["no_material_differences", "FAIL"],
+    ]);
+    expect(score.faults).toContain(`no_material_differences: card ${d.id} is not backed by its sources`);
+  });
+  it("a Cosmetic label does not turn an undeclared text change in a control into PASS: NOT_EVALUATED", () => {
+    const x = example();
+    x.expected.events = [];
+    x.expected.invariants = ["no_material_differences"];
+    x.result.differences[0].category = "Cosmetic";
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
+    expect(score.notEvaluated).toMatchObject([{ invariant: "no_material_differences", kind: "invariant_unverifiable" }]);
+    expect(exitCode(summarize([score]))).toBe(1);
+  });
+  it("a Cosmetic or RollForward claim on a declared content change is false; discovery and attribution still pass", () => {
+    for (const category of ["Cosmetic", "RollForward"] as const) {
+      const x = example();
+      x.result.differences[0].category = category;
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status, category).toBe("FAIL");
+      expect(score.events[0], category).toMatchObject({
+        discovery: true,
+        attribution: true,
+        position: true,
+        falseCategoryClaims: [expect.stringContaining(category)],
+      });
+    }
+  });
+  it("importance is not judged: Material where the answer lists Review, and Review where it lists Material", () => {
+    for (const [listed, claimed] of [["Review", "Material"], ["Material", "Review"]] as const) {
+      const x = example();
+      x.expected.events[0].acceptable_categories = [listed];
+      x.result.differences[0].category = claimed;
+      expect(grade(x.result, x.expected, x.layout, x.docs).status, claimed).toBe("PASS");
+    }
+  });
 });
 describe("identity applicability: checked, explicit N/A, or not evaluated", () => {
   const caseDir = "validation/dataset/cases";
@@ -1093,7 +1191,171 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
   it("R26: matching the row by the renamed registration instead of the serial fails", () => {
     const x = r26();
     x.result.differences[0].structurePath!.rowKey = "TEST-C941";
-    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    // The card's edits lie on the record's registration cell; only its identity claim is false.
+    expect(score.events[0]).toMatchObject({ discovery: true, attribution: true, position: true });
+    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["wrong"] });
+  });
+  // #10 ruling 2: an explicit identity review is an answer-allowed form for R26; a missing identity
+  // is not wrong, but neither determines the record nor reviews it explicitly.
+  it("R26: an explicit identity review is accepted as presented, not as determined", () => {
+    const x = r26();
+    Object.assign(x.result.differences[0].structurePath!, { rowKey: null, entity: null, confidence: "unresolved" });
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("PASS");
+    expect(score.events[0].identity).toMatchObject({ pass: true, determined: false, claims: ["unresolved"] });
+  });
+  it("R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer", () => {
+    const x = r26();
+    Object.assign(x.result.differences[0].structurePath!, { rowKey: null, entity: null });
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.events[0]).toMatchObject({ attribution: true });
+    expect(score.events[0].identity).toMatchObject({ pass: false, determined: false, claims: ["absent"] });
+  });
+  // #10 ruling 4: Added+Removed is one Removed card on the record's old cell and one Added card on its
+  // new cell, with the event's text, counted once.
+  const renamePair = (x: ReturnType<typeof r26>, line = "l6", added = "TEST-RENAMED") => {
+    const [l, r] = x.docs;
+    const out = oneSided("Removed", "rename-out", lineLoc(l, "left", "l6"), "SYN-1026-003", "registration");
+    const loc = lineLoc(r, "right", line);
+    const at = loc.text.indexOf(added);
+    const into = oneSided("Added", "rename-in", slice(loc, at, at + added.length), "SYN-1026-003", "registration");
+    return [out, into];
+  };
+  it("R26: one delete + one add card on the record's registration cell is accepted once", () => {
+    const x = r26();
+    x.result.differences = renamePair(x);
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("PASS");
+    expect(score.events[0]).toMatchObject({ representation: "delete+add", attribution: true });
+    expect(score.events[0].identity).toMatchObject({ pass: true, determined: true });
+    // A repeated half does not count the event twice.
+    x.result.differences.push({ ...x.result.differences[0], id: "rename-out-again" });
+    const again = grade(x.result, x.expected, x.layout, x.docs);
+    expect(again.events).toHaveLength(1);
+    expect(summarize([again]).eventRegression).toMatchObject({ passed: 1, total: 1 });
+  });
+  it("R26: a delete + add pair is not the event when the added text lies in another record, or is the old text moved", () => {
+    // Another record (SYN-90) on the new side carries TEST-RENAMED, or the old registration.
+    for (const [text, added] of [["TEST-RENAMED OPS 300,000", "TEST-RENAMED"], ["TEST-C941 OPS 300,000", "TEST-C941"]]) {
+      const x = r26(false, undefined, { left: [], right: [text] });
+      x.result.differences = renamePair(x, "l11", added);
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status, text).toBe("FAIL");
+      expect(score.events[0].attribution, text).toBe(false);
+    }
+  });
+  it("R26: with a delete + add pair, another record's key on one half is a false claim", () => {
+    const x = r26();
+    x.result.differences = renamePair(x);
+    x.result.differences[1].structurePath!.rowKey = "SYN-1026-001";
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.events[0].identity?.claims).toContain("wrong");
+  });
+  it("R26: a table card that changes a record's text fails the row control by its sources, without a table label", () => {
+    const x = r26();
+    x.expected.events = [];
+    x.expected.evidence_locations = {};
+    x.expected.invariants = ["no_false_row_additions_or_deletions"];
+    x.result.differences[0].structurePath = null;
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.faults).toContain("no_false_row_additions_or_deletions: False table value/entity delta");
+  });
+  // R22: one agreed value changes; the answer matches rows by registration or declared serial.
+  const r22 = (amounts = ["100,000", "200,000"]) => {
+    const left = table("TEST-C941", false, amounts),
+      right = table("TEST-C941", false, [amounts[0], "250,000"]);
+    const expected: Expected = {
+      case_id: "R22_table_value",
+      required_status: "complete_for_scope",
+      events: [
+        {
+          event_id: "R22_table_value:E1",
+          logical_path: "aircraft_schedule.SYN-1026-003.agreed_value",
+          old: amounts[1],
+          new: "250,000",
+          operation: "replace",
+          detection_requirement: "must_detect",
+          acceptable_kinds: ["Replaced"],
+          acceptable_categories: ["Material", "Review"],
+        },
+      ],
+      invariants: ["match_row_by_registration_or_declared_serial"],
+      coverage_requirements: [],
+      evidence_locations: {
+        "R22_table_value:E1": {
+          before: [{ page_index: 0, run_id: "l10" }],
+          after: [{ page_index: 0, run_id: "l10" }],
+        },
+      },
+    };
+    const result = compare(left, right);
+    Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [] });
+    result.differences = [
+      replaced("value", lineLoc(left, "left", "l10"), lineLoc(right, "right", "l10"), {
+        section: "aircraft_schedule",
+        entity: "SYN-1026-003",
+        field: "agreed_value",
+        table: "aircraft_schedule",
+        rowKey: "SYN-1026-003",
+      }),
+    ];
+    return {
+      docs: [left, right] as [DocInput, DocInput],
+      expected,
+      layout: { before: layoutOf(left, paths), after: layoutOf(right, paths) } as Layout,
+      result,
+    };
+  };
+  it("R22: the record's declared serial or its registration is an accepted row key", () => {
+    for (const key of ["SYN-1026-003", "TEST-C941"]) {
+      const x = r22();
+      Object.assign(x.result.differences[0].structurePath!, { rowKey: key, entity: key });
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status, key).toBe("PASS");
+      expect(score.events[0].identity, key).toMatchObject({ pass: true, determined: true, claims: ["determined"] });
+    }
+  });
+  it("R22: another record's serial or registration on a correctly sourced card fails as a false identity claim", () => {
+    for (const key of ["SYN-1026-001", "TEST-A789"]) {
+      const x = r22();
+      x.result.differences[0].structurePath!.rowKey = key;
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status, key).toBe("FAIL");
+      expect(score.events[0], key).toMatchObject({ discovery: true, attribution: true, position: true, visibility: true });
+      expect(score.events[0].identity, key).toMatchObject({ pass: false, claims: ["wrong"] });
+    }
+  });
+  it("R22: an explicitly unresolved identity is not wrong, but this answer does not allow it", () => {
+    const x = r22();
+    Object.assign(x.result.differences[0].structurePath!, { rowKey: null, entity: null, confidence: "unresolved" });
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.events[0]).toMatchObject({ attribution: true });
+    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["unresolved"] });
+  });
+  it("R22: the correct record label on a card that deletes the same value from another record does not attribute the event", () => {
+    // Row SYN-1026-001 also holds 200,000 and keeps it; the card takes its old text from there.
+    const x = r22(["200,000", "200,000"]);
+    const [l, r] = x.docs;
+    x.result.differences = [
+      replaced("value", lineLoc(l, "left", "l5"), lineLoc(r, "right", "l10"), {
+        section: "aircraft_schedule",
+        entity: "SYN-1026-003",
+        field: "agreed_value",
+        table: "aircraft_schedule",
+        rowKey: "SYN-1026-003",
+      }),
+    ];
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.events[0]).toMatchObject({ discovery: true, attribution: false });
   });
   // R11: label alias only; neither amount nor currency may change.
   const policy = (label: string, bare: boolean) =>
@@ -1231,6 +1493,8 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       right: R,
       oldText: "UU",
       newText: "UU",
+      // The raw texts are equal, so an honest flag is false (a true one would be a false claim).
+      hasTextChange: false,
       textOps: [
         { kind: "delete", text: "U", left: [L[0]], right: [] },
         { kind: "delete", text: "U", left: [L[1]], right: [] },
@@ -1395,6 +1659,15 @@ describe("invariant coverage register (#10)", () => {
     Object.assign(x.result.differences[0].structurePath!, { confidence: "reliable", rowKey: "SYN-1026-001" });
     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
+  it("R25: asserting a party for the duplicate group is a false identity claim", () => {
+    const x = r25();
+    expect(grade(x.result, x.expected, x.layout, x.docs).events[0].identity).toMatchObject({ pass: true, determined: false, claims: ["unresolved"] });
+    x.result.differences[0].structurePath!.entity = "SYN-1026-001";
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.events[0]).toMatchObject({ attribution: true });
+    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["wrong"] });
+  });
 });
 // Issue #2 round 5: the repagination in R16 really adds the page title POLICY WORDING. It is a
 // declared Added/Review event; the no-change invariant excuses only the card that exactly is it.
@@ -1510,10 +1783,19 @@ describe("R16: a declared added page title in a no-change control", () => {
     expect(score.events[0].verdict).toBe("PASS");
     expect(score.faults).toContain(invariant);
   });
+  // #10 ruling 3: importance is not judged. Material and Review both present the declared title as
+  // a content change, which it is; Cosmetic presents it as form-only, a false claim the event fails.
+  it("Material and Review make the same content claim; a Cosmetic claim on the declared addition fails", () => {
+    const x = r16();
+    x.result.differences[0].category = "Material";
+    expect(grade(x.result, x.expected, x.layout, x.docs)).toMatchObject({ eventStatus: "PASS", faults: [] });
+    x.result.differences[0].category = "Cosmetic";
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.faults).toEqual(["Required event failed: R16_repagination:E1"]);
+    expect(score.events[0]).toMatchObject({ attribution: true, falseCategoryClaims: [expect.stringContaining("Cosmetic")] });
+  });
   const kept: Record<string, (r: CompareResult) => void> = {
-    Material: (r) => {
-      r.differences[0].category = "Material";
-    },
     "a second card for the same title": (r) => {
       r.differences.push({ ...r.differences[0], id: r.differences[0].id + "-copy" });
     },
