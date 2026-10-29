@@ -655,7 +655,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.13+facts.4+repeat.6+ops.4",
+    coreVersion: VERSION + "+row-identity.13+facts.4+repeat.7+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -926,12 +926,13 @@ export function compare(
     ["left", la, usedL],
     ["right", rb, usedR],
   ] as const) {
+    // Grouped by variant like the paired lines, so "Draft " on one page is not
+    // counted as "Draft" (r4417244277).
     const texts = new Map<string, Unit[]>();
-    for (const u of lone[side])
-      texts.set(u.rawText.trim(), [...(texts.get(u.rawText.trim()) ?? []), u]);
+    for (const u of lone[side]) texts.set(variant(u), [...(texts.get(variant(u)) ?? []), u]);
     for (const [text, group] of texts) {
       for (const u of us)
-        if (!used.has(u) && u.rawText.trim() === text && margin(u)) {
+        if (!used.has(u) && variant(u) === text && margin(u)) {
           group.push(u);
           used.add(u);
         }

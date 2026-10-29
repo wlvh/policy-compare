@@ -377,6 +377,24 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
     const zeros = (p: number) => `Page 0${p + 1}`;
     expect(compare(four(zeros, 120), four(zeros, 120)).differences).toEqual([]);
   });
+  it("a repeated line on one side only keeps its variants apart too (r4417244277)", () => {
+    // One-sided lines were grouped by trimmed text: "Draft " on page 3 merged
+    // with "Draft" and the card counted 4 occurrences of "Draft".
+    const r = ResultSchema.parse(
+      compare(
+        pages(4, (p) => [{ text: `Ordinary body on page ${p + 1}`, x: 40, y: 300 }]),
+        four((p) => (p === 2 ? "Draft " : "Draft")),
+      ),
+    );
+    const cards = r.differences.filter((d) => d.newText.trim() === "Draft");
+    expect(cards.map((d) => [d.kind, d.newText, d.repeat?.right])).toEqual(
+      expect.arrayContaining([
+        ["Added", "Draft", 3],
+        ["Added", "Draft ", 1],
+      ]),
+    );
+    expect(cards).toHaveLength(2);
+  });
   it("one text replaced by several: one card per new text, the old group not also unmatched", () => {
     const r = ResultSchema.parse(
       compare(four(() => "Limit USD 1000"), four((p) => (p === 3 ? "Limit USD 3000" : "Limit USD 2000"))),
