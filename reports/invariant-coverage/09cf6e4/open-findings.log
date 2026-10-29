@@ -1,0 +1,10 @@
+# Codex findings on 63a750c / de1c030 checked at de1c030 (code 09cf6e4); synthetic text inputs through compare(), not end-to-end runs
+## furniture-probe.mts
+swapped counts (Codex): status complete_for_scope, differences 0, unresolved 0 
+identical: status complete_for_scope, differences 0, unresolved 0 
+first occurrence of a variant: status complete_for_scope, differences 1, unresolved 0 [Replaced "UMR B1234AV2024" -> "UMR B01234AV2024" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4}]
+## repeat-probe.mts
+"Hull limit any one aircraft USD 1,000,000" -> "Hull limit any one aircraft USD 2,000,000" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4} occurrences with left/right 4 4 right texts ["Hull limit any one aircraft USD 2,000,000","Hull limit any one aircraft USD 1,000,000","Hull limit any one aircraft USD 1,000,000","Hull limit any one aircraft USD 1,000,000"] => scorer repeat check FAULT
+## page-number-probe.mts
+one-page documents, margin line Schedule Page 3 of 10 -> Schedule Page 3 of 11: product states ["page_number_only"]; scorer recomputes page_number_only false
+one-page documents, margin line Schedule Page 1 of 1 -> Schedule Page 1 of 2: product states ["page_number_only"]; scorer recomputes page_number_only false
