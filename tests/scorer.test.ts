@@ -827,6 +827,31 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
     expect(exitCode(summarize([score]))).toBe(1);
   });
+  it("R26: one card swapping parts of two unchanged currency codes cannot pass; their correspondence is NOT_EVALUATED", () => {
+    // Both rows keep USD; one card cites "U" of row 1 and "D" of row 3 as UD on the left and DU on the right.
+    const x = r26(true);
+    const [l, r] = x.docs;
+    const L = [slice(lineLoc(l, "left", "l4"), 0, 1), slice(lineLoc(l, "left", "l9"), 2, 3)],
+      R = [slice(lineLoc(r, "right", "l9"), 2, 3), slice(lineLoc(r, "right", "l4"), 0, 1)];
+    const card = replaced("code-swap", L[0], R[0], { section: "aircraft_schedule", entity: null, field: "registration", table: "aircraft_schedule", rowKey: null });
+    Object.assign(card, {
+      left: L,
+      right: R,
+      oldText: "UD",
+      newText: "DU",
+      textOps: [
+        { kind: "delete", text: "U", left: [L[0]], right: [] },
+        { kind: "delete", text: "D", left: [L[1]], right: [] },
+        { kind: "insert", text: "D", left: [], right: [R[0]] },
+        { kind: "insert", text: "U", left: [], right: [R[1]] },
+      ],
+    });
+    const score = graded(x, card);
+    expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+    expect(exitCode(summarize([score]))).toBe(1);
+  });
   it("R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED", () => {
     // Each extra row is one shared box; layout.json covers only the MSN cells.
     const x = r26(true, undefined, { ...ROWS, coarse: true, cover: ["msn"] });
@@ -1192,6 +1217,34 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.notEvaluated).toMatchObject([{ invariant: "no_amount_or_currency_change", kind: "invariant_unverifiable" }]);
       expect(exitCode(summarize([score]))).toBe(1);
     }
+  });
+  it("R11: swapping parts of the codes of two unchanged amount cells is NOT_EVALUATED", () => {
+    // "USD 2,000,000" and "USD 10,000" stay; one card cites the U of each as sum_insured,deductible
+    // on the left and deductible,sum_insured on the right.
+    const x = r11();
+    const L = [slice(lineLoc(x.left, "left", "l1"), 0, 1), slice(lineLoc(x.left, "left", "l3"), 0, 1)],
+      R = [slice(lineLoc(x.right, "right", "l3"), 0, 1), slice(lineLoc(x.right, "right", "l1"), 0, 1)];
+    const card = replaced("code-swap", L[0], R[0], { section: "risk_details", field: "sum_insured" });
+    Object.assign(card, {
+      left: L,
+      right: R,
+      oldText: "UU",
+      newText: "UU",
+      textOps: [
+        { kind: "delete", text: "U", left: [L[0]], right: [] },
+        { kind: "delete", text: "U", left: [L[1]], right: [] },
+        { kind: "insert", text: "U", left: [], right: [R[0]] },
+        { kind: "insert", text: "U", left: [], right: [R[1]] },
+      ],
+    });
+    x.result.differences.push(card);
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    expect([...L, ...R].every((l) => resolveLocation(l, x.docs))).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.faults).toEqual([]);
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([{ invariant: "no_amount_or_currency_change", kind: "invariant_unverifiable" }]);
+    expect(exitCode(summarize([score]))).toBe(1);
   });
   it("R11: the label change attached to another field fails", () => {
     const x = r11();
