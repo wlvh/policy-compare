@@ -1,0 +1,514 @@
+# The 7e9a760 test file run against the 12ebf01 scorer (tests/evaluation/scorer.ts from 12ebf01).
+# Part 1: the test file as committed.
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (120 tests | 2 failed) 981ms
+   ✓ independent grader rejects dishonest outputs (24)
+     ✓ F6 rejects displaced final changed geometry on left 39ms
+     ✓ F6 rejects displaced final changed geometry on right 6ms
+     ✓ F6 rejects displaced final changed geometry on left/right 7ms
+     ✓ accepts valid evidence and a genuine control 5ms
+     ✓ empty required output 2ms
+     ✓ wrong subject 3ms
+     ✓ wrong page 3ms
+     ✓ hidden event 3ms
+     ✓ invalid source 3ms
+     ✓ reversed sides 3ms
+     ✓ unjustified partial 4ms
+     ✓ wrong operation 2ms
+     ✓ no precise changed source 1ms
+     ✓ coverage: empty 2ms
+     ✓ coverage: generic warning 2ms
+     ✓ coverage: wrong region 1ms
+     ✓ coverage: incorrect complete 1ms
+     ✓ duplicate-key warning alone cannot waive amount evidence 2ms
+     ✓ an undeclared text change in a control fails, whatever fact the card states 9ms
+     ✓ a false hasTextChange flag fails, and the control still sees the source text change 3ms
+     ✓ deleting and re-inserting the same text is no text change; a true flag on it is a false claim 3ms
+     ✓ a card that fails source validation cannot show that a control holds 2ms
+     ✓ a stated fact its sources disprove fails; discovery and attribution still pass 9ms
+     ✓ format 2 has no category: the answer's old acceptable_categories are not checked 2ms
+   ✓ identity applicability: checked, explicit N/A, or not evaluated (13)
+     ✓ the 32 pairs have exactly the 13 known N/A events in 12 cases and no unsupported path 3ms
+     ✓ N/A skips only the identity check 3ms
+     ✓ N/A still fails on wrong page 2ms
+     ✓ N/A still fails on hidden 1ms
+     ✓ N/A still fails on wrong operation 2ms
+     ✓ N/A still fails on false stated fact 2ms
+     ✓ N/A still fails on no output 1ms
+     ✓ N/A still fails on unjustified partial 2ms
+     ✓ an unknown path is NOT_EVALUATED, never PASS, and a proven fault still FAILs 2ms
+     ✓ an N/A entry does not cover the same event under another path 2ms
+     ✓ an unknown detection branch is NOT_EVALUATED 4ms
+     ✓ summaries never count NOT_EVALUATED or unknown states as passed 2ms
+     ✓ R13: the exact move and the similar new clause are not interchangeable 59ms
+   ✓ one correct event card cannot offset an extra wrong card (#10) (47)
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry false) 19ms
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry true) 10ms
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry false) 7ms
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry true) 7ms
+     ✓ R26: a wrong bare-number amount card fails whatever field it claims; layout.json names the cell 5ms
+     ✓ R26: a wrong amount card cannot hide the change by citing one location per digit 8ms
+     ✓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry false) 12ms
+     ✓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry true) 10ms
+     ✓ R26: the same wrong pairing cited cell by cell, or under a declared amount field, fails as well 14ms
+     ✓ R26: a whole-row card for one record's MSN change passes 13ms
+     ✓ R26: a card claiming a change inside an unchanged amount cell by citing part of it fails 5ms
+     ✓ R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change 6ms
+     ✓ R26: splitting the claimed amount into one operation per glyph cannot hide the change 6ms
+     ✓ R26: one card swapping two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED 8ms
+     ✓ R26: one card swapping parts of two unchanged currency codes cannot pass; their correspondence is NOT_EVALUATED 6ms
+     ✓ R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED 10ms
+     ✓ R26: with run-level geometry a wrong row pairing still fails, and an MSN-only change cannot be attributed 14ms
+     ✓ R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS 6ms
+     ✓ R26: a bare-number identifier change (MSN) is not taken for an amount change 5ms
+     ✓ R26: amounts swapped between two records through delete + add cards fail 6ms
+     ✓ R26: delete + add amounts that cancel only across cards without a record are NOT_EVALUATED 5ms
+     ✓ R26: delete + add cards claiming different parts of an unchanged amount cell fail 5ms
+     ✓ R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards 6ms
+     ✓ R26: removing an unchanged currency letter by letter across cards fails, with or without a record 11ms
+     ✓ R26: removing or changing part of an unchanged currency code fails, with or without a record 21ms
+     ✓ R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails 26ms
+     ✓ R26: the saved segmentation inputs: split cells are NOT_EVALUATED, one edit reported twice and a claimed change fail 100ms
+     ✓ R26: a split cell left unevaluated does not hide a wrong pairing in another record 16ms
+     ✓ R26: one record shown as delete + add with the same amount passes 7ms
+     ✓ R26: matching the row by the renamed registration instead of the serial fails 8ms
+     ✓ R26: an explicit identity review is accepted as presented, not as determined 7ms
+     ✓ R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer 8ms
+     ✓ R26: one delete + one add card on the record's registration cell is accepted once 10ms
+     ✓ R26: a delete + add pair is not the event when the added text lies in another record, or is the old text moved 12ms
+     ✓ R26: with a delete + add pair, another record's key on one half is a false claim 7ms
+     ✓ R26: a table card that changes a record's text fails the row control by its sources, without a table label 7ms
+     ✓ R22: the record's declared serial or its registration is an accepted row key 14ms
+     ✓ R22: another record's serial or registration on a correctly sourced card fails as a false identity claim 12ms
+     ✓ R22: an explicitly unresolved identity is not wrong, but this answer does not allow it 6ms
+     ✓ R22: the correct record label on a card that deletes the same value from another record does not attribute the event 6ms
+     ✓ R11: correct label card plus a wrong amount card fails 8ms
+     ✓ R11: correct label card plus a wrong bare-number amount card fails 7ms
+     ✓ R11: correct label card plus a wrong currency card fails 5ms
+     ✓ R11: a wrong bare-number amount card filed under a non-amount field fails 3ms
+     ✓ R11: claiming part of the code inside an unchanged amount cell is NOT_EVALUATED 7ms
+     ✓ R11: swapping parts of the codes of two unchanged amount cells is NOT_EVALUATED 4ms
+     ✓ R11: the label change attached to another field fails 4ms
+   ❯ result format 2: stated facts and form-only changes in controls (9)
+     ✓ an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not 12ms
+     ✓ R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it 6ms
+     ✓ a change that is not form only fails a control, and a form fact stated on it is false 12ms
+     ✓ a page-number fact over several pages is decided from the texts: it holds, and the undeclared change stays open in the control 3ms
+     × repeat counts are checked against the documents' page counts and the occurrences the card cites 28ms
+     ✓ repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954) 46ms
+     × a fixed set of repeated text is checked for completeness and counts, whatever the cards' form 24ms
+     ✓ an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card 29ms
+     ✓ an event's text is shown in the source's own order, with an effective edit in the part the event changes 29ms
+   ✓ invariant coverage register (#10) (18)
+     ✓ direct invariant check rejects a violation: no_content_differences 1ms
+     ✓ direct invariant check rejects a violation: no_material_differences 1ms
+     ✓ direct invariant check rejects a violation: no_false_text_added_or_removed 1ms
+     ✓ direct invariant check rejects a violation: no_false_clause_moves 1ms
+     ✓ direct invariant check rejects a violation: no_false_row_additions_or_deletions 1ms
+     ✓ direct invariant check rejects a violation: moved_clause_has_no_internal_word_edits 1ms
+     ✓ direct invariant check rejects a violation: must_not_classify_as_unchanged_duration_roll_forward 1ms
+     ✓ direct invariant check rejects a violation: grouping_allowed_only_with_all_occurrence_locations 2ms
+     ✓ direct invariant check rejects a violation: agreed_value_unchanged 1ms
+     ✓ direct invariant check rejects a violation: no_amount_or_currency_change 1ms
+     ✓ the register covers exactly the 31 invariants of the 32 answers, and every cited test exists 3ms
+     ✓ unsupported and unknown invariants are NOT_EVALUATED; a failure still wins 2ms
+     ✓ an indirect invariant follows the event checks 2ms
+     ✓ exit code: 0 strict PASS, 2 only registered gaps, 1 for failures or unregistered gaps 0ms
+     ✓ R25: the reported duplicate with a visible amount change passes 1ms
+     ✓ R25: an unreported duplicate identity fails 1ms
+     ✓ R25: asserting a unique row key without evidence fails 1ms
+     ✓ R25: asserting a party for the duplicate group is a false identity claim 2ms
+   ✓ R16: a declared added page title in a no-change control (9)
+     ✓ the exact title card passes, as one Added card stating no fact 8ms
+     ✓ an undeclared Review card still fails the control 4ms
+     ✓ a missing title fails 4ms
+     ✓ another title fails, and its card is not excused 5ms
+     ✓ the title at another position than declared is not excused 5ms
+     ✓ a card carrying body text with the title is not excused, though it contains the title 10ms
+     ✓ a continued_heading stated on the declared title is false and fails the event 7ms
+     ✓ a second card for the same title still fails the control 5ms
+     ✓ a hidden title card fails (the result schema already rejects it) 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > result format 2: stated facts and form-only changes in controls > repeat counts are checked against the documents' page counts and the occurrences the card cites
+AssertionError: expected [] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+- [
+-   "card rep shows its own text on the left side outside the occurrences it counts there",
+- ]
++ []
+
+ ❯ tests/scorer.test.ts:1673:7
+    1671|         d.repeat!.left = 0;
+    1672|       }).faults,
+    1673|     ).toEqual(["card rep shows its own text on the left side outside t…
+       |       ^
+    1674|   });
+    1675|   it("repeat counts the card's own variant on each side; another varia…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/scorer.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the old side shown but not counted: expected 'PASS' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "PASS"
+
+ ❯ tests/scorer.test.ts:1866:34
+    1864|     for (const [name, cards, faults] of failing) {
+    1865|       const score = graded(cards);
+    1866|       expect(score.status, name).toBe("FAIL");
+       |                                  ^
+    1867|       expect(score.faults, name).toEqual(faults);
+    1868|       expect(summarize([score]).repeatedText, name).toEqual({ pass: []…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 118 passed (120)
+   Start at  18:28:44
+   Duration  1.25s (tests 87%, import 10%, transform 3%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
+exit 1
+
+# Part 2: a copy of the test file with the set test's failing-case assertions made soft (expect.soft), run with -t 'fixed set of repeated text', so each fake card's result shows.
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/zz-before-soft.test.ts (120 tests | 1 failed | 119 skipped) 171ms
+   ↓ independent grader rejects dishonest outputs (24)
+     ↓ F6 rejects displaced final changed geometry on left
+     ↓ F6 rejects displaced final changed geometry on right
+     ↓ F6 rejects displaced final changed geometry on left/right
+     ↓ accepts valid evidence and a genuine control
+     ↓ empty required output
+     ↓ wrong subject
+     ↓ wrong page
+     ↓ hidden event
+     ↓ invalid source
+     ↓ reversed sides
+     ↓ unjustified partial
+     ↓ wrong operation
+     ↓ no precise changed source
+     ↓ coverage: empty
+     ↓ coverage: generic warning
+     ↓ coverage: wrong region
+     ↓ coverage: incorrect complete
+     ↓ duplicate-key warning alone cannot waive amount evidence
+     ↓ an undeclared text change in a control fails, whatever fact the card states
+     ↓ a false hasTextChange flag fails, and the control still sees the source text change
+     ↓ deleting and re-inserting the same text is no text change; a true flag on it is a false claim
+     ↓ a card that fails source validation cannot show that a control holds
+     ↓ a stated fact its sources disprove fails; discovery and attribution still pass
+     ↓ format 2 has no category: the answer's old acceptable_categories are not checked
+   ↓ identity applicability: checked, explicit N/A, or not evaluated (13)
+     ↓ the 32 pairs have exactly the 13 known N/A events in 12 cases and no unsupported path
+     ↓ N/A skips only the identity check
+     ↓ N/A still fails on wrong page
+     ↓ N/A still fails on hidden
+     ↓ N/A still fails on wrong operation
+     ↓ N/A still fails on false stated fact
+     ↓ N/A still fails on no output
+     ↓ N/A still fails on unjustified partial
+     ↓ an unknown path is NOT_EVALUATED, never PASS, and a proven fault still FAILs
+     ↓ an N/A entry does not cover the same event under another path
+     ↓ an unknown detection branch is NOT_EVALUATED
+     ↓ summaries never count NOT_EVALUATED or unknown states as passed
+     ↓ R13: the exact move and the similar new clause are not interchangeable
+   ↓ one correct event card cannot offset an extra wrong card (#10) (47)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry false)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry true)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry false)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry true)
+     ↓ R26: a wrong bare-number amount card fails whatever field it claims; layout.json names the cell
+     ↓ R26: a wrong amount card cannot hide the change by citing one location per digit
+     ↓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry false)
+     ↓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry true)
+     ↓ R26: the same wrong pairing cited cell by cell, or under a declared amount field, fails as well
+     ↓ R26: a whole-row card for one record's MSN change passes
+     ↓ R26: a card claiming a change inside an unchanged amount cell by citing part of it fails
+     ↓ R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change
+     ↓ R26: splitting the claimed amount into one operation per glyph cannot hide the change
+     ↓ R26: one card swapping two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED
+     ↓ R26: one card swapping parts of two unchanged currency codes cannot pass; their correspondence is NOT_EVALUATED
+     ↓ R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED
+     ↓ R26: with run-level geometry a wrong row pairing still fails, and an MSN-only change cannot be attributed
+     ↓ R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS
+     ↓ R26: a bare-number identifier change (MSN) is not taken for an amount change
+     ↓ R26: amounts swapped between two records through delete + add cards fail
+     ↓ R26: delete + add amounts that cancel only across cards without a record are NOT_EVALUATED
+     ↓ R26: delete + add cards claiming different parts of an unchanged amount cell fail
+     ↓ R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards
+     ↓ R26: removing an unchanged currency letter by letter across cards fails, with or without a record
+     ↓ R26: removing or changing part of an unchanged currency code fails, with or without a record
+     ↓ R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails
+     ↓ R26: the saved segmentation inputs: split cells are NOT_EVALUATED, one edit reported twice and a claimed change fail
+     ↓ R26: a split cell left unevaluated does not hide a wrong pairing in another record
+     ↓ R26: one record shown as delete + add with the same amount passes
+     ↓ R26: matching the row by the renamed registration instead of the serial fails
+     ↓ R26: an explicit identity review is accepted as presented, not as determined
+     ↓ R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer
+     ↓ R26: one delete + one add card on the record's registration cell is accepted once
+     ↓ R26: a delete + add pair is not the event when the added text lies in another record, or is the old text moved
+     ↓ R26: with a delete + add pair, another record's key on one half is a false claim
+     ↓ R26: a table card that changes a record's text fails the row control by its sources, without a table label
+     ↓ R22: the record's declared serial or its registration is an accepted row key
+     ↓ R22: another record's serial or registration on a correctly sourced card fails as a false identity claim
+     ↓ R22: an explicitly unresolved identity is not wrong, but this answer does not allow it
+     ↓ R22: the correct record label on a card that deletes the same value from another record does not attribute the event
+     ↓ R11: correct label card plus a wrong amount card fails
+     ↓ R11: correct label card plus a wrong bare-number amount card fails
+     ↓ R11: correct label card plus a wrong currency card fails
+     ↓ R11: a wrong bare-number amount card filed under a non-amount field fails
+     ↓ R11: claiming part of the code inside an unchanged amount cell is NOT_EVALUATED
+     ↓ R11: swapping parts of the codes of two unchanged amount cells is NOT_EVALUATED
+     ↓ R11: the label change attached to another field fails
+   ❯ result format 2: stated facts and form-only changes in controls (9)
+     ↓ an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not
+     ↓ R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it
+     ↓ a change that is not form only fails a control, and a form fact stated on it is false
+     ↓ a page-number fact over several pages is decided from the texts: it holds, and the undeclared change stays open in the control
+     ↓ repeat counts are checked against the documents' page counts and the occurrences the card cites
+     ↓ repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954)
+     × a fixed set of repeated text is checked for completeness and counts, whatever the cards' form 169ms
+     ↓ an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card
+     ↓ an event's text is shown in the source's own order, with an effective edit in the part the event changes
+   ↓ invariant coverage register (#10) (18)
+     ↓ direct invariant check rejects a violation: no_content_differences
+     ↓ direct invariant check rejects a violation: no_material_differences
+     ↓ direct invariant check rejects a violation: no_false_text_added_or_removed
+     ↓ direct invariant check rejects a violation: no_false_clause_moves
+     ↓ direct invariant check rejects a violation: no_false_row_additions_or_deletions
+     ↓ direct invariant check rejects a violation: moved_clause_has_no_internal_word_edits
+     ↓ direct invariant check rejects a violation: must_not_classify_as_unchanged_duration_roll_forward
+     ↓ direct invariant check rejects a violation: grouping_allowed_only_with_all_occurrence_locations
+     ↓ direct invariant check rejects a violation: agreed_value_unchanged
+     ↓ direct invariant check rejects a violation: no_amount_or_currency_change
+     ↓ the register covers exactly the 31 invariants of the 32 answers, and every cited test exists
+     ↓ unsupported and unknown invariants are NOT_EVALUATED; a failure still wins
+     ↓ an indirect invariant follows the event checks
+     ↓ exit code: 0 strict PASS, 2 only registered gaps, 1 for failures or unregistered gaps
+     ↓ R25: the reported duplicate with a visible amount change passes
+     ↓ R25: an unreported duplicate identity fails
+     ↓ R25: asserting a unique row key without evidence fails
+     ↓ R25: asserting a party for the duplicate group is a false identity claim
+   ↓ R16: a declared added page title in a no-change control (9)
+     ↓ the exact title card passes, as one Added card stating no fact
+     ↓ an undeclared Review card still fails the control
+     ↓ a missing title fails
+     ↓ another title fails, and its card is not excused
+     ↓ the title at another position than declared is not excused
+     ↓ a card carrying body text with the title is not excused, though it contains the title
+     ↓ a continued_heading stated on the declared title is false and fails the event
+     ↓ a second card for the same title still fails the control
+     ↓ a hidden title card fails (the result schema already rejects it)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the old side shown but not counted: expected 'PASS' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "PASS"
+
+ ❯ tests/zz-before-soft.test.ts:1866:39
+    1864|     for (const [name, cards, faults] of failing) {
+    1865|       const score = graded(cards);
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+       |                                       ^
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the old side shown but not counted: expected [] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+- [
+-   "card unlisted shows its own text on the left side outside the occurrences it counts there",
+-   "repeated text T1: card unlisted leaves out an occurrence of the set on the left side",
+-   "repeated text T1: card unlisted states 0 -> 3 occurrences; the set has 2 -> 3",
+- ]
++ []
+
+ ❯ tests/zz-before-soft.test.ts:1867:39
+    1865|       const score = graded(cards);
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+       |                                       ^
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+    1869|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the old side shown but not counted: expected { pass: [ 'T1' ], fail: [] } to deeply equal { pass: [], fail: [ 'T1' ] }
+
+- Expected
++ Received
+
+  {
+-   "fail": [
++   "fail": [],
++   "pass": [
+      "T1",
+    ],
+-   "pass": [],
+  }
+
+ ❯ tests/zz-before-soft.test.ts:1868:58
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+       |                                                          ^
+    1869|     }
+    1870|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the text stated as added: expected 'PASS' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "PASS"
+
+ ❯ tests/zz-before-soft.test.ts:1866:39
+    1864|     for (const [name, cards, faults] of failing) {
+    1865|       const score = graded(cards);
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+       |                                       ^
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the text stated as added: expected [] to deeply equal [ …(2) ]
+
+- Expected
++ Received
+
+- [
+-   "repeated text T1: card added leaves out an occurrence of the set on the left side",
+-   "repeated text T1: card added states 0 -> 3 occurrences; the set has 2 -> 3",
+- ]
++ []
+
+ ❯ tests/zz-before-soft.test.ts:1867:39
+    1865|       const score = graded(cards);
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+       |                                       ^
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+    1869|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the text stated as added: expected { pass: [ 'T1' ], fail: [] } to deeply equal { pass: [], fail: [ 'T1' ] }
+
+- Expected
++ Received
+
+  {
+-   "fail": [
++   "fail": [],
++   "pass": [
+      "T1",
+    ],
+-   "pass": [],
+  }
+
+ ❯ tests/zz-before-soft.test.ts:1868:58
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+       |                                                          ^
+    1869|     }
+    1870|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the same text counted off the set on one side: expected 'PASS' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "PASS"
+
+ ❯ tests/zz-before-soft.test.ts:1866:39
+    1864|     for (const [name, cards, faults] of failing) {
+    1865|       const score = graded(cards);
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+       |                                       ^
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the same text counted off the set on one side: expected [] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+- [
+-   "repeated text T1: card elsewhere cites an occurrence outside the set on the right side",
+-   "repeated text T1: card elsewhere leaves out an occurrence of the set on the right side",
+-   "repeated text T1: card elsewhere states 2 -> 1 occurrences; the set has 2 -> 3",
+- ]
++ []
+
+ ❯ tests/zz-before-soft.test.ts:1867:39
+    1865|       const score = graded(cards);
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+       |                                       ^
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+    1869|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  tests/zz-before-soft.test.ts > result format 2: stated facts and form-only changes in controls > a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+AssertionError: the same text counted off the set on one side: expected { pass: [ 'T1' ], fail: [] } to deeply equal { pass: [], fail: [ 'T1' ] }
+
+- Expected
++ Received
+
+  {
+-   "fail": [
++   "fail": [],
++   "pass": [
+      "T1",
+    ],
+-   "pass": [],
+  }
+
+ ❯ tests/zz-before-soft.test.ts:1868:58
+    1866|       expect.soft(score.status, name).toBe("FAIL");
+    1867|       expect.soft(score.faults, name).toEqual(faults);
+    1868|       expect.soft(summarize([score]).repeatedText, name).toEqual({ pas…
+       |                                                          ^
+    1869|     }
+    1870|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 119 skipped (120)
+   Start at  18:29:02
+   Duration  958ms (transform 52%, tests 27%, import 21%, worker 1%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
+exit 1
