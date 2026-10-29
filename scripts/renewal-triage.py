@@ -73,7 +73,9 @@ same-card paragraph replacement needs the author paragraph around the lined-up o
 (whitespace aside, as for split cards and one-sided edits), and copies of one cell are
 allocated in text order only (renewal-triage/18). Source ranges that meet join without a
 space only where the card's own text shows them together, and the full row reads only the units
-where the record's identity was confirmed (renewal-triage/19).
+where the record's identity was confirmed (renewal-triage/19). The paragraph context comes from
+the units carrying the edit, a whole paragraph is context even when it is the edit, and the
+page and date facts need whole page numbers and real dates (renewal-triage/20).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -99,12 +101,13 @@ page numbers are confirmed.
 """
 import bisect
 import collections
+import datetime
 import hashlib
 import json
 import re
 import sys
 
-TOOL = 'renewal-triage/19'
+TOOL = 'renewal-triage/20'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -509,16 +512,19 @@ def in_context(card, needle, author):
     a = norm(author or '')
     if needle not in card:
         return False
-    return (a in card and len(a) > len(needle)) or (
+    return (bool(a) and a in card) or (
         len(a) >= len(needle) + 10 and card in a and len(card) >= len(needle) + 10)
 
 
 def context(d, side, needle, wanted, author, edit=False, within=False, only=None):
     """A qualifying occurrence whose own source units, read on the wanted pages only, show the
     author paragraph around it. Whitespace does not count: source units are joined with spaces
-    the author text may not have, and lose ones it has (LIMITEDand/or, Liability:COVERED)."""
+    the author text may not have, and lose ones it has (LIMITEDand/or, Liability:COVERED). Where
+    the author edit changes this side, only the units carrying the change count: an unchanged
+    unit of the occurrence does not lend its paragraph to another unit's edit (PR #11 comment
+    6507993515)."""
     squeeze = lambda x: re.sub(r'\s+', '', x)
-    for keys in hits(d, side, needle, wanted, edit, only, within=within):
+    for keys in hits(d, side, needle, wanted, edit, only, changed=bool(edit), within=within):
         ids = {uid for _, uid in keys}
         text = norm(' '.join(u['text'] for u in units(d[side], wanted, side_text(d, side)) if u['unitId'] in ids))
         if in_context(squeeze(text), squeeze(needle), squeeze(norm(author or ''))):
@@ -588,8 +594,7 @@ def text_atom(atom, change, ctx, claimed):
             # The author paragraph must sit around the lined-up occurrences on each side: another
             # paragraph's card making the same edit is not this one (r4417631502).
             author = {'left': change.get('left_text'), 'right': change.get('right_text')}
-            ok = all(norm(author[k] or '') == needles[k] or context(d, k, needles[k], wanted[k], author[k], need[k],
-                                                                     only=only[k]) for k in needles)
+            ok = all(context(d, k, needles[k], wanted[k], author[k], need[k], only=only[k]) for k in needles)
             status, why, seen = ('confirmed' if ok else 'unconfirmed'), \
                 'author paragraph around the edit in the source units of the lined-up occurrences', None
         else:
@@ -947,24 +952,51 @@ def sha256(path):
         return hashlib.sha256(f.read()).hexdigest()
 
 
-PAGE = re.compile(r'\bpage\s*\d+(?:\s*(?:of|/)\s*\d+)?', re.I)
+PAGE = re.compile(r'\bpage\s*(\d+)(?:\s*(?:of|/)\s*(\d+))?', re.I)
+
+
+def page_masked(text):
+    """The text with the counter and total of each Page n expression replaced by #, each only when
+    it is a whole number of the text (not the 1 of Page 1.1 or the 100 of Page 100,000), as the
+    product's maskedPageNumbers() reads them (PR #11 comment 6509987949)."""
+    whole = {m.span() for m in re.finditer(r'\d+(?:[.,]\d+)*', text)}
+    out, at = '', 0
+    for m in PAGE.finditer(text):
+        for g in (1, 2):
+            if m.group(g) and m.span(g) in whole:
+                out += text[at:m.start(g)] + '#'
+                at = m.end(g)
+    return out + text[at:]
 DATE = re.compile(r'\b(\d{1,2}) ([A-Za-z]+) (\d{4})\b')
+MONTHS = {m: i + 1 for i, m in enumerate(('january', 'february', 'march', 'april', 'may', 'june', 'july',
+                                          'august', 'september', 'october', 'november', 'december'))}
+
+
+def real(date):
+    """A (day, month name, year) that exists on the calendar: 29 February 2025 does not (PR #9
+    comment 6508226511)."""
+    day, month, year = date
+    try:
+        datetime.date(int(year), MONTHS[month.lower()], int(day))
+    except (KeyError, ValueError):
+        return False
+    return True
 
 
 def fact_check(d):
     """Facts a card states, re-read from its own old and new text: each 'consistent' with the
     texts or 'contradicted' by them. Consistent is not proof (page tokens are not re-confirmed)."""
     old, new = d['oldText'], d['newText']
-    pages = lambda t: PAGE.sub(lambda m: re.sub(r'\d+', '#', m.group(0)), t)
     checks = {}
     for f in d.get('facts') or []:
         if f == 'whitespace_only':
             ok = old != new and old.split() == new.split()
         elif f == 'page_number_only':
-            ok = old != new and (pages(old) == pages(new) if old and new else not PAGE.sub('', old or new).strip())
+            ok = old != new and (page_masked(old) == page_masked(new) if old and new else not PAGE.sub('', old or new).strip())
         elif f == 'dates_rolled_forward_one_year':
             a, b = DATE.findall(old), DATE.findall(new)
-            ok = (len(a) == len(b) == 2 and all(x[:2] == y[:2] and int(y[2]) == int(x[2]) + 1 for x, y in zip(a, b))
+            ok = (len(a) == len(b) == 2 and all(real(x) and real(y) for x, y in zip(a, b))
+                  and all(x[:2] == y[:2] and int(y[2]) == int(x[2]) + 1 for x, y in zip(a, b))
                   and DATE.sub('<date>', old) == DATE.sub('<date>', new))
         elif f == 'continued_heading':
             ok = not (old and new) and re.search(r"(?i)\b(?:continued|cont['’]d|cont\.?)\)?\.?$",

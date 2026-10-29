@@ -1,0 +1,8 @@
+# final tests (ce7df651808dd6cf2d5c8a150a4e8057e9415762) with product, interface, contract and triage code of dfb487f
+     × a value-like cell under an identity heading (Serial AB12.34) still keeps two records apart (r4418369400) 16ms
+     × a full-width identity heading (Ｒｅｇｉｓｔｒａｔｉｏｎ) still names its column (PR #9 comment 6508095436) 7ms
+     × rows after two closed tables do not bind across them (PR #9 comment 6508226511) 17ms
+     × a profile-declared header keeps its page counter read against the page (r4418530241) 17ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  2 failed | 13 passed (15)
+      Tests  4 failed | 313 passed (317)
