@@ -181,22 +181,50 @@ const identityHeading = new RegExp(`\\b(?:${IDENTITY})\\b`, "iu"),
 /**
  * The heading row of each recovered row: the closest digit-free row above it
  * in the same section and title, with nothing but page margins in between.
+ * Its table is that section, title and heading row; a heading row repeated
+ * with only titles and page margins in between (a table continued on the next
+ * page) continues it. When either version has two or more tables with the same
+ * section, title and heading row, nothing says which corresponds to which, so
+ * each is a scope of its own; rows without a heading row share the scope of
+ * their section and title.
  */
 function rowHeadings(left: Unit[], right: Unit[]) {
-  const headings = new Map<Unit, Unit>();
-  for (const us of [left, right]) {
-    const current = new Map<string, Unit>();
+  const headings = new Map<Unit, Unit>(),
+    scopes = new Map<Unit, string>();
+  const sides = [left, right].map((us) => {
+    const current = new Map<string, Unit>(),
+      last = new Map<string, { text: string; n: number }>(),
+      broken = new Set<string>(),
+      count = new Map<string, number>(),
+      table = new Map<Unit, [string, number]>();
     for (const u of us) {
       if (!u.rowCells) {
         if (!["furniture", "page_heading", "footer", "whitespace"].includes(u.role)) current.clear();
+        if (!["furniture", "page_heading", "footer", "whitespace", "heading"].includes(u.role))
+          for (const t of last.keys()) broken.add(t);
         continue;
       }
       const t = u.path.section + "\u0000" + u.title;
-      if (!/\p{N}/u.test(u.rawText)) current.set(t, u);
-      else if (current.has(t)) headings.set(u, current.get(t)!);
+      if (!/\p{N}/u.test(u.rawText)) {
+        const prev = last.get(t),
+          key = t + "\u0000" + u.rawText;
+        const n = prev && prev.text === u.rawText && !broken.has(t) ? prev.n : (count.get(key) ?? 0) + 1;
+        count.set(key, Math.max(n, count.get(key) ?? 0));
+        last.set(t, { text: u.rawText, n });
+        broken.delete(t);
+        current.set(t, u);
+      } else if (current.has(t)) {
+        headings.set(u, current.get(t)!);
+        table.set(u, [t + "\u0000" + current.get(t)!.rawText, last.get(t)!.n]);
+      }
     }
-  }
-  return headings;
+    return { count, table };
+  });
+  sides.forEach(({ table }, side) => {
+    for (const [u, [key, n]] of table)
+      scopes.set(u, sides.every((x) => x.count.get(key) === 1) ? key : `${key}\u0000${side}\u0000${n}`);
+  });
+  return { headings, scopes };
 }
 /**
  * Rows recovered from one baseline pair only through identity evidence (see
@@ -230,15 +258,23 @@ function rowIdentity(
     if (!h) return null;
     const overlap = h.rowSpans!.map(([a, b]) => Math.min(b, x1) - Math.max(a, x0)),
       j = overlap.indexOf(Math.max(...overlap));
-    return overlap[j] > 0 ? h.rowCells![j] : null;
+    return overlap[j] > 0 ? { j, text: h.rowCells![j] } : null;
   };
-  // Identity cells of a row by their column in the recovered row.
-  const identities = (r: Unit) =>
-    new Map(
-      r.rowCells!
-        .map((c, k) => [k, c.normalize("NFKC")] as const)
-        .filter(([k, c]) => (identityHeading.test(heading(r, k) ?? "") || identityPrefix.test(c)) && !valueLike(c)),
-    );
+  // Identity cells of a row by the column they stand in: the heading row's
+  // column, or for a cell naming its identifier ("MSN 1") that name. A missing
+  // cell does not shift a value into another column; two cells under one
+  // column say nothing about either.
+  const identities = (r: Unit) => {
+    const cells = r.rowCells!.flatMap((c0, k): [string, string][] => {
+      const c = c0.normalize("NFKC"),
+        h = heading(r, k),
+        named = c.match(identityPrefix)?.[0].toLowerCase();
+      if (valueLike(c)) return [];
+      if (h && identityHeading.test(h.text)) return [[`column ${h.j}`, c]];
+      return named ? [[`named ${named}`, c]] : [];
+    });
+    return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+  };
   const owners = (rows: Unit[]) => {
     const m = new Map<string, Unit[]>();
     for (const r of rows)
@@ -579,9 +615,8 @@ export function compare(
   phase?.("matching");
   // A recovered table is its section, title and heading row: one title can
   // stand above several tables.
-  const headings = rowHeadings(la, rb),
-    tableScope = (u: Unit) =>
-      `${u.path.section}\u0000${u.title}\u0000${headings.get(u)?.rawText ?? ""}`;
+  const { headings, scopes } = rowHeadings(la, rb),
+    tableScope = (u: Unit) => scopes.get(u) ?? `${u.path.section}\u0000${u.title}\u0000`;
   const bind = (
     a: Unit,
     b: Unit,

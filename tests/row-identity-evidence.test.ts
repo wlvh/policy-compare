@@ -124,3 +124,56 @@ describe("the same title above two tables is not one table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
   });
 });
+
+// Issue #2, round 11 (reviews r4412115000, r4414059357): identity evidence
+// belongs to the actual table and column. A missing cell does not shift a
+// value into another identifier column, and two tables with the same title
+// and heading row are two tables unless each version has only one of them.
+describe("identity belongs to its own column and its own table", () => {
+  type Cells = (string | null)[];
+  const place = (rows: Cells[], y0: number, page = 0) =>
+    rows.flatMap((row, i) =>
+      row.flatMap((text, j) => (text === null ? [] : [{ text, x: 40 + j * 130, y: y0 + i * 20, page }])),
+    );
+  it("MSN | ESN | Serial | Share: 123/456 under MSN/ESN vs ESN/Serial is not one record", () => {
+    const head: Cells = ["MSN", "ESN", "Serial", "Share"];
+    const doc = (row: Cells) => textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, row, ["900", "901", "902", "5%"]], 180)]);
+    const r = ResultSchemaV2.parse(compare(doc(["123", "456", null, "10%"]), doc([null, "123", "456", "20%"])));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity" && d.oldText.includes("10%"))).toBe(false);
+    expect(crossPaired(r, "10%", "20%")).toBe(false);
+    expect([visible(r, "10%", "left"), visible(r, "20%", "right")]).toEqual([true, true]);
+    // Control: the identifiers stay in their columns and another cell is missing.
+    const ok = ResultSchemaV2.parse(compare(doc(["123", "456", null, "10%"]), doc(["123", "456", "789", "20%"])));
+    const d = ok.differences.find((d) => d.oldText.includes("10%"))!;
+    expect([d.matchEvidence.method, d.newText]).toEqual(["row-identity", "123 456 789 20%"]);
+  });
+  it("two tables with the same title and heading row, a paragraph between, are not one table", () => {
+    const head: Cells = ["Registration", "Operator", "Value"];
+    const doc = (first: Cells, second: Cells) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([head, first], 180),
+        { text: "The second table lists the reserve fleet.", y: 260 },
+        ...place([head, second], 300),
+      ]);
+    const r = ResultSchemaV2.parse(
+      compare(doc(["G-AAAA", "Alpha Air", "USD 1000"], ["G-BBBB", "Beta Air", "USD 2000"]), doc(["G-CCCC", "Gamma Air", "USD 3000"], ["G-AAAA", "Delta Air", "USD 4000"])),
+    );
+    expect(crossPaired(r, "Alpha Air", "Delta Air")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
+  });
+  it("control: one table continued on the next page under its repeated heading row still pairs by registration", () => {
+    const head: Cells = ["Registration", "Operator", "Value"];
+    const doc = (value: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([head, ["G-AAAA", "Alpha Air", "USD 1000"]], 180),
+        { text: "SCHEDULE", y: 150, page: 1 },
+        ...place([head, ["G-BBBB", "Beta Air", value]], 180, 1),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("USD 2000"), doc("USD 2500")));
+    const d = r.differences.find((d) => d.newText.includes("USD 2500"))!;
+    expect([d.matchEvidence.method, d.structurePath?.rowKey, d.oldText]).toEqual(["row-identity", "G-BBBB", "G-BBBB Beta Air USD 2000"]);
+  });
+});
