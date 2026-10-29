@@ -1,0 +1,4 @@
+## r4417244277 one-sided Draft with Draft  on page 3: product policy-compare/0.1.0+row-identity.13+facts.4+repeat.6+ops.4
+  card Added "" -> "Draft" repeat {"left":0,"right":4,"leftPages":4,"rightPages":4} facts [] occurrences 4
+  scorer: FAIL; faults ["card d-625cd91f02bd0ad2cd44 states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]; open []
+## one-sided page counters Page 1..4: product policy-compare/0.1.0+row-identity.13+facts.4+repeat.6+ops.4

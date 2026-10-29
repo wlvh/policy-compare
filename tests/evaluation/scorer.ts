@@ -889,15 +889,25 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     case "whitespace_only":
       return words(a ?? "") === words(b ?? "");
     // Both sides: only numbers inside explicit page expressions differ, the rest of the text (the
-    // expressions' words included) is the same; a one-sided text is nothing but such expressions and
-    // whitespace. It says nothing about the printed numbers being right.
+    // expressions' words and every whitespace character included, r4417386694) is the same; a
+    // one-sided text is nothing but such expressions and whitespace. It says nothing about the
+    // printed numbers being right. The contract states it only on a repeated page line, a heading or
+    // a page-margin line (r4416542441). Of these the sources show only the first: the card's own
+    // text, by the occurrences it cites, printed on two or more pages of a document. On any other
+    // line the text form holds but its scope stays open.
     case "page_number_only": {
+      let form: boolean;
       if (a !== null && b !== null) {
         const [x, y] = [pageNumbers(a), pageNumbers(b)];
-        return words(x.masked) === words(y.masked) && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
+        form = x.masked === y.masked && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
+      } else {
+        const one = (a ?? b)!;
+        form = pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
       }
-      const one = (a ?? b)!;
-      return pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
+      const repeated = (["left", "right"] as const).some(
+        (side) => new Set(ownOccurrences(d, side, docs).flatMap((o) => o[side].map((l) => l.pageIndex))).size > 1,
+      );
+      return form && !repeated ? null : form;
     }
     // One side only: a heading with an explicit "continued" suffix whose base is the whole text
     // of a line in both documents.
@@ -931,10 +941,16 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
 // it, whitespace included (a space added on one page makes that page's own variant), with the
 // counter of an explicit page expression read against its own page ("Page 3" on
 // page 3 and "Page 4" on page 4 are one variant, "Page 99" on page 3 another) when that counter
-// counts with the pages: on either side, the occurrences the card cites show it with different
-// values and one offset to their pages. A counter that does not count (the same "Page 1" printed on
-// every page), a page total and every other number stay as printed.
+// counts with the pages. Each side decides from the occurrences the card cites there: the counter
+// counts when they show it with different values and one offset to their pages, and it is fixed
+// when they show one value on two or more pages; a side that shows neither takes the other side's
+// reading (#2's r4417303223: the product recognises a repeated line of either document in both, its
+// own document's reading first). A fixed counter (the same "Page 1" printed on every page), a page
+// total and every other number stay as printed.
 const counters = (t: string) => [...t.matchAll(PAGE_EXPRESSION)].map((m) => m[1]);
+// Only a counter printed plainly (its value written the usual way) is read against its page: "Page
+// 03" or a counter in digits Number() cannot read stays as printed, its own variant.
+const plain = (n: string) => String(Number(n)) === n;
 const sideText = (locs: SourceLocation[]) => locs.map((l) => l.text).join("");
 // The source text of some locations: on each page, every character from the first location's start
 // to the last one's end in raw order, so whitespace between two cited pieces is kept as printed.
@@ -952,26 +968,34 @@ const sourceText = (locs: SourceLocation[], doc: DocInput) =>
     })
     .join(" ");
 function variants(d: Difference) {
-  const counting = new Set<number>();
+  // Per side and counter position: true when it counts, false when it is fixed, absent when the
+  // side shows neither.
+  const reading = { left: new Map<number, boolean>(), right: new Map<number, boolean>() };
   for (const side of ["left", "right"] as const) {
     const lines = d.occurrences
       .filter((o) => o[side].length)
       .map((o) => ({ cs: counters(sideText(o[side])), page: o[side][0].pageIndex + 1 }));
     for (let k = 0; k < Math.max(0, ...lines.map((l) => l.cs.length)); k++) {
-      const at = lines.filter((l) => l.cs[k] !== undefined).map((l) => ({ v: Number(l.cs[k]), page: l.page }));
-      if (at.length >= 2 && new Set(at.map((x) => x.v)).size > 1 && new Set(at.map((x) => x.v - x.page)).size === 1) counting.add(k);
+      const at = lines.filter((l) => l.cs[k] !== undefined && plain(l.cs[k])).map((l) => ({ v: Number(l.cs[k]), page: l.page }));
+      if (at.length < 2) continue;
+      if (new Set(at.map((x) => x.v)).size === 1) reading[side].set(k, false);
+      else if (new Set(at.map((x) => x.v - x.page)).size === 1) reading[side].set(k, true);
     }
   }
-  return (text: string, page: number) => {
+  return (text: string, page: number, side: "left" | "right") => {
     let k = 0;
-    return text.replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) ? m.replace(n, `#${Number(n) - page}`) : m));
+    const other = side === "left" ? "right" : "left";
+    return text.replace(PAGE_EXPRESSION, (m, n: string) => {
+      const j = k++;
+      return (reading[side].get(j) ?? reading[other].get(j)) && plain(n) ? m.replace(n, `#${Number(n) - page}`) : m;
+    });
   };
 }
 // A card's own text on a side, from the source of the locations it shows there, read as a variant;
 // "" when the card shows nothing there.
 const ownText = (d: Difference, side: "left" | "right", docs: [DocInput, DocInput], variant = variants(d)) => {
   const card = side === "left" ? d.left : d.right;
-  return card.length ? variant(sourceText(card, docs[side === "left" ? 0 : 1]), card[0].pageIndex + 1) : "";
+  return card.length ? variant(sourceText(card, docs[side === "left" ? 0 : 1]), card[0].pageIndex + 1, side) : "";
 };
 // A card's occurrences of its own text on a side, by their source texts and pages.
 const ownOccurrences = (d: Difference, side: "left" | "right", docs: [DocInput, DocInput]) => {
@@ -979,7 +1003,7 @@ const ownOccurrences = (d: Difference, side: "left" | "right", docs: [DocInput, 
   if (!(side === "left" ? d.left : d.right).length) return [];
   const own = ownText(d, side, docs, variant);
   const doc = docs[side === "left" ? 0 : 1];
-  return d.occurrences.filter((o) => o[side].length > 0 && variant(sourceText(o[side], doc), o[side][0].pageIndex + 1) === own);
+  return d.occurrences.filter((o) => o[side].length > 0 && variant(sourceText(o[side], doc), o[side][0].pageIndex + 1, side) === own);
 };
 const sameLocation = (a: SourceLocation, b: SourceLocation) =>
   a.side === b.side && a.pageIndex === b.pageIndex && a.charIds.join("\u0000") === b.charIds.join("\u0000");
@@ -1142,11 +1166,17 @@ function readingOrder(doc: DocInput) {
     return Array.from(text.get(id) ?? "")[Number(k)] ?? "";
   };
   // Whether the character at a position continues a number of the source in the given direction:
-  // a digit right beside it, or a "." or "," right beside it with a digit right beyond.
+  // a digit right beside it, or a "." or "," right beside it with a digit right beyond. Before it,
+  // a sign right beside it is part of the number too (as for amounts), unless the sign itself
+  // follows a letter, digit, "." or "," right beside it ("1-100", "SYN-1026").
   const continuesNumber = (key: string, step: typeof next) => {
     const a = step(key);
     if (!a || a.gap !== "none") return false;
     if (/\p{Nd}/u.test(scalar(a.key))) return true;
+    if (step === prev && /^[-−+]$/u.test(scalar(a.key))) {
+      const b = prev(a.key);
+      return !b || b.gap !== "none" || !/^[\p{L}\p{N}_.,]$/u.test(scalar(b.key));
+    }
     const b = /^[.,]$/.test(scalar(a.key)) ? step(a.key) : null;
     return b !== null && b.gap === "none" && /\p{Nd}/u.test(scalar(b.key));
   };
@@ -1346,7 +1376,29 @@ export function grade(
       const held = factHolds(fact, d, docs);
       if (held === false) faults.push(`card ${d.id} states ${fact}, which its source texts disprove`);
       if (held === null)
-        claimsOpen.push({ card: d.id, kind: "claim_unverifiable", reason: `card ${d.id} states ${fact}; its sources cannot decide it here` });
+        claimsOpen.push({
+          card: d.id,
+          kind: "claim_unverifiable",
+          reason:
+            fact === "page_number_only"
+              ? `card ${d.id} states page_number_only; only page numbers differ, but its sources do not show a repeated page line, and a heading or page-margin line cannot be established from them`
+              : `card ${d.id} states ${fact}; its sources cannot decide it here`,
+        });
+    }
+    // Two occurrences citing the same source characters on a side are one occurrence listed twice;
+    // counting both would let the list back a count the documents do not hold (r4416805143).
+    for (const side of ["left", "right"] as const) {
+      const owner = new Map<string, number>();
+      let shared = false;
+      d.occurrences.forEach((o, i) => {
+        for (const l of o[side])
+          for (const c of l.charIds) {
+            const k = `${l.pageIndex}\u0000${c}`;
+            if ((owner.get(k) ?? i) !== i) shared = true;
+            else owner.set(k, i);
+          }
+      });
+      if (shared) faults.push(`card ${d.id} lists the same source characters in two occurrences on the ${side} side`);
     }
     // A repeated line's counts: the two documents' page counts, and on each side the occurrences of
     // the card's own text it cites; other variants it cites there are context, not counted (whether
