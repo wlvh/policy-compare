@@ -4,7 +4,7 @@ import { loadEngine, type EngineName } from "../packages/pdf-adapter/node";
 const engine: EngineName = process.argv[2] === "pdfjs" ? "pdfjs" : "mupdf";
 const { extractPdf } = await loadEngine(engine);
 import { compare } from "../packages/compare-core/index";
-import { parseDoc, digest, ResultSchema } from "../packages/contracts/index";
+import { parseDoc, digest, ResultSchemaV2 } from "../packages/contracts/index";
 import { grade, summarize, exitCode } from "../tests/evaluation/scorer";
 const manifest = JSON.parse(
   readFileSync("validation/dataset/manifest.json", "utf8"),
@@ -20,7 +20,7 @@ for (const meta of manifest.cases) {
         parseDoc(await extractPdf(readFileSync(`${dir}/${side}.pdf`))),
       ),
     );
-    const result = ResultSchema.parse(compare(docs[0], docs[1]));
+    const result = ResultSchemaV2.parse(compare(docs[0], docs[1]));
     const score = grade(
       result,
       JSON.parse(readFileSync(dir + "/expected.json", "utf8")),

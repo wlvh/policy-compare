@@ -14,10 +14,10 @@ import {
   type NotEvaluated,
 } from "./evaluation/scorer";
 import {
-  ResultSchema,
+  ResultSchemaV2 as ResultSchema,
   resolveLocation,
-  type CompareResult,
-  type Difference,
+  type CompareResultV2 as CompareResult,
+  type DifferenceV2 as Difference,
   type DocInput,
   type SourceLocation,
 } from "../packages/contracts/index";
@@ -199,24 +199,30 @@ describe("independent grader rejects dishonest outputs", () => {
     x.result.differences = [];
     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
-  it("Review does not excuse false text in control", () => {
-    const x = example();
-    x.expected.events = [];
-    x.expected.invariants = ["no_material_differences"];
-    x.result.differences[0].category = "Review";
-    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
+  // #10 rulings 1 and 3 on result format 2: a card's flags and stated facts are claims checked against
+  // its source-validated texts; none of them can turn the same change into PASS.
+  it("an undeclared text change in a control fails, whatever fact the card states", () => {
+    for (const facts of [[], ["whitespace_only"], ["continued_heading"]] as Difference["facts"][]) {
+      const x = example();
+      x.expected.events = [];
+      x.expected.invariants = ["no_material_differences"];
+      x.result.differences[0].facts = facts;
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status, facts.join()).toBe("FAIL");
+      expect(score.faults, facts.join()).toContain("no_material_differences: Undeclared text change in a no-change control");
+    }
   });
-  // #10 rulings 1 and 3: a card's flags and category are claims checked against its source-validated
-  // texts and the answer; none of them can turn the same change into PASS.
   it("a false hasTextChange flag fails, and the control still sees the source text change", () => {
     const x = example();
     x.expected.events = [];
     x.expected.invariants = ["no_false_text_added_or_removed"];
-    Object.assign(x.result.differences[0], { hasTextChange: false, category: "Cosmetic" });
+    Object.assign(x.result.differences[0], { hasTextChange: false, facts: ["whitespace_only"] });
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("FAIL");
+    const id = x.result.differences[0].id;
     expect(score.faults).toEqual([
-      "hasTextChange contradicts the card's source-validated texts: " + x.result.differences[0].id,
+      "hasTextChange contradicts the card's source-validated texts: " + id,
+      `card ${id} states whitespace_only, which its source texts disprove`,
       "no_false_text_added_or_removed: False text delta in reflow control",
     ]);
   });
@@ -272,37 +278,25 @@ describe("independent grader rejects dishonest outputs", () => {
     ]);
     expect(score.faults).toContain(`no_material_differences: card ${d.id} is not backed by its sources`);
   });
-  it("a Cosmetic label does not turn an undeclared text change in a control into PASS: NOT_EVALUATED", () => {
-    const x = example();
-    x.expected.events = [];
-    x.expected.invariants = ["no_material_differences"];
-    x.result.differences[0].category = "Cosmetic";
-    const score = grade(x.result, x.expected, x.layout, x.docs);
-    expect(score).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
-    expect(score.notEvaluated).toMatchObject([{ invariant: "no_material_differences", kind: "invariant_unverifiable" }]);
-    expect(exitCode(summarize([score]))).toBe(1);
-  });
-  it("a Cosmetic or RollForward claim on a declared content change is false; discovery and attribution still pass", () => {
-    for (const category of ["Cosmetic", "RollForward"] as const) {
+  it("a stated fact its sources disprove fails; discovery and attribution still pass", () => {
+    for (const fact of ["whitespace_only", "page_number_only", "continued_heading", "dates_rolled_forward_one_year"] as const) {
       const x = example();
-      x.result.differences[0].category = category;
+      x.result.differences[0].facts = [fact];
       const score = grade(x.result, x.expected, x.layout, x.docs);
-      expect(score.status, category).toBe("FAIL");
-      expect(score.events[0], category).toMatchObject({
+      expect(score.status, fact).toBe("FAIL");
+      expect(score.faults, fact).toContain(`card ${x.result.differences[0].id} states ${fact}, which its source texts disprove`);
+      expect(score.events[0], fact).toMatchObject({
         discovery: true,
         attribution: true,
         position: true,
-        falseCategoryClaims: [expect.stringContaining(category)],
+        falseFacts: [expect.stringContaining(fact)],
       });
     }
   });
-  it("importance is not judged: Material where the answer lists Review, and Review where it lists Material", () => {
-    for (const [listed, claimed] of [["Review", "Material"], ["Material", "Review"]] as const) {
-      const x = example();
-      x.expected.events[0].acceptable_categories = [listed];
-      x.result.differences[0].category = claimed;
-      expect(grade(x.result, x.expected, x.layout, x.docs).status, claimed).toBe("PASS");
-    }
+  it("format 2 has no category: the answer's old acceptable_categories are not checked", () => {
+    const x = example();
+    x.expected.events[0].acceptable_categories = ["Cosmetic"];
+    expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
   });
 });
 describe("identity applicability: checked, explicit N/A, or not evaluated", () => {
@@ -372,8 +366,8 @@ describe("identity applicability: checked, explicit N/A, or not evaluated", () =
     "wrong operation": (r) => {
       r.differences[0].kind = "Added";
     },
-    "wrong category": (r) => {
-      r.differences[0].category = "Cosmetic";
+    "false stated fact": (r) => {
+      r.differences[0].facts = ["whitespace_only"];
     },
     "no output": (r) => {
       r.differences = [];
@@ -613,11 +607,9 @@ const replaced = (
   left: SourceLocation,
   right: SourceLocation,
   path: Partial<NonNullable<Difference["structurePath"]>>,
-  category: Difference["category"] = "Material",
 ): Difference => ({
   id,
   kind: "Replaced",
-  category,
   structurePath: {
     section: "s",
     entity: null,
@@ -635,11 +627,13 @@ const replaced = (
     { kind: "delete", text: left.text, left: [left], right: [] },
     { kind: "insert", text: right.text, left: [], right: [right] },
   ],
-  hasTextChange: true,
+  hasTextChange: left.text !== right.text,
   defaultVisible: true,
   matchEvidence: { method: "test", score: null, details: [] },
   reviewReasons: [],
   occurrences: [],
+  facts: [],
+  repeat: null,
 });
 describe("one correct event card cannot offset an extra wrong card (#10)", () => {
   // R26: registration renamed, every agreed value unchanged.
@@ -1001,8 +995,8 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       rowKey,
     });
     return kind === "Removed"
-      ? { ...card, kind, right: [], newText: "", textOps: [card.textOps[0]] }
-      : { ...card, kind, left: [], oldText: "", textOps: [{ ...card.textOps[1], text: loc.text, right: [loc] }] };
+      ? { ...card, kind, right: [], newText: "", hasTextChange: true, textOps: [card.textOps[0]] }
+      : { ...card, kind, left: [], oldText: "", hasTextChange: true, textOps: [{ ...card.textOps[1], text: loc.text, right: [loc] }] };
   };
   const swapped = (x: ReturnType<typeof r26>, a: string | null, b: string | null) => {
     const [l, r] = x.docs;
@@ -1412,7 +1406,6 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
         lineLoc(left, "left", "l0"),
         lineLoc(right, "right", "l0"),
         { section: "risk_details", field: "sum_insured.label" },
-        "Cosmetic",
       ),
     ];
     return {
@@ -1517,13 +1510,141 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
 });
+// #10 round 19, result format 2: a no-change control holds a text change only as a declared event or
+// as a change its sources prove form only by the shared definitions (whitespace, confirmed page
+// numbers, continued heading), recomputed by the scorer whether or not the card states it.
+describe("result format 2: stated facts and form-only changes in controls", () => {
+  type Line = { text: string; page?: number; y?: number };
+  const docOf = (lines: Line[]) => textDoc(lines.map((l, i) => ({ x: 40, y: l.y ?? 100 + 30 * i, ...l })));
+  const at = (d: DocInput, side: "left" | "right", text: string, page = 0): SourceLocation => {
+    const line = d.pages[page].lines.find((l) =>
+      l.charIds.map((id) => d.pages[page].chars.find((c) => c.id === id)!.text).join("") === text,
+    )!;
+    return lineLoc(d, side, line.id);
+  };
+  const card = (id: string, left: SourceLocation[], right: SourceLocation[], facts: Difference["facts"] = []): Difference => {
+    const [oldText, newText] = [left.map((l) => l.text).join(""), right.map((l) => l.text).join("")];
+    return {
+      ...replaced(id, left[0] ?? right[0], right[0] ?? left[0], {}),
+      kind: left.length && right.length ? "Replaced" : left.length ? "Removed" : "Added",
+      left,
+      right,
+      oldText,
+      newText,
+      hasTextChange: oldText !== newText,
+      textOps: [
+        ...left.map((l) => ({ kind: "delete" as const, text: l.text, left: [l], right: [] })),
+        ...right.map((r) => ({ kind: "insert" as const, text: r.text, left: [], right: [r] })),
+      ],
+      facts,
+    };
+  };
+  const control = (left: DocInput, right: DocInput, cards: (docs: [DocInput, DocInput]) => Difference[]) => {
+    const docs: [DocInput, DocInput] = [left, right];
+    const result = compare(left, right);
+    Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: cards(docs) });
+    expect(ResultSchema.safeParse(result).success).toBe(true);
+    const expected: Expected = {
+      case_id: "format-2-control",
+      required_status: "complete_for_scope",
+      events: [],
+      invariants: ["no_material_differences"],
+      coverage_requirements: [],
+      evidence_locations: {},
+    };
+    return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, docs);
+  };
+  const material = (score: ReturnType<typeof grade>) =>
+    score.invariants.find((i) => i.name === "no_material_differences")?.result;
+  it("a form-only change the sources prove passes a control, stated or not", () => {
+    const cases: [string, DocInput, DocInput, string, string, Difference["facts"][number]][] = [
+      ["whitespace", docOf([{ text: "Hull  cover applies." }]), docOf([{ text: "Hull cover applies." }]), "Hull  cover applies.", "Hull cover applies.", "whitespace_only"],
+      [
+        "confirmed page number",
+        docOf([{ text: "Page 1 of 2" }, { text: "Body.", page: 1 }]),
+        docOf([{ text: "Page 1 of 3" }, { text: "Body.", page: 1 }, { text: "More.", page: 2 }]),
+        "Page 1 of 2",
+        "Page 1 of 3",
+        "page_number_only",
+      ],
+    ];
+    for (const [name, left, right, a, b, fact] of cases)
+      for (const facts of [[], [fact]] as Difference["facts"][]) {
+        const score = control(left, right, ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], facts)]);
+        expect(score.faults, name + facts.join()).toEqual([]);
+        expect(material(score), name + facts.join()).toBe("PASS");
+      }
+  });
+  it("R24: an undeclared continued schedule heading passes the control by its sources", () => {
+    const left = docOf([{ text: "SCHEDULE OF AIRCRAFT" }, { text: "Row one" }]),
+      right = docOf([{ text: "SCHEDULE OF AIRCRAFT" }, { text: "Row one" }, { text: "SCHEDULE OF AIRCRAFT CONTINUED", page: 1 }, { text: "Row two", page: 1 }]);
+    for (const facts of [[], ["continued_heading"]] as Difference["facts"][]) {
+      const score = control(left, right, ([, r]) => [card("h", [], [at(r, "right", "SCHEDULE OF AIRCRAFT CONTINUED", 1)], facts)]);
+      expect(score.faults, facts.join()).toEqual([]);
+      expect(material(score), facts.join()).toBe("PASS");
+    }
+  });
+  it("a change that is not form only fails a control, and a form fact stated on it is false", () => {
+    const cases: [string, DocInput, DocInput, string[], string[], Difference["facts"]][] = [
+      ["a word changed", docOf([{ text: "Hull cover applies." }]), docOf([{ text: "Hull covers applies." }]), ["Hull cover applies."], ["Hull covers applies."], ["whitespace_only"]],
+      ["words joined", docOf([{ text: "Hull cover applies." }]), docOf([{ text: "Hullcover applies." }]), ["Hull cover applies."], ["Hullcover applies."], ["whitespace_only"]],
+      // The counter is not the line's own page.
+      ["unconfirmed page number", docOf([{ text: "Page 5 of 2" }, { text: "Body.", page: 1 }]), docOf([{ text: "Page 6 of 2" }, { text: "Body.", page: 1 }]), ["Page 5 of 2"], ["Page 6 of 2"], ["page_number_only"]],
+      // The base heading is missing from the old version.
+      ["continued heading without its base", docOf([{ text: "Row one" }]), docOf([{ text: "SCHEDULE OF AIRCRAFT" }, { text: "SCHEDULE OF AIRCRAFT CONTINUED", page: 1 }]), [], ["SCHEDULE OF AIRCRAFT CONTINUED"], ["continued_heading"]],
+    ];
+    for (const [name, left, right, a, b, facts] of cases) {
+      const score = control(left, right, ([l, r]) => [
+        card("c", a.map((t) => at(l, "left", t)), b.map((t) => at(r, "right", t, t.endsWith("CONTINUED") ? 1 : 0)), facts),
+      ]);
+      expect(score.status, name).toBe("FAIL");
+      expect(score.faults, name).toEqual([
+        `card c states ${facts[0]}, which its source texts disprove`,
+        "no_material_differences: Undeclared text change in a no-change control",
+      ]);
+    }
+  });
+  it("a page-number fact over several pages cannot be decided: NOT_EVALUATED, exit 1", () => {
+    const left = docOf([{ text: "Page 1 of 2" }, { text: "Page 2 of 2", page: 1 }]),
+      right = docOf([{ text: "Page 1 of 3" }, { text: "Page 2 of 3", page: 1 }, { text: "Page 3 of 3", page: 2 }]);
+    const score = control(left, right, ([l, r]) => [
+      card("p", [at(l, "left", "Page 1 of 2"), at(l, "left", "Page 2 of 2", 1)], [at(r, "right", "Page 1 of 3"), at(r, "right", "Page 2 of 3", 1)], ["page_number_only"]),
+    ]);
+    expect(score).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
+    expect(score.notEvaluated.map((n) => n.kind).sort()).toEqual(["claim_unverifiable", "invariant_unverifiable"]);
+    expect(exitCode(summarize([score]))).toBe(1);
+  });
+  it("repeat counts are checked against the documents' page counts and the occurrences the card cites", () => {
+    const left = docOf([{ text: "RUNNING HEADER", y: 40 }, { text: "Body one." }, { text: "RUNNING HEADER", y: 40, page: 1 }, { text: "Body two.", page: 1 }]),
+      right = docOf([{ text: "RUNNING HEADER", y: 40 }, { text: "Body one." }, { text: "RUNNING HEADER", y: 40, page: 1 }, { text: "Body two.", page: 1 }, { text: "RUNNING HEADER", y: 40, page: 2 }, { text: "Body three.", page: 2 }]);
+    const repeated = (docs: [DocInput, DocInput]): Difference => {
+      const [l, r] = docs;
+      const occ = [0, 1, 2].map((p) => ({ left: p < 2 ? [at(l, "left", "RUNNING HEADER", p)] : [], right: [at(r, "right", "RUNNING HEADER", p)] }));
+      return { ...card("rep", [occ[0].left[0]], [occ[0].right[0]]), textOps: [{ kind: "equal", text: "RUNNING HEADER", left: occ[0].left, right: occ[0].right }], occurrences: occ, repeat: { left: 2, right: 3, leftPages: 2, rightPages: 3 } };
+    };
+    const graded = (mutate: (d: Difference) => void) => {
+      const docs: [DocInput, DocInput] = [left, right];
+      const result = compare(left, right);
+      const d = repeated(docs);
+      mutate(d);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: [d] });
+      expect(ResultSchema.safeParse(result).success).toBe(true);
+      const expected: Expected = { case_id: "repeat", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+      return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, docs);
+    };
+    expect(graded(() => {}).faults).toEqual([]);
+    for (const [name, mutate] of [
+      ["page count", (d: Difference) => (d.repeat!.rightPages = 2)],
+      ["occurrence count", (d: Difference) => (d.repeat!.right = 2)],
+    ] as const)
+      expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts its sources do not show"]);
+  });
+});
 // One violating result per directly checked invariant; the fault must name that invariant.
 const directViolations: Record<string, (x: ReturnType<typeof example>) => void> = {
   no_content_differences: () => {},
   no_material_differences: () => {},
-  no_false_text_added_or_removed: (x) => {
-    x.result.differences[0].category = "Cosmetic";
-  },
+  no_false_text_added_or_removed: () => {},
   no_false_clause_moves: (x) => {
     x.result.differences[0].kind = "Moved";
   },
@@ -1534,8 +1655,7 @@ const directViolations: Record<string, (x: ReturnType<typeof example>) => void> 
     x.result.differences[0].kind = "Moved";
   },
   must_not_classify_as_unchanged_duration_roll_forward: (x) => {
-    x.result.differences[0].structurePath!.field = "policy_period";
-    x.result.differences[0].category = "RollForward";
+    x.result.differences[0].facts = ["dates_rolled_forward_one_year"];
   },
   grouping_allowed_only_with_all_occurrence_locations: (x) => {
     x.result.differences[0].occurrences = [];
@@ -1726,10 +1846,10 @@ describe("R16: a declared added page title in a no-change control", () => {
     return { docs, expected, layout: { before: layoutOf(docs[0]), after: layoutOf(docs[1]) } as Layout, result: compare(...docs) };
   };
   // On this branch a direct invariant's fault names the invariant.
-  const invariant = "no_material_differences: False substantive change; Review is not an exemption";
-  it("the exact title card passes, as one Added/Review card", () => {
+  const invariant = "no_material_differences: Undeclared text change in a no-change control";
+  it("the exact title card passes, as one Added card stating no fact", () => {
     const x = r16();
-    expect(x.result.differences.map((d) => [d.kind, d.category, d.newText])).toEqual([["Added", "Review", title]]);
+    expect(x.result.differences.map((d) => [d.kind, d.facts, d.newText])).toEqual([["Added", [], title]]);
     const score = grade(x.result, x.expected, x.layout, x.docs);
     // all_source_text_preserved is a registered unsupported gap, so the strict status stays
     // NOT_EVALUATED; the card itself passes the event and the no-change invariant.
@@ -1783,17 +1903,19 @@ describe("R16: a declared added page title in a no-change control", () => {
     expect(score.events[0].verdict).toBe("PASS");
     expect(score.faults).toContain(invariant);
   });
-  // #10 ruling 3: importance is not judged. Material and Review both present the declared title as
-  // a content change, which it is; Cosmetic presents it as form-only, a false claim the event fails.
-  it("Material and Review make the same content claim; a Cosmetic claim on the declared addition fails", () => {
+  // The declared title is a real addition, not a continued heading: stating that is false, and the
+  // event fails; the card is still the declared edit, so the control itself holds.
+  it("a continued_heading stated on the declared title is false and fails the event", () => {
     const x = r16();
-    x.result.differences[0].category = "Material";
-    expect(grade(x.result, x.expected, x.layout, x.docs)).toMatchObject({ eventStatus: "PASS", faults: [] });
-    x.result.differences[0].category = "Cosmetic";
+    x.result.differences[0].facts = ["continued_heading"];
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("FAIL");
-    expect(score.faults).toEqual(["Required event failed: R16_repagination:E1"]);
-    expect(score.events[0]).toMatchObject({ attribution: true, falseCategoryClaims: [expect.stringContaining("Cosmetic")] });
+    expect(score.faults).toEqual([
+      `card ${x.result.differences[0].id} states continued_heading, which its source texts disprove`,
+      "Required event failed: R16_repagination:E1",
+    ]);
+    expect(score.events[0]).toMatchObject({ attribution: true, falseFacts: [expect.stringContaining("continued_heading")] });
+    expect(score.invariants.find((i) => i.name === "no_material_differences")?.result).toBe("PASS");
   });
   const kept: Record<string, (r: CompareResult) => void> = {
     "a second card for the same title": (r) => {

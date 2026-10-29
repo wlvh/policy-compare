@@ -1,10 +1,11 @@
 import {
-  ResultSchema,
+  ResultSchemaV2,
   resolveLocation,
-  type CompareResult,
+  type CompareResultV2 as CompareResult,
   type DocInput,
+  type Fact,
   type SourceLocation,
-  type Difference,
+  type DifferenceV2 as Difference,
 } from "../../packages/contracts/index";
 export type Expected = {
   case_id: string;
@@ -61,7 +62,9 @@ export type NotEvaluated = {
     | "unknown_detection_branch"
     | "invariant_unsupported"
     | "invariant_unknown"
-    | "invariant_unverifiable";
+    | "invariant_unverifiable"
+    | "claim_unverifiable";
+  card?: string;
   reason: string;
 };
 export type InvariantScore = {
@@ -83,12 +86,12 @@ export type EventScore = {
   visibility?: boolean;
   completeness?: boolean;
   identity: IdentityCheck | null;
-  // Category claims of the attributed cards that the answer does not allow for the event.
-  falseCategoryClaims?: string[];
+  // Stated facts of the attributed cards that their sources disprove.
+  falseFacts?: string[];
   reason?: string;
 };
 const CLAUSE =
-  "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply";
+  "clause wording: no company/party or table-record identity to check; text, operation, stated facts, position, visibility and completeness still apply";
 // Known events whose company/table-record identity check does not apply. Keyed by event id and
 // pinned to its logical path, so neither "every clause" nor an unknown new path is waived.
 export const IDENTITY_NOT_APPLICABLE: Record<
@@ -126,7 +129,7 @@ export const IDENTITY_NOT_APPLICABLE: Record<
   "R16_repagination:E1": {
     logicalPath: "document.page_heading.policy_wording",
     reason:
-      "page title added by the repagination: no party or record identity; text, operation, category, position, visibility and completeness still apply",
+      "page title added by the repagination: no party or record identity; text, operation, stated facts, position, visibility and completeness still apply",
   },
 };
 const clean = (s: string) => s.replace(/\s+/g, " ").trim();
@@ -140,14 +143,16 @@ export const INVARIANTS: Record<
   no_content_differences: { coverage: "direct", basis: "no difference card at all", tests: [] },
   no_material_differences: {
     coverage: "direct",
-    // Migrated in round 18 from "no Material card and no text change outside Cosmetic".
+    // Migrated in round 18 from "no Material card and no text change outside Cosmetic", and to
+    // result format 2 in round 19.
     basis:
-      "every source-validated text change is a declared event (one card per event, matching its whole text, kind, sides, identity, visibility and every source location); an undeclared change presented as content (Material, Review, RollForward) fails; one presented as form-only (Cosmetic) is NOT_EVALUATED, as no declared definition of form-only transforms can verify it; a card that fails source validation fails; a card without a text change is not judged here",
+      "every source-validated text change is a declared event (one card per event, matching its whole text, kind, sides, identity, visibility and every source location) or a change its sources prove form only by the shared definitions (whitespace, confirmed page numbers of explicit page expressions, continued heading), whether or not the card states it; any other undeclared text change fails; one whose form cannot be decided here (a page expression over several pages, an unreadable page number) is NOT_EVALUATED; a card that fails source validation fails; a card without a text change is not judged here",
     tests: [
-      "Review does not excuse false text in control",
-      "a Cosmetic label does not turn an undeclared text change in a control into PASS",
+      "an undeclared text change in a control fails, whatever fact the card states",
+      "a form-only change the sources prove passes a control, stated or not",
       "a card that fails source validation cannot show that a control holds",
       "R16",
+      "R24",
     ],
   },
   no_false_text_added_or_removed: {
@@ -168,8 +173,8 @@ export const INVARIANTS: Record<
   },
   must_not_classify_as_unchanged_duration_roll_forward: {
     coverage: "direct",
-    basis: "no policy_period card classified RollForward",
-    tests: [],
+    basis: "no card states dates_rolled_forward_one_year when its source texts disprove it (two dates, each moved by exactly one calendar year, the rest equal); the card's field label is not used",
+    tests: ["a stated fact its sources disprove fails; discovery and attribution still pass"],
   },
   grouping_allowed_only_with_all_occurrence_locations: {
     coverage: "direct",
@@ -304,8 +309,8 @@ export const INVARIANTS: Record<
   },
   renewal_classification_must_not_hide_amount_change: {
     coverage: "indirect",
-    basis: "the amount event needs its own visible Material/Review card; a RollForward card does not satisfy it",
-    tests: ["wrong category"],
+    basis: "the amount event needs its own visible card attributed by its edit sources; a one-year roll-forward stated on a card whose amount changes is disproved by its texts and fails",
+    tests: ["a stated fact its sources disprove fails; discovery and attribution still pass"],
   },
   all_source_text_preserved: {
     coverage: "unsupported",
@@ -637,14 +642,13 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
   ],
   no_false_clause_moves: ({ result }) =>
     result.differences.some((d) => d.kind === "Moved") ? ["False move caused by pagination"] : [],
-  // Migrated from "no Material card and no text change outside Cosmetic": the control declares no
-  // edit beyond its events, so every source-validated text change must be a declared event. A
-  // category does not excuse a change. An undeclared change the card presents as content (Material,
-  // Review, RollForward) is false either way: a form-only change claimed as content, or a content
-  // change the control does not have. One it presents as form-only (Cosmetic) is false only if the
-  // change is not form-only, and no shared, declared definition of form-only transforms exists to
-  // verify that: NOT_EVALUATED. A card without a text change is not an edit here; moves and extra
-  // cards are judged by the case's move and content invariants.
+  // Migrated in round 18 from "no Material card and no text change outside Cosmetic", and to
+  // result format 2 in round 19. The control declares no edit beyond its events, so every
+  // source-validated text change must be a declared event (one card each) or a change the sources
+  // prove form only by the shared definitions (whitespace, confirmed page numbers, continued
+  // heading), whether or not the card states it. Any other undeclared text change fails; one whose
+  // form the scorer cannot decide here is NOT_EVALUATED. A card without a text change is not an
+  // edit here; moves and extra cards are judged by the case's move and content invariants.
   no_material_differences: (c) => {
     const { result, expected, layout, docs, unsourced } = c;
     // Each declared event excuses at most one card.
@@ -658,21 +662,17 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
       if (e) declared.add(e.event_id);
       return Boolean(e);
     };
-    const undeclared = result.differences.filter((d) => !unsourced.has(d.id) && changes(d) && !excused(d));
-    const violations = [
-      ...unbacked(c),
-      ...(undeclared.some((d) => d.category !== "Cosmetic")
-        ? ["False substantive change; Review is not an exemption"]
-        : []),
-    ];
+    const undeclared = result.differences
+      .filter((d) => !unsourced.has(d.id) && changes(d) && !excused(d))
+      .map((d) => ({ d, form: formOnly(d, docs) }));
     return {
-      violations,
+      violations: [
+        ...unbacked(c),
+        ...(undeclared.some((u) => u.form === false) ? ["Undeclared text change in a no-change control"] : []),
+      ],
       open: undeclared
-        .filter((d) => d.category === "Cosmetic")
-        .map(
-          (d) =>
-            `card ${d.id} presents an undeclared text change as form-only; no declared definition of form-only transforms can verify it`,
-        ),
+        .filter((u) => u.form === null)
+        .map((u) => `card ${u.d.id} changes text undeclared; whether the change is form only cannot be decided here`),
     };
   },
   // A table card that changes text, by its own table label or by its edit sources on a record's
@@ -700,11 +700,16 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
       ? ["False internal move edit"]
       : []),
   ],
-  must_not_classify_as_unchanged_duration_roll_forward: ({ result }) =>
+  // A card stating a one-year roll-forward that its source texts disprove (format 2 has no
+  // category; the card's field label is not used).
+  must_not_classify_as_unchanged_duration_roll_forward: ({ result, docs, unsourced }) =>
     result.differences.some(
-      (d) => d.structurePath?.field === "policy_period" && d.category === "RollForward",
+      (d) =>
+        !unsourced.has(d.id) &&
+        d.facts.includes("dates_rolled_forward_one_year") &&
+        factHolds("dates_rolled_forward_one_year", d, docs) === false,
     )
-      ? ["Changed duration mislabeled renewal"]
+      ? ["Changed duration stated as a one-year roll-forward"]
       : [],
   grouping_allowed_only_with_all_occurrence_locations: ({ result, expected, layout }) => {
     const event = expected.events[0],
@@ -825,13 +830,84 @@ export function identityRule(
     accepts: [],
   };
 }
-// What a card's category asserts as a fact, against the forms the answer allows for the event.
-// Cosmetic asserts a form-only change and RollForward a one-year roll-forward of the dates; Material
-// and Review both assert a content change, and their importance is not judged.
-const categoryAllowed = (d: Difference, e: Expected["events"][number]) =>
-  d.category === "Cosmetic" || d.category === "RollForward"
-    ? e.acceptable_categories.includes(d.category)
-    : e.acceptable_categories.some((c) => c === "Material" || c === "Review");
+// The facts a format-2 card may state (contract FactSchema), recomputed from the card's
+// source-validated texts and the two documents, never taken from the product: true when the
+// sources prove the fact, false when they disprove it, null when the scorer cannot decide it.
+const words = (t: string) => t.trim().split(/\s+/u).join(" ");
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const DATE = /(\d{1,2}) ([A-Za-z]+) (\d{4})/g;
+const lineTexts = (doc: DocInput) =>
+  doc.pages.flatMap((p) =>
+    p.lines.map((l) => words(l.charIds.map((id) => p.chars.find((c) => c.id === id)?.text ?? "").join(""))),
+  );
+// The explicit page expressions of a text ("Page n", "Page n of N", "Page n/N") whose counter is
+// the text's own page and whose total, when given, is its document's page count, masked; null
+// when a page expression holds a number the scorer cannot read.
+function maskPages(text: string, page: number, pages: number): string | null {
+  let unreadable = false;
+  const out = text.replace(/\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/giu, (m, n: string, of?: string) => {
+    const [counter, total] = [Number(n), of === undefined ? undefined : Number(of)];
+    if (Number.isNaN(counter) || (total !== undefined && Number.isNaN(total))) unreadable = true;
+    return counter === page + 1 && (total === undefined || total === pages) ? "\u0000page" : m;
+  });
+  return unreadable ? null : out;
+}
+export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput]): boolean | null {
+  const [a, b] = [d.left.length ? d.oldText : null, d.right.length ? d.newText : null];
+  if (!changes(d)) return false;
+  switch (fact) {
+    // The raw texts differ only in whitespace; an absent side reads as empty text.
+    case "whitespace_only":
+      return words(a ?? "") === words(b ?? "");
+    // Only confirmed page numbers of explicit page expressions differ; a one-sided text is nothing
+    // but such expressions. Each side must lie on one page to know its page number.
+    case "page_number_only": {
+      const masked = ([[d.left, a, 0], [d.right, b, 1]] as const).map(([locs, text, i]) => {
+        if (text === null) return "";
+        const pages = new Set(locs.map((l) => l.pageIndex));
+        return pages.size === 1 ? maskPages(text, [...pages][0], docs[i].pages.length) : null;
+      });
+      if (masked.includes(null)) return null;
+      return a !== null && b !== null
+        ? words(masked[0]!) === words(masked[1]!)
+        : !/[^\s\u0000]/u.test(((masked[0] ?? "") + (masked[1] ?? "")).replace(/\u0000page/gu, ""));
+    }
+    // One side only: a heading with an explicit "continued" suffix whose base is the whole text
+    // of a line in both documents.
+    case "continued_heading": {
+      if ((a === null) === (b === null)) return false;
+      const base = (a ?? b)!.trim().match(/^(.+?)[\s(,:–-]*\b(?:continued|cont['’]d|cont\.?)\)?\.?$/iu)?.[1];
+      return base !== undefined && docs.every((doc) => lineTexts(doc).includes(words(base)));
+    }
+    // Both sides: two dates each, each date moved by exactly one calendar year, the text outside
+    // the dates equal.
+    case "dates_rolled_forward_one_year": {
+      if (a === null || b === null) return false;
+      const dates = (t: string) =>
+        [...t.matchAll(DATE)].map((m) => {
+          const [day, month, year] = [Number(m[1]), MONTHS.indexOf(m[2]), Number(m[3])];
+          const at = new Date(Date.UTC(year, month, day));
+          return month >= 0 && at.getUTCDate() === day && at.getUTCMonth() === month ? [day, month, year] : null;
+        });
+      const [x, y] = [dates(a), dates(b)];
+      return (
+        x.length === 2 &&
+        y.length === 2 &&
+        [...x, ...y].every(Boolean) &&
+        x.every((v, i) => v![0] === y[i]![0] && v![1] === y[i]![1] && v![2] + 1 === y[i]![2]) &&
+        a.replace(DATE, "\u0000") === b.replace(DATE, "\u0000")
+      );
+    }
+  }
+}
+// A text change a no-change control may hold without declaring it: one the sources prove to be
+// form only, by the shared definitions above (whitespace, confirmed page numbers, continued
+// heading), whether or not the card states it.
+const FORM_ONLY: Fact[] = ["whitespace_only", "page_number_only", "continued_heading"];
+const formOnly = (d: Difference, docs: [DocInput, DocInput]): boolean | null => {
+  const held = FORM_ONLY.map((f) => factHolds(f, d, docs));
+  return held.includes(true) ? true : held.includes(null) ? null : false;
+};
 // Whether a card changes text: its source-validated raw texts differ. Its own flag is a claim.
 const changes = (d: Difference) => d.oldText !== d.newText;
 // One status for a run: any failure is FAIL, otherwise any unevaluated case keeps it from PASS.
@@ -972,8 +1048,8 @@ function located(
 // declared event: the event's whole old and new text (not a part of the card), an accepted kind,
 // the event's sides, an accepted identity claim, default visibility, and every location of the card,
 // its operations and occurrences resolving to the source and lying on the event's declared runs.
-// Its category is judged by the event check, not here: the case, a title style or a category never
-// excuse a card.
+// Its stated facts are judged by the card checks, not here: the case or a title style never excuse
+// a card.
 export function declaredChange(
   d: Difference,
   e: Expected["events"][number],
@@ -1025,7 +1101,7 @@ export function grade(
   invariants: InvariantScore[];
 } {
   const faults: string[] = [];
-  const parsed = ResultSchema.safeParse(input);
+  const parsed = ResultSchemaV2.safeParse(input);
   if (!parsed.success)
     return {
       caseId: expected.case_id,
@@ -1055,6 +1131,8 @@ export function grade(
   };
   // Cards whose texts or locations fail source validation: their text cannot show that a control holds.
   const unsourced = new Set<string>();
+  // Stated facts the scorer cannot decide from the sources.
+  const claimsOpen: NotEvaluated[] = [];
   for (const d of result.differences) {
     const before = faults.length;
     if(requireFineGeometry){
@@ -1103,10 +1181,30 @@ export function grade(
         o.right.some((l) => !checkLoc(l, "right"))
       )
         faults.push("Invalid occurrence source");
-    if (faults.length > before) unsourced.add(d.id);
+    if (faults.length > before) {
+      unsourced.add(d.id);
+      continue;
+    }
     // hasTextChange means the two raw texts differ; a flag that says otherwise is a false claim.
-    else if (d.hasTextChange !== changes(d))
+    if (d.hasTextChange !== changes(d))
       faults.push("hasTextChange contradicts the card's source-validated texts: " + d.id);
+    // Every stated fact is recomputed from the sources.
+    for (const fact of d.facts) {
+      const held = factHolds(fact, d, docs);
+      if (held === false) faults.push(`card ${d.id} states ${fact}, which its source texts disprove`);
+      if (held === null)
+        claimsOpen.push({ card: d.id, kind: "claim_unverifiable", reason: `card ${d.id} states ${fact}; its sources cannot decide it here` });
+    }
+    // A repeated line's counts: the two documents' page counts, and the occurrences the card cites
+    // on each side (whether a document holds further, uncited occurrences is not checked).
+    if (
+      d.repeat &&
+      (d.repeat.leftPages !== docs[0].pages.length ||
+        d.repeat.rightPages !== docs[1].pages.length ||
+        d.repeat.left !== d.occurrences.filter((o) => o.left.length).length ||
+        d.repeat.right !== d.occurrences.filter((o) => o.right.length).length)
+    )
+      faults.push(`card ${d.id} states occurrence or page counts its sources do not show`);
   }
   const required = expected.required_status;
   const completeness =
@@ -1233,12 +1331,13 @@ export function grade(
     const discovery = candidates.length > 0 || pair !== null;
     const attribution = groups.length > 0;
     const visibility = groups.some((g) => g.every((d) => d.defaultVisible));
-    // Claims of the attributed cards: a wrong identity or a category the answer does not allow for
-    // the event is a false claim, whatever else the card shows.
+    // Claims of the attributed cards: a wrong identity or a stated fact its sources disprove is a
+    // false claim, whatever else the card shows. Format 2 has no category; the answer's old
+    // acceptable_categories are not checked.
     const claims = attributed.map(claimOf).filter((c): c is IdentityClaim => c !== null);
-    const falseCategoryClaims = attributed
-      .filter((d) => !categoryAllowed(d, e))
-      .map((d) => `${d.id}: ${d.category}`);
+    const falseFacts = attributed.flatMap((d) =>
+      d.facts.filter((f) => factHolds(f, d, docs) === false).map((f) => `${d.id}: ${f}`),
+    );
     const presented = groups.some((g) =>
       g.every((d) => d.defaultVisible && (rule.claim === null || rule.accepts.includes(rule.claim(d)))),
     );
@@ -1271,7 +1370,7 @@ export function grade(
       completeness &&
       presented &&
       !claims.includes("wrong") &&
-      !falseCategoryClaims.length
+      !falseFacts.length
     )
       ? "FAIL"
       : rule.applicability === "unsupported"
@@ -1296,18 +1395,21 @@ export function grade(
         claims,
         reason: rule.reason,
       },
-      falseCategoryClaims,
+      falseFacts,
       pass: verdict === "PASS",
       ...(verdict === "NOT_EVALUATED" ? { reason: rule.reason } : {}),
     };
   });
-  const notEvaluated: NotEvaluated[] = events
-    .filter((ev) => ev.verdict === "NOT_EVALUATED")
-    .map((ev) => ({
-      eventId: ev.eventId,
-      kind: ev.branch === "unknown" ? "unknown_detection_branch" : "identity_unsupported",
-      reason: ev.reason ?? "",
-    }));
+  const notEvaluated: NotEvaluated[] = [
+    ...events
+      .filter((ev) => ev.verdict === "NOT_EVALUATED")
+      .map((ev): NotEvaluated => ({
+        eventId: ev.eventId,
+        kind: ev.branch === "unknown" ? "unknown_detection_branch" : "identity_unsupported",
+        reason: ev.reason ?? "",
+      })),
+    ...claimsOpen,
+  ];
   for (const ev of events)
     if (ev.verdict === "FAIL")
       faults.push("Required event failed: " + ev.eventId);
