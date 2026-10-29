@@ -1189,7 +1189,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.status).toBe("FAIL");
     // The card's edits lie on the record's registration cell; only its identity claim is false.
     expect(score.events[0]).toMatchObject({ discovery: true, attribution: true, position: true });
-    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["wrong"] });
+    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["wrong"], outcome: "wrong_statement" });
   });
   // #10 ruling 2: an explicit identity review is an answer-allowed form for R26; a missing identity
   // is not wrong, but neither determines the record nor reviews it explicitly.
@@ -1198,7 +1198,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     Object.assign(x.result.differences[0].structurePath!, { rowKey: null, entity: null, confidence: "unresolved" });
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("PASS");
-    expect(score.events[0].identity).toMatchObject({ pass: true, determined: false, claims: ["unresolved"] });
+    expect(score.events[0].identity).toMatchObject({ pass: true, determined: false, claims: ["unresolved"], outcome: "presented_unresolved" });
   });
   it("R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer", () => {
     const x = r26();
@@ -1206,7 +1206,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("FAIL");
     expect(score.events[0]).toMatchObject({ attribution: true });
-    expect(score.events[0].identity).toMatchObject({ pass: false, determined: false, claims: ["absent"] });
+    expect(score.events[0].identity).toMatchObject({ pass: false, determined: false, claims: ["absent"], outcome: "requirement_unmet" });
   });
   // #10 ruling 4: Added+Removed is one Removed card on the record's old cell and one Added card on its
   // new cell, with the event's text, counted once.
@@ -1312,7 +1312,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       Object.assign(x.result.differences[0].structurePath!, { rowKey: key, entity: key });
       const score = grade(x.result, x.expected, x.layout, x.docs);
       expect(score.status, key).toBe("PASS");
-      expect(score.events[0].identity, key).toMatchObject({ pass: true, determined: true, claims: ["determined"] });
+      expect(score.events[0].identity, key).toMatchObject({ pass: true, determined: true, claims: ["determined"], outcome: "determined" });
     }
   });
   it("R22: another record's serial or registration on a correctly sourced card fails as a false identity claim", () => {
@@ -1322,7 +1322,7 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       const score = grade(x.result, x.expected, x.layout, x.docs);
       expect(score.status, key).toBe("FAIL");
       expect(score.events[0], key).toMatchObject({ discovery: true, attribution: true, position: true, visibility: true });
-      expect(score.events[0].identity, key).toMatchObject({ pass: false, claims: ["wrong"] });
+      expect(score.events[0].identity, key).toMatchObject({ pass: false, claims: ["wrong"], outcome: "wrong_statement" });
     }
   });
   it("R22: an explicitly unresolved identity is not wrong, but this answer does not allow it", () => {
@@ -1331,7 +1331,9 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("FAIL");
     expect(score.events[0]).toMatchObject({ attribution: true });
-    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["unresolved"] });
+    // Not met, and reported apart from a wrong identity statement.
+    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["unresolved"], outcome: "requirement_unmet" });
+    expect(summarize([score]).identityClaims).toMatchObject({ requirementUnmet: ["R22_table_value:E1"], wrong: [] });
   });
   it("R22: the correct record label on a card that deletes the same value from another record does not attribute the event", () => {
     // Row SYN-1026-001 also holds 200,000 and keeps it; the card takes its old text from there.
@@ -1510,9 +1512,10 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("FAIL");
   });
 });
-// #10 round 19, result format 2: a no-change control holds a text change only as a declared event or
-// as a change its sources prove form only by the shared definitions (whitespace, confirmed page
-// numbers, continued heading), recomputed by the scorer whether or not the card states it.
+// #10 round 19, result format 2, narrowed in round 20: a no-change control allows a text change only
+// as one of its declared events. A change the sources prove form only (whitespace, confirmed page
+// numbers, continued heading, recomputed whether or not the card states it) is not allowed by that
+// fact: whether this control permits it is NOT_EVALUATED. Any other undeclared change fails.
 describe("result format 2: stated facts and form-only changes in controls", () => {
   type Line = { text: string; page?: number; y?: number };
   const docOf = (lines: Line[]) => textDoc(lines.map((l, i) => ({ x: 40, y: l.y ?? 100 + 30 * i, ...l })));
@@ -1556,7 +1559,13 @@ describe("result format 2: stated facts and form-only changes in controls", () =
   };
   const material = (score: ReturnType<typeof grade>) =>
     score.invariants.find((i) => i.name === "no_material_differences")?.result;
-  it("a form-only change the sources prove passes a control, stated or not", () => {
+  const open = (score: ReturnType<typeof grade>, name: string) => {
+    expect(score.faults, name).toEqual([]);
+    expect(material(score), name).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated.map((n) => n.kind), name).toEqual(["invariant_unverifiable"]);
+    expect(exitCode(summarize([score])), name).toBe(1);
+  };
+  it("an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not", () => {
     const cases: [string, DocInput, DocInput, string, string, Difference["facts"][number]][] = [
       ["whitespace", docOf([{ text: "Hull  cover applies." }]), docOf([{ text: "Hull cover applies." }]), "Hull  cover applies.", "Hull cover applies.", "whitespace_only"],
       [
@@ -1570,18 +1579,14 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     ];
     for (const [name, left, right, a, b, fact] of cases)
       for (const facts of [[], [fact]] as Difference["facts"][]) {
-        const score = control(left, right, ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], facts)]);
-        expect(score.faults, name + facts.join()).toEqual([]);
-        expect(material(score), name + facts.join()).toBe("PASS");
+        open(control(left, right, ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], facts)]), name + facts.join());
       }
   });
-  it("R24: an undeclared continued schedule heading passes the control by its sources", () => {
+  it("R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it", () => {
     const left = docOf([{ text: "SCHEDULE OF AIRCRAFT" }, { text: "Row one" }]),
       right = docOf([{ text: "SCHEDULE OF AIRCRAFT" }, { text: "Row one" }, { text: "SCHEDULE OF AIRCRAFT CONTINUED", page: 1 }, { text: "Row two", page: 1 }]);
     for (const facts of [[], ["continued_heading"]] as Difference["facts"][]) {
-      const score = control(left, right, ([, r]) => [card("h", [], [at(r, "right", "SCHEDULE OF AIRCRAFT CONTINUED", 1)], facts)]);
-      expect(score.faults, facts.join()).toEqual([]);
-      expect(material(score), facts.join()).toBe("PASS");
+      open(control(left, right, ([, r]) => [card("h", [], [at(r, "right", "SCHEDULE OF AIRCRAFT CONTINUED", 1)], facts)]), facts.join());
     }
   });
   it("a change that is not form only fails a control, and a form fact stated on it is false", () => {
@@ -1605,6 +1610,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     }
   });
   it("a page-number fact over several pages cannot be decided: NOT_EVALUATED, exit 1", () => {
+    // The stated fact itself is unverifiable; the undeclared change is also open in the control.
     const left = docOf([{ text: "Page 1 of 2" }, { text: "Page 2 of 2", page: 1 }]),
       right = docOf([{ text: "Page 1 of 3" }, { text: "Page 2 of 3", page: 1 }, { text: "Page 3 of 3", page: 2 }]);
     const score = control(left, right, ([l, r]) => [
@@ -1637,7 +1643,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["page count", (d: Difference) => (d.repeat!.rightPages = 2)],
       ["occurrence count", (d: Difference) => (d.repeat!.right = 2)],
     ] as const)
-      expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts its sources do not show"]);
+      expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences it cites"]);
   });
 });
 // One violating result per directly checked invariant; the fault must name that invariant.

@@ -52,6 +52,10 @@ export type IdentityCheck = {
   determined?: boolean | null;
   // The identity claims of the cards attributed to the event by source.
   claims?: IdentityClaim[];
+  // determined; presented as an allowed explicit review; requirement_unmet (no identity, or an
+  // unresolved one the answer does not allow: not met, but no false statement); wrong_statement
+  // (another record, party or field named); null when no card is attributed or no rule applies.
+  outcome?: "determined" | "presented_unresolved" | "requirement_unmet" | "wrong_statement" | null;
   reason: string;
 };
 export type NotEvaluated = {
@@ -143,16 +147,16 @@ export const INVARIANTS: Record<
   no_content_differences: { coverage: "direct", basis: "no difference card at all", tests: [] },
   no_material_differences: {
     coverage: "direct",
-    // Migrated in round 18 from "no Material card and no text change outside Cosmetic", and to
-    // result format 2 in round 19.
+    // Migrated in round 18 from "no Material card and no text change outside Cosmetic", to result
+    // format 2 in round 19, and narrowed in round 20 to the case's own declarations.
     basis:
-      "every source-validated text change is a declared event (one card per event, matching its whole text, kind, sides, identity, visibility and every source location) or a change its sources prove form only by the shared definitions (whitespace, confirmed page numbers of explicit page expressions, continued heading), whether or not the card states it; any other undeclared text change fails; one whose form cannot be decided here (a page expression over several pages, an unreadable page number) is NOT_EVALUATED; a card that fails source validation fails; a card without a text change is not judged here",
+      "every source-validated text change is a declared event of the case (one card per event, matching its whole text, kind, sides, identity, visibility and every source location); an undeclared change its sources prove form only by the shared definitions (whitespace, confirmed page numbers of explicit page expressions, continued heading) is not allowed by that fact alone: NOT_EVALUATED, as is one whose form cannot be decided here; any other undeclared text change fails; a card that fails source validation fails; a card without a text change is not judged here",
     tests: [
       "an undeclared text change in a control fails, whatever fact the card states",
-      "a form-only change the sources prove passes a control, stated or not",
+      "an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not",
       "a card that fails source validation cannot show that a control holds",
       "R16",
-      "R24",
+      "R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it",
     ],
   },
   no_false_text_added_or_removed: {
@@ -642,13 +646,15 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
   ],
   no_false_clause_moves: ({ result }) =>
     result.differences.some((d) => d.kind === "Moved") ? ["False move caused by pagination"] : [],
-  // Migrated in round 18 from "no Material card and no text change outside Cosmetic", and to
-  // result format 2 in round 19. The control declares no edit beyond its events, so every
-  // source-validated text change must be a declared event (one card each) or a change the sources
-  // prove form only by the shared definitions (whitespace, confirmed page numbers, continued
-  // heading), whether or not the card states it. Any other undeclared text change fails; one whose
-  // form the scorer cannot decide here is NOT_EVALUATED. A card without a text change is not an
-  // edit here; moves and extra cards are judged by the case's move and content invariants.
+  // Migrated in round 18 from "no Material card and no text change outside Cosmetic", to result
+  // format 2 in round 19, and narrowed in round 20. The control declares no edit beyond its events,
+  // and only the case's own declarations allow one: every source-validated text change must be a
+  // declared event (one card each). An undeclared change the sources prove form only by the shared
+  // definitions (whitespace, confirmed page numbers, continued heading) is still not allowed by that
+  // fact alone, so whether this control permits it is NOT_EVALUATED; so is one whose form cannot be
+  // decided here. Any other undeclared text change contradicts the control and fails. A card without
+  // a text change is not an edit here; moves and extra cards are judged by the case's move and
+  // content invariants.
   no_material_differences: (c) => {
     const { result, expected, layout, docs, unsourced } = c;
     // Each declared event excuses at most one card.
@@ -671,8 +677,12 @@ const DIRECT: Record<string, (c: Checked) => string[] | { violations: string[]; 
         ...(undeclared.some((u) => u.form === false) ? ["Undeclared text change in a no-change control"] : []),
       ],
       open: undeclared
-        .filter((u) => u.form === null)
-        .map((u) => `card ${u.d.id} changes text undeclared; whether the change is form only cannot be decided here`),
+        .filter((u) => u.form !== false)
+        .map((u) =>
+          u.form
+            ? `card ${u.d.id} changes text undeclared; its sources prove ${FORM_ONLY.filter((f) => factHolds(f, u.d, docs)).join(", ")}, but this control declares no such change`
+            : `card ${u.d.id} changes text undeclared; whether the change is form only cannot be decided here`,
+        ),
     };
   },
   // A table card that changes text, by its own table label or by its edit sources on a record's
@@ -900,9 +910,9 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     }
   }
 }
-// A text change a no-change control may hold without declaring it: one the sources prove to be
-// form only, by the shared definitions above (whitespace, confirmed page numbers, continued
-// heading), whether or not the card states it.
+// Whether a text change is form only by the shared definitions above (whitespace, confirmed page
+// numbers, continued heading), whether or not the card states it. This only decides between a
+// contradiction and an open question in a no-change control; it never allows a change there.
 const FORM_ONLY: Fact[] = ["whitespace_only", "page_number_only", "continued_heading"];
 const formOnly = (d: Difference, docs: [DocInput, DocInput]): boolean | null => {
   const held = FORM_ONLY.map((f) => factHolds(f, d, docs));
@@ -965,13 +975,13 @@ export function summarize(
       unsupported: invariantNames("unsupported"),
       unknown: invariantNames("unknown"),
     },
-    // Identity claims of the checked events: determined, presented as an allowed explicit review,
-    // or not presented as required (wrong claims are listed separately as well).
+    // Identity outcomes of the checked events: a determination requirement not met is reported apart
+    // from an identity statement that names another record.
     identityClaims: {
-      determined: by((e) => e.identity?.determined === true),
-      presentedUnresolved: by((e) => e.identity?.pass === true && e.identity.determined === false),
-      notPresented: by((e) => e.identity?.pass === false),
-      wrong: by((e) => e.identity?.claims?.includes("wrong") ?? false),
+      determined: by((e) => e.identity?.outcome === "determined"),
+      presentedUnresolved: by((e) => e.identity?.outcome === "presented_unresolved"),
+      requirementUnmet: by((e) => e.identity?.outcome === "requirement_unmet"),
+      wrong: by((e) => e.identity?.outcome === "wrong_statement"),
     },
     // Invariant results by coverage; indirect results restate the event checks and add no evidence.
     invariantResults: Object.fromEntries(
@@ -1204,7 +1214,7 @@ export function grade(
         d.repeat.left !== d.occurrences.filter((o) => o.left.length).length ||
         d.repeat.right !== d.occurrences.filter((o) => o.right.length).length)
     )
-      faults.push(`card ${d.id} states occurrence or page counts its sources do not show`);
+      faults.push(`card ${d.id} states occurrence or page counts that differ from the documents' page counts or from the occurrences it cites`);
   }
   const required = expected.required_status;
   const completeness =
@@ -1386,15 +1396,28 @@ export function grade(
       position,
       visibility,
       completeness,
-      identity: {
-        applicability: rule.applicability,
-        pass: rule.claim ? attribution && presented && !claims.includes("wrong") : null,
-        determined: rule.claim
-          ? groups.some((g) => g.every((d) => claimOf(d) === "determined")) && !claims.includes("wrong")
-          : null,
-        claims,
-        reason: rule.reason,
-      },
+      identity: (() => {
+        const pass = rule.claim ? attribution && presented && !claims.includes("wrong") : null,
+          determined = rule.claim
+            ? groups.some((g) => g.every((d) => claimOf(d) === "determined")) && !claims.includes("wrong")
+            : null;
+        return {
+          applicability: rule.applicability,
+          pass,
+          determined,
+          claims,
+          outcome: !rule.claim || !attribution
+            ? null
+            : claims.includes("wrong")
+              ? "wrong_statement"
+              : determined
+                ? "determined"
+                : pass
+                  ? "presented_unresolved"
+                  : "requirement_unmet",
+          reason: rule.reason,
+        };
+      })(),
       falseFacts,
       pass: verdict === "PASS",
       ...(verdict === "NOT_EVALUATED" ? { reason: rule.reason } : {}),
