@@ -1358,7 +1358,7 @@ export function grade(
       );
     };
     // Where the card itself carries the event's old (new) text: each occurrence in the card's old (new)
-    // text, whether all its characters come from operations on the event's before (after) runs, and
+    // text, whether each of its characters comes from a location on the event's before (after) runs, and
     // whether it holds an edit of the card on the event's runs. Whitespace is folded as in clean().
     const spots = (d: Difference, side: "left" | "right") => {
       const text = (side === "left" ? e.old : e.new)!;
@@ -1367,18 +1367,25 @@ export function grade(
         op.kind === "delete"
           ? located(op.left, refs.before, layout.before.pages, "left")
           : op.kind === "insert" && located(op.right, refs.after, layout.after.pages, "right");
-      const own = (op: Difference["textOps"][number]) =>
-        op.kind === other ||
-        (side === "left"
-          ? located(op.left, refs.before, layout.before.pages, "left")
-          : located(op.right, refs.after, layout.after.pages, "right"));
-      // The side's text by character, each with the index of its operation.
-      const chars: { c: string; i: number }[] = [];
+      const onRuns = (l: SourceLocation) =>
+        side === "left"
+          ? located([l], refs.before, layout.before.pages, "left")
+          : located([l], refs.after, layout.after.pages, "right");
+      // The side's text by character, each with the index of its operation and whether the character's
+      // own location lies on the event's runs. An operation's text is its locations' texts in order
+      // (whitespace aside, checked against the sources above), so an operation citing several
+      // locations does not lend the event's run to the characters of its other locations.
+      const chars: { c: string; i: number; own: boolean }[] = [];
       d.textOps.forEach((op, i) => {
-        if (op.kind !== other)
-          for (const c of op.text)
-            if (!/\s/u.test(c)) chars.push({ c, i });
-            else if (chars.length && chars.at(-1)!.c !== " ") chars.push({ c: " ", i });
+        if (op.kind === other) return;
+        const from = (side === "left" ? op.left : op.right).flatMap((l) => {
+          const on = onRuns(l);
+          return Array.from(l.text.replace(/\s/gu, ""), () => on);
+        });
+        let k = 0;
+        for (const c of op.text)
+          if (!/\s/u.test(c)) chars.push({ c, i, own: from[k++] ?? false });
+          else if (chars.length && chars.at(-1)!.c !== " ") chars.push({ c: " ", i, own: true });
       });
       if (chars.at(-1)?.c === " ") chars.pop();
       const needle = Array.from(clean(text));
@@ -1392,7 +1399,7 @@ export function grade(
       for (let p = 0; needle.length && p + needle.length <= chars.length; p++)
         if (needle.every((c, j) => chars[p + j].c === c) && whole(p)) {
           const ops = d.textOps.slice(chars[p].i, chars[p + needle.length - 1].i + 1);
-          found.push({ own: ops.every(own), edit: ops.some(edit) });
+          found.push({ own: chars.slice(p, p + needle.length).every((x) => x.own), edit: ops.some(edit) });
         }
       return found;
     };

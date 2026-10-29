@@ -1794,6 +1794,19 @@ describe("result format 2: stated facts and form-only changes in controls", () =
         op("insert", null, slice(r1, 8, 15)),
       ]),
     };
+    // One operation per side citing two locations: the unchanged line's amount and the event line's
+    // word. Each character belongs to its own location, not to whichever location of the operation
+    // lies on the event's line (r4414882091).
+    const coalesced: Difference = {
+      ...card("coalesced", [slice(l1, 0, 8), slice(l0, 8, 16)], [slice(r1, 8, 15), slice(r0, 8, 16)]),
+      oldText: "USD 100 included",
+      newText: "USD 200 excluded",
+      textOps: [
+        { kind: "delete", text: "USD 100 included", left: [slice(l1, 0, 8), slice(l0, 8, 16)], right: [] },
+        { kind: "insert", text: "USD 200 excluded", left: [], right: [slice(r1, 8, 15), slice(r0, 8, 16)] },
+      ],
+    };
+    Object.assign(borrowed, { coalesced });
     for (const [name, d] of Object.entries(borrowed)) {
       const score = graded([d]);
       expect.soft(score.status, name).toBe("FAIL");
