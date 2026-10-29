@@ -268,6 +268,17 @@ class RecordIdentity(unittest.TestCase):
         self.assertEqual(ev['63']['verdict'], 'correct')
         self.assertTrue(ev['63']['row']['primaryIdentityOnRecord'])
 
+    def test_a_replaced_row_needs_each_cell_once_for_the_full_row(self):
+        """r4417329496: two author cells USD 100 are not both recovered from one."""
+        c = change(52, 'ac_1315', 'Replaced', '1315 | USD 100 | USD 100 | Alpha', '1315 | USD 200 | USD 200 | Alpha',
+                   [('USD 100', 'USD 200')], pages=(11, 11))
+        short = card('s', 'Replaced', [(11, 'a', '1315 USD 100 Alpha')], [(11, 'b', '1315 USD 200 Alpha')])
+        _, ev = run([c], result([short]), [table('aircraft', [0], c)])
+        self.assertFalse(ev['52']['row']['fullRowRecovered'])
+        whole = card('w', 'Replaced', [(11, 'a', '1315 USD 100 USD 100 Alpha')], [(11, 'b', '1315 USD 200 USD 200 Alpha')])
+        _, ev = run([c], result([whole]), [table('aircraft', [0], c)])
+        self.assertTrue(ev['52']['row']['fullRowRecovered'])
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
@@ -483,6 +494,23 @@ class AddedRemovedRows(unittest.TestCase):
             self.assertFalse(ev['67']['row']['fullRowRecovered'], kind)
             _, ev = run([c], result([card('y', kind, **{side: [(11, 'u1', '1315 USD 100 100')]})]), [table('aircraft', [0], c)])
             self.assertEqual(ev['67']['verdict'], 'correct', kind)
+
+    def test_a_cell_value_does_not_match_a_signed_value(self):
+        """r4417384098: 100 is not found in -100."""
+        c = change(68, 'ac_1315', 'Added', right='1315 | Hull | 100', pages=(0, 11))
+        _, ev = run([c], result([card('x', 'Added', right=[(11, 'u1', '1315 Hull -100')])]), [table('aircraft', [0], c)])
+        self.assertNotEqual(ev['68']['verdict'], 'correct')
+        self.assertFalse(ev['68']['row']['fullRowRecovered'])
+        _, ev = run([c], result([card('y', 'Added', right=[(11, 'u1', '1315 Hull 100')])]), [table('aircraft', [0], c)])
+        self.assertEqual(ev['68']['verdict'], 'correct')
+
+    def test_cells_find_a_non_overlapping_allocation_when_one_exists(self):
+        """r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B"."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(69, 'ac_1315', kind, **{side: '1315 | A | A B | B B'}, pages=(0, 11) if kind == 'Added' else (11, 0))
+            _, ev = run([c], result([card('x', kind, **{side: [(11, 'u1', '1315 A A B B B')]})]), [table('aircraft', [0], c)])
+            self.assertEqual((ev['69']['verdict'], ev['69']['row']['fullRowRecovered']), ('correct', True), kind)
 
     def test_cells_scattered_over_different_records_are_not_complete(self):
         ident = card('i', 'Added', right=[(11, 'u1', '55228'), (11, 'u1', 'VH-JXP')])
