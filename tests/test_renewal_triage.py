@@ -894,6 +894,29 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([c], result([joined]))
         self.assertEqual((ev['24']['verdict'], ev['24']['acceptedCards']), ('correct', ['j']))
 
+    def test_split_paragraph_context_comes_from_the_units_carrying_the_edit(self):
+        """PR #11 comment 6507993515: an unchanged Hull unit does not lend its paragraph to an edit
+        that another unit (Liability) makes."""
+        hull = ('Hull cover is USD 100 for the aircraft.', 'Hull cover is USD 200 for the aircraft.')
+        c = change(25, 'hull', 'Replaced', *hull, [('USD 100', 'USD 200')])
+        one = card('one', 'Replaced', [(1, 'a', hull[0] + ' USD'), (1, 'b', '100 Liability')],
+                   [(1, 'c', hull[0] + ' USD'), (1, 'd', '999 Liability')])
+        two = card('two', 'Replaced', [(1, 'e', hull[1] + ' USD'), (1, 'f', '999 Liability')],
+                   [(1, 'g', hull[1] + ' USD'), (1, 'h', '200 Liability')])
+        _, ev = run([c], result([one, two]))
+        self.assertNotIn(ev['25']['verdict'], ('correct', 'split_attributable'))
+        # Control: the Hull paragraph removed and added on two cards.
+        _, ev = run([c], result([card('o', 'Removed', [(1, 'a', hull[0])]), card('n', 'Added', right=[(1, 'b', hull[1])])]))
+        self.assertEqual((ev['25']['verdict'], ev['25']['acceptedCards']), ('split_attributable', ['n', 'o']))
+
+    def test_a_whole_paragraph_edit_is_its_own_context(self):
+        """PR #11 comment 6509794672: Pay now. -> Pay later. on a Removed and an Added card."""
+        c = change(26, 'pay', 'Replaced', 'Pay now.', 'Pay later.', [('Pay now.', 'Pay later.')])
+        _, ev = run([c], result([card('o', 'Removed', [(1, 'a', 'Pay now.')]), card('n', 'Added', right=[(1, 'b', 'Pay later.')])]))
+        self.assertEqual((ev['26']['verdict'], ev['26']['acceptedCards']), ('split_attributable', ['n', 'o']))
+        _, ev = run([c], result([card('r', 'Replaced', [(1, 'a', 'Pay now.')], [(1, 'b', 'Pay later.')])]))
+        self.assertEqual((ev['26']['verdict'], ev['26']['acceptedCards']), ('correct', ['r']))
+
     def test_an_inserted_clause_may_repeat_the_words_after_it(self):
         """The card may pair the words an insertion repeats with the old text after it and mark
         the later copy as inserted: the context the edit keeps still lines up."""
@@ -961,6 +984,22 @@ class EditEvidence(unittest.TestCase):
 
 
 class FactsFormatsExclusionsFurniture(unittest.TestCase):
+    def test_a_page_fact_needs_whole_page_numbers(self):
+        """PR #9 comment 6508095436, PR #11 comment 6509987949: Page 1.1 -> 2.1 is no page change."""
+        fact = lambda a, b: triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only']
+        for a, b in (('Schedule Page 1.1', 'Schedule Page 2.1'), ('Page 100,000', 'Page 200,000'),
+                     ('Schedule Page 3 of 10,5', 'Schedule Page 3 of 11,5')):
+            self.assertEqual(fact(a, b), 'contradicted', a)
+        for a, b in (('Page 1 of 10', 'Page 2 of 10'), ('Page 3', 'Page 4')):
+            self.assertEqual(fact(a, b), 'consistent', a)
+
+    def test_a_date_roll_needs_real_dates(self):
+        """PR #9 comment 6508226511: 29 February 2025 does not exist."""
+        fact = lambda a, b: triage.fact_check({'oldText': a, 'newText': b, 'facts': ['dates_rolled_forward_one_year']})[
+            'dates_rolled_forward_one_year']
+        self.assertEqual(fact('29 February 2024 to 28 February 2025', '29 February 2025 to 28 February 2026'), 'contradicted')
+        self.assertEqual(fact('01 April 2024 to 31 March 2025', '01 April 2025 to 31 March 2026'), 'consistent')
+
     def test_stated_facts_are_rechecked_against_the_card_texts(self):
         cards = [card('w', 'Replaced', [(1, 'a', 'Limit  USD 5,000')], [(1, 'b', 'Limit USD 5,000')], facts=['whitespace_only']),
                  card('x', 'Replaced', [(1, 'c', 'per aircraft')], [(1, 'd', 'peraircraft')], facts=['whitespace_only']),
