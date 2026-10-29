@@ -54,10 +54,10 @@ def ops(left, right):
             for k, l, r in parts if l or r]
 
 
-def card(id, kind, left=(), right=(), category='Material', row_key=None, table=None, confidence='candidate'):
-    """left/right: (page, unitId, text) cells in reading order."""
+def card(id, kind, left=(), right=(), row_key=None, table=None, confidence='candidate', facts=()):
+    """left/right: (page, unitId, text) cells in reading order. A result-format-2 card."""
     old, new = ' '.join(c[2] for c in left), ' '.join(c[2] for c in right)
-    return {'id': id, 'kind': kind, 'category': category,
+    return {'id': id, 'kind': kind, 'facts': list(facts),
             'structurePath': {'section': 'clauses', 'entity': None, 'field': None, 'table': table,
                               'rowKey': row_key, 'confidence': confidence},
             'left': [loc('left', *c) for c in left], 'right': [loc('right', *c) for c in right],
@@ -81,19 +81,27 @@ def change(id, block, kind, left='', right='', edits=(), pages=(1, 1), category=
             'left_pages': [pages[0]] if pages[0] else [], 'right_pages': [pages[1]] if pages[1] else []}
 
 
-def run(changes, res):
+def run(changes, res, tables=None, digest=None):
+    """tables: declared identity tables ({'table', 'identity', 'events'}) for these changes."""
     with tempfile.TemporaryDirectory() as d:
-        cp, rp, ep = (os.path.join(d, n) for n in ('changes.json', 'result.json', 'events.json'))
+        cp, rp, ep, ip = (os.path.join(d, n) for n in ('changes.json', 'result.json', 'events.json', 'identity.json'))
         with open(cp, 'w') as f:
             json.dump({'changes': changes}, f)
         with open(rp, 'w') as f:
             json.dump(res, f)
+        with open(ip, 'w') as f:
+            json.dump({'version': 'test', 'pairs': [{'pair': 'test', 'changes_sha256': digest or triage.sha256(cp),
+                                                     'tables': tables or []}]}, f)
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            triage.main(cp, rp, ep)
+            triage.main(cp, rp, ep, ip)
         with open(ep) as f:
             events = json.load(f)
     return json.loads(out.getvalue()), {e['id']: e for e in events}
+
+
+def table(name, identity, *events):
+    return {'table': name, 'identity': list(identity), 'events': [e['id'] for e in events]}
 
 
 ROW_1315 = ('ATR 72-600 | 1315 | CS-BTE | 2012 | 20,490,000 | Cobalt',
@@ -107,25 +115,60 @@ def row_card(id, msn, reg, old='20,490,000', new='19,210,000', row_key=None, uni
     return card(id, 'Replaced', cells(old), right, row_key=row_key, table='recovered_rows')
 
 
+AIRCRAFT = (1, 2)  # MSN and registration cells of the author rows below
+
+
 class RecordIdentity(unittest.TestCase):
-    def test_identity_comes_from_author_ids_not_unchanged_values(self):
-        ident = triage.expected_identity(change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE))
-        self.assertEqual(ident, {'cells': ['1315'], 'source': 'author_block_id'})
-        # The first unchanged cells are a percentage and a date: never used as identity.
-        ident = triage.expected_identity(change(1, 'wl_x', 'Replaced', '15.0% | 03/10/2024 | MKV 1426 | 24AV0381',
-                                                '15.0% | 03/10/2024 | MKV 1426 | 25AV0412'))
-        self.assertEqual(ident, {'cells': ['MKV 1426'], 'source': 'identifier_like_cell'})
-        ident = triage.expected_identity(change(1, 'cp_M-FNKB_Selwyn', 'Replaced', 'M-FNKB | Selwyn Ltd | AVN67B',
-                                                'M-FNKB | Selwyn Ltd | AVN67C'))
-        self.assertEqual(ident['cells'], ['M-FNKB', 'Selwyn Ltd'])
+    """Round 8: row identity comes only from the acceptance-side declaration."""
+    def test_identity_comes_from_the_declaration_only(self):
+        c = change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE)
+        declared = {'52': {'table': 'aircraft', 'identity': list(AIRCRAFT)}}
+        ident = triage.expected_identity(c, declared)
+        self.assertEqual((ident['cells'], ident['source'], ident['table']), (['1315', 'CS-BTE'], 'declared', 'aircraft'))
+        # Per side: an identifier that changes is the left value on the left, the right value on the right.
+        c = change(21, 'avn111', 'Replaced', 'AVN111 | Sanctions Clause', 'AVN111A | Sanctions Clause')
+        ident = triage.expected_identity(c, {'21': {'table': 'clauses', 'identity': [0]}})
+        self.assertEqual((ident['left'], ident['right']), (['AVN111'], ['AVN111A']))
+        # Neither the block id nor a name-like cell is identity without a declaration.
+        for declared in (None, {}, {'52': {'table': 'rates', 'identity': []}}):
+            ident = triage.expected_identity(change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE), declared)
+            self.assertEqual((ident['cells'], ident['source']), ([], None))
         self.assertIsNone(triage.expected_identity(change(1, 'premium', 'Replaced', 'USD 1', 'USD 2')))
+
+    def test_an_undeclared_row_is_not_evaluated_even_on_the_right_card(self):
+        right = row_card('r', '1315', 'CS-BTE', row_key='1315')
+        c = change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE, pages=(11, 11))
+        summary, ev = run([c], result([right]))
+        self.assertEqual((ev['52']['verdict'], ev['52']['atoms']), ('not_evaluable', ['same_card_identity_unconfirmed']))
+        self.assertEqual(summary['tableRowEvents']['noDeclaredIdentity'], ['52'])
+        _, ev = run([c], result([right]), [table('aircraft', AIRCRAFT, c)])
+        self.assertEqual(ev['52']['verdict'], 'correct')
+        # A declaration bound to another changes file is not used.
+        summary, ev = run([c], result([right]), [table('aircraft', AIRCRAFT, c)], digest='0' * 64)
+        self.assertEqual(ev['52']['verdict'], 'not_evaluable')
+        self.assertIsNone(summary['inputs']['identity']['pair'])
+
+    def test_a_declared_composite_identity_needs_every_cell(self):
+        # One aircraft has two parties: the record is the MSN with its party.
+        c = change(77, 'cp_1351', 'Replaced', '1351 | Ostra Export | Lender | AVN67B', '1351 | Ostra Export | Lender | AVN67C',
+                   [('AVN67B', 'AVN67C')], pages=(15, 15))
+        other = change(78, 'cp_1351_b', 'Replaced', '1351 | Northfield Bank | Lessor | AVN67B',
+                       '1351 | Northfield Bank | Lessor | AVN67B', [], pages=(15, 15))
+        parties = [table('parties', [0, 1], c, other)]
+        wrong = card('w', 'Replaced', [(15, 'a', '1351 Northfield Bank Lessor AVN67B')],
+                     [(15, 'b', '1351 Northfield Bank Lessor AVN67C')])
+        _, ev = run([c, other], result([wrong]), parties)
+        self.assertEqual(ev['77']['verdict'], 'misattributed')
+        right = card('r', 'Replaced', [(15, 'a', '1351 Ostra Export Lender AVN67B')], [(15, 'b', '1351 Ostra Export Lender AVN67C')])
+        _, ev = run([c, other], result([right]), parties)
+        self.assertEqual(ev['77']['verdict'], 'correct')
 
     def test_unchanged_value_cells_do_not_confirm_a_row(self):
         c = change(1, 'wl_x', 'Replaced', '15.0% | 03/10/2024 | MKV 1426 | 24AV0381',
                    '15.0% | 03/10/2024 | MKV 1426 | 25AV0412', [('24AV0381', '25AV0412')], pages=(8, 8))
         wrong = card('w', 'Replaced', [(8, 'a', '15.0% 03/10/2024 HPX 0624 24AV0381')],
                      [(8, 'b', '15.0% 03/10/2024 HPX 0624 25AV0412')])
-        summary, ev = run([c], result([wrong]))
+        summary, ev = run([c], result([wrong]), [table('lines', [2], c)])
         self.assertNotEqual(ev['1']['verdict'], 'correct')
         self.assertEqual(ev['1']['atoms'], ['same_card_identity_unconfirmed'])
 
@@ -133,11 +176,11 @@ class RecordIdentity(unittest.TestCase):
         events = [change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE, pages=(11, 11)),
                   change(48, 'ac_1760', 'Removed', 'ATR 72-600 | 1760 | ZK-ENV | 2013', pages=(11, 0))]
         by_key = row_card('k', '1760', 'ZK-ENV', row_key='1760')
-        _, ev = run(events[:1], result([by_key]))
+        _, ev = run(events[:1], result([by_key]), [table('aircraft', AIRCRAFT, *events[:1])])
         self.assertEqual(ev['52']['verdict'], 'misattributed')
         # Without a rowKey, another record's identity in the same unit is the contradiction.
         by_unit = row_card('u', '1760', 'ZK-ENV')
-        _, ev = run(events, result([by_unit]))
+        _, ev = run(events, result([by_unit]), [table('aircraft', AIRCRAFT, *events)])
         self.assertEqual(ev['52']['verdict'], 'misattributed')
         self.assertEqual(ev['52']['acceptedCards'], [])
         # The removed row 1760 shown as a modified row is not its removal either.
@@ -146,7 +189,8 @@ class RecordIdentity(unittest.TestCase):
 
     def test_one_correct_card_plus_a_misattributed_one_is_not_complete(self):
         good, bad = row_card('g', '1315', 'CS-BTE', row_key='1315'), row_card('x', '1760', 'ZK-ENV', row_key='1760')
-        summary, ev = run([change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE, pages=(11, 11))], result([good, bad]))
+        c = change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE, pages=(11, 11))
+        summary, ev = run([c], result([good, bad]), [table('aircraft', AIRCRAFT, c)])
         self.assertEqual(ev['52']['verdict'], 'misattributed')
         self.assertEqual(ev['52']['atoms'], ['same_card_plus_misattributed'])
         self.assertEqual(ev['52']['outcome'], 'incomplete')
@@ -161,14 +205,15 @@ class RecordIdentity(unittest.TestCase):
                   change(53, 'ac_1760', 'Replaced', *row_1760, VALUE, pages=(11, 11))]
         cards = [row_card('a', '1315', 'CS-BTE', row_key='1315'),
                  row_card('b', '1760', 'ZK-ENV', row_key='1760', units=('c', 'd'))]
-        summary, ev = run(events, result(cards))
+        summary, ev = run(events, result(cards), [table('aircraft', AIRCRAFT, *events)])
         self.assertEqual((ev['52']['verdict'], ev['53']['verdict']), ('correct', 'correct'))
         self.assertEqual((ev['52']['acceptedCards'], ev['53']['acceptedCards']), (['a'], ['b']))
         self.assertEqual(summary['unexplainedCards'], 0)
 
     def test_value_correct_and_full_row_are_reported_separately(self):
         partial = card('p', 'Replaced', [(11, 'a', '1315 CS-BTE 20,490,000')], [(11, 'b', '1315 CS-BTE 19,210,000')])
-        summary, ev = run([change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE, pages=(11, 11))], result([partial]))
+        c = change(52, 'ac_1315', 'Replaced', *ROW_1315, VALUE, pages=(11, 11))
+        summary, ev = run([c], result([partial]), [table('aircraft', AIRCRAFT, c)])
         self.assertEqual(ev['52']['verdict'], 'correct')
         self.assertFalse(ev['52']['row']['fullRowRecovered'])
         self.assertEqual(summary['tableRowEvents']['changeCorrectlyAttributed'], ['52'])
@@ -184,7 +229,8 @@ class RecordIdentity(unittest.TestCase):
         row = lambda v: 'ATR 72-600 1315 Kestrel Regional Airways Holdings Limited (Operator and Lessee) ' + v
         self.assertGreater(len(row('20,490,000')), 80)
         whole = card('w', 'Replaced', [(11, 'a', row('20,490,000'))], [(11, 'b', row('19,210,000'))])
-        _, ev = run([change(52, 'ac_1315', 'Replaced', *self.LONG, VALUE, pages=(11, 11))], result([whole]))
+        c = change(52, 'ac_1315', 'Replaced', *self.LONG, VALUE, pages=(11, 11))
+        _, ev = run([c], result([whole]), [table('aircraft', [1], c)])
         self.assertEqual(ev['52']['verdict'], 'correct')
         self.assertTrue(ev['52']['row']['fullRowRecovered'])
 
@@ -192,7 +238,8 @@ class RecordIdentity(unittest.TestCase):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
                      [(11, 'b', 'ATR 72-600 1315 19,210,000'), (11, 'd', name)])
-        _, ev = run([change(52, 'ac_1315', 'Replaced', *self.LONG, VALUE, pages=(11, 11))], result([split]))
+        c = change(52, 'ac_1315', 'Replaced', *self.LONG, VALUE, pages=(11, 11))
+        _, ev = run([c], result([split]), [table('aircraft', [1], c)])
         self.assertEqual(ev['52']['verdict'], 'correct')
         self.assertFalse(ev['52']['row']['fullRowRecovered'])
         self.assertEqual([r['unitId'] for r in ev['52']['row']['acceptedRecord']['left']], ['a'])
@@ -204,14 +251,14 @@ class MovedIsNotAddedOrRemoved(unittest.TestCase):
     TEXT = 'Proof of Loss: The Insured shall provide Underwriters with complete documentation.'
 
     def test_unchanged_move_is_not_a_removal(self):
-        moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)], category='Review')
+        moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)])
         summary, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0))], result([moved]))
         self.assertNotEqual(ev['30']['verdict'], 'correct')
         self.assertEqual(ev['30']['acceptedCards'], [])
         self.assertEqual((summary['acceptedCards'], summary['unexplainedCards']), (0, 1))
 
     def test_unchanged_move_is_not_an_addition(self):
-        moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)], category='Review')
+        moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)])
         summary, ev = run([change(31, 'pol', 'Added', right=self.TEXT, pages=(0, 5))], result([moved]))
         self.assertNotEqual(ev['31']['verdict'], 'correct')
         self.assertEqual(ev['31']['acceptedCards'], [])
@@ -243,8 +290,7 @@ class ReplacementNeedsTheEdit(unittest.TestCase):
 
     def test_cards_without_the_edit_are_not_accepted(self):
         unchanged = {
-            'same card, unchanged move': ([self.EDIT], [card('m', 'Moved', [(1, 'a', self.PARA)], [(1, 'b', self.PARA)],
-                                                              category='Review')]),
+            'same card, unchanged move': ([self.EDIT], [card('m', 'Moved', [(1, 'a', self.PARA)], [(1, 'b', self.PARA)])]),
             'same card, called Replaced': ([self.EDIT], [card('m', 'Replaced', [(1, 'a', self.PARA)],
                                                                [(1, 'b', self.PARA)])]),
             'same card, right record': ([self.ROW], [card('m', 'Moved', [(1, 'a', '1315 ' + self.PARA)],
@@ -258,7 +304,7 @@ class ReplacementNeedsTheEdit(unittest.TestCase):
         }
         for name, (events, cards) in unchanged.items():
             with self.subTest(name):
-                summary, ev = run(events, result(cards))
+                summary, ev = run(events, result(cards), [table('aircraft', [1], self.ROW)])
                 e = ev[str(events[0]['id'])]
                 self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
                 self.assertEqual(e['acceptedCards'], [])
@@ -280,14 +326,13 @@ class ReplacementNeedsTheEdit(unittest.TestCase):
                                                      card('n', 'Added', right=[(1, 'b', 'Hull USD 200 applies.')])],
                                          'split_attributable', ['n', 'o']),
             # An author move without an edit is still met by the unchanged move on the stated pages.
-            'author move, unchanged move': (moved, [card('m', 'Moved', [(1, 'a', self.PARA)], [(2, 'b', self.PARA)],
-                                                         category='Review')], 'correct', ['m']),
+            'author move, unchanged move': (moved, [card('m', 'Moved', [(1, 'a', self.PARA)], [(2, 'b', self.PARA)])], 'correct', ['m']),
             'insertion only': (insert, [card('i', 'Replaced', [(1, 'a', 'The insurer pays approved losses.')],
                                              [(1, 'b', 'The insurer pays approved covered losses.')])], 'correct', ['i']),
         }
         for name, (event, cards, verdict, accepted) in edited.items():
             with self.subTest(name):
-                summary, ev = run([event], result(cards))
+                summary, ev = run([event], result(cards), [table('aircraft', [1], self.ROW)])
                 e = ev[str(event['id'])]
                 self.assertEqual((e['verdict'], e['acceptedCards']), (verdict, accepted))
                 self.assertEqual(summary['unexplainedCards'], 0)
@@ -349,17 +394,18 @@ class PagesBoundTheText(unittest.TestCase):
 
 class AddedRemovedRows(unittest.TestCase):
     ADDED = change(63, 'ac_55228', 'Added', right='Airbus A220 | 55228 | VH-JXP | 39,000,000', pages=(0, 11))
+    DECLARED = [table('aircraft', AIRCRAFT, ADDED)]
 
     def test_cells_must_share_one_record(self):
         whole = card('w', 'Added', right=[(11, 'u1', t) for t in ('Airbus A220', '55228', 'VH-JXP', '39,000,000')])
-        _, ev = run([self.ADDED], result([whole]))
+        _, ev = run([self.ADDED], result([whole]), self.DECLARED)
         self.assertEqual(ev['63']['verdict'], 'correct')
         self.assertTrue(ev['63']['row']['fullRowRecovered'])
 
     def test_cells_scattered_over_different_records_are_not_complete(self):
         ident = card('i', 'Added', right=[(11, 'u1', '55228'), (11, 'u1', 'VH-JXP')])
         other = card('o', 'Added', right=[(11, 'u2', 'Airbus A220'), (11, 'u2', '39,000,000')])
-        _, ev = run([self.ADDED], result([ident, other]))
+        _, ev = run([self.ADDED], result([ident, other]), self.DECLARED)
         self.assertNotEqual(ev['63']['verdict'], 'correct')
         self.assertNotEqual(ev['63']['outcome'], 'complete')
         self.assertEqual(ev['63']['atoms'], ['outside_record', 'in_record', 'in_record', 'outside_record'])
@@ -368,17 +414,17 @@ class AddedRemovedRows(unittest.TestCase):
         neighbour = ('Airbus A320', '40001', 'VH-AAA')
         merged = card('m', 'Replaced', [(11, 'u0', t) for t in neighbour],
                       [(11, 'u1', t) for t in (*neighbour, 'Airbus A220', '55228', 'VH-JXP', '39,000,000')])
-        _, ev = run([self.ADDED], result([merged]))
+        _, ev = run([self.ADDED], result([merged]), self.DECLARED)
         self.assertEqual((ev['63']['verdict'], ev['63']['atoms'][0]), ('not_evaluable', 'merged_into_neighbour_card'))
         paired = card('p', 'Replaced', [(11, 'u0', t) for t in neighbour],
                       [(11, 'u1', t) for t in ('Airbus A220', '55228', 'VH-JXP', '39,000,000')])
-        _, ev = run([self.ADDED], result([paired]))
+        _, ev = run([self.ADDED], result([paired]), self.DECLARED)
         self.assertEqual((ev['63']['verdict'], ev['63']['atoms'][0]), ('misattributed', 'paired_with_other_record'))
 
     def test_cells_without_any_record_identity_are_not_evaluable(self):
         a = card('a', 'Added', right=[(11, 'u1', 'Airbus A220'), (11, 'u1', 'VH-JXP')])
         b = card('b', 'Added', right=[(11, 'u2', '39,000,000')])
-        _, ev = run([self.ADDED], result([a, b]))
+        _, ev = run([self.ADDED], result([a, b]), self.DECLARED)
         self.assertEqual(ev['63']['verdict'], 'not_evaluable')
 
 
@@ -420,52 +466,46 @@ class SidesAndSplits(unittest.TestCase):
                    pages=(15, 15))
         rem = card('r', 'Removed', [(15, 'a', 'Dubai (OMDW)'), (15, 'a', 'Al Maktoum Hangars'), (15, 'a', 'Shared')])
         add = card('a', 'Added', right=[(15, 'b', 'Dubai (OMDW)'), (15, 'b', 'Desert Falcon Hangars')])
-        _, ev = run([c], result([rem, add]))
+        bases = [table('bases', [0], c)]
+        _, ev = run([c], result([rem, add]), bases)
         self.assertEqual(ev['73']['verdict'], 'split_attributable')
         lone = card('a', 'Added', right=[(15, 'b', 'Desert Falcon Hangars')])
-        _, ev = run([c], result([rem, lone]))
+        _, ev = run([c], result([rem, lone]), bases)
         self.assertEqual((ev['73']['verdict'], ev['73']['atoms']), ('not_evaluable', ['separate_cards']))
 
 
-class CategoriesExclusionsFurniture(unittest.TestCase):
-    def test_each_atom_keeps_its_own_category(self):
-        c = change(32, 'ppc', 'Replaced', 'Premium due 15th December 2024 per LSW3001 – Premium Payment Clause.',
-                   'Premium due 15th December 2025 per LSW3001 - Premium Payment Clause.',
-                   [('15th December 2024', '15th December 2025', 'Material'),
-                    ('LSW3001 – Premium', 'LSW3001 - Premium', 'Material')], pages=(6, 6))
-        cards = [card('m', 'Replaced', [(6, 'a', '15th December 2024')], [(6, 'b', '15th December 2025')]),
-                 card('c', 'Replaced', [(6, 'c', 'LSW3001 – Premium')], [(6, 'd', 'LSW3001 - Premium')],
-                      category='Cosmetic')]
-        _, ev = run([c], result(cards))
-        e = ev['32']
-        self.assertEqual(e['bestProductCategory'], 'Material')
-        self.assertEqual([a['category'] for a in e['atomEvidence']], ['Material', 'Cosmetic'])
-        self.assertEqual([a['categoryCheck'] for a in e['atomEvidence']], ['consistent', 'downgraded'])
+class FactsFormatsExclusionsFurniture(unittest.TestCase):
+    def test_stated_facts_are_rechecked_against_the_card_texts(self):
+        cards = [card('w', 'Replaced', [(1, 'a', 'Limit  USD 5,000')], [(1, 'b', 'Limit USD 5,000')], facts=['whitespace_only']),
+                 card('x', 'Replaced', [(1, 'c', 'per aircraft')], [(1, 'd', 'peraircraft')], facts=['whitespace_only']),
+                 card('p', 'Replaced', [(1, 'e', 'Page 1 of 4')], [(1, 'f', 'Page 1 of 5')], facts=['page_number_only']),
+                 card('q', 'Replaced', [(1, 'g', 'Limit 1%')], [(1, 'h', 'Limit 5%')], facts=['page_number_only']),
+                 card('d', 'Replaced', [(1, 'i', 'PERIOD: 01 April 2024 to 31 March 2025')],
+                      [(1, 'j', 'PERIOD: 01 April 2025 to 31 March 2026')], facts=['dates_rolled_forward_one_year'])]
+        summary, _ = run([], result(cards))
+        self.assertEqual(summary['facts']['stated'],
+                         {'whitespace_only': 2, 'page_number_only': 2, 'dates_rolled_forward_one_year': 1})
+        self.assertEqual(summary['facts']['contradicted'], [{'card': 'x', 'fact': 'whitespace_only'},
+                                                            {'card': 'q', 'fact': 'page_number_only'}])
+
+    def test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated(self):
+        c = change(5, 'lim', 'Replaced', 'Limit USD350,000,000', 'Limit USD400,000,000',
+                   [('USD350,000,000', 'USD400,000,000')], pages=(2, 2))
+        old = card('d', 'Replaced', [(2, 'a', 'Limit USD350,000,000')], [(2, 'b', 'Limit USD400,000,000')])
+        del old['facts']
+        old['category'] = 'Cosmetic'
+        summary, ev = run([c], dict(result([old]), schemaVersion='policy-compare/0.1.0'))
+        self.assertEqual((ev['5']['verdict'], summary['resultFormat']), ('correct', 'policy-compare/0.1.0'))
+        self.assertNotIn('categoryCheck', json.dumps(ev['5']))
 
     def test_excluded_events_keep_text_and_reason_and_never_count(self):
-        ws = change(9, 'cov_2_3', 'Replaced', 'a  maximum', 'a maximum', [('a  maximum', 'a maximum')],
-                    category='Cosmetic')
+        ws = change(9, 'cov_2_3', 'Replaced', 'a  maximum', 'a maximum', [('a  maximum', 'a maximum')])
         summary, ev = run([ws], result([]))
         self.assertEqual(summary['scored'], 0)
         self.assertEqual(summary['verdicts'], {})
         self.assertEqual(summary['excluded'][0]['id'], '9')
         self.assertEqual(summary['excluded'][0]['edits'][0]['old'], 'a  maximum')
         self.assertIn('whitespace', summary['excluded'][0]['reason'])
-
-    def test_author_roll_forward_is_kept_apart_from_policy_period(self):
-        period = change(3, 'period', 'Replaced', 'From 1 June 2024 to 31 May 2025', 'From 1 June 2025 to 31 May 2026',
-                        [('1 June 2024 to 31 May 2025', '1 June 2025 to 31 May 2026')], category='RollForward')
-        umr = change(1, 'umr', 'Replaced', 'UMR B0731K24', 'UMR B0731K25', [('B0731K24', 'B0731K25')],
-                     category='RollForward')
-        cards = [card('p', 'Replaced', [(1, 'a', 'From 1 June 2024 to 31 May 2025')],
-                      [(1, 'b', 'From 1 June 2025 to 31 May 2026')]),
-                 card('u', 'Replaced', [(1, 'c', 'UMR B0731K24')], [(1, 'd', 'UMR B0731K25')])]
-        summary, ev = run([period, umr], result(cards))
-        self.assertEqual(summary['rollForward']['author'], ['3', '1'])
-        self.assertEqual([p['id'] for p in summary['rollForward']['policyPeriod']], ['3'])
-        # A policy-period roll-forward shown as Material is an over-alert, not a hidden change.
-        self.assertEqual(ev['3']['atomEvidence'][0]['categoryCheck'], 'upgraded')
-        self.assertEqual(ev['1']['atomEvidence'][0]['categoryCheck'], 'outside_product_roll_forward_definition')
 
     def test_page_furniture_is_listed_not_silently_filtered(self):
         h = change('H2', 'page_furniture', 'Header', 'CLW0100862', 'CLW0100933', [('CLW0100862', 'CLW0100933')],
