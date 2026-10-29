@@ -1,0 +1,235 @@
+{
+  "score": {
+    "caseId": "R01_identical",
+    "status": "FAIL",
+    "faults": [
+      "Invalid result schema: schemaVersion"
+    ],
+    "notEvaluated": [],
+    "events": []
+  },
+  "result": {
+    "schemaVersion": "policy-compare-result/2",
+    "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+    "extractors": [
+      {
+        "name": "MuPDF.js",
+        "version": "mupdf/1.28.1+scalar-fix.1",
+        "adapterVersion": "mupdf-adapter/3",
+        "options": {
+          "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+          "actualText": "engine-default",
+          "clip": true,
+          "diagnostics": "scoped-native-errors-and-read-failures/1"
+        }
+      },
+      {
+        "name": "MuPDF.js",
+        "version": "mupdf/1.28.1+scalar-fix.1",
+        "adapterVersion": "mupdf-adapter/3",
+        "options": {
+          "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+          "actualText": "engine-default",
+          "clip": true,
+          "diagnostics": "scoped-native-errors-and-read-failures/1"
+        }
+      }
+    ],
+    "snapshotHashVersion": "page-merkle/1",
+    "tokenizerVersion": "unicode-tokens/1",
+    "profileVersion": "aviation/1.0.0",
+    "documentHashes": [
+      "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+      "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a"
+    ],
+    "extractionSnapshotHashes": [
+      "66f8f97ddb7064bef17c20e6d1c162e63105e3d26988af84198419453b44fd1a",
+      "66f8f97ddb7064bef17c20e6d1c162e63105e3d26988af84198419453b44fd1a"
+    ],
+    "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+    "scope": "extracted_text",
+    "status": "complete_for_scope",
+    "differences": [],
+    "coverage": [],
+    "unresolved": [],
+    "alignment": [
+      {
+        "leftPage": 0,
+        "leftY": 29,
+        "rightPage": 0,
+        "rightY": 29
+      },
+      {
+        "leftPage": 0,
+        "leftY": 49,
+        "rightPage": 0,
+        "rightY": 49
+      },
+      {
+        "leftPage": 0,
+        "leftY": 81,
+        "rightPage": 0,
+        "rightY": 81
+      },
+      {
+        "leftPage": 0,
+        "leftY": 132,
+        "rightPage": 0,
+        "rightY": 132
+      },
+      {
+        "leftPage": 0,
+        "leftY": 155,
+        "rightPage": 0,
+        "rightY": 155
+      },
+      {
+        "leftPage": 0,
+        "leftY": 178,
+        "rightPage": 0,
+        "rightY": 178
+      },
+      {
+        "leftPage": 0,
+        "leftY": 201,
+        "rightPage": 0,
+        "rightY": 201
+      },
+      {
+        "leftPage": 0,
+        "leftY": 224,
+        "rightPage": 0,
+        "rightY": 224
+      },
+      {
+        "leftPage": 0,
+        "leftY": 247,
+        "rightPage": 0,
+        "rightY": 247
+      },
+      {
+        "leftPage": 0,
+        "leftY": 270,
+        "rightPage": 0,
+        "rightY": 270
+      },
+      {
+        "leftPage": 0,
+        "leftY": 293,
+        "rightPage": 0,
+        "rightY": 293
+      },
+      {
+        "leftPage": 0,
+        "leftY": 316,
+        "rightPage": 0,
+        "rightY": 316
+      },
+      {
+        "leftPage": 0,
+        "leftY": 339,
+        "rightPage": 0,
+        "rightY": 339
+      },
+      {
+        "leftPage": 0,
+        "leftY": 378,
+        "rightPage": 0,
+        "rightY": 378
+      },
+      {
+        "leftPage": 0,
+        "leftY": 399,
+        "rightPage": 0,
+        "rightY": 399
+      },
+      {
+        "leftPage": 0,
+        "leftY": 453,
+        "rightPage": 0,
+        "rightY": 453
+      },
+      {
+        "leftPage": 0,
+        "leftY": 474,
+        "rightPage": 0,
+        "rightY": 474
+      },
+      {
+        "leftPage": 0,
+        "leftY": 528,
+        "rightPage": 0,
+        "rightY": 528
+      },
+      {
+        "leftPage": 0,
+        "leftY": 549,
+        "rightPage": 0,
+        "rightY": 549
+      },
+      {
+        "leftPage": 0,
+        "leftY": 817.89,
+        "rightPage": 0,
+        "rightY": 817.89
+      },
+      {
+        "leftPage": 1,
+        "leftY": 81,
+        "rightPage": 1,
+        "rightY": 81
+      },
+      {
+        "leftPage": 1,
+        "leftY": 136,
+        "rightPage": 1,
+        "rightY": 136
+      },
+      {
+        "leftPage": 1,
+        "leftY": 169,
+        "rightPage": 1,
+        "rightY": 169
+      },
+      {
+        "leftPage": 1,
+        "leftY": 204,
+        "rightPage": 1,
+        "rightY": 204
+      },
+      {
+        "leftPage": 1,
+        "leftY": 239,
+        "rightPage": 1,
+        "rightY": 239
+      },
+      {
+        "leftPage": 1,
+        "leftY": 274,
+        "rightPage": 1,
+        "rightY": 274
+      },
+      {
+        "leftPage": 1,
+        "leftY": 309,
+        "rightPage": 1,
+        "rightY": 309
+      },
+      {
+        "leftPage": 1,
+        "leftY": 817.89,
+        "rightPage": 1,
+        "rightY": 817.89
+      }
+    ],
+    "stats": {
+      "leftScalars": 1371,
+      "rightScalars": 1371,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "differenceCount": 0,
+      "occurrenceCount": 0
+    },
+    "diagnostics": []
+  }
+}

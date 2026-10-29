@@ -1,7 +1,10 @@
 // Compares each generator's left/right PDFs with both engines and checks the
 // known events of expected.json: each event must be on exactly one card of
-// the expected kind that carries its record, and no card may join records
-// listed in mustNotPair. expected.json is read only after the comparison.
+// the expected kind that carries its record, or (round 8) a Replaced event on
+// exactly one Removed card with the old text and one Added card with the new
+// text, each carrying the record ("SPLIT", reported apart from PASS). No card
+// may join records listed in mustNotPair. Results are format 2: there is no
+// category to check. expected.json is read only after the comparison.
 // usage: pnpm exec tsx reports/issue-2-validation/generators/check.ts PDF_DIR OUT_DIR
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
@@ -9,7 +12,7 @@ import { gzipSync } from "node:zlib";
 import path from "node:path";
 import { loadEngine, type EngineName } from "../../../packages/pdf-adapter/node";
 import { compare } from "../../../packages/compare-core/index";
-import { canonical, parseDoc, type Difference } from "../../../packages/contracts/index";
+import { canonical, parseDoc, type DifferenceV2 as Difference } from "../../../packages/contracts/index";
 const [pdfDir, outDir] = process.argv.slice(2).map((p) => path.resolve(p));
 const squash = (s: string) => s.replace(/\s+/g, "");
 const report: Record<string, unknown>[] = [];
@@ -38,17 +41,23 @@ for (const generator of ["chromium", "libreoffice"])
           (!e.new || has(d, "new", e.new)) &&
           (!e.record || ((e.kind === "Added" || has(d, "old", e.record)) && (e.kind === "Removed" || has(d, "new", e.record)))),
       );
-      hits.forEach((d) => used.add(d.id));
-      const card = hits[0];
+      // One delete + one add, each holding the record and its side of the edit.
+      const side = (kind: string, s: "old" | "new", t: string) =>
+        result.differences.filter((d) => d.kind === kind && has(d, s, t) && (!e.record || has(d, s, e.record)));
+      const split = e.kind === "Replaced" && !hits.length && e.old && e.new
+        ? [side("Removed", "old", e.old), side("Added", "new", e.new)] : null;
+      const parts = split?.every((x) => x.length === 1) ? split.flat() : [];
+      [...hits, ...parts].forEach((d) => used.add(d.id));
       const status =
-        hits.length !== 1 ? (hits.length ? "AMBIGUOUS" : "NOT_FOUND")
-        : card.category !== "Material" ? "WRONG_CATEGORY"
-        : "PASS";
+        hits.length === 1 ? "PASS"
+        : hits.length ? "AMBIGUOUS"
+        : parts.length ? "SPLIT"
+        : "NOT_FOUND";
       return {
         ...e,
         status,
-        cards: hits.map((d) => ({
-          id: d.id, kind: d.kind, category: d.category, method: d.matchEvidence.method,
+        cards: [...hits, ...parts].map((d) => ({
+          id: d.id, kind: d.kind, facts: d.facts, method: d.matchEvidence.method,
           rowKey: d.structurePath?.rowKey ?? null, pages: pages(d), oldText: d.oldText, newText: d.newText,
         })),
       };
@@ -61,7 +70,7 @@ for (const generator of ["chromium", "libreoffice"])
         .map((d) => ({ pair: [a, b], id: d.id, oldText: d.oldText, newText: d.newText })),
     );
     const other = result.differences.filter((d) => !used.has(d.id)).map((d) => ({
-      id: d.id, kind: d.kind, category: d.category, method: d.matchEvidence.method,
+      id: d.id, kind: d.kind, facts: d.facts, method: d.matchEvidence.method, repeat: d.repeat,
       section: d.structurePath?.section, occurrences: d.occurrences.length, pages: pages(d),
       oldText: d.oldText.slice(0, 160), newText: d.newText.slice(0, 160),
     }));
@@ -71,15 +80,16 @@ for (const generator of ["chromium", "libreoffice"])
       inputSha256: files.map((f) => createHash("sha256").update(readFileSync(f)).digest("hex")),
       resultSha256: createHash("sha256").update(text).digest("hex"),
       status: result.status, cards: result.differences.length, unresolved: result.unresolved.length,
-      eventsPassed: events.filter((e: any) => e.status === "PASS").length, eventsTotal: events.length,
+      eventsPassed: events.filter((e: any) => e.status === "PASS").length,
+      eventsSplit: events.filter((e: any) => e.status === "SPLIT").length, eventsTotal: events.length,
       crossedRecords: crossed, events,
       otherCards: other,
     };
     report.push(record);
     console.log(JSON.stringify({ generator, engine, status: result.status, cards: record.cards,
-      events: `${record.eventsPassed}/${record.eventsTotal}`, crossed: crossed.length,
+      events: `${record.eventsPassed}/${record.eventsTotal}`, split: record.eventsSplit, crossed: crossed.length,
       failed: events.filter((e: any) => e.status !== "PASS").map((e: any) => `${e.id}:${e.status}`),
-      other: other.map((o) => `${o.kind}/${o.category}/${o.section}:${o.oldText.slice(0, 30)}=>${o.newText.slice(0, 30)}`) }));
+      other: other.map((o) => `${o.kind}/${o.facts.join("+")}/${o.section}:${o.oldText.slice(0, 30)}=>${o.newText.slice(0, 30)}`) }));
   }
 writeFileSync(path.join(outDir, "generator-check.json"), JSON.stringify(report, null, 1) + "\n");
-if (report.some((r: any) => r.eventsPassed !== r.eventsTotal || r.crossedRecords.length)) process.exitCode = 1;
+if (report.some((r: any) => r.eventsPassed + r.eventsSplit !== r.eventsTotal || r.crossedRecords.length)) process.exitCode = 1;

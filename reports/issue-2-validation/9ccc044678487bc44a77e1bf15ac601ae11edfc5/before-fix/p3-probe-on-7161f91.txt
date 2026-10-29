@@ -1,0 +1,14 @@
+A320 | complete_for_scope | unresolved 0
+   ["Replaced","row-identity","A320","candidate","G-AAAA 123 A320","G-BBBB 456 A320"]
+names, no heading row | complete_for_scope | unresolved 0
+   ["Replaced","row-identity","Alpha Air","candidate","Alpha Air A-1 USD 100,000","Alpha Air A-1 USD 200,000"]
+   ["Replaced","row-identity","Beta Air","candidate","Beta Air B-2 USD 200,000","Beta Air B-2 USD 100,000"]
+MSN 1/2 prefix | complete_for_scope | unresolved 0
+   ["Replaced","row-identity","Alpha","candidate","MSN 1 Alpha 10%","MSN 2 Alpha 20%"]
+   ["Moved","row-identity","Beta","candidate","MSN 2 Beta 20%","MSN 1 Beta 10%"]
+same MSN, other registration | complete_for_scope | unresolved 0
+   ["Replaced","row-identity","1315","candidate","1315 G-AAAA USD 1,000","1315 G-ZZZZ USD 1,000"]
+same title, two tables | complete_for_scope | unresolved 0
+   ["Added","unmatched",null,"candidate","","G-CCCC Gamma Air USD 3,000"]
+   ["Moved","row-identity","G-AAAA","candidate","G-AAAA Alpha Air USD 1,000","G-AAAA South Bank plc 2021"]
+   ["Removed","unmatched",null,"candidate","G-BBBB North Bank plc 2019",""]

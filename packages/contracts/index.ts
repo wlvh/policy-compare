@@ -217,7 +217,9 @@ export const ResultSchema = z.object({
  * - `facts` are only stated when the comparison itself proves them (see
  *   `FactSchema`); they say nothing about business relevance.
  * - `repeat` gives, for a line repeated across pages, its occurrence counts and
- *   the two documents' page counts, without explaining one by the other.
+ *   the two documents' page counts, without explaining one by the other. A card
+ *   whose two texts are equal (`kind: "Replaced"`, `hasTextChange: false`)
+ *   reports only that these occurrence counts differ.
  * - `status: "complete_for_scope"` means processing of the extracted text ended
  *   with no recorded coverage gap and no unresolved group; it does not claim that
  *   nothing was missed or that the result is correct.
