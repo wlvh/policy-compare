@@ -706,6 +706,8 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([row], result([swap]), [table('aircraft', [1], row)])
         self.assertNotEqual(ev['41']['verdict'], 'correct')
         self.assertEqual(ev['41']['acceptedCards'], [])
+        # The card does change both texts; the reason says that their edits do not line up.
+        self.assertEqual(ev['41']['atoms'], ['same_card_unaligned'])
         # Control: the card that changes the Hull amount itself.
         own = card('y', 'Replaced', [(1, 'a', '1315 Hull USD 100; Liability EUR 200.')],
                    [(1, 'b', '1315 Hull USD 200; Liability EUR 200.')])

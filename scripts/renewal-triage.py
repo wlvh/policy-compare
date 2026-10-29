@@ -52,7 +52,9 @@ occurrence must line up in the card's edit script (renewal-triage/10): the
 unchanged characters of the context the author edit keeps on each side are
 paired with the other occurrence, and every unchanged character between the two
 belongs to one of them; currency codes swapped while the amounts stay paired
-elsewhere do not show "USD 100" -> "USD 200". A pure insertion or deletion needs no
+elsewhere do not show "USD 100" -> "USD 200". A card that changes both texts
+without lining them up is reported as such ("same_card_unaligned",
+renewal-triage/11), not as a card that leaves them unchanged. A pure insertion or deletion needs no
 text on its empty side; its other side needs the edit with the record identity
 or the author paragraph in that occurrence's own units. A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
@@ -84,7 +86,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/10'
+TOOL = 'renewal-triage/11'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -480,7 +482,7 @@ def text_atom(atom, change, ctx, claimed):
     oc = [d for d in diffs if located(d, 'left', old, wanted['left'])]
     nc = [d for d in diffs if located(d, 'right', new, wanted['right'])]
     same = [d for d in oc if d in nc]
-    cands, accepted, suspects, open_, unedited = [], [], [], [], []
+    cands, accepted, suspects, open_, unedited, unaligned = [], [], [], [], [], []
     for d in same:
         # The old and the new occurrence that carry the edit and line up in the card's edit script.
         unchanged = unchanged_script(d)
@@ -491,6 +493,8 @@ def text_atom(atom, change, ctx, claimed):
             # The card holds both texts but does not make this edit there: no evidence for or against.
             cands.append(candidate(d, needles, wanted, edit=False))
             unedited.append(d)
+            if lo and ro:
+                unaligned.append(d)
             continue
         only = {'left': {i for i, _ in both}, 'right': {j for _, j in both}}
         if ident is None:
@@ -543,9 +547,13 @@ def text_atom(atom, change, ctx, claimed):
                         s for s, e in (('left', el), ('right', er)) if not e) + ' card does not change the text')
         return ('separate_cards', 'not_evaluable', [], cands, ou + nu,
                 'separate cards without verifiable common context (' + why + ')')
+    if unedited and len(unaligned) == len(unedited):
+        return ('same_card_unaligned', 'not_evaluable', [], cands, ou + nu,
+                'cards change both texts, but their edits pair them with other text, not with each other')
     if unedited:
         return ('same_card_without_edit', 'not_evaluable', [], cands, ou + nu,
-                'cards hold both texts but none changes them here (e.g. an unchanged move)')
+                'cards hold both texts but none changes them here (e.g. an unchanged move)'
+                + ('; others change both but pair them with other text' if unaligned else ''))
     if (olds or ou) and (news or nu):
         return ('in_unresolved_group', 'not_evaluable', [], cands, ou + nu,
                 'one or both sides only in a product unresolved group')
