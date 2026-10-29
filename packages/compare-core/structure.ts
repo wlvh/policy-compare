@@ -92,12 +92,20 @@ export function maskedPageNumbers(u: { rawText: string; furniture?: Furniture })
       }
   return out + u.rawText.slice(at);
 }
-/** Furniture text with only its confirmed page-number parts replaced. */
-export function furnitureContent(text: string, f: Furniture) {
+/**
+ * The variant of a repeated line that an occurrence is: its text with the page
+ * counter read against the page it is on ("Page 3" on page 3 and "Page 4" on
+ * page 4 are one variant, "Page 99" on page 3 another). The page total and
+ * every other number stay as printed.
+ */
+export function furnitureVariant(text: string, f: Furniture, page: number) {
+  const t = text.trim(),
+    counter = pageSlots(t).counter;
   let k = 0;
-  return text
-    .trim()
-    .replace(NUMBER, (n) => (f.pageTokens.includes(k++) ? "#" : n));
+  return t.replace(NUMBER, (n) => {
+    const j = k++;
+    return f.pageTokens.includes(j) && counter.includes(j) ? `#${Number(n.replace(/[.,]/g, "")) - page}` : n;
+  });
 }
 type Line = { p: DocInput["pages"][number]; refs: Ref[]; text: string };
 const span = (g: Line) => {

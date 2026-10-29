@@ -686,9 +686,9 @@ function App() {
                   <small>{d.reviewReasons.join("；")}</small>
                 )}
                 {d.occurrences.length > 0 && (
-                  <div className="occurrences">{d.occurrences.length} 处出现位置（逐处核对）：{d.occurrences.map((o,i)=>{
+                  <div className="occurrences">{d.occurrences.length} 处出现位置（逐处核对{d.occurrences.some(o=>o.context)?`；其中 ${d.occurrences.filter(o=>o.context).length} 处是同一行的其他写法，只作上下文，不计入次数`:''}）：{d.occurrences.map((o,i)=>{
                     // Each occurrence names its pages and keeps its own text, so every source can be checked.
-                    const where=[o.left[0]&&`基准 P${o.left[0].pageIndex+1}`,o.right[0]&&`待审 P${o.right[0].pageIndex+1}`].filter(Boolean).join(' · ');
+                    const where=[o.left[0]&&`基准 P${o.left[0].pageIndex+1}`,o.right[0]&&`待审 P${o.right[0].pageIndex+1}`,o.context&&'上下文'].filter(Boolean).join(' · ');
                     const text=(locs:SourceLocation[])=>locs.map(l=>l.text).join('')||'（无）';
                     return <button key={i} aria-label={`出现位置 ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();setSelectedId(d.id);locate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
                   })}</div>

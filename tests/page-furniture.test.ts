@@ -250,3 +250,88 @@ describe("a repeated line keeps its place, and only real page numbers are exempt
     ]);
   });
 });
+
+// Issue #2, round 11 (reviews r4414995196, r4412115015, r4414008547): every
+// text variant of a repeated line keeps its own occurrences and count; a
+// shared signature or a representative text does not stand for them. A page
+// counter is read against its own page, so a later page's changed number is a
+// variant. A group that is the counterpart of other variants is not also
+// reported as unmatched. `repeat` counts the occurrences of the reported
+// variant; other variants of the line are listed as context.
+describe("each variant of a repeated line keeps its own occurrences and count", () => {
+  const four = (header: (page: number) => string, y = 60) =>
+    pages(4, (p) => [
+      { text: header(p), x: 40, y },
+      { text: `Ordinary body on page ${p + 1}`, x: 40, y: 300 },
+    ]);
+  const own = (d: CompareResult["differences"][number], side: "left" | "right") =>
+    d.occurrences.filter((o) => !o.context).flatMap((o) => o[side]).map((l) => l.pageIndex);
+  const context = (d: CompareResult["differences"][number], side: "left" | "right") =>
+    d.occurrences.filter((o) => o.context).flatMap((o) => o[side]).map((l) => l.pageIndex);
+  it("two spellings both present, their counts swapped 3+1 -> 1+3: each count change is shown", () => {
+    const r = ResultSchema.parse(
+      compare(
+        four((p) => (p === 3 ? "UMR B01234AV2024" : "UMR B1234AV2024")),
+        four((p) => (p === 0 ? "UMR B1234AV2024" : "UMR B01234AV2024")),
+      ),
+    );
+    expect(r.differences.length).toBeGreaterThan(0);
+    for (const [text, left, right] of [
+      ["UMR B1234AV2024", [0, 1, 2], [0]],
+      ["UMR B01234AV2024", [3], [1, 2, 3]],
+    ] as const) {
+      const d = r.differences.find((d) => d.oldText === text && d.newText === text)!;
+      expect(d.repeat).toEqual({ left: left.length, right: right.length, leftPages: 4, rightPages: 4 });
+      expect([own(d, "left"), own(d, "right")]).toEqual([left, right]);
+      // The other spelling is context, not counted.
+      expect(context(d, "left").length + context(d, "right").length).toBe(4);
+    }
+  });
+  it("a later page's page number changed (Page 3 -> Page 99) is shown, not hidden by the first page", () => {
+    const r = ResultSchema.parse(
+      compare(
+        four((p) => `Page ${p + 1} of 4`, 120),
+        four((p) => `Page ${p === 2 ? 99 : p + 1} of 4`, 120),
+      ),
+    );
+    const d = r.differences.find((d) => d.newText === "Page 99 of 4")!;
+    expect(d).toBeDefined();
+    expect(own(d, "right")).toEqual([2]);
+    expect(d.repeat?.right).toBe(1);
+    expect(context(d, "right")).toEqual([0, 1, 3]);
+    expect(d.right.map((l) => l.pageIndex)).toEqual([2]);
+    // Control: the same sequence on both sides gives no card.
+    expect(compare(four((p) => `Page ${p + 1} of 4`, 120), four((p) => `Page ${p + 1} of 4`, 120)).differences).toEqual([]);
+  });
+  it("one text replaced by several: one card per new text, the old group not also unmatched", () => {
+    const r = ResultSchema.parse(
+      compare(four(() => "Limit USD 1000"), four((p) => (p === 3 ? "Limit USD 3000" : "Limit USD 2000"))),
+    );
+    expect(r.differences.map((d) => [d.kind, d.oldText, d.newText, d.matchEvidence.method])).toEqual([
+      ["Replaced", "Limit USD 1000", "Limit USD 2000", "page-furniture"],
+      ["Replaced", "Limit USD 1000", "Limit USD 3000", "page-furniture"],
+    ]);
+    // The mirror case: two old texts, one new text.
+    const m = ResultSchema.parse(
+      compare(four((p) => (p < 2 ? "Limit USD 1000" : "Limit USD 2000")), four(() => "Limit USD 3000")),
+    );
+    expect(m.differences.map((d) => [d.kind, d.oldText, d.newText]).sort()).toEqual([
+      ["Replaced", "Limit USD 1000", "Limit USD 3000"],
+      ["Replaced", "Limit USD 2000", "Limit USD 3000"],
+    ]);
+  });
+  it("controls: a single changed page, a page keeping the old text, repagination", () => {
+    const one = ResultSchema.parse(
+      compare(four(() => "Limit USD 1000"), four((p) => (p === 1 ? "Limit USD 2000" : "Limit USD 1000"))),
+    );
+    expect(one.differences).toHaveLength(1);
+    const [d] = one.differences;
+    expect(d.repeat).toEqual({ left: 4, right: 1, leftPages: 4, rightPages: 4 });
+    expect([own(d, "left"), own(d, "right"), context(d, "right")]).toEqual([[0, 1, 2, 3], [1], [0, 2, 3]]);
+    const doc = (count: number) => pages(count, (p) => [body(p), { text: `Page ${p + 1} of ${count}`, x: 480, y: 800 }]);
+    const re = ResultSchema.parse(compare(doc(4), doc(5)));
+    expect(furniture(re).map((d) => [d.facts, d.repeat?.left, d.repeat?.right, d.occurrences.some((o) => o.context)])).toEqual([
+      [["page_number_only"], 4, 5, false],
+    ]);
+  });
+});
