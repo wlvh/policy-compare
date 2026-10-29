@@ -68,7 +68,10 @@ cards must change the part the author edit changes on each side
 (renewal-triage/15). A number does not match inside a signed one, cells are
 allocated over every candidate stretch, and the full-row check of a Replaced
 row allocates its cells the same way (renewal-triage/16). Replaced values follow the
-same sign rule, and a source range a card lists twice counts once (renewal-triage/17).
+same sign rule, and a source range a card lists twice counts once (renewal-triage/17). A
+same-card paragraph replacement needs the author paragraph around the lined-up occurrences
+(whitespace aside, as for split cards and one-sided edits), and copies of one cell are
+allocated in text order only (renewal-triage/18).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -99,7 +102,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/17'
+TOOL = 'renewal-triage/18'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -493,13 +496,15 @@ def in_context(card, needle, author):
         len(a) >= len(needle) + 10 and card in a and len(card) >= len(needle) + 10)
 
 
-def context(d, side, needle, wanted, author, edit=False, within=False):
+def context(d, side, needle, wanted, author, edit=False, within=False, only=None):
     """A qualifying occurrence whose own source units, read on the wanted pages only, show the
-    author paragraph around it."""
-    for keys in hits(d, side, needle, wanted, edit, within=within):
+    author paragraph around it. Whitespace does not count: source units are joined with spaces
+    the author text may not have, and lose ones it has (LIMITEDand/or, Liability:COVERED)."""
+    squeeze = lambda x: re.sub(r'\s+', '', x)
+    for keys in hits(d, side, needle, wanted, edit, only, within=within):
         ids = {uid for _, uid in keys}
         text = norm(' '.join(u['text'] for u in units(d[side], wanted) if u['unitId'] in ids))
-        if in_context(text, needle, author):
+        if in_context(squeeze(text), squeeze(needle), squeeze(norm(author or ''))):
             return True
     return False
 
@@ -563,7 +568,13 @@ def text_atom(atom, change, ctx, claimed):
             continue
         only = {'left': {i for i, _ in both}, 'right': {j for _, j in both}}
         if ident is None:
-            status, why, seen = 'not_applicable', 'paragraph event: no record identity', None
+            # The author paragraph must sit around the lined-up occurrences on each side: another
+            # paragraph's card making the same edit is not this one (r4417631502).
+            author = {'left': change.get('left_text'), 'right': change.get('right_text')}
+            ok = all(norm(author[k] or '') == needles[k] or context(d, k, needles[k], wanted[k], author[k], need[k],
+                                                                     only=only[k]) for k in needles)
+            status, why, seen = ('confirmed' if ok else 'unconfirmed'), \
+                'author paragraph around the edit in the source units of the lined-up occurrences', None
         else:
             status, why, seen = judge_identity(d, needles, ident, others, change, wanted, need, only)
         cands.append(candidate(d, needles, wanted, status, why, seen, edit=True if any(need.values()) else None,
@@ -579,6 +590,9 @@ def text_atom(atom, change, ctx, claimed):
                  'same_card' if accepted else 'same_card_misattributed')
         verdict = 'misattributed' if suspects else 'correct'
         return state, verdict, accepted, cands, [], ''
+    if open_ and ident is None:
+        return ('same_card_context_unconfirmed', 'not_evaluable', [], cands, [],
+                'same card, but the author paragraph is not around the edit')
     if open_:
         return ('same_card_identity_unconfirmed', 'not_evaluable', [], cands, [],
                 'same card, but the record identity is ' + ', '.join(sorted({s for _, s in open_})))
@@ -678,26 +692,32 @@ def allocate(texts, text):
     a text the row has twice is found twice only where the unit holds it twice (r4416863597), and
     overlapping cells (USD 100, 100) need separate stretches (r4417192877). Every candidate
     stretch, overlapping ones included, is tried, so an allocation is found whenever one exists
-    (r4417384107); the result holds as many cells as can be placed."""
+    (r4417384107); the result holds as many cells as can be placed. Copies of one cell are
+    interchangeable: they take stretches in text order, and once one is left out so are the rest,
+    so their orders are not tried one by one (r4417631513)."""
     cells = sorted((t for t in texts if t), key=len, reverse=True)
     spans = {t: [(m.start(), m.end()) for i in range(len(text)) for m in [whole(t).match(text, i)] if m]
              for t in set(cells)}
     best = []
 
-    def place(k, taken, found):
+    def place(k, taken, found, prev):
         nonlocal best
         if len(found) + len(cells) - k <= len(best):
             return
         if k == len(cells):
             best = list(found)
             return
-        for a, b in spans[cells[k]]:
-            if all(b <= x or a >= y for x, y in taken):
-                place(k + 1, taken + [(a, b)], found + [cells[k]])
-                if len(best) == len(cells):
-                    return
-        place(k + 1, taken, found)
-    place(0, [], [])
+        copy = k > 0 and cells[k] == cells[k - 1]
+        if not (copy and prev is None):
+            for n, (a, b) in enumerate(spans[cells[k]]):
+                if copy and n <= prev:
+                    continue
+                if all(b <= x or a >= y for x, y in taken):
+                    place(k + 1, taken + [(a, b)], found + [cells[k]], n)
+                    if len(best) == len(cells):
+                        return
+        place(k + 1, taken, found, None)
+    place(0, [], [], None)
     return best
 
 

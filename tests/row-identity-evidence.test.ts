@@ -131,9 +131,9 @@ describe("the same title above two tables is not one table", () => {
 // and heading row are two tables unless each version has only one of them.
 describe("identity belongs to its own column and its own table", () => {
   type Cells = (string | null)[];
-  const place = (rows: Cells[], y0: number, page = 0) =>
+  const place = (rows: Cells[], y0: number, page = 0, dx = 130) =>
     rows.flatMap((row, i) =>
-      row.flatMap((text, j) => (text === null ? [] : [{ text, x: 40 + j * 130, y: y0 + i * 20, page }])),
+      row.flatMap((text, j) => (text === null ? [] : [{ text, x: 40 + j * dx, y: y0 + i * 20, page }])),
     );
   it("MSN | ESN | Serial | Share: 123/456 under MSN/ESN vs ESN/Serial is not one record", () => {
     const head: Cells = ["MSN", "ESN", "Serial", "Share"];
@@ -245,6 +245,41 @@ describe("identity belongs to its own column and its own table", () => {
     );
     expect(crossPaired(r, "Alpha", "Delta")).toBe(false);
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+  });
+  it("a qualified identifier heading inside a table (Aircraft Registration) ends that table (r4417587174)", () => {
+    // It may head another table or be a record's value: the rows after it are
+    // read under neither table's heading, so 123 binds nothing across them.
+    const doc = (first: Cells[], second: Cells[]) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([["MSN", "Operator", "Value"], ...first, ["Aircraft Registration", "Model", "Value"], ...second], 180, 0, 220),
+      ]);
+    const r = ResultSchemaV2.parse(
+      compare(doc([["123", "Alpha", "USD 100"]], [["456", "Beta", "USD 200"]]), doc([["789", "Gamma", "USD 300"]], [["123", "Delta", "USD 400"]])),
+    );
+    expect(crossPaired(r, "Alpha", "Delta")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Alpha", "left"), visible(r, "Delta", "right")]).toEqual([true, true]);
+  });
+  it("control: a record whose status ends with an identifier (Pending Registration) heads no rows (r4417587174)", () => {
+    const doc = (last: Cells) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([["Registration", "Operator", "Status"], ["G-AAAA", "Alpha Air", "Pending Registration"], last], 180, 0, 220),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc(["G-BBBB", "Beta Air", "Registered"]), doc(["G-CCCC", "Gamma Air", "Registered"])));
+    expect(crossPaired(r, "Beta Air", "Gamma Air")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Beta Air", "left"), visible(r, "Gamma Air", "right")]).toEqual([true, true]);
+  });
+  it("rows with the same text but identifiers in other columns are not the same record (r4417643759)", () => {
+    const head: Cells = ["MSN", "ESN", "Serial", "Share"];
+    const doc = (row: Cells) => textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, row, ["900", "901", "902", "5%"]], 180)]);
+    const r = ResultSchemaV2.parse(compare(doc(["123", "456", null, "10%"]), doc([null, "123", "456", "10%"])));
+    expect(r.differences.some((d) => d.matchEvidence.method === "unique-exact")).toBe(false);
+    expect([visible(r, "10%", "left"), visible(r, "10%", "right")]).toEqual([true, true]);
+    // Control: the same row in the same columns is unchanged.
+    expect(ResultSchemaV2.parse(compare(doc(["123", "456", null, "10%"]), doc(["123", "456", null, "10%"]))).differences).toEqual([]);
   });
   it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
     const run2 = (head: Cells, a: Cells, b: Cells) =>

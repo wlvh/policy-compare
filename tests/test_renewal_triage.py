@@ -10,6 +10,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -374,8 +375,8 @@ class ReplacementNeedsTheEdit(unittest.TestCase):
         edited = {
             # The old value still appears elsewhere on the right after a real replacement.
             'same card, old value kept elsewhere': (self.EDIT, [card(
-                'r', 'Replaced', [(1, 'a', 'Hull USD 100 applies; liability USD 100.')],
-                [(1, 'b', 'Hull USD 200 applies; liability USD 100.')])], 'correct', ['r']),
+                'r', 'Replaced', [(1, 'a', 'Hull USD 100 applies. Liability USD 100.')],
+                [(1, 'b', 'Hull USD 200 applies. Liability USD 100.')])], 'correct', ['r']),
             'same card, right record': (self.ROW, [card('r', 'Replaced', [(1, 'a', 'ATR 72-600 1315 USD 100')],
                                                         [(1, 'b', 'ATR 72-600 1315 USD 200')], row_key='1315')],
                                         'correct', ['r']),
@@ -536,6 +537,13 @@ class AddedRemovedRows(unittest.TestCase):
             c = change(69, 'ac_1315', kind, **{side: '1315 | A | A B | B B'}, pages=(0, 11) if kind == 'Added' else (11, 0))
             _, ev = run([c], result([card('x', kind, **{side: [(11, 'u1', '1315 A A B B B')]})]), [table('aircraft', [0], c)])
             self.assertEqual((ev['69']['verdict'], ev['69']['row']['fullRowRecovered']), ('correct', True), kind)
+
+    def test_identical_cells_are_allocated_without_trying_their_orders(self):
+        """r4417631513: ten identical cells against nine copies took seconds, each more ten times longer."""
+        start = time.monotonic()
+        self.assertEqual(triage.allocate(['0'] * 10, ' '.join(['0'] * 9)), ['0'] * 9)
+        self.assertEqual(triage.allocate(['0 0', '0', '0'], '0 0 0'), ['0 0', '0'])
+        self.assertLess(time.monotonic() - start, 1.0)
 
     def test_cells_scattered_over_different_records_are_not_complete(self):
         ident = card('i', 'Added', right=[(11, 'u1', '55228'), (11, 'u1', 'VH-JXP')])
@@ -834,6 +842,23 @@ class EditEvidence(unittest.TestCase):
             ('equal', ' Sudan, Syria.', [(1, 'a', ' Sudan, Syria.', 11)], [(1, 'b', ' Sudan, Syria.', 18)])])
         _, ev = run([c], result([first]))
         self.assertEqual((ev['16']['verdict'], ev['16']['acceptedCards']), ('correct', ['x']))
+
+    def test_a_same_card_paragraph_edit_needs_the_author_paragraph(self):
+        """r4417631502: the Liability paragraph's card is not the Hull paragraph's edit."""
+        hull = ('Hull cover is USD 100 for the aircraft.', 'Hull cover is USD 200 for the aircraft.')
+        c = change(24, 'hull', 'Replaced', *hull, [('USD 100', 'USD 200')])
+        other = card('l', 'Replaced', [(1, 'a', 'Liability cover is USD 100 per passenger.')],
+                     [(1, 'b', 'Liability cover is USD 200 per passenger.')])
+        _, ev = run([c], result([other]))
+        self.assertNotEqual(ev['24']['verdict'], 'correct')
+        self.assertEqual(ev['24']['acceptedCards'], [])
+        # Controls: the Hull paragraph's own card, also with the spaces its source units lose or add.
+        _, ev = run([c], result([card('h', 'Replaced', [(1, 'a', hull[0])], [(1, 'b', hull[1])])]))
+        self.assertEqual((ev['24']['verdict'], ev['24']['acceptedCards']), ('correct', ['h']))
+        joined = card('j', 'Replaced', [(1, 'a', 'Hull cover isUSD 100 for the'), (1, 'a', 'aircraft.')],
+                      [(1, 'b', 'Hull cover isUSD 200 for the'), (1, 'b', 'aircraft.')])
+        _, ev = run([c], result([joined]))
+        self.assertEqual((ev['24']['verdict'], ev['24']['acceptedCards']), ('correct', ['j']))
 
     def test_an_inserted_clause_may_repeat_the_words_after_it(self):
         """The card may pair the words an insertion repeats with the old text after it and mark
