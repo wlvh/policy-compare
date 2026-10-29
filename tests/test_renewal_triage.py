@@ -548,9 +548,10 @@ class OneQualifyingHit(unittest.TestCase):
         _, ev = run([c], result([x]), [table('rows', [0], c)])
         self.assertNotEqual(ev['52']['verdict'], 'correct')
         self.assertEqual(ev['52']['acceptedCards'], [])
-        # The unconfirmed occurrence is written out: its own units, without the identity.
+        # The unconfirmed occurrence is written out: the units carrying its edit (renewal-triage/13),
+        # without the identity.
         self.assertEqual(ev['52']['atomEvidence'][0]['candidates'][0]['identityCells']['left'],
-                         {'units': ['b', 'c'], 'identity': [], 'otherRecords': []})
+                         {'units': ['c'], 'identity': [], 'otherRecords': []})
         # Control: one unit holds the identity and the edit.
         y = card('y', 'Replaced', [(11, 'a', '1315 USD 100 Alpha')], [(11, 'b', '1315 USD 200 Alpha')])
         _, ev = run([c], result([y]), [table('rows', [0], c)])
@@ -760,6 +761,25 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([c], result([y]))
         self.assertNotEqual(ev['23']['verdict'], 'correct')
         self.assertEqual(ev['23']['acceptedCards'], [])
+
+    def test_the_identity_sits_in_a_unit_the_edit_changes(self):
+        """r4416699649: an occurrence across two units, the identity only in the unit whose text
+        is unchanged (\"1315 USD\" beside \"100 1760\" -> \"200 1760\"), does not confirm the record."""
+        row = change(42, 'ac_1315', 'Replaced', 'ATR | 1315 | Hull USD 100', 'ATR | 1315 | Hull USD 200',
+                     [('USD 100', 'USD 200')], pages=(1, 1))
+
+        def two_units(a, b_old, b_new):
+            return raw_card('x', [(1, 'a', a), (1, 'b', b_old)], [(1, 'c', a), (1, 'd', b_new)], [
+                ('equal', a + ' ', [(1, 'a', a, 0)], [(1, 'c', a, 0)]),
+                ('delete', '1', [(1, 'b', '1', 0)], []),
+                ('insert', '2', [], [(1, 'd', '2', 0)]),
+                ('equal', b_old[1:], [(1, 'b', b_old[1:], 1)], [(1, 'd', b_new[1:], 1)])])
+        _, ev = run([row], result([two_units('1315 USD', '100 1760', '200 1760')]), [table('aircraft', [1], row)])
+        self.assertNotEqual(ev['42']['verdict'], 'correct')
+        self.assertEqual(ev['42']['acceptedCards'], [])
+        # Control: the identity in the unit that carries the edit.
+        _, ev = run([row], result([two_units('Hull USD', '100 1760 1315', '200 1760 1315')]), [table('aircraft', [1], row)])
+        self.assertEqual((ev['42']['verdict'], ev['42']['acceptedCards']), ('correct', ['x']))
 
     PARA_SHORT = change(21, 'liab', 'Replaced', 'Liability USD 100.', 'Liability USD 200.', [('USD 100', 'USD 200')],
                         pages=(1, 1))
