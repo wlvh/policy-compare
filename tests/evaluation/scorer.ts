@@ -923,14 +923,46 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     }
   }
 }
-// Two occurrence texts are one variant when they are the same once the numbers of explicit page
-// expressions are masked, whitespace aside (a running "Page n" counts with its page).
-const variantOf = (t: string) => pageNumbers(t).masked.replace(/\s/gu, "");
-// A card's occurrences of its own old (new) text on a side, by their source-validated texts.
-const ownOccurrences = (d: Difference, side: "left" | "right") =>
-  d.occurrences.filter(
-    (o) => o[side].length > 0 && variantOf(o[side].map((l) => l.text).join("")) === variantOf(side === "left" ? d.oldText : d.newText),
-  );
+// The variants of a card's repeated line (shared definition): an occurrence's text, whitespace
+// aside, with the counter of an explicit page expression read against its own page ("Page 3" on
+// page 3 and "Page 4" on page 4 are one variant, "Page 99" on page 3 another) when that counter
+// counts with the pages: on either side, the occurrences the card cites show it with different
+// values and one offset to their pages. A counter that does not count (the same "Page 1" printed on
+// every page), a page total and every other number stay as printed.
+const counters = (t: string) => [...t.matchAll(PAGE_EXPRESSION)].map((m) => m[1]);
+const sideText = (locs: SourceLocation[]) => locs.map((l) => l.text).join("");
+function variants(d: Difference) {
+  const counting = new Set<number>();
+  for (const side of ["left", "right"] as const) {
+    const lines = d.occurrences
+      .filter((o) => o[side].length)
+      .map((o) => ({ cs: counters(sideText(o[side])), page: o[side][0].pageIndex + 1 }));
+    for (let k = 0; k < Math.max(0, ...lines.map((l) => l.cs.length)); k++) {
+      const at = lines.filter((l) => l.cs[k] !== undefined).map((l) => ({ v: Number(l.cs[k]), page: l.page }));
+      if (at.length >= 2 && new Set(at.map((x) => x.v)).size > 1 && new Set(at.map((x) => x.v - x.page)).size === 1) counting.add(k);
+    }
+  }
+  return (text: string, page: number) => {
+    let k = 0;
+    return text
+      .replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) ? m.replace(n, `#${Number(n) - page}`) : m))
+      .replace(/\s/gu, "");
+  };
+}
+// A card's own old (new) text on a side read as a variant, or "" when the card shows nothing there.
+const ownText = (d: Difference, side: "left" | "right", variant = variants(d)) => {
+  const card = side === "left" ? d.left : d.right;
+  return card.length ? variant(side === "left" ? d.oldText : d.newText, card[0].pageIndex + 1) : "";
+};
+// A card's occurrences of its own old (new) text on a side, by their source-validated texts and pages.
+const ownOccurrences = (d: Difference, side: "left" | "right") => {
+  const variant = variants(d);
+  if (!(side === "left" ? d.left : d.right).length) return [];
+  const own = ownText(d, side, variant);
+  return d.occurrences.filter((o) => o[side].length > 0 && variant(sideText(o[side]), o[side][0].pageIndex + 1) === own);
+};
+const sameLocation = (a: SourceLocation, b: SourceLocation) =>
+  a.side === b.side && a.pageIndex === b.pageIndex && a.charIds.join("\u0000") === b.charIds.join("\u0000");
 // Whether a text change is form only by the shared definitions above (whitespace, confirmed page
 // numbers, continued heading), whether or not the card states it. This only decides between a
 // contradiction and an open question in a no-change control; it never allows a change there.
@@ -1077,10 +1109,31 @@ function readingOrder(doc: DocInput) {
     const line = lines.slice(pos.line + 1).find((l) => l.length);
     return line ? { key: line[0].key, gap: "line" } : null;
   };
+  const prev = (key: string): { key: string; gap: "none" | "space" | "line" } | null => {
+    const pos = at.get(key);
+    if (!pos) return null;
+    const here = lines[pos.line][pos.i];
+    if (pos.i > 0) return { key: lines[pos.line][pos.i - 1].key, gap: here.space ? "space" : "none" };
+    const line = lines.slice(0, pos.line).reverse().find((l) => l.length);
+    return line ? { key: line.at(-1)!.key, gap: "line" } : null;
+  };
+  const scalar = (key: string) => {
+    const [id, k] = key.split("#");
+    return Array.from(text.get(id) ?? "")[Number(k)] ?? "";
+  };
+  // Whether the character at a position continues a number of the source in the given direction:
+  // a digit right beside it, or a "." or "," right beside it with a digit right beyond.
+  const continuesNumber = (key: string, step: typeof next) => {
+    const a = step(key);
+    if (!a || a.gap !== "none") return false;
+    if (/\p{Nd}/u.test(scalar(a.key))) return true;
+    const b = /^[.,]$/.test(scalar(a.key)) ? step(a.key) : null;
+    return b !== null && b.gap === "none" && /\p{Nd}/u.test(scalar(b.key));
+  };
   // The positions of a location's non-whitespace characters, in its order.
   const keys = (loc: SourceLocation) =>
     loc.charIds.flatMap((id) => Array.from(text.get(id) ?? "").flatMap((s, k) => (/\s/u.test(s) ? [] : [`${id}#${k}`])));
-  return { next, keys };
+  return { next, prev, keys, continuesNumber };
 }
 function located(
   locs: SourceLocation[],
@@ -1286,6 +1339,18 @@ export function grade(
         d.repeat.right !== ownOccurrences(d, "right").length)
     )
       faults.push(`card ${d.id} states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites`);
+    // An occurrence marked as context is the same line with another text; the mark is a claim.
+    if (d.repeat) {
+      const own = new Set([...ownOccurrences(d, "left"), ...ownOccurrences(d, "right")]);
+      if (d.occurrences.some((o) => o.context && own.has(o)))
+        faults.push(`card ${d.id} marks an occurrence of its own text as context`);
+      // The text a card shows on a side is one of the occurrences it counts there.
+      for (const side of ["left", "right"] as const) {
+        const counted = ownOccurrences(d, side).flatMap((o) => o[side]);
+        if ((side === "left" ? d.left : d.right).some((l) => !counted.some((c) => sameLocation(l, c))))
+          faults.push(`card ${d.id} shows its own text on the ${side} side outside the occurrences it counts there`);
+      }
+    }
   }
   const required = expected.required_status;
   const completeness =
@@ -1312,7 +1377,12 @@ export function grade(
     if (!reporting.length) problems.push("no card reports its occurrence counts");
     else if (!reporting.some((d) => d.defaultVisible)) problems.push("no card reporting it is visible");
     for (const d of reporting) {
-      const checked = sides.filter((s) => reports(d, s));
+      // A side is left out only where the card states another text: its own text there is not
+      // empty and differs from its text on the other side. Where it shows nothing or the same text,
+      // its occurrences and count there are statements about the set.
+      const texts = { left: ownText(d, "left"), right: ownText(d, "right") };
+      const other = texts.left !== "" && texts.right !== "" && texts.left !== texts.right;
+      const checked = sides.filter((s) => reports(d, s) || !other);
       for (const s of checked) {
         const locs = own(d, s);
         if (locs.some((l) => !located([l], runs[s], pages[s], s)))
@@ -1458,8 +1528,14 @@ export function grade(
       const inNumber = (i: number) => digit(i) || (/^[.,]$/.test(chars[i]?.c ?? "") && digit(i - 1) && digit(i + 1));
       const whole = (p: number) =>
         !(digit(p) && inNumber(p - 1)) && !(digit(p + needle.length - 1) && inNumber(p + needle.length));
-      const ordered = (span: typeof chars) =>
-        span.every((x, j) => {
+      const ordered = (span: typeof chars) => {
+        const solid = span.filter((x) => x.c !== " ");
+        // A number at either end is whole in the source too, not cut out of a longer one.
+        const [first, last] = [solid[0], solid.at(-1)!];
+        if (first.key === null || last.key === null) return false;
+        if (/\p{Nd}/u.test(first.c) && source.continuesNumber(first.key, source.prev)) return false;
+        if (/\p{Nd}/u.test(last.c) && source.continuesNumber(last.key, source.next)) return false;
+        return span.every((x, j) => {
           if (x.c === " ") return true;
           const y = span.slice(j + 1).find((z) => z.c !== " ");
           if (!y) return true;
@@ -1467,6 +1543,7 @@ export function grade(
           const spaced = span[j + 1].c === " ";
           return next !== null && next.key === y.key && (spaced ? next.gap !== "none" : next.gap !== "space");
         });
+      };
       const kind = side === "left" ? "delete" : "insert";
       const [from, to] = changed[side];
       const found: { own: boolean; ordered: boolean; edit: boolean }[] = [];
@@ -1493,16 +1570,16 @@ export function grade(
     // card (another unit kept as context, another unchanged occurrence, characters from elsewhere in
     // the run, or paired across units): the old and the new text each occur on the event's runs in the
     // source's order, and on each side the event changes, that occurrence holds the card's edit of
-    // the changed part. A move has no edit to carry; an event with no text on either side shows nothing.
+    // the changed part. A move changes no text, so it has no edit to carry, but its text is still
+    // shown where it is; an event with no text on either side shows nothing.
     const carried = (d: Difference) =>
-      e.operation === "move" ||
-      ((needs("left") || needs("right")) &&
-        (["left", "right"] as const).every((side) => {
-          if (!needs(side)) return true;
-          const shown = spots(d, side).filter((s) => s.own && s.ordered);
-          const [from, to] = changed[side];
-          return to > from ? shown.some((s) => s.edit) : shown.length > 0;
-        }));
+      (needs("left") || needs("right")) &&
+      (["left", "right"] as const).every((side) => {
+        if (!needs(side)) return true;
+        const shown = spots(d, side).filter((s) => s.own && s.ordered);
+        const [from, to] = changed[side];
+        return to > from ? shown.some((s) => s.edit) : shown.length > 0;
+      });
     const candidates = result.differences.filter(
       (d) =>
         (e.old === null || clean(d.oldText).includes(clean(e.old))) &&

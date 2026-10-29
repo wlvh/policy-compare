@@ -1664,6 +1664,13 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ["occurrence count", (d: Difference) => (d.repeat!.right = 2)],
     ] as const)
       expect(graded(mutate).faults, name).toEqual(["card rep states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]);
+    // The card shows the old line but lists no old occurrence and counts 0 there (r4416274609).
+    expect(
+      graded((d) => {
+        d.occurrences = d.occurrences.map((o) => ({ left: [], right: o.right }));
+        d.repeat!.left = 0;
+      }).faults,
+    ).toEqual(["card rep shows its own text on the left side outside the occurrences it counts there"]);
   });
   it("repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954)", () => {
     // Four pages; the new version changes the limit on page 2 only.
@@ -1711,6 +1718,50 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: [running] });
     const expected: Expected = { case_id: "running", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
     expect(grade(result, expected, { before: layoutOf(pl), after: layoutOf(pr) } as Layout, [pl, pr]).faults).toEqual([]);
+    // A page counter is read against its own page when it counts with the pages; the same printed
+    // counter on two pages is then two variants, and a counter that does not count stays as printed.
+    const pagesOf = (texts: string[]) => docOf(texts.map((text, page) => ({ text, y: 40, page })));
+    const counted = (lt: string[], rt: string[], cardPages: [number, number], occ: { side: "left" | "right"; page: number; context?: true }[], repeat: [number, number]) => {
+      const [dl, dr] = [pagesOf(lt), pagesOf(rt)];
+      const loc = (side: "left" | "right", page: number) => at(side === "left" ? dl : dr, side, (side === "left" ? lt : rt)[page], page);
+      const d = {
+        ...card("pages", [loc("left", cardPages[0])], [loc("right", cardPages[1])]),
+        occurrences: occ.map((o) => ({ left: o.side === "left" ? [loc("left", o.page)] : [], right: o.side === "right" ? [loc("right", o.page)] : [], ...(o.context ? { context: true as const } : {}) })),
+        repeat: { left: repeat[0], right: repeat[1], leftPages: lt.length, rightPages: rt.length },
+      };
+      const result = compare(dl, dr);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: [d] });
+      expect(ResultSchema.safeParse(result).success).toBe(true);
+      const expected: Expected = { case_id: "counters", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+      return grade(result, expected, { before: layoutOf(dl), after: layoutOf(dr) } as Layout, [dl, dr]).faults;
+    };
+    const counts = "card pages states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites";
+    // A later page's counter changed (Page 3 -> Page 99): its own variant once, the rest context.
+    const four = ["Page 1 of 4", "Page 2 of 4", "Page 3 of 4", "Page 4 of 4"], ninety = ["Page 1 of 4", "Page 2 of 4", "Page 99 of 4", "Page 4 of 4"];
+    const listed = (ctx: boolean) => [
+      ...[0, 1, 2, 3].map((page) => ({ side: "left" as const, page })),
+      { side: "right" as const, page: 2 },
+      ...[0, 1, 3].map((page) => ({ side: "right" as const, page, ...(ctx ? { context: true as const } : {}) })),
+    ];
+    expect(counted(four, ninety, [0, 2], listed(true), [4, 1])).toEqual([]);
+    expect(counted(four, ninety, [0, 2], listed(true), [4, 4]), "context counted").toEqual([counts]);
+    expect(
+      counted(four, ninety, [0, 2], listed(true).map((o) => (o.side === "right" && o.page === 2 ? { ...o, context: true as const } : o)), [4, 0]),
+      "its own occurrence marked as context",
+    ).toContain("card pages marks an occurrence of its own text as context");
+    // The same printed "Page 3" on pages 3 and 4 is two variants once the counter counts.
+    const misprinted = ["Page 1", "Page 2", "Page 3", "Page 3"];
+    // The card cites every old occurrence, page 4's "Page 3" as its new text and the rest as context.
+    const occ4 = [
+      ...[0, 1, 2, 3].map((page) => ({ side: "left" as const, page })),
+      { side: "right" as const, page: 3 },
+      ...[0, 1, 2].map((page) => ({ side: "right" as const, page, context: true as const })),
+    ];
+    expect(counted(["Page 1", "Page 2", "Page 3", "Page 4"], misprinted, [0, 3], occ4, [4, 1])).toEqual([]);
+    expect(counted(["Page 1", "Page 2", "Page 3", "Page 4"], misprinted, [0, 3], occ4, [4, 2]), "the other page's Page 3 counted").toEqual([counts]);
+    // A template printing "Page 1" on every page: the counter does not count, one variant as printed.
+    const same = [0, 1, 2].map((page) => ({ side: "left" as const, page }));
+    expect(counted(["Page 1", "Page 1", "Page 1"], ["Page 1", "Page 1", "Page 1", "Page 1"], [0, 0], [...same, ...[0, 1, 2, 3].map((page) => ({ side: "right" as const, page }))], [3, 4])).toEqual([]);
   });
   it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
     // Two pages before, three after; the header repeats on every page. A body line on the first new
@@ -1785,6 +1836,30 @@ describe("result format 2: stated facts and form-only changes in controls", () =
         [repeated("running", l, r, [0, 7]), repeated("header", l, r.slice(0, 2), [8, 14])],
         ["repeated text T1: card header leaves out an occurrence of the set on the right side", "repeated text T1: card header states 2 -> 2 occurrences; the set has 2 -> 3"],
       ],
+      // The same text on both sides, with no old occurrence listed and 0 counted there (r4416274609).
+      [
+        "the old side shown but not counted",
+        [{ ...repeated("unlisted", l, r), occurrences: r.map((x) => ({ left: [], right: [x] })), repeat: { left: 0, right: 3, leftPages: 2, rightPages: 3 } }],
+        [
+          "card unlisted shows its own text on the left side outside the occurrences it counts there",
+          "repeated text T1: card unlisted leaves out an occurrence of the set on the left side",
+          "repeated text T1: card unlisted states 0 -> 3 occurrences; the set has 2 -> 3",
+        ],
+      ],
+      [
+        "the text stated as added",
+        [{ ...card("added", [], [r[0]]), occurrences: r.map((x) => ({ left: [], right: [x] })), repeat: { left: 0, right: 3, leftPages: 2, rightPages: 3 } }],
+        ["repeated text T1: card added leaves out an occurrence of the set on the left side", "repeated text T1: card added states 0 -> 3 occurrences; the set has 2 -> 3"],
+      ],
+      [
+        "the same text counted off the set on one side",
+        [repeated("elsewhere", l, [header(right, "right", 0, 200)])],
+        [
+          "repeated text T1: card elsewhere cites an occurrence outside the set on the right side",
+          "repeated text T1: card elsewhere leaves out an occurrence of the set on the right side",
+          "repeated text T1: card elsewhere states 2 -> 1 occurrences; the set has 2 -> 3",
+        ],
+      ],
     ];
     for (const [name, cards, faults] of failing) {
       const score = graded(cards);
@@ -1807,7 +1882,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     return { ...card(id, left, right), kind: left.length && right.length ? "Replaced" : left.length ? "Removed" : "Added", oldText, newText, hasTextChange: oldText !== newText, textOps: ops };
   };
   // One replace event from the old to the new text, on the lines (runs) holding them.
-  const grader = (left: DocInput, right: DocInput, old: string, neu: string, beforeLines: string | string[], afterLines: string | string[]) => (
+  const grader = (left: DocInput, right: DocInput, old: string, neu: string, beforeLines: string | string[], afterLines: string | string[], operation = "replace") => (
     differences: Difference[],
     kinds: Expected["events"][number]["acceptable_kinds"] = ["Replaced"],
   ) => {
@@ -1825,7 +1900,7 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     const expected: Expected = {
       case_id: "carried",
       required_status: "complete_for_scope",
-      events: [{ event_id: "E1", logical_path: "risk_details.sum_insured", old, new: neu, operation: "replace", detection_requirement: "must_detect", acceptable_kinds: kinds, acceptable_categories: [] }],
+      events: [{ event_id: "E1", logical_path: "risk_details.sum_insured", old, new: neu, operation, detection_requirement: "must_detect", acceptable_kinds: kinds, acceptable_categories: [] }],
       invariants: [],
       coverage_requirements: [],
       evidence_locations: { E1: { before: runs(before, beforeLines), after: runs(after, afterLines) } },
@@ -1909,6 +1984,14 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ]);
     expect.soft(amounts([digit("liability", [14, 32], 28)]).events[0], "the other amount's edit").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
     expect(amounts([digit("hull", [0, 12], 9)]).status).toBe("PASS");
+    // The same with the card's text cut inside the source's number: "USD 100" taken from "USD 1000".
+    const cut = of("cut", [
+      op("equal", slice(t0, 24, 28), slice(n0, 24, 28)),
+      op("delete", slice(t0, 28, 29), null),
+      op("insert", null, slice(n0, 28, 29)),
+      op("equal", slice(t0, 29, 31), slice(n0, 29, 31)),
+    ]);
+    expect.soft(amounts([cut]).events[0], "cut inside a number of the source").toMatchObject({ discovery: true, attribution: false, verdict: "FAIL" });
     expect(amounts([card("line", [t0], [n0])]).status).toBe("PASS");
     // Each side whose fragment changes (beyond the old and new texts' common start and end) must
     // carry the edit itself: here the new amount is only another, unchanged USD 200 of the same run.
@@ -2026,6 +2109,16 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       ])]),
       "currency codes swapped",
     );
+    // A move carries no edit, but its text must still be shown where it is, as a whole number
+    // (r4416120281): a Moved card citing only "USD 1000" does not show the move of "USD 100".
+    const [ml, mr] = ["USD 100; Liability USD 1000", "Other wording stays."];
+    const [mvl, mvr] = [docOf([{ text: ml }, { text: mr }]), docOf([{ text: mr }, { text: ml }])];
+    const [n0, q0] = [at(mvl, "left", ml), at(mvr, "right", ml)];
+    const moved = (d: Difference) => grader(mvl, mvr, "USD 100", "USD 100", ml, ml, "move")([{ ...d, kind: "Moved" }], ["Moved"]);
+    fails(moved(of("thousand", [op("equal", slice(n0, 19, 27), slice(q0, 19, 27))])), "move shown by another number");
+    // The first digits of the source's "1000" cut out as "USD 100": whole in the card, not in the source.
+    fails(moved(of("cut", [op("equal", slice(n0, 19, 26), slice(q0, 19, 26))])), "a number cut out of a longer one");
+    expect(moved(of("line", [op("equal", n0, q0)])).status).toBe("PASS");
     // An empty side is a pure insertion or deletion: no text to find there; the other side still
     // needs its edit (r4415128893's input).
     const [pl, pr] = ["The insurer pays losses.", "The insurer pays approved losses."];
