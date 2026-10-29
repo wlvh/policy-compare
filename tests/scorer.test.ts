@@ -1569,13 +1569,17 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     const cases: [string, DocInput, DocInput, string, string, Difference["facts"][number]][] = [
       ["whitespace", docOf([{ text: "Hull  cover applies." }]), docOf([{ text: "Hull cover applies." }]), "Hull  cover applies.", "Hull cover applies.", "whitespace_only"],
       [
-        "confirmed page number",
+        "page number",
         docOf([{ text: "Page 1 of 2" }, { text: "Body.", page: 1 }]),
         docOf([{ text: "Page 1 of 3" }, { text: "Body.", page: 1 }, { text: "More.", page: 2 }]),
         "Page 1 of 2",
         "Page 1 of 3",
         "page_number_only",
       ],
+      // r4414859932: only the numbers of a page expression change; the printed numbers need not
+      // be the PDF's own page (here a one-page document).
+      ["printed page number not the PDF's page", docOf([{ text: "Schedule Page 3 of 10" }]), docOf([{ text: "Schedule Page 3 of 11" }]), "Schedule Page 3 of 10", "Schedule Page 3 of 11", "page_number_only"],
+      ["printed counter", docOf([{ text: "Page 5 of 2" }]), docOf([{ text: "Page 6 of 2" }]), "Page 5 of 2", "Page 6 of 2", "page_number_only"],
     ];
     for (const [name, left, right, a, b, fact] of cases)
       for (const facts of [[], [fact]] as Difference["facts"][]) {
@@ -1593,8 +1597,11 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     const cases: [string, DocInput, DocInput, string[], string[], Difference["facts"]][] = [
       ["a word changed", docOf([{ text: "Hull cover applies." }]), docOf([{ text: "Hull covers applies." }]), ["Hull cover applies."], ["Hull covers applies."], ["whitespace_only"]],
       ["words joined", docOf([{ text: "Hull cover applies." }]), docOf([{ text: "Hullcover applies." }]), ["Hull cover applies."], ["Hullcover applies."], ["whitespace_only"]],
-      // The counter is not the line's own page.
-      ["unconfirmed page number", docOf([{ text: "Page 5 of 2" }, { text: "Body.", page: 1 }]), docOf([{ text: "Page 6 of 2" }, { text: "Body.", page: 1 }]), ["Page 5 of 2"], ["Page 6 of 2"], ["page_number_only"]],
+      // A page expression whose form changes, a number outside the expressions, or whitespace alone.
+      ["page expression form changed", docOf([{ text: "Page 3" }]), docOf([{ text: "Page 3 of 11" }]), ["Page 3"], ["Page 3 of 11"], ["page_number_only"]],
+      ["a rate beside the page number", docOf([{ text: "Page 3 of 10 rate 4%" }]), docOf([{ text: "Page 3 of 11 rate 5%" }]), ["Page 3 of 10 rate 4%"], ["Page 3 of 11 rate 5%"], ["page_number_only"]],
+      ["an amount beside the page number", docOf([{ text: "Page 3 of 10 USD 100" }]), docOf([{ text: "Page 3 of 10 USD 200" }]), ["Page 3 of 10 USD 100"], ["Page 3 of 10 USD 200"], ["page_number_only"]],
+      ["one side not only page expressions", docOf([{ text: "Row one" }]), docOf([{ text: "Row one" }, { text: "Draft Page 2" }]), [], ["Draft Page 2"], ["page_number_only"]],
       // The base heading is missing from the old version.
       ["continued heading without its base", docOf([{ text: "Row one" }]), docOf([{ text: "SCHEDULE OF AIRCRAFT" }, { text: "SCHEDULE OF AIRCRAFT CONTINUED", page: 1 }]), [], ["SCHEDULE OF AIRCRAFT CONTINUED"], ["continued_heading"]],
     ];
@@ -1608,16 +1615,29 @@ describe("result format 2: stated facts and form-only changes in controls", () =
         "no_material_differences: Undeclared text change in a no-change control",
       ]);
     }
+    // Whitespace alone is form only, but no page number changed: the stated page fact is false.
+    const spaces = control(docOf([{ text: "Page 3 of  10" }]), docOf([{ text: "Page 3 of 10" }]), ([l, r]) => [
+      card("c", [at(l, "left", "Page 3 of  10")], [at(r, "right", "Page 3 of 10")], ["page_number_only"]),
+    ]);
+    expect(spaces.status).toBe("FAIL");
+    expect(spaces.faults).toEqual(["card c states page_number_only, which its source texts disprove"]);
   });
-  it("a page-number fact over several pages cannot be decided: NOT_EVALUATED, exit 1", () => {
-    // The stated fact itself is unverifiable; the undeclared change is also open in the control.
+  it("a page-number fact over several pages is decided from the texts: it holds, and the undeclared change stays open in the control", () => {
     const left = docOf([{ text: "Page 1 of 2" }, { text: "Page 2 of 2", page: 1 }]),
       right = docOf([{ text: "Page 1 of 3" }, { text: "Page 2 of 3", page: 1 }, { text: "Page 3 of 3", page: 2 }]);
     const score = control(left, right, ([l, r]) => [
-      card("p", [at(l, "left", "Page 1 of 2"), at(l, "left", "Page 2 of 2", 1)], [at(r, "right", "Page 1 of 3"), at(r, "right", "Page 2 of 3", 1)], ["page_number_only"]),
+      {
+        ...of("p", [
+          op("delete", at(l, "left", "Page 1 of 2"), null, "Page 1 of 2 "),
+          op("delete", at(l, "left", "Page 2 of 2", 1), null),
+          op("insert", null, at(r, "right", "Page 1 of 3"), "Page 1 of 3 "),
+          op("insert", null, at(r, "right", "Page 2 of 3", 1)),
+        ]),
+        facts: ["page_number_only"],
+      },
     ]);
     expect(score).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
-    expect(score.notEvaluated.map((n) => n.kind).sort()).toEqual(["claim_unverifiable", "invariant_unverifiable"]);
+    expect(score.notEvaluated.map((n) => n.kind)).toEqual(["invariant_unverifiable"]);
     expect(exitCode(summarize([score]))).toBe(1);
   });
   it("repeat counts are checked against the documents' page counts and the occurrences the card cites", () => {

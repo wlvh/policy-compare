@@ -865,17 +865,17 @@ const lineTexts = (doc: DocInput) =>
   doc.pages.flatMap((p) =>
     p.lines.map((l) => words(l.charIds.map((id) => p.chars.find((c) => c.id === id)?.text ?? "").join(""))),
   );
-// The explicit page expressions of a text ("Page n", "Page n of N", "Page n/N") whose counter is
-// the text's own page and whose total, when given, is its document's page count, masked; null
-// when a page expression holds a number the scorer cannot read.
-function maskPages(text: string, page: number, pages: number): string | null {
-  let unreadable = false;
-  const out = text.replace(/\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/giu, (m, n: string, of?: string) => {
-    const [counter, total] = [Number(n), of === undefined ? undefined : Number(of)];
-    if (Number.isNaN(counter) || (total !== undefined && Number.isNaN(total))) unreadable = true;
-    return counter === page + 1 && (total === undefined || total === pages) ? "\u0000page" : m;
+// A text's explicit page expressions ("Page n", "Page n of N", "Page n/N"): their numbers, in
+// order, and the text with those numbers masked (the words "Page" and "of" kept). Whether a printed
+// number is the page's real place in the PDF is not part of the fact.
+const PAGE_EXPRESSION = /\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/giu;
+function pageNumbers(text: string) {
+  const numbers: string[] = [];
+  const masked = text.replace(PAGE_EXPRESSION, (m, n: string, of?: string) => {
+    numbers.push(n, of ?? "");
+    return m.replace(/\p{N}+/gu, "\u0000");
   });
-  return unreadable ? null : out;
+  return { numbers, masked, count: numbers.length / 2 };
 }
 export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput]): boolean | null {
   const [a, b] = [d.left.length ? d.oldText : null, d.right.length ? d.newText : null];
@@ -884,18 +884,16 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     // The raw texts differ only in whitespace; an absent side reads as empty text.
     case "whitespace_only":
       return words(a ?? "") === words(b ?? "");
-    // Only confirmed page numbers of explicit page expressions differ; a one-sided text is nothing
-    // but such expressions. Each side must lie on one page to know its page number.
+    // Both sides: only numbers inside explicit page expressions differ, the rest of the text (the
+    // expressions' words included) is the same; a one-sided text is nothing but such expressions and
+    // whitespace. It says nothing about the printed numbers being right.
     case "page_number_only": {
-      const masked = ([[d.left, a, 0], [d.right, b, 1]] as const).map(([locs, text, i]) => {
-        if (text === null) return "";
-        const pages = new Set(locs.map((l) => l.pageIndex));
-        return pages.size === 1 ? maskPages(text, [...pages][0], docs[i].pages.length) : null;
-      });
-      if (masked.includes(null)) return null;
-      return a !== null && b !== null
-        ? words(masked[0]!) === words(masked[1]!)
-        : !/[^\s\u0000]/u.test(((masked[0] ?? "") + (masked[1] ?? "")).replace(/\u0000page/gu, ""));
+      if (a !== null && b !== null) {
+        const [x, y] = [pageNumbers(a), pageNumbers(b)];
+        return words(x.masked) === words(y.masked) && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
+      }
+      const one = (a ?? b)!;
+      return pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
     }
     // One side only: a heading with an explicit "continued" suffix whose base is the whole text
     // of a line in both documents.
