@@ -222,6 +222,20 @@ describe("identity belongs to its own column and its own table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "G-AAAA", "left"), visible(r, "G-BBBB", "right")]).toEqual([true, true]);
   });
+  it("a qualified identifier heading (Serial No.) starts a table of its own (r4417210539)", () => {
+    // "Serial No." was not an exact identifier name, so the second table's
+    // heading was taken for a record of the first and 123 bound across them.
+    const doc = (first: Cells[], second: Cells[]) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([["MSN", "Operator", "Value"], ...first, ["Serial No.", "Model", "Value"], ...second], 180),
+      ]);
+    const r = ResultSchemaV2.parse(
+      compare(doc([["123", "Alpha", "USD 100"]], [["456", "Beta", "USD 200"]]), doc([["789", "Gamma", "USD 300"]], [["123", "Delta", "USD 400"]])),
+    );
+    expect(crossPaired(r, "Alpha", "Delta")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+  });
   it("control: in one table a changed digit-free record pairs by the registration it names", () => {
     const head: Cells = ["Registration", "Operator", "Status"];
     const doc = (operator: string) =>
