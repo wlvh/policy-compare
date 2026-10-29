@@ -1711,6 +1711,50 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: [running] });
     const expected: Expected = { case_id: "running", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
     expect(grade(result, expected, { before: layoutOf(pl), after: layoutOf(pr) } as Layout, [pl, pr]).faults).toEqual([]);
+    // A page counter is read against its own page when it counts with the pages; the same printed
+    // counter on two pages is then two variants, and a counter that does not count stays as printed.
+    const pagesOf = (texts: string[]) => docOf(texts.map((text, page) => ({ text, y: 40, page })));
+    const counted = (lt: string[], rt: string[], cardPages: [number, number], occ: { side: "left" | "right"; page: number; context?: true }[], repeat: [number, number]) => {
+      const [dl, dr] = [pagesOf(lt), pagesOf(rt)];
+      const loc = (side: "left" | "right", page: number) => at(side === "left" ? dl : dr, side, (side === "left" ? lt : rt)[page], page);
+      const d = {
+        ...card("pages", [loc("left", cardPages[0])], [loc("right", cardPages[1])]),
+        occurrences: occ.map((o) => ({ left: o.side === "left" ? [loc("left", o.page)] : [], right: o.side === "right" ? [loc("right", o.page)] : [], ...(o.context ? { context: true as const } : {}) })),
+        repeat: { left: repeat[0], right: repeat[1], leftPages: lt.length, rightPages: rt.length },
+      };
+      const result = compare(dl, dr);
+      Object.assign(result, { status: "complete_for_scope", unresolved: [], coverage: [], differences: [d] });
+      expect(ResultSchema.safeParse(result).success).toBe(true);
+      const expected: Expected = { case_id: "counters", required_status: "complete_for_scope", events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+      return grade(result, expected, { before: layoutOf(dl), after: layoutOf(dr) } as Layout, [dl, dr]).faults;
+    };
+    const counts = "card pages states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites";
+    // A later page's counter changed (Page 3 -> Page 99): its own variant once, the rest context.
+    const four = ["Page 1 of 4", "Page 2 of 4", "Page 3 of 4", "Page 4 of 4"], ninety = ["Page 1 of 4", "Page 2 of 4", "Page 99 of 4", "Page 4 of 4"];
+    const listed = (ctx: boolean) => [
+      ...[0, 1, 2, 3].map((page) => ({ side: "left" as const, page })),
+      { side: "right" as const, page: 2 },
+      ...[0, 1, 3].map((page) => ({ side: "right" as const, page, ...(ctx ? { context: true as const } : {}) })),
+    ];
+    expect(counted(four, ninety, [0, 2], listed(true), [4, 1])).toEqual([]);
+    expect(counted(four, ninety, [0, 2], listed(true), [4, 4]), "context counted").toEqual([counts]);
+    expect(
+      counted(four, ninety, [0, 2], listed(true).map((o) => (o.side === "right" && o.page === 2 ? { ...o, context: true as const } : o)), [4, 0]),
+      "its own occurrence marked as context",
+    ).toContain("card pages marks an occurrence of its own text as context");
+    // The same printed "Page 3" on pages 3 and 4 is two variants once the counter counts.
+    const misprinted = ["Page 1", "Page 2", "Page 3", "Page 3"];
+    // The card cites every old occurrence, page 4's "Page 3" as its new text and the rest as context.
+    const occ4 = [
+      ...[0, 1, 2, 3].map((page) => ({ side: "left" as const, page })),
+      { side: "right" as const, page: 3 },
+      ...[0, 1, 2].map((page) => ({ side: "right" as const, page, context: true as const })),
+    ];
+    expect(counted(["Page 1", "Page 2", "Page 3", "Page 4"], misprinted, [0, 3], occ4, [4, 1])).toEqual([]);
+    expect(counted(["Page 1", "Page 2", "Page 3", "Page 4"], misprinted, [0, 3], occ4, [4, 2]), "the other page's Page 3 counted").toEqual([counts]);
+    // A template printing "Page 1" on every page: the counter does not count, one variant as printed.
+    const same = [0, 1, 2].map((page) => ({ side: "left" as const, page }));
+    expect(counted(["Page 1", "Page 1", "Page 1"], ["Page 1", "Page 1", "Page 1", "Page 1"], [0, 0], [...same, ...[0, 1, 2, 3].map((page) => ({ side: "right" as const, page }))], [3, 4])).toEqual([]);
   });
   it("a fixed set of repeated text is checked for completeness and counts, whatever the cards' form", () => {
     // Two pages before, three after; the header repeats on every page. A body line on the first new

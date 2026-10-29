@@ -923,14 +923,40 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     }
   }
 }
-// Two occurrence texts are one variant when they are the same once the numbers of explicit page
-// expressions are masked, whitespace aside (a running "Page n" counts with its page).
-const variantOf = (t: string) => pageNumbers(t).masked.replace(/\s/gu, "");
-// A card's occurrences of its own old (new) text on a side, by their source-validated texts.
-const ownOccurrences = (d: Difference, side: "left" | "right") =>
-  d.occurrences.filter(
-    (o) => o[side].length > 0 && variantOf(o[side].map((l) => l.text).join("")) === variantOf(side === "left" ? d.oldText : d.newText),
-  );
+// The variants of a card's repeated line (shared definition): an occurrence's text, whitespace
+// aside, with the counter of an explicit page expression read against its own page ("Page 3" on
+// page 3 and "Page 4" on page 4 are one variant, "Page 99" on page 3 another) when that counter
+// counts with the pages: on either side, the occurrences the card cites show it with different
+// values and one offset to their pages. A counter that does not count (the same "Page 1" printed on
+// every page), a page total and every other number stay as printed.
+const counters = (t: string) => [...t.matchAll(PAGE_EXPRESSION)].map((m) => m[1]);
+const sideText = (locs: SourceLocation[]) => locs.map((l) => l.text).join("");
+function variants(d: Difference) {
+  const counting = new Set<number>();
+  for (const side of ["left", "right"] as const) {
+    const lines = d.occurrences
+      .filter((o) => o[side].length)
+      .map((o) => ({ cs: counters(sideText(o[side])), page: o[side][0].pageIndex + 1 }));
+    for (let k = 0; k < Math.max(0, ...lines.map((l) => l.cs.length)); k++) {
+      const at = lines.filter((l) => l.cs[k] !== undefined).map((l) => ({ v: Number(l.cs[k]), page: l.page }));
+      if (at.length >= 2 && new Set(at.map((x) => x.v)).size > 1 && new Set(at.map((x) => x.v - x.page)).size === 1) counting.add(k);
+    }
+  }
+  return (text: string, page: number) => {
+    let k = 0;
+    return text
+      .replace(PAGE_EXPRESSION, (m, n: string) => (counting.has(k++) ? m.replace(n, `#${Number(n) - page}`) : m))
+      .replace(/\s/gu, "");
+  };
+}
+// A card's occurrences of its own old (new) text on a side, by their source-validated texts and pages.
+const ownOccurrences = (d: Difference, side: "left" | "right") => {
+  const variant = variants(d);
+  const card = side === "left" ? d.left : d.right;
+  if (!card.length) return [];
+  const own = variant(side === "left" ? d.oldText : d.newText, card[0].pageIndex + 1);
+  return d.occurrences.filter((o) => o[side].length > 0 && variant(sideText(o[side]), o[side][0].pageIndex + 1) === own);
+};
 // Whether a text change is form only by the shared definitions above (whitespace, confirmed page
 // numbers, continued heading), whether or not the card states it. This only decides between a
 // contradiction and an open question in a no-change control; it never allows a change there.
@@ -1286,6 +1312,12 @@ export function grade(
         d.repeat.right !== ownOccurrences(d, "right").length)
     )
       faults.push(`card ${d.id} states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites`);
+    // An occurrence marked as context is the same line with another text; the mark is a claim.
+    if (d.repeat) {
+      const own = new Set([...ownOccurrences(d, "left"), ...ownOccurrences(d, "right")]);
+      if (d.occurrences.some((o) => o.context && own.has(o)))
+        faults.push(`card ${d.id} marks an occurrence of its own text as context`);
+    }
   }
   const required = expected.required_status;
   const completeness =
