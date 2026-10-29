@@ -27,7 +27,7 @@
 | R21_checkbox_glyph | 可提取的勾选符号改变 | 2 | 2 | 1 | complete_for_scope |
 | R22_table_value | 同一架飞机的约定价值改变 | 2 | 2 | 1 | complete_for_scope |
 | R23_table_reorder | 表格行重排但实体和值不变 | 2 | 2 | 0 | complete_for_scope |
-| R24_table_cross_page | 表格跨页并重复表头 | 2 | 3 | 0 | complete_for_scope |
+| R24_table_cross_page | 表格跨页并重复表头 | 2 | 3 | 1 | complete_for_scope |
 | R25_duplicate_keys | 主键和次级键都重复且数值改变 | 2 | 2 | 1 | partial_or_explicit_review |
 | R26_key_change | 注册号改变但序列号保留 | 2 | 2 | 1 | complete_for_scope |
 | R27_mixed_scan_page | 文字页夹整页扫描条款 | 2 | 2 | 1 | partial |
