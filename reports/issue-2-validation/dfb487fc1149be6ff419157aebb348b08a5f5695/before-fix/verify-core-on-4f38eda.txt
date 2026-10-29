@@ -1,0 +1,6 @@
+# final tests (dfb487fc1149be6ff419157aebb348b08a5f5695) with product, interface, contract and triage code of 4f38eda
+     × records repeated on every page are grouped only with the same identifier columns (r4418369390) 12ms
+     × a value-like cell under an identity heading (Serial AB12.34) still keeps two records apart (r4418369400) 3ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 14 passed (15)
+      Tests  2 failed | 312 passed (314)

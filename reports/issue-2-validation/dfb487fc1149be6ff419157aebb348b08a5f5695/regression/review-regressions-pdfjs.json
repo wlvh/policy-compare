@@ -1,0 +1,1999 @@
+{
+  "subject": "independent_review_real_pdf_regressions",
+  "engine": "pdfjs",
+  "revision": "dfb487fc1149be6ff419157aebb348b08a5f5695",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "F1 real PDF section-field ownership short-top",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope",
+        "differences": [
+          {
+            "path": {
+              "section": "SECTION HULL",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 1,000",
+            "new": " USD 2,000"
+          },
+          {
+            "path": {
+              "section": "SECTION LIABILITY",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 2,000",
+            "new": " USD 1,000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F1 real PDF section-field ownership short-body",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope",
+        "differences": [
+          {
+            "path": {
+              "section": "SECTION HULL",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 1,000",
+            "new": " USD 2,000"
+          },
+          {
+            "path": {
+              "section": "SECTION LIABILITY",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 2,000",
+            "new": " USD 1,000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F1 real PDF section-field ownership long-body",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope",
+        "differences": [
+          {
+            "path": {
+              "section": "SECTION HULL",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 1,000 each and every loss arising from declared operations",
+            "new": " USD 2,000 each and every loss arising from declared operations"
+          },
+          {
+            "path": {
+              "section": "SECTION LIABILITY",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 2,000 each and every loss arising from declared operations",
+            "new": " USD 1,000 each and every loss arising from declared operations"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F1 real PDF section-field ownership headings-body",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope",
+        "differences": [
+          {
+            "path": {
+              "section": "HULL",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 1,000 each and every loss arising from declared operations",
+            "new": " USD 2,000 each and every loss arising from declared operations"
+          },
+          {
+            "path": {
+              "section": "LIABILITY",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "reliable"
+            },
+            "old": " USD 2,000 each and every loss arising from declared operations",
+            "new": " USD 1,000 each and every loss arising from declared operations"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F1 unresolved duplicate-field ownership retains visible amount delta",
+      "status": "PASS",
+      "evidence": {
+        "status": "partial",
+        "differences": [
+          {
+            "id": "d-67336a1379e2f1dc4eca",
+            "kind": "Replaced",
+            "structurePath": {
+              "section": "risk_details",
+              "entity": null,
+              "field": "deductible",
+              "table": null,
+              "rowKey": null,
+              "confidence": "unresolved"
+            },
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-left-risk_details//deductible",
+                "rawRange": [
+                  24,
+                  87
+                ],
+                "charIds": [
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s11",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s12",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s13",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s14",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s15",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s16",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s17",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s18",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s19",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s20",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s21",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s22",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s23",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s24",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s25",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s26",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s27",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s28",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s29",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s30",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s31",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s32",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s33",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s34",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s35",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s36",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s37",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s38",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s39",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s40",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s41",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s42",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s43",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s44",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s45",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s46",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s47",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s48",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s49",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s50",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s51",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s52",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s53",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s54",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s55",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s56",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s57",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s58",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s59",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s60",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s61",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s62",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s63",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s64",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s65",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s66",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s67",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s68",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s69",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s70",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s71",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s72",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s73"
+                ],
+                "text": " USD 1,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    180.947,
+                    395.13,
+                    180.947,
+                    40,
+                    192.119,
+                    395.13,
+                    192.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                  }
+                ]
+              },
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-left-risk_details//deductible",
+                "rawRange": [
+                  116,
+                  179
+                ],
+                "charIds": [
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s11",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s12",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s13",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s14",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s15",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s16",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s17",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s18",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s19",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s20",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s21",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s22",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s23",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s24",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s25",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s26",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s27",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s28",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s29",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s30",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s31",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s32",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s33",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s34",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s35",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s36",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s37",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s38",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s39",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s40",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s41",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s42",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s43",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s44",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s45",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s46",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s47",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s48",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s49",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s50",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s51",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s52",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s53",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s54",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s55",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s56",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s57",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s58",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s59",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s60",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s61",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s62",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s63",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s64",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s65",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s66",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s67",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s68",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s69",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s70",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s71",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s72",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s73"
+                ],
+                "text": " USD 2,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    220.947,
+                    395.13,
+                    220.947,
+                    40,
+                    232.119,
+                    395.13,
+                    232.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                  }
+                ]
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-right-risk_details//deductible",
+                "rawRange": [
+                  24,
+                  87
+                ],
+                "charIds": [
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s11",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s12",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s13",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s14",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s15",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s16",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s17",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s18",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s19",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s20",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s21",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s22",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s23",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s24",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s25",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s26",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s27",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s28",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s29",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s30",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s31",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s32",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s33",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s34",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s35",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s36",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s37",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s38",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s39",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s40",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s41",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s42",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s43",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s44",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s45",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s46",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s47",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s48",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s49",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s50",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s51",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s52",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s53",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s54",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s55",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s56",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s57",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s58",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s59",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s60",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s61",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s62",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s63",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s64",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s65",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s66",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s67",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s68",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s69",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s70",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s71",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s72",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s73"
+                ],
+                "text": " USD 2,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    180.947,
+                    395.13,
+                    180.947,
+                    40,
+                    192.119,
+                    395.13,
+                    192.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                  }
+                ]
+              },
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-right-risk_details//deductible",
+                "rawRange": [
+                  116,
+                  179
+                ],
+                "charIds": [
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s11",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s12",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s13",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s14",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s15",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s16",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s17",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s18",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s19",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s20",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s21",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s22",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s23",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s24",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s25",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s26",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s27",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s28",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s29",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s30",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s31",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s32",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s33",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s34",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s35",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s36",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s37",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s38",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s39",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s40",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s41",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s42",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s43",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s44",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s45",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s46",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s47",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s48",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s49",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s50",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s51",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s52",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s53",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s54",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s55",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s56",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s57",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s58",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s59",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s60",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s61",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s62",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s63",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s64",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s65",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s66",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s67",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s68",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s69",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s70",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s71",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s72",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s73"
+                ],
+                "text": " USD 1,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    220.947,
+                    395.13,
+                    220.947,
+                    40,
+                    232.119,
+                    395.13,
+                    232.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                  }
+                ]
+              }
+            ],
+            "oldText": " USD 1,000 each and every loss arising from declared operations  USD 2,000 each and every loss arising from declared operations",
+            "newText": " USD 2,000 each and every loss arising from declared operations  USD 1,000 each and every loss arising from declared operations",
+            "textOps": [
+              {
+                "kind": "equal",
+                "text": " USD ",
+                "left": [
+                  {
+                    "side": "left",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-left-risk_details//deductible",
+                    "rawRange": [
+                      24,
+                      29
+                    ],
+                    "charIds": [
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s11",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s12",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s13",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s14",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s15"
+                    ],
+                    "text": " USD ",
+                    "quads": [
+                      [
+                        40,
+                        180.947,
+                        395.13,
+                        180.947,
+                        40,
+                        192.119,
+                        395.13,
+                        192.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1",
+                        "scalarRange": [
+                          11,
+                          16
+                        ],
+                        "utf16Range": [
+                          11,
+                          16
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-right-risk_details//deductible",
+                    "rawRange": [
+                      24,
+                      29
+                    ],
+                    "charIds": [
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s11",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s12",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s13",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s14",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s15"
+                    ],
+                    "text": " USD ",
+                    "quads": [
+                      [
+                        40,
+                        180.947,
+                        395.13,
+                        180.947,
+                        40,
+                        192.119,
+                        395.13,
+                        192.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1",
+                        "scalarRange": [
+                          11,
+                          16
+                        ],
+                        "utf16Range": [
+                          11,
+                          16
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "delete",
+                "text": "1",
+                "left": [
+                  {
+                    "side": "left",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-left-risk_details//deductible",
+                    "rawRange": [
+                      29,
+                      30
+                    ],
+                    "charIds": [
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s16"
+                    ],
+                    "text": "1",
+                    "quads": [
+                      [
+                        40,
+                        180.947,
+                        395.13,
+                        180.947,
+                        40,
+                        192.119,
+                        395.13,
+                        192.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1",
+                        "scalarRange": [
+                          16,
+                          17
+                        ],
+                        "utf16Range": [
+                          16,
+                          17
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ],
+                "right": []
+              },
+              {
+                "kind": "insert",
+                "text": "2",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-right-risk_details//deductible",
+                    "rawRange": [
+                      29,
+                      30
+                    ],
+                    "charIds": [
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s16"
+                    ],
+                    "text": "2",
+                    "quads": [
+                      [
+                        40,
+                        180.947,
+                        395.13,
+                        180.947,
+                        40,
+                        192.119,
+                        395.13,
+                        192.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1",
+                        "scalarRange": [
+                          16,
+                          17
+                        ],
+                        "utf16Range": [
+                          16,
+                          17
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "equal",
+                "text": ",000 each and every loss arising from declared operations  USD ",
+                "left": [
+                  {
+                    "side": "left",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-left-risk_details//deductible",
+                    "rawRange": [
+                      30,
+                      87
+                    ],
+                    "charIds": [
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s17",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s18",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s19",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s20",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s21",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s22",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s23",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s24",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s25",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s26",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s27",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s28",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s29",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s30",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s31",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s32",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s33",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s34",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s35",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s36",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s37",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s38",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s39",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s40",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s41",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s42",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s43",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s44",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s45",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s46",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s47",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s48",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s49",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s50",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s51",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s52",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s53",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s54",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s55",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s56",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s57",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s58",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s59",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s60",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s61",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s62",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s63",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s64",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s65",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s66",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s67",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s68",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s69",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s70",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s71",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s72",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s73"
+                    ],
+                    "text": ",000 each and every loss arising from declared operations",
+                    "quads": [
+                      [
+                        40,
+                        180.947,
+                        395.13,
+                        180.947,
+                        40,
+                        192.119,
+                        395.13,
+                        192.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1",
+                        "scalarRange": [
+                          17,
+                          74
+                        ],
+                        "utf16Range": [
+                          17,
+                          74
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  },
+                  {
+                    "side": "left",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-left-risk_details//deductible",
+                    "rawRange": [
+                      116,
+                      121
+                    ],
+                    "charIds": [
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s11",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s12",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s13",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s14",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s15"
+                    ],
+                    "text": " USD ",
+                    "quads": [
+                      [
+                        40,
+                        220.947,
+                        395.13,
+                        220.947,
+                        40,
+                        232.119,
+                        395.13,
+                        232.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3",
+                        "scalarRange": [
+                          11,
+                          16
+                        ],
+                        "utf16Range": [
+                          11,
+                          16
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-right-risk_details//deductible",
+                    "rawRange": [
+                      30,
+                      87
+                    ],
+                    "charIds": [
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s17",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s18",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s19",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s20",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s21",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s22",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s23",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s24",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s25",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s26",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s27",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s28",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s29",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s30",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s31",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s32",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s33",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s34",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s35",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s36",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s37",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s38",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s39",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s40",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s41",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s42",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s43",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s44",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s45",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s46",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s47",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s48",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s49",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s50",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s51",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s52",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s53",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s54",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s55",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s56",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s57",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s58",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s59",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s60",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s61",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s62",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s63",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s64",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s65",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s66",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s67",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s68",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s69",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s70",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s71",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s72",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s73"
+                    ],
+                    "text": ",000 each and every loss arising from declared operations",
+                    "quads": [
+                      [
+                        40,
+                        180.947,
+                        395.13,
+                        180.947,
+                        40,
+                        192.119,
+                        395.13,
+                        192.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1",
+                        "scalarRange": [
+                          17,
+                          74
+                        ],
+                        "utf16Range": [
+                          17,
+                          74
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  },
+                  {
+                    "side": "right",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-right-risk_details//deductible",
+                    "rawRange": [
+                      116,
+                      121
+                    ],
+                    "charIds": [
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s11",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s12",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s13",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s14",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s15"
+                    ],
+                    "text": " USD ",
+                    "quads": [
+                      [
+                        40,
+                        220.947,
+                        395.13,
+                        220.947,
+                        40,
+                        232.119,
+                        395.13,
+                        232.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3",
+                        "scalarRange": [
+                          11,
+                          16
+                        ],
+                        "utf16Range": [
+                          11,
+                          16
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "delete",
+                "text": "2",
+                "left": [
+                  {
+                    "side": "left",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-left-risk_details//deductible",
+                    "rawRange": [
+                      121,
+                      122
+                    ],
+                    "charIds": [
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s16"
+                    ],
+                    "text": "2",
+                    "quads": [
+                      [
+                        40,
+                        220.947,
+                        395.13,
+                        220.947,
+                        40,
+                        232.119,
+                        395.13,
+                        232.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3",
+                        "scalarRange": [
+                          16,
+                          17
+                        ],
+                        "utf16Range": [
+                          16,
+                          17
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ],
+                "right": []
+              },
+              {
+                "kind": "insert",
+                "text": "1",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-right-risk_details//deductible",
+                    "rawRange": [
+                      121,
+                      122
+                    ],
+                    "charIds": [
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s16"
+                    ],
+                    "text": "1",
+                    "quads": [
+                      [
+                        40,
+                        220.947,
+                        395.13,
+                        220.947,
+                        40,
+                        232.119,
+                        395.13,
+                        232.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3",
+                        "scalarRange": [
+                          16,
+                          17
+                        ],
+                        "utf16Range": [
+                          16,
+                          17
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "equal",
+                "text": ",000 each and every loss arising from declared operations",
+                "left": [
+                  {
+                    "side": "left",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-left-risk_details//deductible",
+                    "rawRange": [
+                      122,
+                      179
+                    ],
+                    "charIds": [
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s17",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s18",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s19",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s20",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s21",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s22",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s23",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s24",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s25",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s26",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s27",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s28",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s29",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s30",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s31",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s32",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s33",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s34",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s35",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s36",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s37",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s38",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s39",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s40",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s41",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s42",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s43",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s44",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s45",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s46",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s47",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s48",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s49",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s50",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s51",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s52",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s53",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s54",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s55",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s56",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s57",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s58",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s59",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s60",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s61",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s62",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s63",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s64",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s65",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s66",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s67",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s68",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s69",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s70",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s71",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s72",
+                      "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s73"
+                    ],
+                    "text": ",000 each and every loss arising from declared operations",
+                    "quads": [
+                      [
+                        40,
+                        220.947,
+                        395.13,
+                        220.947,
+                        40,
+                        232.119,
+                        395.13,
+                        232.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3",
+                        "scalarRange": [
+                          17,
+                          74
+                        ],
+                        "utf16Range": [
+                          17,
+                          74
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "pageIndex": 0,
+                    "unitId": "uncertain-field-right-risk_details//deductible",
+                    "rawRange": [
+                      122,
+                      179
+                    ],
+                    "charIds": [
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s17",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s18",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s19",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s20",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s21",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s22",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s23",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s24",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s25",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s26",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s27",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s28",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s29",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s30",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s31",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s32",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s33",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s34",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s35",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s36",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s37",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s38",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s39",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s40",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s41",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s42",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s43",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s44",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s45",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s46",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s47",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s48",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s49",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s50",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s51",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s52",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s53",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s54",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s55",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s56",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s57",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s58",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s59",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s60",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s61",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s62",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s63",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s64",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s65",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s66",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s67",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s68",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s69",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s70",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s71",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s72",
+                      "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s73"
+                    ],
+                    "text": ",000 each and every loss arising from declared operations",
+                    "quads": [
+                      [
+                        40,
+                        220.947,
+                        395.13,
+                        220.947,
+                        40,
+                        232.119,
+                        395.13,
+                        232.119
+                      ]
+                    ],
+                    "direction": [
+                      1,
+                      0
+                    ],
+                    "precision": "run",
+                    "geometryMethod": "engine_run",
+                    "sourceRanges": [
+                      {
+                        "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3",
+                        "scalarRange": [
+                          17,
+                          74
+                        ],
+                        "utf16Range": [
+                          17,
+                          74
+                        ],
+                        "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "hasTextChange": true,
+            "facts": [],
+            "repeat": null,
+            "defaultVisible": true,
+            "matchEvidence": {
+              "method": "unresolved-field-group",
+              "score": null,
+              "details": [
+                "unresolved-field-group"
+              ]
+            },
+            "reviewReasons": [
+              "无法确定同名字段的唯一归属"
+            ],
+            "occurrences": []
+          }
+        ],
+        "unresolved": [
+          {
+            "reason": "ambiguous_identity",
+            "message": "同名字段缺少唯一归属；组内原文变化仍展示，不按金额相同跨位置配对",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-left-risk_details//deductible",
+                "rawRange": [
+                  24,
+                  87
+                ],
+                "charIds": [
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s11",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s12",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s13",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s14",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s15",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s16",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s17",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s18",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s19",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s20",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s21",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s22",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s23",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s24",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s25",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s26",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s27",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s28",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s29",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s30",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s31",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s32",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s33",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s34",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s35",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s36",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s37",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s38",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s39",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s40",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s41",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s42",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s43",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s44",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s45",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s46",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s47",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s48",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s49",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s50",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s51",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s52",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s53",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s54",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s55",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s56",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s57",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s58",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s59",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s60",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s61",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s62",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s63",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s64",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s65",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s66",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s67",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s68",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s69",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s70",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s71",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s72",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1:s73"
+                ],
+                "text": " USD 1,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    180.947,
+                    395.13,
+                    180.947,
+                    40,
+                    192.119,
+                    395.13,
+                    192.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i1",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                  }
+                ]
+              },
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-left-risk_details//deductible",
+                "rawRange": [
+                  116,
+                  179
+                ],
+                "charIds": [
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s11",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s12",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s13",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s14",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s15",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s16",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s17",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s18",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s19",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s20",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s21",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s22",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s23",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s24",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s25",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s26",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s27",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s28",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s29",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s30",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s31",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s32",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s33",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s34",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s35",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s36",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s37",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s38",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s39",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s40",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s41",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s42",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s43",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s44",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s45",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s46",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s47",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s48",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s49",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s50",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s51",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s52",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s53",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s54",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s55",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s56",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s57",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s58",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s59",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s60",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s61",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s62",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s63",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s64",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s65",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s66",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s67",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s68",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s69",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s70",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s71",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s72",
+                  "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3:s73"
+                ],
+                "text": " USD 2,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    220.947,
+                    395.13,
+                    220.947,
+                    40,
+                    232.119,
+                    395.13,
+                    232.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "8c3518dedc8170c4b1d708e8b029d525bcc9d35ee3f22f4cd7c5b9bf710cb8d4:p0:i3",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                  }
+                ]
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-right-risk_details//deductible",
+                "rawRange": [
+                  24,
+                  87
+                ],
+                "charIds": [
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s11",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s12",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s13",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s14",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s15",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s16",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s17",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s18",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s19",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s20",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s21",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s22",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s23",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s24",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s25",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s26",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s27",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s28",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s29",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s30",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s31",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s32",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s33",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s34",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s35",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s36",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s37",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s38",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s39",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s40",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s41",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s42",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s43",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s44",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s45",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s46",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s47",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s48",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s49",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s50",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s51",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s52",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s53",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s54",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s55",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s56",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s57",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s58",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s59",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s60",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s61",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s62",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s63",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s64",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s65",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s66",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s67",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s68",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s69",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s70",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s71",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s72",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1:s73"
+                ],
+                "text": " USD 2,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    180.947,
+                    395.13,
+                    180.947,
+                    40,
+                    192.119,
+                    395.13,
+                    192.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i1",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 2,000 each and every loss arising from declared operations"
+                  }
+                ]
+              },
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "uncertain-field-right-risk_details//deductible",
+                "rawRange": [
+                  116,
+                  179
+                ],
+                "charIds": [
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s11",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s12",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s13",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s14",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s15",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s16",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s17",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s18",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s19",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s20",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s21",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s22",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s23",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s24",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s25",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s26",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s27",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s28",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s29",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s30",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s31",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s32",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s33",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s34",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s35",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s36",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s37",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s38",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s39",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s40",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s41",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s42",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s43",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s44",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s45",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s46",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s47",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s48",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s49",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s50",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s51",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s52",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s53",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s54",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s55",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s56",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s57",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s58",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s59",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s60",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s61",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s62",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s63",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s64",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s65",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s66",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s67",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s68",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s69",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s70",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s71",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s72",
+                  "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3:s73"
+                ],
+                "text": " USD 1,000 each and every loss arising from declared operations",
+                "quads": [
+                  [
+                    40,
+                    220.947,
+                    395.13,
+                    220.947,
+                    40,
+                    232.119,
+                    395.13,
+                    232.119
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "b967cd6cad0365f255183487f2933d84596200f85f0532bda9c41dfc2993dc0e:p0:i3",
+                    "scalarRange": [
+                      11,
+                      74
+                    ],
+                    "utf16Range": [
+                      11,
+                      74
+                    ],
+                    "itemText": "DEDUCTIBLE: USD 1,000 each and every loss arising from declared operations"
+                  }
+                ]
+              }
+            ],
+            "defaultVisible": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "F2 malformed content stream cannot become complete zero differences",
+      "status": "PASS",
+      "evidence": {
+        "status": "partial",
+        "coverage": [
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "PDF.js strict page extraction: Unknown compression method in flate stream: 73, 78",
+            "message": "页面内容解析失败；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "left"
+          },
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "PDF.js strict page extraction: Unknown compression method in flate stream: 73, 78",
+            "message": "页面内容解析失败；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "right"
+          }
+        ]
+      }
+    },
+    {
+      "name": "F2 diagnostics are scoped; subsequent clean document stays complete",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope"
+      }
+    },
+    {
+      "name": "F2 valid compressed stream is complete; damaged page does not hide another page change",
+      "status": "PASS",
+      "evidence": {
+        "status": "partial",
+        "coverage": [
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "PDF.js strict page extraction: Unknown compression method in flate stream: 73, 78",
+            "message": "页面内容解析失败；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "left"
+          },
+          {
+            "pageIndex": 0,
+            "region": [
+              0,
+              0,
+              612,
+              792
+            ],
+            "reason": "page_failed",
+            "evidence": "PDF.js strict page extraction: Unknown compression method in flate stream: 73, 78",
+            "message": "页面内容解析失败；已读取片段不能证明正文完整",
+            "defaultVisible": true,
+            "side": "right"
+          }
+        ],
+        "differences": 1
+      }
+    },
+    {
+      "name": "F5 image inside translated Form has authored region",
+      "status": "PASS",
+      "evidence": {
+        "regions": [
+          [
+            100,
+            452,
+            300,
+            492
+          ]
+        ]
+      }
+    },
+    {
+      "name": "F5 nested Forms compose matrices and restore following image state",
+      "status": "PASS",
+      "evidence": {
+        "regions": [
+          [
+            140,
+            422,
+            540,
+            462
+          ],
+          [
+            10,
+            762,
+            30,
+            782
+          ]
+        ]
+      }
+    }
+  ]
+}

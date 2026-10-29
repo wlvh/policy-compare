@@ -1,0 +1,6 @@
+# final triage tests (dfb487fc1149be6ff419157aebb348b08a5f5695) with scripts/renewal-triage.py of be1ed04 (renewal-triage/18)
+FAIL: test_contiguous_source_ranges_join_without_a_space (test_renewal_triage.AddedRemovedRows.test_contiguous_source_ranges_join_without_a_space)
+FAIL: test_identical_cells_are_allocated_without_trying_their_orders (test_renewal_triage.AddedRemovedRows.test_identical_cells_are_allocated_without_trying_their_orders)
+FAIL: test_the_full_row_reads_only_the_records_identity_units (test_renewal_triage.RecordIdentity.test_the_full_row_reads_only_the_records_identity_units)
+Ran 59 tests in 19.281s
+FAILED (failures=3)
