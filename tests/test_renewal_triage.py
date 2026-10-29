@@ -279,6 +279,18 @@ class RecordIdentity(unittest.TestCase):
         _, ev = run([c], result([whole]), [table('aircraft', [0], c)])
         self.assertTrue(ev['52']['row']['fullRowRecovered'])
 
+    def test_a_replaced_value_does_not_match_a_signed_value(self):
+        """r4417560178: the edit 100 -> 200 is not -100 -> -200."""
+        c = change(72, 'ac_1315', 'Replaced', '1315 | Hull | 100', '1315 | Hull | 200', [('100', '200')], pages=(11, 11))
+        signed = card('s', 'Replaced', [(11, 'a', '1315 Hull -100')], [(11, 'b', '1315 Hull -200')])
+        _, ev = run([c], result([signed]), [table('aircraft', [0], c)])
+        self.assertNotEqual(ev['72']['verdict'], 'correct')
+        # Controls: the unsigned value, and a hyphen after a letter, which is no sign.
+        for old, new in (('1315 Hull 100', '1315 Hull 200'), ('1315 Hull-100', '1315 Hull-200')):
+            plain = card('p', 'Replaced', [(11, 'a', old)], [(11, 'b', new)])
+            _, ev = run([c], result([plain]), [table('aircraft', [0], c)])
+            self.assertEqual(ev['72']['verdict'], 'correct', old)
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
@@ -503,6 +515,19 @@ class AddedRemovedRows(unittest.TestCase):
         self.assertFalse(ev['68']['row']['fullRowRecovered'])
         _, ev = run([c], result([card('y', 'Added', right=[(11, 'u1', '1315 Hull 100')])]), [table('aircraft', [0], c)])
         self.assertEqual(ev['68']['verdict'], 'correct')
+
+    def test_a_source_range_listed_twice_is_one_occurrence(self):
+        """r4417511075: a card that lists the range of USD 100 twice shows it once."""
+        c = change(71, 'ac_1315', 'Added', right='1315 | USD 100 | USD 100', pages=(0, 11))
+        twice = card('x', 'Added', right=[(11, 'u1', '1315'), (11, 'u1', 'USD 100')])
+        twice['right'].append(dict(twice['right'][1]))
+        _, ev = run([c], result([twice]), [table('aircraft', [0], c)])
+        self.assertFalse(ev['71']['row']['fullRowRecovered'])
+        self.assertNotEqual(ev['71']['verdict'], 'correct')
+        # Control: the unit holds the amount twice, at two ranges.
+        both = card('y', 'Added', right=[(11, 'u1', '1315'), (11, 'u1', 'USD 100'), (11, 'u1', 'USD 100')])
+        _, ev = run([c], result([both]), [table('aircraft', [0], c)])
+        self.assertEqual((ev['71']['verdict'], ev['71']['row']['fullRowRecovered']), ('correct', True))
 
     def test_cells_find_a_non_overlapping_allocation_when_one_exists(self):
         """r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B"."""
