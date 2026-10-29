@@ -67,7 +67,9 @@ overlapping cells need separate stretches of text; delete + add on separate
 cards must change the part the author edit changes on each side
 (renewal-triage/15). A number does not match inside a signed one, cells are
 allocated over every candidate stretch, and the full-row check of a Replaced
-row allocates its cells the same way (renewal-triage/16). A number at either end of the author text
+row allocates its cells the same way (renewal-triage/16). Replaced values follow the
+same sign rule, and a source range a card lists twice counts once (renewal-triage/17).
+A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
 before a number it would split. Candidate matching, the edit check and the
@@ -97,7 +99,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/16'
+TOOL = 'renewal-triage/17'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -126,6 +128,16 @@ def cells(text):
 NUMBER = re.compile(r'\d(?:[.,]?\d)*')
 
 
+SIGN = '-\u2212+'
+
+
+def signed(text, i):
+    """A number starting at i of the text carries a sign: one right before it that does not follow
+    a letter, digit, '.' or ',' ("-100", "(\u2212100)"; not "1-200" or "SYN-1026"), as #10's scorer
+    reads signs (b6aa2c8)."""
+    return i > 0 and text[i - 1] in SIGN and not (i > 1 and re.match(r'[0-9A-Za-z.,]', text[i - 2]))
+
+
 def splits_number(text):
     """Positions strictly inside a number of the text: a match starting or ending there would cut
     the number ("USD 100" in "USD 1000" or "USD 100,000", "0.0425%" in "10.0425%")."""
@@ -133,9 +145,10 @@ def splits_number(text):
 
 
 def occurs(needle, text):
-    """Substring search that takes a number at either end of the needle only as a whole number."""
+    """Substring search that takes a number at either end of the needle only as a whole number,
+    and a number at its start not as the unsigned part of a signed one."""
     cut, i = splits_number(text), text.find(needle) if needle else -1
-    while i >= 0 and (i in cut or i + len(needle) in cut):
+    while i >= 0 and (i in cut or i + len(needle) in cut or needle[0].isdigit() and signed(text, i)):
         i = text.find(needle, i + 1)
     return i >= 0
 
@@ -152,8 +165,8 @@ def whole(needle):
     """Whole-token pattern: no letter or digit beside it, and no number continued past it by "."
     or "," and a digit, so "1315" is not in "21,315,000" nor "USD 100" in "USD 100,000"
     (r4416863588); a number is not the unsigned part of a signed one ("100" in "-100",
-    r4417384098)."""
-    sign = r'(?<![-\u2212+])' if needle[:1].isdigit() else ''
+    r4417384098; see signed())."""
+    sign = r'(?:(?<![-\u2212+])|(?<=[0-9A-Za-z.,][-\u2212+]))' if needle[:1].isdigit() else ''
     return re.compile(r'(?<![0-9A-Za-z])(?<![0-9][.,])' + sign + re.escape(needle) + r'(?![0-9A-Za-z])(?![.,][0-9])')
 
 
@@ -166,16 +179,31 @@ def ref(loc):
             'text': loc['text'][:80]}
 
 
+def pieces(locs):
+    """A unit's locations with each source character once, in the card's order: a range the card
+    lists twice or inside another adds nothing, and of two overlapping ranges the later one keeps
+    only its new part (r4417511075)."""
+    keep, end = {}, None
+    for k, l in sorted(enumerate(locs), key=lambda x: (x[1]['rawRange'][0], -x[1]['rawRange'][1])):
+        a, b = l['rawRange']
+        if end is not None and b <= end:
+            continue
+        keep[k] = l if end is None or a >= end else dict(l, rawRange=[end, b], text=l['text'][end - a:])
+        end = b
+    return [keep[k] for k in sorted(keep)]
+
+
 def units(locations, wanted):
     """Source units (page, unitId) of one side, in order, limited to the stated pages. A unit's
-    text follows its source: its pieces in raw order, not in the order the card lists them."""
+    text follows its source: its pieces in raw order, not in the order the card lists them, each
+    source character once."""
     out = collections.OrderedDict()
     for loc in locations:
         if wanted and loc['pageIndex'] + 1 not in wanted:
             continue
         out.setdefault((loc['pageIndex'] + 1, loc['unitId']), []).append(loc)
-    return [{'page': k[0], 'unitId': k[1], 'locs': v,
-             'text': norm(' '.join(l['text'] for l in sorted(v, key=lambda l: l['rawRange'][0])))}
+    return [{'page': k[0], 'unitId': k[1], 'locs': pieces(v),
+             'text': norm(' '.join(l['text'] for l in sorted(pieces(v), key=lambda l: l['rawRange'][0])))}
             for k, v in out.items()]
 
 
@@ -278,7 +306,8 @@ def occurrences(d, side, needle, wanted):
     """Occurrences of the needle in one card side whose characters all come from source units on
     the wanted pages (any page when none is wanted), read in source order: per occurrence, its
     start in the side's normalised text and its characters (see marked()). A number at either end
-    of the needle counts only as a whole number (r4413938264)."""
+    of the needle counts only as a whole number (r4413938264), and at its start not as the unsigned
+    part of a signed one (r4417560178)."""
     chars = marked(d, side)
     text = ''.join(x[0] for x in chars)
     cut, known = splits_number(text), cited(d, side)
@@ -288,7 +317,8 @@ def occurrences(d, side, needle, wanted):
         span = chars[i:i + len(needle)]
         owners = [x[1] for x in span if x[1] is not None]
         if owners and (not wanted or all(page in wanted for page, _ in owners)) \
-                and i not in cut and i + len(needle) not in cut and in_source_order(span, known):
+                and i not in cut and i + len(needle) not in cut and not (needle[0].isdigit() and signed(text, i)) \
+                and in_source_order(span, known):
             out.append((i, span))
         i = text.find(needle, i + 1)
     return out
@@ -815,10 +845,12 @@ def triage(change, result, declared, family, claimed):
         card = record and next(d for d in result['differences'] if d['id'] == record['card'])
 
         def source(key, r):
-            """Full text of one accepted record location; refs keep only a preview (r4415969212)."""
-            sides = ('left', 'right') if key == 'refs' else (key,)
-            return next((l['text'] for side in sides for l in card[side] if l['pageIndex'] + 1 == r['page']
-                         and l['unitId'] == r['unitId'] and l['rawRange'] == r['rawRange']), r['text'])
+            """Full text of one accepted record location; refs keep only a preview (r4415969212). A
+            location trimmed to its new characters (pieces()) is read from the card's location."""
+            sides, (a, b) = ('left', 'right') if key == 'refs' else (key,), r['rawRange']
+            return next((l['text'][a - l['rawRange'][0]:b - l['rawRange'][0]] for side in sides for l in card[side]
+                         if l['pageIndex'] + 1 == r['page'] and l['unitId'] == r['unitId']
+                         and l['rawRange'][0] <= a and b <= l['rawRange'][1]), r['text'])
 
         def text(*keys):
             return norm(' '.join(source(k, r) for k in keys for r in (record or {}).get(k, [])))
