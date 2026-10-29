@@ -192,9 +192,10 @@ const namesIdentity = (u: Unit) => u.rowCells!.some((c) => identityName.test(c.n
 /**
  * The heading row of each recovered row: the closest digit-free row above it
  * in the same section and title, with nothing but page margins in between.
- * Its table is that section, title and heading row; a heading row repeated
- * with only titles and page margins in between (a table continued on the next
- * page) continues it. When either version has two or more tables with the same
+ * Its table is that section, title and heading row; a heading row repeated on
+ * a later page with only titles and page margins in between (a table continued
+ * on the next page) continues it, and on the same page starts another table
+ * (r4417493798). When either version has two or more tables with the same
  * section, title and heading row, nothing says which corresponds to which, so
  * each is a scope of its own; rows without a heading row share the scope of
  * their section and title. Only the digit-free row that starts a table (or
@@ -215,6 +216,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
       open = new Map<string, { text: string; key: string; n: number }>(),
       last = new Map<string, { text: string; n: number }>(),
       broken = new Set<string>(),
+      page = new Map<string, number>(),
       count = new Map<string, number>(),
       table = new Map<Unit, [string, number]>();
     for (const u of us) {
@@ -228,7 +230,10 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         continue;
       }
       const t = u.path.section + "\u0000" + u.title;
-      const s = open.get(t);
+      const s = open.get(t),
+        p = u.refs.find(Boolean)!.page.pageIndex,
+        before = page.get(t);
+      page.set(t, p);
       if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u)) {
         // A digit-free row inside a table another row started is one of its
         // records (G-AAAA | Alpha Air | Lead) or a further heading line: it
@@ -240,7 +245,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
       } else if (!/\p{N}/u.test(u.rawText)) {
         const prev = last.get(t),
           key = t + "\u0000" + u.rawText;
-        const n = prev && prev.text === u.rawText && !broken.has(t) ? prev.n : (count.get(key) ?? 0) + 1;
+        const n = prev && prev.text === u.rawText && !broken.has(t) && p > before! ? prev.n : (count.get(key) ?? 0) + 1;
         count.set(key, Math.max(n, count.get(key) ?? 0));
         last.set(t, { text: u.rawText, n });
         broken.delete(t);
@@ -658,7 +663,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.14+facts.4+repeat.8+ops.4",
+    coreVersion: VERSION + "+row-identity.15+facts.4+repeat.8+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
