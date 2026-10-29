@@ -96,7 +96,7 @@ export function maskedPageNumbers(u: { rawText: string; furniture?: Furniture })
  * The variant of a repeated line that an occurrence is: its text with the page
  * counter read against the page it is on ("Page 3" on page 3 and "Page 4" on
  * page 4 are one variant, "Page 99" on page 3 another). The page total and
- * every other number stay as printed.
+ * every other number stay as printed, as does a counter Number() cannot read.
  */
 export function furnitureVariant(text: string, f: Furniture, page: number) {
   const t = text.trim(),
@@ -104,7 +104,8 @@ export function furnitureVariant(text: string, f: Furniture, page: number) {
   let k = 0;
   return t.replace(NUMBER, (n) => {
     const j = k++;
-    return f.pageTokens.includes(j) && counter.includes(j) ? `#${Number(n.replace(/[.,]/g, "")) - page}` : n;
+    const value = Number(n.replace(/[.,]/g, ""));
+    return f.pageTokens.includes(j) && counter.includes(j) && Number.isFinite(value) ? `#${value - page}` : n;
   });
 }
 type Line = { p: DocInput["pages"][number]; refs: Ref[]; text: string };
@@ -162,16 +163,19 @@ function signatures(lines: Line[], pageCount: number): FurnitureSignature[] {
   }
   return groups.flatMap(({ members, ...c }) => {
     if (members.length < need) return [];
-    const values = members.map((m) =>
-        (m.text.match(NUMBER) ?? []).map((n) => Number(n.replace(/[.,]/g, ""))),
-      ),
+    // A number Number() cannot read (Arabic-Indic or full-width digits) is
+    // NaN: it is the same on every page only as printed, and never counts.
+    const printed = members.map((m) => m.text.match(NUMBER) ?? []),
+      values = printed.map((ns) => ns.map((n) => Number(n.replace(/[.,]/g, "")))),
       positions = values[0].map((_, j) => j),
       slots = pageSlots(members[0].text.trim()),
-      fixed = (j: number) => values.every((v) => v[j] === values[0][j]),
+      fixed = (j: number) =>
+        printed.every((ns) => ns[j] === printed[0][j]) || values.every((v) => v[j] === values[0][j]),
       counters = positions.filter(
         (j) =>
           !fixed(j) &&
           slots.counter.includes(j) &&
+          values.every((v) => Number.isFinite(v[j])) &&
           new Set(values.map((v, n) => v[j] - members[n].p.pageIndex)).size === 1,
       );
     if (positions.some((j) => !fixed(j) && !counters.includes(j))) return [];
