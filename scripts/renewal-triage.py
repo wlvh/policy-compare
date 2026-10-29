@@ -47,7 +47,11 @@ inside a word or number it is the very next raw character, and characters of
 two units are separated by a space. A card carries an edit only through a
 changed character of that occurrence; a changed space collapsed beside
 unchanged words (extra spaces around an amount) is not the edit unless the
-author edit itself only changes spaces. A pure insertion or deletion needs no
+author edit itself only changes spaces. On one card, the old and the new
+occurrence must line up in the card's edit script (renewal-triage/10): the
+unchanged characters of each are exactly those of the other, and no other
+unchanged character lies between them; currency codes swapped while the
+amounts stay paired elsewhere do not show "USD 100" -> "USD 200". A pure insertion or deletion needs no
 text on its empty side; its other side needs the edit with the record identity
 or the author paragraph in that occurrence's own units. A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
@@ -79,7 +83,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/9'
+TOOL = 'renewal-triage/10'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -159,27 +163,28 @@ def side_text(d, side):
 
 def marked(d, side):
     """One card side rebuilt from its text operations and normalised as norm() does: per character,
-    its source unit (page, unitId), whether the card changes it (deleted left, inserted right) and
-    its raw position in that unit's page stream (None for a space)."""
+    its source unit (page, unitId), whether the card changes it (deleted left, inserted right),
+    its raw position in that unit's page stream and its place in the card's edit script
+    (operation, offset, unchanged); None for both for a space."""
     changed = 'delete' if side == 'left' else 'insert'
     out = []
-    for op in d.get('textOps') or []:
+    for n, op in enumerate(d.get('textOps') or []):
         if op['kind'] not in ('equal', changed):
             continue
         # Operation text and its source locations agree once whitespace is removed.
         owners = [((l['pageIndex'] + 1, l['unitId']), l['rawRange'][0] + i)
                   for l in op[side] for i, c in enumerate(l['text']) if not space(c)]
         k = 0
-        for c in op['text']:
+        for at_op, c in enumerate(op['text']):
             flag = op['kind'] == changed
             if space(c):
                 if out and out[-1][0] == ' ':
-                    out[-1] = (' ', None, out[-1][2] or flag, None)
+                    out[-1] = (' ', None, out[-1][2] or flag, None, None)
                 elif out:
-                    out.append((' ', None, flag, None))
+                    out.append((' ', None, flag, None, None))
                 continue
             unit, at = owners[k] if k < len(owners) else (None, None)
-            out.append((QUOTES.get(c, c), unit, flag, at))
+            out.append((QUOTES.get(c, c), unit, flag, at, (n, at_op, op['kind'] == 'equal')))
             k += 1
     while out and out[-1][0] == ' ':
         out.pop()
@@ -202,7 +207,7 @@ def in_source_order(span, known):
     number (no space between) it is the very next raw character. A space may stand for raw
     whitespace or a line break; characters of another unit are separated by a space."""
     prev, spaced = None, False
-    for c, unit, _, at in span:
+    for c, unit, _, at, _ in span:
         if c == ' ':
             spaced = True
             continue
@@ -245,23 +250,49 @@ def needs_edit(old, new):
             'right': (p, len(new) - s) if len(new) > p + s else None}
 
 
-def found(d, side, needle, wanted):
+def occurrences(d, side, needle, wanted):
     """Occurrences of the needle in one card side whose characters all come from source units on
-    the wanted pages (any page when none is wanted): per occurrence, its (char, unit, changed).
-    A number at either end of the needle counts only as a whole number (r4413938264)."""
+    the wanted pages (any page when none is wanted), read in source order: per occurrence, its
+    start in the side's normalised text and its characters (see marked()). A number at either end
+    of the needle counts only as a whole number (r4413938264)."""
     chars = marked(d, side)
-    text = ''.join(c for c, _, _, _ in chars)
+    text = ''.join(x[0] for x in chars)
     cut, known = splits_number(text), cited(d, side)
     out = []
     i = text.find(needle) if needle else -1
     while i >= 0:
         span = chars[i:i + len(needle)]
-        owners = [unit for _, unit, _, _ in span if unit is not None]
+        owners = [x[1] for x in span if x[1] is not None]
         if owners and (not wanted or all(page in wanted for page, _ in owners)) \
                 and i not in cut and i + len(needle) not in cut and in_source_order(span, known):
-            out.append(span)
+            out.append((i, span))
         i = text.find(needle, i + 1)
     return out
+
+
+def found(d, side, needle, wanted):
+    return [span for _, span in occurrences(d, side, needle, wanted)]
+
+
+def unchanged_script(d):
+    """Places in a card's edit script of the non-space characters of its unchanged operations."""
+    return sorted((n, k) for n, op in enumerate(d.get('textOps') or []) if op['kind'] == 'equal'
+                  for k, c in enumerate(op['text']) if not space(c))
+
+
+def lined_up(left, right, unchanged):
+    """An old and a new occurrence on one card line up in the card's edit script: the unchanged
+    characters of each are exactly those of the other, and no other unchanged character lies
+    between them. Otherwise the two texts are paired with other text and the card's edits show
+    some other change (r4415913728: currency codes swapped while the amounts stay paired
+    elsewhere). Which copy of a repeated word the card marks as inserted does not matter."""
+    lp = {x[4][:2] for x in left if x[4] and x[4][2]}
+    rp = {x[4][:2] for x in right if x[4] and x[4][2]}
+    if lp != rp:
+        return False
+    places = [x[4][:2] for x in left + right if x[4]]
+    lo, hi = min(places), max(places)
+    return all(p in lp for p in unchanged if lo < p < hi)
 
 
 def located(d, side, needle, wanted):
@@ -332,21 +363,22 @@ def on_pages(locations, wanted):
     return not wanted or bool(pages(locations) & wanted)
 
 
-def hits(d, side, needle, wanted, edit=False):
+def hits(d, side, needle, wanted, edit=False, only=None):
     """Qualifying occurrences of the needle on one card side: every character from a source unit on
-    the wanted pages and, when the author edit changes this side, carrying changed characters. Each
-    occurrence is the set of source units (page, unitId) its characters come from."""
-    return [{unit for _, unit, _, _ in span if unit is not None} for span in found(d, side, needle, wanted)
-            if carries(span, edit)]
+    the wanted pages and, when the author edit changes this side, carrying changed characters (and,
+    with `only`, among those starts). Each occurrence is the set of source units (page, unitId) its
+    characters come from."""
+    return [{x[1] for x in span if x[1] is not None} for i, span in occurrences(d, side, needle, wanted)
+            if carries(span, edit) and (only is None or i in only)]
 
 
-def local(d, side, needle, wanted, edit=False):
+def local(d, side, needle, wanted, edit=False, only=None):
     """Source units of a card side that the needle's qualifying occurrences come from."""
-    keep = set().union(*hits(d, side, needle, wanted, edit))
+    keep = set().union(*hits(d, side, needle, wanted, edit, only))
     return [u for u in units(d[side], wanted) if (u['page'], u['unitId']) in keep]
 
 
-def judge_identity(d, needles, ident, others, change, wanted, edit=None):
+def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=None):
     """Identity status of one card for one record: confirmed, contradicted, ambiguous, unconfirmed.
     Each side is judged on one qualifying occurrence at a time (carrying the edit where `edit` says
     the side changes): the identity must sit in the units of the occurrence that makes the change,
@@ -364,7 +396,7 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None):
     for side, needle in needles.items():
         mine = ident[side] or ident['cells']
         best = ('unconfirmed', {'units': [], 'identity': [], 'otherRecords': []})
-        for keys in hits(d, side, needle, wanted[side], edit.get(side, False)):
+        for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side)):
             us = [u for u in units(d[side], wanted[side]) if (u['page'], u['unitId']) in keys]
             own = any(holds(u['text'], mine) for u in us)
             foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
@@ -399,16 +431,17 @@ def context(d, side, needle, wanted, author, edit=False):
     return False
 
 
-def evidence(d, side, needle, wanted, edit=False):
-    return [ref(l) for u in local(d, side, needle, wanted, edit) for l in u['locs']] if needle else []
+def evidence(d, side, needle, wanted, edit=False, only=None):
+    return [ref(l) for u in local(d, side, needle, wanted, edit, only) for l in u['locs']] if needle else []
 
 
-def candidate(d, needles, wanted, identity=None, reason=None, seen=None, edit=None, need=None):
+def candidate(d, needles, wanted, identity=None, reason=None, seen=None, edit=None, need=None, only=None):
     """need: sides that the author edit changes. Their evidence is the occurrences that carry the
-    edit, as for an accepted card; a card without such an occurrence lists all its occurrences."""
+    edit (and, with `only`, line up with the other side's), as for an accepted card; a card without
+    such an occurrence lists all its occurrences."""
     sp = d.get('structurePath') or {}
-    need = need or {}
-    side = lambda k: (evidence(d, k, needles.get(k), wanted[k], need.get(k, False))
+    need, only = need or {}, only or {}
+    side = lambda k: (evidence(d, k, needles.get(k), wanted[k], need.get(k, False), only.get(k))
                       or evidence(d, k, needles.get(k), wanted[k]))
     return {'card': d['id'], 'kind': d['kind'], 'facts': d.get('facts'),
             'table': sp.get('table'), 'rowKey': sp.get('rowKey'), 'confidence': sp.get('confidence'),
@@ -443,17 +476,23 @@ def text_atom(atom, change, ctx, claimed):
     same = [d for d in oc if d in nc]
     cands, accepted, suspects, open_, unedited = [], [], [], [], []
     for d in same:
-        if not (shows(d, 'left', old) and shows(d, 'right', new)):
-            # The card holds both texts but does not make this edit: no evidence for or against.
+        # The old and the new occurrence that carry the edit and line up in the card's edit script.
+        unchanged = unchanged_script(d)
+        lo = [(i, s) for i, s in occurrences(d, 'left', old, wanted['left']) if carries(s, need['left'])]
+        ro = [(j, s) for j, s in occurrences(d, 'right', new, wanted['right']) if carries(s, need['right'])]
+        both = [(i, j) for i, l in lo for j, r in ro if lined_up(l, r, unchanged)]
+        if not (shows(d, 'left', old) and shows(d, 'right', new)) or not both:
+            # The card holds both texts but does not make this edit there: no evidence for or against.
             cands.append(candidate(d, needles, wanted, edit=False))
             unedited.append(d)
             continue
+        only = {'left': {i for i, _ in both}, 'right': {j for _, j in both}}
         if ident is None:
             status, why, seen = 'not_applicable', 'paragraph event: no record identity', None
         else:
-            status, why, seen = judge_identity(d, needles, ident, others, change, wanted, need)
+            status, why, seen = judge_identity(d, needles, ident, others, change, wanted, need, only)
         cands.append(candidate(d, needles, wanted, status, why, seen, edit=True if any(need.values()) else None,
-                               need=need))
+                               need=need, only=only))
         if status in ('confirmed', 'not_applicable'):
             accepted.append(d)
         elif status == 'contradicted' and not (claimed.get(d['id'], set()) - {ctx['id']}):

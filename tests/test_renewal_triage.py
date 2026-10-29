@@ -670,6 +670,41 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([self.PARA_SHORT], result([amount([(1, 'b', 'USD 200', 10)], 'Liability USD 200.')]))
         self.assertEqual(ev['21']['verdict'], 'correct')
 
+    def test_the_old_and_new_occurrences_must_line_up_in_the_cards_edit(self):
+        """r4415913728: edits only in the unchanged part of the author text (the currency codes)
+        while the amounts stay paired with each other elsewhere do not show USD 100 -> USD 200."""
+        row = change(41, 'ac_1315', 'Replaced', 'ATR | 1315 | Hull USD 100', 'ATR | 1315 | Hull USD 200',
+                     [('USD 100', 'USD 200')], pages=(1, 1))
+        L, R = '1315 Hull USD 100; Liability EUR 200.', '1315 Hull EUR 100; Liability USD 200.'
+        swap = raw_card('x', [(1, 'a', L)], [(1, 'b', R)], [
+            ('equal', '1315 Hull ', [(1, 'a', '1315 Hull ', 0)], [(1, 'b', '1315 Hull ', 0)]),
+            ('delete', 'USD', [(1, 'a', 'USD', 10)], []),
+            ('insert', 'EUR', [], [(1, 'b', 'EUR', 10)]),
+            ('equal', ' 100; Liability ', [(1, 'a', ' 100; Liability ', 13)], [(1, 'b', ' 100; Liability ', 13)]),
+            ('delete', 'EUR', [(1, 'a', 'EUR', 29)], []),
+            ('insert', 'USD', [], [(1, 'b', 'USD', 29)]),
+            ('equal', ' 200.', [(1, 'a', ' 200.', 32)], [(1, 'b', ' 200.', 32)])])
+        _, ev = run([row], result([swap]), [table('aircraft', [1], row)])
+        self.assertNotEqual(ev['41']['verdict'], 'correct')
+        self.assertEqual(ev['41']['acceptedCards'], [])
+        # Control: the card that changes the Hull amount itself.
+        own = card('y', 'Replaced', [(1, 'a', '1315 Hull USD 100; Liability EUR 200.')],
+                   [(1, 'b', '1315 Hull USD 200; Liability EUR 200.')])
+        _, ev = run([row], result([own]), [table('aircraft', [1], row)])
+        self.assertEqual((ev['41']['verdict'], ev['41']['acceptedCards']), ('correct', ['y']))
+
+    def test_either_copy_of_a_repeated_word_may_carry_the_insertion(self):
+        """South Sudan, -> South Sudan, Sudan,: the card may mark the first Sudan as inserted."""
+        c = change(16, 'excluded', 'Replaced', 'Iran, South Sudan, Syria.', 'Iran, South Sudan, Sudan, Syria.',
+                   [('South Sudan, ', 'South Sudan, Sudan, ')], pages=(1, 1))
+        L, R = 'Iran, South Sudan, Syria.', 'Iran, South Sudan, Sudan, Syria.'
+        first = raw_card('x', [(1, 'a', L)], [(1, 'b', R)], [
+            ('equal', 'Iran, South', [(1, 'a', 'Iran, South', 0)], [(1, 'b', 'Iran, South', 0)]),
+            ('insert', ' Sudan,', [], [(1, 'b', ' Sudan,', 11)]),
+            ('equal', ' Sudan, Syria.', [(1, 'a', ' Sudan, Syria.', 11)], [(1, 'b', ' Sudan, Syria.', 18)])])
+        _, ev = run([c], result([first]))
+        self.assertEqual((ev['16']['verdict'], ev['16']['acceptedCards']), ('correct', ['x']))
+
     PARA_SHORT = change(21, 'liab', 'Replaced', 'Liability USD 100.', 'Liability USD 200.', [('USD 100', 'USD 200')],
                         pages=(1, 1))
 
