@@ -319,6 +319,24 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
     // Control: the same sequence on both sides gives no card.
     expect(compare(four((p) => `Page ${arabic(p + 1)}`, 120), four((p) => `Page ${arabic(p + 1)}`, 120)).differences).toEqual([]);
   });
+  it("a page counter is a whole number: Page 1.1 .. 1.4 is not a counting Page 1 (r4416744456)", () => {
+    // The capture "1" of "Page 1.1" was taken as the whole token "1.1", masked, and
+    // a change in its suffix (1.1 -> 1.5) was stated as page_number_only.
+    const r = ResultSchema.parse(
+      compare(four((p) => `Schedule Page 1.${p + 1}`), four((p) => `Schedule Page 1.${p + 5}`)),
+    );
+    expect(r.differences.length).toBeGreaterThan(0);
+    expect(r.differences.flatMap((d) => d.facts)).not.toContain("page_number_only");
+    expect(r.differences.map((d) => d.newText).join(" ")).toContain("Schedule Page 1.7");
+    // Control: a whole-number counter still counts with the pages.
+    const c = ResultSchema.parse(compare(four((p) => `Schedule Page ${p + 1}`), four((p) => `Schedule Page ${p + 1}`)));
+    expect(c.differences).toEqual([]);
+    // The same on a single margin line: 1.1 -> 2.1 is a changed number, not a page number.
+    const line = (t: string) => pages(1, () => [{ text: t, x: 40, y: 60 }, { text: "Ordinary body text on the only page of the policy", x: 40, y: 300 }]);
+    const facts = (a: string, b: string) => ResultSchema.parse(compare(line(a), line(b))).differences.map((d) => d.facts);
+    expect(facts("Schedule Page 1.1", "Schedule Page 2.1")).toEqual([[]]);
+    expect(facts("Schedule Page 1", "Schedule Page 2")).toEqual([["page_number_only"]]);
+  });
   it("a profile-declared repeated header is split into its variants too (r4416656228)", () => {
     // REPEATED HEADER LIMIT: is a declared field of the aviation profile. Its
     // occurrences were concatenated into one card text counted four times.
