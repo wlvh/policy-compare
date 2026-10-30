@@ -1187,6 +1187,27 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     );
     expect(grade(z.result, z.expected, z.layout, z.docs).status).toBe("PASS");
   });
+  // Codex PR #11 comment 6518833952: the decimal point of 100,020.25 removed on one side only.
+  it("R26: a lone delete or add card citing only a separator of an unchanged amount fails, with or without a record", () => {
+    for (const [kind, at] of [["Removed", "."], ["Added", "."], ["Removed", ","]] as const)
+      for (const key of [null, "SYN-1026-001"]) {
+        const x = r26(false, ["100,020.25", "200,000"]);
+        const [doc, side] = kind === "Removed" ? [x.docs[0], "left" as const] : [x.docs[1], "right" as const];
+        const i = "100,020.25".indexOf(at);
+        x.result.differences.push(oneSided(kind, "separator", slice(lineLoc(doc, side, "l5"), i, i + 1), key));
+        expect(ResultSchema.safeParse(x.result).success).toBe(true);
+        const score = grade(x.result, x.expected, x.layout, x.docs);
+        expect(score.status, `${kind} ${at} ${key}`).toBe("FAIL");
+        expect(score.faults.join("\n"), `${kind} ${at} ${key}`).toContain("agreed_value_unchanged");
+      }
+    // Control: the same separator removed and added again on its record.
+    const z = r26(false, ["100,020.25", "200,000"]);
+    z.result.differences.push(
+      oneSided("Removed", "out", slice(lineLoc(z.docs[0], "left", "l5"), 7, 8), "SYN-1026-001"),
+      oneSided("Added", "in", slice(lineLoc(z.docs[1], "right", "l5"), 7, 8), "SYN-1026-001"),
+    );
+    expect(grade(z.result, z.expected, z.layout, z.docs).status).toBe("PASS");
+  });
   it("R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell", () => {
     // Cards citing only the changed character: the event fails (they do not show its values); the cell
     // changes as declared, and the claimed characters are not verified against that change, so
