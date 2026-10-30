@@ -855,6 +855,23 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.status, "delete + add").toBe("FAIL");
       expect(score.faults, "delete + add").toContain("agreed_value_unchanged: record SYN-1026-001|agreed_value delete/add cards edit amount cells whose amounts change -100,020 to +100,020");
     }
+    // Codex PR #11 comment 6515830550: a sign written right after a currency code is the amount's sign.
+    // "USD\u2212100,020" -> "USD+100,020" in the agreed-value cell, the whole cell on each side and its sign
+    // as the edit; spelled with a space ("USD -100,020") it was already caught.
+    for (const [oldCell, newCell, at] of [["USD\u2212100,020", "USD+100,020", [3, 4]], ["USD -100,020", "USD +100,020", [4, 5]]] as const) {
+      const { z, L1, R1 } = signed(oldCell, newCell, [...at]);
+      const [L5, R5] = [z.wrong.left[0], lineLoc(z.docs[1], "right", "l5")];
+      z.result.differences.push({ ...z.wrong, id: "coded", left: [L5], right: [R5], oldText: L5.text, newText: R5.text, textOps: [
+        { kind: "equal", text: L5.text.slice(0, at[0]), left: [slice(L5, 0, at[0])], right: [slice(R5, 0, at[0])] },
+        { kind: "delete", text: L1.text, left: [L1], right: [] },
+        { kind: "insert", text: R1.text, left: [], right: [R1] },
+        { kind: "equal", text: L5.text.slice(at[1]), left: [slice(L5, at[1], L5.text.length)], right: [slice(R5, at[1], R5.text.length)] },
+      ] });
+      expect(ResultSchema.safeParse(z.result).success, oldCell).toBe(true);
+      const score = grade(z.result, z.expected, z.layout, z.docs);
+      expect(score.status, oldCell).toBe("FAIL");
+      expect(score.faults.join("\n"), oldCell).toContain("agreed_value_unchanged");
+    }
     // Control: a hyphen between numbers is no sign; "1-100,000" keeps the amount 100,000.
     const y = r26(false, ["1-100,000", "200,000"]);
     expect(grade(y.result, y.expected, y.layout, y.docs).status).toBe("PASS");

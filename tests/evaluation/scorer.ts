@@ -361,14 +361,15 @@ export const INVARIANTS: Record<
 // limit), or in a card location on a layout.json run whose logical path ends in such a field, any
 // standalone number counts too. The layout says what a cell is whatever field the card claims;
 // identifiers such as an MSN stay out. A sign written right before the number ("-", "−", "+", not
-// after a letter, digit, "." or ",") is part of the amount: -100,020 and 100,020 differ. A hyphen
+// after a letter, digit, "." or ",", except right after a currency code: USD−100,020, Codex PR #11
+// comment 6515830550) is part of the amount: -100,020 and 100,020 differ. A hyphen
 // between numbers ("1-100,000") is no sign; accounting parentheses are not read as one. A currency
 // sign (a Unicode currency symbol such as €, $, £) is a currency as a code is (Codex PR #11 comment
 // 6513014284: € paired with $ read as no currency at all).
 const CODES = "USD|EUR|GBP|JPY|CHF|CNY|HKD|SGD|MYR|AUD|CAD",
   AMOUNT_FIELDS = ["agreed_value", "sum_insured", "limit", "header_limit", "deductible"],
   CURRENCY = new RegExp(`\\b(?:${CODES})(?![A-Za-z])|\\p{Sc}`, "gu"),
-  SIGN = `(?:(?<![\\w.,])[-\\u2212+](?=\\d))?`,
+  SIGN = `(?:(?:(?<![\\w.,])|(?<=\\b(?:${CODES})))[-\\u2212+](?=\\d))?`,
   NUMBER = `${SIGN}\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=(?:\\b(?:${CODES})|\\p{Sc})\\s?)${SIGN}\\d+(?:\\.\\d+)?`,
   AMOUNT = new RegExp(NUMBER, "gu"),
   DECLARED_AMOUNT = new RegExp(`${NUMBER}|(?:(?<![\\w.,])[-\\u2212+](?=\\d)|(?<![\\w.,\\u2212+-]))\\d+(?:\\.\\d+)?(?![\\w,-]|\\.\\d)`, "gu");
