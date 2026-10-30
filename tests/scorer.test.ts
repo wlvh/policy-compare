@@ -1082,6 +1082,27 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     ]);
     expect(exitCode(summarize([score]))).toBe(1);
   });
+  // Codex PR #11 comment 6514810449: a shared claimed key is not a common record. Amounts cancel
+  // within a record only when the cells the cards cite lie in one layout.json record.
+  it("R26: delete + add amounts of two records cancel only under a shared claimed key: NOT_EVALUATED", () => {
+    const pair = (outLine: string, inLine: string) => {
+      const x = r26(false, ["100,020", "100,020"]);
+      const [l, r] = x.docs;
+      x.result.differences.push(
+        oneSided("Removed", "out", lineLoc(l, "left", outLine), "SYN-1026-001"),
+        oneSided("Added", "in", lineLoc(r, "right", inLine), "SYN-1026-001"),
+      );
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      return grade(x.result, x.expected, x.layout, x.docs);
+    };
+    // Removed from record SYN-1026-001 (l5), added to record SYN-1026-003 (l10).
+    const across = pair("l5", "l10");
+    expect(across.status).toBe("NOT_EVALUATED");
+    expect(across.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+    expect(across.faults).toEqual([]);
+    // Control: both cards cite record SYN-1026-001's own cell.
+    expect(pair("l5", "l5").status).toBe("PASS");
+  });
   it("R26: delete + add cards claiming different parts of an unchanged amount cell fail", () => {
     // One record, unchanged 100020: the Removed card cites "100", the Added card "020".
     const x = r26(true, ["100020", "200010"]);
