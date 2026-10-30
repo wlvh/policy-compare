@@ -203,7 +203,7 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count; on one card, or one record's delete and add cards, amounts left on both sides once the events whose evidence it edits on both sides are taken out pair different events: this fails where an event changing an amount stands behind them, and is NOT_EVALUATED where only events that only remove or only add one do); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, and, in one whose amount has a decimal point or thousands separator between digits, such a separator claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, a character whose geometry meets several amount or currency cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count; on one card, or one record's delete and add cards, amounts left on both sides once the events whose evidence it edits on both sides are taken out pair different events: this fails where an event changing an amount stands behind them, and is NOT_EVALUATED where only events that only remove or only add one do); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, and, in one whose amount has a decimal point or thousands separator between digits, such a separator claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells (digits, an amount, or signs and separators alone), a character whose geometry meets several amount or currency cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
     tests: [
       "R26: correct registration card plus a wrong agreed-value card fails",
       "R26: a wrong bare-number amount card fails whatever field it claims",
@@ -239,7 +239,7 @@ export const INVARIANTS: Record<
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count; on one card, or one record's delete and add cards, amounts left on both sides once the events whose evidence it edits on both sides are taken out pair different events: this fails where an event changing an amount stands behind them, and is NOT_EVALUATED where only events that only remove or only add one do); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, and, in one whose amount has a decimal point or thousands separator between digits, such a separator claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, a character whose geometry meets several amount or currency cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count; on one card, or one record's delete and add cards, amounts left on both sides once the events whose evidence it edits on both sides are taken out pair different events: this fails where an event changing an amount stands behind them, and is NOT_EVALUATED where only events that only remove or only add one do); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, and, in one whose amount has a decimal point or thousands separator between digits, such a separator claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells (digits, an amount, or signs and separators alone), a character whose geometry meets several amount or currency cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
     tests: [
       "R11: correct label card plus a wrong",
       "R11: a wrong bare-number amount card filed under a non-amount field fails",
@@ -502,7 +502,9 @@ function moneyChanges(
           });
         else if (covered.length === 1 && claimRun(covered[0]))
           claim(cellKey(covered[0], loc.pageIndex), loc.text, covered[0], loc.charIds, loc.pageIndex);
-        else if (covered.some(claimRun) && (/\d/.test(loc.text) || money(loc.text).length))
+        // Signs or separators alone are an amount's characters too (Codex PR #11 comment 6519387126:
+        // "-+" as one location with one quad over two amount cells was dropped here).
+        else if (covered.some(claimRun) && (/\d/.test(loc.text) || money(loc.text).length || /^[\s\-−+.,]*[\-−+.,][\s\-−+.,]*$/u.test(loc.text)))
           unexplained.add(`card ${d.id} changes "${loc.text}" across an amount cell and other cells with run-level geometry`);
       }
     return {
@@ -1052,20 +1054,24 @@ const lineTexts = (doc: DocInput) =>
 // the text: the "1" of "Page 1.1" or the "10" of "of 10,5" is not one. A number followed by "%" or
 // "‰", or with a currency code or sign written right after it ("100USD", "100€"), is a percentage or
 // an amount, which the fact never covers (Codex r4421658769). A currency code or sign after a space
-// reads either way ("Page 3 USD 100", "per page 100 USD"): `spaced` marks such numbers.
+// reads either way ("Page 3 USD 100", "per page 100 USD"), and so do three capitals right after the
+// number or after a space that are no code listed here ("100NZD", "Page 3 AED 100"; Codex PR #11
+// comment 6519800754): `unsure` marks such numbers.
 const WHOLE = `(?![.,]?\\p{N})(?!\\s*[%‰]|(?:${CODES})(?![A-Za-z])|\\p{Sc})`;
 const PAGE_EXPRESSION = new RegExp(`\\bpage\\s*(\\p{N}+)${WHOLE}(?:\\s*(?:of|\\/)\\s*(\\p{N}+)${WHOLE})?`, "giu");
-const SPACED_CURRENCY = new RegExp(`^\\s+(?:(?:${CODES})(?![A-Za-z])|\\p{Sc})`, "iu");
+const SPACED_CURRENCY = new RegExp(`^\\s+(?:(?:${CODES})(?![A-Za-z])|\\p{Sc})`, "iu"),
+  UNLISTED_CODE = /^\s*[A-Z]{3}(?![A-Za-z])/u,
+  unsureAfter = (rest: string) => SPACED_CURRENCY.test(rest) || UNLISTED_CODE.test(rest);
 function pageNumbers(text: string) {
   const numbers: string[] = [],
-    spaced: boolean[] = [];
+    unsure: boolean[] = [];
   const masked = text.replace(PAGE_EXPRESSION, (m, n: string, of: string | undefined, at: number) => {
     numbers.push(n, of ?? "");
     const after = at + m.search(/\p{N}/u) + n.length;
-    spaced.push(SPACED_CURRENCY.test(text.slice(after)), !!of && SPACED_CURRENCY.test(text.slice(at + m.length)));
+    unsure.push(unsureAfter(text.slice(after)), !!of && unsureAfter(text.slice(at + m.length)));
     return m.replace(/\p{N}+/gu, "\u0000");
   });
-  return { numbers, spaced, masked, count: numbers.length / 2 };
+  return { numbers, unsure, masked, count: numbers.length / 2 };
 }
 export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput]): boolean | null {
   const [a, b] = [d.left.length ? d.oldText : null, d.right.length ? d.newText : null];
@@ -1086,12 +1092,12 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
       if (a !== null && b !== null) {
         const [x, y] = [pageNumbers(a), pageNumbers(b)];
         form = x.masked === y.masked && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
-        open = x.numbers.some((n, i) => n !== y.numbers[i] && (x.spaced[i] || y.spaced[i]));
+        open = x.numbers.some((n, i) => n !== y.numbers[i] && (x.unsure[i] || y.unsure[i]));
       } else {
         const one = (a ?? b)!,
           x = pageNumbers(one);
         form = x.count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
-        open = x.spaced.some(Boolean);
+        open = x.unsure.some(Boolean);
       }
       return form && open ? null : form;
     }

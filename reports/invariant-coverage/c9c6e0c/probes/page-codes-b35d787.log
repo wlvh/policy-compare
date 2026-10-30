@@ -1,0 +1,8 @@
+Codex: NZD attached: "Printing cost per page 100NZD" -> "Printing cost per page 200NZD": true
+Codex: INR attached: "Printing cost per page 100INR" -> "Printing cost per page 200INR": true
+Codex: AED attached: "Printing cost per page 100AED" -> "Printing cost per page 200AED": true
+AED after a space, page then amount: "Page 3 AED 100" -> "Page 4 AED 100": true
+control: USD attached (listed): "Printing cost per page 100USD" -> "Printing cost per page 200USD": false
+control: PAGE 3 OF 10: "PAGE 3 OF 10" -> "PAGE 4 OF 10": true
+control: PAGE 3 NOTE: "PAGE 3 NOTE" -> "PAGE 4 NOTE": true
+control: Page 3 of 10: "Page 3 of 10" -> "Page 4 of 10": true

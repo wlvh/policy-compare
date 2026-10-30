@@ -1,0 +1,12 @@
+files changed since 081f370 (reports excluded):
+ docs/extractor-capabilities.md      |   2 +-
+ packages/compare-core/index.ts      |   9 +-
+ packages/compare-core/structure.ts  |  34 +++++-
+ scripts/renewal-triage.py           | 145 ++++++++++++++++++++++----
+ tests/evaluation/scorer.ts          | 127 ++++++++++++++++++-----
+ tests/margin-text.test.ts           |  15 +++
+ tests/row-identity-evidence.test.ts |  12 +++
+ tests/scorer.test.ts                | 202 ++++++++++++++++++++++++++++++++++++
+ tests/table-scope.test.ts           |  34 ++++++
+ tests/test_renewal_triage.py        |  78 +++++++++++++-
+ 10 files changed, 600 insertions(+), 58 deletions(-)
