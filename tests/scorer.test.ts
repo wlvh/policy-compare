@@ -980,6 +980,30 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
     expect(exitCode(summarize([score]))).toBe(1);
   });
+  // Codex PR #11 comment 6514897964: a sign is a claimed edit inside its cell, though it forms no amount.
+  it("R26: one card swapping the signs of two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED", () => {
+    // Rows keep -100,020 and +100,020; one card cites their signs as "-+" on the left and "+-" on the right.
+    const x = r26(false, ["-100,020", "+100,020"]);
+    const [l, r] = x.docs;
+    const L = [slice(lineLoc(l, "left", "l5"), 0, 1), slice(lineLoc(l, "left", "l10"), 0, 1)],
+      R = [slice(lineLoc(r, "right", "l10"), 0, 1), slice(lineLoc(r, "right", "l5"), 0, 1)];
+    const card = replaced("sign-swap", L[0], R[0], { section: "aircraft_schedule", entity: null, field: "registration", table: "aircraft_schedule", rowKey: null });
+    Object.assign(card, {
+      left: L,
+      right: R,
+      oldText: "-+",
+      newText: "+-",
+      textOps: [
+        { kind: "delete", text: "-", left: [L[0]], right: [] },
+        { kind: "delete", text: "+", left: [L[1]], right: [] },
+        { kind: "insert", text: "+", left: [], right: [R[0]] },
+        { kind: "insert", text: "-", left: [], right: [R[1]] },
+      ],
+    });
+    const score = graded(x, card);
+    expect(score.status).toBe("NOT_EVALUATED");
+    expect(score.notEvaluated).toMatchObject([{ invariant: "agreed_value_unchanged", kind: "invariant_unverifiable" }]);
+  });
   it("R26: one card swapping parts of two unchanged currency codes cannot pass; their correspondence is NOT_EVALUATED", () => {
     // Both rows keep USD; one card cites "U" of row 1 and "D" of row 3 as UD on the left and DU on the right.
     const x = r26(true);
@@ -1102,6 +1126,24 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(across.faults).toEqual([]);
     // Control: both cards cite record SYN-1026-001's own cell.
     expect(pair("l5", "l5").status).toBe("PASS");
+  });
+  // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
+  // cards claim, so source characters are compared across all delete and add cards.
+  it("R26: two delete + add pairs citing the same source characters fail, whatever keys they claim", () => {
+    for (const second of ["SYN-1026-001", "SYN-1026-003"]) {
+      const x = r26(true, ["100020", "200010"]);
+      const [l, r] = x.docs;
+      x.result.differences.push(
+        oneSided("Removed", "out-a", lineLoc(l, "left", "l5"), "SYN-1026-001"),
+        oneSided("Added", "in-a", lineLoc(r, "right", "l5"), "SYN-1026-001"),
+        oneSided("Removed", "out-b", lineLoc(l, "left", "l5"), second),
+        oneSided("Added", "in-b", lineLoc(r, "right", "l5"), second),
+      );
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      expect(score.status, second).toBe("FAIL");
+      expect(score.faults.join("\n"), second).toContain("one edit is reported twice");
+    }
   });
   it("R26: delete + add cards claiming different parts of an unchanged amount cell fail", () => {
     // One record, unchanged 100020: the Removed card cites "100", the Added card "020".
