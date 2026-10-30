@@ -582,6 +582,24 @@ describe("identity belongs to its own column and its own table", () => {
     // Control: the same cells are unchanged.
     expect(ResultSchemaV2.parse(compare(doc(["MSN 123", "USD 100 200", "300"]), doc(["MSN 123", "USD 100 200", "300"]))).differences).toEqual([]);
   });
+  it("an identifier label in a descriptive column of a record does not start a table (r4420429153)", () => {
+    // Registration | Operator | Status | Value: the record G-AAAA | Alpha | Registration | Pending
+    // has "Registration" under Status; it must not become the heading row of the records below it.
+    const doc = (status: string, reg: string, op: string, value: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["Registration", "Operator", "Status", "Value"].map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        ...["G-AAAA", "Alpha", status, "Pending"].map((text, k) => ({ text, x: 40 + k * 150, y: 200 })),
+        ...[reg, op, "Active", value].map((text, k) => ({ text, x: 40 + k * 150, y: 220 })),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("Registration", "G-BBBB", "Beta", "USD 1000"), doc("Registration", "G-CCCC", "Gamma", "USD 2000")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect(crossPaired(r, "G-BBBB", "G-CCCC")).toBe(false);
+    expect([visible(r, "G-BBBB", "left"), visible(r, "G-CCCC", "right")]).toEqual([true, true]);
+    // Control: with a plain status the record stays in the table and the same registration pairs.
+    const c = ResultSchemaV2.parse(compare(doc("Lead", "G-BBBB", "Beta", "USD 1000"), doc("Lead", "G-BBBB", "Beta", "USD 2000")));
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("a heading row with the same text but other cells is another table (r4420146482)", () => {
     // MSN | Serial No. | Value against MSN Serial | No. | Value: 123 stands under
     // MSN on the left and under MSN Serial on the right, 456 and 789 under

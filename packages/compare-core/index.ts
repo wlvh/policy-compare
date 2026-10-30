@@ -252,10 +252,20 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         p = u.refs.find(Boolean)!.page.pageIndex,
         before = page.get(t);
       page.set(t, p);
-      if ((!/\p{N}/u.test(u.rawText) || valueFree(u)) && s && cellKey(u) !== s.text && !namesIdentity(u) && namesColumn(u)) {
+      // A cell that is an identifier's name under a descriptive heading cell of the
+      // open table (Status: Registration) may be a record's value or the next
+      // table's heading (r4420429153).
+      const label =
+        namesIdentity(u) &&
+        u.rowCells!.some((c, k) => {
+          const at = s && identityName.test(c.normalize("NFKC").trim()) ? under(current.get(t), u.rowSpans![k]) : null;
+          return !!at && !identityHeading.test(at.text.normalize("NFKC").trim());
+        });
+      if ((!/\p{N}/u.test(u.rawText) || valueFree(u)) && s && cellKey(u) !== s.text && (label || (!namesIdentity(u) && namesColumn(u)))) {
         // A cell ending with an identifier's name ("Aircraft Registration")
         // may head another table or be a record's value ("Pending
-        // Registration"): the table ends here, and neither this row nor the
+        // Registration"), and so may an identifier's name under a descriptive
+        // heading cell (see label): the table ends here, and neither this row nor the
         // rows after it are read under its heading row or share its scope
         // (r4417587174). The rows after it are a scope of their own, without
         // a heading row, not the shared scope of the title (PR #9 comment
@@ -741,7 +751,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.29+facts.5+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.30+facts.5+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
