@@ -1187,6 +1187,30 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     );
     expect(grade(z.result, z.expected, z.layout, z.docs).status).toBe("PASS");
   });
+  // Codex PR #11 comment 6519195690: with run-level geometry every character of a row shares the row's
+  // box, so one character's quad meets several amount cells; the signs of -100,020 and +100,020 claimed
+  // as "-+" -> "+-" fell on the first cell, where they cancel.
+  it("R26: a character whose run-level geometry meets several amount cells is not attributed to one of them", () => {
+    const score = (coarse: boolean) => {
+      const row = "-100,020 USD +100,020";
+      const x = r26(false, undefined, { left: [row], right: [row], coarse });
+      for (const side of [x.layout.before, x.layout.after])
+        for (const r of side.pages[0].text_runs) if (r.logical_path === "aircraft_schedule.SYN-90.msn") r.logical_path = "aircraft_schedule.SYN-90.sum_insured";
+      const [L, R] = [lineLoc(x.docs[0], "left", "l11"), lineLoc(x.docs[1], "right", "l11")],
+        b = row.lastIndexOf(" ") + 1;
+      const left = [slice(L, 0, 1), slice(L, b, b + 1)],
+        right = [slice(R, b, b + 1), slice(R, 0, 1)];
+      x.result.differences.push({ ...x.wrong, id: "signs", left, right, oldText: "-+", newText: "+-", textOps: [
+        { kind: "delete", text: "-+", left, right: [] },
+        { kind: "insert", text: "+-", left: [], right },
+      ] });
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      return grade(x.result, x.expected, x.layout, x.docs).invariants.find((i) => i.name === "agreed_value_unchanged")?.result;
+    };
+    expect(score(true)).toBe("NOT_EVALUATED");
+    // Control: with glyph geometry the two claims lie on two cells, whose correspondence is not verified.
+    expect(score(false)).toBe("NOT_EVALUATED");
+  });
   // Codex PR #11 comment 6518833952: the decimal point of 100,020.25 removed on one side only.
   it("R26: a lone delete or add card citing only a separator of an unchanged amount fails, with or without a record", () => {
     for (const [kind, at] of [["Removed", "."], ["Added", "."], ["Removed", ","]] as const)
