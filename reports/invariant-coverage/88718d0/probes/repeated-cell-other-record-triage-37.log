@@ -4,3 +4,5 @@ Added control: unit "1315 Hull USD 100": not_evaluable atoms=['correct', 'correc
 Removed Codex: unit "1315 Hull USD 100; 1760 Liability USD 100": correct atoms=['correct', 'correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
 Removed control: unit "1315 Hull USD 100 USD 100": correct atoms=['correct', 'correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
 Removed control: unit "1315 Hull USD 100": not_evaluable atoms=['correct', 'correct', 'correct', 'not_evaluable'] fullRowRecovered=False unexplained=0
+Replaced, two Alpha, the second in 1760: correct atoms=['correct'] fullRowRecovered=True unexplained=0
+Replaced control: both Alpha in 1315: correct atoms=['correct'] fullRowRecovered=True unexplained=0

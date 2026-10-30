@@ -17,3 +17,11 @@ for kind in ('Added', 'Removed'):
         c = t.card('n', kind, **{side: [(1, 'u', shown)]})
         summary, ev = t.run([row], t.result([c]), [t.table('aircraft', [0], row)])
         show(f'{kind} {name}', ev['63'], summary)
+# The user's variant (PR #9 comment 6519680071): a Replaced row with two Alpha cells, the second taken
+# from record 1760 in the same unit; control: both Alpha in 1315's part.
+row = t.change(41, 'ac_1315', 'Replaced', '1315 | Alpha | Alpha | USD 100', '1315 | Alpha | Alpha | USD 200', [('USD 100', 'USD 200')])
+for name, old, new in (('Replaced, two Alpha, the second in 1760', '1315 Alpha USD 100; 1760 Alpha USD 999', '1315 Alpha USD 200; 1760 Alpha USD 999'),
+                       ('Replaced control: both Alpha in 1315', '1315 Alpha Alpha USD 100; 1760 Beta USD 999', '1315 Alpha Alpha USD 200; 1760 Beta USD 999')):
+    c = t.card('r', 'Replaced', [(1, 'a', old)], [(1, 'b', new)])
+    summary, ev = t.run([row], t.result([c]), [t.table('aircraft', [0], row)])
+    show(name, ev['41'], summary)
