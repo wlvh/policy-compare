@@ -1,0 +1,13 @@
+# item 1: label with punctuation, no value
+"MSN": status=complete_for_scope differences={"Removed":1,"Added":1} [Removed:unmatched:-, Added:unmatched:-] unresolved=0
+"MSN:": status=complete_for_scope differences={"Replaced":1} [Replaced:row-identity:MSN:] unresolved=0
+"MSN -": status=complete_for_scope differences={"Replaced":1} [Replaced:row-identity:MSN -] unresolved=0
+"MSN#": status=complete_for_scope differences={"Added":1,"Removed":1} [Added:unmatched:-, Removed:unmatched:-] unresolved=0
+"MSN No.": status=complete_for_scope differences={"Added":1,"Removed":1} [Added:unmatched:-, Removed:unmatched:-] unresolved=0
+"MSN: 123": status=complete_for_scope differences={"Replaced":1} [Replaced:row-identity:MSN: 123] unresolved=0
+"MSN 123": status=complete_for_scope differences={"Replaced":1} [Replaced:row-identity:MSN 123] unresolved=0
+# item 2: extraction order
+row-major vs column-major: status=complete_for_scope differences={"Removed":3,"Added":1} [Removed:unmatched:-, Added:unmatched:-, Removed:unmatched:-, Removed:unmatched:-] unresolved=0
+column-major vs row-major: status=complete_for_scope differences={"Added":3,"Removed":1} [Added:unmatched:-, Removed:unmatched:-, Added:unmatched:-, Added:unmatched:-] unresolved=0
+control, row-major vs row-major: status=complete_for_scope differences={} [] unresolved=0
+control, column-major vs column-major: status=complete_for_scope differences={} [] unresolved=0

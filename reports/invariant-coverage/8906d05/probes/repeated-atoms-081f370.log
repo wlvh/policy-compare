@@ -1,0 +1,3 @@
+Codex: only the first copy edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=False unexplained=0
+control: both copies edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=True unexplained=0
+control: only the second copy edited: verdict=not_evaluable outcome=incomplete atoms=['not_evaluable', 'not_evaluable'] fullRowRecovered=None unexplained=1
