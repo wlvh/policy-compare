@@ -1,0 +1,16 @@
+=== renewal-triage/20 (scripts/renewal-triage.py and tests/test_renewal_triage.py of 91aa884)
+-- whole-paragraph-around-edit
+comment 6510958743: each card one unit, the Liability amount edited: split_attributable accepted=['one', 'two'] unexplained=0
+control: Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
+-- split-row-full
+comment 6511266424: complete Removed + Added cards: split_attributable accepted=['c', 'g'] fullRowRecovered=False unexplained=0
+control: one complete Replaced card: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: Removed + Added, the Added card missing Hull: split_attributable accepted=['c', 'g'] fullRowRecovered=False unexplained=0
+=== renewal-triage/21 (scripts/renewal-triage.py and tests/test_renewal_triage.py of cedf563)
+-- whole-paragraph-around-edit
+comment 6510958743: each card one unit, the Liability amount edited: not_evaluable accepted=[] unexplained=2
+control: Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
+-- split-row-full
+comment 6511266424: complete Removed + Added cards: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+control: one complete Replaced card: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: Removed + Added, the Added card missing Hull: split_attributable accepted=['c', 'g'] fullRowRecovered=False unexplained=0

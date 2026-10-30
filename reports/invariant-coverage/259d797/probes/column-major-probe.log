@@ -1,0 +1,22 @@
+=== scorer cedf563 (git show cedf563:tests/evaluation/scorer.ts, imports pointed at this tree)
+## column-wise extraction; left page 1 raw text: "MSN\n123\n456\nOperator\nAlpha\nBeta\nValue\nUSD 100\nUSD 200"
+product policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4, status complete_for_scope
+  card Replaced "MSNOperatorValue" -> "MSNOperatorValue" repeat {"left":2,"right":3,"leftPages":2,"rightPages":3} occurrences 3
+  card Added "" -> "321DeltaUSD 400" repeat null occurrences 0
+scorer: FAIL; faults ["card d-6293713d8180b37f77ca states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]; open []
+## control: the same pages extracted row by row; left page 1 raw text: "MSN\nOperator\nValue\n123\nAlpha\nUSD 100\n456\nBeta\nUSD 200"
+product policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4, status complete_for_scope
+  card Replaced "MSNOperatorValue" -> "MSNOperatorValue" repeat {"left":2,"right":3,"leftPages":2,"rightPages":3} occurrences 3
+  card Added "" -> "321DeltaUSD 400" repeat null occurrences 0
+scorer: PASS; faults []; open []
+=== scorer 259d797 (tests/evaluation/scorer.ts)
+## column-wise extraction; left page 1 raw text: "MSN\n123\n456\nOperator\nAlpha\nBeta\nValue\nUSD 100\nUSD 200"
+product policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4, status complete_for_scope
+  card Replaced "MSNOperatorValue" -> "MSNOperatorValue" repeat {"left":2,"right":3,"leftPages":2,"rightPages":3} occurrences 3
+  card Added "" -> "321DeltaUSD 400" repeat null occurrences 0
+scorer: PASS; faults []; open []
+## control: the same pages extracted row by row; left page 1 raw text: "MSN\nOperator\nValue\n123\nAlpha\nUSD 100\n456\nBeta\nUSD 200"
+product policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4, status complete_for_scope
+  card Replaced "MSNOperatorValue" -> "MSNOperatorValue" repeat {"left":2,"right":3,"leftPages":2,"rightPages":3} occurrences 3
+  card Added "" -> "321DeltaUSD 400" repeat null occurrences 0
+scorer: PASS; faults []; open []

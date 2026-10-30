@@ -1,0 +1,37 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (126 tests | 1 failed) 1354ms
+   ❯ result format 2: stated facts and form-only changes in controls (14)
+     × a repeated line's variant holds no other line's text, in a table extracted column by column (Codex PR #9 comment 6510906577) 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > result format 2: stated facts and form-only changes in controls > a repeated line's variant holds no other line's text, in a table extracted column by column (Codex PR #9 comment 6510906577)
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "card d-f159830fa05037abe2d9 states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites",
++ ]
+
+ ❯ tests/scorer.test.ts:1913:29
+    1911|       return grade(result, expected, { before: layoutOf(left), after: …
+    1912|     };
+    1913|     expect(graded().faults).toEqual([]);
+       |                             ^
+    1914|     expect(graded((d) => (d.repeat!.right = 2)).faults).toEqual([
+    1915|       expect.stringContaining("states occurrence or page counts that d…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 125 passed (126)
+   Start at  00:39:59
+   Duration  1.68s (tests 89%, import 8%, transform 3%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
