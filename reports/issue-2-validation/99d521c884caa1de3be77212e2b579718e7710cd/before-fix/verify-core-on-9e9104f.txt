@@ -1,0 +1,6 @@
+# final tests (99d521c884caa1de3be77212e2b579718e7710cd) with product, interface, contract and triage code of 9e9104f
+     × equal text under headings with other cells is not unchanged, though the identifier is (r4420011674) 8ms
+     × a declared header whose value is a separate line keeps its page counter too (r4419941396) 18ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  2 failed | 13 passed (15)
+      Tests  2 failed | 332 passed (334)
