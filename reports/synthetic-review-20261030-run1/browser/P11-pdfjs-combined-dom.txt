@@ -1,0 +1,75 @@
+- main:
+  - generic: POLICY COMPARE / 本地审阅 · pdfjs
+  - heading "让每处变化，都有原文依据。" [level=1]
+  - paragraph: 基准 → 待审 · PDF 在此浏览器内处理
+  - text: 本地处理
+  - generic: 不上传文档 · 无 OCR
+  - region "文档选择":
+    - generic: 01 基准版
+    - button "基准 PDF"
+    - generic: before.pdf
+    - textbox "基准 PDF 密码":
+      - /placeholder: 受保护文件密码（可选）
+    - generic: 02 待审版
+    - button "待审 PDF"
+    - generic: after.pdf
+    - textbox "待审 PDF 密码":
+      - /placeholder: 受保护文件密码（可选）
+    - button "开始比较"
+    - button "交换方向"
+    - button "取消" [disabled]
+  - status:
+    - strong: 本次处理结束
+    - generic: 没有记录到覆盖缺口或未决；全部变化默认可见，按原文位置排列。这不表示不存在未知遗漏。
+    - button "导出 JSON"
+    - button "关闭任务"
+  - complementary:
+    - heading "变化清单 2" [level=2]
+    - combobox "按变化方式筛选":
+      - option "全部变化" [selected]
+      - option "两侧对应、位置未变"
+      - option "位置移动"
+      - option "基准侧未找到对应"
+      - option "待审侧未找到对应"
+    - paragraph: 默认展示所有变化 · 当前筛选隐藏 0 项
+    - textbox "搜索原文":
+      - /placeholder: 搜索词语或短语
+    - combobox "搜索范围":
+      - option "两侧" [selected]
+      - option "基准"
+      - option "待审"
+    - button "搜索"
+    - button "基准侧未找到对应 条款文字 （无） USD 2500":
+      - generic: 基准侧未找到对应
+      - heading "条款文字" [level=3]
+      - generic: （无）
+      - generic: USD 2500
+    - button "文字变化 按相似文字对应 条款文字 USD 2000 USD 3000 0.10% net annual USD 3000 0.10% net monthly" [active]:
+      - generic: 文字变化
+      - generic: 按相似文字对应
+      - heading "条款文字" [level=3]
+      - generic: USD 2000 USD 3000 0.10% net annual
+      - generic: USD 3000 0.10% net monthly
+  - generic: 原文定位 · 文字层区间测量
+  - checkbox "同步滚动" [checked]
+  - text: 同步滚动
+  - strong: 基准版
+  - generic "before.pdf"
+  - navigation:
+    - button "基准上一页" [disabled]: ‹
+    - generic: 1 / 1
+    - button "基准下一页" [disabled]: ›
+  - img "基准原文第 1 页"
+  - generic: NORTHSTAR / POLICY SCHEDULE All cells span three lines Synthetic fixture P11 | Fictional records and values TEST DATA ONLY - NOT AN INSURANCE CONTRACT Sheet 1 MSN Operator Terms Rate 123 (a) (b) 456 789 Alpha Air Holdings Limited Beta Air Delta Air USD 1000 per annum net USD 2000 USD 3000 0.10% net annual 0.20% 0.30%
+  - img "基准字符高亮"
+  - strong: 待审版
+  - generic "after.pdf"
+  - navigation:
+    - button "待审上一页" [disabled]: ‹
+    - generic: 1 / 1
+    - button "待审下一页" [disabled]: ›
+  - img "待审原文第 1 页"
+  - generic: NORTHSTAR / POLICY SCHEDULE All cells span three lines Synthetic fixture P11 | Fictional records and values TEST DATA ONLY - NOT AN INSURANCE CONTRACT Sheet 1 MSN Operator Terms Rate 123 (a) (b) 456 789 Alpha Air Holdings Limited Beta Air Delta Air USD 1000 per annum net USD 2500 USD 3000 0.10% net monthly 0.20% 0.30%
+  - img "待审字符高亮"
+  - text: 处理范围仅限可提取文本。变化按原文位置排列、全部默认可见；程序不判断变化是否重要，不输出法律解释。
+  - generic: 开发验证版 · 正式许可与业务留出验收尚未完成

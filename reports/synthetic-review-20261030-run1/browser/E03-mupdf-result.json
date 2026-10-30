@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "policy-compare-result/2",
+  "coreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+  "extractors": [
+    {
+      "name": "MuPDF.js",
+      "version": "mupdf/1.28.1+scalar-fix.1",
+      "adapterVersion": "mupdf-adapter/3",
+      "options": {
+        "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+        "actualText": "engine-default",
+        "clip": true,
+        "diagnostics": "scoped-native-errors-and-read-failures/1"
+      }
+    },
+    {
+      "name": "MuPDF.js",
+      "version": "mupdf/1.28.1+scalar-fix.1",
+      "adapterVersion": "mupdf-adapter/3",
+      "options": {
+        "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+        "actualText": "engine-default",
+        "clip": true,
+        "diagnostics": "scoped-native-errors-and-read-failures/1"
+      }
+    }
+  ],
+  "snapshotHashVersion": "page-merkle/1",
+  "tokenizerVersion": "unicode-tokens/1",
+  "profileVersion": "aviation/1.0.0",
+  "documentHashes": [
+    "bcd232bf25c42324a4ea0008ebc28c408b5f71ce6f655de93bbb63b40a975eb7",
+    "a0405599332d7f971dc4d7a6b3c2cdd030cd5d41b509158f04b7101202411a8a"
+  ],
+  "extractionSnapshotHashes": [
+    "05e0228baccfd2c1dfa03303cafb0c0f0d2d9a112579ce77baef162ccbba250c",
+    "c1626eabe478705206da485f3f7c4229d47a39bde7e9ae2faf34d3990ae48d3f"
+  ],
+  "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+  "scope": "extracted_text",
+  "status": "partial",
+  "differences": [],
+  "coverage": [
+    {
+      "pageIndex": 0,
+      "region": [
+        0,
+        0,
+        612,
+        792
+      ],
+      "reason": "raster_only_content",
+      "evidence": "MuPDF StructuredText image block",
+      "message": "此页只有图片，正文文字尚未比较",
+      "defaultVisible": true,
+      "side": "left"
+    },
+    {
+      "pageIndex": 0,
+      "region": [
+        0,
+        0,
+        612,
+        792
+      ],
+      "reason": "raster_only_content",
+      "evidence": "MuPDF StructuredText image block",
+      "message": "此页只有图片，正文文字尚未比较",
+      "defaultVisible": true,
+      "side": "right"
+    }
+  ],
+  "unresolved": [],
+  "alignment": [],
+  "stats": {
+    "leftScalars": 0,
+    "rightScalars": 0,
+    "candidates": 0,
+    "tokenProducts": 0,
+    "differenceCount": 0,
+    "occurrenceCount": 0
+  },
+  "diagnostics": []
+}

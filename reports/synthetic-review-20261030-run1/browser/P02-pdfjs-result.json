@@ -1,0 +1,1476 @@
+{
+  "schemaVersion": "policy-compare-result/2",
+  "coreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+  "extractors": [
+    {
+      "name": "PDF.js",
+      "version": "pdfjs/6.4.299+strict-streams.1",
+      "adapterVersion": "pdfjs-adapter/3",
+      "options": {
+        "disableNormalization": true,
+        "includeMarkedContent": false,
+        "geometry": "engine_run; browser text_layer_range",
+        "stopAtErrors": true,
+        "streamFailurePolicy": "throw-invalid-stream/1"
+      }
+    },
+    {
+      "name": "PDF.js",
+      "version": "pdfjs/6.4.299+strict-streams.1",
+      "adapterVersion": "pdfjs-adapter/3",
+      "options": {
+        "disableNormalization": true,
+        "includeMarkedContent": false,
+        "geometry": "engine_run; browser text_layer_range",
+        "stopAtErrors": true,
+        "streamFailurePolicy": "throw-invalid-stream/1"
+      }
+    }
+  ],
+  "snapshotHashVersion": "page-merkle/1",
+  "tokenizerVersion": "unicode-tokens/1",
+  "profileVersion": "aviation/1.0.0",
+  "documentHashes": [
+    "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2",
+    "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963"
+  ],
+  "extractionSnapshotHashes": [
+    "c01c26356843cb838a1c4128e277a86e78f9c7c05051b18c11d4fdacd68a0097",
+    "0d2f4032367bdc2b3875e8754e04f645758e02e39d4a688e29406221ffeb36e6"
+  ],
+  "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+  "scope": "extracted_text",
+  "status": "complete_for_scope",
+  "differences": [
+    {
+      "id": "d-c80cc8df5d6dc860a1e1",
+      "kind": "Replaced",
+      "structurePath": {
+        "section": "risk_details",
+        "entity": null,
+        "field": null,
+        "table": "recovered_rows",
+        "rowKey": "1315",
+        "confidence": "candidate"
+      },
+      "left": [
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            178,
+            182
+          ],
+          "charIds": [
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s0",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s1",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s2",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s3"
+          ],
+          "text": "1315",
+          "quads": [
+            [
+              48,
+              151.82,
+              70.24,
+              151.82,
+              48,
+              161.07,
+              70.24,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18",
+              "scalarRange": [
+                0,
+                4
+              ],
+              "utf16Range": [
+                0,
+                4
+              ],
+              "itemText": "1315"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                47.97859801488834,
+                150.27124689826303,
+                70.22275560251241,
+                150.27124689826303,
+                47.97859801488834,
+                161.66082506203475,
+                70.22275560251241,
+                161.66082506203475
+              ]
+            ],
+            "text": "1315"
+          }
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            183,
+            192
+          ],
+          "charIds": [
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s0",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s1",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s2",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s3",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s4",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s5",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s6",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s7",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s8"
+          ],
+          "text": "Alpha Air",
+          "quads": [
+            [
+              126,
+              151.82,
+              166.57,
+              151.82,
+              126,
+              161.07,
+              166.57,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20",
+              "scalarRange": [
+                0,
+                9
+              ],
+              "utf16Range": [
+                0,
+                9
+              ],
+              "itemText": "Alpha Air"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                126.00907258064517,
+                150.27124689826303,
+                166.03925030048077,
+                150.27124689826303,
+                126.00907258064517,
+                161.66082506203475,
+                166.03925030048077,
+                161.66082506203475
+              ]
+            ],
+            "text": "Alpha Air"
+          }
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            193,
+            200
+          ],
+          "charIds": [
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s0",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s1",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s2",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s3",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s4",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s5",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s6"
+          ],
+          "text": "USD 100",
+          "quads": [
+            [
+              320,
+              151.82,
+              360.57,
+              151.82,
+              320,
+              161.07,
+              360.57,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22",
+              "scalarRange": [
+                0,
+                7
+              ],
+              "utf16Range": [
+                0,
+                7
+              ],
+              "itemText": "USD 100"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                320.0115539702233,
+                150.27124689826303,
+                360.58776037627945,
+                150.27124689826303,
+                320.0115539702233,
+                161.66082506203475,
+                360.58776037627945,
+                161.66082506203475
+              ]
+            ],
+            "text": "USD 100"
+          }
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            201,
+            207
+          ],
+          "charIds": [
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s0",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s1",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s2",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s3",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s4",
+            "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s5"
+          ],
+          "text": "annual",
+          "quads": [
+            [
+              450,
+              151.82,
+              480.02,
+              151.82,
+              450,
+              161.07,
+              480.02,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24",
+              "scalarRange": [
+                0,
+                6
+              ],
+              "utf16Range": [
+                0,
+                6
+              ],
+              "itemText": "annual"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                150.27124689826303,
+                480.0249314225341,
+                150.27124689826303,
+                449.995114764268,
+                161.66082506203475,
+                480.0249314225341,
+                161.66082506203475
+              ]
+            ],
+            "text": "annual"
+          }
+        }
+      ],
+      "right": [
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            178,
+            182
+          ],
+          "charIds": [
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s0",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s1",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s2",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s3"
+          ],
+          "text": "1315",
+          "quads": [
+            [
+              48,
+              151.82,
+              70.24,
+              151.82,
+              48,
+              161.07,
+              70.24,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18",
+              "scalarRange": [
+                0,
+                4
+              ],
+              "utf16Range": [
+                0,
+                4
+              ],
+              "itemText": "1315"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                47.97859801488834,
+                150.27124689826303,
+                70.22275560251241,
+                150.27124689826303,
+                47.97859801488834,
+                161.66082506203475,
+                70.22275560251241,
+                161.66082506203475
+              ]
+            ],
+            "text": "1315"
+          }
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            183,
+            192
+          ],
+          "charIds": [
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s0",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s1",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s2",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s3",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s4",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s5",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s6",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s7",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s8"
+          ],
+          "text": "Alpha Air",
+          "quads": [
+            [
+              126,
+              151.82,
+              166.57,
+              151.82,
+              126,
+              161.07,
+              166.57,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20",
+              "scalarRange": [
+                0,
+                9
+              ],
+              "utf16Range": [
+                0,
+                9
+              ],
+              "itemText": "Alpha Air"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                126.00907258064517,
+                150.27124689826303,
+                166.03925030048077,
+                150.27124689826303,
+                126.00907258064517,
+                161.66082506203475,
+                166.03925030048077,
+                161.66082506203475
+              ]
+            ],
+            "text": "Alpha Air"
+          }
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            193,
+            201
+          ],
+          "charIds": [
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s0",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s1",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s2",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s3",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s4",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s5",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s6",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s7"
+          ],
+          "text": "USD 2000",
+          "quads": [
+            [
+              320,
+              151.82,
+              366.13,
+              151.82,
+              320,
+              161.07,
+              366.13,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22",
+              "scalarRange": [
+                0,
+                8
+              ],
+              "utf16Range": [
+                0,
+                8
+              ],
+              "itemText": "USD 2000"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                320.0115539702233,
+                150.27124689826303,
+                366.1428677012252,
+                150.27124689826303,
+                320.0115539702233,
+                161.66082506203475,
+                366.1428677012252,
+                161.66082506203475
+              ]
+            ],
+            "text": "USD 2000"
+          }
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            202,
+            208
+          ],
+          "charIds": [
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s0",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s1",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s2",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s3",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s4",
+            "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s5"
+          ],
+          "text": "annual",
+          "quads": [
+            [
+              450,
+              151.82,
+              480.02,
+              151.82,
+              450,
+              161.07,
+              480.02,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24",
+              "scalarRange": [
+                0,
+                6
+              ],
+              "utf16Range": [
+                0,
+                6
+              ],
+              "itemText": "annual"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                150.27124689826303,
+                480.0249314225341,
+                150.27124689826303,
+                449.995114764268,
+                161.66082506203475,
+                480.0249314225341,
+                161.66082506203475
+              ]
+            ],
+            "text": "annual"
+          }
+        }
+      ],
+      "oldText": "1315 Alpha Air USD 100 annual",
+      "newText": "1315 Alpha Air USD 2000 annual",
+      "textOps": [
+        {
+          "kind": "equal",
+          "text": "1315 Alpha Air USD ",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                178,
+                182
+              ],
+              "charIds": [
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s0",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s1",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s2",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18:s3"
+              ],
+              "text": "1315",
+              "quads": [
+                [
+                  48,
+                  151.82,
+                  70.24,
+                  151.82,
+                  48,
+                  161.07,
+                  70.24,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i18",
+                  "scalarRange": [
+                    0,
+                    4
+                  ],
+                  "utf16Range": [
+                    0,
+                    4
+                  ],
+                  "itemText": "1315"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    47.97859801488834,
+                    150.27124689826303,
+                    70.22275560251241,
+                    150.27124689826303,
+                    47.97859801488834,
+                    161.66082506203475,
+                    70.22275560251241,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "1315"
+              }
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                183,
+                192
+              ],
+              "charIds": [
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s0",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s1",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s2",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s3",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s4",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s5",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s6",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s7",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20:s8"
+              ],
+              "text": "Alpha Air",
+              "quads": [
+                [
+                  126,
+                  151.82,
+                  166.57,
+                  151.82,
+                  126,
+                  161.07,
+                  166.57,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i20",
+                  "scalarRange": [
+                    0,
+                    9
+                  ],
+                  "utf16Range": [
+                    0,
+                    9
+                  ],
+                  "itemText": "Alpha Air"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    126.00907258064517,
+                    150.27124689826303,
+                    166.03925030048077,
+                    150.27124689826303,
+                    126.00907258064517,
+                    161.66082506203475,
+                    166.03925030048077,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "Alpha Air"
+              }
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                193,
+                197
+              ],
+              "charIds": [
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s0",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s1",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s2",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s3"
+              ],
+              "text": "USD ",
+              "quads": [
+                [
+                  320,
+                  151.82,
+                  360.57,
+                  151.82,
+                  320,
+                  161.07,
+                  360.57,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22",
+                  "scalarRange": [
+                    0,
+                    4
+                  ],
+                  "utf16Range": [
+                    0,
+                    4
+                  ],
+                  "itemText": "USD 100"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    320.0115539702233,
+                    150.27124689826303,
+                    343.9085351077854,
+                    150.27124689826303,
+                    320.0115539702233,
+                    161.66082506203475,
+                    343.9085351077854,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "USD "
+              }
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                178,
+                182
+              ],
+              "charIds": [
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s0",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s1",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s2",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18:s3"
+              ],
+              "text": "1315",
+              "quads": [
+                [
+                  48,
+                  151.82,
+                  70.24,
+                  151.82,
+                  48,
+                  161.07,
+                  70.24,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i18",
+                  "scalarRange": [
+                    0,
+                    4
+                  ],
+                  "utf16Range": [
+                    0,
+                    4
+                  ],
+                  "itemText": "1315"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    47.97859801488834,
+                    150.27124689826303,
+                    70.22275560251241,
+                    150.27124689826303,
+                    47.97859801488834,
+                    161.66082506203475,
+                    70.22275560251241,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "1315"
+              }
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                183,
+                192
+              ],
+              "charIds": [
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s0",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s1",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s2",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s3",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s4",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s5",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s6",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s7",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20:s8"
+              ],
+              "text": "Alpha Air",
+              "quads": [
+                [
+                  126,
+                  151.82,
+                  166.57,
+                  151.82,
+                  126,
+                  161.07,
+                  166.57,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i20",
+                  "scalarRange": [
+                    0,
+                    9
+                  ],
+                  "utf16Range": [
+                    0,
+                    9
+                  ],
+                  "itemText": "Alpha Air"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    126.00907258064517,
+                    150.27124689826303,
+                    166.03925030048077,
+                    150.27124689826303,
+                    126.00907258064517,
+                    161.66082506203475,
+                    166.03925030048077,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "Alpha Air"
+              }
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                193,
+                197
+              ],
+              "charIds": [
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s0",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s1",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s2",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s3"
+              ],
+              "text": "USD ",
+              "quads": [
+                [
+                  320,
+                  151.82,
+                  366.13,
+                  151.82,
+                  320,
+                  161.07,
+                  366.13,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22",
+                  "scalarRange": [
+                    0,
+                    4
+                  ],
+                  "utf16Range": [
+                    0,
+                    4
+                  ],
+                  "itemText": "USD 2000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    320.0115539702233,
+                    150.27124689826303,
+                    343.9081643532879,
+                    150.27124689826303,
+                    320.0115539702233,
+                    161.66082506203475,
+                    343.9081643532879,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "USD "
+              }
+            }
+          ]
+        },
+        {
+          "kind": "delete",
+          "text": "1",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                197,
+                198
+              ],
+              "charIds": [
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s4"
+              ],
+              "text": "1",
+              "quads": [
+                [
+                  320,
+                  151.82,
+                  360.57,
+                  151.82,
+                  320,
+                  161.07,
+                  360.57,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22",
+                  "scalarRange": [
+                    4,
+                    5
+                  ],
+                  "utf16Range": [
+                    4,
+                    5
+                  ],
+                  "itemText": "USD 100"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    343.8966709638648,
+                    150.27124689826303,
+                    349.46429125310175,
+                    150.27124689826303,
+                    343.8966709638648,
+                    161.66082506203475,
+                    349.46429125310175,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "1"
+              }
+            }
+          ],
+          "right": []
+        },
+        {
+          "kind": "insert",
+          "text": "20",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                197,
+                199
+              ],
+              "charIds": [
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s4",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s5"
+              ],
+              "text": "20",
+              "quads": [
+                [
+                  320,
+                  151.82,
+                  366.13,
+                  151.82,
+                  320,
+                  161.07,
+                  366.13,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22",
+                  "scalarRange": [
+                    4,
+                    6
+                  ],
+                  "utf16Range": [
+                    4,
+                    6
+                  ],
+                  "itemText": "USD 2000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    343.89630020936727,
+                    150.27124689826303,
+                    355.0315407878412,
+                    150.27124689826303,
+                    343.89630020936727,
+                    161.66082506203475,
+                    355.0315407878412,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "20"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "equal",
+          "text": "00 annual",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                198,
+                200
+              ],
+              "charIds": [
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s5",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22:s6"
+              ],
+              "text": "00",
+              "quads": [
+                [
+                  320,
+                  151.82,
+                  360.57,
+                  151.82,
+                  320,
+                  161.07,
+                  360.57,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i22",
+                  "scalarRange": [
+                    5,
+                    7
+                  ],
+                  "utf16Range": [
+                    5,
+                    7
+                  ],
+                  "itemText": "USD 100"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    349.45242710918114,
+                    150.27124689826303,
+                    360.58776037627945,
+                    150.27124689826303,
+                    349.45242710918114,
+                    161.66082506203475,
+                    360.58776037627945,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "00"
+              }
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                201,
+                207
+              ],
+              "charIds": [
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s0",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s1",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s2",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s3",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s4",
+                "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24:s5"
+              ],
+              "text": "annual",
+              "quads": [
+                [
+                  450,
+                  151.82,
+                  480.02,
+                  151.82,
+                  450,
+                  161.07,
+                  480.02,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:i24",
+                  "scalarRange": [
+                    0,
+                    6
+                  ],
+                  "utf16Range": [
+                    0,
+                    6
+                  ],
+                  "itemText": "annual"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    150.27124689826303,
+                    480.0249314225341,
+                    150.27124689826303,
+                    449.995114764268,
+                    161.66082506203475,
+                    480.0249314225341,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "annual"
+              }
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                199,
+                201
+              ],
+              "charIds": [
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s6",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22:s7"
+              ],
+              "text": "00",
+              "quads": [
+                [
+                  320,
+                  151.82,
+                  366.13,
+                  151.82,
+                  320,
+                  161.07,
+                  366.13,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i22",
+                  "scalarRange": [
+                    6,
+                    8
+                  ],
+                  "utf16Range": [
+                    6,
+                    8
+                  ],
+                  "itemText": "USD 2000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    355.0196766439206,
+                    150.27124689826303,
+                    366.1428677012252,
+                    150.27124689826303,
+                    355.0196766439206,
+                    161.66082506203475,
+                    366.1428677012252,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "00"
+              }
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                202,
+                208
+              ],
+              "charIds": [
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s0",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s1",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s2",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s3",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s4",
+                "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24:s5"
+              ],
+              "text": "annual",
+              "quads": [
+                [
+                  450,
+                  151.82,
+                  480.02,
+                  151.82,
+                  450,
+                  161.07,
+                  480.02,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:i24",
+                  "scalarRange": [
+                    0,
+                    6
+                  ],
+                  "utf16Range": [
+                    0,
+                    6
+                  ],
+                  "itemText": "annual"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    150.27124689826303,
+                    480.0249314225341,
+                    150.27124689826303,
+                    449.995114764268,
+                    161.66082506203475,
+                    480.0249314225341,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "annual"
+              }
+            }
+          ]
+        }
+      ],
+      "hasTextChange": true,
+      "facts": [],
+      "repeat": null,
+      "defaultVisible": true,
+      "matchEvidence": {
+        "method": "row-identity",
+        "score": null,
+        "details": [
+          "row-identity"
+        ]
+      },
+      "reviewReasons": [],
+      "occurrences": []
+    }
+  ],
+  "coverage": [],
+  "unresolved": [],
+  "alignment": [
+    {
+      "leftPage": 0,
+      "leftY": 39,
+      "rightPage": 0,
+      "rightY": 39
+    },
+    {
+      "leftPage": 0,
+      "leftY": 63,
+      "rightPage": 0,
+      "rightY": 63
+    },
+    {
+      "leftPage": 0,
+      "leftY": 83,
+      "rightPage": 0,
+      "rightY": 83
+    },
+    {
+      "leftPage": 0,
+      "leftY": 130,
+      "rightPage": 0,
+      "rightY": 130
+    },
+    {
+      "leftPage": 0,
+      "leftY": 159,
+      "rightPage": 0,
+      "rightY": 159
+    },
+    {
+      "leftPage": 0,
+      "leftY": 185,
+      "rightPage": 0,
+      "rightY": 185
+    },
+    {
+      "leftPage": 0,
+      "leftY": 211,
+      "rightPage": 0,
+      "rightY": 211
+    },
+    {
+      "leftPage": 0,
+      "leftY": 753,
+      "rightPage": 0,
+      "rightY": 753
+    }
+  ],
+  "stats": {
+    "leftScalars": 265,
+    "rightScalars": 266,
+    "candidates": 0,
+    "tokenProducts": 0,
+    "differenceCount": 1,
+    "occurrenceCount": 1
+  },
+  "diagnostics": []
+}

@@ -1,0 +1,928 @@
+[
+  {
+    "case": "P01",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "完全相同的输入",
+    "authorExpectations": [
+      "两份 PDF 字节相同，正文、金额、记录与位置均无作者修改。",
+      "不得生成内容变化；处理范围与覆盖状态仍需如实。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 0,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {},
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "字节相同，无卡、无未决、无覆盖缺口。",
+    "reviewCost": "0卡；无内容变化需查。",
+    "rawEvidencePath": "P01/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p01--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P01",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "完全相同的输入",
+    "authorExpectations": [
+      "两份 PDF 字节相同，正文、金额、记录与位置均无作者修改。",
+      "不得生成内容变化；处理范围与覆盖状态仍需如实。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 0,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {},
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "字节相同，无卡、无未决、无覆盖缺口。",
+    "reviewCost": "0卡；无内容变化需查。",
+    "rawEvidencePath": "P01/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p01--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P02",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "100 变为 2000，旁边另有 1000",
+    "authorExpectations": [
+      "1315 的 USD 100 变为 USD 2000；1760 的 USD 1000 未改。",
+      "变化须来自 1315 自己的实际编辑，金额必须完整；不得借邻行拼出答案。",
+      "可接受正确单卡或有各自完整来源的合法多卡。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "完整100→2000来自1315/Limit，邻行1000未被借用；两侧浏览器点击核对。",
+    "reviewCost": "1卡+核对1315金额。",
+    "rawEvidencePath": "P02/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p02--pdfjs",
+    "browserEvidencePrefix": "browser/P02-pdfjs"
+  },
+  {
+    "case": "P02",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "100 变为 2000，旁边另有 1000",
+    "authorExpectations": [
+      "1315 的 USD 100 变为 USD 2000；1760 的 USD 1000 未改。",
+      "变化须来自 1315 自己的实际编辑，金额必须完整；不得借邻行拼出答案。",
+      "可接受正确单卡或有各自完整来源的合法多卡。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "完整100→2000来自1315/Limit，邻行1000未被借用；两侧浏览器点击核对。",
+    "reviewCost": "1卡+核对1315金额。",
+    "rawEvidencePath": "P02/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p02--mupdf",
+    "browserEvidencePrefix": "browser/P02-mupdf"
+  },
+  {
+    "case": "P03",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "两个独立来源发生相同金额变化",
+    "authorExpectations": [
+      "1315 与 1760 各自独立发生一次 USD 100→USD 200。",
+      "必须保留两次出现的不同原文位置；允许完整聚合，不允许丢一次或重复消费同一处。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "1315与1760分别两卡、独立字符ID和不同作者框；两次来源齐全。",
+    "reviewCost": "2卡、两条记录。",
+    "rawEvidencePath": "P03/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p03--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P03",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "两个独立来源发生相同金额变化",
+    "authorExpectations": [
+      "1315 与 1760 各自独立发生一次 USD 100→USD 200。",
+      "必须保留两次出现的不同原文位置；允许完整聚合，不允许丢一次或重复消费同一处。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "1315与1760分别两卡、独立字符ID和不同作者框；两次来源齐全。",
+    "reviewCost": "2卡、两条记录。",
+    "rawEvidencePath": "P03/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p03--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P04",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "相邻记录的两项不同金额编辑",
+    "authorExpectations": [
+      "真实编辑分别是 1315:100→300、1760:400→200。",
+      "不得交换记录的另一侧，或拼成作者没有做过的 100→200。",
+      "本例检验产品实际产生的卡；拒绝人为伪造卡仍由原评分器探针证明。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "100→300和400→200各自记录正确，没有100→200虚构。",
+    "reviewCost": "2卡、两条记录。",
+    "rawEvidencePath": "P04/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p04--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P04",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "相邻记录的两项不同金额编辑",
+    "authorExpectations": [
+      "真实编辑分别是 1315:100→300、1760:400→200。",
+      "不得交换记录的另一侧，或拼成作者没有做过的 100→200。",
+      "本例检验产品实际产生的卡；拒绝人为伪造卡仍由原评分器探针证明。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "100→300和400→200各自记录正确，没有100→200虚构。",
+    "reviewCost": "2卡、两条记录。",
+    "rawEvidencePath": "P04/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p04--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P05",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "同一记录两格同额，只改后一格",
+    "authorExpectations": [
+      "只有 1315 的 War Limit 从 USD 100 变为 USD 200；Hull Limit 未改。",
+      "须人工结合作者布局与卡片来源检查列归属；原分诊的文字命中不能独立证明是哪一列。",
+      "不得从 1760 借金额，也不得把未改变的同额单元格当作本次变化来源。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "改变来源定位War Limit(x450)，同额Hull(x320)未作为改变；浏览器两侧确认。",
+    "reviewCost": "1卡+两列表头。",
+    "rawEvidencePath": "P05/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p05--pdfjs",
+    "browserEvidencePrefix": "browser/P05-pdfjs"
+  },
+  {
+    "case": "P05",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "同一记录两格同额，只改后一格",
+    "authorExpectations": [
+      "只有 1315 的 War Limit 从 USD 100 变为 USD 200；Hull Limit 未改。",
+      "须人工结合作者布局与卡片来源检查列归属；原分诊的文字命中不能独立证明是哪一列。",
+      "不得从 1760 借金额，也不得把未改变的同额单元格当作本次变化来源。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "改变来源定位War Limit(x450)，同额Hull(x320)未作为改变；浏览器两侧确认。",
+    "reviewCost": "1卡+两列表头。",
+    "rawEvidencePath": "P05/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p05--mupdf",
+    "browserEvidencePrefix": "browser/P05-mupdf"
+  },
+  {
+    "case": "P06",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "删除的原文行有两个相同金额格",
+    "authorExpectations": [
+      "原文中的 1315 行删除，其两个 USD 100 都来自该行；1760 与 2156 内容保留。",
+      "允许显示原文删除或未配内容；不得把文字删除直接表述成业务记录确定退出。",
+      "完整行恢复不能从另一记录借第二份相同金额。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "删除来源完整包括1315两个不同金额格，无邻行借用；未配原文不代表确定业务退出。",
+    "reviewCost": "1卡，区分纸面删除与业务退出。",
+    "rawEvidencePath": "P06/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p06--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P06",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "删除的原文行有两个相同金额格",
+    "authorExpectations": [
+      "原文中的 1315 行删除，其两个 USD 100 都来自该行；1760 与 2156 内容保留。",
+      "允许显示原文删除或未配内容；不得把文字删除直接表述成业务记录确定退出。",
+      "完整行恢复不能从另一记录借第二份相同金额。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "删除来源完整包括1315两个不同金额格，无邻行借用；未配原文不代表确定业务退出。",
+    "reviewCost": "1卡，区分纸面删除与业务退出。",
+    "rawEvidencePath": "P06/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p06--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P07",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "金额和位置相同，身份不同",
+    "authorExpectations": [
+      "旧原文为 1315 / Alpha Air，新原文为 9999 / Orion Air，金额都为 USD 100。",
+      "可分别展示两侧或保留身份未定；不得仅因金额或坐标相同，确定它们是同一业务记录。",
+      "作者 Added/Removed 仅描述纸面文字，不断言业务新增或退出。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "单侧Added/Removed、rowKey空，未凭同额同位确定业务同一。",
+    "reviewCost": "2卡，人工对照两个名称与编号。",
+    "rawEvidencePath": "P07/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p07--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P07",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "金额和位置相同，身份不同",
+    "authorExpectations": [
+      "旧原文为 1315 / Alpha Air，新原文为 9999 / Orion Air，金额都为 USD 100。",
+      "可分别展示两侧或保留身份未定；不得仅因金额或坐标相同，确定它们是同一业务记录。",
+      "作者 Added/Removed 仅描述纸面文字，不断言业务新增或退出。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "单侧Added/Removed、rowKey空，未凭同额同位确定业务同一。",
+    "reviewCost": "2卡，人工对照两个名称与编号。",
+    "rawEvidencePath": "P07/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p07--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P08",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "同一记录中的两项编辑不能交叉配对",
+    "authorExpectations": [
+      "1315 的 Hull 为 100→200，War 为 300→400。",
+      "同一记录也不能把两项编辑改写成 100→400 和 300→200；来源位置须对应具体单元格。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "Hull100→200、War300→400来自各自作者框，没有两项交叉。",
+    "reviewCost": "1卡内两项、两列核对。",
+    "rawEvidencePath": "P08/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p08--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P08",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "同一记录中的两项编辑不能交叉配对",
+    "authorExpectations": [
+      "1315 的 Hull 为 100→200，War 为 300→400。",
+      "同一记录也不能把两项编辑改写成 100→400 和 300→200；来源位置须对应具体单元格。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "Hull100→200、War300→400来自各自作者框，没有两项交叉。",
+    "reviewCost": "1卡内两项、两列核对。",
+    "rawEvidencePath": "P08/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p08--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P09",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "部分单元格换行的正向",
+    "authorExpectations": [
+      "1315 的普通续行中，per annum 变为 per month，金额未改。",
+      "保留正确归属与完整来源；不得把普通续行确定成另一条记录。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "rowKey1315、原文完整，普通续行编辑归属正确。",
+    "reviewCost": "1卡，含续行上下文。",
+    "rawEvidencePath": "P09/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p09--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P09",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "部分单元格换行的正向",
+    "authorExpectations": [
+      "1315 的普通续行中，per annum 变为 per month，金额未改。",
+      "保留正确归属与完整来源；不得把普通续行确定成另一条记录。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "rowKey1315、原文完整，普通续行编辑归属正确。",
+    "reviewCost": "1卡，含续行上下文。",
+    "rawEvidencePath": "P09/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p09--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P10",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "全格两行，名称由两个字体片段绘制",
+    "authorExpectations": [
+      "全格换行的局部歧义可保留原文及身份未定；(a) 不得成为确定行键。",
+      "相邻正常记录 456 的 2000→2500 应继续可核对。",
+      "必须查看实际两引擎 Doc：若未形成分片，此引擎仅覆盖换行，不能声称覆盖提取片段反例。"
+    ],
+    "compareExitCode": 2,
+    "triageExitCode": 0,
+    "processingStatus": "partial",
+    "cards": 11,
+    "unresolved": 2,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "not_evaluable": 2
+    },
+    "rawUnexplainedCards": 11,
+    "manualConclusion": "证据不足",
+    "manualBasis": "原文及金额两侧可点击，(a)无确定行键，2组未决；456新侧散在多张无归属卡。原文保留/保守身份已符合，自动记录归属未确认。",
+    "reviewCost": "11卡+2未决；旧456整行与新456、Beta、2500需跨卡看。",
+    "rawEvidencePath": "P10/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p10--pdfjs",
+    "browserEvidencePrefix": "browser/P10-pdfjs"
+  },
+  {
+    "case": "P10",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "全格两行，名称由两个字体片段绘制",
+    "authorExpectations": [
+      "全格换行的局部歧义可保留原文及身份未定；(a) 不得成为确定行键。",
+      "相邻正常记录 456 的 2000→2500 应继续可核对。",
+      "必须查看实际两引擎 Doc：若未形成分片，此引擎仅覆盖换行，不能声称覆盖提取片段反例。"
+    ],
+    "compareExitCode": 2,
+    "triageExitCode": 0,
+    "processingStatus": "partial",
+    "cards": 11,
+    "unresolved": 2,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "not_evaluable": 2
+    },
+    "rawUnexplainedCards": 11,
+    "manualConclusion": "证据不足",
+    "manualBasis": "原文及金额两侧可点击，(a)无确定行键，2组未决；456新侧散在多张无归属卡。原文保留/保守身份已符合，自动记录归属未确认。",
+    "reviewCost": "11卡+2未决；旧456整行与新456、Beta、2500需跨卡看。",
+    "rawEvidencePath": "P10/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p10--mupdf",
+    "browserEvidencePrefix": "browser/P10-mupdf"
+  },
+  {
+    "case": "P11",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "全格三行，第三行发生修改",
+    "authorExpectations": [
+      "第三行 annual→monthly 必须保留，(a)/(b) 不得被确定为独立记录号。",
+      "允许歧义逻辑行未评价；邻行 456 的金额修改仍单独核查。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "not_evaluable": 2
+    },
+    "rawUnexplainedCards": 2,
+    "manualConclusion": "已证实违约",
+    "manualBasis": "F1：789的USD3000未改，USD前缀却为delete并在浏览器红色高亮。第三行真实修改保留，无(a)/(b)错误行键；金额自动归属另为证据不足。",
+    "reviewCost": "2卡回看123、456、789三条记录，错误高亮需人工排除。",
+    "rawEvidencePath": "P11/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p11--pdfjs",
+    "browserEvidencePrefix": "browser/P11-pdfjs"
+  },
+  {
+    "case": "P11",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "全格三行，第三行发生修改",
+    "authorExpectations": [
+      "第三行 annual→monthly 必须保留，(a)/(b) 不得被确定为独立记录号。",
+      "允许歧义逻辑行未评价；邻行 456 的金额修改仍单独核查。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "not_evaluable": 2
+    },
+    "rawUnexplainedCards": 2,
+    "manualConclusion": "已证实违约",
+    "manualBasis": "F1：789的USD3000未改，USD前缀却为delete并在浏览器红色高亮。第三行真实修改保留，无(a)/(b)错误行键；金额自动归属另为证据不足。",
+    "reviewCost": "2卡回看123、456、789三条记录，错误高亮需人工排除。",
+    "rawEvidencePath": "P11/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p11--mupdf",
+    "browserEvidencePrefix": "browser/P11-mupdf"
+  },
+  {
+    "case": "P12",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "年份、百分号、币种表头应隔开身份范围",
+    "authorExpectations": [
+      "第一表删除MSN123的原文；第二表新增Registration123的原文，标题中含2026、%和USD。",
+      "不得跨表把两处123定成同一记录；原分诊不能单独证明表边界，需核对作者布局和产品来源。",
+      "保留未配原文或身份未定均可；不能推断业务记录进入/退出。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "表一旧MSN123与表二新Registration123为两个单侧卡；来源、作者表范围与浏览器点击相符，未跨表row-identity。",
+    "reviewCost": "2卡+两个不同表头。",
+    "rawEvidencePath": "P12/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p12--pdfjs",
+    "browserEvidencePrefix": "browser/P12-pdfjs"
+  },
+  {
+    "case": "P12",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "年份、百分号、币种表头应隔开身份范围",
+    "authorExpectations": [
+      "第一表删除MSN123的原文；第二表新增Registration123的原文，标题中含2026、%和USD。",
+      "不得跨表把两处123定成同一记录；原分诊不能单独证明表边界，需核对作者布局和产品来源。",
+      "保留未配原文或身份未定均可；不能推断业务记录进入/退出。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 2
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "表一旧MSN123与表二新Registration123为两个单侧卡；来源、作者表范围与浏览器点击相符，未跨表row-identity。",
+    "reviewCost": "2卡+两个不同表头。",
+    "rawEvidencePath": "P12/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p12--mupdf",
+    "browserEvidencePrefix": "browser/P12-mupdf"
+  },
+  {
+    "case": "P13",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "明确的页码表达变化",
+    "authorExpectations": [
+      "正文引用中的 Page 3 of 10 变为 Page 4 of 10，须保留原文变化。",
+      "允许声明页码表达变化，也允许不作分类；不得据此证明引用指向的实际页一定正确。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "Page3of10→4of10可见，facts空；作者允许不分类，未宣称真实页引用正确。",
+    "reviewCost": "1卡。",
+    "rawEvidencePath": "P13/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p13--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P13",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "明确的页码表达变化",
+    "authorExpectations": [
+      "正文引用中的 Page 3 of 10 变为 Page 4 of 10，须保留原文变化。",
+      "允许声明页码表达变化，也允许不作分类；不得据此证明引用指向的实际页一定正确。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "Page3of10→4of10可见，facts空；作者允许不分类，未宣称真实页引用正确。",
+    "reviewCost": "1卡。",
+    "rawEvidencePath": "P13/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p13--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P14",
+    "engine": "pdfjs",
+    "scope": "supported",
+    "authorTitle": "per page 后的金额、百分比与字面 #",
+    "authorExpectations": [
+      "三项作者编辑分别是100USD→200USD、10%→20%、两段Page表达及字面#的位置改变。",
+      "三项都不能被声称只是页码数字变化；允许不主动分类，须保留可见编辑与来源。",
+      "若产品未声明页码事实，只能说没有虚假声明，不能写成评分器已验证该事实为假。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 3,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 3
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "三项实际编辑保留、facts均空；仅确认无虚假页码声明，不冒充反事实评分验证。",
+    "reviewCost": "3卡。",
+    "rawEvidencePath": "P14/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p14--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "P14",
+    "engine": "mupdf",
+    "scope": "supported",
+    "authorTitle": "per page 后的金额、百分比与字面 #",
+    "authorExpectations": [
+      "三项作者编辑分别是100USD→200USD、10%→20%、两段Page表达及字面#的位置改变。",
+      "三项都不能被声称只是页码数字变化；允许不主动分类，须保留可见编辑与来源。",
+      "若产品未声明页码事实，只能说没有虚假声明，不能写成评分器已验证该事实为假。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 3,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {
+      "correct": 3
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "三项实际编辑保留、facts均空；仅确认无虚假页码声明，不冒充反事实评分验证。",
+    "reviewCost": "3卡。",
+    "rawEvidencePath": "P14/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#p14--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "E01",
+    "engine": "pdfjs",
+    "scope": "boundary",
+    "authorTitle": "跨页续行，文字本身不变",
+    "authorExpectations": [
+      "逻辑记录文字相同，仅部分单元格续行移至第二页；作者布局文件保留两侧位置。",
+      "观察拆卡、未决和原文保留；不要求补齐通用跨页识别，既有R24边界保持。",
+      "不得凭空声称金额发生变化；changes为空表示没有文字增删，不能据此自动给移动检测打分。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {},
+    "rawUnexplainedCards": 2,
+    "manualConclusion": "证据不足",
+    "manualBasis": "边界：保留跨页文字，2卡以删除+新增表达，没有金额变化；完整跨页移动对应未评价。",
+    "reviewCost": "2卡、两页人工拼接。",
+    "rawEvidencePath": "E01/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#e01--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "E01",
+    "engine": "mupdf",
+    "scope": "boundary",
+    "authorTitle": "跨页续行，文字本身不变",
+    "authorExpectations": [
+      "逻辑记录文字相同，仅部分单元格续行移至第二页；作者布局文件保留两侧位置。",
+      "观察拆卡、未决和原文保留；不要求补齐通用跨页识别，既有R24边界保持。",
+      "不得凭空声称金额发生变化；changes为空表示没有文字增删，不能据此自动给移动检测打分。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 2,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {},
+    "rawUnexplainedCards": 2,
+    "manualConclusion": "证据不足",
+    "manualBasis": "边界：保留跨页文字，2卡以删除+新增表达，没有金额变化；完整跨页移动对应未评价。",
+    "reviewCost": "2卡、两页人工拼接。",
+    "rawEvidencePath": "E01/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#e01--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "E02",
+    "engine": "pdfjs",
+    "scope": "boundary",
+    "authorTitle": "表格整行重排，数值未改",
+    "authorExpectations": [
+      "顺序从1315/1760/2156变为2156/1315/1760；每条记录文字和金额均不变。",
+      "观察移动表达、拆卡和审阅负担；不要求本轮补齐R23的完整顺序核验。",
+      "不得凭空报金额变化；空changes不能自动证明重排被完整发现。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {},
+    "rawUnexplainedCards": 1,
+    "manualConclusion": "证据不足",
+    "manualBasis": "边界：单张Moved准确定位2156旧第三行到新第一行，没编造金额；没有评价完整三行重排。",
+    "reviewCost": "1卡+整表人工顺序核查。",
+    "rawEvidencePath": "E02/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#e02--pdfjs",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "E02",
+    "engine": "mupdf",
+    "scope": "boundary",
+    "authorTitle": "表格整行重排，数值未改",
+    "authorExpectations": [
+      "顺序从1315/1760/2156变为2156/1315/1760；每条记录文字和金额均不变。",
+      "观察移动表达、拆卡和审阅负担；不要求本轮补齐R23的完整顺序核验。",
+      "不得凭空报金额变化；空changes不能自动证明重排被完整发现。"
+    ],
+    "compareExitCode": 0,
+    "triageExitCode": 0,
+    "processingStatus": "complete_for_scope",
+    "cards": 1,
+    "unresolved": 0,
+    "coverage": 0,
+    "rawTriageVerdicts": {},
+    "rawUnexplainedCards": 1,
+    "manualConclusion": "证据不足",
+    "manualBasis": "边界：单张Moved准确定位2156旧第三行到新第一行，没编造金额；没有评价完整三行重排。",
+    "reviewCost": "1卡+整表人工顺序核查。",
+    "rawEvidencePath": "E02/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#e02--mupdf",
+    "browserEvidencePrefix": null
+  },
+  {
+    "case": "E03",
+    "engine": "pdfjs",
+    "scope": "boundary",
+    "authorTitle": "纯扫描图片中的金额变化",
+    "authorExpectations": [
+      "可见图像内1315的100→2000；文件没有可提取文字层。",
+      "不要求新增OCR；应明确图像文字未比较或覆盖不足，不能把空文本结果表述为整份文件无变化。"
+    ],
+    "compareExitCode": 2,
+    "triageExitCode": 0,
+    "processingStatus": "partial",
+    "cards": 0,
+    "unresolved": 0,
+    "coverage": 2,
+    "rawTriageVerdicts": {
+      "not_located": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "边界仅核对覆盖声明：0文字字符、2个image_only覆盖、partial，两引擎浏览器明确正文未比较。可见金额不在OCR能力内。",
+    "reviewCost": "0文字卡+2警告；必须人工看图片。",
+    "rawEvidencePath": "E03/pdfjs/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#e03--pdfjs",
+    "browserEvidencePrefix": "browser/E03-pdfjs"
+  },
+  {
+    "case": "E03",
+    "engine": "mupdf",
+    "scope": "boundary",
+    "authorTitle": "纯扫描图片中的金额变化",
+    "authorExpectations": [
+      "可见图像内1315的100→2000；文件没有可提取文字层。",
+      "不要求新增OCR；应明确图像文字未比较或覆盖不足，不能把空文本结果表述为整份文件无变化。"
+    ],
+    "compareExitCode": 2,
+    "triageExitCode": 0,
+    "processingStatus": "partial",
+    "cards": 0,
+    "unresolved": 0,
+    "coverage": 2,
+    "rawTriageVerdicts": {
+      "not_located": 1
+    },
+    "rawUnexplainedCards": 0,
+    "manualConclusion": "符合该项预期",
+    "manualBasis": "边界仅核对覆盖声明：0文字字符、2个image_only覆盖、partial，两引擎浏览器明确正文未比较。可见金额不在OCR能力内。",
+    "reviewCost": "0文字卡+2警告；必须人工看图片。",
+    "rawEvidencePath": "E03/mupdf/",
+    "sourceAudit": "source-audit.json",
+    "rawCardExcerpt": "raw-cards.md#e03--mupdf",
+    "browserEvidencePrefix": "browser/E03-mupdf"
+  }
+]

@@ -1,0 +1,35 @@
+case,engine,scope,authorTitle,processingStatus,cards,unresolved,coverage,rawTriageVerdicts,rawUnexplainedCards,manualConclusion,manualBasis,reviewCost,rawEvidencePath,sourceAudit,browserEvidencePrefix
+P01,pdfjs,supported,完全相同的输入,complete_for_scope,0,0,0,{},0,符合该项预期,字节相同，无卡、无未决、无覆盖缺口。,0卡；无内容变化需查。,P01/pdfjs/,source-audit.json,
+P01,mupdf,supported,完全相同的输入,complete_for_scope,0,0,0,{},0,符合该项预期,字节相同，无卡、无未决、无覆盖缺口。,0卡；无内容变化需查。,P01/mupdf/,source-audit.json,
+P02,pdfjs,supported,100 变为 2000，旁边另有 1000,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,完整100→2000来自1315/Limit，邻行1000未被借用；两侧浏览器点击核对。,1卡+核对1315金额。,P02/pdfjs/,source-audit.json,browser/P02-pdfjs
+P02,mupdf,supported,100 变为 2000，旁边另有 1000,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,完整100→2000来自1315/Limit，邻行1000未被借用；两侧浏览器点击核对。,1卡+核对1315金额。,P02/mupdf/,source-audit.json,browser/P02-mupdf
+P03,pdfjs,supported,两个独立来源发生相同金额变化,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,1315与1760分别两卡、独立字符ID和不同作者框；两次来源齐全。,2卡、两条记录。,P03/pdfjs/,source-audit.json,
+P03,mupdf,supported,两个独立来源发生相同金额变化,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,1315与1760分别两卡、独立字符ID和不同作者框；两次来源齐全。,2卡、两条记录。,P03/mupdf/,source-audit.json,
+P04,pdfjs,supported,相邻记录的两项不同金额编辑,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,100→300和400→200各自记录正确，没有100→200虚构。,2卡、两条记录。,P04/pdfjs/,source-audit.json,
+P04,mupdf,supported,相邻记录的两项不同金额编辑,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,100→300和400→200各自记录正确，没有100→200虚构。,2卡、两条记录。,P04/mupdf/,source-audit.json,
+P05,pdfjs,supported,同一记录两格同额，只改后一格,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,改变来源定位War Limit(x450)，同额Hull(x320)未作为改变；浏览器两侧确认。,1卡+两列表头。,P05/pdfjs/,source-audit.json,browser/P05-pdfjs
+P05,mupdf,supported,同一记录两格同额，只改后一格,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,改变来源定位War Limit(x450)，同额Hull(x320)未作为改变；浏览器两侧确认。,1卡+两列表头。,P05/mupdf/,source-audit.json,browser/P05-mupdf
+P06,pdfjs,supported,删除的原文行有两个相同金额格,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,删除来源完整包括1315两个不同金额格，无邻行借用；未配原文不代表确定业务退出。,1卡，区分纸面删除与业务退出。,P06/pdfjs/,source-audit.json,
+P06,mupdf,supported,删除的原文行有两个相同金额格,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,删除来源完整包括1315两个不同金额格，无邻行借用；未配原文不代表确定业务退出。,1卡，区分纸面删除与业务退出。,P06/mupdf/,source-audit.json,
+P07,pdfjs,supported,金额和位置相同，身份不同,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,单侧Added/Removed、rowKey空，未凭同额同位确定业务同一。,2卡，人工对照两个名称与编号。,P07/pdfjs/,source-audit.json,
+P07,mupdf,supported,金额和位置相同，身份不同,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,单侧Added/Removed、rowKey空，未凭同额同位确定业务同一。,2卡，人工对照两个名称与编号。,P07/mupdf/,source-audit.json,
+P08,pdfjs,supported,同一记录中的两项编辑不能交叉配对,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,Hull100→200、War300→400来自各自作者框，没有两项交叉。,1卡内两项、两列核对。,P08/pdfjs/,source-audit.json,
+P08,mupdf,supported,同一记录中的两项编辑不能交叉配对,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,Hull100→200、War300→400来自各自作者框，没有两项交叉。,1卡内两项、两列核对。,P08/mupdf/,source-audit.json,
+P09,pdfjs,supported,部分单元格换行的正向,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,rowKey1315、原文完整，普通续行编辑归属正确。,1卡，含续行上下文。,P09/pdfjs/,source-audit.json,
+P09,mupdf,supported,部分单元格换行的正向,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,rowKey1315、原文完整，普通续行编辑归属正确。,1卡，含续行上下文。,P09/mupdf/,source-audit.json,
+P10,pdfjs,supported,全格两行，名称由两个字体片段绘制,partial,11,2,0,{'not_evaluable': 2},11,证据不足,原文及金额两侧可点击，(a)无确定行键，2组未决；456新侧散在多张无归属卡。原文保留/保守身份已符合，自动记录归属未确认。,11卡+2未决；旧456整行与新456、Beta、2500需跨卡看。,P10/pdfjs/,source-audit.json,browser/P10-pdfjs
+P10,mupdf,supported,全格两行，名称由两个字体片段绘制,partial,11,2,0,{'not_evaluable': 2},11,证据不足,原文及金额两侧可点击，(a)无确定行键，2组未决；456新侧散在多张无归属卡。原文保留/保守身份已符合，自动记录归属未确认。,11卡+2未决；旧456整行与新456、Beta、2500需跨卡看。,P10/mupdf/,source-audit.json,browser/P10-mupdf
+P11,pdfjs,supported,全格三行，第三行发生修改,complete_for_scope,2,0,0,{'not_evaluable': 2},2,已证实违约,F1：789的USD3000未改，USD前缀却为delete并在浏览器红色高亮。第三行真实修改保留，无(a)/(b)错误行键；金额自动归属另为证据不足。,2卡回看123、456、789三条记录，错误高亮需人工排除。,P11/pdfjs/,source-audit.json,browser/P11-pdfjs
+P11,mupdf,supported,全格三行，第三行发生修改,complete_for_scope,2,0,0,{'not_evaluable': 2},2,已证实违约,F1：789的USD3000未改，USD前缀却为delete并在浏览器红色高亮。第三行真实修改保留，无(a)/(b)错误行键；金额自动归属另为证据不足。,2卡回看123、456、789三条记录，错误高亮需人工排除。,P11/mupdf/,source-audit.json,browser/P11-mupdf
+P12,pdfjs,supported,年份、百分号、币种表头应隔开身份范围,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,表一旧MSN123与表二新Registration123为两个单侧卡；来源、作者表范围与浏览器点击相符，未跨表row-identity。,2卡+两个不同表头。,P12/pdfjs/,source-audit.json,browser/P12-pdfjs
+P12,mupdf,supported,年份、百分号、币种表头应隔开身份范围,complete_for_scope,2,0,0,{'correct': 2},0,符合该项预期,表一旧MSN123与表二新Registration123为两个单侧卡；来源、作者表范围与浏览器点击相符，未跨表row-identity。,2卡+两个不同表头。,P12/mupdf/,source-audit.json,browser/P12-mupdf
+P13,pdfjs,supported,明确的页码表达变化,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,Page3of10→4of10可见，facts空；作者允许不分类，未宣称真实页引用正确。,1卡。,P13/pdfjs/,source-audit.json,
+P13,mupdf,supported,明确的页码表达变化,complete_for_scope,1,0,0,{'correct': 1},0,符合该项预期,Page3of10→4of10可见，facts空；作者允许不分类，未宣称真实页引用正确。,1卡。,P13/mupdf/,source-audit.json,
+P14,pdfjs,supported,per page 后的金额、百分比与字面 #,complete_for_scope,3,0,0,{'correct': 3},0,符合该项预期,三项实际编辑保留、facts均空；仅确认无虚假页码声明，不冒充反事实评分验证。,3卡。,P14/pdfjs/,source-audit.json,
+P14,mupdf,supported,per page 后的金额、百分比与字面 #,complete_for_scope,3,0,0,{'correct': 3},0,符合该项预期,三项实际编辑保留、facts均空；仅确认无虚假页码声明，不冒充反事实评分验证。,3卡。,P14/mupdf/,source-audit.json,
+E01,pdfjs,boundary,跨页续行，文字本身不变,complete_for_scope,2,0,0,{},2,证据不足,边界：保留跨页文字，2卡以删除+新增表达，没有金额变化；完整跨页移动对应未评价。,2卡、两页人工拼接。,E01/pdfjs/,source-audit.json,
+E01,mupdf,boundary,跨页续行，文字本身不变,complete_for_scope,2,0,0,{},2,证据不足,边界：保留跨页文字，2卡以删除+新增表达，没有金额变化；完整跨页移动对应未评价。,2卡、两页人工拼接。,E01/mupdf/,source-audit.json,
+E02,pdfjs,boundary,表格整行重排，数值未改,complete_for_scope,1,0,0,{},1,证据不足,边界：单张Moved准确定位2156旧第三行到新第一行，没编造金额；没有评价完整三行重排。,1卡+整表人工顺序核查。,E02/pdfjs/,source-audit.json,
+E02,mupdf,boundary,表格整行重排，数值未改,complete_for_scope,1,0,0,{},1,证据不足,边界：单张Moved准确定位2156旧第三行到新第一行，没编造金额；没有评价完整三行重排。,1卡+整表人工顺序核查。,E02/mupdf/,source-audit.json,
+E03,pdfjs,boundary,纯扫描图片中的金额变化,partial,0,0,2,{'not_located': 1},0,符合该项预期,边界仅核对覆盖声明：0文字字符、2个image_only覆盖、partial，两引擎浏览器明确正文未比较。可见金额不在OCR能力内。,0文字卡+2警告；必须人工看图片。,E03/pdfjs/,source-audit.json,browser/E03-pdfjs
+E03,mupdf,boundary,纯扫描图片中的金额变化,partial,0,0,2,{'not_located': 1},0,符合该项预期,边界仅核对覆盖声明：0文字字符、2个image_only覆盖、partial，两引擎浏览器明确正文未比较。可见金额不在OCR能力内。,0文字卡+2警告；必须人工看图片。,E03/mupdf/,source-audit.json,browser/E03-mupdf
