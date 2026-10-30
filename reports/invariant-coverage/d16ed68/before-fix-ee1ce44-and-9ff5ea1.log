@@ -1,0 +1,14 @@
+== scorer of ee1ce44
+     × R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell 76ms
+     × R26: a currency claim beside an amount cell that changes as declared still fails 11ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: 100,020 -> 200,020, Replaced, declared true: expected 'PASS' to be 'NOT_EVALUATED' // Object.is equality
+AssertionError: expected 'PASS' to be 'FAIL' // Object.is equality
+      Tests  2 failed | 137 skipped (139)
+== scorer of 9ff5ea1
+     × R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell 73ms
+     × R26: a currency claim beside an amount cell that changes as declared still fails 14ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: 100,020 -> 200,020, Replaced, declared true: expected true to be false // Object.is equality
+AssertionError: expected [ …(2) ] to include 'agreed_value_unchanged: card mixed cl…'
+      Tests  2 failed | 137 skipped (139)
