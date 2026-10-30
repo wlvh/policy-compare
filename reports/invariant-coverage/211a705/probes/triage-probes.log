@@ -1,0 +1,57 @@
+== TOOL = 'renewal-triage/24' (triage and test helpers of 9e9104f)
+-- unresolved-one-sided-row-triage-probe.py (PR #11 comment 6513806516)
+Added comment 6513806516: confidence unresolved: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Added control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed comment 6513806516: confidence unresolved: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Replaced, confidence unresolved: not_evaluable accepted=[] unexplained=1
+Replaced, confidence candidate: correct accepted=['r'] unexplained=0
+-- unresolved-over-wrong-rowkey-triage-probe.py (PR #11 comment 6514251883 B)
+Added rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Added rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
+Added control: no rowKey, unresolved: correct accepted=['n'] unexplained=0
+Added control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Removed rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Removed rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
+Removed control: no rowKey, unresolved: correct accepted=['n'] unexplained=0
+Removed control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Replaced, rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Replaced, rowKey 9999, unresolved: not_evaluable accepted=[] unexplained=1
+== TOOL = 'renewal-triage/25' (triage and test helpers of cb27454)
+-- unresolved-one-sided-row-triage-probe.py (PR #11 comment 6513806516)
+Added comment 6513806516: confidence unresolved: not_evaluable accepted=[] fullRowRecovered=False unexplained=1
+Added control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed comment 6513806516: confidence unresolved: not_evaluable accepted=[] fullRowRecovered=False unexplained=1
+Removed control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Replaced, confidence unresolved: not_evaluable accepted=[] unexplained=1
+Replaced, confidence candidate: correct accepted=['r'] unexplained=0
+-- unresolved-over-wrong-rowkey-triage-probe.py (PR #11 comment 6514251883 B)
+Added rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Added rowKey 9999, unresolved: not_evaluable accepted=[] unexplained=1
+Added control: no rowKey, unresolved: not_evaluable accepted=[] unexplained=1
+Added control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Removed rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Removed rowKey 9999, unresolved: not_evaluable accepted=[] unexplained=1
+Removed control: no rowKey, unresolved: not_evaluable accepted=[] unexplained=1
+Removed control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Replaced, rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Replaced, rowKey 9999, unresolved: not_evaluable accepted=[] unexplained=1
+== TOOL = 'renewal-triage/26' (triage and test helpers of 9b57000)
+-- unresolved-one-sided-row-triage-probe.py (PR #11 comment 6513806516)
+Added comment 6513806516: confidence unresolved: not_evaluable accepted=[] fullRowRecovered=False unexplained=1
+Added control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed comment 6513806516: confidence unresolved: not_evaluable accepted=[] fullRowRecovered=False unexplained=1
+Removed control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Replaced, confidence unresolved: not_evaluable accepted=[] unexplained=1
+Replaced, confidence candidate: correct accepted=['r'] unexplained=0
+-- unresolved-over-wrong-rowkey-triage-probe.py (PR #11 comment 6514251883 B)
+Added rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Added rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
+Added control: no rowKey, unresolved: not_evaluable accepted=[] unexplained=1
+Added control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Removed rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Removed rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
+Removed control: no rowKey, unresolved: not_evaluable accepted=[] unexplained=1
+Removed control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Replaced, rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Replaced, rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
