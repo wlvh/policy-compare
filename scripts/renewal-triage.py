@@ -93,7 +93,9 @@ A pure insertion or deletion on a card that also shows the other side counts onl
 makes it as one: a card replacing another word with it (earlier -> later) reports no insertion,
 unless the event's other edits account for the replaced text (renewal-triage/27). Within one
 source unit, a record identity counts for an edit only when nothing but the author row's own words
-and numbers lies between them (renewal-triage/28).
+and numbers lies between them (renewal-triage/28). A card adding or removing one copy of a repeated
+paragraph shows that addition or removal; a moved row is full only with every author cell
+(renewal-triage/29).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -125,7 +127,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/28'
+TOOL = 'renewal-triage/29'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -964,9 +966,12 @@ def paragraph_atom(atom, change, ctx):
     cands = [candidate(d, {side: t}, ctx['wanted'], 'not_applicable', 'paragraph event: no record identity')
              for d in held]
     # The card must add or remove the text: one that keeps it on the other side
-    # too (an unchanged move, unchanged context) does neither.
+    # too (an unchanged move, unchanged context) does neither, unless the card itself
+    # adds or removes this copy, every character of it changed (a second copy beside
+    # the first, PR #9 comment 6515226035).
     # Matched as the text was found: a longer number there is another text (PR #9 comment 6512254699).
-    hits = [d for d in held if not occurs(t, side_text(d, other))]
+    whole = lambda d: any(all(x[2] for x in span if x[0] != ' ') for span in found(d, side, t, wanted))
+    hits = [d for d in held if not occurs(t, side_text(d, other)) or whole(d)]
     if hits:
         return 'found', 'correct', hits, cands, [], ''
     if held:
@@ -1061,7 +1066,9 @@ def triage(change, result, declared, family, claimed):
             return norm(spliced((((r['page'], r['unitId']), r['rawRange'], source(k, r))
                                  for k in keys for r in (record or {}).get(k, [])), joined))
         full = None
-        if record and change['kind'] == 'Replaced':
+        # A moved row, too, is full only with every author cell, not by its opening (PR #11
+        # comment 6515146325).
+        if record and change['kind'] in ('Replaced', 'Moved'):
             # Each author cell needs its own stretch of the record text (r4417329496).
             full = all(len(allocate(row, text(side))) == len([c for c in row if c])
                        for side, row in (('left', lc or []), ('right', rc or [])))
