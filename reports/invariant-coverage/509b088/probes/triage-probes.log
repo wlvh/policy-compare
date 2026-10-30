@@ -1,0 +1,60 @@
+=== renewal-triage/21 (scripts/renewal-triage.py and tests/test_renewal_triage.py of cedf563 to c211a31)
+-- moved-and-split-row
+move, Replaced card changing only "Liability excluded/included": correct accepted=['r'] unexplained=0
+control: a Moved card for the paragraph: correct accepted=['m'] unexplained=0
+control: no card: not_located accepted=[] unexplained=0
+split, each card with units 1315 Hull and 1760 Alpha: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+control: the same units on one Replaced card (comment 6508818754): correct accepted=['r'] fullRowRecovered=False unexplained=0
+control: split, 1315 Alpha in its own unit: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+-- adjacency-from-whole-card
+Added comment 6512133284: split at [0, 14, 17, 21, 36]: correct fullRowRecovered=True unexplained=0
+Added control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Added control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+Removed comment 6512133284: split at [0, 14, 17, 21, 36]: correct fullRowRecovered=True unexplained=0
+Removed control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Removed control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+-- opposite-side-whole-number
+Added comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": not_located accepted=[] unexplained=1
+Added control: the paragraph itself kept on the other side: not_located accepted=[] unexplained=1
+Removed comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": not_located accepted=[] unexplained=1
+Removed control: the paragraph itself kept on the other side: not_located accepted=[] unexplained=1
+=== renewal-triage/22 (scripts/renewal-triage.py and tests/test_renewal_triage.py of cc99133)
+-- moved-and-split-row
+move, Replaced card changing only "Liability excluded/included": not_evaluable accepted=[] unexplained=1
+control: a Moved card for the paragraph: correct accepted=['m'] unexplained=0
+control: no card: not_located accepted=[] unexplained=0
+split, each card with units 1315 Hull and 1760 Alpha: split_attributable accepted=['c', 'g'] fullRowRecovered=False unexplained=0
+control: the same units on one Replaced card (comment 6508818754): correct accepted=['r'] fullRowRecovered=False unexplained=0
+control: split, 1315 Alpha in its own unit: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+-- adjacency-from-whole-card
+Added comment 6512133284: split at [0, 14, 17, 21, 36]: correct fullRowRecovered=True unexplained=0
+Added control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Added control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+Removed comment 6512133284: split at [0, 14, 17, 21, 36]: correct fullRowRecovered=True unexplained=0
+Removed control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Removed control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+-- opposite-side-whole-number
+Added comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": not_located accepted=[] unexplained=1
+Added control: the paragraph itself kept on the other side: not_located accepted=[] unexplained=1
+Removed comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": not_located accepted=[] unexplained=1
+Removed control: the paragraph itself kept on the other side: not_located accepted=[] unexplained=1
+=== renewal-triage/23 (scripts/renewal-triage.py and tests/test_renewal_triage.py of 509b088)
+-- moved-and-split-row
+move, Replaced card changing only "Liability excluded/included": not_evaluable accepted=[] unexplained=1
+control: a Moved card for the paragraph: correct accepted=['m'] unexplained=0
+control: no card: not_located accepted=[] unexplained=0
+split, each card with units 1315 Hull and 1760 Alpha: split_attributable accepted=['c', 'g'] fullRowRecovered=False unexplained=0
+control: the same units on one Replaced card (comment 6508818754): correct accepted=['r'] fullRowRecovered=False unexplained=0
+control: split, 1315 Alpha in its own unit: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+-- adjacency-from-whole-card
+Added comment 6512133284: split at [0, 14, 17, 21, 36]: partly_located fullRowRecovered=False unexplained=0
+Added control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Added control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+Removed comment 6512133284: split at [0, 14, 17, 21, 36]: partly_located fullRowRecovered=False unexplained=0
+Removed control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Removed control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+-- opposite-side-whole-number
+Added comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": correct accepted=['r'] unexplained=0
+Added control: the paragraph itself kept on the other side: not_located accepted=[] unexplained=1
+Removed comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": correct accepted=['r'] unexplained=0
+Removed control: the paragraph itself kept on the other side: not_located accepted=[] unexplained=1

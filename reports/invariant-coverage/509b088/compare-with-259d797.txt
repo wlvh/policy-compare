@@ -1,0 +1,4 @@
+rules-mupdf identical to 259d797 apart from commit; top-level fields differing: ['commit']
+rules-pdfjs identical to 259d797 apart from commit; top-level fields differing: ['commit']
+browser-rules-mupdf identical to 259d797 apart from commit; top-level fields differing: []
+browser-rules-pdfjs identical to 259d797 apart from commit; top-level fields differing: []
