@@ -1,0 +1,3 @@
+Codex: two Replaced cards, the paragraph kept on each page, only "Liability excluded." -> "included." changes: split_attributable accepted=['p11', 'p12'] unexplained=0
+control: Removed on page 11, Added on page 12: split_attributable accepted=['n', 'o'] unexplained=0
+control: one Moved card from page 11 to 12: correct accepted=['m'] unexplained=0
