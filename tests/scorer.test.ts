@@ -2015,15 +2015,15 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       expect.stringContaining("states occurrence or page counts that differ"),
     ]);
   });
-  it("a repeated line's variant holds no other line's text, in a table extracted column by column (Codex PR #9 comment 6510906577)", () => {
-    // `MSN | Operator | Value` heads a table on each of 2 pages before and 3 after, each page with its own
-    // rows. The characters are in column order with an inferred newline (a separator line) between
-    // cells, so the raw text between two heading cells holds that column's data cells.
-    const table = (pages: string[][][]) => {
+  // `MSN | Operator | Value` heads a table on each page, each page with its own rows. The characters are
+  // in column order with an inferred newline (a separator line) between cells, so the raw text between
+  // two heading cells holds that column's data cells; on the pages listed in `rightToLeft` the columns
+  // are extracted from the right. Each row line lists its characters left to right.
+  const columnTable = (pages: string[][][], rightToLeft: number[] = []) => {
       const doc = textDoc(pages.map((_, page) => ({ text: "x", page, y: 800 })));
       doc.pages.forEach((p, page) => {
         const cells = pages[page].flatMap((row, i) => row.map((text, k) => ({ text, x: [40, 200, 400][k], y: 60 + 30 * i, row: i })));
-        cells.sort((a, b) => a.x - b.x || a.y - b.y);
+        cells.sort((a, b) => (rightToLeft.includes(page) ? b.x - a.x : a.x - b.x) || a.y - b.y);
         const line = (id: string, y: number) => ({ id, charIds: [] as string[], direction: [1, 0] as [number, number], writingMode: "horizontal" as const, baseline: [40, y] as [number, number], baselineProvenance: "synthetic" as const });
         const rows = pages[page].map((_, i) => line(`r${i}`, 60 + 30 * i)), separators = line("s", 820);
         const [model] = p.chars;
@@ -2041,9 +2041,11 @@ describe("result format 2: stated facts and form-only changes in controls", () =
         p.lines = [...rows, separators];
       });
       return doc;
-    };
-    const head = ["MSN", "Operator", "Value"],
-      rows = [[["123", "Alpha", "USD 100"], ["456", "Beta", "USD 200"]], [["789", "Gamma", "USD 300"]], [["321", "Delta", "USD 400"]]];
+  };
+  const columnHead = ["MSN", "Operator", "Value"],
+    columnRows = [[["123", "Alpha", "USD 100"], ["456", "Beta", "USD 200"]], [["789", "Gamma", "USD 300"]], [["321", "Delta", "USD 400"]]];
+  it("a repeated line's variant holds no other line's text, in a table extracted column by column (Codex PR #9 comment 6510906577)", () => {
+    const [head, rows, table] = [columnHead, columnRows, columnTable];
     const [left, right] = [table(rows.slice(0, 2).map((r) => [head, ...r])), table(rows.map((r) => [head, ...r]))];
     expect(left.pages[0].chars.map((c) => c.text).join("")).toBe("MSN\n123\n456\nOperator\nAlpha\nBeta\nValue\nUSD 100\nUSD 200");
     const graded = (mutate: (d: Difference) => void = () => {}) => {
@@ -2058,6 +2060,19 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     expect(graded((d) => (d.repeat!.right = 2)).faults).toEqual([
       expect.stringContaining("states occurrence or page counts that differ"),
     ]);
+  });
+  // Codex PR #9 comment 6514840841: the cells of one occurrence are read in the order the card cites
+  // them, not in raw extraction order, so a heading whose columns one page extracts from the right is
+  // the same variant as on the other pages.
+  it("a repeated heading extracted right to left on one page is one variant with the others", () => {
+    const pages = (n: number) => columnRows.slice(0, n).map((r) => [columnHead, ...r]);
+    const [left, right] = [columnTable(pages(2), [1]), columnTable(pages(3), [1])];
+    expect(left.pages[1].chars.map((c) => c.text).join("")).toBe("Value\nUSD 300\nOperator\nGamma\nMSN\n789");
+    const result = compare(left, right);
+    const card = result.differences.find((d) => d.repeat)!;
+    expect(card.repeat).toMatchObject({ left: 2, right: 3 });
+    const expected: Expected = { case_id: "columns", required_status: result.status, events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+    expect(grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]).faults).toEqual([]);
   });
   it("a page counter printed other than plainly stays as printed in its variant (#2's r4417060269)", () => {
     // Page 1 .. Page 4; the third becomes "Page 03". Only a plainly printed counter is read against
