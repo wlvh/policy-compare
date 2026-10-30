@@ -1,0 +1,5 @@
+# final triage tests (426565731ab678d45799fcdec47657ee29e9504a) with scripts/renewal-triage.py of cc99133 (renewal-triage/22)
+FAIL: test_a_join_is_read_where_the_card_shows_it_not_anywhere_on_the_card (test_renewal_triage.AddedRemovedRows.test_a_join_is_read_where_the_card_shows_it_not_anywhere_on_the_card)
+FAIL: test_a_longer_number_on_the_other_side_is_not_the_paragraph (test_renewal_triage.TheOtherSideHoldsWholeNumbers.test_a_longer_number_on_the_other_side_is_not_the_paragraph)
+Ran 70 tests in 0.462s
+FAILED (failures=2)
