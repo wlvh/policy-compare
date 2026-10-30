@@ -203,7 +203,7 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count; on one card, or one record's delete and add cards, amounts left on both sides once the events whose evidence it edits on both sides are taken out pair different events: this fails where an event changing an amount stands behind them, and is NOT_EVALUATED where only events that only remove or only add one do); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
     tests: [
       "R26: correct registration card plus a wrong agreed-value card fails",
       "R26: a wrong bare-number amount card fails whatever field it claims",
@@ -231,12 +231,13 @@ export const INVARIANTS: Record<
       "R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell",
       "R26: a currency claim beside an amount cell that changes as declared still fails",
       "R26: a declared amount change of one record does not excuse the same amounts paired across other records",
+      "R26: two declared amount changes do not excuse a card pairing one's old amount with the other's new amount",
       "R26: row-wide locations that layout.json does not cover are NOT_EVALUATED",
     ],
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events (an event's amounts excuse only cards whose delete or insert operations edit a run its evidence names; unchanged context does not count; on one card, or one record's delete and add cards, amounts left on both sides once the events whose evidence it edits on both sides are taken out pair different events: this fails where an event changing an amount stands behind them, and is NOT_EVALUATED where only events that only remove or only add one do); the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in amount cells whose whole amounts change only as the case's events declare, claims are not verified against that change (NOT_EVALUATED), while claims in the card's other cells, currency cells included, must still match, also when the card text shows the declared change; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
     tests: [
       "R11: correct label card plus a wrong",
       "R11: a wrong bare-number amount card filed under a non-amount field fails",
@@ -412,7 +413,8 @@ function moneyChanges(
     after: new Set((expected.evidence_locations[e.event_id]?.after ?? []).map((r) => `${r.page_index}/${r.run_id}`)),
   }));
   // The runs the card (or delete/add group) under judgement cites on each side; see allowed().
-  let scope = { left: new Set<string>(), right: new Set<string>() };
+  // `paired`: one card, or one record's delete and add cards, whose two sides are compared as one change.
+  let scope = { left: new Set<string>(), right: new Set<string>(), paired: false };
   const unexplained = new Set<string>();
   const bare = (t: string) => minus(money(t, true), money(t));
   const inside = (a: number[], b: number[]) => overlap(a, b) > 0.5 * Math.min(area(a), area(b));
@@ -543,13 +545,27 @@ function moneyChanges(
     );
   // An event's removed (added) amounts excuse only cards whose old (new) side edits a run its evidence
   // names (Codex PR #11 comment 6517617194: record A's declared 100020 -> 200020 excused a card pairing
-  // record B's unchanged 100020 with record C's unchanged 200020).
-  const allowed = (r: string[], a: string[]) => {
-    const meets = (runs: Set<string>, cited: Set<string>) => [...runs].some((k) => cited.has(k));
-    const removed = deltas.filter((e) => meets(e.before, scope.left)).flatMap((e) => e.removed),
-      added = deltas.filter((e) => meets(e.after, scope.right)).flatMap((e) => e.added);
-    return !minus(r, removed).length && !minus(a, added).length;
+  // record B's unchanged 100020 with record C's unchanged 200020). One card, or one record's delete and
+  // add cards, also pairs its two sides (Codex PR #11 comment 6518612374: with A's 100,020 -> 200,020
+  // and B's 300,040 -> 400,040 declared, a card pairing A's 100,020 with B's 400,040 passed). Once the
+  // events whose evidence it edits on both sides are taken out, amounts left on both sides are paired
+  // across events: "no" where an event that changes an amount stands behind them, "open" where only
+  // events that remove or only add one do, as nothing either event declares contradicts the pairing.
+  const allowance = (r: string[], a: string[]): "yes" | "open" | "no" => {
+    const meets = (runs: Set<string>, cited: Set<string>) => [...runs].some((k) => cited.has(k)),
+      ls = deltas.filter((e) => meets(e.before, scope.left)),
+      rs = deltas.filter((e) => meets(e.after, scope.right)),
+      removed = (es: typeof deltas) => es.flatMap((e) => e.removed),
+      added = (es: typeof deltas) => es.flatMap((e) => e.added);
+    if (minus(r, removed(ls)).length || minus(a, added(rs)).length) return "no";
+    const both = ls.filter((e) => rs.includes(e)),
+      [r1, a1] = [minus(r, removed(both)), minus(a, added(both))];
+    if (!scope.paired || !r1.length || !a1.length) return "yes";
+    const oneSided = (e: (typeof deltas)[number]) => !e.removed.length || !e.added.length;
+    return minus(r1, removed(ls.filter(oneSided))).length || minus(a1, added(rs.filter(oneSided))).length ? "no" : "open";
   };
+  const allowed = (r: string[], a: string[]) => allowance(r, a) === "yes";
+  const PAIRING_OPEN = "amounts of different declared events that only remove or only add one; the pairing is not verified";
   // The claims of both sides compared without the amount cells whose whole amounts change only as the
   // case's events declare (`rv`, `av` allowed; a cell counts when one of its amounts is in them). Claims
   // inside those cells belong to that change and are not verified against it character by character
@@ -602,15 +618,16 @@ function moneyChanges(
   for (const d of result.differences.filter((d) => d.kind === "Replaced" || d.kind === "Moved")) {
     const L = cardMoney(d, "left"),
       R = cardMoney(d, "right");
-    scope = { left: L.runs, right: R.runs };
+    scope = { left: L.runs, right: R.runs, paired: true };
     const r = minus(L.all, R.all),
       a = minus(R.all, L.all),
       rc = minus(tokens(L.claimed, L.editedCells), tokens(R.claimed, R.editedCells)),
       ac = minus(tokens(R.claimed, R.editedCells), tokens(L.claimed, L.editedCells));
     const rv = minus(cellAmounts(L.editedCells), cellAmounts(R.editedCells)),
       av = minus(cellAmounts(R.editedCells), cellAmounts(L.editedCells));
-    if ((r.length || a.length) && !allowed(r, a))
-      out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
+    const pairs = r.length || a.length ? allowance(r, a) : "yes";
+    if (pairs === "no") out.push(`card ${d.id} changes ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
+    else if (pairs === "open") unexplained.add(`card ${d.id} pairs ${r.join(",")} with ${a.join(",")}, ${PAIRING_OPEN}`);
     else if (r.length || a.length) {
       const o = claimsBeyond(L.claimed, L.editedCells, R.claimed, R.editedCells, rv, av);
       if (otherClaims(o))
@@ -676,7 +693,7 @@ function moneyChanges(
   if (across.length)
     out.push(`cards ${across[0].join(" and ")} cite the same source characters of an amount or currency cell under different claimed records: one edit is reported twice`);
   for (const [key, g] of records) {
-    scope = { left: g.goneRuns, right: g.comeRuns };
+    scope = { left: g.goneRuns, right: g.comeRuns, paired: true };
     // Within a record, a source cell that several cards of one side cite counts once; the per-card
     // sums (g.gone / g.come) only tell whether that alone made the values balance.
     const gone = [...g.goneText, ...[...g.goneCells.values()].flatMap(bare)],
@@ -697,7 +714,9 @@ function moneyChanges(
       unexplained.add(`record ${key} delete/add cards split one amount or currency cell over several cards; their values cannot be counted reliably`);
     else if (r.length && a.length) {
       const o = claimsBeyond(g.goneClaimed, g.goneEdited, g.comeClaimed, g.comeEdited, rv, av);
-      if (!allowed(r, a)) out.push(`record ${key} delete/add cards change ${r.join(",")} to ${a.join(",")}`);
+      const pairs = allowance(r, a);
+      if (pairs === "no") out.push(`record ${key} delete/add cards change ${r.join(",")} to ${a.join(",")}`);
+      else if (pairs === "open") unexplained.add(`record ${key} delete/add cards pair ${r.join(",")} with ${a.join(",")}, ${PAIRING_OPEN}`);
       else if (otherClaims(o))
         out.push(`record ${key} delete/add cards show declared amount changes, yet claim ${o.rc.join(",") || "-"} to ${o.ac.join(",") || "-"} inside amount or currency cells that keep their values`);
     } else {
@@ -728,7 +747,7 @@ function moneyChanges(
         unexplained.add(`record ${key} delete/add cards change letters inside an amount cell that form no whole amount or currency code`);
     }
   }
-  scope = { left: pool.goneRuns, right: pool.comeRuns };
+  scope = { left: pool.goneRuns, right: pool.comeRuns, paired: false };
   const r = minus(pool.gone, pool.come),
     a = minus(pool.come, pool.gone),
     rc = minus(tokens(pool.goneClaimed, pool.goneEdited), tokens(pool.comeClaimed, pool.comeEdited)),

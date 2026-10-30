@@ -1335,6 +1335,53 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(context(true, false)).toBe("FAIL");
     expect(context(false, true)).toBe("FAIL");
   });
+  // Codex PR #11 comment 6518612374: with SYN-1026-001's 100020 -> 200020 and SYN-1026-003's 300040 ->
+  // 400040 both declared, one card pairing the first record's old amount with the second's new amount
+  // edits evidence of both events, yet matches neither.
+  it("R26: two declared amount changes do not excuse a card pairing one's old amount with the other's new amount", () => {
+    const make = (shape: "across" | "own" | "both" | "group" | "pool", events: "changes" | "one-sided" = "changes") => {
+      const x = r26(true, ["100020", "300040"], undefined, ["200020", "400040"]);
+      const [l, r] = x.docs;
+      const [A, B] = [
+        ["SYN-1026-001", "l5", "100020", "200020"],
+        ["SYN-1026-003", "l10", "300040", "400040"],
+      ];
+      for (const [i, [row, run, old, now]] of [A, B].entries()) {
+        const id = `R26_key_change:E${i + 2}`,
+          oneSided = events === "one-sided";
+        x.expected.events.push({ ...x.expected.events[0], event_id: id, logical_path: `aircraft_schedule.${row}.agreed_value`, old: oneSided && i === 1 ? null : old, new: oneSided && i === 0 ? null : now, operation: oneSided ? (i === 0 ? "delete" : "insert") : "replace" });
+        x.expected.evidence_locations[id] = { before: oneSided && i === 1 ? [] : [{ page_index: 0, run_id: run }], after: oneSided && i === 0 ? [] : [{ page_index: 0, run_id: run }] };
+      }
+      const [La, Ra, Lb, Rb] = [lineLoc(l, "left", "l5"), lineLoc(r, "right", "l5"), lineLoc(l, "left", "l10"), lineLoc(r, "right", "l10")];
+      const card = (id: string, left: SourceLocation[], right: SourceLocation[]): Difference => ({ ...x.wrong, id, left, right, oldText: left.map((c) => c.text).join(" "), newText: right.map((c) => c.text).join(" "), textOps: [
+        ...left.map((c, k) => ({ kind: "delete" as const, text: c.text + (k < left.length - 1 ? " " : ""), left: [c], right: [] })),
+        ...right.map((c, k) => ({ kind: "insert" as const, text: c.text + (k < right.length - 1 ? " " : ""), left: [], right: [c] })),
+      ] });
+      if (shape === "across") x.result.differences.push(card("across", [La], [Rb]));
+      if (shape === "own") x.result.differences.push(card("own-a", [La], [Ra]), card("own-b", [Lb], [Rb]));
+      if (shape === "both") x.result.differences.push(card("both", [La, Lb], [Ra, Rb]));
+      if (shape === "group" || shape === "pool") {
+        const key = shape === "group" ? "SYN-1026-001" : null;
+        x.result.differences.push(oneSided("Removed", "out", La, key), oneSided("Added", "in", Rb, key));
+      }
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      const score = grade(x.result, x.expected, x.layout, x.docs);
+      return { result: score.invariants.find((i) => i.name === "agreed_value_unchanged")?.result, notEvaluated: score.notEvaluated.map((n) => n.invariant) };
+    };
+    expect(make("across").result).toBe("FAIL");
+    // The same pairing on one record's delete and add cards claims one record's change too.
+    expect(make("group").result).toBe("FAIL");
+    // Controls: each record's own card, or one card with both records, matches the events.
+    expect(make("own").result).toBe("PASS");
+    expect(make("both").result).toBe("PASS");
+    // Delete and add cards without a record pair nothing: each amount is one event's.
+    expect(make("pool").result).toBe("PASS");
+    // When one event only removes an amount and the other only adds one, a card pairing them shows
+    // nothing either event contradicts; the pairing is not verified.
+    const open = make("across", "one-sided");
+    expect(open.result).toBe("NOT_EVALUATED");
+    expect(open.notEvaluated).toContain("agreed_value_unchanged");
+  });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
   it("R26: two delete + add pairs citing the same source characters fail, whatever keys they claim", () => {
