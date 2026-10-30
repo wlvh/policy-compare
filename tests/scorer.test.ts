@@ -807,6 +807,37 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("agreed_value_unchanged");
+    // A card whose operations edit only the sign inside the cell, "-" -> "+" for -100,020 -> +100,020
+    // (PR #11 comment 6511081378): the edited characters form no amount, but the amount of the cell
+    // they belong to changes. Also as a delete + add pair on the record, and for a separator alone.
+    const signed = (oldCell: string, newCell: string, at: [number, number]) => {
+      const z = r26(false, [oldCell, "200,000"], undefined, [newCell, "200,000"]);
+      const [L5, R5] = [z.wrong.left[0], lineLoc(z.docs[1], "right", "l5")];
+      const [L1, R1] = [slice(L5, at[0], at[1]), slice(R5, at[0], at[1])];
+      return { z, L1, R1 };
+    };
+    for (const [name, oldCell, newCell, at] of [["sign", "-100,020", "+100,020", [0, 1]], ["separator", "100,020", "100.020", [3, 4]]] as const) {
+      const { z, L1, R1 } = signed(oldCell, newCell, [...at]);
+      z.result.differences.push({ ...z.wrong, id: "glyph", left: [L1], right: [R1], oldText: L1.text, newText: R1.text, textOps: [{ kind: "delete", text: L1.text, left: [L1], right: [] }, { kind: "insert", text: R1.text, left: [], right: [R1] }] });
+      expect(ResultSchema.safeParse(z.result).success, name).toBe(true);
+      const score = grade(z.result, z.expected, z.layout, z.docs);
+      expect(score.status, name).toBe("FAIL");
+      // The separator case is caught already through the new cell's bare number 100.020.
+      if (name === "sign") expect(score.faults, name).toContain(`agreed_value_unchanged: card glyph edits amount cells whose amounts change ${oldCell} to ${newCell}`);
+      else expect(score.faults.some((f) => f.startsWith("agreed_value_unchanged: card glyph")), name).toBe(true);
+    }
+    {
+      const { z, L1, R1 } = signed("-100,020", "+100,020", [0, 1]);
+      const path = { ...z.wrong.structurePath! };
+      z.result.differences.push(
+        { ...z.wrong, id: "gone", kind: "Removed", structurePath: path, left: [L1], right: [], oldText: "-", newText: "", textOps: [{ kind: "delete", text: "-", left: [L1], right: [] }] },
+        { ...z.wrong, id: "come", kind: "Added", structurePath: path, left: [], right: [R1], oldText: "", newText: "+", textOps: [{ kind: "insert", text: "+", left: [], right: [R1] }] },
+      );
+      expect(ResultSchema.safeParse(z.result).success).toBe(true);
+      const score = grade(z.result, z.expected, z.layout, z.docs);
+      expect(score.status, "delete + add").toBe("FAIL");
+      expect(score.faults, "delete + add").toContain("agreed_value_unchanged: record SYN-1026-001|agreed_value delete/add cards edit amount cells whose amounts change -100,020 to +100,020");
+    }
     // Control: a hyphen between numbers is no sign; "1-100,000" keeps the amount 100,000.
     const y = r26(false, ["1-100,000", "200,000"]);
     expect(grade(y.result, y.expected, y.layout, y.docs).status).toBe("PASS");

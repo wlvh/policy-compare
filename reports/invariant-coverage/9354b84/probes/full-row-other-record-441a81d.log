@@ -1,0 +1,4 @@
+# 441a81d (/18), comment 6508818754:
+comment 6508818754: unit a 1315 Hull, unit b 1760 Alpha on one card: correct accepted=['two'] fullRowRecovered=True unexplained=0
+control: unit a alone (no Alpha): correct accepted=['a'] fullRowRecovered=False unexplained=0
+control: 1315 Alpha on its own unit: correct accepted=['ok'] fullRowRecovered=True unexplained=0

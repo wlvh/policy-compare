@@ -1,0 +1,34 @@
+ WARN  Unsupported engine: wanted: {"node":">=24 <25"} (current: {"node":"v22.22.0","pnpm":"10.12.1"})
+
+> policy-compare@0.1.0 verify:core /home/user/policy-compare
+> vitest run
+
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ✓ tests/row-identity-evidence.test.ts (29 tests) 406ms
+ ✓ tests/page-furniture.test.ts (26 tests) 585ms
+ ✓ tests/table-scope.test.ts (26 tests) 228ms
+ ✓ tests/result-format-2.test.ts (24 tests) 226ms
+ ✓ tests/cosmetic-evidence.test.ts (21 tests) 237ms
+ ✓ tests/page-counts.test.ts (7 tests) 218ms
+ ✓ tests/scorer.test.ts (125 tests) 1584ms
+ ✓ tests/server.test.ts (1 test) 138ms
+ ✓ tests/review-core.test.ts (13 tests) 166ms
+ ✓ tests/row-identity.test.ts (12 tests) 122ms
+ ✓ tests/margin-text.test.ts (16 tests) 137ms
+ ✓ tests/core.test.ts (8 tests) 72ms
+ ✓ tests/alignment.test.ts (4 tests) 60ms
+ ✓ tests/boundary.test.ts (2 tests) 11ms
+ ✓ tests/contracts.test.ts (4 tests) 11ms
+
+ Test Files  15 passed (15)
+      Tests  318 passed (318)
+   Start at  23:25:20
+   Duration  2.87s (tests 67%, import 25%, transform 7%, worker 1%)
+
+    Isolate  15 workers spawned · ~122ms startup each (spawn + environment, per file)
+             at least ~490ms faster with isolate: false — reuses workers across files instead of one per file
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
+exit 0
