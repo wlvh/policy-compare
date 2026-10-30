@@ -972,16 +972,22 @@ const counters = (t: string) => [...t.matchAll(PAGE_EXPRESSION)].map((m) => m[1]
 // 03" or a counter in digits Number() cannot read stays as printed, its own variant.
 const plain = (n: string) => String(Number(n)) === n;
 const sideText = (locs: SourceLocation[]) => locs.map((l) => l.text).join("");
-// The source text of some locations: on each page, every character from the first location's start
-// to the last one's end in raw order, so whitespace between two cited pieces is kept as printed.
+// The source text of some locations: on each page, the characters of the lines they cite from the
+// first location's start to the last one's end in raw order, so whitespace between two cited pieces
+// of a line is kept as printed. Another line's characters are not part of it, even where the raw
+// order puts them between two cited pieces (a table extracted column by column, Codex PR #9 comment
+// 6510906577).
 const sourceText = (locs: SourceLocation[], doc: DocInput) =>
   [...new Set(locs.map((l) => l.pageIndex))]
     .sort((a, b) => a - b)
     .map((page) => {
       const on = locs.filter((l) => l.pageIndex === page),
-        [lo, hi] = [Math.min(...on.map((l) => l.rawRange[0])), Math.max(...on.map((l) => l.rawRange[1]))];
-      return (doc.pages[page]?.chars ?? [])
-        .filter((c) => c.rawRange[0] >= lo && c.rawRange[1] <= hi)
+        [lo, hi] = [Math.min(...on.map((l) => l.rawRange[0])), Math.max(...on.map((l) => l.rawRange[1]))],
+        chars = doc.pages[page]?.chars ?? [],
+        cited = new Set(chars.filter((c) => on.some((l) => c.rawRange[0] >= l.rawRange[0] && c.rawRange[1] <= l.rawRange[1])).map((c) => c.id)),
+        lines = new Set((doc.pages[page]?.lines ?? []).filter((l) => l.charIds.some((id) => cited.has(id))).flatMap((l) => l.charIds));
+      return chars
+        .filter((c) => c.rawRange[0] >= lo && c.rawRange[1] <= hi && (cited.has(c.id) || lines.has(c.id)))
         .sort((a, b) => a.rawRange[0] - b.rawRange[0])
         .map((c) => c.text)
         .join("");
