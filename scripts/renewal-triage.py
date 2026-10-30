@@ -86,7 +86,9 @@ only where the card's own text shows those two characters side by side, and an A
 paragraph is kept on the other side only as a whole-number match (renewal-triage/23). A date's
 day and year are whole numbers of the text, and an Added/Removed row on a card that names another
 record's row key is misattributed (renewal-triage/24); one on a card the product marked unresolved
-is not evaluated (renewal-triage/25).
+is not evaluated (renewal-triage/25). A row key naming another record is misattributed on every
+entry (replaced, one-sided and added/removed rows) whether or not the product marked the row
+unresolved; only a right row key with that mark is not evaluated (renewal-triage/26).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -118,7 +120,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/25'
+TOOL = 'renewal-triage/26'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -499,12 +501,16 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
     the card leaves unchanged (r4416699649)."""
     edit = edit or {}
     sp = d.get('structurePath') or {}
-    if sp.get('confidence') == 'unresolved':
-        return 'product_unresolved', 'product marked the row identity unresolved', {}
+    unresolved = sp.get('confidence') == 'unresolved'
     key = sp.get('rowKey')
     row_text = norm((change.get('left_text') or '') + ' | ' + (change.get('right_text') or ''))
+    # A row key naming another record is a wrong statement whether or not the product also marked
+    # the row unresolved; an unresolved mark does not hide it (PR #9 comment 6514246431).
     if key and not bounded(norm(key), row_text):
-        return 'contradicted', f'rowKey {key!r} is not a cell of this record', {}
+        return 'contradicted', f'rowKey {key!r} is not a cell of this record' + (
+            '; the product also marked the row identity unresolved' if unresolved else ''), {}
+    if unresolved:
+        return 'product_unresolved', 'product marked the row identity unresolved', {}
     order = ('confirmed', 'contradicted', 'ambiguous', 'unconfirmed')
     seen, status = {}, []
     for side, needle in needles.items():
@@ -852,12 +858,14 @@ def row_cells(atoms, change, ctx):
             out.append(('merged_into_neighbour_card', 'not_evaluable', [], where, un,
                         f'{change["kind"].lower()} row shown as extra text in a neighbour row\'s '
                         f'{anchor[0]["kind"]} card'))
+        elif anchor and mine_here and wrong_key:
+            # A wrong row key stays a wrong statement under an unresolved mark (PR #9 comment 6514246431).
+            out.append(('row_key_contradicted', 'misattributed', [], where, un,
+                        f'the card names rowKey {key!r}, which is not a cell of this record'
+                        + ('; the product also marked the row identity unresolved' if unresolved else '')))
         elif anchor and mine_here and unresolved:
             out.append(('product_unresolved', 'not_evaluable', [], where, un,
                         'product marked the row identity unresolved'))
-        elif anchor and mine_here and wrong_key:
-            out.append(('row_key_contradicted', 'misattributed', [], where, un,
-                        f'the card names rowKey {key!r}, which is not a cell of this record'))
         elif anchor and mine_here and not mixed:
             out.append(('in_record', 'correct', [anchor[0]], where, un, ''))
         elif anchor and mine_here:

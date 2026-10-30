@@ -686,6 +686,34 @@ class AddedRemovedRows(unittest.TestCase):
             _, ev = run([c], result([card('y', kind, **{side: [(11, 'u1', '1315 Hull USD 100')]})]), [table('aircraft', [0], c)])
             self.assertEqual((ev['79']['verdict'], ev['79']['row']['fullRowRecovered']), ('correct', True), kind)
 
+    def test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record(self):
+        """PR #9 comment 6514246431: a row key that is no cell of this record is misattributed whether or
+        not the product marked the row unresolved; the right row key with the mark stays not evaluated.
+        Replaced, one-sided and Added/Removed rows alike."""
+        events = {
+            'replaced': (change(80, 'ac_1315', 'Replaced', '1315 | Hull | USD 100', '1315 | Hull | USD 200',
+                                [('USD 100', 'USD 200')], pages=(11, 11)),
+                         lambda key, conf: card('r', 'Replaced', [(11, 'a', '1315 Hull USD 100')], [(11, 'b', '1315 Hull USD 200')],
+                                                row_key=key, confidence=conf)),
+            'one-sided': (change(80, 'ac_1315', 'Replaced', '1315 | Hull | USD 100', '1315 | Hull | USD 100 net',
+                                 [('', 'net')], pages=(11, 11)),
+                          lambda key, conf: card('r', 'Replaced', [(11, 'a', '1315 Hull USD 100')], [(11, 'b', '1315 Hull USD 100 net')],
+                                                 row_key=key, confidence=conf)),
+            'added': (change(80, 'ac_1315', 'Added', right='1315 | Hull | USD 100', pages=(0, 11)),
+                      lambda key, conf: card('r', 'Added', right=[(11, 'b', '1315 Hull USD 100')], row_key=key, confidence=conf)),
+            'removed': (change(80, 'ac_1315', 'Removed', left='1315 | Hull | USD 100', pages=(11, 0)),
+                        lambda key, conf: card('r', 'Removed', [(11, 'a', '1315 Hull USD 100')], row_key=key, confidence=conf)),
+        }
+        expected = {('1315', 'candidate'): 'correct', ('1315', 'unresolved'): 'not_evaluable',
+                    ('9999', 'candidate'): 'misattributed', ('9999', 'unresolved'): 'misattributed'}
+        for name, (c, make) in events.items():
+            for (key, conf), verdict in expected.items():
+                with self.subTest(name, key=key, confidence=conf):
+                    _, ev = run([c], result([make(key, conf)]), [table('aircraft', [0], c)])
+                    self.assertEqual(ev['80']['verdict'], verdict)
+                    if verdict != 'correct':
+                        self.assertEqual(ev['80']['acceptedCards'], [])
+
     def test_cells_find_a_non_overlapping_allocation_when_one_exists(self):
         """r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B"."""
         for kind in ('Added', 'Removed'):
