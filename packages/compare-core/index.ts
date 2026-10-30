@@ -439,6 +439,10 @@ function rowIdentity(
     });
   }
 }
+// A written date: day, English month name and year, the day and the year whole
+// numbers of the text, as the scorer reads them: the "2024" of "20240" or the
+// "21" of "121" is none (#10 4a12cd0).
+const DATE_TEXT = /(?<!\d[.,]?)(\d{1,2}) ([A-Za-z]+) (\d{4})(?![.,]?\d)/g;
 function datePeriod(text: string): [number, number] | null {
   const months = [
     "January",
@@ -454,7 +458,7 @@ function datePeriod(text: string): [number, number] | null {
     "November",
     "December",
   ];
-  const matches = [...text.matchAll(/(\d{1,2}) ([A-Za-z]+) (\d{4})/g)];
+  const matches = [...text.matchAll(DATE_TEXT)];
   if (matches.length !== 2) return null;
   const dates = matches.map((m) => {
     const mo = months.indexOf(m[2]),
@@ -521,7 +525,7 @@ function facts(
           e.getUTCDate() === s.getUTCDate()
         );
       };
-      const withoutDates = (text: string) => text.replace(/\d{1,2} [A-Za-z]+ \d{4}/g, "<date>");
+      const withoutDates = (text: string) => text.replace(DATE_TEXT, "<date>");
       if (oneYearLater(before[0], after[0]) && oneYearLater(before[1], after[1]) &&
           withoutDates(old) === withoutDates(now))
         return ["dates_rolled_forward_one_year"];
@@ -724,7 +728,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.25+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.26+facts.5+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1028,14 +1032,15 @@ export function compare(
   // table instance, so a record repeated on several pages does not merge the
   // tables it sits in (r4416744444). An occurrence count that pagination does
   // not explain is shown on the card.
-  // A row's cells by heading column, or for a cell under no heading cell by
-  // the gap between heading cells it sits in.
+  // A row's cells with the heading column each stands in, or for a cell under
+  // no heading cell the gap between heading cells it sits in: equal row text
+  // can still split into other cells (r4419804273).
   const slots = (u: Unit) => {
     const h = headings.get(u);
-    return u.rowSpans!.map((s) => {
+    return JSON.stringify(u.rowSpans!.map((s, k) => {
       const at = under(h, s);
-      return at ? `c${at.j}` : `g${h ? h.rowSpans!.filter(([, b]) => b <= s[0]).length : 0}`;
-    }).join();
+      return [at ? `c${at.j}` : `g${h ? h.rowSpans!.filter(([, b]) => b <= s[0]).length : 0}`, u.rowCells![k]];
+    }));
   };
   // A record groups only with copies that hold the same identifiers in the
   // same columns (r4418369390); with an incomplete identity, with every cell

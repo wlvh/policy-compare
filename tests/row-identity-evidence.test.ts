@@ -441,6 +441,20 @@ describe("identity belongs to its own column and its own table", () => {
     // Control: the same unplaced positions on both sides are unchanged.
     expect(ResultSchemaV2.parse(compare(doc([100, 250, 550]), doc([100, 250, 550]))).differences).toEqual([]);
   });
+  it("equal text in the same slots with other cell boundaries is not unchanged (r4419804273)", () => {
+    // MSN | ESN | Serial | Share at x 40/190/340/490: "123 456 | 789" against "123 | 456 789",
+    // both under MSN and ESN, with the share in the gap after Share.
+    const doc = (cells: string[]) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["MSN", "ESN", "Serial", "Share"].map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        ...cells.map((text, k) => ({ text, x: [40, 190, 550][k], y: 200 })),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc(["123 456", "789", "10%"]), doc(["123", "456 789", "10%"])));
+    expect([visible(r, "789", "left"), visible(r, "789", "right")]).toEqual([true, true]);
+    // Control: the same cells in the same slots are unchanged.
+    expect(ResultSchemaV2.parse(compare(doc(["123 456", "789", "10%"]), doc(["123 456", "789", "10%"]))).differences).toEqual([]);
+  });
   it("a record repeated on two pages with its identifiers moved between unplaced positions is not unchanged (r4419561470)", () => {
     // MSN | ESN | Serial | Status at x 40/190/340/490 on both pages; AAA | BBB sit
     // between MSN and ESN on the left and between ESN and Serial on the right.

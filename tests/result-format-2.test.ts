@@ -132,6 +132,13 @@ describe("other facts the texts prove", () => {
     );
     expect(d.facts).toEqual(["dates_rolled_forward_one_year"]);
   });
+  it("a day or year inside a longer number is no date: no fact (as the scorer reads dates, #10 4a12cd0)", () => {
+    for (const [from, to] of [
+      ["PERIOD: 121 April 2024 to 30 September 2024 coverage includes war risks", "PERIOD: 121 April 2025 to 30 September 2025 coverage includes war risks"],
+      ["PERIOD: 1 April 20240 to 30 September 2024 coverage includes war risks", "PERIOD: 1 April 20250 to 30 September 2025 coverage includes war risks"],
+    ])
+      expect(one(from, to).facts).toEqual([]);
+  });
   it("the same period with a changed word: no fact", () => {
     const d = one(
       "PERIOD: 01 April 2024 to 31 March 2025 coverage includes war risks",
