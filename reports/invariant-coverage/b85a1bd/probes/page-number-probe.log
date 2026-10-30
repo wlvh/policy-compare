@@ -1,0 +1,4 @@
+page-number-single-line-probe.mts (211a705/probes; Codex PR #9 comment 6514411176): product of b85a1bd (+row-identity.28), graded by the scorer of b85a1bd (same as 211a705)
+Page 1 -> Page 2 | cards "Page 1"->"" role risk_details facts ["page_number_only"] ; ""->"Page 2" role risk_details facts ["page_number_only"] | status PASS | faults [] | not evaluated []
+Schedule Page 3 of 10 -> Schedule Page 3 of 11 | cards "Schedule Page 3 of 10"->"Schedule Page 3 of 11" role risk_details facts ["page_number_only"] | status PASS | faults [] | not evaluated []
+control: Draft Page 1 -> Final Page 2 | cards "Draft Page 1"->"" role risk_details facts [] ; ""->"Final Page 2" role risk_details facts [] | status PASS | faults [] | not evaluated []
