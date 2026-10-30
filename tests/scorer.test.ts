@@ -1188,9 +1188,10 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(grade(z.result, z.expected, z.layout, z.docs).status).toBe("PASS");
   });
   it("R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell", () => {
-    // Cards citing only the changed character: the event fails (they do not show its values), but the
-    // cell changes as declared, so agreed_value_unchanged has nothing against them. Without the
-    // declared change the same cards still fail the invariant.
+    // Cards citing only the changed character: the event fails (they do not show its values); the cell
+    // changes as declared, and the claimed characters are not verified against that change, so
+    // agreed_value_unchanged is NOT_EVALUATED, not failed. Without the declared change the same cards
+    // still fail the invariant.
     for (const [oldCell, newCell] of [["100,020", "200,020"], ["-100,020", "+100,020"]] as const)
       for (const declared of [true, false])
         for (const shape of ["Replaced", "delete + add"]) {
@@ -1210,7 +1211,45 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
             name = `${oldCell} -> ${newCell}, ${shape}, declared ${declared}`;
           expect(score.status, name).toBe("FAIL");
           expect(score.faults.some((f) => f.startsWith("agreed_value_unchanged")), name).toBe(!declared);
+          expect(score.invariants.find((i) => i.name === "agreed_value_unchanged")?.result, name).toBe(declared ? "NOT_EVALUATED" : "FAIL");
         }
+  });
+  // Codex PR #11 comment 6516327058: the declared change covers only its own cells.
+  it("R26: a currency claim beside an amount cell that changes as declared still fails", () => {
+    // Record SYN-1026-001 declares 100,020 -> 200,020; the currencies USD and EUR of both records stay.
+    // One Replaced card, declaring no amount field, claims "1U" -> "2E": the amount's first digit, and a
+    // letter of each currency cell.
+    const x = r26(false, ["100,020", "200,000"], undefined, ["200,020", "200,000"], ["USD", "EUR"]);
+    x.expected.events.push({ ...x.expected.events[0], event_id: "R26_key_change:E2", logical_path: "aircraft_schedule.SYN-1026-001.agreed_value", old: "100,020", new: "200,020" });
+    x.expected.evidence_locations["R26_key_change:E2"] = { before: [{ page_index: 0, run_id: "l5" }], after: [{ page_index: 0, run_id: "l5" }] };
+    const [l, r] = x.docs;
+    const L = [slice(lineLoc(l, "left", "l5"), 0, 1), slice(lineLoc(l, "left", "l4"), 0, 1)],
+      R = [slice(lineLoc(r, "right", "l5"), 0, 1), slice(lineLoc(r, "right", "l9"), 0, 1)];
+    x.result.differences.push({ ...x.wrong, id: "mixed", structurePath: { ...x.wrong.structurePath!, field: "registration" }, left: L, right: R, oldText: "1U", newText: "2E", textOps: [
+      { kind: "delete", text: "1", left: [L[0]], right: [] },
+      { kind: "delete", text: "U", left: [L[1]], right: [] },
+      { kind: "insert", text: "2", left: [], right: [R[0]] },
+      { kind: "insert", text: "E", left: [], right: [R[1]] },
+    ] });
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.invariants.find((i) => i.name === "agreed_value_unchanged")?.result).toBe("FAIL");
+    expect(score.faults).toContain("agreed_value_unchanged: card mixed claims U to E inside amount or currency cells that keep their values");
+    // The same claims as a delete + add pair, on the record and without one.
+    for (const key of ["SYN-1026-001", null]) {
+      const y = structuredClone(x);
+      y.result.differences.pop();
+      const out = oneSided("Removed", "out", L[0], key, "registration"),
+        come = oneSided("Added", "in", R[0], key, "registration");
+      y.result.differences.push(
+        { ...out, left: L, oldText: "1U", textOps: [{ kind: "delete", text: "1", left: [L[0]], right: [] }, { kind: "delete", text: "U", left: [L[1]], right: [] }] },
+        { ...come, right: R, newText: "2E", textOps: [{ kind: "insert", text: "2", left: [], right: [R[0]] }, { kind: "insert", text: "E", left: [], right: [R[1]] }] },
+      );
+      expect(ResultSchema.safeParse(y.result).success, String(key)).toBe(true);
+      const split = grade(y.result, y.expected, y.layout, y.docs);
+      expect(split.invariants.find((i) => i.name === "agreed_value_unchanged")?.result, String(key)).toBe("FAIL");
+      expect(split.faults.join("\n"), String(key)).toContain("claim U to E inside");
+    }
   });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
