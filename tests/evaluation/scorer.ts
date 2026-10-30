@@ -226,6 +226,7 @@ export const INVARIANTS: Record<
       "R26: one card swapping the signs of two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED",
       "R26: two delete + add pairs citing the same source characters fail, whatever keys they claim",
       "R26: delete + add cards without a record that move a sign between two unchanged amounts fail",
+      "R26: a lone delete or add card citing only the sign of an unchanged amount fails, with or without a record",
       "R26: row-wide locations that layout.json does not cover are NOT_EVALUATED",
     ],
   },
