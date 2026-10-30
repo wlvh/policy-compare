@@ -480,10 +480,11 @@ function datePeriod(text: string): [number, number] | null {
  * unchanged amount, a keyword, its role or a profile field) adds to them.
  * - whitespace_only: the words are the same once runs of whitespace are
  *   collapsed and the ends trimmed; an absent side reads as empty text.
- * - page_number_only: only page numbers differ: the confirmed page tokens of a
- *   repeated page line, or the numbers of explicit "Page n" expressions in a
- *   heading or margin line. A line on one side only holds nothing but such
- *   page-number expressions.
+ * - page_number_only: only the numbers of explicit "Page n" expressions differ
+ *   (the fact is the texts' alone, see FactSchema). It is stated on repeated
+ *   page lines, reading their confirmed page counters, and on heading or margin
+ *   lines; that is where the product looks, not a condition of the fact. A line
+ *   on one side only holds nothing but such page-number expressions.
  * - dates_rolled_forward_one_year: each of the two dates of a period moves
  *   exactly one calendar year (same day and month, the year plus one) and the
  *   rest of the text is equal. Consecutive annual periods are not enough:

@@ -240,12 +240,14 @@ export const FactSchema = z.enum([
   // the ends trimmed; an absent side reads as empty text, so a line of
   // whitespace on one side only is included. Two words joined or split differ.
   "whitespace_only",
-  // A text form, stated on a repeated page line or a heading or page-margin
-  // line: the two texts differ only in the numbers of explicit page expressions
-  // ("Page n", "Page n of N", "Page n/N"); a text on one side only consists of
-  // nothing but such expressions and whitespace. It does not say the printed
-  // number is right or equals the PDF page; amounts, percentages and any change
-  // outside those expressions are never this fact.
+  // A text form, proved by the two texts alone: they differ only in the numbers
+  // (each a whole number of the text) of explicit page expressions ("Page n",
+  // "Page n of N", "Page n/N"); a text on one side only consists of nothing but
+  // such expressions and whitespace. It does not say the printed number is right
+  // or equals the PDF page; amounts, percentages and any change outside those
+  // expressions are never this fact. Where it is stated (the product states it on
+  // repeated page lines and on heading or page-margin lines) is not part of it: a
+  // line's role neither proves nor is needed for the fact.
   "page_number_only",
   // Both dates of a period move exactly one year; the text outside them is equal.
   "dates_rolled_forward_one_year",
