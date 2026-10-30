@@ -1,0 +1,507 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 15101,
+    "sha256": "5c02b20d092c14fa392835028fdaef54bf39846be612b100f2d62c8b6df79cac"
+  },
+  {
+    "path": "browser/E03-mupdf-dom.txt",
+    "bytes": 2726,
+    "sha256": "24d02f04cdd6f6bfd39c0f46cda29658d583c66221927acf5222ebd03e3dda77"
+  },
+  {
+    "path": "browser/E03-mupdf-highlights.json",
+    "bytes": 602,
+    "sha256": "3c41f2aa139225186fb45d5250b9c00653c8c51aea308d61ed8aa01b3fefd88a"
+  },
+  {
+    "path": "browser/E03-mupdf-result.json",
+    "bytes": 2433,
+    "sha256": "4e23998324eb3eb72bbc4b018f08f82cc4547b92ed0ca180291fc175ae307439"
+  },
+  {
+    "path": "browser/E03-mupdf.jpg",
+    "bytes": 49889,
+    "sha256": "3ff6eaedc3a05555ae61547bb8988a24b7ef327e82780758d73eb83bbc3565d7"
+  },
+  {
+    "path": "browser/E03-pdfjs-dom.txt",
+    "bytes": 2726,
+    "sha256": "1ae64c78f759e0fd41ca68d1e637e3da4736bb52b235192032aea320991c7121"
+  },
+  {
+    "path": "browser/E03-pdfjs-highlights.json",
+    "bytes": 602,
+    "sha256": "3c41f2aa139225186fb45d5250b9c00653c8c51aea308d61ed8aa01b3fefd88a"
+  },
+  {
+    "path": "browser/E03-pdfjs-result.json",
+    "bytes": 2471,
+    "sha256": "88a9dd3d2d234c799e4396491e8eea0ee10432b51c26c585be640b9c4bcb3375"
+  },
+  {
+    "path": "browser/E03-pdfjs.jpg",
+    "bytes": 69734,
+    "sha256": "c0d38f5b2fe10497c61f94e63646085668343c09f3671b23f4a9cf127489e4e7"
+  },
+  {
+    "path": "browser/P02-mupdf-dom.txt",
+    "bytes": 2684,
+    "sha256": "de724f26f89d3571492aad2bc18fc9781f4418d3563ccc6148e9df7a0f7edadd"
+  },
+  {
+    "path": "browser/P02-mupdf-highlights.json",
+    "bytes": 482,
+    "sha256": "edb8571741488b66888f0fa747158891de1afdc058a721ccc9654b6dc41e362f"
+  },
+  {
+    "path": "browser/P02-mupdf-result.json",
+    "bytes": 46737,
+    "sha256": "018fa9dc5780c7f2c1923d907ac2dd2598da84ebe149e03f336100bbdb2a0edf"
+  },
+  {
+    "path": "browser/P02-mupdf.jpg",
+    "bytes": 53475,
+    "sha256": "c0f89d5325953cb169c6420a0d9bb1e29d3198dda21a48d1ec9ebe09e180ac7a"
+  },
+  {
+    "path": "browser/P02-pdfjs-result.json",
+    "bytes": 45345,
+    "sha256": "6602a360781919c6e3b4ead6b3dcfcf884ec21d6ceb470538efb35081adad283"
+  },
+  {
+    "path": "browser/P02-pdfjs.jpg",
+    "bytes": 53818,
+    "sha256": "c460f7de2d58a398ae0710dd7dab237e50c9bce3d6ee54c09b8f74b9afbfd247"
+  },
+  {
+    "path": "browser/P05-mupdf-dom.txt",
+    "bytes": 2686,
+    "sha256": "87ead5316bf5e50bcf8d1947c0dfbb0edbb74bc87aaf000c511447e4ff150867"
+  },
+  {
+    "path": "browser/P05-mupdf-highlights.json",
+    "bytes": 372,
+    "sha256": "df29e3df9567f15d529d215b8015fc325b973dd18fbce1b2df6c93edebf12564"
+  },
+  {
+    "path": "browser/P05-mupdf-result.json",
+    "bytes": 47384,
+    "sha256": "668147d037f6c94abbdf7c4e3280d75a2f3b36912535acaa155c18e9b6411974"
+  },
+  {
+    "path": "browser/P05-mupdf.jpg",
+    "bytes": 54161,
+    "sha256": "cb8dc1a0f7823b3db571e8064492ca88e88613f8490e329625fdddb72178abac"
+  },
+  {
+    "path": "browser/P05-pdfjs-dom.txt",
+    "bytes": 3298,
+    "sha256": "339807a83367b0d4e752cd29975645443b874d560fe64f3090462f50a8628595"
+  },
+  {
+    "path": "browser/P05-pdfjs-highlights.json",
+    "bytes": 556,
+    "sha256": "ebbc55268f41f45f33660f51a65dc301e7201eb2b66a76f5e27d82a52b5c0c9d"
+  },
+  {
+    "path": "browser/P05-pdfjs-result.json",
+    "bytes": 45540,
+    "sha256": "8e88a6f40d40226bc6e6cbd8b90119ac23c20ecff1cda853ea1bdf1a91361706"
+  },
+  {
+    "path": "browser/P05-pdfjs.jpg",
+    "bytes": 54551,
+    "sha256": "95b87800fc08d071e29a1b5f5fcc17b9e631b9bbe388d536960658f9fa20a0d4"
+  },
+  {
+    "path": "browser/P10-mupdf-new2500-dom.txt",
+    "bytes": 5472,
+    "sha256": "29571635a83b5093a16e00f3c1fb190cf1a0ef78cca02ec030a0e63c7f26551e"
+  },
+  {
+    "path": "browser/P10-mupdf-new2500-highlights.json",
+    "bytes": 1026,
+    "sha256": "c34e94ec40d2a08dc8bf3946379b2535de48600fef1381ddd13bd68082ea247a"
+  },
+  {
+    "path": "browser/P10-mupdf-new2500-result.json",
+    "bytes": 148062,
+    "sha256": "4b75bdd0c25a528e72aef30efaebb989da82044008978da9de833d466e7eaf97"
+  },
+  {
+    "path": "browser/P10-mupdf-new2500.jpg",
+    "bytes": 58833,
+    "sha256": "42bdc919ad47ae89c8b18d9ac9de541c9db0a80816a4aac502ccfd93a3d502f4"
+  },
+  {
+    "path": "browser/P10-mupdf-old456-dom.txt",
+    "bytes": 5472,
+    "sha256": "faab820cf2bd37adb76330dbd66a4b917082800e89e2e0813e3633f8dd9ef2f8"
+  },
+  {
+    "path": "browser/P10-mupdf-old456-highlights.json",
+    "bytes": 2212,
+    "sha256": "fe2d589c7cc3a4d37b07738fe6bc8c858760993f1ef4ddf9e912bfd7a1703675"
+  },
+  {
+    "path": "browser/P10-mupdf-old456-result.json",
+    "bytes": 148062,
+    "sha256": "4b75bdd0c25a528e72aef30efaebb989da82044008978da9de833d466e7eaf97"
+  },
+  {
+    "path": "browser/P10-mupdf-old456.jpg",
+    "bytes": 60260,
+    "sha256": "669593fd7814b6852361e60bed1b525876e4e061ec76cc0f74952d4b8b06a35e"
+  },
+  {
+    "path": "browser/P10-pdfjs-new2500-dom.txt",
+    "bytes": 6054,
+    "sha256": "bbd28088145e4e727880fdf879e66021ea9661b37a496b405210d1cce5416e44"
+  },
+  {
+    "path": "browser/P10-pdfjs-new2500-highlights.json",
+    "bytes": 356,
+    "sha256": "cd3c54dc80b4bcc4fc7346dfe95c132f96e42c70fca59c5b6b611f64ad9d3279"
+  },
+  {
+    "path": "browser/P10-pdfjs-new2500-result.json",
+    "bytes": 132393,
+    "sha256": "ecd4a0c2eca74ba3818472668bc0bd2a1c5da3df9fa7753b42199c01c24194e4"
+  },
+  {
+    "path": "browser/P10-pdfjs-new2500.jpg",
+    "bytes": 59848,
+    "sha256": "42a37fdeaa4c73381db552cdf5721d294ab58c8b141850ceaa4d7385492407a9"
+  },
+  {
+    "path": "browser/P10-pdfjs-old456-dom.txt",
+    "bytes": 6054,
+    "sha256": "bd53079ad6ec5df0d5ada0eaead7f8adbb99f008b1f8783b6714f7fc70bed1ff"
+  },
+  {
+    "path": "browser/P10-pdfjs-old456-highlights.json",
+    "bytes": 762,
+    "sha256": "6ec35e57c977e9c49a2ce7aae9c971e4acfacd84ea42e58154c2febdcbbdc04f"
+  },
+  {
+    "path": "browser/P10-pdfjs-old456-result.json",
+    "bytes": 132393,
+    "sha256": "ecd4a0c2eca74ba3818472668bc0bd2a1c5da3df9fa7753b42199c01c24194e4"
+  },
+  {
+    "path": "browser/P10-pdfjs-old456.jpg",
+    "bytes": 60640,
+    "sha256": "29e5101dc99f06e40f85febcc384f0023bf4db16da09ee761d5d481325a9765c"
+  },
+  {
+    "path": "browser/P11-mupdf-combined-dom.txt",
+    "bytes": 2905,
+    "sha256": "4156158901a15a605e28a379631bbde8cdcce5efcff88adc8b5ec1b0ecdf074a"
+  },
+  {
+    "path": "browser/P11-mupdf-combined-highlights.json",
+    "bytes": 2440,
+    "sha256": "af5b412a48760ad558a358e3833347cf93b2daad32b83d57d54d766af2a8bac1"
+  },
+  {
+    "path": "browser/P11-mupdf-combined-result.json",
+    "bytes": 55878,
+    "sha256": "8cc27b33b3d9b5b1da172944aa1d0fa6d50271d874b848b5e36b1e01c7f90707"
+  },
+  {
+    "path": "browser/P11-mupdf-combined.jpg",
+    "bytes": 57237,
+    "sha256": "3ece9c69b9268618fe3521efd75c8666c0c17aec32074c570e39d018fd034965"
+  },
+  {
+    "path": "browser/P11-pdfjs-combined-dom.txt",
+    "bytes": 3570,
+    "sha256": "aa98ff7bbf50456040d2f3e7b11973ef4986608bdcf1f1ff0812fa6925b28509"
+  },
+  {
+    "path": "browser/P11-pdfjs-combined-highlights.json",
+    "bytes": 948,
+    "sha256": "dd46e3a895173ea7aedb8b9b2d911044cffd984c212b85b32e1835601a104d09"
+  },
+  {
+    "path": "browser/P11-pdfjs-combined-result.json",
+    "bytes": 54063,
+    "sha256": "123c3ea21008f128390b7cfb789443adfe7305327797aa09b9f3648d4af8c1df"
+  },
+  {
+    "path": "browser/P11-pdfjs-combined.jpg",
+    "bytes": 57413,
+    "sha256": "91f18314fa34d993c0b5701363f684e586b251f3bf9f222306fd3b050d839e29"
+  },
+  {
+    "path": "browser/P12-mupdf-new-table2-dom.txt",
+    "bytes": 2852,
+    "sha256": "d2faa7668b1d3c65b8f9df068a227a30ba189b8304a48bb22acd6202e654a808"
+  },
+  {
+    "path": "browser/P12-mupdf-new-table2-highlights.json",
+    "bytes": 2316,
+    "sha256": "e0be68b7f04cdc54c9cb376757dc81251a953b0d82aefc396194df92d6a2973c"
+  },
+  {
+    "path": "browser/P12-mupdf-new-table2-result.json",
+    "bytes": 40267,
+    "sha256": "89e8539cd2e86c2af3ad149ee46ec3ff076a1cac86879476b477302511821738"
+  },
+  {
+    "path": "browser/P12-mupdf-new-table2.jpg",
+    "bytes": 57793,
+    "sha256": "901be8fc2ed93037dc42bb61386bb8a144bf48d660d2a0f8e1885916be7a9e01"
+  },
+  {
+    "path": "browser/P12-mupdf-old-table1-dom.txt",
+    "bytes": 2852,
+    "sha256": "d342c761df0d19bfca0da30e78919674c251a1fad03800f8bcf693662b6acc5a"
+  },
+  {
+    "path": "browser/P12-mupdf-old-table1-highlights.json",
+    "bytes": 2862,
+    "sha256": "18ce3eeb8431504b1845b3c0b8a513150bf11241fe258b60ae99fd36f25f508a"
+  },
+  {
+    "path": "browser/P12-mupdf-old-table1-result.json",
+    "bytes": 40267,
+    "sha256": "89e8539cd2e86c2af3ad149ee46ec3ff076a1cac86879476b477302511821738"
+  },
+  {
+    "path": "browser/P12-mupdf-old-table1.jpg",
+    "bytes": 59405,
+    "sha256": "42e787f1e79f0159518bbfb3d9b5a8370ccc2e4a24151e2039a6c016bc86c5f2"
+  },
+  {
+    "path": "browser/P12-pdfjs-new-table2-dom.txt",
+    "bytes": 3621,
+    "sha256": "270d90d16026ec8cde5adcb363ff139e4ed33fa98d8ba4b14d019a977eaeb3d6"
+  },
+  {
+    "path": "browser/P12-pdfjs-new-table2-highlights.json",
+    "bytes": 964,
+    "sha256": "14bc5a64f1b14b668e93e1cc9e0cc319a8b819147e810b41856d0428e8be1686"
+  },
+  {
+    "path": "browser/P12-pdfjs-new-table2-result.json",
+    "bytes": 37743,
+    "sha256": "e79421550a3a7e59c7f16cb6d70291af76f8c489d1909a3678c3a58542f24b17"
+  },
+  {
+    "path": "browser/P12-pdfjs-new-table2.jpg",
+    "bytes": 59158,
+    "sha256": "c24bbd5c9be1f85d99305d4b2886c7a9fe772741232fda39746a1d82c53f00bd"
+  },
+  {
+    "path": "browser/P12-pdfjs-old-table1-dom.txt",
+    "bytes": 3621,
+    "sha256": "483905395f93176c72775829ed579052e48091c5581f6b5ca486197a2b3ecc40"
+  },
+  {
+    "path": "browser/P12-pdfjs-old-table1-highlights.json",
+    "bytes": 964,
+    "sha256": "7617a93f1132f2a189e61ce86216e24cec0c49da187581ba1a4f709cf6b719ea"
+  },
+  {
+    "path": "browser/P12-pdfjs-old-table1-result.json",
+    "bytes": 37743,
+    "sha256": "e79421550a3a7e59c7f16cb6d70291af76f8c489d1909a3678c3a58542f24b17"
+  },
+  {
+    "path": "browser/P12-pdfjs-old-table1.jpg",
+    "bytes": 57916,
+    "sha256": "25dd35219ed67669d3e854c212cc79db52fd128ec8e33dd899cf0e615ef46a6f"
+  },
+  {
+    "path": "browser/cli-correspondence.json",
+    "bytes": 58726,
+    "sha256": "9e5f649dd8fbb6aa407ce30e38bd7f897e72e25e73bac31ef7c3a928443b04a3"
+  },
+  {
+    "path": "browser/mupdf-console.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "browser/pdfjs-console.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "browser/session.json",
+    "bytes": 469,
+    "sha256": "9b992888bc98f5a9d7c5bea90ce08f15a325ece6bb540fc0a9eaa879bcc9f802"
+  },
+  {
+    "path": "build/build-mupdf.log.gz",
+    "bytes": 736,
+    "sha256": "f72ab84daddcd97bf34e6e1345ca9fa327bba0dd012326164b6646f64ac584a3"
+  },
+  {
+    "path": "build/build-pdfjs.log.gz",
+    "bytes": 627,
+    "sha256": "c3b43d7f653ba95a03e89ffbdc89789601ff7c4d85233266e7a4d98df3553ece"
+  },
+  {
+    "path": "build/log-integrity.json",
+    "bytes": 471,
+    "sha256": "aa54521c01bab955a0ec5ad74899a42f8e95cb55b15d24cbb53225f208963911"
+  },
+  {
+    "path": "independent-source-check.json",
+    "bytes": 1927,
+    "sha256": "069953cbbdbe0852e30df23e26729def69fbd25af6ea5b51ffce1bbe4dc24f64"
+  },
+  {
+    "path": "inspect-structure.mts",
+    "bytes": 1098,
+    "sha256": "7f94d5b325c1af244a63884d46ff5382f7e6392ff4d8ecc64e94843f9456c47f"
+  },
+  {
+    "path": "integrity.json",
+    "bytes": 27155,
+    "sha256": "871bfa95910b0af7239a5b37c8d43c67a11a4dfb2cf2866148159c10fbcd7dd4"
+  },
+  {
+    "path": "raw-cards.md",
+    "bytes": 23325,
+    "sha256": "93644d393168703143dbba844793fa73fd98b48780b08f955c69f69f5b2d4fbf"
+  },
+  {
+    "path": "raw-evidence.tar.gz",
+    "bytes": 713346,
+    "sha256": "3d31dca5cfc40e5a936a7bd7566b66d36b87b31d589767d12fc845a26d6a4a32"
+  },
+  {
+    "path": "raw-sha256.json",
+    "bytes": 41081,
+    "sha256": "740cd803c99a455d62206fe7e30a8141894cc110541d2a1a1f72bc3a61dca532"
+  },
+  {
+    "path": "review.csv",
+    "bytes": 10075,
+    "sha256": "43275a098636e82a8359bd034034688fbb37d385e15ae695a168bd73a1fd6045"
+  },
+  {
+    "path": "review.json",
+    "bytes": 35801,
+    "sha256": "5155f8825dab383df8bea5fca588853e668ef241901ffe7ba174f4c170559320"
+  },
+  {
+    "path": "run-summary.json",
+    "bytes": 205837,
+    "sha256": "c4c54a243401c3d4dab3c32a8887516bdd5df4e187d1c230c923a8119aa20087"
+  },
+  {
+    "path": "source-audit.json",
+    "bytes": 1294902,
+    "sha256": "0caa49d90e51d65ce9e7fbf48572f043844058c16eced61ed4d4e402ad32c2e0"
+  },
+  {
+    "path": "source-render/E01-after-1.png",
+    "bytes": 27094,
+    "sha256": "3bf07264c4d5d15176a861d606d80908d531ca83eb991fbef4e2970fc1825d7b"
+  },
+  {
+    "path": "source-render/E01-after-2.png",
+    "bytes": 27122,
+    "sha256": "6e063878b0a1fabbd40ceb606f37fb10381ee2d8514f6ab2de3521dd5e48c9d9"
+  },
+  {
+    "path": "source-render/E01-before-1.png",
+    "bytes": 29335,
+    "sha256": "d3db4462f37ab9f53c7ed16571e547e06825f3c78c513dab88c7f8b05a146ede"
+  },
+  {
+    "path": "source-render/E01-before-2.png",
+    "bytes": 24223,
+    "sha256": "213564909018e43850adec0f76c0ea932a780e188090eac59d8cfe59c5ac3974"
+  },
+  {
+    "path": "source-render/E02-after-1.png",
+    "bytes": 33775,
+    "sha256": "51ea5a8aed207fe72dc70a9e011250a891cc4ca97d8d91d9b210f91b314daa13"
+  },
+  {
+    "path": "source-render/E02-before-1.png",
+    "bytes": 33782,
+    "sha256": "09d755bdb964e80c572796109717d6e9dbb705edb4a4d68005b8fc2cd035f6e2"
+  },
+  {
+    "path": "source-render/E03-after-1.png",
+    "bytes": 35407,
+    "sha256": "7b22ffa24325dffcca1f705f334b80f4ce0287ca137f4eac0d26bf6169a28df7"
+  },
+  {
+    "path": "source-render/E03-before-1.png",
+    "bytes": 35099,
+    "sha256": "f2c1f2cd98d081992fbe5cabc4ef51fa312bf517fbf8213a9d44d66e67ff2dbe"
+  },
+  {
+    "path": "source-render/P02-after-1.png",
+    "bytes": 33588,
+    "sha256": "72a95160325e0c9a5b1b1c2d9e4008367df175353d585864539e24081cf7f91e"
+  },
+  {
+    "path": "source-render/P02-before-1.png",
+    "bytes": 33261,
+    "sha256": "41a33d5f8fd56a56dd72c465351f2d9f2fe5ffb8b9b53e8f1db1264233312019"
+  },
+  {
+    "path": "source-render/P05-after-1.png",
+    "bytes": 35298,
+    "sha256": "800c14b3f83de31b68c17e71e2b7496868a22acf246469a85b740f548e77bbfa"
+  },
+  {
+    "path": "source-render/P05-before-1.png",
+    "bytes": 35150,
+    "sha256": "6f2c2d9cdc206ba228c0b220534466787ec3e1476a85dcf10a0be15a6276796f"
+  },
+  {
+    "path": "source-render/P10-after-1.png",
+    "bytes": 34253,
+    "sha256": "2b2c055d06182d870d7413b1775f2b34af43d04d7cab4ea91bc692574b564f0d"
+  },
+  {
+    "path": "source-render/P10-before-1.png",
+    "bytes": 34521,
+    "sha256": "af53b676de06bb5219ac25e3771a6f1398bb354d42ccbecec814df8d96d85292"
+  },
+  {
+    "path": "source-render/P11-after-1.png",
+    "bytes": 37851,
+    "sha256": "64631a9dbd87640ea6e80b3ae187a9e232ce0b8fe9f0cff09d420cdf5cc9f36e"
+  },
+  {
+    "path": "source-render/P11-before-1.png",
+    "bytes": 37848,
+    "sha256": "4b32cee31373f8d94b62efd0d0ae264ea7ec1a76b7c68a8c75b5b77c3d138d1e"
+  },
+  {
+    "path": "source-render/P12-after-1.png",
+    "bytes": 44533,
+    "sha256": "a899e21c5c6bafeec21260756d439ab546ce4f9547496a3718fcd0216c4c8cc8"
+  },
+  {
+    "path": "source-render/P12-before-1.png",
+    "bytes": 44452,
+    "sha256": "1a4838dab774bbbcb9c04fa19fd2f8bf0e0d69328ce5036102001eadeab60489"
+  },
+  {
+    "path": "source-render/contact-layout.png",
+    "bytes": 79221,
+    "sha256": "29cbe346a6f5a76843394d3818ab61a4e117458b0b39236d412fe33a88d51e8a"
+  },
+  {
+    "path": "structure-diagnostic.json",
+    "bytes": 598184,
+    "sha256": "16e48fe10c945ae156fccfc831fb96a980129250b5841eae3702da903fc783b1"
+  },
+  {
+    "path": "summarize-evidence.py",
+    "bytes": 5601,
+    "sha256": "3dba8c6ab3c4f22e7920b91dffd62f8365ca970316cb05e0b8ea3656a5e067d4"
+  }
+]

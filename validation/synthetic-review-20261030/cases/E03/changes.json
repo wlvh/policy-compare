@@ -1,0 +1,26 @@
+{
+  "case_id": "E03",
+  "changes": [
+    {
+      "id": 1,
+      "block": "schedule",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "1315 | Alpha Air | USD 100 | annual",
+      "right_text": "1315 | Alpha Air | USD 2000 | annual",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "USD 100",
+          "new": "USD 2000"
+        }
+      ]
+    }
+  ]
+}

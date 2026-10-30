@@ -1,0 +1,444 @@
+{
+  "suiteVersion": "synthetic-policy-review/1",
+  "baselineCode": "33ec5ba4448a686d65490f15e7be8c32d30bd74c",
+  "authoredBeforeProductRun": true,
+  "productRunPerformed": false,
+  "coordinateSystem": "PDF points; top-left bounds also supplied for inspection",
+  "cases": [
+    {
+      "id": "P01",
+      "title": "完全相同的输入",
+      "scope": "supported",
+      "left": "cases/P01/before.pdf",
+      "right": "cases/P01/after.pdf",
+      "changes": "cases/P01/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "两份 PDF 字节相同，正文、金额、记录与位置均无作者修改。",
+        "不得生成内容变化；处理范围与覆盖状态仍需如实。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+        "right": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+        "changes": "fde09df446fb8de6701adbdf84a2c64aebad57ae883e7ef8fb13af784844e696",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P02",
+      "title": "100 变为 2000，旁边另有 1000",
+      "scope": "supported",
+      "left": "cases/P02/before.pdf",
+      "right": "cases/P02/after.pdf",
+      "changes": "cases/P02/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "1315 的 USD 100 变为 USD 2000；1760 的 USD 1000 未改。",
+        "变化须来自 1315 自己的实际编辑，金额必须完整；不得借邻行拼出答案。",
+        "可接受正确单卡或有各自完整来源的合法多卡。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2",
+        "right": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963",
+        "changes": "b0de449c1bf9cbc386236f83095e736424d5969791ac073613fac42a39f8690f",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P03",
+      "title": "两个独立来源发生相同金额变化",
+      "scope": "supported",
+      "left": "cases/P03/before.pdf",
+      "right": "cases/P03/after.pdf",
+      "changes": "cases/P03/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "1315 与 1760 各自独立发生一次 USD 100→USD 200。",
+        "必须保留两次出现的不同原文位置；允许完整聚合，不允许丢一次或重复消费同一处。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f",
+        "right": "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa",
+        "changes": "115c315fafdb1e84c8b582ac5636118d1d8404f729e259695228c44f043d364e",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P04",
+      "title": "相邻记录的两项不同金额编辑",
+      "scope": "supported",
+      "left": "cases/P04/before.pdf",
+      "right": "cases/P04/after.pdf",
+      "changes": "cases/P04/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "真实编辑分别是 1315:100→300、1760:400→200。",
+        "不得交换记录的另一侧，或拼成作者没有做过的 100→200。",
+        "本例检验产品实际产生的卡；拒绝人为伪造卡仍由原评分器探针证明。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "59ecb59ff4f365d9e32d9a33fbf87fc8a193ab536fac833c01dc6b500e1ac215",
+        "right": "be22e55c1f8d28e5e790d6ee5aa08a05ed98dd82febe608bc9de8992ef17015a",
+        "changes": "02dd714d1281ebd9b875c2d0b87043f1f7e75427e37fadff9b9deb9bfc75cfb8",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P05",
+      "title": "同一记录两格同额，只改后一格",
+      "scope": "supported",
+      "left": "cases/P05/before.pdf",
+      "right": "cases/P05/after.pdf",
+      "changes": "cases/P05/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "只有 1315 的 War Limit 从 USD 100 变为 USD 200；Hull Limit 未改。",
+        "须人工结合作者布局与卡片来源检查列归属；原分诊的文字命中不能独立证明是哪一列。",
+        "不得从 1760 借金额，也不得把未改变的同额单元格当作本次变化来源。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "0b71a3cc823cbb5f1204c698fe2788b93f76d3da0a937d5d447d66f2387eba68",
+        "right": "4abab04b4eabe14186aea3b81bf6473710da8fdfaba3caea33ef137f34406ac9",
+        "changes": "fb69426a921ad56ad0e5f95e52f99665fa523d9e6a46f98c77dd8e00af2fa808",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P06",
+      "title": "删除的原文行有两个相同金额格",
+      "scope": "supported",
+      "left": "cases/P06/before.pdf",
+      "right": "cases/P06/after.pdf",
+      "changes": "cases/P06/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "原文中的 1315 行删除，其两个 USD 100 都来自该行；1760 与 2156 内容保留。",
+        "允许显示原文删除或未配内容；不得把文字删除直接表述成业务记录确定退出。",
+        "完整行恢复不能从另一记录借第二份相同金额。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "45029e8467e2d08481ec1f5983ac52407728dc5c73b194f404a0707387ff7a85",
+        "right": "1f7f0e01b9e939e799073392141cf7046037c4df6a61fff582c19d28780269a3",
+        "changes": "a00458d124c0556113cc9c66cd12897dd84dd9fffedc77bf7a5c1ec395c97673",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P07",
+      "title": "金额和位置相同，身份不同",
+      "scope": "supported",
+      "left": "cases/P07/before.pdf",
+      "right": "cases/P07/after.pdf",
+      "changes": "cases/P07/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "旧原文为 1315 / Alpha Air，新原文为 9999 / Orion Air，金额都为 USD 100。",
+        "可分别展示两侧或保留身份未定；不得仅因金额或坐标相同，确定它们是同一业务记录。",
+        "作者 Added/Removed 仅描述纸面文字，不断言业务新增或退出。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "bc9e60a6f05a7f41650a328be9f6640bdb245ab27ecf3b17784b5f3d53e4e382",
+        "right": "707199744e411843476fa154091853d258a41b768c3ec133f6add2b81e758f3d",
+        "changes": "b5288b5e5496bbf820f8be7c5d2e75ccb7ce436e0b7d66241df25251dcb16f9d",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P08",
+      "title": "同一记录中的两项编辑不能交叉配对",
+      "scope": "supported",
+      "left": "cases/P08/before.pdf",
+      "right": "cases/P08/after.pdf",
+      "changes": "cases/P08/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "1315 的 Hull 为 100→200，War 为 300→400。",
+        "同一记录也不能把两项编辑改写成 100→400 和 300→200；来源位置须对应具体单元格。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "d7fdbd067b08e7919e694efec133d741e4d9a1a99e70d441e2ec9499c10e9d8f",
+        "right": "c0629daedffb47ec3c1263d2352b0278bc8fbe56a69e30d7e8e7af33b9b2562f",
+        "changes": "3abb5d1c83f221806bf8ab14a7fea7581257312b0a1e308d8faa32d66d7c8803",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P09",
+      "title": "部分单元格换行的正向",
+      "scope": "supported",
+      "left": "cases/P09/before.pdf",
+      "right": "cases/P09/after.pdf",
+      "changes": "cases/P09/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "1315 的普通续行中，per annum 变为 per month，金额未改。",
+        "保留正确归属与完整来源；不得把普通续行确定成另一条记录。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "6a98d4b951b28845094c04905236c5d74054dac252376a7db8c19014cc4b9dc4",
+        "right": "5b50304b00935d908c15a5a302f2cfd259fdfad8101b3ac098ded0539d1f9e42",
+        "changes": "2f5e4a6cb4a76d091b2b83af02cfb4a82694f8586f05a3a55dec3791bae3e62c",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P10",
+      "title": "全格两行，名称由两个字体片段绘制",
+      "scope": "supported",
+      "left": "cases/P10/before.pdf",
+      "right": "cases/P10/after.pdf",
+      "changes": "cases/P10/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "全格换行的局部歧义可保留原文及身份未定；(a) 不得成为确定行键。",
+        "相邻正常记录 456 的 2000→2500 应继续可核对。",
+        "必须查看实际两引擎 Doc：若未形成分片，此引擎仅覆盖换行，不能声称覆盖提取片段反例。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "67932a9ff52fa4ff158470eb5580be238b1cbeb0bcbf5e5ecafdb23f87af5c16",
+        "right": "da2a19ebea5d9593825ed2756e8556d8d61786967abb164383c35a36e4456020",
+        "changes": "1e782ca60cfc1d69b4cf2901cd29bfb0fc56ff7d1aeba97cd91c6bae1f47a3c4",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P11",
+      "title": "全格三行，第三行发生修改",
+      "scope": "supported",
+      "left": "cases/P11/before.pdf",
+      "right": "cases/P11/after.pdf",
+      "changes": "cases/P11/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "第三行 annual→monthly 必须保留，(a)/(b) 不得被确定为独立记录号。",
+        "允许歧义逻辑行未评价；邻行 456 的金额修改仍单独核查。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447",
+        "right": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31",
+        "changes": "962bc4b1ac5c66399f3c2b0660ffb8296da3861f267513a56498ddb083b96522",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P12",
+      "title": "年份、百分号、币种表头应隔开身份范围",
+      "scope": "supported",
+      "left": "cases/P12/before.pdf",
+      "right": "cases/P12/after.pdf",
+      "changes": "cases/P12/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "第一表删除MSN123的原文；第二表新增Registration123的原文，标题中含2026、%和USD。",
+        "不得跨表把两处123定成同一记录；原分诊不能单独证明表边界，需核对作者布局和产品来源。",
+        "保留未配原文或身份未定均可；不能推断业务记录进入/退出。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba",
+        "right": "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947",
+        "changes": "7ecef7b11da64fe6a9f124086ad8ca726c3076f140d39af5e1b26a8569ec9ffc",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P13",
+      "title": "明确的页码表达变化",
+      "scope": "supported",
+      "left": "cases/P13/before.pdf",
+      "right": "cases/P13/after.pdf",
+      "changes": "cases/P13/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "正文引用中的 Page 3 of 10 变为 Page 4 of 10，须保留原文变化。",
+        "允许声明页码表达变化，也允许不作分类；不得据此证明引用指向的实际页一定正确。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "f889823c7c260a582d1aaf90a0958c2b61361b7747ec4cd58fc9e91b33ff318b",
+        "right": "1ffa2e0d3b3b3ce4189551d372c976ce9bd336f199d4bfb6d6e296d0e2b6e226",
+        "changes": "f32e1ee700d8ca08be40186463ad960881330449629fd16998fa882bc63d188d",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "P14",
+      "title": "per page 后的金额、百分比与字面 #",
+      "scope": "supported",
+      "left": "cases/P14/before.pdf",
+      "right": "cases/P14/after.pdf",
+      "changes": "cases/P14/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "三项作者编辑分别是100USD→200USD、10%→20%、两段Page表达及字面#的位置改变。",
+        "三项都不能被声称只是页码数字变化；允许不主动分类，须保留可见编辑与来源。",
+        "若产品未声明页码事实，只能说没有虚假声明，不能写成评分器已验证该事实为假。"
+      ],
+      "note": "",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "2e1e5a22868bc622b4887195e54e6a15938055f8b165d5f8e94ad218c9bd9f34",
+        "right": "b16ecc156ede8b3bd6932ddfa754c4bd3e3c41ad0167c3e9b0aabb229bae0e15",
+        "changes": "4056f849db3ba2fe628f869425115c4df575b1639e1b03dc62b0d04d68767a5c",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "E01",
+      "title": "跨页续行，文字本身不变",
+      "scope": "boundary",
+      "left": "cases/E01/before.pdf",
+      "right": "cases/E01/after.pdf",
+      "changes": "cases/E01/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "逻辑记录文字相同，仅部分单元格续行移至第二页；作者布局文件保留两侧位置。",
+        "观察拆卡、未决和原文保留；不要求补齐通用跨页识别，既有R24边界保持。",
+        "不得凭空声称金额发生变化；changes为空表示没有文字增删，不能据此自动给移动检测打分。"
+      ],
+      "note": "跨页结构探索；不纳入当前支持能力通过率。",
+      "pages": {
+        "left": 2,
+        "right": 2
+      },
+      "sha256": {
+        "left": "088f7d067a29aeb78e0398781f1ff8c2eee6bdc2ea377f0556a7475fd8fbc882",
+        "right": "baa5a46543bc7accd3010f0473051d0f3313464f31d1c71c2a94440769bd7eb3",
+        "changes": "4ded11b5e6fd1620d1d82ceaf91848827f0c0038c3bac387c58a17bcf8ab50fa",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "E02",
+      "title": "表格整行重排，数值未改",
+      "scope": "boundary",
+      "left": "cases/E02/before.pdf",
+      "right": "cases/E02/after.pdf",
+      "changes": "cases/E02/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "顺序从1315/1760/2156变为2156/1315/1760；每条记录文字和金额均不变。",
+        "观察移动表达、拆卡和审阅负担；不要求本轮补齐R23的完整顺序核验。",
+        "不得凭空报金额变化；空changes不能自动证明重排被完整发现。"
+      ],
+      "note": "已登记的表格重排评价边界；单独观察。",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "6c07baf21abaab4f342c370cedda15b45639b994334ec620b823ffaed7a41fb0",
+        "right": "82c699b0dce0279dd0120306e8bf583e2436c7a0bdf4120a9435f61bf0a34613",
+        "changes": "47cb599d9e870c81078e4ad0984b9f2f25897e35d7f6b49e09e08f81546c3e66",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    },
+    {
+      "id": "E03",
+      "title": "纯扫描图片中的金额变化",
+      "scope": "boundary",
+      "left": "cases/E03/before.pdf",
+      "right": "cases/E03/after.pdf",
+      "changes": "cases/E03/changes.json",
+      "identity": "identity.json",
+      "authorLayout": "author-layout.json",
+      "expectations": [
+        "可见图像内1315的100→2000；文件没有可提取文字层。",
+        "不要求新增OCR；应明确图像文字未比较或覆盖不足，不能把空文本结果表述为整份文件无变化。"
+      ],
+      "note": "纯图像页的覆盖声明探索，不把OCR缺失列为新增功能阻断。",
+      "pages": {
+        "left": 1,
+        "right": 1
+      },
+      "sha256": {
+        "left": "bcd232bf25c42324a4ea0008ebc28c408b5f71ce6f655de93bbb63b40a975eb7",
+        "right": "a0405599332d7f971dc4d7a6b3c2cdd030cd5d41b509158f04b7101202411a8a",
+        "changes": "ffc6f1b257cb3a66fb5a3b847778fc800f441b25db55c166af7fd50599a708d4",
+        "identity": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c"
+      }
+    }
+  ]
+}

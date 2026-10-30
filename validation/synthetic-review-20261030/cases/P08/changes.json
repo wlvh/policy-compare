@@ -1,0 +1,30 @@
+{
+  "case_id": "P08",
+  "changes": [
+    {
+      "id": 1,
+      "block": "schedule",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "1315 | Alpha Air | USD 100 | USD 300",
+      "right_text": "1315 | Alpha Air | USD 200 | USD 400",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "USD 100",
+          "new": "USD 200"
+        },
+        {
+          "old": "USD 300",
+          "new": "USD 400"
+        }
+      ]
+    }
+  ]
+}

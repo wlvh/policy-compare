@@ -1,0 +1,1367 @@
+[
+  {
+    "path": "E01/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E01/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "E01/mupdf/left.doc.json",
+    "bytes": 176530,
+    "sha256": "4e71c92d1b9c1d53cf7b24cbe9cc849d5aff712fb36ce5347511f1e05b3836fe"
+  },
+  {
+    "path": "E01/mupdf/result.json",
+    "bytes": 34682,
+    "sha256": "c2bb303773ba30f9fbcd4267c277fe8fefa63e3354236f51c9e7ba6d190c330e"
+  },
+  {
+    "path": "E01/mupdf/right.doc.json",
+    "bytes": 175659,
+    "sha256": "934a18d02591b372d3e90651d536ce5577ffd555d4e3d9cbe451fe91b47355a5"
+  },
+  {
+    "path": "E01/mupdf/triage-events.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "E01/mupdf/triage-summary.json",
+    "bytes": 2067,
+    "sha256": "c310b9b75ecfeeb3c7afa2d1e955766272e61ae4da9a0da1d5d537ee7c2aa93e"
+  },
+  {
+    "path": "E01/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E01/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E01/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "E01/pdfjs/left.doc.json",
+    "bytes": 285448,
+    "sha256": "062ff17235329ea75a0fd7ef8f220593e5d0d9201e9fb7af6a0ab356f35fe393"
+  },
+  {
+    "path": "E01/pdfjs/result.json",
+    "bytes": 28657,
+    "sha256": "0bc2c9040cc8b72f88f068d314eaca57901505e177d1478e7b2d06648a3ba0bb"
+  },
+  {
+    "path": "E01/pdfjs/right.doc.json",
+    "bytes": 285748,
+    "sha256": "4d207f12871fa8e102a12fd08ff73020f0ec7616f862cdd3c51e809cb2ca0680"
+  },
+  {
+    "path": "E01/pdfjs/triage-events.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "E01/pdfjs/triage-summary.json",
+    "bytes": 2072,
+    "sha256": "149317a746bb22ba528061b89d52a79dbc013be25e31e66c31394a1d4b8f39a2"
+  },
+  {
+    "path": "E01/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E02/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E02/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "E02/mupdf/left.doc.json",
+    "bytes": 109603,
+    "sha256": "542a3ca90340e5bb47e4234fb622b491bb9530989d6c1a60b4ab0820ca4af13b"
+  },
+  {
+    "path": "E02/mupdf/result.json",
+    "bytes": 19101,
+    "sha256": "a7b51c4f13dfcdb3af49171a28fbd47f9c093b8c9bf34908824508e6abab5214"
+  },
+  {
+    "path": "E02/mupdf/right.doc.json",
+    "bytes": 109603,
+    "sha256": "8976505640e23292c10ca5247d904b7aa37e199f9555158abb918f58f0222852"
+  },
+  {
+    "path": "E02/mupdf/triage-events.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "E02/mupdf/triage-summary.json",
+    "bytes": 2067,
+    "sha256": "e7e46fd17c5844cff0ac67d739248651e8ce720964d47710a336c06e047f35f9"
+  },
+  {
+    "path": "E02/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E02/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E02/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "E02/pdfjs/left.doc.json",
+    "bytes": 184176,
+    "sha256": "0bcdc468b8492c681e85f6ddca508b6976b8853b669af39fbed4687d60954027"
+  },
+  {
+    "path": "E02/pdfjs/result.json",
+    "bytes": 16581,
+    "sha256": "e293466baec4915b0b6bf37f212dc4e0154a143576f8d61c31d88a1ea5c0a5f3"
+  },
+  {
+    "path": "E02/pdfjs/right.doc.json",
+    "bytes": 184176,
+    "sha256": "a298499416aa9368aa40c876a4cfb90b03dc4ccb27a28d5e05636c979cf2582d"
+  },
+  {
+    "path": "E02/pdfjs/triage-events.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "E02/pdfjs/triage-summary.json",
+    "bytes": 2072,
+    "sha256": "5a60b161d4998c3a7314fb6245c766d2e014d6895422157b5b53a30cdebd0bd5"
+  },
+  {
+    "path": "E02/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E03/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E03/mupdf/compare.stdout.log",
+    "bytes": 37,
+    "sha256": "aaf5921ddab87a402cbb777924dca2f417b8bb504d98d00c0728f6da379dd8d3"
+  },
+  {
+    "path": "E03/mupdf/left.doc.json",
+    "bytes": 910,
+    "sha256": "50881fd6de5ba99935fa6c709c6cff598f533eee4383dfe26c65949feb741881"
+  },
+  {
+    "path": "E03/mupdf/result.json",
+    "bytes": 1898,
+    "sha256": "fa5f246f910aac37cfa6012711f2d66d3eb12b0ef31184556bf844a37102e50d"
+  },
+  {
+    "path": "E03/mupdf/right.doc.json",
+    "bytes": 910,
+    "sha256": "2d7310d5148baa1c1dbc74f1a2be612422fa624d523e4347230d1604cdd2374b"
+  },
+  {
+    "path": "E03/mupdf/triage-events.json",
+    "bytes": 1029,
+    "sha256": "466233b15b0ab3751693bdb9fc69eaf6a97d035ca685524a2e7bf026a84e5db1"
+  },
+  {
+    "path": "E03/mupdf/triage-summary.json",
+    "bytes": 2149,
+    "sha256": "426969873a217fb0555df968d0d4cc09f00ef17e49caaa8ffd69bf29bf660f7c"
+  },
+  {
+    "path": "E03/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E03/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "E03/pdfjs/compare.stdout.log",
+    "bytes": 37,
+    "sha256": "aaf5921ddab87a402cbb777924dca2f417b8bb504d98d00c0728f6da379dd8d3"
+  },
+  {
+    "path": "E03/pdfjs/left.doc.json",
+    "bytes": 940,
+    "sha256": "1744adc7b4a9fa6801951b0eb3e8706a985a96bd5154c0c235dcf0296d7ac49d"
+  },
+  {
+    "path": "E03/pdfjs/result.json",
+    "bytes": 1916,
+    "sha256": "f6aad6eb31123414ac2e819335b2b0dd7bc6b4eb0415563c4e4602a917e8f813"
+  },
+  {
+    "path": "E03/pdfjs/right.doc.json",
+    "bytes": 940,
+    "sha256": "a61d3c443949b713a35d5e05f5150ee293030c796dc0e93885439b8feb5e9725"
+  },
+  {
+    "path": "E03/pdfjs/triage-events.json",
+    "bytes": 1029,
+    "sha256": "466233b15b0ab3751693bdb9fc69eaf6a97d035ca685524a2e7bf026a84e5db1"
+  },
+  {
+    "path": "E03/pdfjs/triage-summary.json",
+    "bytes": 2154,
+    "sha256": "6ad24c5b2a18a69984cc1820c15b64b78e526a999ac1652934ce07dec20e7171"
+  },
+  {
+    "path": "E03/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P01/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P01/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "12657230b2c4271fb0d6e62862498676db1b0d2393aae0b565065c91951f5f82"
+  },
+  {
+    "path": "P01/mupdf/left.doc.json",
+    "bytes": 102266,
+    "sha256": "5d0d0b617212a8c8bf2ae30da0fab80ee315d563643decaf5f1f38512e049bf9"
+  },
+  {
+    "path": "P01/mupdf/result.json",
+    "bytes": 1918,
+    "sha256": "92256af9e9813fa641c3c61dc9f5dfa4409650f8f4919ad2cdbb09f9d5c9e031"
+  },
+  {
+    "path": "P01/mupdf/right.doc.json",
+    "bytes": 102266,
+    "sha256": "5d0d0b617212a8c8bf2ae30da0fab80ee315d563643decaf5f1f38512e049bf9"
+  },
+  {
+    "path": "P01/mupdf/triage-events.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "P01/mupdf/triage-summary.json",
+    "bytes": 2067,
+    "sha256": "31e7875a18e9cf1ddd8fd816c66836a5eaca681024830a8eb960887ed234a942"
+  },
+  {
+    "path": "P01/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P01/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P01/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "12657230b2c4271fb0d6e62862498676db1b0d2393aae0b565065c91951f5f82"
+  },
+  {
+    "path": "P01/pdfjs/left.doc.json",
+    "bytes": 172728,
+    "sha256": "10878d848ab6978bd838e46c8b20b7f31de0dadae5cc0cb114fdfd8346bcbda4"
+  },
+  {
+    "path": "P01/pdfjs/result.json",
+    "bytes": 1886,
+    "sha256": "34c0b6d21e836e94ecdbdcb38cc21872e6a5216cbd36d29cc30f09e39c20d70c"
+  },
+  {
+    "path": "P01/pdfjs/right.doc.json",
+    "bytes": 172728,
+    "sha256": "10878d848ab6978bd838e46c8b20b7f31de0dadae5cc0cb114fdfd8346bcbda4"
+  },
+  {
+    "path": "P01/pdfjs/triage-events.json",
+    "bytes": 2,
+    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "path": "P01/pdfjs/triage-summary.json",
+    "bytes": 2072,
+    "sha256": "515d4df57de1e6d51b408e1ccab5b08a54adadb0ac8c157143b5aa371886b57b"
+  },
+  {
+    "path": "P01/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P02/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P02/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P02/mupdf/left.doc.json",
+    "bytes": 105134,
+    "sha256": "04f0c8413899b2bc0048bcee8ad7b43e5c7bc98fc9e4b2fbb434811f1605ec8c"
+  },
+  {
+    "path": "P02/mupdf/result.json",
+    "bytes": 20362,
+    "sha256": "7bef704a32bc398ebb8f4d8dd4c3c121b437d138ac21b55e431a40f9e56aeed3"
+  },
+  {
+    "path": "P02/mupdf/right.doc.json",
+    "bytes": 105539,
+    "sha256": "1d36983c765dc7f6f51d0f01630c1fd83e6ccf95c4240c0f84e814941c7122a2"
+  },
+  {
+    "path": "P02/mupdf/triage-events.json",
+    "bytes": 4075,
+    "sha256": "ee741ec4acfb528f261af117fac7710beb967ca393819ed20f3c9e83948c4dc0"
+  },
+  {
+    "path": "P02/mupdf/triage-summary.json",
+    "bytes": 2167,
+    "sha256": "099fa3650fd01f19d7d462f4c3e53672884a3235cd47595f2a72cfce938cfe89"
+  },
+  {
+    "path": "P02/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P02/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P02/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P02/pdfjs/left.doc.json",
+    "bytes": 177180,
+    "sha256": "441dc95b56082037527d82f9094373304e70b557bc34acad0f443f4fbd52ee59"
+  },
+  {
+    "path": "P02/pdfjs/result.json",
+    "bytes": 18470,
+    "sha256": "bc9bbe33dd98a46f3f92b782f55b2d5fc22a8e507abfe3f5c215a8cb1015ca9b"
+  },
+  {
+    "path": "P02/pdfjs/right.doc.json",
+    "bytes": 177820,
+    "sha256": "16248947ec34d3331ce2c7223e7a093ee80d37b6e18008727b6ea270923db2d9"
+  },
+  {
+    "path": "P02/pdfjs/triage-events.json",
+    "bytes": 4075,
+    "sha256": "6b187325e89b33a15dda60c3c876496253f0969c90a4b84a88071e2d2d8c2543"
+  },
+  {
+    "path": "P02/pdfjs/triage-summary.json",
+    "bytes": 2172,
+    "sha256": "c141d000c3287bb39fc20ca1b9b203812a2ea5016ae2bb037235055ab81ab9d4"
+  },
+  {
+    "path": "P02/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P03/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P03/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P03/mupdf/left.doc.json",
+    "bytes": 106365,
+    "sha256": "80717e88119fa1d92b338f8453309ab0c1cf2c7aec2955427aa4ca8726903573"
+  },
+  {
+    "path": "P03/mupdf/result.json",
+    "bytes": 37728,
+    "sha256": "a94ac1e113c417f3e23c0bcd16603fe7d6e6a042ab6be950ee8be70bcb9fcadc"
+  },
+  {
+    "path": "P03/mupdf/right.doc.json",
+    "bytes": 106365,
+    "sha256": "ec7588c359e0fa7bc4b7e551d873bbc6b0ee86d4b2b22ca7791251d9589e917f"
+  },
+  {
+    "path": "P03/mupdf/triage-events.json",
+    "bytes": 11288,
+    "sha256": "b98ad88af328361d12df5d93e7bc8c3a801e2b3fe253d4ab42b3f17210d80015"
+  },
+  {
+    "path": "P03/mupdf/triage-summary.json",
+    "bytes": 2191,
+    "sha256": "cae912bf9bb36b9ab0b311b4eec92ff3ea3dd5cb8ac4a9697ec660c246ea1323"
+  },
+  {
+    "path": "P03/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P03/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P03/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P03/pdfjs/left.doc.json",
+    "bytes": 179084,
+    "sha256": "43cfdc10409d4bc90e236f0dfad83047dc39dc58ca47ce0cb4db47d1308e4cee"
+  },
+  {
+    "path": "P03/pdfjs/result.json",
+    "bytes": 34412,
+    "sha256": "ce778f1ff783dfe87a464bc9eff4a44bc0a7a85c894bfc3cd4e1ce7cb95fc1fd"
+  },
+  {
+    "path": "P03/pdfjs/right.doc.json",
+    "bytes": 179084,
+    "sha256": "64f2ededc8f773078229c58d2dbab5627f33e680fefb3c6ece5319ba44db40f2"
+  },
+  {
+    "path": "P03/pdfjs/triage-events.json",
+    "bytes": 11288,
+    "sha256": "aa57f9c35575f470246bc75709e77e036af87aa5674fa5aa8eb3ef1fed628ba6"
+  },
+  {
+    "path": "P03/pdfjs/triage-summary.json",
+    "bytes": 2196,
+    "sha256": "0156117b6170546b19ed4bceda28820c24d4067f587d7553fe65ce7a1e621f44"
+  },
+  {
+    "path": "P03/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P04/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P04/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P04/mupdf/left.doc.json",
+    "bytes": 108794,
+    "sha256": "ffbbe810b62a6177d167a8964266c59bd1e7d80acd08ba1214741afca4811fc6"
+  },
+  {
+    "path": "P04/mupdf/result.json",
+    "bytes": 37728,
+    "sha256": "618a45fc615ee4c161d5bcb60d8f0d3eb35605893d2995b9f24e3d8a4925c242"
+  },
+  {
+    "path": "P04/mupdf/right.doc.json",
+    "bytes": 108794,
+    "sha256": "427162ccc0567386944b2506ca820446d1ce3206c1645a0115488c980be0404d"
+  },
+  {
+    "path": "P04/mupdf/triage-events.json",
+    "bytes": 8138,
+    "sha256": "836bfed26932a232200c1641f4052d0e187cd478961f2ebf4d9ab37e3f51483f"
+  },
+  {
+    "path": "P04/mupdf/triage-summary.json",
+    "bytes": 2191,
+    "sha256": "c844cb5622fc31d87c479a8b451d915da360a26dc2f7cb9f3f52c1e5adb6664f"
+  },
+  {
+    "path": "P04/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P04/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P04/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P04/pdfjs/left.doc.json",
+    "bytes": 182900,
+    "sha256": "dcf5bc3b1b6ecc4ca319b51b8e46656b8d922dc8a7cd4a7bb1fdfe090879abca"
+  },
+  {
+    "path": "P04/pdfjs/result.json",
+    "bytes": 34412,
+    "sha256": "3d8816c49f178fc26af576d4f8fd6d0de336c3d4409fcf0a1b5a306a6058ea16"
+  },
+  {
+    "path": "P04/pdfjs/right.doc.json",
+    "bytes": 182900,
+    "sha256": "26eee895b9b3c8e7d1ced0c60fa44c0e38e1f345db26e48f4f0841bfe9af651f"
+  },
+  {
+    "path": "P04/pdfjs/triage-events.json",
+    "bytes": 8138,
+    "sha256": "8a5bcff427550a61b89d7c8f3a1ee24a3001788b9d0d3fd3ceca86a73e858a0c"
+  },
+  {
+    "path": "P04/pdfjs/triage-summary.json",
+    "bytes": 2196,
+    "sha256": "b91fbd19d22aa7371e31d2cb9c01fbefb85fc97ca1cfd271164aa05fcb78b512"
+  },
+  {
+    "path": "P04/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P05/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P05/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P05/mupdf/left.doc.json",
+    "bytes": 113354,
+    "sha256": "82972bd46505806dbb84a573106f5d493a7688efde45ea407a91c6cb82a57850"
+  },
+  {
+    "path": "P05/mupdf/result.json",
+    "bytes": 20647,
+    "sha256": "3e8df0890b377c940e7011adc85c703b650ce11ea31d1cc77f6970c65c00c0f2"
+  },
+  {
+    "path": "P05/mupdf/right.doc.json",
+    "bytes": 113354,
+    "sha256": "5d1ed6333a227601ef92380d6c2e5c8ed8d02b9a65ce99a49aa297a0a4daa74e"
+  },
+  {
+    "path": "P05/mupdf/triage-events.json",
+    "bytes": 4076,
+    "sha256": "e73554d07ddcf5a932cf7710eb2dfd9ed63589fa78f4c14234a15c20e464ab3b"
+  },
+  {
+    "path": "P05/mupdf/triage-summary.json",
+    "bytes": 2167,
+    "sha256": "36f10692512861cfe9c0401cf94c2d5d048d3602dc6a1b434963fb683cf5d335"
+  },
+  {
+    "path": "P05/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P05/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P05/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P05/pdfjs/left.doc.json",
+    "bytes": 189955,
+    "sha256": "5ef248e3fd1c7175ba02eb85fc0bf1686704e60ef2aeba5baf4ae9dd5e407a13"
+  },
+  {
+    "path": "P05/pdfjs/result.json",
+    "bytes": 18627,
+    "sha256": "48f867edf2ea757130632b4dd884c5f9e5ea324c37cabf9bdac544281ff21b79"
+  },
+  {
+    "path": "P05/pdfjs/right.doc.json",
+    "bytes": 189955,
+    "sha256": "082009a1ac94f37b25e3ea6c2e9687db8f567c49c591a199a35a6c52308ebbf8"
+  },
+  {
+    "path": "P05/pdfjs/triage-events.json",
+    "bytes": 4076,
+    "sha256": "4fcb1b42dd694e1bd72e78ec8aa04f5a5df8badf17b1912fcdbf80d86098fa40"
+  },
+  {
+    "path": "P05/pdfjs/triage-summary.json",
+    "bytes": 2172,
+    "sha256": "6e516ce6ec2ab3cb414a19a138f741def4b5916e859e8b982f3e9c10fbce49db"
+  },
+  {
+    "path": "P05/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P06/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P06/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P06/mupdf/left.doc.json",
+    "bytes": 116217,
+    "sha256": "5c1f2efafdf4af9d04e364bb6e7ba815e3365038038fb5cf4ef5cbac4872792b"
+  },
+  {
+    "path": "P06/mupdf/result.json",
+    "bytes": 11028,
+    "sha256": "bcc9071c4d94b3a373fb116a8dcbf0c55964bd19253b1770f8f61bbc34e883a3"
+  },
+  {
+    "path": "P06/mupdf/right.doc.json",
+    "bytes": 104835,
+    "sha256": "19656bd4fb24a70aede4195e6acffd624edbe39f1a41aadb084dcf7577cb7830"
+  },
+  {
+    "path": "P06/mupdf/triage-events.json",
+    "bytes": 3236,
+    "sha256": "1748b1bebce3ab71c30da3e120bd0599897c65f332d29bbc319beaa2f07ec1e7"
+  },
+  {
+    "path": "P06/mupdf/triage-summary.json",
+    "bytes": 2167,
+    "sha256": "ef945f948b8d15595f240bc6e74f2d7c6a15979f227c3a2cf80caa18c307a0f6"
+  },
+  {
+    "path": "P06/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P06/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P06/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P06/pdfjs/left.doc.json",
+    "bytes": 194407,
+    "sha256": "f3795b77e65082d5e3aa45e47461b05d98de4b55ba18caaccf48ffe0c9427626"
+  },
+  {
+    "path": "P06/pdfjs/result.json",
+    "bytes": 9610,
+    "sha256": "dd9884ef4e78aef71325c334b34df945ddb2f7ef1642fba8343da02fe5fa2da3"
+  },
+  {
+    "path": "P06/pdfjs/right.doc.json",
+    "bytes": 173698,
+    "sha256": "b3d3b6bc858b6d2fb4874afaf8251041f812e8a7223e77717869c01062ce8b69"
+  },
+  {
+    "path": "P06/pdfjs/triage-events.json",
+    "bytes": 3236,
+    "sha256": "75814482d4a3f39f93874321d34cb81505b3e8ae022108f8554f9df06fbe0004"
+  },
+  {
+    "path": "P06/pdfjs/triage-summary.json",
+    "bytes": 2172,
+    "sha256": "e6b44e1baba968cd6b5b197ad34709add375b8b573cf3a221200a2e739fb7e63"
+  },
+  {
+    "path": "P06/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P07/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P07/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P07/mupdf/left.doc.json",
+    "bytes": 110441,
+    "sha256": "96df10bc783e35bf38cbc915ba7f7858dab2f8c978df12834a6eec3d10637dda"
+  },
+  {
+    "path": "P07/mupdf/result.json",
+    "bytes": 19635,
+    "sha256": "1ed8b33399e8da0a6083cfdf70c5e2ad4f89fabb589d8ab85709a5e9e278e075"
+  },
+  {
+    "path": "P07/mupdf/right.doc.json",
+    "bytes": 110436,
+    "sha256": "0c81144562e1fbe01091421c68f95aa3ed5615bbd24e8518c2d49f63e893023b"
+  },
+  {
+    "path": "P07/mupdf/triage-events.json",
+    "bytes": 6454,
+    "sha256": "7321f0f60a50f6c189d01fd0c10db9d90356554590c60b29cfaa9a63a7219fd3"
+  },
+  {
+    "path": "P07/mupdf/triage-summary.json",
+    "bytes": 2191,
+    "sha256": "7f8ead067796829c72817479e40a8eba8bbebcd1de143a7259ef7f72ababee80"
+  },
+  {
+    "path": "P07/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P07/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P07/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P07/pdfjs/left.doc.json",
+    "bytes": 185448,
+    "sha256": "18cef298e33563add01c6ce6478ef73f7a72859d5ef6915ea2956aa49e5c4a4f"
+  },
+  {
+    "path": "P07/pdfjs/result.json",
+    "bytes": 17075,
+    "sha256": "f17284a07bdc6fc0c9cc4d805c17d53cc6468f907d30a9a5335b124f3f6a0da3"
+  },
+  {
+    "path": "P07/pdfjs/right.doc.json",
+    "bytes": 185448,
+    "sha256": "be3028b5220ab021bf03d7fa705b2dded89ca20ff1253053022f5638b8ef058e"
+  },
+  {
+    "path": "P07/pdfjs/triage-events.json",
+    "bytes": 6454,
+    "sha256": "8c661a66ec5e96120f1c9cf3fabc26667d2fdeb94dd3564eca3fef700e413195"
+  },
+  {
+    "path": "P07/pdfjs/triage-summary.json",
+    "bytes": 2196,
+    "sha256": "89212b635bb9c017511782b020a8b8832dffd1483d3719cb6436be08675cd3cc"
+  },
+  {
+    "path": "P07/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P08/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P08/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P08/mupdf/left.doc.json",
+    "bytes": 113364,
+    "sha256": "627ce859a55d495f6994b68df35e4b9c19bc73b525dee01ea678c3e9732aedbc"
+  },
+  {
+    "path": "P08/mupdf/result.json",
+    "bytes": 21532,
+    "sha256": "1a2fe888655e40f00523f72e091f2d2725d2c1a50922709977ffa66fcb078ffe"
+  },
+  {
+    "path": "P08/mupdf/right.doc.json",
+    "bytes": 113364,
+    "sha256": "09a003a896d711f65257027e5bc3cba1f75abac65953da5e8572fc2b49b0d7ce"
+  },
+  {
+    "path": "P08/mupdf/triage-events.json",
+    "bytes": 6301,
+    "sha256": "d3e26d0508cff7d9184df9e79ea0b2f9617d64afba04de07e8e7fbfdfdc5da59"
+  },
+  {
+    "path": "P08/mupdf/triage-summary.json",
+    "bytes": 2167,
+    "sha256": "19628cc2fd980a6fa537527718efeaa9353fdd5c3634a2e2163c58a56fdd970a"
+  },
+  {
+    "path": "P08/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P08/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P08/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P08/pdfjs/left.doc.json",
+    "bytes": 189955,
+    "sha256": "50607fd312c01a0ea29d9ea92e81830815d5a874911f05add87686eb23ba7450"
+  },
+  {
+    "path": "P08/pdfjs/result.json",
+    "bytes": 20296,
+    "sha256": "ee06bbb44501dd22afea338b88e2ad936b8d32879a22c1718ce4f8ebd4a1dcbf"
+  },
+  {
+    "path": "P08/pdfjs/right.doc.json",
+    "bytes": 189955,
+    "sha256": "fff250a482a6f9332d9b1243fb3c1188f35465ab09c606758ef3bcd5eb1a58c6"
+  },
+  {
+    "path": "P08/pdfjs/triage-events.json",
+    "bytes": 6301,
+    "sha256": "e22ae2c9179e46103bfe2b3da9844275778f5b38995cca319bd0a4c83dd25498"
+  },
+  {
+    "path": "P08/pdfjs/triage-summary.json",
+    "bytes": 2172,
+    "sha256": "862c5df71d659447f3e61f4d0af7e30e9981c8468346a9c13b59ba047272e0f5"
+  },
+  {
+    "path": "P08/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P09/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P09/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P09/mupdf/left.doc.json",
+    "bytes": 117606,
+    "sha256": "e5358ba9e6460b5a8a52a3250511868004802907dbbab0b865ecbf810dde4f7c"
+  },
+  {
+    "path": "P09/mupdf/result.json",
+    "bytes": 34131,
+    "sha256": "ee4d5e3afa3b8c0e95e05da9251d2e5969c22d15d425a00f99c74a5242728293"
+  },
+  {
+    "path": "P09/mupdf/right.doc.json",
+    "bytes": 117608,
+    "sha256": "1e340888dc24630b66de3c7cfe663869cfdeac6cf243dfd397f3c52d4f6c8930"
+  },
+  {
+    "path": "P09/mupdf/triage-events.json",
+    "bytes": 5752,
+    "sha256": "95e25c8e1a5f6026db9e12aca0c9337f41d837e1377828eea18837b6f28c50ce"
+  },
+  {
+    "path": "P09/mupdf/triage-summary.json",
+    "bytes": 2167,
+    "sha256": "a7619481e7fddb111561b5badda2f4207ed43b391bd3a41257753be6af4350ef"
+  },
+  {
+    "path": "P09/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P09/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P09/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P09/pdfjs/left.doc.json",
+    "bytes": 195253,
+    "sha256": "194b36484692ac35e7bf16daa2e4c90b7196443635495b56ba2273fceeb0c7b2"
+  },
+  {
+    "path": "P09/pdfjs/result.json",
+    "bytes": 29333,
+    "sha256": "d6cfd9f52998ece97cb039d50c70dc19fe3411289627253cf88f647ef3810b79"
+  },
+  {
+    "path": "P09/pdfjs/right.doc.json",
+    "bytes": 195271,
+    "sha256": "0b6714d9f00d25e45eedaa24ce2df1ffdc5ef5d1e702fbb37b45c39ac8798eb2"
+  },
+  {
+    "path": "P09/pdfjs/triage-events.json",
+    "bytes": 5752,
+    "sha256": "dae81a5f1f6ee6d568dad63cccc3495502984d5ce66655a2f0652549b418d53b"
+  },
+  {
+    "path": "P09/pdfjs/triage-summary.json",
+    "bytes": 2172,
+    "sha256": "2069443c7303a7cdbab1b1d039861c072294a96fe43232a96976461707b90869"
+  },
+  {
+    "path": "P09/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P10/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P10/mupdf/compare.stdout.log",
+    "bytes": 38,
+    "sha256": "8055e577eafbd3a57c9ddf5024edc62b8bca99dd98b842a94845094dc84b0420"
+  },
+  {
+    "path": "P10/mupdf/left.doc.json",
+    "bytes": 107413,
+    "sha256": "2bcb9a4df7b75d0795dc54e078554afb9c13c270da9cf10694087ccabc8b74a1"
+  },
+  {
+    "path": "P10/mupdf/result.json",
+    "bytes": 64732,
+    "sha256": "eed5ad02f22c83947ba9aed1c5f84987016cbc58775f48bc1ffebf755fbb5d61"
+  },
+  {
+    "path": "P10/mupdf/right.doc.json",
+    "bytes": 107415,
+    "sha256": "39d9c52252694bbf9944f73f3ddf03bef84ebd5dee0c540774c3b9a257337d4e"
+  },
+  {
+    "path": "P10/mupdf/triage-events.json",
+    "bytes": 5814,
+    "sha256": "a4080ad1b41bda8fbce4b958cdcf5b3352e602085cf9a4b62a868aa9f80c2335"
+  },
+  {
+    "path": "P10/mupdf/triage-summary.json",
+    "bytes": 2166,
+    "sha256": "89279804ac57eaa1ccb5fe9ac2f18fac81180c8824b23c82a4f10016f3cea935"
+  },
+  {
+    "path": "P10/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P10/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P10/pdfjs/compare.stdout.log",
+    "bytes": 38,
+    "sha256": "8055e577eafbd3a57c9ddf5024edc62b8bca99dd98b842a94845094dc84b0420"
+  },
+  {
+    "path": "P10/pdfjs/left.doc.json",
+    "bytes": 176118,
+    "sha256": "f5c8212dd7238d032ed474bcfeccce7f2fb94efd85cb8da2a91d70e30fb17a2f"
+  },
+  {
+    "path": "P10/pdfjs/result.json",
+    "bytes": 57459,
+    "sha256": "88d9988668f346191a6876e0b4557ebe16d90d1efbd2feed29192764a44e4d80"
+  },
+  {
+    "path": "P10/pdfjs/right.doc.json",
+    "bytes": 172696,
+    "sha256": "ccbe75596c00c2f498b6a98b531b672b7a1eb86a87ea5c4f38a6cab1de9636e7"
+  },
+  {
+    "path": "P10/pdfjs/triage-events.json",
+    "bytes": 5814,
+    "sha256": "f97b78c0f2d12286a45446746c7ddfce59fbd4901bbdfc74ec6ec2d2f56d9ed6"
+  },
+  {
+    "path": "P10/pdfjs/triage-summary.json",
+    "bytes": 2171,
+    "sha256": "23bc411aeed119f46c7e4c1bb0e6bb94f8a449bab83a19b91c092d85d8d4797d"
+  },
+  {
+    "path": "P10/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P11/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P11/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P11/mupdf/left.doc.json",
+    "bytes": 121396,
+    "sha256": "a55ac9e4d2494102b832fce4b510f9ef377f2037a5402b2b92f8c0f403615675"
+  },
+  {
+    "path": "P11/mupdf/result.json",
+    "bytes": 25363,
+    "sha256": "cb28113b02bf204a6edc9bb0756451f1ed634d95e89fdf6277a16c103eac252f"
+  },
+  {
+    "path": "P11/mupdf/right.doc.json",
+    "bytes": 121806,
+    "sha256": "d8515ae98901439baf894ea20e32063b6b7805e1d0cc2ada62c6efb486eb9e59"
+  },
+  {
+    "path": "P11/mupdf/triage-events.json",
+    "bytes": 7613,
+    "sha256": "e4141c87305c3bcd8d6587a8babf544b094e47f15dc8dbbf3c1ebbd34706a45c"
+  },
+  {
+    "path": "P11/mupdf/triage-summary.json",
+    "bytes": 2183,
+    "sha256": "968666666f1d3ca0a9ddbb377e6156e4f8c5a5b120ae6e6aefe9ee415f28173b"
+  },
+  {
+    "path": "P11/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P11/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P11/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P11/pdfjs/left.doc.json",
+    "bytes": 195988,
+    "sha256": "1ae6aff095a98eedf257b43c2bc5918a10578618f0fcf4b243f58c1f8a935696"
+  },
+  {
+    "path": "P11/pdfjs/result.json",
+    "bytes": 23184,
+    "sha256": "0dec2224f1dcf28331e607431fc400b741d8af3c2717d298e3d89064ff0165df"
+  },
+  {
+    "path": "P11/pdfjs/right.doc.json",
+    "bytes": 196628,
+    "sha256": "74081311860c07d77cf953f27a1a61cebc78a5d70e67423d3a1563a7c17573f2"
+  },
+  {
+    "path": "P11/pdfjs/triage-events.json",
+    "bytes": 7657,
+    "sha256": "01d4066e672223c7ec84fee71a4b4513bc2dfaa8c3f41e7c0e14978a14e61479"
+  },
+  {
+    "path": "P11/pdfjs/triage-summary.json",
+    "bytes": 2188,
+    "sha256": "bf2ab9c13d6c46038af98a7482fbaf9b0dbb5e150190ed7a73630a01a637c56a"
+  },
+  {
+    "path": "P11/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P12/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P12/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P12/mupdf/left.doc.json",
+    "bytes": 142960,
+    "sha256": "945e9b6495662ab655c2f31814f9c439ade2ade91456562153b1403bd1cc0b8b"
+  },
+  {
+    "path": "P12/mupdf/result.json",
+    "bytes": 17939,
+    "sha256": "7c6b5083ed9235f45d003be5aee2313de32fbc1184ee4826d20c192a35e4ea24"
+  },
+  {
+    "path": "P12/mupdf/right.doc.json",
+    "bytes": 140940,
+    "sha256": "fbf869f842726a996c8013d87fb50c16b1b2e8e18ed27bc955dc1f82feb7d198"
+  },
+  {
+    "path": "P12/mupdf/triage-events.json",
+    "bytes": 6462,
+    "sha256": "dff2311a5a4028caff6daf62c5491afe1bb9c8af6ad65b65c0588b98d07fbc37"
+  },
+  {
+    "path": "P12/mupdf/triage-summary.json",
+    "bytes": 2191,
+    "sha256": "941ce1021962a50b915b5ea19b272c923333af2c1d8c34154090c7419c1c18f0"
+  },
+  {
+    "path": "P12/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P12/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P12/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "a70e806e3d6a2ff1164657fe99066a4d5c0c2b3851a40fe95aa01600830bad30"
+  },
+  {
+    "path": "P12/pdfjs/left.doc.json",
+    "bytes": 244647,
+    "sha256": "8b46463ccf2e61905134b2fe8efe9b74051e1028110f580352961361e290f54b"
+  },
+  {
+    "path": "P12/pdfjs/result.json",
+    "bytes": 16117,
+    "sha256": "973155add468fbaec1300469f2f758c1167047b65b53c6127986cb5721a65b47"
+  },
+  {
+    "path": "P12/pdfjs/right.doc.json",
+    "bytes": 241447,
+    "sha256": "d35a6267dc78bf743cc67339ff49411bb69e59c063f69ba0fbc1e70f1136bff5"
+  },
+  {
+    "path": "P12/pdfjs/triage-events.json",
+    "bytes": 6462,
+    "sha256": "40d7230757da854fc2dcd8dfdd7fb2c565c806f581b4c0f0303803fd46e8e3b4"
+  },
+  {
+    "path": "P12/pdfjs/triage-summary.json",
+    "bytes": 2196,
+    "sha256": "0f8d5cb5d4ffc8ab0b5d6f7f21ffc3134d5a6dea420d3dc4d9d3132bbaabd7d3"
+  },
+  {
+    "path": "P12/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P13/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P13/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P13/mupdf/left.doc.json",
+    "bytes": 83507,
+    "sha256": "f8d4924b2ccec135c30178934e57255320bdfc29dee6c3c332064eabb9063a9a"
+  },
+  {
+    "path": "P13/mupdf/result.json",
+    "bytes": 16621,
+    "sha256": "6ec62c301eaae9e78b8fcbb808c3d4858b041de659956383d06289152da2f948"
+  },
+  {
+    "path": "P13/mupdf/right.doc.json",
+    "bytes": 83507,
+    "sha256": "a52c773c47bd6f4e57aa7078940e5dc630287e98393c968474456ef8688cafd7"
+  },
+  {
+    "path": "P13/mupdf/triage-events.json",
+    "bytes": 1502,
+    "sha256": "674d84a339bb9362f3fecf7ffc9b181f0064c50dead960b6a1cbfe28f371a72d"
+  },
+  {
+    "path": "P13/mupdf/triage-summary.json",
+    "bytes": 2147,
+    "sha256": "a575afc1583bc00ea4c40952c08e4401b34a5d5de96ff645931b6c7b2dfb7085"
+  },
+  {
+    "path": "P13/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P13/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P13/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "37e6e2f103717916205f712d26a7df5f4d72ea2d5a614cc150c9226101fb3d61"
+  },
+  {
+    "path": "P13/pdfjs/left.doc.json",
+    "bytes": 132481,
+    "sha256": "3751cff49bb6c442aa02e08809a8875228db648439ba18f3edd389de945eee60"
+  },
+  {
+    "path": "P13/pdfjs/result.json",
+    "bytes": 13221,
+    "sha256": "ef21f5943d17bd6d6b04b153cfd3387680b2c5067f7f34484e84bf98dd808c02"
+  },
+  {
+    "path": "P13/pdfjs/right.doc.json",
+    "bytes": 132481,
+    "sha256": "9d286721b84df64ab53a2e78f17a04cbe02d0a9d211e97a6c04e418d526818c5"
+  },
+  {
+    "path": "P13/pdfjs/triage-events.json",
+    "bytes": 1502,
+    "sha256": "83d2946e4460caae3f4374d09c70602b92aa038f01cbce7200d15723850871d8"
+  },
+  {
+    "path": "P13/pdfjs/triage-summary.json",
+    "bytes": 2152,
+    "sha256": "a15a31c0f4505af3fc07859f87c40f009427bc3d3fdcf56f32e4bc7b09633960"
+  },
+  {
+    "path": "P13/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P14/mupdf/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P14/mupdf/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "36b46348e890827701b2ffef3eb52d72a980f4c607b7a0dda1241778d8a3f913"
+  },
+  {
+    "path": "P14/mupdf/left.doc.json",
+    "bytes": 100488,
+    "sha256": "0895e42997b7c132bee6cb2e6e6af77746891b2ea4db11f7521cfb39def00a4b"
+  },
+  {
+    "path": "P14/mupdf/result.json",
+    "bytes": 54823,
+    "sha256": "33906034b150b846ed6dbc20941feda3f1b4acb2ec97afcc980760434398efb4"
+  },
+  {
+    "path": "P14/mupdf/right.doc.json",
+    "bytes": 100488,
+    "sha256": "09c2cc71cabd34c06d50b3809d051d12baa936faf3cb8fb33e57f6caee99dae2"
+  },
+  {
+    "path": "P14/mupdf/triage-events.json",
+    "bytes": 4640,
+    "sha256": "aa93ba8c656c22749b96f2bace6dc68d226edd4094201147a402bade007198fb"
+  },
+  {
+    "path": "P14/mupdf/triage-summary.json",
+    "bytes": 2163,
+    "sha256": "5d0390ae1b480b6462aee0113a388683f7aa79692e90aa44de0492db78e89e4a"
+  },
+  {
+    "path": "P14/mupdf/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P14/pdfjs/compare.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "P14/pdfjs/compare.stdout.log",
+    "bytes": 48,
+    "sha256": "36b46348e890827701b2ffef3eb52d72a980f4c607b7a0dda1241778d8a3f913"
+  },
+  {
+    "path": "P14/pdfjs/left.doc.json",
+    "bytes": 159574,
+    "sha256": "6dec03c31defbfe396a0a996bb16fdeb440288c63b243b902fbe6540daf051cc"
+  },
+  {
+    "path": "P14/pdfjs/result.json",
+    "bytes": 41935,
+    "sha256": "a3b57e059897bca670c23df048c7ac30925daf0ebca6744854af6fefb5d39390"
+  },
+  {
+    "path": "P14/pdfjs/right.doc.json",
+    "bytes": 159574,
+    "sha256": "ce7bdfe784fa74e97013a49a76a6b487458eb4086051a459dea7180776222f98"
+  },
+  {
+    "path": "P14/pdfjs/triage-events.json",
+    "bytes": 4640,
+    "sha256": "0542a9fd7c433609a68afb6f41ca2ff706b31abb95d8a314c5fc32b337c2300a"
+  },
+  {
+    "path": "P14/pdfjs/triage-summary.json",
+    "bytes": 2168,
+    "sha256": "3308ae161fdea2653b27586ecdd2c047dbd6f6a9b4c4f1aabd6e2f6c58e26b1d"
+  },
+  {
+    "path": "P14/pdfjs/triage.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "run-summary.json",
+    "bytes": 205837,
+    "sha256": "c4c54a243401c3d4dab3c32a8887516bdd5df4e187d1c230c923a8119aa20087"
+  }
+]

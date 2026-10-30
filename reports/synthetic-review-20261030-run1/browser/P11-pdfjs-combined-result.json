@@ -1,0 +1,1718 @@
+{
+  "schemaVersion": "policy-compare-result/2",
+  "coreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+  "extractors": [
+    {
+      "name": "PDF.js",
+      "version": "pdfjs/6.4.299+strict-streams.1",
+      "adapterVersion": "pdfjs-adapter/3",
+      "options": {
+        "disableNormalization": true,
+        "includeMarkedContent": false,
+        "geometry": "engine_run; browser text_layer_range",
+        "stopAtErrors": true,
+        "streamFailurePolicy": "throw-invalid-stream/1"
+      }
+    },
+    {
+      "name": "PDF.js",
+      "version": "pdfjs/6.4.299+strict-streams.1",
+      "adapterVersion": "pdfjs-adapter/3",
+      "options": {
+        "disableNormalization": true,
+        "includeMarkedContent": false,
+        "geometry": "engine_run; browser text_layer_range",
+        "stopAtErrors": true,
+        "streamFailurePolicy": "throw-invalid-stream/1"
+      }
+    }
+  ],
+  "snapshotHashVersion": "page-merkle/1",
+  "tokenizerVersion": "unicode-tokens/1",
+  "profileVersion": "aviation/1.0.0",
+  "documentHashes": [
+    "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447",
+    "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31"
+  ],
+  "extractionSnapshotHashes": [
+    "8e20721b020d8a65dda3295df9dd42315e7e9a495ee841ec3a399e6fa96566d6",
+    "51c43ca9587127a6c18c0ea11320d82fc07678422ecbf732470233fe5b8a0abf"
+  ],
+  "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+  "scope": "extracted_text",
+  "status": "complete_for_scope",
+  "differences": [
+    {
+      "id": "d-0f86aa62223736a143f6",
+      "kind": "Added",
+      "structurePath": {
+        "section": "risk_details",
+        "entity": null,
+        "field": null,
+        "table": null,
+        "rowKey": null,
+        "confidence": "candidate"
+      },
+      "left": [],
+      "right": [
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u10",
+          "rawRange": [
+            254,
+            262
+          ],
+          "charIds": [
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s0",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s1",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s2",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s3",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s4",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s5",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s6",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s7"
+          ],
+          "text": "USD 2500",
+          "quads": [
+            [
+              320,
+              217.82,
+              366.13,
+              217.82,
+              320,
+              227.07,
+              366.13,
+              227.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34",
+              "scalarRange": [
+                0,
+                8
+              ],
+              "utf16Range": [
+                0,
+                8
+              ],
+              "itemText": "USD 2500"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                320.0115539702233,
+                216.2358870967742,
+                366.1428677012252,
+                216.2358870967742,
+                320.0115539702233,
+                227.6254652605459,
+                366.1428677012252,
+                227.6254652605459
+              ]
+            ],
+            "text": "USD 2500"
+          }
+        }
+      ],
+      "oldText": "",
+      "newText": "USD 2500",
+      "textOps": [
+        {
+          "kind": "insert",
+          "text": "USD 2500",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u10",
+              "rawRange": [
+                254,
+                262
+              ],
+              "charIds": [
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s0",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s1",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s2",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s3",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s4",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s5",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s6",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34:s7"
+              ],
+              "text": "USD 2500",
+              "quads": [
+                [
+                  320,
+                  217.82,
+                  366.13,
+                  217.82,
+                  320,
+                  227.07,
+                  366.13,
+                  227.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i34",
+                  "scalarRange": [
+                    0,
+                    8
+                  ],
+                  "utf16Range": [
+                    0,
+                    8
+                  ],
+                  "itemText": "USD 2500"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    320.0115539702233,
+                    216.2358870967742,
+                    366.1428677012252,
+                    216.2358870967742,
+                    320.0115539702233,
+                    227.6254652605459,
+                    366.1428677012252,
+                    227.6254652605459
+                  ]
+                ],
+                "text": "USD 2500"
+              }
+            }
+          ]
+        }
+      ],
+      "hasTextChange": true,
+      "facts": [],
+      "repeat": null,
+      "defaultVisible": true,
+      "matchEvidence": {
+        "method": "unmatched",
+        "score": null,
+        "details": [
+          "unmatched"
+        ]
+      },
+      "reviewReasons": [],
+      "occurrences": []
+    },
+    {
+      "id": "d-8aa3490d88480f5d12b7",
+      "kind": "Replaced",
+      "structurePath": {
+        "section": "risk_details",
+        "entity": null,
+        "field": null,
+        "table": null,
+        "rowKey": null,
+        "confidence": "candidate"
+      },
+      "left": [
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+          "rawRange": [
+            254,
+            262
+          ],
+          "charIds": [
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s1",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s2",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s3",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s4",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s5",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s6",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s7"
+          ],
+          "text": "USD 2000",
+          "quads": [
+            [
+              320,
+              217.82,
+              366.13,
+              217.82,
+              320,
+              227.07,
+              366.13,
+              227.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34",
+              "scalarRange": [
+                0,
+                8
+              ],
+              "utf16Range": [
+                0,
+                8
+              ],
+              "itemText": "USD 2000"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                320.0115539702233,
+                216.2358870967742,
+                366.1428677012252,
+                216.2358870967742,
+                320.0115539702233,
+                227.6254652605459,
+                366.1428677012252,
+                227.6254652605459
+              ]
+            ],
+            "text": "USD 2000"
+          }
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+          "rawRange": [
+            262,
+            270
+          ],
+          "charIds": [
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s1",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s2",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s3",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s4",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s5",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s6",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s7"
+          ],
+          "text": "USD 3000",
+          "quads": [
+            [
+              320,
+              283.82,
+              366.13,
+              283.82,
+              320,
+              293.07,
+              366.13,
+              293.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35",
+              "scalarRange": [
+                0,
+                8
+              ],
+              "utf16Range": [
+                0,
+                8
+              ],
+              "itemText": "USD 3000"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                320.0115539702233,
+                282.21239143920593,
+                366.1428677012252,
+                282.21239143920593,
+                320.0115539702233,
+                293.60196960297765,
+                366.1428677012252,
+                293.60196960297765
+              ]
+            ],
+            "text": "USD 3000"
+          }
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+          "rawRange": [
+            270,
+            275
+          ],
+          "charIds": [
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s0",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s1",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s2",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s3",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s4"
+          ],
+          "text": "0.10%",
+          "quads": [
+            [
+              450,
+              151.82,
+              478.35,
+              151.82,
+              450,
+              161.07,
+              478.35,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36",
+              "scalarRange": [
+                0,
+                5
+              ],
+              "utf16Range": [
+                0,
+                5
+              ],
+              "itemText": "0.10%"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                150.27124689826303,
+                478.35560929745657,
+                150.27124689826303,
+                449.995114764268,
+                161.66082506203475,
+                478.35560929745657,
+                161.66082506203475
+              ]
+            ],
+            "text": "0.10%"
+          }
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+          "rawRange": [
+            275,
+            278
+          ],
+          "charIds": [
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37:s0",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37:s1",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37:s2"
+          ],
+          "text": "net",
+          "quads": [
+            [
+              450,
+              165.82,
+              463.9,
+              165.82,
+              450,
+              175.07,
+              463.9,
+              175.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37",
+              "scalarRange": [
+                0,
+                3
+              ],
+              "utf16Range": [
+                0,
+                3
+              ],
+              "itemText": "net"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                164.2116160049628,
+                463.89720346909894,
+                164.2116160049628,
+                449.995114764268,
+                175.60119416873448,
+                463.89720346909894,
+                175.60119416873448
+              ]
+            ],
+            "text": "net"
+          }
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+          "rawRange": [
+            278,
+            284
+          ],
+          "charIds": [
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s0",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s1",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s2",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s3",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s4",
+            "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s5"
+          ],
+          "text": "annual",
+          "quads": [
+            [
+              450,
+              179.82,
+              480.02,
+              179.82,
+              450,
+              189.07,
+              480.02,
+              189.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38",
+              "scalarRange": [
+                0,
+                6
+              ],
+              "utf16Range": [
+                0,
+                6
+              ],
+              "itemText": "annual"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                178.2231699751861,
+                480.0249314225341,
+                178.2231699751861,
+                449.995114764268,
+                189.6127481389578,
+                480.0249314225341,
+                189.6127481389578
+              ]
+            ],
+            "text": "annual"
+          }
+        }
+      ],
+      "right": [
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u11",
+          "rawRange": [
+            262,
+            270
+          ],
+          "charIds": [
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s0",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s1",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s2",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s3",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s4",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s5",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s6",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s7"
+          ],
+          "text": "USD 3000",
+          "quads": [
+            [
+              320,
+              283.82,
+              366.13,
+              283.82,
+              320,
+              293.07,
+              366.13,
+              293.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35",
+              "scalarRange": [
+                0,
+                8
+              ],
+              "utf16Range": [
+                0,
+                8
+              ],
+              "itemText": "USD 3000"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                320.0115539702233,
+                282.21239143920593,
+                366.1428677012252,
+                282.21239143920593,
+                320.0115539702233,
+                293.60196960297765,
+                366.1428677012252,
+                293.60196960297765
+              ]
+            ],
+            "text": "USD 3000"
+          }
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u11",
+          "rawRange": [
+            270,
+            275
+          ],
+          "charIds": [
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s0",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s1",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s2",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s3",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s4"
+          ],
+          "text": "0.10%",
+          "quads": [
+            [
+              450,
+              151.82,
+              478.35,
+              151.82,
+              450,
+              161.07,
+              478.35,
+              161.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36",
+              "scalarRange": [
+                0,
+                5
+              ],
+              "utf16Range": [
+                0,
+                5
+              ],
+              "itemText": "0.10%"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                150.27124689826303,
+                478.35560929745657,
+                150.27124689826303,
+                449.995114764268,
+                161.66082506203475,
+                478.35560929745657,
+                161.66082506203475
+              ]
+            ],
+            "text": "0.10%"
+          }
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u11",
+          "rawRange": [
+            275,
+            278
+          ],
+          "charIds": [
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37:s0",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37:s1",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37:s2"
+          ],
+          "text": "net",
+          "quads": [
+            [
+              450,
+              165.82,
+              463.9,
+              165.82,
+              450,
+              175.07,
+              463.9,
+              175.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37",
+              "scalarRange": [
+                0,
+                3
+              ],
+              "utf16Range": [
+                0,
+                3
+              ],
+              "itemText": "net"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                164.2116160049628,
+                463.8972961577233,
+                164.2116160049628,
+                449.995114764268,
+                175.60119416873448,
+                463.8972961577233,
+                175.60119416873448
+              ]
+            ],
+            "text": "net"
+          }
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u11",
+          "rawRange": [
+            278,
+            285
+          ],
+          "charIds": [
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s0",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s1",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s2",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s3",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s4",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s5",
+            "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s6"
+          ],
+          "text": "monthly",
+          "quads": [
+            [
+              450,
+              179.82,
+              485.01,
+              179.82,
+              450,
+              189.07,
+              485.01,
+              189.07
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "run",
+          "geometryMethod": "engine_run",
+          "sourceRanges": [
+            {
+              "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38",
+              "scalarRange": [
+                0,
+                7
+              ],
+              "utf16Range": [
+                0,
+                7
+              ],
+              "itemText": "monthly"
+            }
+          ],
+          "resolvedGeometry": {
+            "method": "text_layer_range",
+            "quads": [
+              [
+                449.995114764268,
+                178.2231699751861,
+                485.01621384537845,
+                178.2231699751861,
+                449.995114764268,
+                189.6127481389578,
+                485.01621384537845,
+                189.6127481389578
+              ]
+            ],
+            "text": "monthly"
+          }
+        }
+      ],
+      "oldText": "USD 2000 USD 3000 0.10% net annual",
+      "newText": "USD 3000 0.10% net monthly",
+      "textOps": [
+        {
+          "kind": "equal",
+          "text": "USD ",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+              "rawRange": [
+                254,
+                258
+              ],
+              "charIds": [
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s1",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s2",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s3"
+              ],
+              "text": "USD ",
+              "quads": [
+                [
+                  320,
+                  217.82,
+                  366.13,
+                  217.82,
+                  320,
+                  227.07,
+                  366.13,
+                  227.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34",
+                  "scalarRange": [
+                    0,
+                    4
+                  ],
+                  "utf16Range": [
+                    0,
+                    4
+                  ],
+                  "itemText": "USD 2000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    320.0115539702233,
+                    216.2358870967742,
+                    343.9081643532879,
+                    216.2358870967742,
+                    320.0115539702233,
+                    227.6254652605459,
+                    343.9081643532879,
+                    227.6254652605459
+                  ]
+                ],
+                "text": "USD "
+              }
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u11",
+              "rawRange": [
+                262,
+                266
+              ],
+              "charIds": [
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s0",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s1",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s2",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s3"
+              ],
+              "text": "USD ",
+              "quads": [
+                [
+                  320,
+                  283.82,
+                  366.13,
+                  283.82,
+                  320,
+                  293.07,
+                  366.13,
+                  293.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35",
+                  "scalarRange": [
+                    0,
+                    4
+                  ],
+                  "utf16Range": [
+                    0,
+                    4
+                  ],
+                  "itemText": "USD 3000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    320.0115539702233,
+                    282.21239143920593,
+                    343.9081643532879,
+                    282.21239143920593,
+                    320.0115539702233,
+                    293.60196960297765,
+                    343.9081643532879,
+                    293.60196960297765
+                  ]
+                ],
+                "text": "USD "
+              }
+            }
+          ]
+        },
+        {
+          "kind": "delete",
+          "text": "2000 USD ",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+              "rawRange": [
+                258,
+                262
+              ],
+              "charIds": [
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s4",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s5",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s6",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s7"
+              ],
+              "text": "2000",
+              "quads": [
+                [
+                  320,
+                  217.82,
+                  366.13,
+                  217.82,
+                  320,
+                  227.07,
+                  366.13,
+                  227.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34",
+                  "scalarRange": [
+                    4,
+                    8
+                  ],
+                  "utf16Range": [
+                    4,
+                    8
+                  ],
+                  "itemText": "USD 2000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    343.89630020936727,
+                    216.2358870967742,
+                    366.1428677012252,
+                    216.2358870967742,
+                    343.89630020936727,
+                    227.6254652605459,
+                    366.1428677012252,
+                    227.6254652605459
+                  ]
+                ],
+                "text": "2000"
+              }
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+              "rawRange": [
+                262,
+                266
+              ],
+              "charIds": [
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s1",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s2",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s3"
+              ],
+              "text": "USD ",
+              "quads": [
+                [
+                  320,
+                  283.82,
+                  366.13,
+                  283.82,
+                  320,
+                  293.07,
+                  366.13,
+                  293.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35",
+                  "scalarRange": [
+                    0,
+                    4
+                  ],
+                  "utf16Range": [
+                    0,
+                    4
+                  ],
+                  "itemText": "USD 3000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    320.0115539702233,
+                    282.21239143920593,
+                    343.9081643532879,
+                    282.21239143920593,
+                    320.0115539702233,
+                    293.60196960297765,
+                    343.9081643532879,
+                    293.60196960297765
+                  ]
+                ],
+                "text": "USD "
+              }
+            }
+          ],
+          "right": []
+        },
+        {
+          "kind": "equal",
+          "text": "3000 0.10% net ",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+              "rawRange": [
+                266,
+                270
+              ],
+              "charIds": [
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s4",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s5",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s6",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s7"
+              ],
+              "text": "3000",
+              "quads": [
+                [
+                  320,
+                  283.82,
+                  366.13,
+                  283.82,
+                  320,
+                  293.07,
+                  366.13,
+                  293.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35",
+                  "scalarRange": [
+                    4,
+                    8
+                  ],
+                  "utf16Range": [
+                    4,
+                    8
+                  ],
+                  "itemText": "USD 3000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    343.89630020936727,
+                    282.21239143920593,
+                    366.1428677012252,
+                    282.21239143920593,
+                    343.89630020936727,
+                    293.60196960297765,
+                    366.1428677012252,
+                    293.60196960297765
+                  ]
+                ],
+                "text": "3000"
+              }
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+              "rawRange": [
+                270,
+                275
+              ],
+              "charIds": [
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s0",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s1",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s2",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s3",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36:s4"
+              ],
+              "text": "0.10%",
+              "quads": [
+                [
+                  450,
+                  151.82,
+                  478.35,
+                  151.82,
+                  450,
+                  161.07,
+                  478.35,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i36",
+                  "scalarRange": [
+                    0,
+                    5
+                  ],
+                  "utf16Range": [
+                    0,
+                    5
+                  ],
+                  "itemText": "0.10%"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    150.27124689826303,
+                    478.35560929745657,
+                    150.27124689826303,
+                    449.995114764268,
+                    161.66082506203475,
+                    478.35560929745657,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "0.10%"
+              }
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+              "rawRange": [
+                275,
+                278
+              ],
+              "charIds": [
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37:s0",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37:s1",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37:s2"
+              ],
+              "text": "net",
+              "quads": [
+                [
+                  450,
+                  165.82,
+                  463.9,
+                  165.82,
+                  450,
+                  175.07,
+                  463.9,
+                  175.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i37",
+                  "scalarRange": [
+                    0,
+                    3
+                  ],
+                  "utf16Range": [
+                    0,
+                    3
+                  ],
+                  "itemText": "net"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    164.2116160049628,
+                    463.89720346909894,
+                    164.2116160049628,
+                    449.995114764268,
+                    175.60119416873448,
+                    463.89720346909894,
+                    175.60119416873448
+                  ]
+                ],
+                "text": "net"
+              }
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u11",
+              "rawRange": [
+                266,
+                270
+              ],
+              "charIds": [
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s4",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s5",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s6",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35:s7"
+              ],
+              "text": "3000",
+              "quads": [
+                [
+                  320,
+                  283.82,
+                  366.13,
+                  283.82,
+                  320,
+                  293.07,
+                  366.13,
+                  293.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i35",
+                  "scalarRange": [
+                    4,
+                    8
+                  ],
+                  "utf16Range": [
+                    4,
+                    8
+                  ],
+                  "itemText": "USD 3000"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    343.89630020936727,
+                    282.21239143920593,
+                    366.1428677012252,
+                    282.21239143920593,
+                    343.89630020936727,
+                    293.60196960297765,
+                    366.1428677012252,
+                    293.60196960297765
+                  ]
+                ],
+                "text": "3000"
+              }
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u11",
+              "rawRange": [
+                270,
+                275
+              ],
+              "charIds": [
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s0",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s1",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s2",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s3",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36:s4"
+              ],
+              "text": "0.10%",
+              "quads": [
+                [
+                  450,
+                  151.82,
+                  478.35,
+                  151.82,
+                  450,
+                  161.07,
+                  478.35,
+                  161.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i36",
+                  "scalarRange": [
+                    0,
+                    5
+                  ],
+                  "utf16Range": [
+                    0,
+                    5
+                  ],
+                  "itemText": "0.10%"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    150.27124689826303,
+                    478.35560929745657,
+                    150.27124689826303,
+                    449.995114764268,
+                    161.66082506203475,
+                    478.35560929745657,
+                    161.66082506203475
+                  ]
+                ],
+                "text": "0.10%"
+              }
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u11",
+              "rawRange": [
+                275,
+                278
+              ],
+              "charIds": [
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37:s0",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37:s1",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37:s2"
+              ],
+              "text": "net",
+              "quads": [
+                [
+                  450,
+                  165.82,
+                  463.9,
+                  165.82,
+                  450,
+                  175.07,
+                  463.9,
+                  175.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i37",
+                  "scalarRange": [
+                    0,
+                    3
+                  ],
+                  "utf16Range": [
+                    0,
+                    3
+                  ],
+                  "itemText": "net"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    164.2116160049628,
+                    463.8972961577233,
+                    164.2116160049628,
+                    449.995114764268,
+                    175.60119416873448,
+                    463.8972961577233,
+                    175.60119416873448
+                  ]
+                ],
+                "text": "net"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "delete",
+          "text": "annual",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i34:s0+db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i35:s0",
+              "rawRange": [
+                278,
+                284
+              ],
+              "charIds": [
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s0",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s1",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s2",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s3",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s4",
+                "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38:s5"
+              ],
+              "text": "annual",
+              "quads": [
+                [
+                  450,
+                  179.82,
+                  480.02,
+                  179.82,
+                  450,
+                  189.07,
+                  480.02,
+                  189.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447:p0:i38",
+                  "scalarRange": [
+                    0,
+                    6
+                  ],
+                  "utf16Range": [
+                    0,
+                    6
+                  ],
+                  "itemText": "annual"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    178.2231699751861,
+                    480.0249314225341,
+                    178.2231699751861,
+                    449.995114764268,
+                    189.6127481389578,
+                    480.0249314225341,
+                    189.6127481389578
+                  ]
+                ],
+                "text": "annual"
+              }
+            }
+          ],
+          "right": []
+        },
+        {
+          "kind": "insert",
+          "text": "monthly",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u11",
+              "rawRange": [
+                278,
+                285
+              ],
+              "charIds": [
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s0",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s1",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s2",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s3",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s4",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s5",
+                "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38:s6"
+              ],
+              "text": "monthly",
+              "quads": [
+                [
+                  450,
+                  179.82,
+                  485.01,
+                  179.82,
+                  450,
+                  189.07,
+                  485.01,
+                  189.07
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "run",
+              "geometryMethod": "engine_run",
+              "sourceRanges": [
+                {
+                  "itemId": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31:p0:i38",
+                  "scalarRange": [
+                    0,
+                    7
+                  ],
+                  "utf16Range": [
+                    0,
+                    7
+                  ],
+                  "itemText": "monthly"
+                }
+              ],
+              "resolvedGeometry": {
+                "method": "text_layer_range",
+                "quads": [
+                  [
+                    449.995114764268,
+                    178.2231699751861,
+                    485.01621384537845,
+                    178.2231699751861,
+                    449.995114764268,
+                    189.6127481389578,
+                    485.01621384537845,
+                    189.6127481389578
+                  ]
+                ],
+                "text": "monthly"
+              }
+            }
+          ]
+        }
+      ],
+      "hasTextChange": true,
+      "facts": [],
+      "repeat": null,
+      "defaultVisible": true,
+      "matchEvidence": {
+        "method": "joint-local-alignment",
+        "score": 0.7142857142857143,
+        "details": [
+          "joint-local-alignment"
+        ]
+      },
+      "reviewReasons": [],
+      "occurrences": []
+    }
+  ],
+  "coverage": [],
+  "unresolved": [],
+  "alignment": [
+    {
+      "leftPage": 0,
+      "leftY": 39,
+      "rightPage": 0,
+      "rightY": 39
+    },
+    {
+      "leftPage": 0,
+      "leftY": 63,
+      "rightPage": 0,
+      "rightY": 63
+    },
+    {
+      "leftPage": 0,
+      "leftY": 83,
+      "rightPage": 0,
+      "rightY": 83
+    },
+    {
+      "leftPage": 0,
+      "leftY": 130,
+      "rightPage": 0,
+      "rightY": 130
+    },
+    {
+      "leftPage": 0,
+      "leftY": 159,
+      "rightPage": 0,
+      "rightY": 159
+    },
+    {
+      "leftPage": 0,
+      "leftY": 225,
+      "rightPage": 0,
+      "rightY": 225
+    },
+    {
+      "leftPage": 0,
+      "leftY": 291,
+      "rightPage": 0,
+      "rightY": 291
+    },
+    {
+      "leftPage": 0,
+      "leftY": 753,
+      "rightPage": 0,
+      "rightY": 753
+    }
+  ],
+  "stats": {
+    "leftScalars": 294,
+    "rightScalars": 295,
+    "candidates": 3,
+    "tokenProducts": 132,
+    "differenceCount": 2,
+    "occurrenceCount": 2
+  },
+  "diagnostics": []
+}

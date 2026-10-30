@@ -1,0 +1,12 @@
+[
+  {
+    "path": "build/build-mupdf.log.gz",
+    "uncompressedSha256": "7727b424c3cbb61e432f920be2c2b62780924c1ec808abea9a7a2f9d4c3e37e1",
+    "compressedSha256": "f72ab84daddcd97bf34e6e1345ca9fa327bba0dd012326164b6646f64ac584a3"
+  },
+  {
+    "path": "build/build-pdfjs.log.gz",
+    "uncompressedSha256": "737f2ab1dcf20a0304a54274d2afa4d30ba0d25d146089200a425cf58eff7d6d",
+    "compressedSha256": "c3b43d7f653ba95a03e89ffbdc89789601ff7c4d85233266e7a4d98df3553ece"
+  }
+]

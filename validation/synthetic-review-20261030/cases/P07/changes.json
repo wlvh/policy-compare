@@ -1,0 +1,33 @@
+{
+  "case_id": "P07",
+  "changes": [
+    {
+      "id": 1,
+      "block": "schedule",
+      "kind": "Removed",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "1315 | Alpha Air | USD 100 | annual",
+      "right_text": "",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [],
+      "edits": []
+    },
+    {
+      "id": 2,
+      "block": "schedule",
+      "kind": "Added",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "",
+      "right_text": "9999 | Orion Air | USD 100 | annual",
+      "left_pages": [],
+      "right_pages": [
+        1
+      ],
+      "edits": []
+    }
+  ]
+}

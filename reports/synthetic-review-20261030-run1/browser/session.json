@@ -1,0 +1,22 @@
+{
+  "checkedCases": [
+    "P02",
+    "P05",
+    "P10",
+    "P12",
+    "E03",
+    "P11"
+  ],
+  "engines": {
+    "pdfjs": {
+      "url": "http://127.0.0.1:8091/",
+      "tabId": "2"
+    },
+    "mupdf": {
+      "url": "http://127.0.0.1:8092/",
+      "tabId": "3"
+    }
+  },
+  "method": "Actual file chooser, compare button, card clicks, screenshots, DOM SVG and JSON export. Existing user tab on 8081 was not changed.",
+  "timing": "Human review duration was not timed."
+}
