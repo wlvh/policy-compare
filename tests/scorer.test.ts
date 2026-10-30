@@ -1284,6 +1284,31 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       }
     }
   });
+  // Codex PR #11 comment 6517617194: a declared amount change excuses only its own record's cells.
+  it("R26: a declared amount change of one record does not excuse the same amounts paired across other records", () => {
+    // Record SYN-1026-001 declares 100020 -> 200020; SYN-1026-003 keeps 100020 and the extra row SYN-90
+    // keeps 200020. A Replaced card pairs SYN-1026-003's old amount with SYN-90's new amount.
+    const make = (declared: boolean, pairing: "across" | "own") => {
+      const x = r26(true, ["100020", "100020"], { left: ["1315 Alpha Air 200020"], right: ["1315 Alpha Air 200020"] }, ["200020", "100020"]);
+      if (declared) {
+        x.expected.events.push({ ...x.expected.events[0], event_id: "R26_key_change:E2", logical_path: "aircraft_schedule.SYN-1026-001.agreed_value", old: "100020", new: "200020" });
+        x.expected.evidence_locations["R26_key_change:E2"] = { before: [{ page_index: 0, run_id: "l5" }], after: [{ page_index: 0, run_id: "l5" }] };
+      }
+      const [l, r] = x.docs;
+      const C = lineLoc(r, "right", "l11"),
+        [L, R] = pairing === "across" ? [lineLoc(l, "left", "l10"), slice(C, C.text.lastIndexOf(" ") + 1, C.text.length)] : [lineLoc(l, "left", "l5"), lineLoc(r, "right", "l5")];
+      x.result.differences.push({ ...x.wrong, id: pairing, left: [L], right: [R], oldText: L.text, newText: R.text, textOps: [
+        { kind: "delete", text: L.text, left: [L], right: [] },
+        { kind: "insert", text: R.text, left: [], right: [R] },
+      ] });
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      return grade(x.result, x.expected, x.layout, x.docs).invariants.find((i) => i.name === "agreed_value_unchanged")?.result;
+    };
+    expect(make(true, "across")).toBe("FAIL");
+    // Controls: without the declared change the pairing fails too; the declared record's own card passes.
+    expect(make(false, "across")).toBe("FAIL");
+    expect(make(true, "own")).toBe("PASS");
+  });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
   it("R26: two delete + add pairs citing the same source characters fail, whatever keys they claim", () => {
