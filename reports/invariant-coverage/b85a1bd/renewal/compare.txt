@@ -1,0 +1,22 @@
+Renewal at b85a1bd: product b8a9b55 (+row-identity.28; re-extracted), triage renewal-triage/26 (unchanged).
+A = 211a705 product + /26 (211a705/renewal); B = 211a705 product + /26 rerun (b85a1bd/renewal/old-product-new-triage); C = b85a1bd product + /26 (b85a1bd/renewal).
+## aviation_2024_vs_2025-mupdf: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.27+facts.5+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.28+facts.5+repeat.9+ops.4
+  verdicts A {'correct': 75, 'not_located': 4, 'split_attributable': 6, 'excluded': 1, 'partly_located': 3, 'not_evaluable': 5}
+  verdicts C {'correct': 75, 'not_located': 4, 'split_attributable': 6, 'excluded': 1, 'partly_located': 3, 'not_evaluable': 5}
+  A->B (the same triage /26 rerun, same product) differing events (verdict, accepted cards, row flags, written-out evidence): []
+  B->C (product 211a705 -> b85a1bd, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []
+## aviation_2024_vs_2025-pdfjs: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.27+facts.5+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.28+facts.5+repeat.9+ops.4
+  verdicts A {'correct': 77, 'not_located': 3, 'split_attributable': 6, 'excluded': 1, 'partly_located': 2, 'not_evaluable': 5}
+  verdicts C {'correct': 77, 'not_located': 3, 'split_attributable': 6, 'excluded': 1, 'partly_located': 2, 'not_evaluable': 5}
+  A->B (the same triage /26 rerun, same product) differing events (verdict, accepted cards, row flags, written-out evidence): []
+  B->C (product 211a705 -> b85a1bd, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-mupdf: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.27+facts.5+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.28+facts.5+repeat.9+ops.4
+  verdicts A {'correct': 65, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  verdicts C {'correct': 65, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  A->B (the same triage /26 rerun, same product) differing events (verdict, accepted cards, row flags, written-out evidence): []
+  B->C (product 211a705 -> b85a1bd, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-pdfjs: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.27+facts.5+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.28+facts.5+repeat.9+ops.4
+  verdicts A {'correct': 66, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'not_located': 2, 'one_side_only': 1}
+  verdicts C {'correct': 66, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'not_located': 2, 'one_side_only': 1}
+  A->B (the same triage /26 rerun, same product) differing events (verdict, accepted cards, row flags, written-out evidence): []
+  B->C (product 211a705 -> b85a1bd, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []
