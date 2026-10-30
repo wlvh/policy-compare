@@ -600,21 +600,47 @@ export function structure(
                 .sort((a, b) => a[0] - b[0]);
             return xs.filter((x, j) => j === 0 || x[0] - Math.max(...xs.slice(0, j).map((y) => y[1])) > size).length >= cells.length;
           };
-          // Two complete baselines extracted as adjacent pairs in every column can be
-          // two records or one record with every cell wrapped. Only isolate that local
-          // block: a whole table read column by column interleaves its other baselines,
-          // and ordinary partial wraps do not fill the next baseline. The preceding
-          // recovered row establishes a table before this ambiguous record block.
-          if (units.at(-1)?.rowCells && cells.every((c) => c.length === 1)) {
-            const next = cells.map(([g]) => lines[position.get(g)! + 1]);
-            if (next.every((g, k) => g && column(g) === k &&
-                top(g) - top(cells[k][0]) >= 0.3 * size &&
-                top(g) - top(cells[k][0]) <= 1.6 * size &&
-                Math.abs(baseline(g) - baseline(next[0])) < 0.3 * size && ownRow(g))) {
-              const block = [...group, ...next],
-                first = Math.min(...block.map((g) => position.get(g)!)),
-                last = Math.max(...block.map((g) => position.get(g)!));
-              if (last - first + 1 === block.length)
+          // A column stack is a sequence of recovered cell bands, not extraction
+          // items. Splitting a band into touching fragments cannot change its row
+          // boundary; any number of full continuation bands has the same ambiguity.
+          // A whole table read by column interleaves other baselines in this local
+          // block, so it still keeps its compact rows.
+          if (units.at(-1)?.rowCells) {
+            const bandsAt = (g: (typeof lines)[number]) => {
+              const members = window.filter((m) => Math.abs(baseline(m) - baseline(g)) < 0.3 * size)
+                .sort((a, b) => span(a)[0] - span(b)[0]);
+              const bands: (typeof lines)[] = [];
+              for (const m of members) {
+                const band = bands.at(-1);
+                if (!band || span(m)[0] - Math.max(...band.map((n) => span(n)[1])) > size) bands.push([m]);
+                else band.push(m);
+              }
+              return bands;
+            };
+            const extent = (band: typeof lines) => [Math.min(...band.map((g) => span(g)[0])), Math.max(...band.map((g) => span(g)[1]))];
+            const stacks = cells.map((cell, k) => {
+              const stack = [cell];
+              while (true) {
+                const previous = stack.at(-1)!,
+                  cursor = Math.max(...previous.map((g) => position.get(g)!)) + 1,
+                  g = lines[cursor];
+                if (!g || !window.includes(g)) break;
+                const bands = bandsAt(g), next = bands.find((band) => band.includes(g));
+                if (!next || bands.length < cells.length) break;
+                const [a0, a1] = extent(cell), [b0, b1] = extent(next),
+                  dy = baseline(g) - baseline(previous[0]);
+                if (dy < 0.3 * size || dy > 1.6 * size ||
+                    b0 < bounds[k][0] - 1 || b1 >= (bounds[k + 1]?.[0] ?? Infinity) ||
+                    !(Math.abs(a0 - b0) < 1 || Math.abs(a1 - b1) < 1 || Math.abs(a0 + a1 - b0 - b1) < 2) ||
+                    !next.every((m) => Math.abs(m.refs[0].char.size - size) < 0.1 * size)) break;
+                stack.push(next);
+              }
+              return stack;
+            });
+            if (stacks[0].length > 1 && stacks.every((stack) => stack.length === stacks[0].length &&
+                stack.every((band, j) => Math.abs(baseline(band[0]) - baseline(stacks[0][j][0])) < 0.3 * size))) {
+              const block = stacks.flat(2), positions = block.map((g) => position.get(g)!);
+              if (Math.max(...positions) - Math.min(...positions) + 1 === block.length)
                 block.forEach((g) => uncertain.add(g));
             }
           }
@@ -635,11 +661,13 @@ export function structure(
           }
           const parts = cells.map((c, k) => [...c, ...wrapped[k]]);
           for (const g of parts.flat()) consumed.add(g);
-          const u = add(
-            parts.flat().flatMap((g, j) => (j ? [null, ...g.refs] : g.refs)),
-            "body",
-          );
-          u.rowCells = parts.map((c) => c.map((g) => g.text.trim()).join(" "));
+          const joined = (cell: typeof lines) => cell.flatMap((g, j) => {
+            const previous = cell[j - 1], touching = previous &&
+              Math.abs(top(g) - top(previous)) < 0.3 * size && Math.abs(span(g)[0] - span(previous)[1]) < 1;
+            return j && !touching ? [null, ...g.refs] : g.refs;
+          });
+          const u = add(parts.flatMap((cell, j) => j ? [null, ...joined(cell)] : joined(cell)), "body");
+          u.rowCells = parts.map((cell) => joined(cell).map((r) => r ? r.char.text : " ").join("").trim());
           u.rowSpans = parts.map((c) => [
             Math.min(...c.map((g) => span(g)[0])),
             Math.max(...c.map((g) => span(g)[1])),

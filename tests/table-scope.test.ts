@@ -26,6 +26,45 @@ const card = (r: CompareResult, text: string) =>
   r.differences.filter((d) => (d.oldText + "\n" + d.newText).includes(text));
 
 describe("wrapped table cells stay with their row", () => {
+  for (const columns of [3, 4]) for (const depth of [2, 3])
+    it(`full-cell wrap uncertainty ignores fragment grouping (${columns} columns, ${depth} lines)`, () => {
+      const doc = (last: string, amount: string) => textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["MSN", "Operator", ...(columns === 4 ? ["Cover"] : []), "Value"].map((text, k) => ({ text, x: 40 + k * 130, y: 180 })),
+        ...Array.from({ length: columns }, (_, k) => {
+          const text = k === 0 ? ["123", "(a)", "(b)"] : k === 1 ? ["Alpha Air", "Holdings", "Group"] :
+            k === columns - 1 ? ["USD 1000", ...(depth === 3 ? ["each loss"] : []), last] : ["Hull and", "war risks", "cover"];
+          return text.slice(0, depth).map((text, j) => ({ text, x: 40 + k * 130, y: 210 + j * 11 }));
+        }).flat(),
+        ...["456", "Beta", ...(columns === 4 ? ["Hull"] : []), amount].map((text, k) => ({ text, x: 40 + k * 130, y: 270 })),
+      ]);
+      // Change only line grouping: IDs, coordinates, sizes, source and content hash stay byte-identical.
+      const split = (source: ReturnType<typeof doc>, cuts: string[]) => {
+        const d = structuredClone(source), page = d.pages[0];
+        page.lines = page.lines.flatMap((line) => {
+          const text = line.charIds.map((id) => page.chars.find((c) => c.id === id)!.text).join("");
+          if (!cuts.includes(text)) return [line];
+          const at = text === "Alpha Air" ? 5 : Math.max(1, Math.floor(text.length / 2));
+          return [line.charIds.slice(0, at), line.charIds.slice(at)].map((charIds, n) => ({
+            ...line, id: line.id + ":" + n, charIds, baseline: page.chars.find((c) => c.id === charIds[0])!.origin,
+          }));
+        });
+        expect(d.pages[0].chars).toEqual(source.pages[0].chars);
+        expect(d.contentHash).toBe(source.contentHash);
+        return d;
+      };
+      const a = doc("per annum", "USD 2000"), b = doc("per month", "USD 2500");
+      for (const cuts of [[], ["Alpha Air"], ["123", "Alpha Air", "Holdings", "per annum", "per month"], ["Alpha Air", "Beta", "USD 2000", "USD 2500"]]) {
+        for (const [l, r] of [[split(a, cuts), b], [a, split(b, cuts)], [split(a, cuts), split(b, cuts)]]) {
+          const result = ResultSchema.parse(compare(l, r));
+          expect(result.status, cuts.join()).toBe("partial");
+          expect(result.unresolved.some((u) => u.reason === "ambiguous_identity")).toBe(true);
+          expect(card(result, "per annum").length).toBeGreaterThan(0);
+          expect(card(result, "per annum").every((d) => !d.structurePath?.rowKey && d.structurePath?.confidence === "unresolved")).toBe(true);
+          expect(card(result, "USD 2000").map((d) => d.structurePath?.rowKey)).toEqual(["456"]);
+        }
+      }
+    });
   for (const columns of [3, 4])
     it(`all ${columns} cells wrapping leaves the local row boundary unresolved`, () => {
       const data: Cell[][] = columns === 3

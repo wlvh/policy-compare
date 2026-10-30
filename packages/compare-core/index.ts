@@ -764,7 +764,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.35+facts.6+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.36+facts.6+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -849,7 +849,7 @@ export function compare(
   for (const [us, side, used] of [[uncertainL, "left", usedL], [uncertainR, "right", usedR]] as const)
     for (const u of us) {
       used.add(u);
-      result.unresolved.push({ reason: "ambiguous_identity", message: "这两条完整基线可能是两条记录，也可能是每格折行的一条记录；局部结构与身份未确定，原文分别保留", left: side === "left" ? locations(u, side) : [], right: side === "right" ? locations(u, side) : [], defaultVisible: true });
+      result.unresolved.push({ reason: "ambiguous_identity", message: "这些完整基线可能是多条记录，也可能是每格折行的一条记录；局部结构与身份未确定，原文分别保留", left: side === "left" ? locations(u, side) : [], right: side === "right" ? locations(u, side) : [], defaultVisible: true });
     }
   tablePairs(la, rb, pairs, usedL, usedR, result);
   const map = (

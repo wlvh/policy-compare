@@ -1404,6 +1404,38 @@ class Cli(unittest.TestCase):
 
 
 class JointSourceBinding(unittest.TestCase):
+    def test_split_edits_preserve_each_pair_inside_one_event(self):
+        ch = change(7, 'ac_1315', 'Replaced', '1315 | Hull | USD 100 | USD 300',
+                    '1315 | Hull | USD 200 | USD 400', [('USD 100', 'USD 200'), ('USD 300', 'USD 400')])
+        for shape in ('crossed', 'correct', 'delete-add'):
+            if shape == 'delete-add':
+                cs = [card('a', 'Removed', [(1, 'a', ch['left_text'])]),
+                      card('b', 'Added', right=[(1, 'b', ch['right_text'])])]
+            else:
+                targets = ('400', '200') if shape == 'crossed' else ('200', '400')
+                cs = [card(str(n), 'Replaced', [(1, 'a' + str(n), '1315 Hull USD ' + old)],
+                           [(1, 'b' + str(n), '1315 Hull USD ' + new)])
+                      for n, (old, new) in enumerate(zip(('100', '300'), targets))]
+            with self.subTest(shape=shape):
+                summary, events = run([ch], result(cs), [table('aircraft', [0], ch)])
+                event = events['7']
+                if shape == 'crossed':
+                    self.assertNotIn(event['verdict'], ('correct', 'split_attributable'))
+                    self.assertEqual(event['acceptedCards'], [])
+                    self.assertFalse((event['row'] or {}).get('fullRowRecovered'))
+                    self.assertEqual(summary['unexplainedCards'], 2)
+                else:
+                    self.assertEqual(event['verdict'], 'split_attributable' if shape == 'delete-add' else 'correct')
+                    self.assertTrue(event['row']['fullRowRecovered'])
+
+    def test_literal_page_mask_text_is_not_a_page_number(self):
+        for a, b, want in [('Page 3 Page #', 'Page # Page 4', 'contradicted'),
+                           ('', 'Page # Page 4', 'contradicted'), ('Page # Page 4', '', 'contradicted'),
+                           ('Page # Page 3', 'Page # Page 4', 'consistent'),
+                           ('Page 3', 'Page 4', 'consistent'), ('', 'Page 4', 'consistent')]:
+            with self.subTest(a=a, b=b):
+                self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], want)
+
     def test_repeated_cells_are_allocated_only_from_their_own_record(self):
         for kind in ('Added', 'Removed'):
             side, pages = ('right', (0, 1)) if kind == 'Added' else ('left', (1, 0))

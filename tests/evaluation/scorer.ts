@@ -418,6 +418,10 @@ function moneyChanges(
   // `paired`: one card, or one record's delete and add cards, whose two sides are compared as one change.
   let scope = { left: new Set<string>(), right: new Set<string>(), paired: false };
   const unexplained = new Set<string>();
+  // Monetary relevance comes from source text, independent layout labels or
+  // declared event evidence. Every card registers its edits; all cards citing
+  // those same monetary source characters are then checked, with or without fields.
+  const monetarySources = new Set<string>();
   const bare = (t: string) => minus(money(t, true), money(t));
   const inside = (a: number[], b: number[]) => overlap(a, b) > 0.5 * Math.min(area(a), area(b));
   const isAmount = (r: LayoutRun) => AMOUNT_FIELDS.includes(r.logical_path?.split(".").at(-1) ?? "");
@@ -449,13 +453,12 @@ function moneyChanges(
       // its delete or insert operations cite.
       records = new Set<string>(),
       cited = new Set<string>();
-    // Each claimed character is also kept by its source identity, to tell one edit reported twice
-    // from complementary pieces of a cell.
-    const claim = (key: string, t: string, r: LayoutRun, ids: (string | undefined)[], page: number) => {
+    // Amount claims still use independent cell evidence; source reuse is registered
+    // separately below, before any optional field or geometry classification.
+    const claim = (key: string, t: string, r: LayoutRun) => {
       claimed.set(key, (claimed.get(key) ?? "") + t);
       cellText.set(key, r.text);
       if (key.startsWith("amount:")) editedCells.set(key, r.text);
-      for (const id of ids) if (id !== undefined) edited.push(`${page}/${id}`);
     };
     const cite = (loc: SourceLocation) => {
       const runs = (pages[loc.pageIndex]?.text_runs ?? [])
@@ -487,6 +490,18 @@ function moneyChanges(
       for (const loc of op[side]) {
         const { chars, exact, hits, covered } = cite(loc);
         if (op.kind === "equal") continue;
+        // An actual source edit does not disappear when a card omits its field or
+        // layout.json has no optional logical path. Register its source characters
+        // before classifying monetary cells; keep amount interpretation unchanged.
+        const monetary = covered.some((r) => isAmount(r) || codeRun(r) || money(r.text).length > 0 ||
+          deltas.some((e) => (e.removed.length || e.added.length) &&
+            (side === "left" ? e.before : e.after).has(`${loc.pageIndex}/${r.run_id}`)));
+        for (let i = 0; i < loc.charIds.length; i++)
+          if (!exact || /\S/u.test(chars[i])) {
+            const source = `${side}/${loc.pageIndex}/${loc.charIds[i]}`;
+            edited.push(source);
+            if (monetary) monetarySources.add(source);
+          }
         // Only the runs the card edits meet an event's evidence; unchanged context does not (Codex PR
         // #11 comment 6517783297: a declared record's unchanged " each" cited beside another pairing).
         for (const r of hits.flat()) cited.add(`${loc.pageIndex}/${r.run_id}`);
@@ -498,10 +513,10 @@ function moneyChanges(
             const rs = hits[i].filter(claimRun);
             if (rs.length > 1 && /\S/u.test(c))
               unexplained.add(`card ${d.id} cites "${c}" with geometry that meets several amount or currency cells; which one it belongs to is not verified`);
-            else if (rs.length) claim(cellKey(rs[0], loc.pageIndex), c, rs[0], [loc.charIds[i]], loc.pageIndex);
+            else if (rs.length) claim(cellKey(rs[0], loc.pageIndex), c, rs[0]);
           });
         else if (covered.length === 1 && claimRun(covered[0]))
-          claim(cellKey(covered[0], loc.pageIndex), loc.text, covered[0], loc.charIds, loc.pageIndex);
+          claim(cellKey(covered[0], loc.pageIndex), loc.text, covered[0]);
         // Signs or separators alone are an amount's characters too (Codex PR #11 comment 6519387126:
         // "-+" as one location with one quad over two amount cells was dropped here).
         else if (covered.some(claimRun) && (/\d/.test(loc.text) || money(loc.text).length || /^[\s\-−+.,]*[\-−+.,][\s\-−+.,]*$/u.test(loc.text)))
@@ -613,7 +628,7 @@ function moneyChanges(
         byCell.set(k, (byCell.get(k) ?? new Set()).add(e.id));
         text.set(k, t);
       }
-      for (const c of e.edited) byChar.set(c, [...(byChar.get(c) ?? []), e.id]);
+      for (const c of e.edited) if (monetarySources.has(c)) byChar.set(c, [...(byChar.get(c) ?? []), e.id]);
     }
     const twice = [...byChar.values()].filter((ids) => ids.length > 1).map((ids) => [...new Set(ids)]);
     return {

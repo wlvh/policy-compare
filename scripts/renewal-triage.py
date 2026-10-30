@@ -136,7 +136,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/38'
+TOOL = 'renewal-triage/39'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -749,7 +749,7 @@ def text_atom(atom, change, ctx, claimed):
     def half(d, side, needle):
         """A card holding one side; with an identity, the units where it was confirmed are kept for
         the full row (PR #11 comment 6511895761)."""
-        only = {side: pure(d, side, needle, wanted[side], need[side], change)} if need[side] else None
+        only = {side: pure(d, side, needle, wanted[side], need[side], change, atom)} if need[side] else None
         if ident is None:
             return candidate(d, {side: needle}, wanted, need=need, only=only)
         status, why, seen = judge_identity(d, {side: needle}, ident, others, change, wanted, {side: need[side]},
@@ -762,13 +762,13 @@ def text_atom(atom, change, ctx, claimed):
         if ident is None:
             author = {'left': change.get('left_text'), 'right': change.get('right_text')}
             def ok(d, side, n, e):
-                only = pure(d, side, n, wanted[side], e, change) if e else None
+                only = pure(d, side, n, wanted[side], e, change, atom) if e else None
                 return (only is None or bool(only)) and context(d, side, n, wanted[side], author[side], e,
                                                                 only=only, within=bool(e))
             why = 'author paragraph text around the change, in the source units of that occurrence'
         else:
             def ok(d, side, n, e):
-                only = {side: pure(d, side, n, wanted[side], e, change)} if e else None
+                only = {side: pure(d, side, n, wanted[side], e, change, atom)} if e else None
                 return (only is None or bool(only[side])) and judge_identity(
                     d, {side: n}, ident, others, change, wanted, {side: e}, only=only,
                     within=bool(e))[0] == 'confirmed'
@@ -810,14 +810,27 @@ def text_atom(atom, change, ctx, claimed):
     return 'not_found', 'not_located', [], cands, [], 'script did not locate either side'
 
 
-def pure(d, side, needle, wanted, edit, change):
+def pure(d, side, needle, wanted, edit, change, atom):
     """Starts of the occurrences whose change the card makes as an insertion (right) or deletion
     (left): the run of changed operations around its changed characters removes (or adds) on the
-    other side only text the event's other edits remove (or add) there. A card that replaces
+    other side only text this atom removes (or adds) there. For a genuinely one-sided atom,
+    an adjacent edit can account for other text only when that edit's own two sides are
+    present, changed and paired on this card. Values elsewhere in the event are no licence.
+    A card that replaces
     another word with it (earlier -> later) reports no insertion (PR #11 comment 6514669354)."""
     ops, other = d.get('textOps') or [], 'delete' if side == 'right' else 'insert'
     squeeze = lambda x: re.sub(r'\s+', '', norm(x))
-    known = [squeeze(e['new' if side == 'left' else 'old']) for e in change.get('edits', [])]
+    opposite = 'new' if side == 'left' else 'old'
+    paired = []
+    if not (atom['old'] and atom['new']):
+        unchanged = unchanged_script(d)
+        for e in change.get('edits', []):
+            if not (e['old'] and e['new']):
+                continue
+            need = needs_edit(e['old'], e['new'])
+            left = [s for _, s in occurrences(d, 'left', e['old'], set()) if carries(s, need['left'])]
+            right = [s for _, s in occurrences(d, 'right', e['new'], set()) if carries(s, need['right'])]
+            paired += [(squeeze(e[opposite]), l, r) for l in left for r in right if lined_up(l, r, unchanged, need)]
     out = set()
     for i, span in occurrences(d, side, needle, wanted):
         if not carries(span, edit):
@@ -829,6 +842,13 @@ def pure(d, side, needle, wanted, edit, change):
                 while 0 <= k < len(ops) and ops[k]['kind'] != 'equal':
                     run.add(k)
                     k += step
+        known = [squeeze(atom[opposite])]
+        owners = {x[1] for x in span if x[1] is not None}
+        for text, left, right in paired:
+            own = left if side == 'left' else right
+            changed = [x for x in left + right if x[4] and x[2]]
+            if {x[1] for x in own if x[1] is not None} <= owners and all(x[4][0] in run for x in changed):
+                known.append(text)
         if all(not squeeze(ops[k]['text']) or any(squeeze(ops[k]['text']) in e for e in known if e)
                for k in run if ops[k]['kind'] == other):
             out.add(i)
@@ -850,7 +870,7 @@ def one_side_edit(atom, change, ctx, claimed, need):
             continue
         only = None
         if d['left' if side == 'right' else 'right']:
-            only = pure(d, side, needle, wanted[side], edit, change)
+            only = pure(d, side, needle, wanted[side], edit, change, atom)
             if not only:
                 cands.append(candidate(d, {side: needle}, wanted, edit=False, need=need))
                 replaced.append(d)
@@ -1275,7 +1295,7 @@ def page_form(text):
     percentages disprove a page token; spaced currency and unlisted three-capital suffixes
     leave a changed token undecided, as in the independent scorer. No import of product logic."""
     import unicodedata
-    numbers, unsure, matches = [], [], []
+    numbers, unsure, matches, expressions = [], [], [], []
 
     def suffix(at):
         rest = text[at:]
@@ -1300,15 +1320,23 @@ def page_form(text):
             matches.append(m.span(g))
             numbers.append(m.group(g))
             unsure.append(suffix(m.end(g))[1])
+        expressions.append((m.start(), m.end(groups[-1])))
         # Keep the same token slots as the scorer (counter, optional total).
         if len(groups) == 1:
             numbers.append('')
             unsure.append(False)
-    out, at = '', 0
+    # Keep literal text and page-number slots as different types. No input
+    # character (including # or NUL) can impersonate an accepted numeric slot.
+    form, at = [], 0
     for a, b in matches:
-        out += text[at:a] + '#'
+        form.extend((text[at:a], None))
         at = b
-    return out + text[at:], numbers, unsure
+    form.append(text[at:])
+    residual, at = '', 0
+    for a, b in expressions:
+        residual += text[at:a]
+        at = b
+    return tuple(form), numbers, unsure, residual + text[at:]
 
 
 # Day and year are whole numbers of the text, as the scorer and the product read them (#10 4a12cd0).
@@ -1337,14 +1365,14 @@ def fact_check(d):
         if f == 'whitespace_only':
             ok = old != new and old.split() == new.split()
         elif f == 'page_number_only':
-            a, ns, us = page_form(old)
-            b, nt, ut = page_form(new)
+            a, ns, us, rest_old = page_form(old)
+            b, nt, ut, rest_new = page_form(new)
             if old and new:
                 form = a == b and ns != nt
                 undecided = any(x != y and (p or q) for x, y, p, q in zip(ns, nt, us, ut))
             else:
-                mask, numbers, uncertain = (a, ns, us) if old else (b, nt, ut)
-                form = bool(numbers) and not re.sub(r'(?i)\bpage\s*#(?:\s*(?:of|/)\s*#)?', '', mask).strip()
+                numbers, uncertain, residual = (ns, us, rest_old) if old else (nt, ut, rest_new)
+                form = bool(numbers) and not residual.strip()
                 undecided = any(uncertain)
             ok = None if form and undecided else form
         elif f == 'dates_rolled_forward_one_year':

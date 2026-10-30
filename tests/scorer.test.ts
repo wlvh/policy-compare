@@ -86,7 +86,7 @@ function example() {
 }
 describe("independent grader rejects dishonest outputs", () => {
   it("monetary edits cannot be reused across replacement, move and split cards", () => {
-    for (const kind of ["Replaced", "Moved", "Removed", "Added"] as const) {
+    for (const kind of ["Replaced", "Moved", "Removed", "Added"] as const) for (const omit of ["none", "copy", "both"]) {
       const x = example();
       x.expected.invariants = ["no_amount_or_currency_change", "agreed_value_unchanged"];
       expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
@@ -95,8 +95,12 @@ describe("independent grader rejects dishonest outputs", () => {
       copy.kind = kind;
       if (kind === "Removed") { copy.right = []; copy.newText = ""; copy.textOps = copy.textOps.filter((o) => o.kind === "delete"); }
       if (kind === "Added") { copy.left = []; copy.oldText = ""; copy.textOps = copy.textOps.filter((o) => o.kind === "insert"); }
+      if (omit !== "none") copy.structurePath = null;
+      if (omit === "both") x.result.differences[0].structurePath = null;
       x.result.differences.push(copy);
-      expect(grade(x.result, x.expected, x.layout, x.docs).invariants.every((i) => i.result === "FAIL"), kind).toBe(true);
+      const check = grade(x.result, x.expected, x.layout, x.docs);
+      expect(check.invariants.every((i) => i.result === "FAIL"), `${kind} omit=${omit}`).toBe(true);
+      expect(check.faults.join("\n")).toContain("one edit is reported twice");
     }
     // Two source occurrences with identical values are independent edits.
     const x = example();
@@ -128,6 +132,9 @@ describe("independent grader rejects dishonest outputs", () => {
     x.result.differences.push(copy);
     const check = grade(x.result, x.expected, x.layout, x.docs);
     expect(check.status, check.faults.join("\n")).toBe("PASS");
+    // Removing both optional card fields cannot make independent source occurrences collide either.
+    x.result.differences.forEach((d) => { d.structurePath = null; });
+    expect(grade(x.result, x.expected, x.layout, x.docs).invariants[0].result).toBe("PASS");
   });
   for(const sides of [['left'],['right'],['left','right']] as const)
     it('F6 rejects displaced final changed geometry on '+sides.join('/'),()=>{
