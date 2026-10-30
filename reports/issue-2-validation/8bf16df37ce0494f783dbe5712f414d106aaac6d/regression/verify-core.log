@@ -1,0 +1,32 @@
+
+> policy-compare@0.1.0 verify:core /home/user/policy-compare
+> vitest run
+
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ✓ tests/page-furniture.test.ts (27 tests) 542ms
+ ✓ tests/row-identity-evidence.test.ts (50 tests) 542ms
+ ✓ tests/cosmetic-evidence.test.ts (21 tests) 175ms
+ ✓ tests/table-scope.test.ts (27 tests) 224ms
+ ✓ tests/row-identity.test.ts (12 tests) 121ms
+ ✓ tests/result-format-2.test.ts (25 tests) 220ms
+ ✓ tests/scorer.test.ts (140 tests) 1616ms
+ ✓ tests/server.test.ts (1 test) 148ms
+ ✓ tests/page-counts.test.ts (7 tests) 115ms
+ ✓ tests/review-core.test.ts (13 tests) 100ms
+ ✓ tests/margin-text.test.ts (16 tests) 129ms
+ ✓ tests/core.test.ts (8 tests) 74ms
+ ✓ tests/contracts.test.ts (4 tests) 10ms
+ ✓ tests/alignment.test.ts (4 tests) 50ms
+ ✓ tests/boundary.test.ts (2 tests) 9ms
+
+ Test Files  15 passed (15)
+      Tests  357 passed (357)
+   Start at  08:08:31
+   Duration  2.60s (tests 72%, import 25%, transform 2%, worker 1%)
+
+    Isolate  15 workers spawned · ~115ms startup each (spawn + environment, per file)
+             at least ~461ms faster with isolate: false — reuses workers across files instead of one per file
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
