@@ -1,0 +1,32 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (127 tests | 1 failed) 1037ms
+   ❯ one correct event card cannot offset an extra wrong card (#10) (49)
+     × R26: a card pairing one record's currency sign with another's fails as a code pairing does (Codex PR #11 comment 6513014284) 22ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a card pairing one record's currency sign with another's fails as a code pairing does (Codex PR #11 comment 6513014284)
+AssertionError: € $: expected 'PASS' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "PASS"
+
+ ❯ tests/scorer.test.ts:1124:50
+    1122|         }),
+    1123|       );
+    1124|       expect(score.status, currencies.join(" ")).toBe("FAIL");
+       |                                                  ^
+    1125|       expect(score.faults.join("\n"), currencies.join(" ")).toContain(…
+    1126|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 126 passed (127)
+   Start at  01:56:27
+   Duration  1.31s (tests 87%, import 8%, transform 4%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json

@@ -1,0 +1,33 @@
+{
+  "case_id": "P12",
+  "changes": [
+    {
+      "id": 1,
+      "block": "hull_schedule",
+      "kind": "Removed",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "123 | Alpha Air | USD 100 | annual",
+      "right_text": "",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [],
+      "edits": []
+    },
+    {
+      "id": 2,
+      "block": "premium_schedule",
+      "kind": "Added",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "",
+      "right_text": "123 | Model D | 15% | USD 100",
+      "left_pages": [],
+      "right_pages": [
+        1
+      ],
+      "edits": []
+    }
+  ]
+}

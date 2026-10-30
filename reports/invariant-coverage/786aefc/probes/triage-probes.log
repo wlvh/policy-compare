@@ -1,0 +1,8 @@
+== TOOL = 'renewal-triage/26' (triage and test helpers of 9b57000)
+Codex: 1760 changes in the unit, 1315 unchanged: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1315 changes in the shared unit: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1315 alone in its unit: correct accepted=['x'] fullRowRecovered=True unexplained=0
+== TOOL = 'renewal-triage/27' (triage and test helpers of c5a5330)
+Codex: 1760 changes in the unit, 1315 unchanged: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1315 changes in the shared unit: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1315 alone in its unit: correct accepted=['x'] fullRowRecovered=True unexplained=0

@@ -1,0 +1,40 @@
+{
+  "subject": "independent_review_real_pdf_regressions",
+  "engine": "pdfjs",
+  "revision": "2847b5604a3d02e58ace33c3661f9969c01b6f8f",
+  "status": "FAIL",
+  "checks": [
+    {
+      "name": "F1 real PDF section-field ownership short-top",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n4 !== 2\n"
+    },
+    {
+      "name": "F1 real PDF section-field ownership short-body",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n4 !== 2\n"
+    },
+    {
+      "name": "F1 real PDF section-field ownership long-body",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 2\n"
+    },
+    {
+      "name": "F2 malformed content stream cannot become complete zero differences",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'complete_for_scope'\n- 'partial'\n"
+    },
+    {
+      "name": "F2 diagnostics are scoped; subsequent clean document stays complete",
+      "status": "PASS",
+      "evidence": {
+        "status": "complete_for_scope"
+      }
+    },
+    {
+      "name": "F5 image inside translated Form has authored region",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(regions[0].every((v,i)=>Math.abs(v-[100,452,300,492][i])<0.01))\n"
+    }
+  ]
+}

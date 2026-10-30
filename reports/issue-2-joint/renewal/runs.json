@@ -1,0 +1,1442 @@
+{
+  "codeRevision": "39c3183f9e9c5707c9cfa0974516fc421bcc9298",
+  "baselineRevision": "01892fded95d4c5317557287abcece0fd40ab0f3",
+  "node": "v24.22.1",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "runs": [
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "pdfjs",
+      "commands": [
+        [
+          "pnpm",
+          "exec",
+          "tsx",
+          "packages/cli/run.ts",
+          "--engine",
+          "pdfjs",
+          "--left",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/left.pdf",
+          "--right",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/right.pdf",
+          "--out",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-pdfjs.json"
+        ],
+        [
+          "python3",
+          "scripts/renewal-triage.py",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-pdfjs.json",
+          "--events",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-pdfjs.events.json",
+          "--identity",
+          "scripts/renewal-identity.json"
+        ]
+      ],
+      "exitCodes": [
+        0,
+        0
+      ],
+      "seconds": 4.86,
+      "sha256": "42eb93d615421bb0cd6bf5cc4a45e0a4398329bce4d4b9fc0b99f14fba802c78",
+      "status": "complete_for_scope",
+      "cards": 111,
+      "baselineCards": 111,
+      "changedProductFieldsExceptVersion": [],
+      "changedEvents": [],
+      "summary": {
+        "tool": "renewal-triage/38",
+        "inputs": {
+          "changes": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+            "sha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080"
+          },
+          "result": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-pdfjs.json",
+            "sha256": "42eb93d615421bb0cd6bf5cc4a45e0a4398329bce4d4b9fc0b99f14fba802c78"
+          },
+          "identity": {
+            "path": "scripts/renewal-identity.json",
+            "sha256": "b6420cd39240e879d9b2e1b66ec9420b1c6661cb1872acd28355cd8714edd861",
+            "version": "renewal-identity/1",
+            "pair": "aviation_2024_vs_2025"
+          }
+        },
+        "resultFormat": "policy-compare-result/2",
+        "authorEvents": 94,
+        "bodyEvents": 93,
+        "pageFurnitureEvents": 1,
+        "excluded": [
+          {
+            "id": "9",
+            "block": "cov_2_3",
+            "reason": "only whitespace or quote-style edits; no comparable fragment",
+            "edits": [
+              {
+                "old": "a  maximum of a  Combined",
+                "new": "a maximum of a Combined"
+              }
+            ],
+            "note": "仅空白（双空格 → 单空格）"
+          }
+        ],
+        "excludedAtomsInScoredEvents": [
+          {
+            "id": "33",
+            "edits": [
+              {
+                "old": "comprises 70 aircraft",
+                "new": "comprises 70 aircraft",
+                "reason": "only whitespace or quote-style difference; nothing comparable after normalisation"
+              }
+            ]
+          }
+        ],
+        "scored": 92,
+        "verdicts": {
+          "correct": 77,
+          "not_located": 3,
+          "split_attributable": 6,
+          "partly_located": 2,
+          "not_evaluable": 4
+        },
+        "verdictEvents": {
+          "correct": [
+            "1",
+            "2",
+            "5",
+            "8",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "33",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84",
+            "85",
+            "86",
+            "92"
+          ],
+          "not_evaluable": [
+            "46",
+            "47",
+            "90",
+            "91"
+          ],
+          "not_located": [
+            "3",
+            "4",
+            "15"
+          ],
+          "partly_located": [
+            "32",
+            "34"
+          ],
+          "split_attributable": [
+            "6",
+            "7",
+            "87",
+            "88",
+            "89",
+            "93"
+          ]
+        },
+        "outcomes": {
+          "complete": 77,
+          "not_found": 3,
+          "incomplete": 10,
+          "partly_complete": 2
+        },
+        "atoms": 196,
+        "atomVerdicts": {
+          "correct": 177,
+          "not_located": 5,
+          "split_attributable": 6,
+          "not_evaluable": 8
+        },
+        "tableRowEvents": {
+          "total": 55,
+          "changeCorrectlyAttributed": [
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "92"
+          ],
+          "fullRowRecovered": [
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "87",
+            "88",
+            "89",
+            "92",
+            "93"
+          ],
+          "identityDeclared": 54,
+          "noDeclaredIdentity": [
+            "90"
+          ],
+          "acceptedWithoutPrimaryIdentity": []
+        },
+        "sameCardWithoutRecordCells": [
+          "91"
+        ],
+        "facts": {
+          "stated": {},
+          "checks": {},
+          "contradicted": []
+        },
+        "pageFurniture": [
+          {
+            "id": "H1",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 1,
+            "note": "页眉中的 UMR 随续保变化；页眉应被标记为 Header，不参与 diff"
+          }
+        ],
+        "cards": 111,
+        "cardsOver600Chars": 0,
+        "acceptedCards": 91,
+        "pageFurnitureCards": 1,
+        "unexplainedCards": 19,
+        "unexplainedCandidateCards": 4,
+        "unresolvedGroups": 0,
+        "status": "complete_for_scope",
+        "coreVersion": "policy-compare/0.1.0+row-identity.35+facts.6+repeat.9+ops.4",
+        "extractor": "pdfjs/6.4.299+strict-streams.1",
+        "limitations": [
+          "not_located means the script could not locate the text, not that the product missed it",
+          "a table row whose identity is not declared is not evaluated",
+          "highlight geometry is not checked; browser fine-position acceptance is out of scope",
+          "unexplainedCards is a noise estimate, not a false-positive rate",
+          "a consistent fact check does not re-confirm page tokens"
+        ]
+      }
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "pdfjs",
+      "commands": [
+        [
+          "pnpm",
+          "exec",
+          "tsx",
+          "packages/cli/run.ts",
+          "--engine",
+          "pdfjs",
+          "--left",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/left.pdf",
+          "--right",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/right.pdf",
+          "--out",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-pdfjs.json"
+        ],
+        [
+          "python3",
+          "scripts/renewal-triage.py",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-pdfjs.json",
+          "--events",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-pdfjs.events.json",
+          "--identity",
+          "scripts/renewal-identity.json"
+        ]
+      ],
+      "exitCodes": [
+        0,
+        0
+      ],
+      "seconds": 5.62,
+      "sha256": "368ad638e35364d87f0b886ff1264b7feaa19be036f34b1a190c6799514a9a6e",
+      "status": "complete_for_scope",
+      "cards": 103,
+      "baselineCards": 103,
+      "changedProductFieldsExceptVersion": [],
+      "changedEvents": [],
+      "summary": {
+        "tool": "renewal-triage/38",
+        "inputs": {
+          "changes": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+            "sha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c"
+          },
+          "result": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-pdfjs.json",
+            "sha256": "368ad638e35364d87f0b886ff1264b7feaa19be036f34b1a190c6799514a9a6e"
+          },
+          "identity": {
+            "path": "scripts/renewal-identity.json",
+            "sha256": "b6420cd39240e879d9b2e1b66ec9420b1c6661cb1872acd28355cd8714edd861",
+            "version": "renewal-identity/1",
+            "pair": "bizav_2024_vs_2025"
+          }
+        },
+        "resultFormat": "policy-compare-result/2",
+        "authorEvents": 88,
+        "bodyEvents": 84,
+        "pageFurnitureEvents": 4,
+        "excluded": [
+          {
+            "id": "6",
+            "block": "int_liab",
+            "reason": "only whitespace or quote-style edits; no comparable fragment",
+            "edits": [
+              {
+                "old": "The Insured’s legal",
+                "new": "The Insured's legal"
+              }
+            ],
+            "note": "弯撇号 → 直撇号"
+          },
+          {
+            "id": "78",
+            "block": "sc_coop",
+            "reason": "only whitespace or quote-style edits; no comparable fragment",
+            "edits": [
+              {
+                "old": "unreasonably withheld",
+                "new": "unreasonably  withheld"
+              }
+            ],
+            "note": "仅空白（插入双空格）"
+          }
+        ],
+        "excludedAtomsInScoredEvents": [],
+        "scored": 82,
+        "verdicts": {
+          "correct": 66,
+          "not_evaluable": 6,
+          "split_attributable": 7,
+          "not_located": 2,
+          "one_side_only": 1
+        },
+        "verdictEvents": {
+          "correct": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "7",
+            "8",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "19",
+            "20",
+            "21",
+            "22",
+            "25",
+            "26",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "36",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "70",
+            "72",
+            "74",
+            "75",
+            "76",
+            "77",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84"
+          ],
+          "not_evaluable": [
+            "2",
+            "15",
+            "16",
+            "17",
+            "18",
+            "37"
+          ],
+          "not_located": [
+            "23",
+            "35"
+          ],
+          "one_side_only": [
+            "24"
+          ],
+          "split_attributable": [
+            "9",
+            "27",
+            "38",
+            "39",
+            "69",
+            "71",
+            "73"
+          ]
+        },
+        "outcomes": {
+          "complete": 66,
+          "incomplete": 14,
+          "not_found": 2
+        },
+        "atoms": 175,
+        "atomVerdicts": {
+          "correct": 156,
+          "not_evaluable": 8,
+          "split_attributable": 8,
+          "not_located": 2,
+          "one_side_only": 1
+        },
+        "tableRowEvents": {
+          "total": 46,
+          "changeCorrectlyAttributed": [
+            "14",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "67",
+            "68",
+            "70",
+            "72"
+          ],
+          "fullRowRecovered": [
+            "14",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "38",
+            "39",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73"
+          ],
+          "identityDeclared": 46,
+          "noDeclaredIdentity": [],
+          "acceptedWithoutPrimaryIdentity": []
+        },
+        "sameCardWithoutRecordCells": [
+          "15",
+          "18"
+        ],
+        "facts": {
+          "stated": {
+            "page_number_only": 1
+          },
+          "checks": {
+            "page_number_only:consistent": 1
+          },
+          "contradicted": []
+        },
+        "pageFurniture": [
+          {
+            "id": "H1",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 4,
+            "note": "页眉方框和页脚参考号中的 UMR 顺延；应标记为 Header/Footer"
+          },
+          {
+            "id": "H2",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 1,
+            "note": "页脚条码下的编号变化；应标记为 Footer"
+          },
+          {
+            "id": "H3",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 1,
+            "note": "今年为报价稿，每页右上和右下有 Draft 水印文字（去年没有）；不应作为正文差异"
+          },
+          {
+            "id": "H4",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 0,
+            "note": "总页数变化导致页码文字不同；应标记为 PageNumber"
+          }
+        ],
+        "cards": 103,
+        "cardsOver600Chars": 0,
+        "acceptedCards": 79,
+        "pageFurnitureCards": 5,
+        "unexplainedCards": 19,
+        "unexplainedCandidateCards": 4,
+        "unresolvedGroups": 0,
+        "status": "complete_for_scope",
+        "coreVersion": "policy-compare/0.1.0+row-identity.35+facts.6+repeat.9+ops.4",
+        "extractor": "pdfjs/6.4.299+strict-streams.1",
+        "limitations": [
+          "not_located means the script could not locate the text, not that the product missed it",
+          "a table row whose identity is not declared is not evaluated",
+          "highlight geometry is not checked; browser fine-position acceptance is out of scope",
+          "unexplainedCards is a noise estimate, not a false-positive rate",
+          "a consistent fact check does not re-confirm page tokens"
+        ]
+      }
+    },
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "mupdf",
+      "commands": [
+        [
+          "pnpm",
+          "exec",
+          "tsx",
+          "packages/cli/run.ts",
+          "--engine",
+          "mupdf",
+          "--left",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/left.pdf",
+          "--right",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/right.pdf",
+          "--out",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-mupdf.json"
+        ],
+        [
+          "python3",
+          "scripts/renewal-triage.py",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-mupdf.json",
+          "--events",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-mupdf.events.json",
+          "--identity",
+          "scripts/renewal-identity.json"
+        ]
+      ],
+      "exitCodes": [
+        0,
+        0
+      ],
+      "seconds": 4.27,
+      "sha256": "647749b9efb9c3ed28c413428c576318554aad95ad676f851061f4b72fc32f12",
+      "status": "complete_for_scope",
+      "cards": 111,
+      "baselineCards": 111,
+      "changedProductFieldsExceptVersion": [],
+      "changedEvents": [],
+      "summary": {
+        "tool": "renewal-triage/38",
+        "inputs": {
+          "changes": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+            "sha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080"
+          },
+          "result": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/aviation_2024_vs_2025-mupdf.json",
+            "sha256": "647749b9efb9c3ed28c413428c576318554aad95ad676f851061f4b72fc32f12"
+          },
+          "identity": {
+            "path": "scripts/renewal-identity.json",
+            "sha256": "b6420cd39240e879d9b2e1b66ec9420b1c6661cb1872acd28355cd8714edd861",
+            "version": "renewal-identity/1",
+            "pair": "aviation_2024_vs_2025"
+          }
+        },
+        "resultFormat": "policy-compare-result/2",
+        "authorEvents": 94,
+        "bodyEvents": 93,
+        "pageFurnitureEvents": 1,
+        "excluded": [
+          {
+            "id": "9",
+            "block": "cov_2_3",
+            "reason": "only whitespace or quote-style edits; no comparable fragment",
+            "edits": [
+              {
+                "old": "a  maximum of a  Combined",
+                "new": "a maximum of a Combined"
+              }
+            ],
+            "note": "仅空白（双空格 → 单空格）"
+          }
+        ],
+        "excludedAtomsInScoredEvents": [
+          {
+            "id": "33",
+            "edits": [
+              {
+                "old": "comprises 70 aircraft",
+                "new": "comprises 70 aircraft",
+                "reason": "only whitespace or quote-style difference; nothing comparable after normalisation"
+              }
+            ]
+          }
+        ],
+        "scored": 92,
+        "verdicts": {
+          "correct": 75,
+          "not_located": 4,
+          "split_attributable": 6,
+          "partly_located": 3,
+          "not_evaluable": 4
+        },
+        "verdictEvents": {
+          "correct": [
+            "1",
+            "2",
+            "5",
+            "8",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "29",
+            "30",
+            "31",
+            "33",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "80",
+            "81",
+            "83",
+            "84",
+            "85",
+            "86",
+            "92"
+          ],
+          "not_evaluable": [
+            "46",
+            "47",
+            "90",
+            "91"
+          ],
+          "not_located": [
+            "3",
+            "4",
+            "15",
+            "82"
+          ],
+          "partly_located": [
+            "28",
+            "32",
+            "34"
+          ],
+          "split_attributable": [
+            "6",
+            "7",
+            "87",
+            "88",
+            "89",
+            "93"
+          ]
+        },
+        "outcomes": {
+          "complete": 75,
+          "not_found": 4,
+          "incomplete": 10,
+          "partly_complete": 3
+        },
+        "atoms": 196,
+        "atomVerdicts": {
+          "correct": 175,
+          "not_located": 7,
+          "split_attributable": 6,
+          "not_evaluable": 8
+        },
+        "tableRowEvents": {
+          "total": 55,
+          "changeCorrectlyAttributed": [
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "92"
+          ],
+          "fullRowRecovered": [
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73",
+            "74",
+            "75",
+            "76",
+            "77",
+            "78",
+            "79",
+            "87",
+            "88",
+            "89",
+            "92",
+            "93"
+          ],
+          "identityDeclared": 54,
+          "noDeclaredIdentity": [
+            "90"
+          ],
+          "acceptedWithoutPrimaryIdentity": []
+        },
+        "sameCardWithoutRecordCells": [
+          "91"
+        ],
+        "facts": {
+          "stated": {
+            "whitespace_only": 1
+          },
+          "checks": {
+            "whitespace_only:consistent": 1
+          },
+          "contradicted": []
+        },
+        "pageFurniture": [
+          {
+            "id": "H1",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 1,
+            "note": "页眉中的 UMR 随续保变化；页眉应被标记为 Header，不参与 diff"
+          }
+        ],
+        "cards": 111,
+        "cardsOver600Chars": 0,
+        "acceptedCards": 90,
+        "pageFurnitureCards": 1,
+        "unexplainedCards": 20,
+        "unexplainedCandidateCards": 4,
+        "unresolvedGroups": 0,
+        "status": "complete_for_scope",
+        "coreVersion": "policy-compare/0.1.0+row-identity.35+facts.6+repeat.9+ops.4",
+        "extractor": "mupdf/1.28.1+scalar-fix.1",
+        "limitations": [
+          "not_located means the script could not locate the text, not that the product missed it",
+          "a table row whose identity is not declared is not evaluated",
+          "highlight geometry is not checked; browser fine-position acceptance is out of scope",
+          "unexplainedCards is a noise estimate, not a false-positive rate",
+          "a consistent fact check does not re-confirm page tokens"
+        ]
+      }
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "mupdf",
+      "commands": [
+        [
+          "pnpm",
+          "exec",
+          "tsx",
+          "packages/cli/run.ts",
+          "--engine",
+          "mupdf",
+          "--left",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/left.pdf",
+          "--right",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/right.pdf",
+          "--out",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-mupdf.json"
+        ],
+        [
+          "python3",
+          "scripts/renewal-triage.py",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-mupdf.json",
+          "--events",
+          "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-mupdf.events.json",
+          "--identity",
+          "scripts/renewal-identity.json"
+        ]
+      ],
+      "exitCodes": [
+        0,
+        0
+      ],
+      "seconds": 5.28,
+      "sha256": "e48f6b2880707cca931fdd9b1cb75ca7becd19a6e4e3028ead980cf1a9995152",
+      "status": "complete_for_scope",
+      "cards": 103,
+      "baselineCards": 103,
+      "changedProductFieldsExceptVersion": [],
+      "changedEvents": [],
+      "summary": {
+        "tool": "renewal-triage/38",
+        "inputs": {
+          "changes": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+            "sha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c"
+          },
+          "result": {
+            "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-joint/renewal/bizav_2024_vs_2025-mupdf.json",
+            "sha256": "e48f6b2880707cca931fdd9b1cb75ca7becd19a6e4e3028ead980cf1a9995152"
+          },
+          "identity": {
+            "path": "scripts/renewal-identity.json",
+            "sha256": "b6420cd39240e879d9b2e1b66ec9420b1c6661cb1872acd28355cd8714edd861",
+            "version": "renewal-identity/1",
+            "pair": "bizav_2024_vs_2025"
+          }
+        },
+        "resultFormat": "policy-compare-result/2",
+        "authorEvents": 88,
+        "bodyEvents": 84,
+        "pageFurnitureEvents": 4,
+        "excluded": [
+          {
+            "id": "6",
+            "block": "int_liab",
+            "reason": "only whitespace or quote-style edits; no comparable fragment",
+            "edits": [
+              {
+                "old": "The Insured’s legal",
+                "new": "The Insured's legal"
+              }
+            ],
+            "note": "弯撇号 → 直撇号"
+          },
+          {
+            "id": "78",
+            "block": "sc_coop",
+            "reason": "only whitespace or quote-style edits; no comparable fragment",
+            "edits": [
+              {
+                "old": "unreasonably withheld",
+                "new": "unreasonably  withheld"
+              }
+            ],
+            "note": "仅空白（插入双空格）"
+          }
+        ],
+        "excludedAtomsInScoredEvents": [],
+        "scored": 82,
+        "verdicts": {
+          "correct": 65,
+          "not_evaluable": 6,
+          "split_attributable": 7,
+          "partly_located": 1,
+          "not_located": 2,
+          "one_side_only": 1
+        },
+        "verdictEvents": {
+          "correct": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "7",
+            "8",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "20",
+            "21",
+            "22",
+            "25",
+            "26",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "36",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "66",
+            "67",
+            "68",
+            "70",
+            "72",
+            "74",
+            "75",
+            "76",
+            "77",
+            "79",
+            "80",
+            "81",
+            "82",
+            "83",
+            "84"
+          ],
+          "not_evaluable": [
+            "2",
+            "15",
+            "16",
+            "17",
+            "18",
+            "37"
+          ],
+          "not_located": [
+            "23",
+            "35"
+          ],
+          "one_side_only": [
+            "24"
+          ],
+          "partly_located": [
+            "19"
+          ],
+          "split_attributable": [
+            "9",
+            "27",
+            "38",
+            "39",
+            "69",
+            "71",
+            "73"
+          ]
+        },
+        "outcomes": {
+          "complete": 65,
+          "incomplete": 14,
+          "partly_complete": 1,
+          "not_found": 2
+        },
+        "atoms": 175,
+        "atomVerdicts": {
+          "correct": 155,
+          "not_evaluable": 8,
+          "split_attributable": 8,
+          "not_located": 3,
+          "one_side_only": 1
+        },
+        "tableRowEvents": {
+          "total": 46,
+          "changeCorrectlyAttributed": [
+            "14",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "67",
+            "68",
+            "70",
+            "72"
+          ],
+          "fullRowRecovered": [
+            "14",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "38",
+            "39",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60",
+            "61",
+            "62",
+            "63",
+            "64",
+            "65",
+            "67",
+            "68",
+            "69",
+            "70",
+            "71",
+            "72",
+            "73"
+          ],
+          "identityDeclared": 46,
+          "noDeclaredIdentity": [],
+          "acceptedWithoutPrimaryIdentity": []
+        },
+        "sameCardWithoutRecordCells": [
+          "15",
+          "18"
+        ],
+        "facts": {
+          "stated": {
+            "page_number_only": 1
+          },
+          "checks": {
+            "page_number_only:consistent": 1
+          },
+          "contradicted": []
+        },
+        "pageFurniture": [
+          {
+            "id": "H1",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 4,
+            "note": "页眉方框和页脚参考号中的 UMR 顺延；应标记为 Header/Footer"
+          },
+          {
+            "id": "H2",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 1,
+            "note": "页脚条码下的编号变化；应标记为 Footer"
+          },
+          {
+            "id": "H3",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 1,
+            "note": "今年为报价稿，每页右上和右下有 Draft 水印文字（去年没有）；不应作为正文差异"
+          },
+          {
+            "id": "H4",
+            "verdict": "not_evaluable",
+            "bodyCardsWithText": 0,
+            "note": "总页数变化导致页码文字不同；应标记为 PageNumber"
+          }
+        ],
+        "cards": 103,
+        "cardsOver600Chars": 0,
+        "acceptedCards": 79,
+        "pageFurnitureCards": 5,
+        "unexplainedCards": 19,
+        "unexplainedCandidateCards": 4,
+        "unresolvedGroups": 0,
+        "status": "complete_for_scope",
+        "coreVersion": "policy-compare/0.1.0+row-identity.35+facts.6+repeat.9+ops.4",
+        "extractor": "mupdf/1.28.1+scalar-fix.1",
+        "limitations": [
+          "not_located means the script could not locate the text, not that the product missed it",
+          "a table row whose identity is not declared is not evaluated",
+          "highlight geometry is not checked; browser fine-position acceptance is out of scope",
+          "unexplainedCards is a noise estimate, not a false-positive rate",
+          "a consistent fact check does not re-confirm page tokens"
+        ]
+      }
+    }
+  ]
+}

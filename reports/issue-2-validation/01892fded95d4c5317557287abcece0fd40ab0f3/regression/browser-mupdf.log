@@ -1,0 +1,25 @@
+
+> policy-compare@0.1.0 test:browser:mupdf /home/user/policy-compare
+> POLICY_ENGINE=mupdf playwright test
+
+
+Running 16 tests using 1 worker
+
+  ✓   1 tests/browser/lifecycle.spec.ts:4:1 › twenty cancellation cycles leave no workers and allow a complete subsequent result (3.8s)
+  ✓   2 tests/browser/lifecycle.spec.ts:64:1 › a cancel click that lands after the task finished changes nothing (730ms)
+  ✓   3 tests/browser/lifecycle.spec.ts:87:1 › moved text jumps both sides; identity remains with displayed PDF after next selection (801ms)
+  ✓   4 tests/browser/lifecycle.spec.ts:116:1 › corrupt input fails and password is handled locally (1.5s)
+  ✓   5 tests/browser/lifecycle.spec.ts:147:1 › non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit (851ms)
+  ✓   6 tests/browser/review-regressions.spec.ts:13:1 › F1 two changed deductibles retain visible sections and both real source rows (3.4s)
+  ✓   7 tests/browser/review-regressions.spec.ts:31:1 › F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful (1.7s)
+  ✓   8 tests/browser/review-regressions.spec.ts:40:1 › F5 visible image gap regions respect nested Form matrices and restored state (1.2s)
+  ✓   9 tests/browser/review-regressions.spec.ts:48:1 › F7 versioned resources escape old immutable cache and fixed paths revalidate (259ms)
+  ✓  10 tests/browser/review.spec.ts:26:1 › P1 real PDF amount, search, source quads and JSON export (911ms)
+  ✓  11 tests/browser/review.spec.ts:45:1 › P1 identical, ligature and scan status (2.6s)
+  ✓  12 tests/browser/review.spec.ts:61:1 › cancel stops workers, old results cannot replace next task; no document upload (1.5s)
+  ✓  13 tests/browser/review.spec.ts:96:1 › repeated occurrences and uncovered image regions are navigable (1.8s)
+  ✓  14 tests/browser/review.spec.ts:100:1 › twenty complete tasks replace previous resources without refreshing the tab (17.2s)
+  ✓  15 tests/browser/review.spec.ts:105:1 › manual swap updates both file controls and comparison direction (1.7s)
+  ✓  16 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (36.5s)
+
+  16 passed (1.3m)

@@ -1,0 +1,31 @@
+# Triage and test helpers from c14276c (/17) and be1ed04 (/18).
+=== codex_r31_triage_probe.py tri-c14276c
+r4417511075: USD 100 range listed twice: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+control: listed once: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+r4417560178: card -100 -> -200: not_located accepted=[] fullRowRecovered=None unexplained=1
+control: card 100 -> 200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: hyphen after a letter, Hull-100 -> Hull-200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+r4417631502: card on the Liability paragraph: correct accepted=['p'] fullRowRecovered=None unexplained=0
+control: card on the Hull paragraph: correct accepted=['p'] fullRowRecovered=None unexplained=0
+r4417631513: allocate 6 cells "0" over 5 occurrences: 0.00s, result found
+r4417631513: allocate 8 cells "0" over 7 occurrences: 0.06s, result found
+r4417631513: allocate 9 cells "0" over 8 occurrences: 0.50s, result found
+r4417631513: allocate 10 cells "0" over 9 occurrences: 4.74s, result found
+=== codex_r31_triage_probe.py tri-be1ed04
+r4417511075: USD 100 range listed twice: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+control: listed once: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+r4417560178: card -100 -> -200: not_located accepted=[] fullRowRecovered=None unexplained=1
+control: card 100 -> 200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: hyphen after a letter, Hull-100 -> Hull-200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+r4417631502: card on the Liability paragraph: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: card on the Hull paragraph: correct accepted=['p'] fullRowRecovered=None unexplained=0
+r4417631513: allocate 6 cells "0" over 5 occurrences: 0.00s, result found
+r4417631513: allocate 8 cells "0" over 7 occurrences: 0.00s, result found
+r4417631513: allocate 9 cells "0" over 8 occurrences: 0.00s, result found
+r4417631513: allocate 10 cells "0" over 9 occurrences: 0.00s, result found
+=== codex_r32_triage_probe.py tri-c14276c
+comment 6507993515: two cards editing only the Liability units: split_attributable accepted=['one', 'two'] unexplained=0
+control: the Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
+=== codex_r32_triage_probe.py tri-be1ed04
+comment 6507993515: two cards editing only the Liability units: split_attributable accepted=['one', 'two'] unexplained=0
+control: the Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0

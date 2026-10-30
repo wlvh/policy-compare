@@ -5,7 +5,26 @@
   "oracle_origin": "explicit_source_mutation",
   "scope": "extracted_text",
   "required_status": "complete_for_scope",
-  "events": [],
+  "events": [
+    {
+      "event_id": "R16_repagination:E1",
+      "logical_path": "document.page_heading.policy_wording",
+      "operation": "add",
+      "old": null,
+      "new": "POLICY WORDING",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Added"
+      ],
+      "acceptable_categories": [
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
   "invariants": [
     "no_material_differences",
     "no_false_clause_moves",
@@ -13,7 +32,145 @@
   ],
   "coverage_requirements": [],
   "default_text_change_visibility": "visible_no_automatic_folding",
-  "notes": [],
+  "notes": [
+    "重分页实际新增页标题 POLICY WORDING（待审版第 2 页），登记为 Added/Review 必检事件；条款正文只换页、不增删。",
+    "repeated_text_requirements 与 R24 相同：新增一页使测试声明、页眉限额、页脚页码行各多出现一次，两侧全部出现位置取自生成时的版面记录。"
+  ],
   "source_sha256": "bcb90ee3a8ecfb5c99914440a9db64aa2c27e9f0e6540a30e4f802b0a7cc2109",
-  "evidence_locations": {}
+  "evidence_locations": {
+    "R16_repagination:E1": {
+      "before": [],
+      "after": [
+        {
+          "page_index": 1,
+          "run_id": "run_0027"
+        }
+      ]
+    }
+  },
+  "repeated_text_requirements": [
+    {
+      "requirement_id": "R16_repagination:T1",
+      "layout_role": "test_notice",
+      "logical_path": null,
+      "text": "SYNTHETIC TEST - NOT A REAL POLICY",
+      "counts": {
+        "before": 2,
+        "after": 3
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 0,
+            "run_id": "run_0001",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0033",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 0,
+            "run_id": "run_0001",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0025",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0037",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R16_repagination:T2",
+      "layout_role": "header",
+      "logical_path": "repeated_header.limit",
+      "text": "REPEATED HEADER LIMIT: USD 2,000,000",
+      "counts": {
+        "before": 2,
+        "after": 3
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 0,
+            "run_id": "run_0002",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0034",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 0,
+            "run_id": "run_0002",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0026",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0038",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R16_repagination:T3",
+      "layout_role": "footer",
+      "logical_path": null,
+      "text": "FICTIONAL FIXTURE  |  PAGE {page_number}",
+      "counts": {
+        "before": 2,
+        "after": 3
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 0,
+            "run_id": "run_0004",
+            "text": "FICTIONAL FIXTURE  |  PAGE 1"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0036",
+            "text": "FICTIONAL FIXTURE  |  PAGE 2"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 0,
+            "run_id": "run_0004",
+            "text": "FICTIONAL FIXTURE  |  PAGE 1"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0028",
+            "text": "FICTIONAL FIXTURE  |  PAGE 2"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0040",
+            "text": "FICTIONAL FIXTURE  |  PAGE 3"
+          }
+        ]
+      }
+    }
+  ]
 }

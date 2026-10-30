@@ -1,0 +1,7 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (38.1s)
+
+  1 passed (40.7s)
+exit 0

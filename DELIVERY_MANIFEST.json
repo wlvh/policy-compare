@@ -1,0 +1,22 @@
+{
+  "product_revision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+  "scope": "local technical evaluation; not a production approval",
+  "artifacts": [
+    {
+      "engine": "pdfjs",
+      "file": "delivery/policy-compare-pdfjs.tar.gz",
+      "bytes": 2974930,
+      "sha256": "2e55acb6709ea8ea7e60cec26ca4692b5e4d1b15b3afd6c2690533da61e3fae0",
+      "entries": 219,
+      "archive_inspection": "PASS"
+    },
+    {
+      "engine": "mupdf",
+      "file": "delivery/policy-compare-mupdf.tar.gz",
+      "bytes": 4914496,
+      "sha256": "729c04d9b5a4caa829ba1abc9791862b83725069192fa05491fcd5b748a08266",
+      "entries": 23,
+      "archive_inspection": "PASS"
+    }
+  ]
+}

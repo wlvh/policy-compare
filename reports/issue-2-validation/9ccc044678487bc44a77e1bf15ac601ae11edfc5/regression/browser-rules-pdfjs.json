@@ -1,0 +1,339 @@
+{
+  "engine": "pdfjs",
+  "subject": "all_rules_with_real_browser_geometry",
+  "status": "FAIL",
+  "passed": 0,
+  "total": 32,
+  "failed": [
+    "R01_identical",
+    "R02_amount",
+    "R03_currency",
+    "R04_decimal",
+    "R05_negation",
+    "R06_and_or",
+    "R07_shorter_term",
+    "R08_normal_renewal",
+    "R09_header_limit",
+    "R10_address_swap",
+    "R11_label_alias",
+    "R12_exact_move",
+    "R13_move_and_replacement",
+    "R14_short_paragraph",
+    "R15_paragraph_split",
+    "R16_repagination",
+    "R17_font_change",
+    "R18_ligature",
+    "R19_rotated_status",
+    "R20_plus_minus",
+    "R21_checkbox_glyph",
+    "R22_table_value",
+    "R23_table_reorder",
+    "R24_table_cross_page",
+    "R25_duplicate_keys",
+    "R26_key_change",
+    "R27_mixed_scan_page",
+    "R28_inline_scan",
+    "R29_clause_add",
+    "R30_clause_delete",
+    "R31_punctuation",
+    "R32_combined_changes"
+  ],
+  "notEvaluated": [],
+  "identityApplicability": {
+    "checked": [],
+    "notApplicable": [],
+    "unsupported": [],
+    "coverageWarningEvents": [],
+    "unknownDetectionBranch": []
+  },
+  "records": [
+    {
+      "caseId": "R01_identical",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R02_amount",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R03_currency",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R04_decimal",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R05_negation",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R06_and_or",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R07_shorter_term",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R08_normal_renewal",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R09_header_limit",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R10_address_swap",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category,differences.1.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R11_label_alias",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R12_exact_move",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R13_move_and_replacement",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category,differences.1.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R14_short_paragraph",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R15_paragraph_split",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R16_repagination",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category,differences.1.category,differences.2.category,differences.3.category,differences.4.category,differences.5.category,differences.6.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R17_font_change",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R18_ligature",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R19_rotated_status",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R20_plus_minus",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R21_checkbox_glyph",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R22_table_value",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R23_table_reorder",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R24_table_cross_page",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category,differences.1.category,differences.2.category,differences.3.category,differences.4.category,differences.5.category,differences.6.category,differences.7.category,differences.8.category,differences.9.category,differences.10.category,differences.11.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R25_duplicate_keys",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R26_key_change",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R27_mixed_scan_page",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R28_inline_scan",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R29_clause_add",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category,differences.1.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R30_clause_delete",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category,differences.1.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R31_punctuation",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    },
+    {
+      "caseId": "R32_combined_changes",
+      "status": "FAIL",
+      "faults": [
+        "Invalid result schema: schemaVersion,differences.0.category,differences.1.category"
+      ],
+      "notEvaluated": [],
+      "events": []
+    }
+  ]
+}

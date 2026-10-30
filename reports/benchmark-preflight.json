@@ -1,0 +1,131 @@
+{
+  "subject": "workload_correctness_only_not_browser_performance",
+  "records": [
+    {
+      "name": "renewal-small",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        13799,
+        13799
+      ],
+      "differences": 2,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "nodeDiagnosticMs": 183.947375,
+      "withinLimits": true
+    },
+    {
+      "name": "renewal-standard",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        77400,
+        77400
+      ],
+      "differences": 2,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "nodeDiagnosticMs": 887.1920419999999,
+      "withinLimits": true
+    },
+    {
+      "name": "renewal-capacity",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        171947,
+        171947
+      ],
+      "differences": 2,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "nodeDiagnosticMs": 1989.688833,
+      "withinLimits": true
+    },
+    {
+      "name": "dense_table-small",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        8824,
+        8824
+      ],
+      "differences": 1,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "nodeDiagnosticMs": 119.65133300000025,
+      "withinLimits": true
+    },
+    {
+      "name": "dense_table-standard",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        49707,
+        49707
+      ],
+      "differences": 1,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "nodeDiagnosticMs": 688.2364159999997,
+      "withinLimits": true
+    },
+    {
+      "name": "dense_table-capacity",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        110484,
+        110484
+      ],
+      "differences": 1,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "nodeDiagnosticMs": 1634.8392079999999,
+      "withinLimits": true
+    },
+    {
+      "name": "template_change-small",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        14919,
+        14599
+      ],
+      "differences": 82,
+      "candidates": 80,
+      "tokenProducts": 50000,
+      "nodeDiagnosticMs": 184.0564999999997,
+      "withinLimits": true
+    },
+    {
+      "name": "template_change-standard",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        83700,
+        81900
+      ],
+      "differences": 452,
+      "candidates": 450,
+      "tokenProducts": 281250,
+      "nodeDiagnosticMs": 1015.3916250000002,
+      "withinLimits": true
+    },
+    {
+      "name": "template_change-capacity",
+      "status": "PASS",
+      "resultStatus": "complete_for_scope",
+      "scalarCounts": [
+        185947,
+        181947
+      ],
+      "differences": 1002,
+      "candidates": 1000,
+      "tokenProducts": 625000,
+      "nodeDiagnosticMs": 2324.212125,
+      "withinLimits": true
+    }
+  ]
+}

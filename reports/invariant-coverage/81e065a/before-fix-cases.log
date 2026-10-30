@@ -1,0 +1,15 @@
+== scorer of 009c349
+PROBE Replaced, 100,020U -> 200,020E: PASS
+PROBE delete + add, key SYN-1026-001, 100,020U -> 200,020E: PASS
+PROBE delete + add, key null, 100,020U -> 200,020E: PASS
+PROBE Replaced, 100,020 -> 200,020: PASS
+PROBE delete + add, key SYN-1026-001, 100,020 -> 200,020: PASS
+PROBE delete + add, key null, 100,020 -> 200,020: PASS
+== scorer of 9ff5ea1
+== scorer with the fix (uncommitted, on 009c349)
+PROBE Replaced, 100,020U -> 200,020E: FAIL
+PROBE delete + add, key SYN-1026-001, 100,020U -> 200,020E: FAIL
+PROBE delete + add, key null, 100,020U -> 200,020E: FAIL
+PROBE Replaced, 100,020 -> 200,020: PASS
+PROBE delete + add, key SYN-1026-001, 100,020 -> 200,020: PASS
+PROBE delete + add, key null, 100,020 -> 200,020: PASS

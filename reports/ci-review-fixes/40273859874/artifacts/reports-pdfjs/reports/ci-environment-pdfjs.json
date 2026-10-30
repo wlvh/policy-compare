@@ -1,0 +1,11 @@
+{
+  "commit": "bb73181a7c404d8f55966e7f3b3d3ea10e6ca5b7",
+  "runId": "40273859874",
+  "engine": "pdfjs",
+  "node": "v24.19.0",
+  "platform": "linux",
+  "arch": "x64",
+  "cpu": "AMD EPYC 7763 64-Core Processor",
+  "memoryBytes": 8317034496,
+  "purpose": "functional checks only; not target-device performance acceptance"
+}

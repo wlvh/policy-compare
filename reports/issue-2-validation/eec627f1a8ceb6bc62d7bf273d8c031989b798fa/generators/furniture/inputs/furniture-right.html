@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Repeated margin lines</title>
+<style>
+@page { size: A4; margin: 0; }
+body { margin: 0; font-family: 'DejaVu Sans', Arial, sans-serif; font-size: 9pt; }
+section { position: relative; height: 296mm; page-break-after: always; }
+section > * { position: absolute; left: 16mm; margin: 0; }
+</style></head><body>
+<section>
+<div style="top:12mm">UMR B1234AV2025</div>
+<div style="top:20mm">Hull limit any one aircraft USD 1,000,000</div>
+<p style="top:80mm">Ordinary body text on page 1.</p>
+<div style="bottom:10mm">Page 1 - Aggregate limit USD 6,000,000</div>
+</section>
+<section>
+<div style="top:12mm">UMR B1234AV2025</div>
+<div style="top:20mm">Hull limit any one aircraft USD 2,000,000</div>
+<p style="top:80mm">Ordinary body text on page 2.</p>
+<div style="bottom:10mm">Page 2 - Aggregate limit USD 6,000,000</div>
+</section>
+<section>
+<div style="top:12mm">UMR B1234AV2024</div>
+<div style="top:20mm">Hull limit any one aircraft USD 1,000,000</div>
+<p style="top:80mm">Ordinary body text on page 3.</p>
+<div style="bottom:10mm">Page 3 - Aggregate limit USD 6,000,000</div>
+</section>
+<section>
+<div style="top:12mm">UMR B1234AV2025</div>
+<div style="top:20mm">Hull limit any one aircraft USD 1,000,000</div>
+<p style="top:80mm">Ordinary body text on page 4.</p>
+<div style="bottom:10mm">Page 4 - Aggregate limit USD 6,000,000</div>
+</section>
+</body></html>

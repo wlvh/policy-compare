@@ -1,0 +1,7 @@
+# final triage tests (9b570004484fd1fdafac752be652c0a7adaef570) with scripts/renewal-triage.py of 99d521c (renewal-triage/25)
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [replaced] (key='9999', confidence='unresolved')
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [one-sided] (key='9999', confidence='unresolved')
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [added] (key='9999', confidence='unresolved')
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [removed] (key='9999', confidence='unresolved')
+Ran 73 tests in 0.619s
+FAILED (failures=4)

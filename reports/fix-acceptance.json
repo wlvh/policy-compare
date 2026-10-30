@@ -1,0 +1,42 @@
+{
+  "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+  "F1": "PASS",
+  "F2": "PASS",
+  "reviewFindings": {
+    "F1": "PASS",
+    "F2": "PASS",
+    "F3": "PASS",
+    "F4": "PASS",
+    "F5": "PASS",
+    "F6": "PASS",
+    "F7": "PASS"
+  },
+  "coreTests": 48,
+  "engines": {
+    "pdfjs": {
+      "pdfRegressions": 10,
+      "browserTests": 15,
+      "rules": 32,
+      "finePosition": "PASS"
+    },
+    "mupdf": {
+      "pdfRegressions": 10,
+      "browserTests": 15,
+      "rules": 32,
+      "finePosition": "PASS"
+    }
+  },
+  "hotAttempts": 360,
+  "hotFailures": 0,
+  "coldAttempts": 6,
+  "timingBudget": "PASS",
+  "fullMemory": "BLOCKED",
+  "referenceDevice": "BLOCKED",
+  "linuxContainers": {
+    "pdfjs": "PASS",
+    "mupdf": "PASS"
+  },
+  "businessPilot": "BLOCKED",
+  "reviewerOriginalZip": "NOT_ACCESSED; authenticated library link unavailable; independent counterexamples used",
+  "originalValidation": "PASS"
+}

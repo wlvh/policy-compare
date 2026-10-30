@@ -1,0 +1,8 @@
+# The single F7 test re-run once on PDF.js after the full suite timed out in it (same build, same tree).
+
+Running 1 test using 1 worker
+
+  ✓  1 tests/browser/review-regressions.spec.ts:48:1 › F7 versioned resources escape old immutable cache and fixed paths revalidate (417ms)
+
+  1 passed (2.3s)
+exit 0

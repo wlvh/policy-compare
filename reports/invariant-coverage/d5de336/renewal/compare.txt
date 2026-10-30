@@ -1,0 +1,22 @@
+Renewal at d5de336: product 5bd85da + 2f180a7 (core +facts.4, +row-identity.10; re-extracted), triage renewal-triage/13 (unchanged).
+A = 8c48dac product + /13 (8c48dac/renewal); C = d5de336 product + /13 (d5de336/renewal). Per event: verdict, accepted cards, row flags, written-out evidence.
+## aviation_2024_vs_2025-mupdf: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.9+facts.3+repeat.4+ops.4 -> policy-compare/0.1.0+row-identity.10+facts.4+repeat.4+ops.4
+  verdicts A {'correct': 77, 'not_located': 4, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 3}
+  verdicts C {'correct': 77, 'not_located': 4, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 3}
+  A->C differing events (any of verdict, accepted cards, row flags, written-out evidence): []
+
+## aviation_2024_vs_2025-pdfjs: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.9+facts.3+repeat.4+ops.4 -> policy-compare/0.1.0+row-identity.10+facts.4+repeat.4+ops.4
+  verdicts A {'correct': 79, 'not_located': 3, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 2}
+  verdicts C {'correct': 79, 'not_located': 3, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 2}
+  A->C differing events (any of verdict, accepted cards, row flags, written-out evidence): []
+
+## bizav_2024_vs_2025-mupdf: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.9+facts.3+repeat.4+ops.4 -> policy-compare/0.1.0+row-identity.10+facts.4+repeat.4+ops.4
+  verdicts A {'correct': 67, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  verdicts C {'correct': 67, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  A->C differing events (any of verdict, accepted cards, row flags, written-out evidence): []
+
+## bizav_2024_vs_2025-pdfjs: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.9+facts.3+repeat.4+ops.4 -> policy-compare/0.1.0+row-identity.10+facts.4+repeat.4+ops.4
+  verdicts A {'correct': 68, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'not_located': 2, 'one_side_only': 1}
+  verdicts C {'correct': 68, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'not_located': 2, 'one_side_only': 1}
+  A->C differing events (any of verdict, accepted cards, row flags, written-out evidence): []
+

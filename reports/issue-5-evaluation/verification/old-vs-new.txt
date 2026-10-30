@@ -1,0 +1,15 @@
+correct value on the wrong record (rowKey 1760)
+  old (85dae98): [('52', 'incomplete', '-', ['same_card_without_record_cells'])]
+  new:           [('52', 'incomplete', 'misattributed', ['same_card_misattributed'])]
+one correct card plus one misattributed card
+  old (85dae98): [('52', 'complete', '-', ['same_card'])]
+  new:           [('52', 'incomplete', 'misattributed', ['same_card_plus_misattributed'])]
+added row cells scattered over two records
+  old (85dae98): [('63', 'complete', '-', ['found', 'found', 'found', 'found'])]
+  new:           [('63', 'partly_complete', 'not_evaluable', ['outside_record', 'in_record', 'in_record', 'outside_record'])]
+unresolved group holds only the left side on the event page
+  old (85dae98): [('13', 'incomplete', '-', ['separate_cards'])]
+  new:           [('13', 'incomplete', 'one_side_only', ['one_side_found'])]
+unchanged percentage and date cells taken as identity; card is another writer row
+  old (85dae98): [('1', 'complete', '-', ['same_card'])]
+  new:           [('1', 'incomplete', 'not_evaluable', ['same_card_identity_unconfirmed'])]

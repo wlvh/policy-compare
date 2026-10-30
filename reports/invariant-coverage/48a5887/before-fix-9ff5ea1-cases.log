@@ -1,0 +1,8 @@
+PROBE lone Removed "-" of -100,020, rowKey null: PASS []
+PROBE lone Removed "-" of -100,020, rowKey SYN-1026-001: PASS []
+PROBE lone Added "+" of +100,020, rowKey null: PASS []
+PROBE lone Added "+" of +100,020, rowKey SYN-1026-001: PASS []
+PROBE lone Removed "−" of −100,020, rowKey null: PASS []
+PROBE lone Removed "−" of −100,020, rowKey SYN-1026-001: PASS []
+PROBE control lone hyphen of 1-100,000: PASS
+PROBE control delete + add of the same sign on its record: PASS

@@ -1,0 +1,43 @@
+{
+  "codeRevision": "39c3183f9e9c5707c9cfa0974516fc421bcc9298",
+  "integrationRevision": "2645fc23a2cc8b6506b49243da3192df9fbbb09e",
+  "parentsIntegrated": [
+    "7f5b729583c62b8b92f836c36852575534f03528",
+    "cef3cadf93408d118cdd9ea66f76f81c51830528"
+  ],
+  "baselineProbes": "reports/invariant-coverage/88718d0/probes",
+  "before": {
+    "runtimeRevision": "2645fc23a2cc8b6506b49243da3192df9fbbb09e",
+    "typescript": {
+      "exitCode": 1,
+      "failed": 6,
+      "passed": 172,
+      "log": "before/formal-ts.log"
+    },
+    "python": {
+      "exitCode": 1,
+      "testMethods": 85,
+      "failingSubtests": 14,
+      "log": "before/formal-python.log"
+    }
+  },
+  "after": {
+    "core": {
+      "exitCode": 0,
+      "passed": 369,
+      "log": "after/verify-core.log"
+    },
+    "python": {
+      "exitCode": 0,
+      "passed": 85,
+      "log": "after/python.log"
+    },
+    "typescript": {
+      "exitCode": 0,
+      "log": "after/tsc.log"
+    }
+  },
+  "runtimeMatchesRecordedCommit": true,
+  "node": "v24.22.1",
+  "note": "Before tests ran against the integrated runtime with newly added regression tests; existing probes were also run unchanged. The final label assertion was added after these before logs. Each root cause has a recorded failure; earlier rounds are not replayed."
+}

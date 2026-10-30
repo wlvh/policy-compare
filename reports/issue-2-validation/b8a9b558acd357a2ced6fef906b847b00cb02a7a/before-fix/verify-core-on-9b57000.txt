@@ -1,0 +1,6 @@
+# final tests (b8a9b558acd357a2ced6fef906b847b00cb02a7a) with product, interface, contract and triage code of 9b57000
+     × two cells under a descriptive column leave the row's identity incomplete when an identity column has none (r4420199960) 11ms
+     × a heading row with the same text but other cells is another table (r4420146482) 3ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 14 passed (15)
+      Tests  2 failed | 334 passed (336)

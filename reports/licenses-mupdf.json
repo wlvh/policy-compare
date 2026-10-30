@@ -1,0 +1,17 @@
+{
+  "AGPL-3.0-or-later": [
+    {
+      "name": "mupdf",
+      "versions": [
+        "1.28.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/mupdf/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "author": "Artifex Software, Inc.",
+      "homepage": "https://mupdf.readthedocs.io/en/latest/",
+      "description": "MuPDF.js"
+    }
+  ]
+}

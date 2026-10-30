@@ -1,0 +1,92 @@
+{
+  "codeRevision": "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f",
+  "fixedProductRevision": "a6043d90dd30f360be6fac5350c374a1d4ee72a4",
+  "baselineTriageRevision": "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a",
+  "extractionPerformed": false,
+  "runs": [
+    {
+      "name": "aviation_2024_vs_2025-pdfjs",
+      "command": [
+        "python3",
+        "scripts/renewal-triage.py",
+        "tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+        "tmp/issue-2-amount-binding/aviation_2024_vs_2025-pdfjs.json",
+        "--events",
+        "tmp/issue-2-amount-binding/aviation_2024_vs_2025-pdfjs.events.json",
+        "--identity",
+        "scripts/renewal-identity.json"
+      ],
+      "exitCode": 0,
+      "fixedProductSha256": "806ebfc9ac1eb318f034c32075bea3bacb0199da21dd2533b3071c18da18f1c9",
+      "productSource": "reports/issue-2-followup/renewal/aviation_2024_vs_2025-pdfjs.json.gz",
+      "beforeEventsSha256": "ab521f02413e8623c62d54bb1fa2b5b47d8bf71a4506c119ecea968b84095ad1",
+      "afterEventsSha256": "ab521f02413e8623c62d54bb1fa2b5b47d8bf71a4506c119ecea968b84095ad1",
+      "eventFieldsEqual": true,
+      "eventBytesEqual": true,
+      "changedEvents": []
+    },
+    {
+      "name": "bizav_2024_vs_2025-pdfjs",
+      "command": [
+        "python3",
+        "scripts/renewal-triage.py",
+        "tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+        "tmp/issue-2-amount-binding/bizav_2024_vs_2025-pdfjs.json",
+        "--events",
+        "tmp/issue-2-amount-binding/bizav_2024_vs_2025-pdfjs.events.json",
+        "--identity",
+        "scripts/renewal-identity.json"
+      ],
+      "exitCode": 0,
+      "fixedProductSha256": "d79bf4cdd960ad9110e93fae5e1dff2e6becba6af9cd85976fe0aca356dc7ea1",
+      "productSource": "reports/issue-2-followup/renewal/bizav_2024_vs_2025-pdfjs.json.gz",
+      "beforeEventsSha256": "66ee55edee0d6633507adb15fd8bbd053eb62f698592ef1a6dfb0d5270146f5e",
+      "afterEventsSha256": "66ee55edee0d6633507adb15fd8bbd053eb62f698592ef1a6dfb0d5270146f5e",
+      "eventFieldsEqual": true,
+      "eventBytesEqual": true,
+      "changedEvents": []
+    },
+    {
+      "name": "aviation_2024_vs_2025-mupdf",
+      "command": [
+        "python3",
+        "scripts/renewal-triage.py",
+        "tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+        "tmp/issue-2-amount-binding/aviation_2024_vs_2025-mupdf.json",
+        "--events",
+        "tmp/issue-2-amount-binding/aviation_2024_vs_2025-mupdf.events.json",
+        "--identity",
+        "scripts/renewal-identity.json"
+      ],
+      "exitCode": 0,
+      "fixedProductSha256": "84a8cf8c3e5223637bf99acb292139a0d7f2b36a0978659e1cf6ac9477469c56",
+      "productSource": "reports/issue-2-followup/renewal/aviation_2024_vs_2025-mupdf.json.gz",
+      "beforeEventsSha256": "49b13ab1436d70933915b887e518b611e4106ea68c723de2626a1878b72777d3",
+      "afterEventsSha256": "49b13ab1436d70933915b887e518b611e4106ea68c723de2626a1878b72777d3",
+      "eventFieldsEqual": true,
+      "eventBytesEqual": true,
+      "changedEvents": []
+    },
+    {
+      "name": "bizav_2024_vs_2025-mupdf",
+      "command": [
+        "python3",
+        "scripts/renewal-triage.py",
+        "tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+        "tmp/issue-2-amount-binding/bizav_2024_vs_2025-mupdf.json",
+        "--events",
+        "tmp/issue-2-amount-binding/bizav_2024_vs_2025-mupdf.events.json",
+        "--identity",
+        "scripts/renewal-identity.json"
+      ],
+      "exitCode": 0,
+      "fixedProductSha256": "535cee3217a298d178e35998cb2ba6d5305bd4422617a97b01dae47adada31ed",
+      "productSource": "reports/issue-2-followup/renewal/bizav_2024_vs_2025-mupdf.json.gz",
+      "beforeEventsSha256": "a25c8cb68e0b4b8fabdcdb685935b223dbdb894f862fb8e86665cff5209b0d69",
+      "afterEventsSha256": "a25c8cb68e0b4b8fabdcdb685935b223dbdb894f862fb8e86665cff5209b0d69",
+      "eventFieldsEqual": true,
+      "eventBytesEqual": true,
+      "changedEvents": []
+    }
+  ]
+}

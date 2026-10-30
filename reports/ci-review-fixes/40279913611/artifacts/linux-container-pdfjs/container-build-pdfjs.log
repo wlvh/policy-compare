@@ -1,0 +1,172 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 969B done
+#1 DONE 0.0s
+
+#2 [auth] library/node:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.22.1-alpine
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 178B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 186.98kB done
+#5 DONE 0.0s
+
+#6 [build  1/12] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#6 resolve docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53 done
+#6 sha256:109c2f814f468711ac666fb9494ce76528e972ee8636468ad822267a0af959e5 443B / 443B 0.1s done
+#6 sha256:f0a5c9e3ce7dcc7fca3a816f70b3d42bc5324066b627223af466eff9030e171f 1.05MB / 1.26MB 0.2s
+#6 sha256:f0a5c9e3ce7dcc7fca3a816f70b3d42bc5324066b627223af466eff9030e171f 1.26MB / 1.26MB 0.2s done
+#6 sha256:7b229517ed222597277036d94892173207d01a731ab3a88eeb1de2e963a2c788 3.85MB / 3.85MB 0.3s done
+#6 sha256:15577f11e05afbda845cbd2903e55f0a3da41dc2a576435999474e7a2654651b 0B / 57.37MB 0.2s
+#6 sha256:15577f11e05afbda845cbd2903e55f0a3da41dc2a576435999474e7a2654651b 28.31MB / 57.37MB 0.3s
+#6 extracting sha256:7b229517ed222597277036d94892173207d01a731ab3a88eeb1de2e963a2c788 0.1s done
+#6 sha256:15577f11e05afbda845cbd2903e55f0a3da41dc2a576435999474e7a2654651b 57.37MB / 57.37MB 0.6s
+#6 sha256:15577f11e05afbda845cbd2903e55f0a3da41dc2a576435999474e7a2654651b 57.37MB / 57.37MB 1.0s done
+#6 extracting sha256:15577f11e05afbda845cbd2903e55f0a3da41dc2a576435999474e7a2654651b
+#6 extracting sha256:15577f11e05afbda845cbd2903e55f0a3da41dc2a576435999474e7a2654651b 0.8s done
+#6 DONE 1.8s
+
+#6 [build  1/12] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#6 extracting sha256:f0a5c9e3ce7dcc7fca3a816f70b3d42bc5324066b627223af466eff9030e171f 0.0s done
+#6 extracting sha256:109c2f814f468711ac666fb9494ce76528e972ee8636468ad822267a0af959e5 done
+#6 DONE 1.9s
+
+#7 [stage-1 2/5] WORKDIR /app
+#7 ...
+
+#8 [build  2/12] WORKDIR /build
+#8 DONE 7.1s
+
+#7 [stage-1 2/5] WORKDIR /app
+#7 DONE 7.1s
+
+#9 [build  3/12] RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
+#9 0.256 Preparing pnpm@10.12.1 for immediate activation...
+#9 DONE 1.3s
+
+#10 [build  4/12] COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.pdfjs.json tsconfig.mupdf.json vite.config.ts ./
+#10 DONE 0.0s
+
+#11 [build  5/12] COPY patches ./patches
+#11 DONE 0.0s
+
+#12 [build  6/12] RUN pnpm install --frozen-lockfile
+#12 0.534 Lockfile is up to date, resolution step is skipped
+#12 0.559 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 0.570 Packages: +55
+#12 0.570 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#12 0.831 
+#12 0.831    ╭───────────────────────────────────────────────╮
+#12 0.831    │                                               │
+#12 0.831    │     Update available! 10.12.1 → 12.15.0.      │
+#12 0.831    │     Changelog: https://pnpm.io/v/12.15.0      │
+#12 0.831    │   To update, run: corepack use pnpm@12.15.0   │
+#12 0.831    │                                               │
+#12 0.831    ╰───────────────────────────────────────────────╯
+#12 0.831 
+#12 1.562 Progress: resolved 55, reused 0, downloaded 22, added 8
+#12 1.988 Progress: resolved 55, reused 0, downloaded 55, added 55, done
+#12 2.012 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#12 2.012 (Use `node --trace-deprecation ...` to show where the warning was created)
+#12 2.028 .../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+#12 2.088 .../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+#12 2.224 
+#12 2.224 dependencies:
+#12 2.224 + @noble/hashes 2.0.1
+#12 2.224 + react 19.3.1
+#12 2.224 + react-dom 19.3.1
+#12 2.224 + zod 4.6.7
+#12 2.224 
+#12 2.224 devDependencies:
+#12 2.224 + @playwright/test 1.64.1
+#12 2.224 + @types/node 24.10.1
+#12 2.224 + @types/react 19.2.2
+#12 2.224 + @types/react-dom 19.2.2
+#12 2.224 + tsx 4.23.15
+#12 2.224 + typescript 7.0.2
+#12 2.224 + vite 8.3.5
+#12 2.224 + vitest 5.0.5
+#12 2.224 
+#12 2.238 Done in 2s using pnpm v10.12.1
+#12 DONE 3.9s
+
+#13 [build  7/12] COPY engines/pdfjs ./engines/pdfjs
+#13 DONE 0.0s
+
+#14 [build  8/12] RUN pnpm --dir engines/pdfjs install --frozen-lockfile
+#14 0.385 Lockfile is up to date, resolution step is skipped
+#14 0.403 Progress: resolved 1, reused 0, downloaded 0, added 0
+#14 0.412 Packages: +4
+#14 0.412 ++++
+#14 1.404 Progress: resolved 4, reused 0, downloaded 4, added 1
+#14 1.646 Progress: resolved 4, reused 0, downloaded 4, added 4, done
+#14 1.716 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#14 1.716 (Use `node --trace-deprecation ...` to show where the warning was created)
+#14 1.826 
+#14 1.826 dependencies:
+#14 1.826 + pdfjs-dist 6.4.299
+#14 1.826 
+#14 1.832 Done in 1.6s using pnpm v10.12.1
+#14 DONE 3.2s
+
+#15 [build  9/12] COPY apps ./apps
+#15 DONE 0.0s
+
+#16 [build 10/12] COPY packages ./packages
+#16 DONE 0.0s
+
+#17 [build 11/12] COPY profiles ./profiles
+#17 DONE 0.0s
+
+#18 [build 12/12] RUN pnpm build:pdfjs
+#18 0.359 
+#18 0.359 > policy-compare@0.1.0 build:pdfjs /build
+#18 0.359 > tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs vite build
+#18 0.359 
+#18 0.948 vite v8.3.5 building client environment for production...
+#18 0.957 transforming...
+#18 1.186 ✓ 122 modules transformed.
+#18 1.237 rendering chunks...
+#18 1.344 computing gzip size...
+#18 1.354 dist/pdfjs/index.html                          0.41 kB │ gzip:   0.31 kB
+#18 1.354 dist/pdfjs/assets/core.worker-B75CQNrn.js    132.23 kB
+#18 1.354 dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
+#18 1.354 dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
+#18 1.354 dist/pdfjs/assets/index-DD9ao-bO.css           7.59 kB │ gzip:   2.43 kB
+#18 1.354 dist/pdfjs/assets/index-D4E9BUW1.js          835.88 kB │ gzip: 256.44 kB
+#18 1.354 
+#18 1.355 [plugin builtin:vite-reporter] 
+#18 1.355 (!) Some chunks are larger than 500 kB after minification. Consider:
+#18 1.355 - Using dynamic import() to code-split the application
+#18 1.355 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+#18 1.355 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#18 1.356 ✓ built in 406ms
+#18 DONE 1.5s
+
+#19 [stage-1 3/5] COPY --from=build /build/dist/pdfjs ./dist
+#19 DONE 0.1s
+
+#20 [stage-1 4/5] COPY deploy/server.mjs ./server.mjs
+#20 DONE 0.0s
+
+#21 [stage-1 5/5] RUN chmod -R a=rX /app
+#21 DONE 0.3s
+
+#22 exporting to image
+#22 exporting layers
+#22 exporting layers 0.4s done
+#22 exporting manifest sha256:4191a090b163e91dba7075fc89890cacc9e09b54d69c753dedd940f5bd730d98
+#22 exporting manifest sha256:4191a090b163e91dba7075fc89890cacc9e09b54d69c753dedd940f5bd730d98 done
+#22 exporting config sha256:ff5c0977bdba222d3fe6281f7ceb21f62df4b404cda405a4f2db554088e7c193 done
+#22 exporting attestation manifest sha256:fe1565cd8ee0b4801274130fba4320257998344a6dc5765bb4f8ee2651aa484a done
+#22 exporting manifest list sha256:5d5123071f44f855530d8cda08e80e44ebbef1380907931a61bb870eb4b27f73 done
+#22 naming to docker.io/library/policy-compare:pdfjs done
+#22 unpacking to docker.io/library/policy-compare:pdfjs 0.1s done
+#22 DONE 0.5s

@@ -1,0 +1,6 @@
+PROBE declared 100,020 -> 200,020, Replaced fragment: FAIL ["Required event failed: R26_key_change:E2","agreed_value_unchanged: card frag claims 1 to 2 inside amount or currency cells that keep their values"] [["R26_key_change:E1","PASS"],["R26_key_change:E2","FAIL"]]
+PROBE declared 100,020 -> 200,020, Replaced whole cell: PASS [] [["R26_key_change:E1","PASS"],["R26_key_change:E2","PASS"]]
+PROBE declared 100,020 -> 200,020, delete + add fragment: FAIL ["Required event failed: R26_key_change:E2","agreed_value_unchanged: record SYN-1026-001|agreed_value delete/add cards claim 1 to 2 inside amount or currency cells that keep their values"] [["R26_key_change:E1","PASS"],["R26_key_change:E2","FAIL"]]
+PROBE declared -100,020 -> +100,020, Replaced fragment: FAIL ["Required event failed: R26_key_change:E2"] [["R26_key_change:E1","PASS"],["R26_key_change:E2","FAIL"]]
+PROBE declared -100,020 -> +100,020, Replaced whole cell: PASS [] [["R26_key_change:E1","PASS"],["R26_key_change:E2","PASS"]]
+PROBE declared -100,020 -> +100,020, delete + add fragment: FAIL ["Required event failed: R26_key_change:E2"] [["R26_key_change:E1","PASS"],["R26_key_change:E2","FAIL"]]

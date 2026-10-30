@@ -1,0 +1,110 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/page-counts.test.ts (7 tests | 5 failed) 151ms
+   ❯ a change in occurrences is reported, not offset by the page count (3)
+     × 4 of 4 pages -> 3 of 5 pages: one card with both counts and every source 65ms
+     × a repaginated line, 4 of 4 -> 5 of 5 pages, states its counts without a page mapping 25ms
+     ✓ the same count on both sides gives no card 12ms
+   ❯ only explicit page expressions are page numbers (4)
+     × percentages counting with the pages are content: every value shown, none a page number 14ms
+     × currency amounts counting with the pages are content: every value shown, none a page number 9ms
+     × a whole-line number counting with the pages is content, even when it equals the page 12ms
+     ✓ control: Page n is still a page number 11ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/page-counts.test.ts > a change in occurrences is reported, not offset by the page count > 4 of 4 pages -> 3 of 5 pages: one card with both counts and every source
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/page-counts.test.ts:31:19
+     29|     const r = run(doc(4, () => "War risks excluded"), doc(5, (p) => (p…
+     30|     const cards = header(r, "War risks excluded");
+     31|     expect(cards).toHaveLength(1);
+       |                   ^
+     32|     const [d] = cards;
+     33|     expect([d.oldText, d.newText, d.hasTextChange, d.facts]).toEqual([…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/page-counts.test.ts > a change in occurrences is reported, not offset by the page count > a repaginated line, 4 of 4 -> 5 of 5 pages, states its counts without a page mapping
+AssertionError: expected [] to deeply equal [ [ false, …(1) ] ]
+
+- Expected
++ Received
+
+- [
+-   [
+-     false,
+-     {
+-       "left": 4,
+-       "leftPages": 4,
+-       "right": 5,
+-       "rightPages": 5,
+-     },
+-   ],
+- ]
++ []
+
+ ❯ tests/page-counts.test.ts:41:59
+     39|     const r = run(doc(4, () => "War risks excluded"), doc(5, () => "Wa…
+     40|     const cards = header(r, "War risks excluded");
+     41|     expect(cards.map((d) => [d.hasTextChange, d.repeat])).toEqual([[fa…
+       |                                                           ^
+     42|     expect([pagesOf(cards[0], "left"), pagesOf(cards[0], "right")]).to…
+     43|     expect(cards[0].reviewReasons.join("")).toContain("这段文字出现次数：4 次 → …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/page-counts.test.ts > only explicit page expressions are page numbers > percentages counting with the pages are content: every value shown, none a page number
+ FAIL  tests/page-counts.test.ts > only explicit page expressions are page numbers > currency amounts counting with the pages are content: every value shown, none a page number
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/page-counts.test.ts:58:79
+     56|     it(`${name} counting with the pages are content: every value shown…
+     57|       const r = run(doc(4, old), doc(4, now));
+     58|       expect(r.differences.some((d) => d.facts.includes("page_number_o…
+       |                                                                               ^
+     59|       for (let p = 0; p < 4; p++) {
+     60|         const was = r.differences.find((d) => d.left.some((l) => l.pag…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/page-counts.test.ts > only explicit page expressions are page numbers > a whole-line number counting with the pages is content, even when it equals the page
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/page-counts.test.ts:68:90
+     66|     const r = run(doc(4, (p) => `- ${p + 1} -`), doc(5, (p) => `- ${p …
+     67|     expect(r.differences.some((d) => d.facts.includes("page_number_onl…
+     68|     expect(r.differences.some((d) => d.kind === "Added" && d.newText.i…
+       |                                                                                          ^
+     69|   });
+     70|   it("control: Page n is still a page number", () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 2 passed (7)
+   Start at  11:28:07
+   Duration  761ms (transform 49%, tests 31%, import 18%, worker 1%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json

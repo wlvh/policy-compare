@@ -1,0 +1,1245 @@
+{
+  "subject": "actual_pdf_product_rules",
+  "engine": "mupdf",
+  "finePositionStatus": "PASS",
+  "finePositionEvidence": "Native character quads",
+  "commit": "8ca503f91d31ebc4c0e1af8cf722ec2596af60f8",
+  "manifestHash": "a50df7a0f40aa9419aafc3d896d6c6d932f2ad895c9f4f8bcde5d091936c8fb3",
+  "status": "NOT_EVALUATED",
+  "passed": 28,
+  "total": 32,
+  "failed": [],
+  "notEvaluated": [
+    "R16_repagination",
+    "R18_ligature",
+    "R23_table_reorder",
+    "R24_table_cross_page"
+  ],
+  "knownGapsOnly": true,
+  "coverageGaps": [
+    {
+      "caseId": "R16_repagination",
+      "invariant": "all_source_text_preserved",
+      "kind": "invariant_unsupported",
+      "reason": "the result lists only differences, so it cannot show that every extracted character was compared; the scorer also does not compare extraction with layout.json; R16's other invariants only rule out false claims"
+    },
+    {
+      "caseId": "R18_ligature",
+      "invariant": "ligature_geometry_not_uniformly_guessed",
+      "kind": "invariant_unsupported",
+      "reason": "the fine-geometry check (browser only) accepts boxes inside the ligature glyph and cannot tell a uniform split from glyph geometry; Node runs check no final geometry"
+    },
+    {
+      "caseId": "R23_table_reorder",
+      "invariant": "all_aircraft_values_attached_to_original_identity",
+      "kind": "invariant_unsupported",
+      "reason": "unchanged rows produce no card, so the result does not show which old row each new row was matched to; R23's other invariants only catch a reported false value change"
+    },
+    {
+      "caseId": "R24_table_cross_page",
+      "invariant": "same_logical_row_order",
+      "kind": "invariant_unsupported",
+      "reason": "row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order"
+    }
+  ],
+  "eventRegression": {
+    "status": "PASS",
+    "passed": 32,
+    "total": 32,
+    "failed": [],
+    "notEvaluated": []
+  },
+  "invariantCoverage": {
+    "direct": [
+      "no_content_differences",
+      "no_material_differences",
+      "must_not_classify_as_unchanged_duration_roll_forward",
+      "grouping_allowed_only_with_all_occurrence_locations",
+      "no_amount_or_currency_change",
+      "moved_clause_has_no_internal_word_edits",
+      "no_false_text_added_or_removed",
+      "no_false_clause_moves",
+      "no_false_row_additions_or_deletions",
+      "agreed_value_unchanged"
+    ],
+    "indirect": [
+      "header_role_must_not_exclude_text",
+      "must_not_match_values_across_party_identity",
+      "same_field_identity",
+      "exact_move_must_not_be_consumed_by_local_replacement",
+      "same_address_identity",
+      "rotation_must_not_exclude_text",
+      "match_row_by_registration_or_declared_serial",
+      "duplicate_identity_must_be_reported",
+      "must_not_assert_unique_row_identity_without_evidence",
+      "must_not_claim_no_changes",
+      "old_and_new_amount_delta_must_remain_visible",
+      "unresolved_identity_does_not_waive_text_change_detection",
+      "duplicate_key_warning_alone_is_not_a_pass",
+      "secondary_key_or_explicit_identity_review",
+      "must_not_claim_complete_or_no_changes",
+      "text_elsewhere_on_page_does_not_prove_full_coverage",
+      "renewal_classification_must_not_hide_amount_change"
+    ],
+    "unsupported": [
+      "all_source_text_preserved",
+      "ligature_geometry_not_uniformly_guessed",
+      "all_aircraft_values_attached_to_original_identity",
+      "same_logical_row_order"
+    ],
+    "unknown": []
+  },
+  "identityApplicability": {
+    "checked": [
+      "R02_amount:E1",
+      "R03_currency:E1",
+      "R04_decimal:E1",
+      "R07_shorter_term:E1",
+      "R08_normal_renewal:E1",
+      "R10_address_swap:E1",
+      "R10_address_swap:E2",
+      "R11_label_alias:E1",
+      "R18_ligature:E1",
+      "R20_plus_minus:E1",
+      "R21_checkbox_glyph:E1",
+      "R22_table_value:E1",
+      "R25_duplicate_keys:E1",
+      "R26_key_change:E1",
+      "R32_combined_changes:E1",
+      "R32_combined_changes:E2"
+    ],
+    "notApplicable": [
+      "R05_negation:E1",
+      "R06_and_or:E1",
+      "R09_header_limit:E1",
+      "R12_exact_move:E1",
+      "R13_move_and_replacement:E1",
+      "R13_move_and_replacement:E2",
+      "R14_short_paragraph:E1",
+      "R19_rotated_status:E1",
+      "R29_clause_add:E1",
+      "R30_clause_delete:E1",
+      "R31_punctuation:E1"
+    ],
+    "unsupported": [],
+    "coverageWarningEvents": [
+      "R27_mixed_scan_page:E1",
+      "R28_inline_scan:E1"
+    ],
+    "unknownDetectionBranch": []
+  },
+  "records": [
+    {
+      "caseId": "R01_identical",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [],
+      "invariants": [
+        {
+          "name": "no_content_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no difference card at all"
+        },
+        {
+          "name": "no_material_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Material card and no text change outside Cosmetic"
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R02_amount",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R02_amount:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=sum_insured"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R03_currency",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R03_currency:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=sum_insured"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R04_decimal",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R04_decimal:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=rate"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R05_negation",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R05_negation:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R06_and_or",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R06_and_or:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R07_shorter_term",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R07_shorter_term:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=policy_period"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "must_not_classify_as_unchanged_duration_roll_forward",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no policy_period card classified RollForward"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R08_normal_renewal",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R08_normal_renewal:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=policy_period"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R09_header_limit",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R09_header_limit:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "repeated page-header limit: one value printed on every page, no party or record identity; all occurrence locations are checked by the grouping invariant"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "header_role_must_not_exclude_text",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the header-limit event needs a visible card at the header runs; excluded header text leaves none"
+        },
+        {
+          "name": "grouping_allowed_only_with_all_occurrence_locations",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "the grouped card lists every expected occurrence location on both sides"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R10_address_swap",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R10_address_swap:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=original_insured, field=address"
+          },
+          "pass": true
+        },
+        {
+          "eventId": "R10_address_swap:E2",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=reinsured, field=address"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "must_not_match_values_across_party_identity",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "each address event checks the party entity and field of its card"
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R11_label_alias",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R11_label_alias:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=sum_insured.label"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "no_amount_or_currency_change",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (a card whose delete/insert operations assert, in its own citation order, a change inside cells that keep their values fails); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)"
+        },
+        {
+          "name": "same_field_identity",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the label event checks entity and field (sum_insured.label) and requires Replaced"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R12_exact_move",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R12_exact_move:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "moved_clause_has_no_internal_word_edits",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Moved card with a text change"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R13_move_and_replacement",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R13_move_and_replacement:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        },
+        {
+          "eventId": "R13_move_and_replacement:E2",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "exact_move_must_not_be_consumed_by_local_replacement",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the move event needs a Moved card and the add event an Added card at their own positions"
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R14_short_paragraph",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R14_short_paragraph:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R15_paragraph_split",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [],
+      "invariants": [
+        {
+          "name": "no_material_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Material card and no text change outside Cosmetic"
+        },
+        {
+          "name": "no_false_text_added_or_removed",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no card with a text change"
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R16_repagination",
+      "status": "NOT_EVALUATED",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [
+        {
+          "invariant": "all_source_text_preserved",
+          "kind": "invariant_unsupported",
+          "reason": "the result lists only differences, so it cannot show that every extracted character was compared; the scorer also does not compare extraction with layout.json; R16's other invariants only rule out false claims"
+        }
+      ],
+      "events": [],
+      "invariants": [
+        {
+          "name": "no_material_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Material card and no text change outside Cosmetic"
+        },
+        {
+          "name": "no_false_clause_moves",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Moved card"
+        },
+        {
+          "name": "all_source_text_preserved",
+          "coverage": "unsupported",
+          "result": "NOT_EVALUATED",
+          "reason": "the result lists only differences, so it cannot show that every extracted character was compared; the scorer also does not compare extraction with layout.json; R16's other invariants only rule out false claims"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R17_font_change",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [],
+      "invariants": [
+        {
+          "name": "no_material_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Material card and no text change outside Cosmetic"
+        },
+        {
+          "name": "no_content_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no difference card at all"
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R18_ligature",
+      "status": "NOT_EVALUATED",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [
+        {
+          "invariant": "ligature_geometry_not_uniformly_guessed",
+          "kind": "invariant_unsupported",
+          "reason": "the fine-geometry check (browser only) accepts boxes inside the ligature glyph and cannot tell a uniform split from glyph geometry; Node runs check no final geometry"
+        }
+      ],
+      "events": [
+        {
+          "eventId": "R18_ligature:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=original_insured, field=address"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "same_address_identity",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the ligature event checks entity original_insured and field address"
+        },
+        {
+          "name": "ligature_geometry_not_uniformly_guessed",
+          "coverage": "unsupported",
+          "result": "NOT_EVALUATED",
+          "reason": "the fine-geometry check (browser only) accepts boxes inside the ligature glyph and cannot tell a uniform split from glyph geometry; Node runs check no final geometry"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R19_rotated_status",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R19_rotated_status:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "document status stamp: state of the whole document, no party or record identity"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "rotation_must_not_exclude_text",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the rotated-status event needs a visible card at the rotated run; excluded text leaves none"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R20_plus_minus",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R20_plus_minus:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=tolerance"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R21_checkbox_glyph",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R21_checkbox_glyph:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=endorsement"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R22_table_value",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R22_table_value:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "table record identity: rowKey=SYN-1026-002, field=agreed_value"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "match_row_by_registration_or_declared_serial",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the value event checks the row key (declared serial) and field of its card; a registration-keyed match is not accepted by the scorer (stricter than the answer)"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R23_table_reorder",
+      "status": "NOT_EVALUATED",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [
+        {
+          "invariant": "all_aircraft_values_attached_to_original_identity",
+          "kind": "invariant_unsupported",
+          "reason": "unchanged rows produce no card, so the result does not show which old row each new row was matched to; R23's other invariants only catch a reported false value change"
+        }
+      ],
+      "events": [],
+      "invariants": [
+        {
+          "name": "no_material_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Material card and no text change outside Cosmetic"
+        },
+        {
+          "name": "no_false_row_additions_or_deletions",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no table card with a text change"
+        },
+        {
+          "name": "all_aircraft_values_attached_to_original_identity",
+          "coverage": "unsupported",
+          "result": "NOT_EVALUATED",
+          "reason": "unchanged rows produce no card, so the result does not show which old row each new row was matched to; R23's other invariants only catch a reported false value change"
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R24_table_cross_page",
+      "status": "NOT_EVALUATED",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [
+        {
+          "invariant": "same_logical_row_order",
+          "kind": "invariant_unsupported",
+          "reason": "row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order"
+        }
+      ],
+      "events": [],
+      "invariants": [
+        {
+          "name": "no_material_differences",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no Material card and no text change outside Cosmetic"
+        },
+        {
+          "name": "no_false_row_additions_or_deletions",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no table card with a text change"
+        },
+        {
+          "name": "same_logical_row_order",
+          "coverage": "unsupported",
+          "result": "NOT_EVALUATED",
+          "reason": "row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R25_duplicate_keys",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R25_duplicate_keys:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "duplicate identity must stay unresolved with no asserted row key"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "duplicate_identity_must_be_reported",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "required status partial_or_explicit_review needs status partial with an ambiguous_identity group"
+        },
+        {
+          "name": "must_not_assert_unique_row_identity_without_evidence",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the duplicate event requires confidence unresolved and no row key on its card"
+        },
+        {
+          "name": "must_not_claim_no_changes",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the duplicate event must be discovered as a visible card"
+        },
+        {
+          "name": "old_and_new_amount_delta_must_remain_visible",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the duplicate event needs both amounts on one visible card at their positions"
+        },
+        {
+          "name": "unresolved_identity_does_not_waive_text_change_detection",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "an unresolved group does not replace the required card"
+        },
+        {
+          "name": "duplicate_key_warning_alone_is_not_a_pass",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "an ambiguous_identity group without the card fails the event"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "partial"
+    },
+    {
+      "caseId": "R26_key_change",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R26_key_change:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "table record identity: rowKey=SYN-1026-003, field=registration"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "agreed_value_unchanged",
+          "coverage": "direct",
+          "result": "PASS",
+          "reason": "no card pairs or adds/removes amounts or currencies beyond the case's events; bare numbers count on cards that declare an amount field, and the bare value of every layout.json amount cell a card cites, at any granularity, counts too (a card whose delete/insert operations assert, in its own citation order, a change inside cells that keep their values fails); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, or run-level geometry changing an amount cell together with other cells: NOT_EVALUATED)"
+        },
+        {
+          "name": "secondary_key_or_explicit_identity_review",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the registration event requires the serial as row key; an explicit identity review is not accepted by the scorer (stricter than the answer)"
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R27_mixed_scan_page",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R27_mixed_scan_page:E1",
+          "branch": "coverage_warning",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": null,
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "must_not_claim_complete_or_no_changes",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the coverage event needs status partial and a visible coverage region"
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "partial"
+    },
+    {
+      "caseId": "R28_inline_scan",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R28_inline_scan:E1",
+          "branch": "coverage_warning",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": null,
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "text_elsewhere_on_page_does_not_prove_full_coverage",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the coverage region must cover the image region, not the whole page"
+        },
+        {
+          "name": "must_not_claim_complete_or_no_changes",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the coverage event needs status partial and a visible coverage region"
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "partial"
+    },
+    {
+      "caseId": "R29_clause_add",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R29_clause_add:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R30_clause_delete",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R30_clause_delete:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R31_punctuation",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R31_punctuation:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "not_applicable",
+            "pass": null,
+            "reason": "clause wording: no company/party or table-record identity to check; text, operation, category, position, visibility and completeness still apply"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R32_combined_changes",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "faults": [],
+      "notEvaluated": [],
+      "events": [
+        {
+          "eventId": "R32_combined_changes:E1",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=policy_period"
+          },
+          "pass": true
+        },
+        {
+          "eventId": "R32_combined_changes:E2",
+          "branch": "text",
+          "verdict": "PASS",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "identity": {
+            "applicability": "checked",
+            "pass": true,
+            "reason": "party/field identity: entity=none, field=sum_insured"
+          },
+          "pass": true
+        }
+      ],
+      "invariants": [
+        {
+          "name": "renewal_classification_must_not_hide_amount_change",
+          "coverage": "indirect",
+          "result": "PASS",
+          "reason": "the amount event needs its own visible Material/Review card; a RollForward card does not satisfy it"
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    }
+  ]
+}

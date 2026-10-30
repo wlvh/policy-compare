@@ -1,0 +1,8 @@
+files changed since 505d3a7 (reports excluded):
+ packages/compare-core/index.ts      | 32 +++++++++++++++-----
+ packages/compare-core/structure.ts  |  8 +++++
+ scripts/renewal-triage.py           | 54 ++++++++++++++++++++++++++-------
+ tests/page-furniture.test.ts        | 12 ++++++++
+ tests/row-identity-evidence.test.ts | 60 +++++++++++++++++++++++++++++++++++++
+ tests/test_renewal_triage.py        | 39 ++++++++++++++++++++++++
+ 6 files changed, 186 insertions(+), 19 deletions(-)

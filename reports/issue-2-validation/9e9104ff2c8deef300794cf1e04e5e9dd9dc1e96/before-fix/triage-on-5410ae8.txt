@@ -1,0 +1,5 @@
+# final triage tests (9e9104ff2c8deef300794cf1e04e5e9dd9dc1e96) with scripts/renewal-triage.py of 5410ae8 (renewal-triage/23)
+FAIL: test_a_card_naming_another_record_does_not_attribute_this_row (test_renewal_triage.AddedRemovedRows.test_a_card_naming_another_record_does_not_attribute_this_row)
+FAIL: test_a_date_roll_needs_real_dates (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_date_roll_needs_real_dates)
+Ran 71 tests in 0.558s
+FAILED (failures=2)

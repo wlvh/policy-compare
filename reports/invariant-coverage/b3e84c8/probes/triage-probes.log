@@ -1,0 +1,35 @@
+=== codex_r27_triage_probe.py
+two currency-only cards (split path): not_evaluable accepted=[] unexplained=2
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: partly_located fullRowRecovered=False atoms=['in_record', 'not_found', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record', 'in_record']
+control: Removed + Added cards: split_attributable accepted=['c', 'g'] unexplained=0
+=== codex_r29_triage_probe.py
+Added r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Added control: both shown: correct fullRowRecovered=True unexplained=0
+Removed r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Removed control: both shown: correct fullRowRecovered=True unexplained=0
+=== codex_r30_triage_probe.py
+r4417329496: one of two equal amount cells shown: correct fullRowRecovered=False unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+Added r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Added control: card shows 100: correct fullRowRecovered=True unexplained=0
+Removed r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Removed control: card shows 100: correct fullRowRecovered=True unexplained=0
+Added r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+Removed r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+=== codex_r31_triage_probe.py
+r4417511075: USD 100 range listed twice: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+control: listed once: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+r4417560178: card -100 -> -200: not_located accepted=[] fullRowRecovered=None unexplained=1
+control: card 100 -> 200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: hyphen after a letter, Hull-100 -> Hull-200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+r4417631502: card on the Liability paragraph: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: card on the Hull paragraph: correct accepted=['p'] fullRowRecovered=None unexplained=0
+r4417631513: allocate 6 cells "0" over 5 occurrences: 0.00s, result found
+r4417631513: allocate 8 cells "0" over 7 occurrences: 0.00s, result found
+r4417631513: allocate 9 cells "0" over 8 occurrences: 0.00s, result found
+r4417631513: allocate 10 cells "0" over 9 occurrences: 0.00s, result found
+=== codex_r32_triage_probe.py
+comment 6507993515: two cards editing only the Liability units: split_attributable accepted=['one', 'two'] unexplained=0
+control: the Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0

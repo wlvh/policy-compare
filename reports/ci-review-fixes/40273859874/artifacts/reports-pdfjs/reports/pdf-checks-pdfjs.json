@@ -1,0 +1,32 @@
+{
+  "subject": "real_pdf_adapter_mechanisms",
+  "engine": "pdfjs",
+  "nodeFineRender": "NOT_RUN_BROWSER_REQUIRED",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "actual PDF non-BMP, combining mark and ligature preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "rotation + nonzero CropBox + UserUnit use one display transform",
+      "status": "PASS"
+    },
+    {
+      "name": "password failures and successful local authentication",
+      "status": "PASS"
+    },
+    {
+      "name": "corrupt PDF is failed, not empty complete",
+      "status": "PASS"
+    },
+    {
+      "name": "page failure retains other real extracted pages",
+      "status": "PASS"
+    },
+    {
+      "name": "destroy invalidates document and repeated cleanup is safe",
+      "status": "PASS"
+    }
+  ]
+}

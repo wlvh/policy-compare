@@ -1,0 +1,8 @@
+files changed since 61e4add (reports excluded):
+ packages/compare-core/index.ts      | 17 +++++----
+ scripts/renewal-triage.py           | 17 ++++++---
+ tests/evaluation/scorer.ts          | 62 ++++++++++++++++++++++----------
+ tests/row-identity-evidence.test.ts | 26 ++++++++++++++
+ tests/scorer.test.ts                | 70 ++++++++++++++++++++++++++++++++-----
+ tests/test_renewal_triage.py        | 22 ++++++++++++
+ 6 files changed, 175 insertions(+), 39 deletions(-)

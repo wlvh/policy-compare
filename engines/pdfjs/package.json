@@ -1,0 +1,15 @@
+{
+  "name": "@policy/engine-pdfjs",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.12.1",
+  "dependencies": {
+    "pdfjs-dist": "6.4.299"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "pdfjs-dist@6.4.299": "../../patches/pdfjs-dist@6.4.299.patch"
+    }
+  }
+}

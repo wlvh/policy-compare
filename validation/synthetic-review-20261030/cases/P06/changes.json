@@ -1,0 +1,19 @@
+{
+  "case_id": "P06",
+  "changes": [
+    {
+      "id": 1,
+      "block": "schedule",
+      "kind": "Removed",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "1315 | Alpha Air | USD 100 | USD 100",
+      "right_text": "",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [],
+      "edits": []
+    }
+  ]
+}

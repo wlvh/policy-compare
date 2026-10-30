@@ -1,0 +1,11 @@
+# commit 842b0ff163e03c3a5494162065f1c284ae6eb1aa; command lines in leap-day-probe.mts
+## after the fix (this tree, dabc8c2 core +facts.3)
+product: packages/compare-core/index.ts
+1 March 2023 to 29 February 2024 -> 1 March 2024 to 28 February 2025: product states []; scorer recomputes dates_rolled_forward_one_year false
+1 April 2024 to 30 September 2024 -> 1 April 2025 to 30 September 2025: product states ["dates_rolled_forward_one_year"]; scorer recomputes dates_rolled_forward_one_year true
+01 April 2024 to 31 March 2025 -> 01 April 2025 to 31 March 2026: product states ["dates_rolled_forward_one_year"]; scorer recomputes dates_rolled_forward_one_year true
+## before the fix (packages/compare-core/index.ts at 2740d94)
+product: packages/compare-core/before.ts
+1 March 2023 to 29 February 2024 -> 1 March 2024 to 28 February 2025: product states ["dates_rolled_forward_one_year"]; scorer recomputes dates_rolled_forward_one_year false
+1 April 2024 to 30 September 2024 -> 1 April 2025 to 30 September 2025: product states []; scorer recomputes dates_rolled_forward_one_year true
+01 April 2024 to 31 March 2025 -> 01 April 2025 to 31 March 2026: product states ["dates_rolled_forward_one_year"]; scorer recomputes dates_rolled_forward_one_year true

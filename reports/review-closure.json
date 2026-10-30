@@ -1,0 +1,50 @@
+{
+  "recordedOn": "2026-10-26",
+  "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+  "reviewedDeliveryRevision": "ef5ac3d619eb73f6dc7a77492e6d0df613209513",
+  "developmentBaseline": "ACCEPTED",
+  "findings": {
+    "F1": "CLOSED",
+    "F2": "CLOSED",
+    "F3": "CLOSED",
+    "F4": "CLOSED",
+    "F5": "CLOSED",
+    "F6": "CLOSED",
+    "F7": "CLOSED"
+  },
+  "decisionSource": "User-provided reviewer conclusion in the project conversation",
+  "reviewerEvidence": {
+    "url": "https://chatgpt.com/library?file_id=libfile_82c1fee324a481919df7a89d2e1e08ba&account_id=personal",
+    "originalPdfCount": 5,
+    "originalScriptCount": 2,
+    "byteIdentity": "REPORTED_VERIFIED_BY_REVIEWER",
+    "assertFixedExitCodes": [0, 0],
+    "directExecutionScope": ["F1", "F2", "F3", "F4", "F5", "F6"],
+    "implementationAndCiReviewScope": ["F7"],
+    "fullBrowserSuiteRerun": false,
+    "fullPerformanceRerun": false,
+    "allReleaseAssetsReverified": false,
+    "archiveReadByCodex": false,
+    "archiveSha256VerifiedByCodex": false,
+    "archiveAccessResult": "AUTHENTICATION_REQUIRED",
+    "originalReproEvidenceGap": "RESOLVED_BY_REVIEWER_EXECUTION_REPORT"
+  },
+  "pullRequest": {
+    "url": "https://github.com/wlvh/policy-compare/pull/1",
+    "readyObservedAt": "2026-10-26T09:18:01Z",
+    "isDraft": false,
+    "merged": false
+  },
+  "engineeringOverall": "BLOCKED",
+  "businessPilot": "BLOCKED",
+  "controlledRealDocumentTrial": "AWAITING_AUTHORIZED_INPUTS_REVIEWER_AND_DEVICE",
+  "remainingConditions": [
+    "Complete memory peak measurement",
+    "Ordinary or actual target-device acceptance",
+    "Authorized real documents and independent human review",
+    "Independent held-out documents",
+    "License and data conditions for actual distribution, shared deployment or production scope"
+  ],
+  "rawTestReportsModified": false,
+  "productOrBenchmarkImplementationChanged": false
+}

@@ -1,0 +1,4 @@
+ .github/workflows/ci.yml   | 31 +++++++++++-----
+ tests/evaluation/scorer.ts | 89 +++++++++++++++++++++++++++++-----------------
+ tests/scorer.test.ts       | 42 ++++++++++++----------
+ 3 files changed, 103 insertions(+), 59 deletions(-)

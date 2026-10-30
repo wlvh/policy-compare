@@ -1,0 +1,8 @@
+case Removed "." null PASS ["agreed_value_unchanged:PASS"]
+case Removed "." SYN-1026-001 PASS ["agreed_value_unchanged:PASS"]
+case Added "." null PASS ["agreed_value_unchanged:PASS"]
+case Added "." SYN-1026-001 PASS ["agreed_value_unchanged:PASS"]
+case Removed "," null PASS ["agreed_value_unchanged:PASS"]
+case Removed "," SYN-1026-001 PASS ["agreed_value_unchanged:PASS"]
+case control PASS
+      Tests  1 passed | 142 skipped (143)

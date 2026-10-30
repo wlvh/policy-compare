@@ -1,0 +1,24 @@
+== TOOL = 'renewal-triage/26' (triage and test helpers of 9b57000)
+-- replaced-card-other-edit-triage-probe.py (ed11a5f/probes; Codex PR #11 comment 6514669354)
+insert, Codex: card "Pay earlier now." -> "Pay later now.": correct accepted=['x'] unexplained=0
+insert, control: card "Pay now." -> "Pay later now.": correct accepted=['x'] unexplained=0
+insert, control: Added card "Pay later now." only: correct accepted=['x'] unexplained=0
+delete, mirror: card "Pay later now." -> "Pay earlier now.": correct accepted=['x'] unexplained=0
+delete, control: card "Pay later now." -> "Pay now.": correct accepted=['x'] unexplained=0
+insert, long paragraph: card replaces "all" by "approved": correct accepted=['x'] unexplained=0
+-- cross-row-split-triage-probe.py (ed11a5f/probes; triage counterpart of 6514810449)
+Added card from row 1760, both claim 1315: not_evaluable accepted=[] unexplained=2
+Added card from row 1760, no row keys: not_evaluable accepted=[] unexplained=2
+control: Added card from row 1315, both claim 1315: split_attributable accepted=['i', 'o'] unexplained=0
+== TOOL = 'renewal-triage/27' (triage and test helpers of c5a5330)
+-- replaced-card-other-edit-triage-probe.py (ed11a5f/probes; Codex PR #11 comment 6514669354)
+insert, Codex: card "Pay earlier now." -> "Pay later now.": not_evaluable accepted=[] unexplained=1
+insert, control: card "Pay now." -> "Pay later now.": correct accepted=['x'] unexplained=0
+insert, control: Added card "Pay later now." only: correct accepted=['x'] unexplained=0
+delete, mirror: card "Pay later now." -> "Pay earlier now.": not_evaluable accepted=[] unexplained=1
+delete, control: card "Pay later now." -> "Pay now.": correct accepted=['x'] unexplained=0
+insert, long paragraph: card replaces "all" by "approved": not_evaluable accepted=[] unexplained=1
+-- cross-row-split-triage-probe.py (ed11a5f/probes; triage counterpart of 6514810449)
+Added card from row 1760, both claim 1315: not_evaluable accepted=[] unexplained=2
+Added card from row 1760, no row keys: not_evaluable accepted=[] unexplained=2
+control: Added card from row 1315, both claim 1315: split_attributable accepted=['i', 'o'] unexplained=0

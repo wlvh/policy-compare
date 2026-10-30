@@ -1,0 +1,44 @@
+import { readFileSync, writeFileSync } from "node:fs";
+import { extractPdf } from "../packages/pdf-adapter/index";
+import { compare } from "../packages/compare-core/index";
+const manifest = JSON.parse(
+    readFileSync("bench/generated/manifest.json", "utf8"),
+  ),
+  records = [];
+for (const item of manifest) {
+  const start = performance.now();
+  const [left, right] = await Promise.all(
+    item.paths.map((p: string) => extractPdf(readFileSync(p))),
+  );
+  const result = compare(left, right);
+  const correct =
+    result.differences.some((d) => d.newText.includes("9,876,543")) &&
+    (item.size === "capacity"
+      ? ["complete_for_scope", "partial"].includes(result.status)
+      : result.status === "complete_for_scope");
+  const scalarCounts = [result.stats.leftScalars, result.stats.rightScalars];
+  const limit =
+    item.size === "small" ? 30000 : item.size === "standard" ? 150000 : 500000;
+  const withinLimits = scalarCounts.every((n) => n <= limit);
+  records.push({
+    name: item.name,
+    status: correct && withinLimits ? "PASS" : "FAIL",
+    resultStatus: result.status,
+    scalarCounts,
+    differences: result.differences.length,
+    candidates: result.stats.candidates,
+    tokenProducts: result.stats.tokenProducts,
+    nodeDiagnosticMs: performance.now() - start,
+    withinLimits,
+  });
+  console.log(records.at(-1));
+}
+writeFileSync(
+  "reports/benchmark-preflight.json",
+  JSON.stringify(
+    { subject: "workload_correctness_only_not_browser_performance", records },
+    null,
+    2,
+  ) + "\n",
+);
+process.exitCode = records.every((r) => r.status === "PASS") ? 0 : 1;

@@ -1,0 +1,6 @@
+# final triage tests (01892fded95d4c5317557287abcece0fd40ab0f3) with scripts/renewal-triage.py of 8bf16df (renewal-triage/34)
+FAIL: test_a_cell_must_reach_the_records_identity_in_its_unit (test_renewal_triage.AddedRemovedRows.test_a_cell_must_reach_the_records_identity_in_its_unit)
+FAIL: test_overlapping_edits_each_need_an_edit_of_their_own (test_renewal_triage.EditEvidence.test_overlapping_edits_each_need_an_edit_of_their_own)
+FAIL: test_the_full_row_takes_only_cells_the_identity_reaches (test_renewal_triage.RecordIdentity.test_the_full_row_takes_only_cells_the_identity_reaches)
+Ran 82 tests in 0.971s
+FAILED (failures=3)

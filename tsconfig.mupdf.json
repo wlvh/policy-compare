@@ -1,0 +1,1 @@
+{"extends":"./tsconfig.json","include":["apps","packages/contracts","packages/compare-core","packages/pdf-adapter/api.ts","profiles","engines/mupdf"]}

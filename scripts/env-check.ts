@@ -1,0 +1,32 @@
+import os from "node:os";
+import { execFileSync } from "node:child_process";
+import { readFileSync, existsSync, writeFileSync } from "node:fs";
+const probe = (bin: string, args: string[]) => {
+  try {
+    return execFileSync(bin, args, { encoding: "utf8", timeout: 5000 }).trim();
+  } catch {
+    return "UNAVAILABLE";
+  }
+};
+const report = {
+  node: process.version,
+  pnpm: probe("pnpm", ["--version"]),
+  platform: os.platform(),
+  release: os.release(),
+  cpu: os.cpus()[0].model,
+  logicalCpus: os.cpus().length,
+  memoryBytes: os.totalmem(),
+  browser: probe(
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    ["--version"],
+  ),
+  docker: probe("docker", ["info", "--format", "{{.OSType}}"]),
+  dataset: existsSync("validation/dataset/manifest.json"),
+  license: JSON.parse(readFileSync("docs/license-status.json", "utf8")),
+  referenceDevice: os.totalmem() <= 20 * 1024 ** 3,
+};
+console.log(JSON.stringify(report, null, 2));
+writeFileSync(
+  "reports/environment.json",
+  JSON.stringify(report, null, 2) + "\n",
+);

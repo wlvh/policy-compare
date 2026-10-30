@@ -1,0 +1,166 @@
+{
+ "issue": "https://github.com/wlvh/policy-compare/issues/5",
+ "branch": "fix/issue-5-evaluation",
+ "baseCommit": "85dae9820651ae82a216a18efc0da4db8522045e",
+ "codeCommit": "47d4b503eab1f33b906edcbf589ae67af187cc4a",
+ "productCommitOfFrozenResults": "4330c1b1e1d3d6d0f3c0e939aa1bb77487ff7cc4",
+ "tools": {
+  "node": "v24.19.0",
+  "pnpm": "10.12.1",
+  "python": "Python 3.13.17",
+  "triage": "renewal-triage/2 (Python standard library only)",
+  "playwright": "@playwright/test 1.64.1 with preinstalled Chromium 1243 (local config only sets executablePath)",
+  "platform": "Linux x86_64 cloud container"
+ },
+ "samples": "jiehuan/falcon-mini@0eef67dd6cbe477ab625885220686c674640fb88, verified by scripts/fetch-renewal-samples.mjs (size, Git blob SHA-1, SHA-256)",
+ "runs": {
+  "aviation_2024_vs_2025-mupdf": {
+   "resultArchive": "reports/v3-review/results/aviation_2024_vs_2025-mupdf.json.gz",
+   "decompressedResult": "reports/issue-5-evaluation/aviation_2024_vs_2025-mupdf.input.json",
+   "decompressedSha256": "a9220f317b648fb5ace4cffcf06e3c1b62bdb432d00013e6fea7ece9e2163122",
+   "matchesV3EnvironmentJson": true,
+   "changes": {
+    "path": "tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+    "sha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080"
+   },
+   "events": {
+    "path": "reports/issue-5-evaluation/aviation_2024_vs_2025-mupdf.events.json",
+    "sha256": "612e416bb3c19f845db40a65321865c47b5b478e8cbd7a9585e4611fbb3b394e"
+   },
+   "summary": {
+    "path": "reports/issue-5-evaluation/aviation_2024_vs_2025-mupdf.summary.json",
+    "sha256": "4930c965d77db8629795879dcbebaf57bba1bcff2764956bc8441f66cbfeb53d"
+   }
+  },
+  "aviation_2024_vs_2025-pdfjs": {
+   "resultArchive": "reports/v3-review/results/aviation_2024_vs_2025-pdfjs.json.gz",
+   "decompressedResult": "reports/issue-5-evaluation/aviation_2024_vs_2025-pdfjs.input.json",
+   "decompressedSha256": "9b9de6198946bb0e98a128f0e6d0cafa52a1bc0928ec9f16a04629a09b60bf0f",
+   "matchesV3EnvironmentJson": true,
+   "changes": {
+    "path": "tmp/renewal-inputs/testdata/renewal/aviation_2024_vs_2025/changes.json",
+    "sha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080"
+   },
+   "events": {
+    "path": "reports/issue-5-evaluation/aviation_2024_vs_2025-pdfjs.events.json",
+    "sha256": "6d594b3d1dfe903906112934ca7b068faefa3099688648fb71d3f6fcfeb954b9"
+   },
+   "summary": {
+    "path": "reports/issue-5-evaluation/aviation_2024_vs_2025-pdfjs.summary.json",
+    "sha256": "fb15b9c6a3557b15fdfc2cb3a1d9ef8e188aa9dea307c91bfadf3f6e029b172c"
+   }
+  },
+  "bizav_2024_vs_2025-mupdf": {
+   "resultArchive": "reports/v3-review/results/bizav_2024_vs_2025-mupdf.json.gz",
+   "decompressedResult": "reports/issue-5-evaluation/bizav_2024_vs_2025-mupdf.input.json",
+   "decompressedSha256": "bdfa1f82676e38b62dd79e616336b6eeebf9f6ee6480579a6aef8bd87dc571ea",
+   "matchesV3EnvironmentJson": true,
+   "changes": {
+    "path": "tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+    "sha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c"
+   },
+   "events": {
+    "path": "reports/issue-5-evaluation/bizav_2024_vs_2025-mupdf.events.json",
+    "sha256": "ab90bec9f0ebeec6fdbc2334e4e24bfcc72b066f3eda3a563d2aaf562762ce38"
+   },
+   "summary": {
+    "path": "reports/issue-5-evaluation/bizav_2024_vs_2025-mupdf.summary.json",
+    "sha256": "777c00889ac54c8c242b2680faeb84eac5aa80a477eaea2042da4b96ad290479"
+   }
+  },
+  "bizav_2024_vs_2025-pdfjs": {
+   "resultArchive": "reports/v3-review/results/bizav_2024_vs_2025-pdfjs.json.gz",
+   "decompressedResult": "reports/issue-5-evaluation/bizav_2024_vs_2025-pdfjs.input.json",
+   "decompressedSha256": "8711eadc5fd18fa41ba5ccba4efc74bdd0550740f2583a54bbe9b1029b4842e5",
+   "matchesV3EnvironmentJson": true,
+   "changes": {
+    "path": "tmp/renewal-inputs/testdata/renewal/bizav_2024_vs_2025/changes.json",
+    "sha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c"
+   },
+   "events": {
+    "path": "reports/issue-5-evaluation/bizav_2024_vs_2025-pdfjs.events.json",
+    "sha256": "0a1bc51c2b793bd23d392d2f21838b17e223d187469256627aee58e28acff212"
+   },
+   "summary": {
+    "path": "reports/issue-5-evaluation/bizav_2024_vs_2025-pdfjs.summary.json",
+    "sha256": "959f48b6d5675d665537f1cf407fd1e94b54daa0026702a65ee0e4f9f52b0753"
+   }
+  }
+ },
+ "verification": {
+  "scorerUnitTests": {
+   "command": "pnpm exec vitest run tests/scorer.test.ts",
+   "exit": 0,
+   "log": "reports/issue-5-evaluation/verification/vitest-scorer.log"
+  },
+  "triageUnitTests": {
+   "command": "python3 -m unittest discover -s tests -p 'test_renewal_triage.py'",
+   "exit": 0,
+   "log": "reports/issue-5-evaluation/verification/unittest-renewal-triage.log"
+  },
+  "verifyCore": {
+   "command": "pnpm verify:core",
+   "exit": 0,
+   "report": "reports/issue-5-evaluation/verification/core-tests.json"
+  },
+  "rules-mupdf": {
+   "command": "pnpm test:rules:mupdf",
+   "exit": 0,
+   "status": "PASS",
+   "passed": 32,
+   "total": 32,
+   "failed": [],
+   "notEvaluated": [],
+   "identityChecked": 16,
+   "identityNotApplicable": 11,
+   "identityUnsupported": 0,
+   "coverageWarningEvents": 2,
+   "report": "reports/issue-5-evaluation/verification/rules-mupdf.json"
+  },
+  "rules-pdfjs": {
+   "command": "pnpm test:rules:pdfjs",
+   "exit": 0,
+   "status": "PASS",
+   "passed": 32,
+   "total": 32,
+   "failed": [],
+   "notEvaluated": [],
+   "identityChecked": 16,
+   "identityNotApplicable": 11,
+   "identityUnsupported": 0,
+   "coverageWarningEvents": 2,
+   "report": "reports/issue-5-evaluation/verification/rules-pdfjs.json"
+  },
+  "browser-rules-mupdf": {
+   "command": "POLICY_ENGINE=mupdf POLICY_BROWSER_CHANNEL=bundled pnpm exec playwright test tests/browser/rules.spec.ts",
+   "exit": 0,
+   "status": "PASS",
+   "passed": 32,
+   "total": 32,
+   "failed": [],
+   "notEvaluated": [],
+   "identityChecked": 16,
+   "identityNotApplicable": 11,
+   "identityUnsupported": 0,
+   "coverageWarningEvents": 2,
+   "report": "reports/issue-5-evaluation/verification/browser-rules-mupdf.json"
+  },
+  "browser-rules-pdfjs": {
+   "command": "POLICY_ENGINE=pdfjs POLICY_BROWSER_CHANNEL=bundled pnpm exec playwright test tests/browser/rules.spec.ts",
+   "exit": 0,
+   "status": "PASS",
+   "passed": 32,
+   "total": 32,
+   "failed": [],
+   "notEvaluated": [],
+   "identityChecked": 16,
+   "identityNotApplicable": 11,
+   "identityUnsupported": 0,
+   "coverageWarningEvents": 2,
+   "report": "reports/issue-5-evaluation/verification/browser-rules-pdfjs.json"
+  }
+ },
+ "notCommitted": [
+  "*.input.json (decompressed copies of reports/v3-review/results/*.json.gz; regenerate with gzip -dc, SHA-256 above)"
+ ]
+}

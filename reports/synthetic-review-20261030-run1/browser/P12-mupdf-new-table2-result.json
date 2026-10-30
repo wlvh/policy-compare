@@ -1,0 +1,1521 @@
+{
+  "schemaVersion": "policy-compare-result/2",
+  "coreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+  "extractors": [
+    {
+      "name": "MuPDF.js",
+      "version": "mupdf/1.28.1+scalar-fix.1",
+      "adapterVersion": "mupdf-adapter/3",
+      "options": {
+        "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+        "actualText": "engine-default",
+        "clip": true,
+        "diagnostics": "scoped-native-errors-and-read-failures/1"
+      }
+    },
+    {
+      "name": "MuPDF.js",
+      "version": "mupdf/1.28.1+scalar-fix.1",
+      "adapterVersion": "mupdf-adapter/3",
+      "options": {
+        "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+        "actualText": "engine-default",
+        "clip": true,
+        "diagnostics": "scoped-native-errors-and-read-failures/1"
+      }
+    }
+  ],
+  "snapshotHashVersion": "page-merkle/1",
+  "tokenizerVersion": "unicode-tokens/1",
+  "profileVersion": "aviation/1.0.0",
+  "documentHashes": [
+    "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba",
+    "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947"
+  ],
+  "extractionSnapshotHashes": [
+    "ed4f82d039bb249164e7392cdcdb4c45484eeb078e4ca8020057d8162dbd7e59",
+    "6b474056fbc009ed986d3b96f370960e88d8ddebb092d551bc2bf2998b2b8dae"
+  ],
+  "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+  "scope": "extracted_text",
+  "status": "complete_for_scope",
+  "differences": [
+    {
+      "id": "d-5a711c544ac43b88fc56",
+      "kind": "Removed",
+      "structurePath": {
+        "section": "risk_details",
+        "entity": null,
+        "field": null,
+        "table": "recovered_rows",
+        "rowKey": null,
+        "confidence": "candidate"
+      },
+      "left": [
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            189,
+            192
+          ],
+          "charIds": [
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c189",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c190",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c191"
+          ],
+          "text": "123",
+          "quads": [
+            [
+              48,
+              148.25,
+              53.56,
+              148.25,
+              48,
+              161.99,
+              53.56,
+              161.99
+            ],
+            [
+              53.56,
+              148.25,
+              59.12,
+              148.25,
+              53.56,
+              161.99,
+              59.12,
+              161.99
+            ],
+            [
+              59.12,
+              148.25,
+              64.68,
+              148.25,
+              59.12,
+              161.99,
+              64.68,
+              161.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            192,
+            201
+          ],
+          "charIds": [
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c192",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c193",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c194",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c195",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c196",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c197",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c198",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c199",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c200"
+          ],
+          "text": "Alpha Air",
+          "quads": [
+            [
+              126,
+              148.25,
+              132.67,
+              148.25,
+              126,
+              161.99,
+              132.67,
+              161.99
+            ],
+            [
+              132.67,
+              148.25,
+              134.89,
+              148.25,
+              132.67,
+              161.99,
+              134.89,
+              161.99
+            ],
+            [
+              134.89,
+              148.25,
+              140.45,
+              148.25,
+              134.89,
+              161.99,
+              140.45,
+              161.99
+            ],
+            [
+              140.45,
+              148.25,
+              146.01,
+              148.25,
+              140.45,
+              161.99,
+              146.01,
+              161.99
+            ],
+            [
+              146.01,
+              148.25,
+              151.57,
+              148.25,
+              146.01,
+              161.99,
+              151.57,
+              161.99
+            ],
+            [
+              151.57,
+              148.25,
+              154.35,
+              148.25,
+              151.57,
+              161.99,
+              154.35,
+              161.99
+            ],
+            [
+              154.35,
+              148.25,
+              161.02,
+              148.25,
+              154.35,
+              161.99,
+              161.02,
+              161.99
+            ],
+            [
+              161.02,
+              148.25,
+              163.24,
+              148.25,
+              161.02,
+              161.99,
+              163.24,
+              161.99
+            ],
+            [
+              163.24,
+              148.25,
+              166.57,
+              148.25,
+              163.24,
+              161.99,
+              166.57,
+              161.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            201,
+            208
+          ],
+          "charIds": [
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c201",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c202",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c203",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c204",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c205",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c206",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c207"
+          ],
+          "text": "USD 100",
+          "quads": [
+            [
+              320,
+              148.25,
+              327.22,
+              148.25,
+              320,
+              161.99,
+              327.22,
+              161.99
+            ],
+            [
+              327.22,
+              148.25,
+              333.89,
+              148.25,
+              327.22,
+              161.99,
+              333.89,
+              161.99
+            ],
+            [
+              333.89,
+              148.25,
+              341.11,
+              148.25,
+              333.89,
+              161.99,
+              341.11,
+              161.99
+            ],
+            [
+              341.11,
+              148.25,
+              343.89,
+              148.25,
+              341.11,
+              161.99,
+              343.89,
+              161.99
+            ],
+            [
+              343.89,
+              148.25,
+              349.45,
+              148.25,
+              343.89,
+              161.99,
+              349.45,
+              161.99
+            ],
+            [
+              349.45,
+              148.25,
+              355.01,
+              148.25,
+              349.45,
+              161.99,
+              355.01,
+              161.99
+            ],
+            [
+              355.01,
+              148.25,
+              360.57,
+              148.25,
+              355.01,
+              161.99,
+              360.57,
+              161.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        },
+        {
+          "side": "left",
+          "pageIndex": 0,
+          "unitId": "u5",
+          "rawRange": [
+            208,
+            214
+          ],
+          "charIds": [
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c208",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c209",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c210",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c211",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c212",
+            "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c213"
+          ],
+          "text": "annual",
+          "quads": [
+            [
+              450,
+              148.25,
+              455.56,
+              148.25,
+              450,
+              161.99,
+              455.56,
+              161.99
+            ],
+            [
+              455.56,
+              148.25,
+              461.12,
+              148.25,
+              455.56,
+              161.99,
+              461.12,
+              161.99
+            ],
+            [
+              461.12,
+              148.25,
+              466.68,
+              148.25,
+              461.12,
+              161.99,
+              466.68,
+              161.99
+            ],
+            [
+              466.68,
+              148.25,
+              472.24,
+              148.25,
+              466.68,
+              161.99,
+              472.24,
+              161.99
+            ],
+            [
+              472.24,
+              148.25,
+              477.8,
+              148.25,
+              472.24,
+              161.99,
+              477.8,
+              161.99
+            ],
+            [
+              477.8,
+              148.25,
+              480.02,
+              148.25,
+              477.8,
+              161.99,
+              480.02,
+              161.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        }
+      ],
+      "right": [],
+      "oldText": "123 Alpha Air USD 100 annual",
+      "newText": "",
+      "textOps": [
+        {
+          "kind": "delete",
+          "text": "123 Alpha Air USD 100 annual",
+          "left": [
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                189,
+                192
+              ],
+              "charIds": [
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c189",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c190",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c191"
+              ],
+              "text": "123",
+              "quads": [
+                [
+                  48,
+                  148.25,
+                  53.56,
+                  148.25,
+                  48,
+                  161.99,
+                  53.56,
+                  161.99
+                ],
+                [
+                  53.56,
+                  148.25,
+                  59.12,
+                  148.25,
+                  53.56,
+                  161.99,
+                  59.12,
+                  161.99
+                ],
+                [
+                  59.12,
+                  148.25,
+                  64.68,
+                  148.25,
+                  59.12,
+                  161.99,
+                  64.68,
+                  161.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                192,
+                201
+              ],
+              "charIds": [
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c192",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c193",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c194",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c195",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c196",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c197",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c198",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c199",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c200"
+              ],
+              "text": "Alpha Air",
+              "quads": [
+                [
+                  126,
+                  148.25,
+                  132.67,
+                  148.25,
+                  126,
+                  161.99,
+                  132.67,
+                  161.99
+                ],
+                [
+                  132.67,
+                  148.25,
+                  134.89,
+                  148.25,
+                  132.67,
+                  161.99,
+                  134.89,
+                  161.99
+                ],
+                [
+                  134.89,
+                  148.25,
+                  140.45,
+                  148.25,
+                  134.89,
+                  161.99,
+                  140.45,
+                  161.99
+                ],
+                [
+                  140.45,
+                  148.25,
+                  146.01,
+                  148.25,
+                  140.45,
+                  161.99,
+                  146.01,
+                  161.99
+                ],
+                [
+                  146.01,
+                  148.25,
+                  151.57,
+                  148.25,
+                  146.01,
+                  161.99,
+                  151.57,
+                  161.99
+                ],
+                [
+                  151.57,
+                  148.25,
+                  154.35,
+                  148.25,
+                  151.57,
+                  161.99,
+                  154.35,
+                  161.99
+                ],
+                [
+                  154.35,
+                  148.25,
+                  161.02,
+                  148.25,
+                  154.35,
+                  161.99,
+                  161.02,
+                  161.99
+                ],
+                [
+                  161.02,
+                  148.25,
+                  163.24,
+                  148.25,
+                  161.02,
+                  161.99,
+                  163.24,
+                  161.99
+                ],
+                [
+                  163.24,
+                  148.25,
+                  166.57,
+                  148.25,
+                  163.24,
+                  161.99,
+                  166.57,
+                  161.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                201,
+                208
+              ],
+              "charIds": [
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c201",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c202",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c203",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c204",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c205",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c206",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c207"
+              ],
+              "text": "USD 100",
+              "quads": [
+                [
+                  320,
+                  148.25,
+                  327.22,
+                  148.25,
+                  320,
+                  161.99,
+                  327.22,
+                  161.99
+                ],
+                [
+                  327.22,
+                  148.25,
+                  333.89,
+                  148.25,
+                  327.22,
+                  161.99,
+                  333.89,
+                  161.99
+                ],
+                [
+                  333.89,
+                  148.25,
+                  341.11,
+                  148.25,
+                  333.89,
+                  161.99,
+                  341.11,
+                  161.99
+                ],
+                [
+                  341.11,
+                  148.25,
+                  343.89,
+                  148.25,
+                  341.11,
+                  161.99,
+                  343.89,
+                  161.99
+                ],
+                [
+                  343.89,
+                  148.25,
+                  349.45,
+                  148.25,
+                  343.89,
+                  161.99,
+                  349.45,
+                  161.99
+                ],
+                [
+                  349.45,
+                  148.25,
+                  355.01,
+                  148.25,
+                  349.45,
+                  161.99,
+                  355.01,
+                  161.99
+                ],
+                [
+                  355.01,
+                  148.25,
+                  360.57,
+                  148.25,
+                  355.01,
+                  161.99,
+                  360.57,
+                  161.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            },
+            {
+              "side": "left",
+              "pageIndex": 0,
+              "unitId": "u5",
+              "rawRange": [
+                208,
+                214
+              ],
+              "charIds": [
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c208",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c209",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c210",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c211",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c212",
+                "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba:p0:c213"
+              ],
+              "text": "annual",
+              "quads": [
+                [
+                  450,
+                  148.25,
+                  455.56,
+                  148.25,
+                  450,
+                  161.99,
+                  455.56,
+                  161.99
+                ],
+                [
+                  455.56,
+                  148.25,
+                  461.12,
+                  148.25,
+                  455.56,
+                  161.99,
+                  461.12,
+                  161.99
+                ],
+                [
+                  461.12,
+                  148.25,
+                  466.68,
+                  148.25,
+                  461.12,
+                  161.99,
+                  466.68,
+                  161.99
+                ],
+                [
+                  466.68,
+                  148.25,
+                  472.24,
+                  148.25,
+                  466.68,
+                  161.99,
+                  472.24,
+                  161.99
+                ],
+                [
+                  472.24,
+                  148.25,
+                  477.8,
+                  148.25,
+                  472.24,
+                  161.99,
+                  477.8,
+                  161.99
+                ],
+                [
+                  477.8,
+                  148.25,
+                  480.02,
+                  148.25,
+                  477.8,
+                  161.99,
+                  480.02,
+                  161.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            }
+          ],
+          "right": []
+        }
+      ],
+      "hasTextChange": true,
+      "facts": [],
+      "repeat": null,
+      "defaultVisible": true,
+      "matchEvidence": {
+        "method": "unmatched",
+        "score": null,
+        "details": [
+          "unmatched"
+        ]
+      },
+      "reviewReasons": [],
+      "occurrences": []
+    },
+    {
+      "id": "d-ac97ff1d664069ec5321",
+      "kind": "Added",
+      "structurePath": {
+        "section": "risk_details",
+        "entity": null,
+        "field": null,
+        "table": "recovered_rows",
+        "rowKey": null,
+        "confidence": "candidate"
+      },
+      "left": [],
+      "right": [
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u8",
+          "rawRange": [
+            278,
+            281
+          ],
+          "charIds": [
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c278",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c279",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c280"
+          ],
+          "text": "123",
+          "quads": [
+            [
+              48,
+              280.25,
+              53.56,
+              280.25,
+              48,
+              293.99,
+              53.56,
+              293.99
+            ],
+            [
+              53.56,
+              280.25,
+              59.12,
+              280.25,
+              53.56,
+              293.99,
+              59.12,
+              293.99
+            ],
+            [
+              59.12,
+              280.25,
+              64.68,
+              280.25,
+              59.12,
+              293.99,
+              64.68,
+              293.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u8",
+          "rawRange": [
+            281,
+            288
+          ],
+          "charIds": [
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c281",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c282",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c283",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c284",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c285",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c286",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c287"
+          ],
+          "text": "Model D",
+          "quads": [
+            [
+              126,
+              280.25,
+              134.33,
+              280.25,
+              126,
+              293.99,
+              134.33,
+              293.99
+            ],
+            [
+              134.33,
+              280.25,
+              139.89,
+              280.25,
+              134.33,
+              293.99,
+              139.89,
+              293.99
+            ],
+            [
+              139.89,
+              280.25,
+              145.45,
+              280.25,
+              139.89,
+              293.99,
+              145.45,
+              293.99
+            ],
+            [
+              145.45,
+              280.25,
+              151.01,
+              280.25,
+              145.45,
+              293.99,
+              151.01,
+              293.99
+            ],
+            [
+              151.01,
+              280.25,
+              153.23,
+              280.25,
+              151.01,
+              293.99,
+              153.23,
+              293.99
+            ],
+            [
+              153.23,
+              280.25,
+              156.01,
+              280.25,
+              153.23,
+              293.99,
+              156.01,
+              293.99
+            ],
+            [
+              156.01,
+              280.25,
+              163.23,
+              280.25,
+              156.01,
+              293.99,
+              163.23,
+              293.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u8",
+          "rawRange": [
+            288,
+            291
+          ],
+          "charIds": [
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c288",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c289",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c290"
+          ],
+          "text": "15%",
+          "quads": [
+            [
+              320,
+              280.25,
+              325.56,
+              280.25,
+              320,
+              293.99,
+              325.56,
+              293.99
+            ],
+            [
+              325.56,
+              280.25,
+              331.12,
+              280.25,
+              325.56,
+              293.99,
+              331.12,
+              293.99
+            ],
+            [
+              331.12,
+              280.25,
+              340.01,
+              280.25,
+              331.12,
+              293.99,
+              340.01,
+              293.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        },
+        {
+          "side": "right",
+          "pageIndex": 0,
+          "unitId": "u8",
+          "rawRange": [
+            291,
+            298
+          ],
+          "charIds": [
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c291",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c292",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c293",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c294",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c295",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c296",
+            "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c297"
+          ],
+          "text": "USD 100",
+          "quads": [
+            [
+              450,
+              280.25,
+              457.22,
+              280.25,
+              450,
+              293.99,
+              457.22,
+              293.99
+            ],
+            [
+              457.22,
+              280.25,
+              463.89,
+              280.25,
+              457.22,
+              293.99,
+              463.89,
+              293.99
+            ],
+            [
+              463.89,
+              280.25,
+              471.11,
+              280.25,
+              463.89,
+              293.99,
+              471.11,
+              293.99
+            ],
+            [
+              471.11,
+              280.25,
+              473.89,
+              280.25,
+              471.11,
+              293.99,
+              473.89,
+              293.99
+            ],
+            [
+              473.89,
+              280.25,
+              479.45,
+              280.25,
+              473.89,
+              293.99,
+              479.45,
+              293.99
+            ],
+            [
+              479.45,
+              280.25,
+              485.01,
+              280.25,
+              479.45,
+              293.99,
+              485.01,
+              293.99
+            ],
+            [
+              485.01,
+              280.25,
+              490.57,
+              280.25,
+              485.01,
+              293.99,
+              490.57,
+              293.99
+            ]
+          ],
+          "direction": [
+            1,
+            0
+          ],
+          "precision": "glyph",
+          "geometryMethod": "native_glyph",
+          "sourceRanges": []
+        }
+      ],
+      "oldText": "",
+      "newText": "123 Model D 15% USD 100",
+      "textOps": [
+        {
+          "kind": "insert",
+          "text": "123 Model D 15% USD 100",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u8",
+              "rawRange": [
+                278,
+                281
+              ],
+              "charIds": [
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c278",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c279",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c280"
+              ],
+              "text": "123",
+              "quads": [
+                [
+                  48,
+                  280.25,
+                  53.56,
+                  280.25,
+                  48,
+                  293.99,
+                  53.56,
+                  293.99
+                ],
+                [
+                  53.56,
+                  280.25,
+                  59.12,
+                  280.25,
+                  53.56,
+                  293.99,
+                  59.12,
+                  293.99
+                ],
+                [
+                  59.12,
+                  280.25,
+                  64.68,
+                  280.25,
+                  59.12,
+                  293.99,
+                  64.68,
+                  293.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u8",
+              "rawRange": [
+                281,
+                288
+              ],
+              "charIds": [
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c281",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c282",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c283",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c284",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c285",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c286",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c287"
+              ],
+              "text": "Model D",
+              "quads": [
+                [
+                  126,
+                  280.25,
+                  134.33,
+                  280.25,
+                  126,
+                  293.99,
+                  134.33,
+                  293.99
+                ],
+                [
+                  134.33,
+                  280.25,
+                  139.89,
+                  280.25,
+                  134.33,
+                  293.99,
+                  139.89,
+                  293.99
+                ],
+                [
+                  139.89,
+                  280.25,
+                  145.45,
+                  280.25,
+                  139.89,
+                  293.99,
+                  145.45,
+                  293.99
+                ],
+                [
+                  145.45,
+                  280.25,
+                  151.01,
+                  280.25,
+                  145.45,
+                  293.99,
+                  151.01,
+                  293.99
+                ],
+                [
+                  151.01,
+                  280.25,
+                  153.23,
+                  280.25,
+                  151.01,
+                  293.99,
+                  153.23,
+                  293.99
+                ],
+                [
+                  153.23,
+                  280.25,
+                  156.01,
+                  280.25,
+                  153.23,
+                  293.99,
+                  156.01,
+                  293.99
+                ],
+                [
+                  156.01,
+                  280.25,
+                  163.23,
+                  280.25,
+                  156.01,
+                  293.99,
+                  163.23,
+                  293.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u8",
+              "rawRange": [
+                288,
+                291
+              ],
+              "charIds": [
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c288",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c289",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c290"
+              ],
+              "text": "15%",
+              "quads": [
+                [
+                  320,
+                  280.25,
+                  325.56,
+                  280.25,
+                  320,
+                  293.99,
+                  325.56,
+                  293.99
+                ],
+                [
+                  325.56,
+                  280.25,
+                  331.12,
+                  280.25,
+                  325.56,
+                  293.99,
+                  331.12,
+                  293.99
+                ],
+                [
+                  331.12,
+                  280.25,
+                  340.01,
+                  280.25,
+                  331.12,
+                  293.99,
+                  340.01,
+                  293.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            },
+            {
+              "side": "right",
+              "pageIndex": 0,
+              "unitId": "u8",
+              "rawRange": [
+                291,
+                298
+              ],
+              "charIds": [
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c291",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c292",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c293",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c294",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c295",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c296",
+                "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947:p0:c297"
+              ],
+              "text": "USD 100",
+              "quads": [
+                [
+                  450,
+                  280.25,
+                  457.22,
+                  280.25,
+                  450,
+                  293.99,
+                  457.22,
+                  293.99
+                ],
+                [
+                  457.22,
+                  280.25,
+                  463.89,
+                  280.25,
+                  457.22,
+                  293.99,
+                  463.89,
+                  293.99
+                ],
+                [
+                  463.89,
+                  280.25,
+                  471.11,
+                  280.25,
+                  463.89,
+                  293.99,
+                  471.11,
+                  293.99
+                ],
+                [
+                  471.11,
+                  280.25,
+                  473.89,
+                  280.25,
+                  471.11,
+                  293.99,
+                  473.89,
+                  293.99
+                ],
+                [
+                  473.89,
+                  280.25,
+                  479.45,
+                  280.25,
+                  473.89,
+                  293.99,
+                  479.45,
+                  293.99
+                ],
+                [
+                  479.45,
+                  280.25,
+                  485.01,
+                  280.25,
+                  479.45,
+                  293.99,
+                  485.01,
+                  293.99
+                ],
+                [
+                  485.01,
+                  280.25,
+                  490.57,
+                  280.25,
+                  485.01,
+                  293.99,
+                  490.57,
+                  293.99
+                ]
+              ],
+              "direction": [
+                1,
+                0
+              ],
+              "precision": "glyph",
+              "geometryMethod": "native_glyph",
+              "sourceRanges": []
+            }
+          ]
+        }
+      ],
+      "hasTextChange": true,
+      "facts": [],
+      "repeat": null,
+      "defaultVisible": true,
+      "matchEvidence": {
+        "method": "unmatched",
+        "score": null,
+        "details": [
+          "unmatched"
+        ]
+      },
+      "reviewReasons": [],
+      "occurrences": []
+    }
+  ],
+  "coverage": [],
+  "unresolved": [],
+  "alignment": [
+    {
+      "leftPage": 0,
+      "leftY": 39,
+      "rightPage": 0,
+      "rightY": 39
+    },
+    {
+      "leftPage": 0,
+      "leftY": 63,
+      "rightPage": 0,
+      "rightY": 63
+    },
+    {
+      "leftPage": 0,
+      "leftY": 83,
+      "rightPage": 0,
+      "rightY": 83
+    },
+    {
+      "leftPage": 0,
+      "leftY": 130,
+      "rightPage": 0,
+      "rightY": 130
+    },
+    {
+      "leftPage": 0,
+      "leftY": 185,
+      "rightPage": 0,
+      "rightY": 159
+    },
+    {
+      "leftPage": 0,
+      "leftY": 211,
+      "rightPage": 0,
+      "rightY": 185
+    },
+    {
+      "leftPage": 0,
+      "leftY": 262,
+      "rightPage": 0,
+      "rightY": 262
+    },
+    {
+      "leftPage": 0,
+      "leftY": 291,
+      "rightPage": 0,
+      "rightY": 317
+    },
+    {
+      "leftPage": 0,
+      "leftY": 317,
+      "rightPage": 0,
+      "rightY": 343
+    },
+    {
+      "leftPage": 0,
+      "leftY": 753,
+      "rightPage": 0,
+      "rightY": 753
+    }
+  ],
+  "stats": {
+    "leftScalars": 341,
+    "rightScalars": 336,
+    "candidates": 0,
+    "tokenProducts": 0,
+    "differenceCount": 2,
+    "occurrenceCount": 2
+  },
+  "diagnostics": []
+}

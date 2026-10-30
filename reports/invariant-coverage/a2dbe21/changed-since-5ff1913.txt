@@ -1,0 +1,6 @@
+files changed since 5ff1913 (reports excluded):
+ packages/compare-core/index.ts | 12 ++++++++++--
+ tests/evaluation/scorer.ts     | 21 ++++++++++++++-------
+ tests/page-furniture.test.ts   | 14 ++++++++++++++
+ tests/scorer.test.ts           | 10 ++++++++++
+ 4 files changed, 48 insertions(+), 9 deletions(-)

@@ -1,0 +1,556 @@
+{
+  "subject": "actual_pdf_product_rules",
+  "engine": "pdfjs",
+  "finePositionStatus": "NOT_RUN",
+  "finePositionEvidence": "See separate real-browser rules report; Node records engine-run sources only",
+  "status": "PASS",
+  "commit": "f81aebd8f2e756b781b40957a06237a6cefb5c3e",
+  "manifestHash": "a50df7a0f40aa9419aafc3d896d6c6d932f2ad895c9f4f8bcde5d091936c8fb3",
+  "passed": 32,
+  "total": 32,
+  "records": [
+    {
+      "caseId": "R01_identical",
+      "status": "PASS",
+      "faults": [],
+      "events": [],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R02_amount",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R02_amount:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R03_currency",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R03_currency:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R04_decimal",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R04_decimal:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R05_negation",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R05_negation:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R06_and_or",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R06_and_or:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R07_shorter_term",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R07_shorter_term:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R08_normal_renewal",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R08_normal_renewal:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R09_header_limit",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R09_header_limit:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R10_address_swap",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R10_address_swap:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        },
+        {
+          "eventId": "R10_address_swap:E2",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R11_label_alias",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R11_label_alias:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R12_exact_move",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R12_exact_move:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R13_move_and_replacement",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R13_move_and_replacement:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        },
+        {
+          "eventId": "R13_move_and_replacement:E2",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R14_short_paragraph",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R14_short_paragraph:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R15_paragraph_split",
+      "status": "PASS",
+      "faults": [],
+      "events": [],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R16_repagination",
+      "status": "PASS",
+      "faults": [],
+      "events": [],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R17_font_change",
+      "status": "PASS",
+      "faults": [],
+      "events": [],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R18_ligature",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R18_ligature:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R19_rotated_status",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R19_rotated_status:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R20_plus_minus",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R20_plus_minus:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R21_checkbox_glyph",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R21_checkbox_glyph:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R22_table_value",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R22_table_value:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R23_table_reorder",
+      "status": "PASS",
+      "faults": [],
+      "events": [],
+      "differences": 0,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R24_table_cross_page",
+      "status": "PASS",
+      "faults": [],
+      "events": [],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R25_duplicate_keys",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R25_duplicate_keys:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "partial"
+    },
+    {
+      "caseId": "R26_key_change",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R26_key_change:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R27_mixed_scan_page",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R27_mixed_scan_page:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "partial"
+    },
+    {
+      "caseId": "R28_inline_scan",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R28_inline_scan:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 0,
+      "resultStatus": "partial"
+    },
+    {
+      "caseId": "R29_clause_add",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R29_clause_add:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R30_clause_delete",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R30_clause_delete:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R31_punctuation",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R31_punctuation:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 1,
+      "resultStatus": "complete_for_scope"
+    },
+    {
+      "caseId": "R32_combined_changes",
+      "status": "PASS",
+      "faults": [],
+      "events": [
+        {
+          "eventId": "R32_combined_changes:E1",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        },
+        {
+          "eventId": "R32_combined_changes:E2",
+          "discovery": true,
+          "correspondence": true,
+          "position": true,
+          "visibility": true,
+          "completeness": true,
+          "pass": true
+        }
+      ],
+      "differences": 2,
+      "resultStatus": "complete_for_scope"
+    }
+  ]
+}

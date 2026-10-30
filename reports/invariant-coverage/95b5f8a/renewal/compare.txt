@@ -1,0 +1,5 @@
+# renewal-triage/8 on the stored product results (product unchanged since 3b3fb2e), against /7 (9d7f266/renewal) and against #2's /8 re-triage of 9ccc044
+aviation_2024_vs_2025-mupdf: /8 vs /7 summary same, events same; vs #2 /8: tool renewal-triage/8, summary same, events same
+aviation_2024_vs_2025-pdfjs: /8 vs /7 summary same, events same; vs #2 /8: tool renewal-triage/8, summary same, events same
+bizav_2024_vs_2025-mupdf: /8 vs /7 summary same, events same; vs #2 /8: tool renewal-triage/8, summary same, events same
+bizav_2024_vs_2025-pdfjs: /8 vs /7 summary same, events same; vs #2 /8: tool renewal-triage/8, summary same, events same

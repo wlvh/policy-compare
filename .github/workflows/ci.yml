@@ -1,0 +1,107 @@
+name: Independent engines
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  fixture-construction:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m pip install -r validation/requirements.txt
+      - run: python validation/fixture_checks.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fixture-construction-only
+          path: validation/dataset/fixture_check_report.json
+  renewal-triage-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m unittest discover -s tests -p 'test_renewal_triage.py' -v
+  # Independent checks keep running after another check fails, once their prerequisites (install,
+  # build, browser download) succeeded; each failed step still fails the job. One engine's failure
+  # does not cancel the other.
+  functional:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [pdfjs, mupdf]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 10.12.1}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24.19.0}
+      - name: Record runner and source provenance
+        env:
+          ENGINE: ${{ matrix.engine }}
+        run: |
+          mkdir -p reports
+          node --input-type=module -e 'import fs from "node:fs"; import os from "node:os"; fs.writeFileSync(`reports/ci-environment-${process.env.ENGINE}.json`, JSON.stringify({commit:process.env.GITHUB_SHA,runId:process.env.GITHUB_RUN_ID,engine:process.env.ENGINE,node:process.version,platform:process.platform,arch:process.arch,cpu:os.cpus()[0].model,memoryBytes:os.totalmem(),purpose:"functional checks only; not target-device performance acceptance"},null,2)+"\n")'
+      - run: pnpm install --frozen-lockfile
+      - id: engine
+        run: pnpm install:${{ matrix.engine }}
+      - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
+        run: pnpm verify:core
+      - id: build
+        if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
+        run: pnpm build:${{ matrix.engine }}
+      - if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm exec tsx scripts/pdf-check.ts ${{ matrix.engine }}
+      # Exit 2 means the only open items are registered coverage gaps (strict status NOT_EVALUATED, see the log and rules report).
+      - if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm test:rules:${{ matrix.engine }} || test $? -eq 2
+      - if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm exec tsx scripts/review-check.ts ${{ matrix.engine }}
+      - id: browsers
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: pnpm exec playwright install --with-deps chromium
+      - if: ${{ !cancelled() && steps.browsers.outcome == 'success' }}
+        run: pnpm test:browser:${{ matrix.engine }}
+        env:
+          POLICY_BROWSER_CHANNEL: bundled
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports-${{ matrix.engine }}
+          path: |
+            reports/ci-environment-${{ matrix.engine }}.json
+            reports/core-tests.json
+            reports/pdf-checks-${{ matrix.engine }}.json
+            reports/rules-${{ matrix.engine }}.json
+            reports/review-regressions-${{ matrix.engine }}.json
+            reports/browser-review-regressions-${{ matrix.engine }}.json
+            reports/browser-tests-${{ matrix.engine }}.json
+            reports/browser-rules-${{ matrix.engine }}.json
+            reports/cancellation-${{ matrix.engine }}.json
+            reports/browser-review-${{ matrix.engine }}.png
+            reports/rotated-location-${{ matrix.engine }}.png
+            test-results/${{ matrix.engine }}/
+  linux-container:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [pdfjs, mupdf]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 10.12.1}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24.19.0}
+      - run: pnpm install --frozen-lockfile
+      - name: Build and start the selected Linux image
+        run: pnpm test:container ${{ matrix.engine }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: linux-container-${{ matrix.engine }}
+          path: |
+            reports/container-${{ matrix.engine }}.json
+            reports/container-build-${{ matrix.engine }}.log

@@ -1,0 +1,109 @@
+{
+  "codeRevision": "a6043d90dd30f360be6fac5350c374a1d4ee72a4",
+  "checks": {
+    "pdfjs": {
+      "core": {
+        "numTotalTests": 373,
+        "numPassedTests": 373,
+        "numFailedTests": 0
+      },
+      "rules": {
+        "status": "NOT_EVALUATED",
+        "passed": 28,
+        "total": 32,
+        "failed": [],
+        "notEvaluated": [
+          "R16_repagination",
+          "R18_ligature",
+          "R23_table_reorder",
+          "R24_table_cross_page"
+        ],
+        "knownGapsOnly": true,
+        "eventRegression": {
+          "status": "PASS",
+          "passed": 32,
+          "total": 32,
+          "failed": [],
+          "notEvaluated": []
+        },
+        "repeatedText": {
+          "pass": [
+            "R16_repagination:T1",
+            "R16_repagination:T2",
+            "R16_repagination:T3",
+            "R24_table_cross_page:T1",
+            "R24_table_cross_page:T2",
+            "R24_table_cross_page:T3",
+            "R24_table_cross_page:T4",
+            "R24_table_cross_page:T5",
+            "R24_table_cross_page:T6",
+            "R24_table_cross_page:T7",
+            "R24_table_cross_page:T8"
+          ],
+          "fail": []
+        }
+      },
+      "browser": {
+        "startTime": "2026-10-30T11:30:08.707Z",
+        "duration": 89622.374,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cancelMaxMs": 424.86114799999996
+    },
+    "mupdf": {
+      "core": {
+        "numTotalTests": 373,
+        "numPassedTests": 373,
+        "numFailedTests": 0
+      },
+      "rules": {
+        "status": "NOT_EVALUATED",
+        "passed": 28,
+        "total": 32,
+        "failed": [],
+        "notEvaluated": [
+          "R16_repagination",
+          "R18_ligature",
+          "R23_table_reorder",
+          "R24_table_cross_page"
+        ],
+        "knownGapsOnly": true,
+        "eventRegression": {
+          "status": "PASS",
+          "passed": 32,
+          "total": 32,
+          "failed": [],
+          "notEvaluated": []
+        },
+        "repeatedText": {
+          "pass": [
+            "R16_repagination:T1",
+            "R16_repagination:T2",
+            "R16_repagination:T3",
+            "R24_table_cross_page:T1",
+            "R24_table_cross_page:T2",
+            "R24_table_cross_page:T3",
+            "R24_table_cross_page:T4",
+            "R24_table_cross_page:T5",
+            "R24_table_cross_page:T6",
+            "R24_table_cross_page:T7",
+            "R24_table_cross_page:T8"
+          ],
+          "fail": []
+        }
+      },
+      "browser": {
+        "startTime": "2026-10-30T11:30:13.511Z",
+        "duration": 84990.43599999999,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cancelMaxMs": 425.186064
+    }
+  }
+}

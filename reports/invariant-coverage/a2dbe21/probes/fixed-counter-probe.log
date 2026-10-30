@@ -1,0 +1,10 @@
+# Graded with the a2dbe21 scorer (before c4a378a): the fixed -> counting cards fail on counts.
+## r4417303223 fixed Page 1 -> counting Page 1..4: product policy-compare/0.1.0+row-identity.13+facts.4+repeat.8+ops.4
+  card Replaced "Page 1" -> "Page 2" repeat {"left":4,"right":4,"leftPages":4,"rightPages":4} facts [] occurrences 4
+  scorer: FAIL; faults ["card d-7042866729468d8f6d19 states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]; open []
+## r4417303223 counting Page 1..4 -> fixed Page 1: product policy-compare/0.1.0+row-identity.13+facts.4+repeat.8+ops.4
+  card Replaced "Page 2" -> "Page 1" repeat {"left":4,"right":4,"leftPages":4,"rightPages":4} facts [] occurrences 4
+  scorer: FAIL; faults ["card d-8586b89d6e607ac0aaa8 states occurrence or page counts that differ from the documents' page counts or from the occurrences of its own text it cites"]; open []
+## r4417386694 spaces beside a changed number (single line): product policy-compare/0.1.0+row-identity.13+facts.4+repeat.8+ops.4
+  card Replaced "Schedule coverage Page 1 of 10" -> "Schedule coverage Page   2 of 10" repeat null facts [] occurrences 0
+  scorer: PASS; faults []; open []

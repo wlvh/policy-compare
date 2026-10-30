@@ -1,0 +1,39 @@
+# generator check (pinned reportlab 4.4.9, pypdf 6.10.0, Pillow 12.3.0; validation/requirements.txt)
+## unchanged generator at cb1e844 vs committed dataset: diff -rq
+Files /tmp/claude-0/-home-user-policy-compare/b2905fc5-1cc0-557c-bfdd-55da4db17a3a/scratchpad/r9/gen-before/CASE_CATALOG.zh-CN.md and validation/dataset/CASE_CATALOG.zh-CN.md differ
+Files /tmp/claude-0/-home-user-policy-compare/b2905fc5-1cc0-557c-bfdd-55da4db17a3a/scratchpad/r9/gen-before/cases/R16_repagination/expected.json and validation/dataset/cases/R16_repagination/expected.json differ
+Files /tmp/claude-0/-home-user-policy-compare/b2905fc5-1cc0-557c-bfdd-55da4db17a3a/scratchpad/r9/gen-before/cases/R24_table_cross_page/expected.json and validation/dataset/cases/R24_table_cross_page/expected.json differ
+Files /tmp/claude-0/-home-user-policy-compare/b2905fc5-1cc0-557c-bfdd-55da4db17a3a/scratchpad/r9/gen-before/cases/R24_table_cross_page/layout.json and validation/dataset/cases/R24_table_cross_page/layout.json differ
+Only in validation/dataset: fixture_check_report.json
+Files /tmp/claude-0/-home-user-policy-compare/b2905fc5-1cc0-557c-bfdd-55da4db17a3a/scratchpad/r9/gen-before/manifest.json and validation/dataset/manifest.json differ
+## changed generator (3f3c5f3) output vs dataset before 3f3c5f3: files that differ
+ validation/dataset/CASE_CATALOG.zh-CN.md           |   2 +-
+ .../dataset/cases/R16_repagination/expected.json   | 130 ++++++++-
+ .../cases/R24_table_cross_page/expected.json       | 318 ++++++++++++++++++++-
+ .../dataset/cases/R24_table_cross_page/layout.json |   2 +-
+ validation/dataset/fixture_check_report.json       |   9 +-
+ validation/dataset/manifest.json                   |   2 +-
+ 6 files changed, 451 insertions(+), 12 deletions(-)
+## PDFs: cmp of all 64 generated PDFs against the committed ones
+identical: 64
+## validation/fixture_checks.py
+{"status": "passed", "assertions": 183411, "cases": 32, "pdfs": 64, "pages": 130, "text_runs": 4172, "source_characters": 87102, "image_regions": 4, "events": 31, "must_detect_events": 28, "coverage_only_events": 2, "ambiguous_group_events": 1, "repeated_text_requirements": 11, "failures": 0}
+## same kind of generated text across the 32 layouts (count changes by role, path, footer pattern; events listed)
+R09_header_limit: ('header', 'repeated_header.limit', 'REPEATED HEADER LIMIT: USD 2,000,000') 2 -> 0: event
+R09_header_limit: ('header', 'repeated_header.limit', 'REPEATED HEADER LIMIT: USD 4,000,000') 0 -> 2: event
+R13_move_and_replacement: ('heading', 'clauses.new_loss_payment.title', 'LOSS PAYMENT') 0 -> 1: event
+R16_repagination: ('footer', None, 'FICTIONAL FIXTURE  |  PAGE #') 2 -> 3: repeated_text_requirements
+R16_repagination: ('header', 'repeated_header.limit', 'REPEATED HEADER LIMIT: USD 2,000,000') 2 -> 3: repeated_text_requirements
+R16_repagination: ('heading', 'document.page_heading.policy_wording', 'POLICY WORDING') 0 -> 1: event
+R16_repagination: ('test_notice', None, 'SYNTHETIC TEST - NOT A REAL POLICY') 2 -> 3: repeated_text_requirements
+R24_table_cross_page: ('footer', None, 'FICTIONAL FIXTURE  |  PAGE #') 2 -> 3: repeated_text_requirements
+R24_table_cross_page: ('header', 'repeated_header.limit', 'REPEATED HEADER LIMIT: USD 2,000,000') 2 -> 3: repeated_text_requirements
+R24_table_cross_page: ('heading', 'document.page_heading.schedule_of_aircraft_continued', 'SCHEDULE OF AIRCRAFT CONTINUED') 0 -> 1: event
+R24_table_cross_page: ('table_header', 'aircraft_schedule.header.agreed_value', 'AGREED VALUE') 1 -> 2: repeated_text_requirements
+R24_table_cross_page: ('table_header', 'aircraft_schedule.header.currency', 'CCY') 1 -> 2: repeated_text_requirements
+R24_table_cross_page: ('table_header', 'aircraft_schedule.header.model', 'MODEL') 1 -> 2: repeated_text_requirements
+R24_table_cross_page: ('table_header', 'aircraft_schedule.header.registration', 'REGISTRATION') 1 -> 2: repeated_text_requirements
+R24_table_cross_page: ('table_header', 'aircraft_schedule.header.serial', 'SERIAL') 1 -> 2: repeated_text_requirements
+R24_table_cross_page: ('test_notice', None, 'SYNTHETIC TEST - NOT A REAL POLICY') 2 -> 3: repeated_text_requirements
+R29_clause_add: ('heading', 'clauses.new_exclusion.title', 'ADDITIONAL EXCLUSION') 0 -> 1: event
+R30_clause_delete: ('heading', 'clauses.territory.title', 'TERRITORIAL SCOPE') 1 -> 0: event

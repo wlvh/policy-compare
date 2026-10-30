@@ -1,0 +1,6 @@
+# final triage tests (cc9913386d19324d1813aa9f78f36e66c4f77b73) with scripts/renewal-triage.py of 72eb95f (renewal-triage/21)
+FAIL: test_a_card_carrying_the_moved_paragraphs_edit_shows_it (test_renewal_triage.AMoveNeedsAMove.test_a_card_carrying_the_moved_paragraphs_edit_shows_it)
+FAIL: test_a_card_that_keeps_the_paragraph_in_place_shows_no_move (test_renewal_triage.AMoveNeedsAMove.test_a_card_that_keeps_the_paragraph_in_place_shows_no_move)
+FAIL: test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed (test_renewal_triage.RecordIdentity.test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed)
+Ran 68 tests in 0.435s
+FAILED (failures=3)

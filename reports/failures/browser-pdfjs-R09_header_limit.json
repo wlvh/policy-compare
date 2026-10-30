@@ -1,0 +1,1150 @@
+{
+  "score": {
+    "caseId": "R09_header_limit",
+    "status": "FAIL",
+    "faults": [
+      "Required event failed: R09_header_limit:E1"
+    ],
+    "events": [
+      {
+        "eventId": "R09_header_limit:E1",
+        "discovery": true,
+        "correspondence": true,
+        "position": false,
+        "visibility": true,
+        "completeness": true,
+        "pass": false
+      }
+    ]
+  },
+  "result": {
+    "schemaVersion": "policy-compare/0.1.0",
+    "coreVersion": "policy-compare/0.1.0+page-hash.1",
+    "extractors": [
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      },
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      }
+    ],
+    "snapshotHashVersion": "page-merkle/1",
+    "tokenizerVersion": "unicode-tokens/1",
+    "profileVersion": "aviation/1.0.0",
+    "documentHashes": [
+      "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+      "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88"
+    ],
+    "extractionSnapshotHashes": [
+      "b40ff98561e9850540d9e81a5db9c5f678405178367009db33d67395048dc1a1",
+      "f934231cbe937cb580ac3a5435319e44ab52a015f53ed64ecd4ddbd5e4ef9d55"
+    ],
+    "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+    "scope": "extracted_text",
+    "status": "complete_for_scope",
+    "differences": [
+      {
+        "id": "d-b07f224524cbdd4a0a39",
+        "kind": "Replaced",
+        "category": "Material",
+        "structurePath": {
+          "section": "repeated_header",
+          "entity": null,
+          "field": "header_limit",
+          "table": null,
+          "rowKey": null,
+          "confidence": "reliable"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 0,
+            "unitId": "repeat-left-repeated_header//header_limit",
+            "rawRange": [
+              56,
+              70
+            ],
+            "charIds": [
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s22",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s23",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s24",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s25",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s26",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s27",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s28",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s29",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s30",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s31",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s32",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s33",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s34",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s35"
+            ],
+            "text": " USD 2,000,000",
+            "quads": [
+              [
+                42,
+                40.646,
+                229.901,
+                40.646,
+                42,
+                51.123,
+                229.901,
+                51.123
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "geometryMethod": "engine_run",
+            "sourceRanges": [
+              {
+                "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1",
+                "scalarRange": [
+                  22,
+                  36
+                ],
+                "utf16Range": [
+                  22,
+                  36
+                ],
+                "itemText": "REPEATED HEADER LIMIT: USD 2,000,000"
+              }
+            ],
+            "resolvedGeometry": {
+              "method": "text_layer_range",
+              "quads": [
+                [
+                  162.33928603712627,
+                  39.54565630403459,
+                  232.6915452515704,
+                  39.54565630403459,
+                  162.33928603712627,
+                  52.12592835014409,
+                  232.6915452515704,
+                  52.12592835014409
+                ]
+              ],
+              "text": " USD 2,000,000"
+            }
+          }
+        ],
+        "right": [
+          {
+            "side": "right",
+            "pageIndex": 0,
+            "unitId": "repeat-right-repeated_header//header_limit",
+            "rawRange": [
+              56,
+              70
+            ],
+            "charIds": [
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s22",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s23",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s24",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s25",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s26",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s27",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s28",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s29",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s30",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s31",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s32",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s33",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s34",
+              "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s35"
+            ],
+            "text": " USD 4,000,000",
+            "quads": [
+              [
+                42,
+                40.646,
+                229.901,
+                40.646,
+                42,
+                51.123,
+                229.901,
+                51.123
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "geometryMethod": "engine_run",
+            "sourceRanges": [
+              {
+                "itemId": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1",
+                "scalarRange": [
+                  22,
+                  36
+                ],
+                "utf16Range": [
+                  22,
+                  36
+                ],
+                "itemText": "REPEATED HEADER LIMIT: USD 4,000,000"
+              }
+            ],
+            "resolvedGeometry": {
+              "method": "text_layer_range",
+              "quads": [
+                [
+                  162.33928603712627,
+                  39.54565630403459,
+                  232.69161505510402,
+                  39.54565630403459,
+                  162.33928603712627,
+                  52.12592835014409,
+                  232.69161505510402,
+                  52.12592835014409
+                ]
+              ],
+              "text": " USD 4,000,000"
+            }
+          }
+        ],
+        "oldText": " USD 2,000,000",
+        "newText": " USD 4,000,000",
+        "textOps": [
+          {
+            "kind": "equal",
+            "text": " USD ",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "repeat-left-repeated_header//header_limit",
+                "rawRange": [
+                  56,
+                  61
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s22",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s23",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s24",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s25",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s26"
+                ],
+                "text": " USD ",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1",
+                    "scalarRange": [
+                      22,
+                      27
+                    ],
+                    "utf16Range": [
+                      22,
+                      27
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 2,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      162.33928603712627,
+                      39.54565630403459,
+                      188.03117462738655,
+                      39.54565630403459,
+                      162.33928603712627,
+                      52.12592835014409,
+                      188.03117462738655,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": " USD "
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "repeat-right-repeated_header//header_limit",
+                "rawRange": [
+                  56,
+                  61
+                ],
+                "charIds": [
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s22",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s23",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s24",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s25",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s26"
+                ],
+                "text": " USD ",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1",
+                    "scalarRange": [
+                      22,
+                      27
+                    ],
+                    "utf16Range": [
+                      22,
+                      27
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 4,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      162.33928603712627,
+                      39.54565630403459,
+                      188.03117462738655,
+                      39.54565630403459,
+                      162.33928603712627,
+                      52.12592835014409,
+                      188.03117462738655,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": " USD "
+                }
+              }
+            ]
+          },
+          {
+            "kind": "delete",
+            "text": "2",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "repeat-left-repeated_header//header_limit",
+                "rawRange": [
+                  61,
+                  62
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s27"
+                ],
+                "text": "2",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1",
+                    "scalarRange": [
+                      27,
+                      28
+                    ],
+                    "utf16Range": [
+                      27,
+                      28
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 2,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      188.01239747683832,
+                      39.54565630403459,
+                      193.70292114595532,
+                      39.54565630403459,
+                      188.01239747683832,
+                      52.12592835014409,
+                      193.70292114595532,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": "2"
+                }
+              }
+            ],
+            "right": []
+          },
+          {
+            "kind": "insert",
+            "text": "4",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "repeat-right-repeated_header//header_limit",
+                "rawRange": [
+                  61,
+                  62
+                ],
+                "charIds": [
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s27"
+                ],
+                "text": "4",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1",
+                    "scalarRange": [
+                      27,
+                      28
+                    ],
+                    "utf16Range": [
+                      27,
+                      28
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 4,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      188.01246728037196,
+                      39.54565630403459,
+                      193.70299094948894,
+                      39.54565630403459,
+                      188.01246728037196,
+                      52.12592835014409,
+                      193.70299094948894,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": "4"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "equal",
+            "text": ",000,000",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "repeat-left-repeated_header//header_limit",
+                "rawRange": [
+                  62,
+                  70
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s28",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s29",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s30",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s31",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s32",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s33",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s34",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s35"
+                ],
+                "text": ",000,000",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1",
+                    "scalarRange": [
+                      28,
+                      36
+                    ],
+                    "utf16Range": [
+                      28,
+                      36
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 2,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      193.68414399540708,
+                      39.54565630403459,
+                      232.6915452515704,
+                      39.54565630403459,
+                      193.68414399540708,
+                      52.12592835014409,
+                      232.6915452515704,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": ",000,000"
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "repeat-right-repeated_header//header_limit",
+                "rawRange": [
+                  62,
+                  70
+                ],
+                "charIds": [
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s28",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s29",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s30",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s31",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s32",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s33",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s34",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s35"
+                ],
+                "text": ",000,000",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1",
+                    "scalarRange": [
+                      28,
+                      36
+                    ],
+                    "utf16Range": [
+                      28,
+                      36
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 4,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      193.68414399540708,
+                      39.54565630403459,
+                      232.69161505510402,
+                      39.54565630403459,
+                      193.68414399540708,
+                      52.12592835014409,
+                      232.69161505510402,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": ",000,000"
+                }
+              }
+            ]
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "repeated-header",
+          "score": null,
+          "details": [
+            "repeated-header"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": [
+          {
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u2",
+                "rawRange": [
+                  56,
+                  70
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s22",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s23",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s24",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s25",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s26",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s27",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s28",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s29",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s30",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s31",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s32",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s33",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s34",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1:s35"
+                ],
+                "text": " USD 2,000,000",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i1",
+                    "scalarRange": [
+                      22,
+                      36
+                    ],
+                    "utf16Range": [
+                      22,
+                      36
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 2,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      162.33928603712627,
+                      39.54565630403459,
+                      232.6915452515704,
+                      39.54565630403459,
+                      162.33928603712627,
+                      52.12592835014409,
+                      232.6915452515704,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": " USD 2,000,000"
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u2",
+                "rawRange": [
+                  56,
+                  70
+                ],
+                "charIds": [
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s22",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s23",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s24",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s25",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s26",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s27",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s28",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s29",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s30",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s31",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s32",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s33",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s34",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1:s35"
+                ],
+                "text": " USD 4,000,000",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p0:i1",
+                    "scalarRange": [
+                      22,
+                      36
+                    ],
+                    "utf16Range": [
+                      22,
+                      36
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 4,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      162.33928603712627,
+                      39.54565630403459,
+                      232.69161505510402,
+                      39.54565630403459,
+                      162.33928603712627,
+                      52.12592835014409,
+                      232.69161505510402,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": " USD 4,000,000"
+                }
+              }
+            ]
+          },
+          {
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 1,
+                "unitId": "u33",
+                "rawRange": [
+                  56,
+                  70
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s22",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s23",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s24",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s25",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s26",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s27",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s28",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s29",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s30",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s31",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s32",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s33",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s34",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1:s35"
+                ],
+                "text": " USD 2,000,000",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i1",
+                    "scalarRange": [
+                      22,
+                      36
+                    ],
+                    "utf16Range": [
+                      22,
+                      36
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 2,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      162.33928603712627,
+                      39.54565630403459,
+                      232.6915452515704,
+                      39.54565630403459,
+                      162.33928603712627,
+                      52.12592835014409,
+                      232.6915452515704,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": " USD 2,000,000"
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 1,
+                "unitId": "u33",
+                "rawRange": [
+                  56,
+                  70
+                ],
+                "charIds": [
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s22",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s23",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s24",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s25",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s26",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s27",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s28",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s29",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s30",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s31",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s32",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s33",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s34",
+                  "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1:s35"
+                ],
+                "text": " USD 4,000,000",
+                "quads": [
+                  [
+                    42,
+                    40.646,
+                    229.901,
+                    40.646,
+                    42,
+                    51.123,
+                    229.901,
+                    51.123
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9d6f58186ccc6711014659e92deb19fcff9036b9c874d2eff9818213e7ac5b88:p1:i1",
+                    "scalarRange": [
+                      22,
+                      36
+                    ],
+                    "utf16Range": [
+                      22,
+                      36
+                    ],
+                    "itemText": "REPEATED HEADER LIMIT: USD 4,000,000"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      162.33928603712627,
+                      39.54565630403459,
+                      232.69161505510402,
+                      39.54565630403459,
+                      162.33928603712627,
+                      52.12592835014409,
+                      232.69161505510402,
+                      52.12592835014409
+                    ]
+                  ],
+                  "text": " USD 4,000,000"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "coverage": [],
+    "unresolved": [],
+    "alignment": [
+      {
+        "leftPage": 0,
+        "leftY": 29,
+        "rightPage": 0,
+        "rightY": 29
+      },
+      {
+        "leftPage": 0,
+        "leftY": 49,
+        "rightPage": 0,
+        "rightY": 49
+      },
+      {
+        "leftPage": 0,
+        "leftY": 81,
+        "rightPage": 0,
+        "rightY": 81
+      },
+      {
+        "leftPage": 0,
+        "leftY": 132,
+        "rightPage": 0,
+        "rightY": 132
+      },
+      {
+        "leftPage": 0,
+        "leftY": 155,
+        "rightPage": 0,
+        "rightY": 155
+      },
+      {
+        "leftPage": 0,
+        "leftY": 178,
+        "rightPage": 0,
+        "rightY": 178
+      },
+      {
+        "leftPage": 0,
+        "leftY": 201,
+        "rightPage": 0,
+        "rightY": 201
+      },
+      {
+        "leftPage": 0,
+        "leftY": 224,
+        "rightPage": 0,
+        "rightY": 224
+      },
+      {
+        "leftPage": 0,
+        "leftY": 247,
+        "rightPage": 0,
+        "rightY": 247
+      },
+      {
+        "leftPage": 0,
+        "leftY": 270,
+        "rightPage": 0,
+        "rightY": 270
+      },
+      {
+        "leftPage": 0,
+        "leftY": 293,
+        "rightPage": 0,
+        "rightY": 293
+      },
+      {
+        "leftPage": 0,
+        "leftY": 316,
+        "rightPage": 0,
+        "rightY": 316
+      },
+      {
+        "leftPage": 0,
+        "leftY": 339,
+        "rightPage": 0,
+        "rightY": 339
+      },
+      {
+        "leftPage": 0,
+        "leftY": 378,
+        "rightPage": 0,
+        "rightY": 378
+      },
+      {
+        "leftPage": 0,
+        "leftY": 399,
+        "rightPage": 0,
+        "rightY": 399
+      },
+      {
+        "leftPage": 0,
+        "leftY": 453,
+        "rightPage": 0,
+        "rightY": 453
+      },
+      {
+        "leftPage": 0,
+        "leftY": 474,
+        "rightPage": 0,
+        "rightY": 474
+      },
+      {
+        "leftPage": 0,
+        "leftY": 528,
+        "rightPage": 0,
+        "rightY": 528
+      },
+      {
+        "leftPage": 0,
+        "leftY": 549,
+        "rightPage": 0,
+        "rightY": 549
+      },
+      {
+        "leftPage": 0,
+        "leftY": 817.89,
+        "rightPage": 0,
+        "rightY": 817.89
+      },
+      {
+        "leftPage": 1,
+        "leftY": 81,
+        "rightPage": 1,
+        "rightY": 81
+      },
+      {
+        "leftPage": 1,
+        "leftY": 136,
+        "rightPage": 1,
+        "rightY": 136
+      },
+      {
+        "leftPage": 1,
+        "leftY": 169,
+        "rightPage": 1,
+        "rightY": 169
+      },
+      {
+        "leftPage": 1,
+        "leftY": 204,
+        "rightPage": 1,
+        "rightY": 204
+      },
+      {
+        "leftPage": 1,
+        "leftY": 239,
+        "rightPage": 1,
+        "rightY": 239
+      },
+      {
+        "leftPage": 1,
+        "leftY": 274,
+        "rightPage": 1,
+        "rightY": 274
+      },
+      {
+        "leftPage": 1,
+        "leftY": 309,
+        "rightPage": 1,
+        "rightY": 309
+      },
+      {
+        "leftPage": 1,
+        "leftY": 817.89,
+        "rightPage": 1,
+        "rightY": 817.89
+      }
+    ],
+    "stats": {
+      "leftScalars": 1401,
+      "rightScalars": 1401,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "differenceCount": 1,
+      "occurrenceCount": 2
+    },
+    "diagnostics": []
+  }
+}

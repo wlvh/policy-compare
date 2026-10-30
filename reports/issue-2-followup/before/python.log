@@ -1,0 +1,59 @@
+..................../Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmpmu0jdby6/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1395: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmpmu0jdby6/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1398: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmpmu0jdby6/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+......................FFF...F........................................
+======================================================================
+FAIL: test_literal_page_mask_text_is_not_a_page_number (test_renewal_triage.JointSourceBinding.test_literal_page_mask_text_is_not_a_page_number) (a='Page 3 Page #', b='Page # Page 4')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1437, in test_literal_page_mask_text_is_not_a_page_number
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], want)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_literal_page_mask_text_is_not_a_page_number (test_renewal_triage.JointSourceBinding.test_literal_page_mask_text_is_not_a_page_number) (a='', b='Page # Page 4')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1437, in test_literal_page_mask_text_is_not_a_page_number
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], want)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_literal_page_mask_text_is_not_a_page_number (test_renewal_triage.JointSourceBinding.test_literal_page_mask_text_is_not_a_page_number) (a='Page # Page 4', b='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1437, in test_literal_page_mask_text_is_not_a_page_number
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], want)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_split_edits_preserve_each_pair_inside_one_event (test_renewal_triage.JointSourceBinding.test_split_edits_preserve_each_pair_inside_one_event) (shape='crossed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1423, in test_split_edits_preserve_each_pair_inside_one_event
+    self.assertNotIn(event['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'split_attributable' unexpectedly found in ('correct', 'split_attributable')
+
+----------------------------------------------------------------------
+Ran 87 tests in 0.657s
+
+FAILED (failures=4)

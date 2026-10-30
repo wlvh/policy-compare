@@ -1,0 +1,18 @@
+# dabc8c2: before the fix (packages/compare-core/index.ts at 2740d94), tests/result-format-2.test.ts
+     ✓ a period whose two dates each move one year: dates_rolled_forward_one_year 3ms
+     × consecutive annual periods across a leap day: no fact, the date edit shown 13ms
+     × each date one year later, same day and month, whatever the period's length: the fact 4ms
+     ✓ the same period with a changed word: no fact 3ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected [ 'dates_rolled_forward_one_year' ] to deeply equal []
+AssertionError: expected [] to deeply equal [ 'dates_rolled_forward_one_year' ]
+      Tests  2 failed | 17 passed (19)
+
+# after the fix: pnpm verify:core
+ Test Files  15 passed (15)
+      Tests  273 passed (273)
+# tsc --noEmit -p tsconfig.json: 0 errors
+# triage
+Ran 37 tests in 0.191s
+
+OK

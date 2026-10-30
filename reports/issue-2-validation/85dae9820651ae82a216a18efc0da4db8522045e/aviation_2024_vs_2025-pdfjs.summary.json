@@ -1,0 +1,33 @@
+{
+ "bodyEvents": 93,
+ "excluded": [
+  {
+   "id": "9",
+   "reason": "only whitespace or quote-style edits; no comparable fragment",
+   "note": "仅空白（双空格 → 单空格）"
+  }
+ ],
+ "scored": 92,
+ "outcomes": {
+  "complete": 78,
+  "not_found": 3,
+  "incomplete": 7,
+  "partly_complete": 4
+ },
+ "sameCardWithoutRecordCells": [
+  "55",
+  "56",
+  "61",
+  "91"
+ ],
+ "authorMaterial": 78,
+ "authorMaterialShownOnlyAsCosmetic": [],
+ "cards": 140,
+ "cardsOver600Chars": 0,
+ "unexplainedCards": 44,
+ "unexplainedMaterialCards": 6,
+ "unresolvedGroups": 4,
+ "status": "partial",
+ "coreVersion": "policy-compare/0.1.0+row-identity.1",
+ "extractor": "pdfjs/6.4.299+strict-streams.1"
+}

@@ -5,7 +5,26 @@
   "oracle_origin": "explicit_source_mutation",
   "scope": "extracted_text",
   "required_status": "complete_for_scope",
-  "events": [],
+  "events": [
+    {
+      "event_id": "R24_table_cross_page:E1",
+      "logical_path": "document.page_heading.schedule_of_aircraft_continued",
+      "operation": "add",
+      "old": null,
+      "new": "SCHEDULE OF AIRCRAFT CONTINUED",
+      "severity": "reviewable",
+      "detection_requirement": "must_detect",
+      "must_detect": true,
+      "may_fold": false,
+      "acceptable_kinds": [
+        "Added"
+      ],
+      "acceptable_categories": [
+        "Review"
+      ],
+      "require_source_evidence": true
+    }
+  ],
   "invariants": [
     "no_material_differences",
     "no_false_row_additions_or_deletions",
@@ -13,7 +32,300 @@
   ],
   "coverage_requirements": [],
   "default_text_change_visibility": "visible_no_automatic_folding",
-  "notes": [],
+  "notes": [
+    "表格跨页实际新增续页标题 SCHEDULE OF AIRCRAFT CONTINUED（待审版第 3 页），登记为 Added/Review 必检事件；表格行只换页、不增删。",
+    "repeated_text_requirements：新增一页后出现次数改变的页面生成文字（测试声明、页眉限额、页脚页码行、重复表头各列名），两侧全部出现位置（页、run）与次数取自生成时的版面记录。次数变化须可见；结果所报这些文字的出现次数与位置须与此集合相符，不多不少；展示形式不限。"
+  ],
   "source_sha256": "105e92cb7c692f4ed96b651ea0da74253829af6eb75b9fe0b9c9925b92ee76a0",
-  "evidence_locations": {}
+  "evidence_locations": {
+    "R24_table_cross_page:E1": {
+      "before": [],
+      "after": [
+        {
+          "page_index": 2,
+          "run_id": "run_0054"
+        }
+      ]
+    }
+  },
+  "repeated_text_requirements": [
+    {
+      "requirement_id": "R24_table_cross_page:T1",
+      "layout_role": "test_notice",
+      "logical_path": null,
+      "text": "SYNTHETIC TEST - NOT A REAL POLICY",
+      "counts": {
+        "before": 2,
+        "after": 3
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 0,
+            "run_id": "run_0001",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0033",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 0,
+            "run_id": "run_0001",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0033",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0052",
+            "text": "SYNTHETIC TEST - NOT A REAL POLICY"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R24_table_cross_page:T2",
+      "layout_role": "header",
+      "logical_path": "repeated_header.limit",
+      "text": "REPEATED HEADER LIMIT: USD 2,000,000",
+      "counts": {
+        "before": 2,
+        "after": 3
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 0,
+            "run_id": "run_0002",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0034",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 0,
+            "run_id": "run_0002",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0034",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0053",
+            "text": "REPEATED HEADER LIMIT: USD 2,000,000"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R24_table_cross_page:T3",
+      "layout_role": "footer",
+      "logical_path": null,
+      "text": "FICTIONAL FIXTURE  |  PAGE {page_number}",
+      "counts": {
+        "before": 2,
+        "after": 3
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 0,
+            "run_id": "run_0004",
+            "text": "FICTIONAL FIXTURE  |  PAGE 1"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0036",
+            "text": "FICTIONAL FIXTURE  |  PAGE 2"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 0,
+            "run_id": "run_0004",
+            "text": "FICTIONAL FIXTURE  |  PAGE 1"
+          },
+          {
+            "page_index": 1,
+            "run_id": "run_0036",
+            "text": "FICTIONAL FIXTURE  |  PAGE 2"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0055",
+            "text": "FICTIONAL FIXTURE  |  PAGE 3"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R24_table_cross_page:T4",
+      "layout_role": "table_header",
+      "logical_path": "aircraft_schedule.header.registration",
+      "text": "REGISTRATION",
+      "counts": {
+        "before": 1,
+        "after": 2
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 1,
+            "run_id": "run_0037",
+            "text": "REGISTRATION"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 1,
+            "run_id": "run_0037",
+            "text": "REGISTRATION"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0056",
+            "text": "REGISTRATION"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R24_table_cross_page:T5",
+      "layout_role": "table_header",
+      "logical_path": "aircraft_schedule.header.serial",
+      "text": "SERIAL",
+      "counts": {
+        "before": 1,
+        "after": 2
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 1,
+            "run_id": "run_0038",
+            "text": "SERIAL"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 1,
+            "run_id": "run_0038",
+            "text": "SERIAL"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0057",
+            "text": "SERIAL"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R24_table_cross_page:T6",
+      "layout_role": "table_header",
+      "logical_path": "aircraft_schedule.header.model",
+      "text": "MODEL",
+      "counts": {
+        "before": 1,
+        "after": 2
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 1,
+            "run_id": "run_0039",
+            "text": "MODEL"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 1,
+            "run_id": "run_0039",
+            "text": "MODEL"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0058",
+            "text": "MODEL"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R24_table_cross_page:T7",
+      "layout_role": "table_header",
+      "logical_path": "aircraft_schedule.header.currency",
+      "text": "CCY",
+      "counts": {
+        "before": 1,
+        "after": 2
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 1,
+            "run_id": "run_0040",
+            "text": "CCY"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 1,
+            "run_id": "run_0040",
+            "text": "CCY"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0059",
+            "text": "CCY"
+          }
+        ]
+      }
+    },
+    {
+      "requirement_id": "R24_table_cross_page:T8",
+      "layout_role": "table_header",
+      "logical_path": "aircraft_schedule.header.agreed_value",
+      "text": "AGREED VALUE",
+      "counts": {
+        "before": 1,
+        "after": 2
+      },
+      "occurrences": {
+        "before": [
+          {
+            "page_index": 1,
+            "run_id": "run_0041",
+            "text": "AGREED VALUE"
+          }
+        ],
+        "after": [
+          {
+            "page_index": 1,
+            "run_id": "run_0041",
+            "text": "AGREED VALUE"
+          },
+          {
+            "page_index": 2,
+            "run_id": "run_0060",
+            "text": "AGREED VALUE"
+          }
+        ]
+      }
+    }
+  ]
 }

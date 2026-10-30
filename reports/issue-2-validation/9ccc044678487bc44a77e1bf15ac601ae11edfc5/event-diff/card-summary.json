@@ -1,0 +1,209 @@
+{
+ "aviation_2024_vs_2025-mupdf": {
+  "old": {
+   "cards": 99,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Replaced": 62,
+    "Added": 16,
+    "Removed": 16,
+    "Moved": 5
+   },
+   "methods": {
+    "joint-local-alignment": 34,
+    "unmatched": 32,
+    "contextual-token-lcs": 2,
+    "row-identity": 26,
+    "page-furniture": 1,
+    "unique-exact": 4
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "categories": {
+    "Material": 92,
+    "Review": 6,
+    "Cosmetic": 1
+   }
+  },
+  "new": {
+   "cards": 111,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Replaced": 66,
+    "Added": 20,
+    "Removed": 20,
+    "Moved": 5
+   },
+   "methods": {
+    "page-furniture": 8,
+    "joint-local-alignment": 34,
+    "unmatched": 40,
+    "unique-exact": 4,
+    "contextual-token-lcs": 2,
+    "row-identity": 22,
+    "repeated-table-header": 1
+   },
+   "facts": {
+    "whitespace_only": 1
+   },
+   "occurrenceCountCards": 8,
+   "categories": {}
+  }
+ },
+ "aviation_2024_vs_2025-pdfjs": {
+  "old": {
+   "cards": 99,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Replaced": 61,
+    "Added": 17,
+    "Removed": 16,
+    "Moved": 5
+   },
+   "methods": {
+    "joint-local-alignment": 33,
+    "unmatched": 33,
+    "contextual-token-lcs": 2,
+    "row-identity": 26,
+    "page-furniture": 1,
+    "unique-exact": 4
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "categories": {
+    "Material": 93,
+    "Review": 6
+   }
+  },
+  "new": {
+   "cards": 111,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Replaced": 65,
+    "Added": 21,
+    "Removed": 20,
+    "Moved": 5
+   },
+   "methods": {
+    "page-furniture": 8,
+    "joint-local-alignment": 33,
+    "unmatched": 41,
+    "unique-exact": 4,
+    "contextual-token-lcs": 2,
+    "row-identity": 22,
+    "repeated-table-header": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 8,
+   "categories": {}
+  }
+ },
+ "bizav_2024_vs_2025-mupdf": {
+  "old": {
+   "cards": 89,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Replaced": 69,
+    "Added": 10,
+    "Moved": 4,
+    "Removed": 6
+   },
+   "methods": {
+    "joint-local-alignment": 33,
+    "unmatched": 15,
+    "contextual-token-lcs": 1,
+    "row-identity": 32,
+    "page-furniture": 5,
+    "unique-exact": 3
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "categories": {
+    "Material": 76,
+    "Review": 12,
+    "Cosmetic": 1
+   }
+  },
+  "new": {
+   "cards": 103,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Added": 15,
+    "Replaced": 73,
+    "Moved": 4,
+    "Removed": 11
+   },
+   "methods": {
+    "page-furniture": 14,
+    "joint-local-alignment": 33,
+    "unmatched": 25,
+    "contextual-token-lcs": 1,
+    "row-identity": 27,
+    "unique-exact": 3
+   },
+   "facts": {
+    "page_number_only": 1
+   },
+   "occurrenceCountCards": 9,
+   "categories": {}
+  }
+ },
+ "bizav_2024_vs_2025-pdfjs": {
+  "old": {
+   "cards": 89,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Replaced": 69,
+    "Added": 10,
+    "Moved": 4,
+    "Removed": 6
+   },
+   "methods": {
+    "joint-local-alignment": 33,
+    "unmatched": 15,
+    "contextual-token-lcs": 1,
+    "row-identity": 32,
+    "page-furniture": 5,
+    "unique-exact": 3
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "categories": {
+    "Material": 76,
+    "Review": 12,
+    "Cosmetic": 1
+   }
+  },
+  "new": {
+   "cards": 103,
+   "unresolvedGroups": 0,
+   "status": "complete_for_scope",
+   "kinds": {
+    "Added": 15,
+    "Replaced": 73,
+    "Moved": 4,
+    "Removed": 11
+   },
+   "methods": {
+    "page-furniture": 14,
+    "joint-local-alignment": 33,
+    "unmatched": 25,
+    "contextual-token-lcs": 1,
+    "row-identity": 27,
+    "unique-exact": 3
+   },
+   "facts": {
+    "page_number_only": 1
+   },
+   "occurrenceCountCards": 9,
+   "categories": {}
+  }
+ }
+}

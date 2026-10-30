@@ -1,0 +1,51 @@
+{
+ "purpose": "Repeated margin lines; read only by browser-check.ts after comparison",
+ "cards": [
+  {
+   "id": "F1",
+   "what": "UMR rolled forward on pages 1, 2 and 4; page 3 kept the old reference",
+   "kind": "Replaced",
+   "category": "Review",
+   "old": "UMR B1234AV2024",
+   "new": "UMR B1234AV2025",
+   "rightPages": [
+    1,
+    2,
+    4
+   ],
+   "keptOldOnRightPages": [
+    3
+   ]
+  },
+  {
+   "id": "F2",
+   "what": "limit changed on page 2 only",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "USD 1,000,000",
+   "new": "USD 2,000,000",
+   "rightPages": [
+    2
+   ],
+   "keptOldOnRightPages": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "id": "F3",
+   "what": "limit on the page-number line changed on every page",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "USD 5,000,000",
+   "new": "USD 6,000,000",
+   "rightPages": [
+    1,
+    2,
+    3,
+    4
+   ]
+  }
+ ]
+}

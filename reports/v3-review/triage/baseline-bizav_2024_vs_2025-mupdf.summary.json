@@ -1,0 +1,50 @@
+{
+ "bodyEvents": 84,
+ "excluded": [
+  {
+   "id": "6",
+   "reason": "only whitespace or quote-style edits; no comparable fragment",
+   "note": "弯撇号 → 直撇号"
+  },
+  {
+   "id": "78",
+   "reason": "only whitespace or quote-style edits; no comparable fragment",
+   "note": "仅空白（插入双空格）"
+  }
+ ],
+ "scored": 82,
+ "outcomes": {
+  "complete": 34,
+  "incomplete": 38,
+  "not_found": 4,
+  "partly_complete": 6
+ },
+ "sameCardWithoutRecordCells": [
+  "18"
+ ],
+ "authorMaterial": 70,
+ "authorMaterialShownOnlyAsCosmetic": [
+  "14",
+  "15",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49",
+  "50",
+  "51",
+  "65",
+  "69",
+  "71"
+ ],
+ "cards": 400,
+ "cardsOver600Chars": 8,
+ "unexplainedCards": 183,
+ "unexplainedMaterialCards": 40,
+ "unresolvedGroups": 2,
+ "status": "partial",
+ "coreVersion": "policy-compare/0.1.0+review-fixes.2",
+ "extractor": "mupdf/1.28.1+scalar-fix.1"
+}

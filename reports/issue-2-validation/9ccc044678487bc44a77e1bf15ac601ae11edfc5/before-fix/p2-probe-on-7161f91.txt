@@ -1,0 +1,30 @@
+4/4 -> 3/5 policy-compare-result/2 complete_for_scope
+   ["Replaced",null,[],"War risks excluded","War risks excluded","page-furniture",{"left":4,"right":3,"leftPages":4,"rightPages":5},"这段文字出现次数：4 次 → 3 次；文档页数：4 页 → 5 页；逐处来源见出现位置"]
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]
+4/4 -> 5/5 policy-compare-result/2 complete_for_scope
+   ["Replaced",null,[],"War risks excluded","War risks excluded","page-furniture",{"left":4,"right":5,"leftPages":4,"rightPages":5},"这段文字出现次数：4 次 → 5 次；文档页数：4 页 → 5 页；逐处来源见出现位置"]
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]
+1%..4% -> 5%..8% policy-compare-result/2 complete_for_scope
+   ["Added",null,[],"","5%","unmatched",null,""]
+   ["Removed",null,[],"1%","","unmatched",null,""]
+   ["Added",null,[],"","6%","unmatched",null,""]
+   ["Removed",null,[],"2%","","unmatched",null,""]
+   ["Removed",null,[],"3%","","unmatched",null,""]
+   ["Added",null,[],"","7%","unmatched",null,""]
+   ["Added",null,[],"","8%","unmatched",null,""]
+   ["Removed",null,[],"4%","","unmatched",null,""]
+$1..$4 -> $5..$8 policy-compare-result/2 complete_for_scope
+   ["Added",null,[],"","$5","unmatched",null,""]
+   ["Removed",null,[],"$1","","unmatched",null,""]
+   ["Added",null,[],"","$6","unmatched",null,""]
+   ["Removed",null,[],"$2","","unmatched",null,""]
+   ["Removed",null,[],"$3","","unmatched",null,""]
+   ["Added",null,[],"","$7","unmatched",null,""]
+   ["Added",null,[],"","$8","unmatched",null,""]
+   ["Removed",null,[],"$4","","unmatched",null,""]
+- n - 4 -> 5 pages policy-compare-result/2 complete_for_scope
+   ["Added",null,[],"","- 5 -","unmatched",null,""]
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]
+Page n of 4 -> of 5 policy-compare-result/2 complete_for_scope
+   ["Replaced",null,["page_number_only"],"Page 1 of 4","Page 1 of 5","page-furniture",{"left":4,"right":5,"leftPages":4,"rightPages":5},"这段文字出现次数：4 次 → 5 次；文档页数：4 页 → 5 页；逐处来源见出现位置"]
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]

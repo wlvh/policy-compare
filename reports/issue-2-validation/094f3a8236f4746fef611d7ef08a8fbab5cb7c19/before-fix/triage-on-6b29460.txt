@@ -1,0 +1,5 @@
+# final triage tests (094f3a8; the triage tests are unchanged since aeaec53) with scripts/renewal-triage.py of 6b29460 (renewal-triage/13)
+FAIL: test_a_cell_amount_matches_only_as_a_whole_number
+FAIL: test_repeated_cells_need_their_own_occurrences
+Ran 47 tests in 0.553s
+FAILED (failures=2)

@@ -1,0 +1,158 @@
+..................../Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmp40s7fwg0/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1395: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmp40s7fwg0/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1398: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmp40s7fwg0/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+......................FFFFFFFFFFFFFF........................................
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Premium per page 100USD', b='Premium per page 200USD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Page 10%', b='Page 20%')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Page 10 %', b='Page 20 %')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Page 10‰', b='Page 20‰')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Cost per page 100€', b='Cost per page 200€')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Page 3 of 10%', b='Page 3 of 11%')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != 'contradicted'
+- consistent
++ contradicted
+
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Cost per page 100 USD', b='Cost per page 200 USD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != None
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='Page 3 AED 100', b='Page 4 AED 100')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != None
+
+======================================================================
+FAIL: test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) (a='per page 100NZD', b='per page 200NZD')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1464, in test_page_facts_distinguish_disproved_from_undecided
+    self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'consistent' != None
+
+======================================================================
+FAIL: test_repeated_cells_are_allocated_only_from_their_own_record (test_renewal_triage.JointSourceBinding.test_repeated_cells_are_allocated_only_from_their_own_record) (kind='Added', shown='1315 Hull USD 100; 1760 Liability USD 100')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1415, in test_repeated_cells_are_allocated_only_from_their_own_record
+    self.assertEqual(ev['63']['row']['fullRowRecovered'], full)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_repeated_cells_are_allocated_only_from_their_own_record (test_renewal_triage.JointSourceBinding.test_repeated_cells_are_allocated_only_from_their_own_record) (kind='Removed', shown='1315 Hull USD 100; 1760 Liability USD 100')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1415, in test_repeated_cells_are_allocated_only_from_their_own_record
+    self.assertEqual(ev['63']['row']['fullRowRecovered'], full)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_repeated_cells_are_allocated_only_from_their_own_record (test_renewal_triage.JointSourceBinding.test_repeated_cells_are_allocated_only_from_their_own_record)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1423, in test_repeated_cells_are_allocated_only_from_their_own_record
+    self.assertEqual(ev['41']['row']['fullRowRecovered'], full)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True != False
+
+======================================================================
+FAIL: test_split_cards_have_compatible_opposite_edits (test_renewal_triage.JointSourceBinding.test_split_cards_have_compatible_opposite_edits) (row=False, shape='contradiction')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1442, in test_split_cards_have_compatible_opposite_edits
+    self.assertNotIn(ev['7']['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'split_attributable' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_split_cards_have_compatible_opposite_edits (test_renewal_triage.JointSourceBinding.test_split_cards_have_compatible_opposite_edits) (row=True, shape='contradiction')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1442, in test_split_cards_have_compatible_opposite_edits
+    self.assertNotIn(ev['7']['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'split_attributable' unexpectedly found in ('correct', 'split_attributable')
+
+----------------------------------------------------------------------
+Ran 85 tests in 0.511s
+
+FAILED (failures=14)

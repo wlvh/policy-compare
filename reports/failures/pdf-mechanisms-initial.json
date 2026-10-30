@@ -1,0 +1,31 @@
+{
+  "subject": "real_pdf_adapter_mechanisms",
+  "status": "FAIL",
+  "checks": [
+    {
+      "name": "actual PDF non-BMP, combining mark and ligature preserved",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'AὠéﬁSYNTHETIC TEST'\n- 'A😀éﬁSYNTHETIC TEST'\n"
+    },
+    {
+      "name": "rotation + nonzero CropBox + UserUnit use one display transform",
+      "status": "PASS"
+    },
+    {
+      "name": "password failures and successful local authentication",
+      "status": "PASS"
+    },
+    {
+      "name": "corrupt PDF is failed, not empty complete",
+      "status": "PASS"
+    },
+    {
+      "name": "page failure retains other real extracted pages",
+      "status": "PASS"
+    },
+    {
+      "name": "destroy invalidates document and repeated cleanup is safe",
+      "status": "PASS"
+    }
+  ]
+}

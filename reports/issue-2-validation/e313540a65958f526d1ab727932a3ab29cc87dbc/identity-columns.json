@@ -1,0 +1,114 @@
+[
+ {
+  "engine": "mupdf",
+  "pair": "aviation_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 8
+   },
+   {
+    "title": "FROM PREMIUM",
+    "rows": 173
+   },
+   {
+    "title": "PREMIUM RATES",
+    "rows": 7
+   },
+   {
+    "title": "2.1",
+    "rows": 4
+   }
+  ],
+  "uniqueLinks": 241,
+  "mismatches": []
+ },
+ {
+  "engine": "mupdf",
+  "pair": "bizav_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 8
+   },
+   {
+    "title": "PREMIUM TO CODING:",
+    "rows": 4
+   },
+   {
+    "title": "SCHEDULE OF AIRCRAFT",
+    "rows": 13
+   },
+   {
+    "title": "PREMIUM SCHEDULE",
+    "rows": 15
+   },
+   {
+    "title": "SCHEDULE OF CONTRACT PARTIES",
+    "rows": 15
+   },
+   {
+    "title": "SCHEDULE OF BASES AND HANGARAGE",
+    "rows": 7
+   }
+  ],
+  "uniqueLinks": 100,
+  "mismatches": []
+ },
+ {
+  "engine": "pdfjs",
+  "pair": "aviation_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 8
+   },
+   {
+    "title": "FROM PREMIUM",
+    "rows": 173
+   },
+   {
+    "title": "PREMIUM RATES",
+    "rows": 7
+   },
+   {
+    "title": "2.1",
+    "rows": 4
+   }
+  ],
+  "uniqueLinks": 241,
+  "mismatches": []
+ },
+ {
+  "engine": "pdfjs",
+  "pair": "bizav_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 8
+   },
+   {
+    "title": "PREMIUM TO CODING:",
+    "rows": 4
+   },
+   {
+    "title": "SCHEDULE OF AIRCRAFT",
+    "rows": 13
+   },
+   {
+    "title": "PREMIUM SCHEDULE",
+    "rows": 15
+   },
+   {
+    "title": "SCHEDULE OF CONTRACT PARTIES",
+    "rows": 15
+   },
+   {
+    "title": "SCHEDULE OF BASES AND HANGARAGE",
+    "rows": 7
+   }
+  ],
+  "uniqueLinks": 100,
+  "mismatches": []
+ }
+]

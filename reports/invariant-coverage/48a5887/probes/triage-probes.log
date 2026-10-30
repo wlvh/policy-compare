@@ -1,0 +1,21 @@
+# triage /29 (scripts/renewal-triage.py and tests/test_renewal_triage.py of 5888e7d84b2eb9cd14ee8dc1ba81430de7be13c2, unchanged in 48a5887)
+## currency-sign-triage-probe.py
+Replaced, author 100 -> 200; card r4417560178 as written: -100 -> -200: not_located
+Replaced, author 100 -> 200; card after a currency code: USD-100 -> USD-200: not_evaluable
+Replaced, author 100 -> 200; card after a currency code: USD−100 -> USD−200: not_evaluable
+Replaced, author 100 -> 200; card control: USD 100 -> USD 200: not_evaluable
+Replaced, author 100 -> 200; card control: Hull-100 -> Hull-200 (no sign): correct
+Added, author 100; card r4417384098 as written: -100: partly_located fullRowRecovered=False
+Added, author 100; card after a currency code: USD−100: correct fullRowRecovered=True
+Added, author 100; card control: USD 100: correct fullRowRecovered=True
+Removed, author 100; card r4417384098 shape, Removed: -100: partly_located fullRowRecovered=False
+Removed, author 100; card after a currency code: USD−100: correct fullRowRecovered=True
+Removed, author 100; card control: USD 100: correct fullRowRecovered=True
+Replaced, author USD 100 -> USD 200; card USD-100 -> USD-200: correct fullRowRecovered=False
+Replaced, author USD 100 -> USD 200; card USD−100 -> USD−200: correct fullRowRecovered=False
+Replaced, author USD 100 -> USD 200; card control: USD 100 -> USD 200: correct fullRowRecovered=True
+Replaced, author USD 100 -> USD 200; card control: -100 -> -200: not_located fullRowRecovered=None
+## following-record-identity-triage-probe.py
+Codex: 1760 first, its amount changes; 1315 follows unchanged: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1315 first and changes: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1760 first, 1315 (second) changes: correct accepted=['x'] fullRowRecovered=True unexplained=0

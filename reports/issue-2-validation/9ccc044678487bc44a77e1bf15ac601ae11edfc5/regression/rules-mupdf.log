@@ -1,0 +1,1049 @@
+
+> policy-compare@0.1.0 test:rules:mupdf /home/user/policy-compare
+> tsx scripts/acceptance.ts mupdf
+
+R01_identical FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  }
+]
+R02_amount FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R03_currency FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R04_decimal FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R05_negation FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R06_and_or FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R07_shorter_term FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R08_normal_renewal FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R09_header_limit FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R10_address_swap FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R11_label_alias FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R12_exact_move FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R13_move_and_replacement FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R14_short_paragraph FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R15_paragraph_split FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  }
+]
+R16_repagination FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      2,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      3,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      4,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R17_font_change FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  }
+]
+R18_ligature FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R19_rotated_status FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R20_plus_minus FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R21_checkbox_glyph FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R22_table_value FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R23_table_reorder FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  }
+]
+R24_table_cross_page FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      2,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      3,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      4,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      5,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      6,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      7,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      8,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      9,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R25_duplicate_keys FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R26_key_change FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R27_mixed_scan_page FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  }
+]
+R28_inline_scan FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  }
+]
+R29_clause_add FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R30_clause_delete FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R31_punctuation FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+R32_combined_changes FAIL [
+  {
+    "code": "invalid_value",
+    "values": [
+      "policy-compare/0.1.0"
+    ],
+    "path": [
+      "schemaVersion"
+    ],
+    "message": "Invalid input: expected \"policy-compare/0.1.0\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      0,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  },
+  {
+    "code": "invalid_value",
+    "values": [
+      "Material",
+      "Review",
+      "RollForward",
+      "Cosmetic"
+    ],
+    "path": [
+      "differences",
+      1,
+      "category"
+    ],
+    "message": "Invalid option: expected one of \"Material\"|\"Review\"|\"RollForward\"|\"Cosmetic\""
+  }
+]
+ ELIFECYCLE  Command failed with exit code 1.

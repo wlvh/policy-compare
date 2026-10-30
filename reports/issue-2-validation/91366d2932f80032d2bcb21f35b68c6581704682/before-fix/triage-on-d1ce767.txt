@@ -1,0 +1,10 @@
+# final triage tests (91366d2; the triage tests are unchanged since 5989361) with scripts/renewal-triage.py of d1ce767 (renewal-triage/12)
+FAIL: test_a_cell_amount_matches_only_as_a_whole_number
+FAIL: test_a_single_character_cell_is_checked_too
+FAIL: test_overlapping_cells_need_separate_occurrences
+FAIL: test_repeated_cells_need_their_own_occurrences
+FAIL: test_split_cards_must_change_the_part_the_edit_changes
+FAIL: test_the_identity_sits_in_a_unit_the_edit_changes
+FAIL: test_an_edit_spanning_units_takes_identity_only_from_those_units
+Ran 50 tests in 0.346s
+FAILED (failures=7)

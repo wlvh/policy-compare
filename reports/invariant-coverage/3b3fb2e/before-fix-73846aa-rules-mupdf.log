@@ -1,0 +1,5 @@
+  }
+]
+strict FAIL 0/32; events FAIL 0/32; not evaluated: none
+ ELIFECYCLE  Command failed with exit code 1.
+exit 1

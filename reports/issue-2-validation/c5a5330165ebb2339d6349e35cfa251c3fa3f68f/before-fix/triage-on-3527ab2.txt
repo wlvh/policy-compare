@@ -1,0 +1,4 @@
+# final triage tests (c5a5330165ebb2339d6349e35cfa251c3fa3f68f) with scripts/renewal-triage.py of 3527ab2 (renewal-triage/26)
+FAIL: test_a_pure_insertion_or_deletion_is_accepted_on_its_card (test_renewal_triage.EditEvidence.test_a_pure_insertion_or_deletion_is_accepted_on_its_card)
+Ran 73 tests in 0.585s
+FAILED (failures=1)

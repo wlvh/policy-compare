@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.venv/
+.tools/
+tmp/
+test-results/
+playwright-report/
+bench/generated/
+.DS_Store
+__pycache__/
+*.pyc
+
+delivery/
+policy-compare-review-*.zip
+policy-compare-handoff-*.zip
+REVIEW_ARTIFACTS.json

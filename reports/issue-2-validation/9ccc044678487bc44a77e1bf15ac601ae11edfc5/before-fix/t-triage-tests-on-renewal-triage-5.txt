@@ -1,0 +1,551 @@
+EEEE/home/user/policy-compare/tests/test_renewal_triage.py:516: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpf54ossvy/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/policy-compare/tests/test_renewal_triage.py:517: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpf54ossvy/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+======================================================================
+ERROR: test_cells_must_share_one_record (test_renewal_triage.AddedRemovedRows.test_cells_must_share_one_record)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 386, in test_cells_must_share_one_record
+    _, ev = run([self.ADDED], result([whole]), self.DECLARED)
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cells_scattered_over_different_records_are_not_complete (test_renewal_triage.AddedRemovedRows.test_cells_scattered_over_different_records_are_not_complete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 393, in test_cells_scattered_over_different_records_are_not_complete
+    _, ev = run([self.ADDED], result([ident, other]), self.DECLARED)
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cells_without_any_record_identity_are_not_evaluable (test_renewal_triage.AddedRemovedRows.test_cells_without_any_record_identity_are_not_evaluable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 412, in test_cells_without_any_record_identity_are_not_evaluable
+    _, ev = run([self.ADDED], result([a, b]), self.DECLARED)
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_row_inside_another_records_card (test_renewal_triage.AddedRemovedRows.test_row_inside_another_records_card)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 402, in test_row_inside_another_records_card
+    _, ev = run([self.ADDED], result([merged]), self.DECLARED)
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_compatible_invocation (test_renewal_triage.Cli.test_compatible_invocation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 518, in test_compatible_invocation
+    out = subprocess.run([sys.executable, SCRIPT, cp, rp, '--events', ep], capture_output=True, text=True,
+          ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         check=True).stdout
+                         ^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '/home/user/policy-compare/scripts/renewal-triage.py', '/tmp/tmpf54ossvy/c.json', '/tmp/tmpf54ossvy/r.json', '--events', '/tmp/tmpf54ossvy/e.json']' returned non-zero exit status 1.
+
+======================================================================
+ERROR: test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 482, in test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated
+    summary, ev = run([c], dict(result([old]), schemaVersion='policy-compare/0.1.0'))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_excluded_events_keep_text_and_reason_and_never_count (test_renewal_triage.FactsFormatsExclusionsFurniture.test_excluded_events_keep_text_and_reason_and_never_count)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 488, in test_excluded_events_keep_text_and_reason_and_never_count
+    summary, ev = run([ws], result([]))
+                  ~~~^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_page_furniture_is_listed_not_silently_filtered (test_renewal_triage.FactsFormatsExclusionsFurniture.test_page_furniture_is_listed_not_silently_filtered)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 501, in test_page_furniture_is_listed_not_silently_filtered
+    summary, ev = run([h, body], result([barcode]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_stated_facts_are_rechecked_against_the_card_texts (test_renewal_triage.FactsFormatsExclusionsFurniture.test_stated_facts_are_rechecked_against_the_card_texts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 470, in test_stated_facts_are_rechecked_against_the_card_texts
+    summary, _ = run([], result(cards))
+                 ~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_real_removal_and_addition_are_still_accepted (test_renewal_triage.MovedIsNotAddedOrRemoved.test_real_removal_and_addition_are_still_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 255, in test_real_removal_and_addition_are_still_accepted
+    summary, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0)),
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                       change(31, 'pol', 'Added', right=self.TEXT, pages=(0, 5))], result([removed, added]))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_removed_inside_a_replaced_card_is_still_a_removal (test_renewal_triage.MovedIsNotAddedOrRemoved.test_text_removed_inside_a_replaced_card_is_still_a_removal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 263, in test_text_removed_inside_a_replaced_card_is_still_a_removal
+    _, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0))], result([rewritten]))
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_unchanged_move_is_not_a_removal (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_a_removal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 240, in test_unchanged_move_is_not_a_removal
+    summary, ev = run([change(30, 'pol', 'Removed', left=self.TEXT, pages=(4, 0))], result([moved]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_unchanged_move_is_not_an_addition (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_an_addition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 247, in test_unchanged_move_is_not_an_addition
+    summary, ev = run([change(31, 'pol', 'Added', right=self.TEXT, pages=(0, 5))], result([moved]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source) [removed on its page]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 368, in test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source
+    summary, ev = run([event], result([right_card]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source) [added on its page]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 368, in test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source
+    summary, ev = run([event], result([right_card]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source) [no page stated]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 368, in test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source
+    summary, ev = run([event], result([right_card]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source) [across the stated pages]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 368, in test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source
+    summary, ev = run([event], result([right_card]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 376, in test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source
+    _, ev = run([only_two], result([cases['across the stated pages'][1]]))
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_only_on_another_page_is_not_accepted (test_renewal_triage.PagesBoundTheText.test_text_only_on_another_page_is_not_accepted) [removed]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 349, in test_text_only_on_another_page_is_not_accepted
+    summary, ev = run([event], result([wrong]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_only_on_another_page_is_not_accepted (test_renewal_triage.PagesBoundTheText.test_text_only_on_another_page_is_not_accepted) [added]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 349, in test_text_only_on_another_page_is_not_accepted
+    summary, ev = run([event], result([wrong]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_text_only_on_another_page_is_not_accepted (test_renewal_triage.PagesBoundTheText.test_text_only_on_another_page_is_not_accepted) [replaced]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 349, in test_text_only_on_another_page_is_not_accepted
+    summary, ev = run([event], result([wrong]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row (test_renewal_triage.RecordIdentity.test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 227, in test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row
+    _, ev = run([c], result([split]), [table('aircraft', [1], c)])
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_a_long_row_in_one_source_unit_is_full (test_renewal_triage.RecordIdentity.test_a_long_row_in_one_source_unit_is_full)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 218, in test_a_long_row_in_one_source_unit_is_full
+    _, ev = run([c], result([whole]), [table('aircraft', [1], c)])
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_an_undeclared_row_is_not_evaluated_even_on_the_right_card (test_renewal_triage.RecordIdentity.test_an_undeclared_row_is_not_evaluated_even_on_the_right_card)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 141, in test_an_undeclared_row_is_not_evaluated_even_on_the_right_card
+    summary, ev = run([c], result([right]))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_correct_amount_on_the_wrong_record_is_misattributed (test_renewal_triage.RecordIdentity.test_correct_amount_on_the_wrong_record_is_misattributed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 164, in test_correct_amount_on_the_wrong_record_is_misattributed
+    _, ev = run(events[:1], result([by_key]), [table('aircraft', AIRCRAFT, *events[:1])])
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_identity_comes_from_the_declaration_only (test_renewal_triage.RecordIdentity.test_identity_comes_from_the_declaration_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 126, in test_identity_comes_from_the_declaration_only
+    ident = triage.expected_identity(c, declared)
+TypeError: expected_identity() takes 1 positional argument but 2 were given
+
+======================================================================
+ERROR: test_one_correct_card_plus_a_misattributed_one_is_not_complete (test_renewal_triage.RecordIdentity.test_one_correct_card_plus_a_misattributed_one_is_not_complete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 178, in test_one_correct_card_plus_a_misattributed_one_is_not_complete
+    summary, ev = run([c], result([good, bad]), [table('aircraft', AIRCRAFT, c)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_rows_sharing_the_same_values_each_keep_their_own_card (test_renewal_triage.RecordIdentity.test_rows_sharing_the_same_values_each_keep_their_own_card)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 193, in test_rows_sharing_the_same_values_each_keep_their_own_card
+    summary, ev = run(events, result(cards), [table('aircraft', AIRCRAFT, *events)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_unchanged_value_cells_do_not_confirm_a_row (test_renewal_triage.RecordIdentity.test_unchanged_value_cells_do_not_confirm_a_row)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 156, in test_unchanged_value_cells_do_not_confirm_a_row
+    summary, ev = run([c], result([wrong]), [table('lines', [2], c)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_value_correct_and_full_row_are_reported_separately (test_renewal_triage.RecordIdentity.test_value_correct_and_full_row_are_reported_separately)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 201, in test_value_correct_and_full_row_are_reported_separately
+    summary, ev = run([c], result([partial]), [table('aircraft', AIRCRAFT, c)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_with_the_edit_are_still_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_with_the_edit_are_still_accepted) [same card, old value kept elsewhere]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 320, in test_cards_with_the_edit_are_still_accepted
+    summary, ev = run([event], result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_with_the_edit_are_still_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_with_the_edit_are_still_accepted) [same card, right record]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 320, in test_cards_with_the_edit_are_still_accepted
+    summary, ev = run([event], result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_with_the_edit_are_still_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_with_the_edit_are_still_accepted) [split, removed and added]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 320, in test_cards_with_the_edit_are_still_accepted
+    summary, ev = run([event], result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_with_the_edit_are_still_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_with_the_edit_are_still_accepted) [author move, unchanged move]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 320, in test_cards_with_the_edit_are_still_accepted
+    summary, ev = run([event], result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_with_the_edit_are_still_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_with_the_edit_are_still_accepted) [insertion only]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 320, in test_cards_with_the_edit_are_still_accepted
+    summary, ev = run([event], result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, unchanged move]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 292, in test_cards_without_the_edit_are_not_accepted
+    summary, ev = run(events, result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, called Replaced]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 292, in test_cards_without_the_edit_are_not_accepted
+    summary, ev = run(events, result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, right record]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 292, in test_cards_without_the_edit_are_not_accepted
+    summary, ev = run(events, result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [same card, only another unit changed]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 292, in test_cards_without_the_edit_are_not_accepted
+    summary, ev = run(events, result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) [split, two unchanged moves]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 292, in test_cards_without_the_edit_are_not_accepted
+    summary, ev = run(events, result(cards), [table('aircraft', [1], self.ROW)])
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_both_sides_only_in_an_unresolved_group_are_not_evaluable (test_renewal_triage.SidesAndSplits.test_both_sides_only_in_an_unresolved_group_are_not_evaluable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 432, in test_both_sides_only_in_an_unresolved_group_are_not_evaluable
+    _, ev = run([self.PARA], result([], [g]))
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_one_side_in_cards (test_renewal_triage.SidesAndSplits.test_one_side_in_cards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 436, in test_one_side_in_cards
+    _, ev = run([self.PARA], result([card('r', 'Removed', [(3, 'a', 'USD 5,000,000 any one Aircraft.')])]))
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_paragraph_split_needs_the_author_context (test_renewal_triage.SidesAndSplits.test_paragraph_split_needs_the_author_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 442, in test_paragraph_split_needs_the_author_context
+    _, ev = run([self.PARA], result([rem, add]))
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_row_split_needs_the_record_on_both_sides (test_renewal_triage.SidesAndSplits.test_row_split_needs_the_record_on_both_sides)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 455, in test_row_split_needs_the_record_on_both_sides
+    _, ev = run([c], result([rem, add]), bases)
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_unresolved_hit_on_one_side_is_not_both_sides (test_renewal_triage.SidesAndSplits.test_unresolved_hit_on_one_side_is_not_both_sides)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 425, in test_unresolved_hit_on_one_side_is_not_both_sides
+    _, ev = run([self.PARA], result([], [g]))
+            ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/policy-compare/tests/test_renewal_triage.py", line 97, in run
+    triage.main(cp, rp, ep, ip)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+TypeError: main() takes from 2 to 3 positional arguments but 4 were given
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.121s
+
+FAILED (errors=45)

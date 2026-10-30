@@ -66,7 +66,7 @@ def check(dataset):
     totals = {"cases": 0, "pdfs": 0, "pages": 0, "text_runs": 0,
               "source_characters": 0, "image_regions": 0, "events": 0,
               "must_detect_events": 0, "coverage_only_events": 0,
-              "ambiguous_group_events": 0}
+              "ambiguous_group_events": 0, "repeated_text_requirements": 0}
     for meta in manifest["cases"]:
         case = meta["case_id"]
         folder = dataset / "cases" / case
@@ -126,6 +126,22 @@ def check(dataset):
                     image_source = source[side]["image_only_page"] or source[side]["inline_image"]
                     require(e[key] in image_source,
                             f"{case}: {e['event_id']} {side} image oracle does not contain expected value.")
+        for req in expected.get("repeated_text_requirements", []):
+            totals["repeated_text_requirements"] += 1
+            pattern = re.escape(req["text"]).replace(re.escape("{page_number}"), r"(\d+)")
+            for side in ("before", "after"):
+                listed = req["occurrences"][side]
+                require(req["counts"][side] == len(listed), f"{case}/{side}: {req['requirement_id']} count.")
+                # Every run of this role and path with this text on the side, and nothing else.
+                runs = [(page["page_index"], run["run_id"], run["text"]) for page in layout[side]["pages"]
+                        for run in page["text_runs"] if run["role"] == req["layout_role"]
+                        and run["logical_path"] == req["logical_path"]
+                        and (m := re.fullmatch(pattern, run["text"]))
+                        and all(int(n) == page["page_index"] + 1 for n in m.groups())]
+                require(runs == [(o["page_index"], o["run_id"], o["text"]) for o in listed],
+                        f"{case}/{side}: {req['requirement_id']} occurrences differ from the layout record.")
+            require(req["counts"]["before"] != req["counts"]["after"],
+                    f"{case}: {req['requirement_id']} lists text whose count does not change.")
         for side in ("before", "after"):
             path = folder / (side+".pdf")
             totals["pdfs"] += 1

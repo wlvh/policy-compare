@@ -1,0 +1,6 @@
+# final tests (5410ae845faf095d16cb17786f14b1c6c9efe441) with product, interface, contract and triage code of 0f6d9ac
+     × equal row text with identifiers moved between unplaced positions is not unchanged (r4419388482) 11ms
+     × a named identifier that looks like a value (Serial AB12.34) still tells two records apart (r4419472067) 5ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 14 passed (15)
+      Tests  2 failed | 324 passed (326)

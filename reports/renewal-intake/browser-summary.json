@@ -1,0 +1,444 @@
+{
+  "purpose": "four baseline workflows and selected deductible location checks; not full author-event or performance acceptance",
+  "sourceRevision": "0eef67dd6cbe477ab625885220686c674640fb88",
+  "records": [
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "pdfjs",
+      "browserVersion": "154.0.8037.98",
+      "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideLocalApp": [],
+      "logs": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 159.1599999666214,
+        "read": 32.125,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 376.43999993801117,
+        "pdfOpen": 22.674999952316284,
+        "nativeTextExtraction": 161.01499998569489,
+        "sourceAdaptation": 10.490000367164612,
+        "coverageAnalysis": 132.60999929904938,
+        "transferQueueMax": 3.1650390625,
+        "transferQueueSum": 80.32763671875,
+        "validation": 140.48500001430511,
+        "snapshot": 738.289999961853,
+        "structure": 70.97000002861023,
+        "matching": 27.360000014305115,
+        "diff": 70.09499990940094,
+        "transferLastPage": 0.580078125,
+        "coreReady": 1463.3500000238419,
+        "renderMs": 96.8950001001358,
+        "locationMs": 21.674999952316284,
+        "total": 1557.914999961853,
+        "firstRender": 94.56499993801117,
+        "status": "partial"
+      },
+      "differenceCount": 227,
+      "unresolvedCount": 13,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "250,000",
+              "rect": [
+                252.7,
+                172.5299399999999,
+                289.70000000000005,
+                182.5299399999999
+              ]
+            },
+            {
+              "text": "400,000",
+              "rect": [
+                252.7,
+                198.92999999999995,
+                289.70000000000005,
+                208.92999999999995
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.85797982896554,
+              169.53114073006725,
+              264.04142622215716,
+              183.2551753121998
+            ],
+            [
+              252.8024856095401,
+              195.8891498559078,
+              258.3892527186149,
+              209.61318443804035
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "300,000",
+              "rect": [
+                252.7,
+                247.32999999999993,
+                289.70000000000005,
+                257.3299999999999
+              ]
+            },
+            {
+              "text": "500,000",
+              "rect": [
+                252.7,
+                273.7299999999999,
+                289.70000000000005,
+                283.7299999999999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.85804963301513,
+              244.29853746397694,
+              258.4584285317603,
+              258.02257204610953
+            ],
+            [
+              264.0239054057096,
+              244.29853746397694,
+              269.62442391255405,
+              258.02257204610953
+            ],
+            [
+              252.8024856095401,
+              270.7280259365994,
+              258.3893225226645,
+              284.45206051873197
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 250,000 each and every loss in respect of turboprop aircraft; USD 400,000 each and every loss in respect of jet aircraft.Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 300,000 each and every loss in respect of turboprop aircraft; USD 500,000 each and every loss in respect of jet aircraft.保留双方字符来源",
+      "workersAfterClose": 0
+    },
+    {
+      "pair": "aviation_2024_vs_2025",
+      "engine": "mupdf",
+      "browserVersion": "154.0.8037.98",
+      "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideLocalApp": [],
+      "logs": [
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 169.4449999332428,
+        "read": 33.75,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 336.48999989032745,
+        "pdfOpen": 17.455000042915344,
+        "nativeTextExtraction": 57.110000014305115,
+        "sourceAdaptation": 51.425000071525574,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 4.864990234375,
+        "transferQueueSum": 82.066650390625,
+        "validation": 90.14499998092651,
+        "snapshot": 473.40499997138977,
+        "structure": 65.60500001907349,
+        "matching": 25.200000047683716,
+        "diff": 59.769999980926514,
+        "transferLastPage": 0.064697265625,
+        "coreReady": 1104.6200000047684,
+        "renderMs": 41.1949999332428,
+        "locationMs": 0.11500000953674316,
+        "total": 1197.3250000476837,
+        "firstRender": 92.70500004291534,
+        "status": "partial"
+      },
+      "differenceCount": 226,
+      "unresolvedCount": 13,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "250,000",
+              "rect": [
+                252.7,
+                172.5299399999999,
+                289.70000000000005,
+                182.5299399999999
+              ]
+            },
+            {
+              "text": "400,000",
+              "rect": [
+                252.7,
+                198.92999999999995,
+                289.70000000000005,
+                208.92999999999995
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.7,
+              168.91,
+              258.42,
+              182.53
+            ],
+            [
+              258.42,
+              168.91,
+              264.14,
+              182.53
+            ],
+            [
+              252.7,
+              195.31,
+              258.42,
+              208.93
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "300,000",
+              "rect": [
+                252.7,
+                247.32999999999993,
+                289.70000000000005,
+                257.3299999999999
+              ]
+            },
+            {
+              "text": "500,000",
+              "rect": [
+                252.7,
+                273.7299999999999,
+                289.70000000000005,
+                283.7299999999999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              252.7,
+              243.71,
+              258.42,
+              257.33
+            ],
+            [
+              264.14,
+              243.71,
+              269.86,
+              257.33
+            ],
+            [
+              252.7,
+              270.11,
+              258.42,
+              283.73
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 250,000 each and every loss in respect of turboprop aircraft; USD 400,000 each and every loss in respect of jet aircraft.Possessed Hull : (Excluding Total Loss/Arranged Total Loss/Constructive Total Loss) USD 300,000 each and every loss in respect of turboprop aircraft; USD 500,000 each and every loss in respect of jet aircraft.保留双方字符来源",
+      "workersAfterClose": 0
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "mupdf",
+      "browserVersion": "154.0.8037.98",
+      "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideLocalApp": [],
+      "logs": [],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 158.4650000333786,
+        "read": 36.019999980926514,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 286.8399999141693,
+        "pdfOpen": 11.554999947547913,
+        "nativeTextExtraction": 46.53499960899353,
+        "sourceAdaptation": 41.290000557899475,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 2.88525390625,
+        "transferQueueSum": 55.28125,
+        "validation": 71.92999994754791,
+        "snapshot": 366.90499997138977,
+        "structure": 52.9650000333786,
+        "matching": 14.75,
+        "diff": 70.87000000476837,
+        "transferLastPage": 0.06005859375,
+        "coreReady": 924.289999961853,
+        "renderMs": 41.43499994277954,
+        "locationMs": 0.125,
+        "total": 1013.5049999952316,
+        "firstRender": 89.2150000333786,
+        "status": "partial"
+      },
+      "differenceCount": 400,
+      "unresolvedCount": 2,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "50,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              243.42,
+              719.71,
+              249.14,
+              733.33
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "75,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              237.7,
+              719.71,
+              243.42,
+              733.33
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字USD 50,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.USD 75,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.保留双方字符来源",
+      "workersAfterClose": 0
+    },
+    {
+      "pair": "bizav_2024_vs_2025",
+      "engine": "pdfjs",
+      "browserVersion": "154.0.8037.98",
+      "productRevision": "1ce93d4dd41d1d46d5dd4b49a35f73d1b74a7183",
+      "workflow": "PASS",
+      "fullAuthorEventAcceptance": "NOT_EVALUATED",
+      "requestsOutsideLocalApp": [],
+      "logs": [],
+      "status": "partial",
+      "message": "未完全覆盖比较未完全完成，请检查覆盖缺口和待复核范围。导出 JSON关闭任务",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 120.72000002861023,
+        "read": 32.144999980926514,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 290.6399999856949,
+        "pdfOpen": 13.949999928474426,
+        "nativeTextExtraction": 122.82500040531158,
+        "sourceAdaptation": 7.534999847412109,
+        "coverageAnalysis": 110.12499952316284,
+        "transferQueueMax": 2.724853515625,
+        "transferQueueSum": 58.6435546875,
+        "validation": 101.07500004768372,
+        "snapshot": 566.2949999570847,
+        "structure": 52.800000071525574,
+        "matching": 14.829999923706055,
+        "diff": 81.7849999666214,
+        "transferLastPage": 0.164794921875,
+        "coreReady": 1148.5749999284744,
+        "renderMs": 106.25999999046326,
+        "locationMs": 12.995000004768372,
+        "total": 1247.6150000095367,
+        "firstRender": 99.04000008106232,
+        "status": "partial"
+      },
+      "differenceCount": 400,
+      "unresolvedCount": 2,
+      "coverageCount": 0,
+      "amountLocations": {
+        "left": {
+          "reference": [
+            {
+              "text": "50,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              243.4209609525096,
+              720.2973775216138,
+              249.01603474348582,
+              734.0214121037465
+            ]
+          ],
+          "status": "PASS"
+        },
+        "right": {
+          "reference": [
+            {
+              "text": "75,000",
+              "rect": [
+                237.7,
+                723.32999,
+                268.98,
+                733.32999
+              ]
+            }
+          ],
+          "actual": [
+            [
+              237.84333817393133,
+              720.2973775216138,
+              243.43841196490754,
+              734.0214121037465
+            ]
+          ],
+          "status": "PASS"
+        }
+      },
+      "selectedCardText": "重要变化修改条款文字USD 50,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.USD 75,000 each and every loss, not applicable to Total Loss, Constructive Total Loss or Arranged Total Loss.保留双方字符来源",
+      "workersAfterClose": 0
+    }
+  ]
+}

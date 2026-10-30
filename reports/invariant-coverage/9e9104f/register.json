@@ -1,0 +1,854 @@
+{
+ "codeCommit": "9e9104ff2c8deef300794cf1e04e5e9dd9dc1e96",
+ "invariants": [
+  {
+   "name": "no_content_differences",
+   "coverage": "direct",
+   "basis": "no difference card at all",
+   "tests": [
+    "direct invariant check rejects a violation: no_content_differences"
+   ],
+   "cases": [
+    "R01_identical",
+    "R17_font_change"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R01_identical": "PASS",
+     "R17_font_change": "PASS"
+    },
+    "rules-pdfjs": {
+     "R01_identical": "PASS",
+     "R17_font_change": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R01_identical": "PASS",
+     "R17_font_change": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R01_identical": "PASS",
+     "R17_font_change": "PASS"
+    }
+   }
+  },
+  {
+   "name": "no_material_differences",
+   "coverage": "direct",
+   "basis": "every source-validated text change is a declared event of the case (one card per event, matching its whole text, kind, sides, identity, visibility and every source location); an undeclared change its sources prove form only by the shared definitions (whitespace, confirmed page numbers of explicit page expressions, continued heading) is not allowed by that fact alone: NOT_EVALUATED, as is one whose form cannot be decided here; any other undeclared text change fails; a card that fails source validation fails; a card without a text change is not judged here",
+   "tests": [
+    "direct invariant check rejects a violation: no_material_differences",
+    "an undeclared text change in a control fails, whatever fact the card states",
+    "an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not",
+    "a card that fails source validation cannot show that a control holds",
+    "R16",
+    "R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it"
+   ],
+   "cases": [
+    "R01_identical",
+    "R15_paragraph_split",
+    "R16_repagination",
+    "R17_font_change",
+    "R23_table_reorder",
+    "R24_table_cross_page"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R01_identical": "PASS",
+     "R15_paragraph_split": "PASS",
+     "R16_repagination": "PASS",
+     "R17_font_change": "PASS",
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    },
+    "rules-pdfjs": {
+     "R01_identical": "PASS",
+     "R15_paragraph_split": "PASS",
+     "R16_repagination": "PASS",
+     "R17_font_change": "PASS",
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R01_identical": "PASS",
+     "R15_paragraph_split": "PASS",
+     "R16_repagination": "PASS",
+     "R17_font_change": "PASS",
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R01_identical": "PASS",
+     "R15_paragraph_split": "PASS",
+     "R16_repagination": "PASS",
+     "R17_font_change": "PASS",
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    }
+   }
+  },
+  {
+   "name": "no_false_text_added_or_removed",
+   "coverage": "direct",
+   "basis": "no card whose source-validated raw texts differ, and no card that fails source validation; the card's own hasTextChange flag is not used",
+   "tests": [
+    "direct invariant check rejects a violation: no_false_text_added_or_removed",
+    "a false hasTextChange flag fails, and the control still sees the source text change"
+   ],
+   "cases": [
+    "R15_paragraph_split"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R15_paragraph_split": "PASS"
+    },
+    "rules-pdfjs": {
+     "R15_paragraph_split": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R15_paragraph_split": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R15_paragraph_split": "PASS"
+    }
+   }
+  },
+  {
+   "name": "no_false_clause_moves",
+   "coverage": "direct",
+   "basis": "no Moved card",
+   "tests": [
+    "direct invariant check rejects a violation: no_false_clause_moves"
+   ],
+   "cases": [
+    "R16_repagination"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R16_repagination": "PASS"
+    },
+    "rules-pdfjs": {
+     "R16_repagination": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R16_repagination": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R16_repagination": "PASS"
+    }
+   }
+  },
+  {
+   "name": "no_false_row_additions_or_deletions",
+   "coverage": "direct",
+   "basis": "no card with a source-validated text change that labels itself a table card or whose delete/insert operations lie on a table record's layout.json runs; no card that fails source validation",
+   "tests": [
+    "direct invariant check rejects a violation: no_false_row_additions_or_deletions",
+    "a table card that changes a record's text fails the row control by its sources, without a table label"
+   ],
+   "cases": [
+    "R23_table_reorder",
+    "R24_table_cross_page"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    },
+    "rules-pdfjs": {
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R23_table_reorder": "PASS",
+     "R24_table_cross_page": "PASS"
+    }
+   }
+  },
+  {
+   "name": "moved_clause_has_no_internal_word_edits",
+   "coverage": "direct",
+   "basis": "no Moved card whose source-validated raw texts differ; no card that fails source validation",
+   "tests": [
+    "direct invariant check rejects a violation: moved_clause_has_no_internal_word_edits"
+   ],
+   "cases": [
+    "R12_exact_move"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R12_exact_move": "PASS"
+    },
+    "rules-pdfjs": {
+     "R12_exact_move": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R12_exact_move": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R12_exact_move": "PASS"
+    }
+   }
+  },
+  {
+   "name": "must_not_classify_as_unchanged_duration_roll_forward",
+   "coverage": "direct",
+   "basis": "no card states dates_rolled_forward_one_year when its source texts disprove it (two dates, each moved by exactly one calendar year, the rest equal); the card's field label is not used",
+   "tests": [
+    "direct invariant check rejects a violation: must_not_classify_as_unchanged_duration_roll_forward",
+    "a stated fact its sources disprove fails; discovery and attribution still pass"
+   ],
+   "cases": [
+    "R07_shorter_term"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R07_shorter_term": "PASS"
+    },
+    "rules-pdfjs": {
+     "R07_shorter_term": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R07_shorter_term": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R07_shorter_term": "PASS"
+    }
+   }
+  },
+  {
+   "name": "grouping_allowed_only_with_all_occurrence_locations",
+   "coverage": "direct",
+   "basis": "the grouped card lists every expected occurrence location on both sides",
+   "tests": [
+    "direct invariant check rejects a violation: grouping_allowed_only_with_all_occurrence_locations"
+   ],
+   "cases": [
+    "R09_header_limit"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R09_header_limit": "PASS"
+    },
+    "rules-pdfjs": {
+     "R09_header_limit": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R09_header_limit": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R09_header_limit": "PASS"
+    }
+   }
+  },
+  {
+   "name": "agreed_value_unchanged",
+   "coverage": "direct",
+   "basis": "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+   "tests": [
+    "direct invariant check rejects a violation: agreed_value_unchanged",
+    "R26: correct registration card plus a wrong agreed-value card fails",
+    "R26: a wrong bare-number amount card fails whatever field it claims",
+    "R26: a wrong amount card cannot hide the change by citing one location per digit",
+    "R26: a wrong card citing whole rows cannot hide the amount change",
+    "R26: a card claiming a change inside an unchanged amount cell by citing part of it fails",
+    "R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change",
+    "R26: splitting the claimed amount into one operation per glyph cannot hide the change",
+    "R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards",
+    "R26: removing an unchanged currency letter by letter across cards fails",
+    "R26: removing or changing part of an unchanged currency code fails",
+    "R26: one card swapping two unchanged amount cells cannot pass",
+    "R26: one card swapping parts of two unchanged currency codes cannot pass",
+    "R26: one record's unchanged cell split differently on the two sides",
+    "R26: the saved segmentation inputs",
+    "R26: a split cell left unevaluated does not hide a wrong pairing in another record",
+    "R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED",
+    "R26: with run-level geometry a wrong row pairing still fails",
+    "R26: delete + add cards claiming different parts of an unchanged amount cell fail",
+    "R26: row-wide locations that layout.json does not cover are NOT_EVALUATED"
+   ],
+   "cases": [
+    "R26_key_change"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R26_key_change": "PASS"
+    },
+    "rules-pdfjs": {
+     "R26_key_change": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R26_key_change": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R26_key_change": "PASS"
+    }
+   }
+  },
+  {
+   "name": "no_amount_or_currency_change",
+   "coverage": "direct",
+   "basis": "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail); delete/add amounts cancel only within one record and field (across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+   "tests": [
+    "direct invariant check rejects a violation: no_amount_or_currency_change",
+    "R11: correct label card plus a wrong",
+    "R11: a wrong bare-number amount card filed under a non-amount field fails",
+    "R11: claiming part of the code inside an unchanged amount cell is NOT_EVALUATED",
+    "R11: swapping parts of the codes of two unchanged amount cells is NOT_EVALUATED"
+   ],
+   "cases": [
+    "R11_label_alias"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R11_label_alias": "PASS"
+    },
+    "rules-pdfjs": {
+     "R11_label_alias": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R11_label_alias": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R11_label_alias": "PASS"
+    }
+   }
+  },
+  {
+   "name": "header_role_must_not_exclude_text",
+   "coverage": "indirect",
+   "basis": "the header-limit event needs a visible card at the header runs; excluded header text leaves none",
+   "tests": [
+    "empty required output"
+   ],
+   "cases": [
+    "R09_header_limit"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R09_header_limit": "PASS"
+    },
+    "rules-pdfjs": {
+     "R09_header_limit": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R09_header_limit": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R09_header_limit": "PASS"
+    }
+   }
+  },
+  {
+   "name": "rotation_must_not_exclude_text",
+   "coverage": "indirect",
+   "basis": "the rotated-status event needs a visible card at the rotated run; excluded text leaves none",
+   "tests": [
+    "empty required output"
+   ],
+   "cases": [
+    "R19_rotated_status"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R19_rotated_status": "PASS"
+    },
+    "rules-pdfjs": {
+     "R19_rotated_status": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R19_rotated_status": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R19_rotated_status": "PASS"
+    }
+   }
+  },
+  {
+   "name": "must_not_match_values_across_party_identity",
+   "coverage": "indirect",
+   "basis": "each address event checks the party entity and field of its card",
+   "tests": [
+    "wrong subject"
+   ],
+   "cases": [
+    "R10_address_swap"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R10_address_swap": "PASS"
+    },
+    "rules-pdfjs": {
+     "R10_address_swap": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R10_address_swap": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R10_address_swap": "PASS"
+    }
+   }
+  },
+  {
+   "name": "same_field_identity",
+   "coverage": "indirect",
+   "basis": "the label event checks entity and field (sum_insured.label) and requires Replaced",
+   "tests": [
+    "R11: the label change attached to another field fails",
+    "wrong operation"
+   ],
+   "cases": [
+    "R11_label_alias"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R11_label_alias": "PASS"
+    },
+    "rules-pdfjs": {
+     "R11_label_alias": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R11_label_alias": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R11_label_alias": "PASS"
+    }
+   }
+  },
+  {
+   "name": "same_address_identity",
+   "coverage": "indirect",
+   "basis": "the ligature event checks entity original_insured and field address",
+   "tests": [
+    "wrong subject"
+   ],
+   "cases": [
+    "R18_ligature"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R18_ligature": "PASS"
+    },
+    "rules-pdfjs": {
+     "R18_ligature": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R18_ligature": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R18_ligature": "PASS"
+    }
+   }
+  },
+  {
+   "name": "exact_move_must_not_be_consumed_by_local_replacement",
+   "coverage": "indirect",
+   "basis": "the move event needs a Moved card and the add event an Added card at their own positions",
+   "tests": [
+    "R13: the exact move and the similar new clause are not interchangeable"
+   ],
+   "cases": [
+    "R13_move_and_replacement"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R13_move_and_replacement": "PASS"
+    },
+    "rules-pdfjs": {
+     "R13_move_and_replacement": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R13_move_and_replacement": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R13_move_and_replacement": "PASS"
+    }
+   }
+  },
+  {
+   "name": "match_row_by_registration_or_declared_serial",
+   "coverage": "indirect",
+   "basis": "the value event's card must lie on the record's value cell by its edit sources; its row key may be the declared serial or the record's registration (from layout.json); another record's key is a false identity claim and fails; an explicit identity review is not allowed by this answer",
+   "tests": [
+    "R22: the record's declared serial or its registration is an accepted row key",
+    "R22: another record's serial or registration on a correctly sourced card fails as a false identity claim",
+    "R22: an explicitly unresolved identity is not wrong, but this answer does not allow it",
+    "R22: the correct record label on a card that deletes the same value from another record does not attribute the event"
+   ],
+   "cases": [
+    "R22_table_value"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R22_table_value": "PASS"
+    },
+    "rules-pdfjs": {
+     "R22_table_value": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R22_table_value": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R22_table_value": "PASS"
+    }
+   }
+  },
+  {
+   "name": "secondary_key_or_explicit_identity_review",
+   "coverage": "indirect",
+   "basis": "the registration event's card (or one delete + one add card) must lie on the record's registration cells by its edit sources; its row key must be the declared serial, or an explicit identity review (row key null, confidence unresolved), which is presented but not determined; the renamed registration or another record's key is a false identity claim and fails",
+   "tests": [
+    "R26: matching the row by the renamed registration instead of the serial fails",
+    "R26: an explicit identity review is accepted as presented, not as determined",
+    "R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer",
+    "R26: one delete + one add card on the record's registration cell is accepted once",
+    "R26: a delete + add pair is not the event when the added text lies in another record, or is the old text moved"
+   ],
+   "cases": [
+    "R26_key_change"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R26_key_change": "PASS"
+    },
+    "rules-pdfjs": {
+     "R26_key_change": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R26_key_change": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R26_key_change": "PASS"
+    }
+   }
+  },
+  {
+   "name": "duplicate_identity_must_be_reported",
+   "coverage": "indirect",
+   "basis": "required status partial_or_explicit_review needs status partial with an ambiguous_identity group",
+   "tests": [
+    "R25: an unreported duplicate identity fails"
+   ],
+   "cases": [
+    "R25_duplicate_keys"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    }
+   }
+  },
+  {
+   "name": "must_not_assert_unique_row_identity_without_evidence",
+   "coverage": "indirect",
+   "basis": "the duplicate event's card, attributed by its edit sources, must be explicitly unresolved (confidence unresolved, no row key); a row key or party on it is a false identity claim and fails",
+   "tests": [
+    "R25: asserting a unique row key without evidence fails",
+    "R25: asserting a party for the duplicate group is a false identity claim"
+   ],
+   "cases": [
+    "R25_duplicate_keys"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    }
+   }
+  },
+  {
+   "name": "must_not_claim_no_changes",
+   "coverage": "indirect",
+   "basis": "the duplicate event must be discovered as a visible card",
+   "tests": [
+    "duplicate-key warning alone cannot waive amount evidence"
+   ],
+   "cases": [
+    "R25_duplicate_keys"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    }
+   }
+  },
+  {
+   "name": "old_and_new_amount_delta_must_remain_visible",
+   "coverage": "indirect",
+   "basis": "the duplicate event needs both amounts on one visible card at their positions",
+   "tests": [
+    "duplicate-key warning alone cannot waive amount evidence",
+    "hidden event"
+   ],
+   "cases": [
+    "R25_duplicate_keys"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    }
+   }
+  },
+  {
+   "name": "unresolved_identity_does_not_waive_text_change_detection",
+   "coverage": "indirect",
+   "basis": "an unresolved group does not replace the required card",
+   "tests": [
+    "duplicate-key warning alone cannot waive amount evidence"
+   ],
+   "cases": [
+    "R25_duplicate_keys"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    }
+   }
+  },
+  {
+   "name": "duplicate_key_warning_alone_is_not_a_pass",
+   "coverage": "indirect",
+   "basis": "an ambiguous_identity group without the card fails the event",
+   "tests": [
+    "duplicate-key warning alone cannot waive amount evidence"
+   ],
+   "cases": [
+    "R25_duplicate_keys"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R25_duplicate_keys": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R25_duplicate_keys": "PASS"
+    }
+   }
+  },
+  {
+   "name": "must_not_claim_complete_or_no_changes",
+   "coverage": "indirect",
+   "basis": "the coverage event needs status partial and a visible coverage region",
+   "tests": [
+    "incorrect complete"
+   ],
+   "cases": [
+    "R27_mixed_scan_page",
+    "R28_inline_scan"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R27_mixed_scan_page": "PASS",
+     "R28_inline_scan": "PASS"
+    },
+    "rules-pdfjs": {
+     "R27_mixed_scan_page": "PASS",
+     "R28_inline_scan": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R27_mixed_scan_page": "PASS",
+     "R28_inline_scan": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R27_mixed_scan_page": "PASS",
+     "R28_inline_scan": "PASS"
+    }
+   }
+  },
+  {
+   "name": "text_elsewhere_on_page_does_not_prove_full_coverage",
+   "coverage": "indirect",
+   "basis": "the coverage region must cover the image region, not the whole page",
+   "tests": [
+    "generic warning",
+    "wrong region"
+   ],
+   "cases": [
+    "R28_inline_scan"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R28_inline_scan": "PASS"
+    },
+    "rules-pdfjs": {
+     "R28_inline_scan": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R28_inline_scan": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R28_inline_scan": "PASS"
+    }
+   }
+  },
+  {
+   "name": "renewal_classification_must_not_hide_amount_change",
+   "coverage": "indirect",
+   "basis": "the amount event needs its own visible card attributed by its edit sources; a one-year roll-forward stated on a card whose amount changes is disproved by its texts and fails",
+   "tests": [
+    "a stated fact its sources disprove fails; discovery and attribution still pass"
+   ],
+   "cases": [
+    "R32_combined_changes"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R32_combined_changes": "PASS"
+    },
+    "rules-pdfjs": {
+     "R32_combined_changes": "PASS"
+    },
+    "browser-rules-mupdf": {
+     "R32_combined_changes": "PASS"
+    },
+    "browser-rules-pdfjs": {
+     "R32_combined_changes": "PASS"
+    }
+   }
+  },
+  {
+   "name": "all_source_text_preserved",
+   "coverage": "unsupported",
+   "basis": "the result lists only differences, so it cannot show that every extracted character was compared; the scorer also does not compare extraction with layout.json; R16's other invariants only rule out false claims",
+   "tests": [],
+   "cases": [
+    "R16_repagination"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R16_repagination": "NOT_EVALUATED"
+    },
+    "rules-pdfjs": {
+     "R16_repagination": "NOT_EVALUATED"
+    },
+    "browser-rules-mupdf": {
+     "R16_repagination": "NOT_EVALUATED"
+    },
+    "browser-rules-pdfjs": {
+     "R16_repagination": "NOT_EVALUATED"
+    }
+   }
+  },
+  {
+   "name": "ligature_geometry_not_uniformly_guessed",
+   "coverage": "unsupported",
+   "basis": "the fine-geometry check (browser only) accepts boxes inside the ligature glyph and cannot tell a uniform split from glyph geometry; Node runs check no final geometry",
+   "tests": [],
+   "cases": [
+    "R18_ligature"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R18_ligature": "NOT_EVALUATED"
+    },
+    "rules-pdfjs": {
+     "R18_ligature": "NOT_EVALUATED"
+    },
+    "browser-rules-mupdf": {
+     "R18_ligature": "NOT_EVALUATED"
+    },
+    "browser-rules-pdfjs": {
+     "R18_ligature": "NOT_EVALUATED"
+    }
+   }
+  },
+  {
+   "name": "all_aircraft_values_attached_to_original_identity",
+   "coverage": "unsupported",
+   "basis": "unchanged rows produce no card, so the result does not show which old row each new row was matched to; R23's other invariants only catch a reported false value change",
+   "tests": [],
+   "cases": [
+    "R23_table_reorder"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R23_table_reorder": "NOT_EVALUATED"
+    },
+    "rules-pdfjs": {
+     "R23_table_reorder": "NOT_EVALUATED"
+    },
+    "browser-rules-mupdf": {
+     "R23_table_reorder": "NOT_EVALUATED"
+    },
+    "browser-rules-pdfjs": {
+     "R23_table_reorder": "NOT_EVALUATED"
+    }
+   }
+  },
+  {
+   "name": "same_logical_row_order",
+   "coverage": "unsupported",
+   "basis": "row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order",
+   "tests": [],
+   "cases": [
+    "R24_table_cross_page"
+   ],
+   "results": {
+    "rules-mupdf": {
+     "R24_table_cross_page": "NOT_EVALUATED"
+    },
+    "rules-pdfjs": {
+     "R24_table_cross_page": "NOT_EVALUATED"
+    },
+    "browser-rules-mupdf": {
+     "R24_table_cross_page": "NOT_EVALUATED"
+    },
+    "browser-rules-pdfjs": {
+     "R24_table_cross_page": "NOT_EVALUATED"
+    }
+   }
+  }
+ ]
+}

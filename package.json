@@ -1,0 +1,65 @@
+{
+  "name": "policy-compare",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "env:check": "tsx scripts/env-check.ts",
+    "dev": "pnpm dev:mupdf",
+    "build": "pnpm build:mupdf",
+    "preview": "pnpm preview:mupdf",
+    "verify:core": "vitest run",
+    "test:pdf": "tsx scripts/pdf-check.ts",
+    "test:rules": "tsx scripts/acceptance.ts rules",
+    "test:browser": "playwright test",
+    "bench:browser": "pnpm bench:compare",
+    "compare": "tsx packages/cli/main.ts",
+    "compare:doc": "tsx packages/cli/doc.ts",
+    "verify": "tsx scripts/verify.ts",
+    "test:container": "tsx scripts/container.ts",
+    "fixtures:mechanisms": ".venv/bin/python scripts/generate-mechanism-pdfs.py",
+    "bench:generate": ".venv/bin/python bench/generate.py",
+    "install:pdfjs": "pnpm --dir engines/pdfjs install --frozen-lockfile",
+    "dev:pdfjs": "POLICY_ENGINE=pdfjs vite --host 127.0.0.1",
+    "build:pdfjs": "tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs vite build",
+    "preview:pdfjs": "POLICY_ENGINE=pdfjs vite preview --host 127.0.0.1",
+    "test:rules:pdfjs": "tsx scripts/acceptance.ts pdfjs",
+    "test:browser:pdfjs": "POLICY_ENGINE=pdfjs playwright test",
+    "verify:pdfjs": "tsx scripts/verify.ts pdfjs",
+    "install:mupdf": "pnpm --dir engines/mupdf install --frozen-lockfile",
+    "dev:mupdf": "POLICY_ENGINE=mupdf vite --host 127.0.0.1",
+    "build:mupdf": "tsc -p tsconfig.mupdf.json --noEmit && POLICY_ENGINE=mupdf vite build",
+    "preview:mupdf": "POLICY_ENGINE=mupdf vite preview --host 127.0.0.1",
+    "test:rules:mupdf": "tsx scripts/acceptance.ts mupdf",
+    "test:browser:mupdf": "POLICY_ENGINE=mupdf playwright test",
+    "verify:mupdf": "tsx scripts/verify.ts mupdf",
+    "bench:compare": "tsx bench/compare.ts",
+    "bench:interactions": "tsx bench/interactions.ts",
+    "package:delivery": ".venv/bin/python scripts/package-delivery.py"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.0.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "vitest": "5.0.5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

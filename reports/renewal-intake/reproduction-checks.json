@@ -1,0 +1,32 @@
+{
+  "purpose": "Handoff helper verification, not new product acceptance",
+  "checkoutBaseRevision": "3335e132dabde9a465970f08fbc9d0410d65788e",
+  "handoffAdditionsUncommittedAtExecution": true,
+  "scriptSha256": {
+    "scripts/fetch-renewal-samples.mjs": "01f9a6f082e48bce6304c75aad93ada06ce1288285858a73f45701bd83bdeda0",
+    "scripts/renewal-browser-check.ts": "972ea488ec3d27426be98437b21ee9f1cc092ae127fcc52abebc24a81f5b1228",
+    "scripts/inspect-renewal-structure.ts": "2386cbfb22a029decc957620f90a9ae715bf4e7317cb5784ed79466a8a45a6b2",
+    "scripts/package-renewal-evidence.py": "e38cb2a30ba09afcca07f22cc2ae96cf1ebad9c5a70da864f851690591dfacac"
+  },
+  "freshPinnedDownload": {
+    "files": 10,
+    "pdfs": 4,
+    "status": "PASS"
+  },
+  "repeatDownloadReusesMatchingFiles": "PASS",
+  "conflictingExistingFileRejectedWithoutOverwrite": "PASS",
+  "typescriptHelperCheck": "PASS",
+  "browserWorkflowChecks": {
+    "attempts": 4,
+    "passed": 4,
+    "fullAuthorEventAcceptance": "NOT_EVALUATED",
+    "productSourceMatchesFrozen": true,
+    "observedServedAssetsMatchFrozen": true,
+    "detail": "browser-reproduction-summary.json"
+  },
+  "structuralInspection": {
+    "records": 4,
+    "detail": "structural-diagnostics.json"
+  },
+  "rawArchiveExtraction": "PASS"
+}

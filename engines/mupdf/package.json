@@ -1,0 +1,15 @@
+{
+  "name": "@policy/engine-mupdf",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.12.1",
+  "dependencies": {
+    "mupdf": "1.28.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "mupdf@1.28.1": "../../patches/mupdf@1.28.1.patch"
+    }
+  }
+}

@@ -19,7 +19,7 @@
 | R13_move_and_replacement | 原样移动与原位相似新增竞争 | 2 | 2 | 2 | complete_for_scope |
 | R14_short_paragraph | 十词短段落只改一个词 | 2 | 2 | 1 | complete_for_scope |
 | R15_paragraph_split | 一段改为两段但文字相同 | 2 | 2 | 0 | complete_for_scope |
-| R16_repagination | 条款重分页但逻辑顺序相同 | 2 | 3 | 0 | complete_for_scope |
+| R16_repagination | 条款重分页但逻辑顺序相同 | 2 | 3 | 1 | complete_for_scope |
 | R17_font_change | 字体和字号改变但文字相同 | 2 | 2 | 0 | complete_for_scope |
 | R18_ligature | fi 连字与两个字符的来源映射 | 2 | 2 | 1 | complete_for_scope |
 | R19_rotated_status | 旋转状态文字改变 | 2 | 2 | 1 | complete_for_scope |
@@ -27,7 +27,7 @@
 | R21_checkbox_glyph | 可提取的勾选符号改变 | 2 | 2 | 1 | complete_for_scope |
 | R22_table_value | 同一架飞机的约定价值改变 | 2 | 2 | 1 | complete_for_scope |
 | R23_table_reorder | 表格行重排但实体和值不变 | 2 | 2 | 0 | complete_for_scope |
-| R24_table_cross_page | 表格跨页并重复表头 | 2 | 3 | 0 | complete_for_scope |
+| R24_table_cross_page | 表格跨页并重复表头 | 2 | 3 | 1 | complete_for_scope |
 | R25_duplicate_keys | 主键和次级键都重复且数值改变 | 2 | 2 | 1 | partial_or_explicit_review |
 | R26_key_change | 注册号改变但序列号保留 | 2 | 2 | 1 | complete_for_scope |
 | R27_mixed_scan_page | 文字页夹整页扫描条款 | 2 | 2 | 1 | partial |

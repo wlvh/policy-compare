@@ -1,0 +1,165 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (118 tests | 1 failed) 1215ms
+   ✓ independent grader rejects dishonest outputs (24)
+     ✓ F6 rejects displaced final changed geometry on left 34ms
+     ✓ F6 rejects displaced final changed geometry on right 5ms
+     ✓ F6 rejects displaced final changed geometry on left/right 5ms
+     ✓ accepts valid evidence and a genuine control 5ms
+     ✓ empty required output 3ms
+     ✓ wrong subject 3ms
+     ✓ wrong page 4ms
+     ✓ hidden event 3ms
+     ✓ invalid source 4ms
+     ✓ reversed sides 3ms
+     ✓ unjustified partial 4ms
+     ✓ wrong operation 3ms
+     ✓ no precise changed source 2ms
+     ✓ coverage: empty 2ms
+     ✓ coverage: generic warning 2ms
+     ✓ coverage: wrong region 1ms
+     ✓ coverage: incorrect complete 2ms
+     ✓ duplicate-key warning alone cannot waive amount evidence 3ms
+     ✓ an undeclared text change in a control fails, whatever fact the card states 9ms
+     ✓ a false hasTextChange flag fails, and the control still sees the source text change 4ms
+     ✓ deleting and re-inserting the same text is no text change; a true flag on it is a false claim 3ms
+     ✓ a card that fails source validation cannot show that a control holds 2ms
+     ✓ a stated fact its sources disprove fails; discovery and attribution still pass 9ms
+     ✓ format 2 has no category: the answer's old acceptable_categories are not checked 2ms
+   ✓ identity applicability: checked, explicit N/A, or not evaluated (13)
+     ✓ the 32 pairs have exactly the 13 known N/A events in 12 cases and no unsupported path 3ms
+     ✓ N/A skips only the identity check 2ms
+     ✓ N/A still fails on wrong page 2ms
+     ✓ N/A still fails on hidden 2ms
+     ✓ N/A still fails on wrong operation 2ms
+     ✓ N/A still fails on false stated fact 2ms
+     ✓ N/A still fails on no output 1ms
+     ✓ N/A still fails on unjustified partial 2ms
+     ✓ an unknown path is NOT_EVALUATED, never PASS, and a proven fault still FAILs 3ms
+     ✓ an N/A entry does not cover the same event under another path 2ms
+     ✓ an unknown detection branch is NOT_EVALUATED 2ms
+     ✓ summaries never count NOT_EVALUATED or unknown states as passed 1ms
+     ✓ R13: the exact move and the similar new clause are not interchangeable 276ms
+   ✓ one correct event card cannot offset an extra wrong card (#10) (47)
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry false) 16ms
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry true) 22ms
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry false) 16ms
+     ✓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry true) 11ms
+     ✓ R26: a wrong bare-number amount card fails whatever field it claims; layout.json names the cell 7ms
+     ✓ R26: a wrong amount card cannot hide the change by citing one location per digit 7ms
+     ✓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry false) 11ms
+     ✓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry true) 9ms
+     ✓ R26: the same wrong pairing cited cell by cell, or under a declared amount field, fails as well 15ms
+     ✓ R26: a whole-row card for one record's MSN change passes 11ms
+     ✓ R26: a card claiming a change inside an unchanged amount cell by citing part of it fails 5ms
+     ✓ R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change 7ms
+     ✓ R26: splitting the claimed amount into one operation per glyph cannot hide the change 6ms
+     ✓ R26: one card swapping two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED 7ms
+     ✓ R26: one card swapping parts of two unchanged currency codes cannot pass; their correspondence is NOT_EVALUATED 6ms
+     ✓ R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED 9ms
+     ✓ R26: with run-level geometry a wrong row pairing still fails, and an MSN-only change cannot be attributed 15ms
+     ✓ R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS 8ms
+     ✓ R26: a bare-number identifier change (MSN) is not taken for an amount change 7ms
+     ✓ R26: amounts swapped between two records through delete + add cards fail 7ms
+     ✓ R26: delete + add amounts that cancel only across cards without a record are NOT_EVALUATED 6ms
+     ✓ R26: delete + add cards claiming different parts of an unchanged amount cell fail 7ms
+     ✓ R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards 8ms
+     ✓ R26: removing an unchanged currency letter by letter across cards fails, with or without a record 13ms
+     ✓ R26: removing or changing part of an unchanged currency code fails, with or without a record 21ms
+     ✓ R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails 25ms
+     ✓ R26: the saved segmentation inputs: split cells are NOT_EVALUATED, one edit reported twice and a claimed change fail 128ms
+     ✓ R26: a split cell left unevaluated does not hide a wrong pairing in another record 6ms
+     ✓ R26: one record shown as delete + add with the same amount passes 4ms
+     ✓ R26: matching the row by the renamed registration instead of the serial fails 4ms
+     ✓ R26: an explicit identity review is accepted as presented, not as determined 7ms
+     ✓ R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer 4ms
+     ✓ R26: one delete + one add card on the record's registration cell is accepted once 6ms
+     ✓ R26: a delete + add pair is not the event when the added text lies in another record, or is the old text moved 15ms
+     ✓ R26: with a delete + add pair, another record's key on one half is a false claim 7ms
+     ✓ R26: a table card that changes a record's text fails the row control by its sources, without a table label 7ms
+     ✓ R22: the record's declared serial or its registration is an accepted row key 12ms
+     ✓ R22: another record's serial or registration on a correctly sourced card fails as a false identity claim 13ms
+     ✓ R22: an explicitly unresolved identity is not wrong, but this answer does not allow it 6ms
+     ✓ R22: the correct record label on a card that deletes the same value from another record does not attribute the event 6ms
+     ✓ R11: correct label card plus a wrong amount card fails 7ms
+     ✓ R11: correct label card plus a wrong bare-number amount card fails 6ms
+     ✓ R11: correct label card plus a wrong currency card fails 6ms
+     ✓ R11: a wrong bare-number amount card filed under a non-amount field fails 5ms
+     ✓ R11: claiming part of the code inside an unchanged amount cell is NOT_EVALUATED 11ms
+     ✓ R11: swapping parts of the codes of two unchanged amount cells is NOT_EVALUATED 5ms
+     ✓ R11: the label change attached to another field fails 3ms
+   ❯ result format 2: stated facts and form-only changes in controls (7)
+     ✓ an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not 10ms
+     ✓ R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it 7ms
+     ✓ a change that is not form only fails a control, and a form fact stated on it is false 10ms
+     ✓ a page-number fact over several pages cannot be decided: NOT_EVALUATED, exit 1 4ms
+     ✓ repeat counts are checked against the documents' page counts and the occurrences the card cites 16ms
+     ✓ a fixed set of repeated text is checked for completeness and counts, whatever the cards' form 28ms
+     × an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card 50ms
+   ✓ invariant coverage register (#10) (18)
+     ✓ direct invariant check rejects a violation: no_content_differences 2ms
+     ✓ direct invariant check rejects a violation: no_material_differences 2ms
+     ✓ direct invariant check rejects a violation: no_false_text_added_or_removed 2ms
+     ✓ direct invariant check rejects a violation: no_false_clause_moves 2ms
+     ✓ direct invariant check rejects a violation: no_false_row_additions_or_deletions 2ms
+     ✓ direct invariant check rejects a violation: moved_clause_has_no_internal_word_edits 1ms
+     ✓ direct invariant check rejects a violation: must_not_classify_as_unchanged_duration_roll_forward 2ms
+     ✓ direct invariant check rejects a violation: grouping_allowed_only_with_all_occurrence_locations 2ms
+     ✓ direct invariant check rejects a violation: agreed_value_unchanged 2ms
+     ✓ direct invariant check rejects a violation: no_amount_or_currency_change 2ms
+     ✓ the register covers exactly the 31 invariants of the 32 answers, and every cited test exists 3ms
+     ✓ unsupported and unknown invariants are NOT_EVALUATED; a failure still wins 4ms
+     ✓ an indirect invariant follows the event checks 3ms
+     ✓ exit code: 0 strict PASS, 2 only registered gaps, 1 for failures or unregistered gaps 1ms
+     ✓ R25: the reported duplicate with a visible amount change passes 2ms
+     ✓ R25: an unreported duplicate identity fails 2ms
+     ✓ R25: asserting a unique row key without evidence fails 4ms
+     ✓ R25: asserting a party for the duplicate group is a false identity claim 3ms
+   ✓ R16: a declared added page title in a no-change control (9)
+     ✓ the exact title card passes, as one Added card stating no fact 9ms
+     ✓ an undeclared Review card still fails the control 7ms
+     ✓ a missing title fails 7ms
+     ✓ another title fails, and its card is not excused 10ms
+     ✓ the title at another position than declared is not excused 8ms
+     ✓ a card carrying body text with the title is not excused, though it contains the title 9ms
+     ✓ a continued_heading stated on the declared title is false and fails the event 8ms
+     ✓ a second card for the same title still fails the control 7ms
+     ✓ a hidden title card fails (the result schema already rejects it) 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > result format 2: stated facts and form-only changes in controls > an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card
+AssertionError: the new amount borrowed: expected { Object (eventId, branch, ...) } to match object { discovery: true, …(2) }
+(15 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "attribution": false,
++   "attribution": true,
+    "discovery": true,
+-   "verdict": "FAIL",
++   "verdict": "PASS",
+  }
+
+ ❯ tests/scorer.test.ts:1839:76
+    1837|       op("insert", null, slice(m0, 17, 25)),
+    1838|     ]);
+    1839|     expect.soft(twice([borrowedNew]).events[0], "the new amount borrow…
+       |                                                                            ^
+    1840|     const edited = of("edited", [
+    1841|       op("equal", slice(s0, 0, 4), slice(m0, 0, 4)),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 117 passed (118)
+   Start at  15:36:18
+   Duration  1.49s (tests 89%, import 8%, transform 3%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
+exit 1
+scorer restored

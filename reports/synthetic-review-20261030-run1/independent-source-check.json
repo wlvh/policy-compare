@@ -1,0 +1,78 @@
+[
+  {
+    "case": "P03",
+    "engine": "pdfjs",
+    "independentChangedSources": [
+      {
+        "side": "left",
+        "cardIds": [
+          "d-112ae09a39b94a4a0b2d",
+          "d-b2368a8575a8eaff1fe8"
+        ],
+        "changedCharIds": [
+          [
+            "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f:p0:i22:s4"
+          ],
+          [
+            "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f:p0:i29:s4"
+          ]
+        ],
+        "intersection": []
+      },
+      {
+        "side": "right",
+        "cardIds": [
+          "d-112ae09a39b94a4a0b2d",
+          "d-b2368a8575a8eaff1fe8"
+        ],
+        "changedCharIds": [
+          [
+            "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa:p0:i22:s4"
+          ],
+          [
+            "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa:p0:i29:s4"
+          ]
+        ],
+        "intersection": []
+      }
+    ]
+  },
+  {
+    "case": "P03",
+    "engine": "mupdf",
+    "independentChangedSources": [
+      {
+        "side": "left",
+        "cardIds": [
+          "d-08b50d9e8857ad719c27",
+          "d-72ff57e8cfc88d6c32a6"
+        ],
+        "changedCharIds": [
+          [
+            "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f:p0:c195"
+          ],
+          [
+            "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f:p0:c220"
+          ]
+        ],
+        "intersection": []
+      },
+      {
+        "side": "right",
+        "cardIds": [
+          "d-08b50d9e8857ad719c27",
+          "d-72ff57e8cfc88d6c32a6"
+        ],
+        "changedCharIds": [
+          [
+            "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa:p0:c195"
+          ],
+          [
+            "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa:p0:c220"
+          ]
+        ],
+        "intersection": []
+      }
+    ]
+  }
+]

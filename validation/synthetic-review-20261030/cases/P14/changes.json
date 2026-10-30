@@ -1,0 +1,68 @@
+{
+  "case_id": "P14",
+  "changes": [
+    {
+      "id": 1,
+      "block": "paragraph_1",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "Printing charge per page 100USD.",
+      "right_text": "Printing charge per page 200USD.",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "Printing charge per page 100USD.",
+          "new": "Printing charge per page 200USD."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "block": "paragraph_2",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "Adjustment per page 10%.",
+      "right_text": "Adjustment per page 20%.",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "Adjustment per page 10%.",
+          "new": "Adjustment per page 20%."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "block": "paragraph_3",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "Document marker: Page 3 Page #.",
+      "right_text": "Document marker: Page # Page 4.",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "Document marker: Page 3 Page #.",
+          "new": "Document marker: Page # Page 4."
+        }
+      ]
+    }
+  ]
+}

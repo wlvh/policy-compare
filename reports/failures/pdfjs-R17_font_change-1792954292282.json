@@ -1,0 +1,1429 @@
+{
+  "result": {
+    "schemaVersion": "policy-compare/0.1.0",
+    "coreVersion": "policy-compare/0.1.0+page-hash.1",
+    "extractors": [
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      },
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      }
+    ],
+    "tokenizerVersion": "unicode-tokens/1",
+    "profileVersion": "aviation/1.0.0",
+    "snapshotHashVersion": "page-merkle/1",
+    "documentHashes": [
+      "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+      "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c"
+    ],
+    "extractionSnapshotHashes": [
+      "cb28af5179bb76df108ca4123907869aa523d496d3081b7f4c8ab6892ad731d6",
+      "5001702f04079ea202a175142a4e773491317e3c5564cf5b60565a8b181493a5"
+    ],
+    "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+    "scope": "extracted_text",
+    "status": "complete_for_scope",
+    "differences": [
+      {
+        "id": "d-20947a5dad3112bd3b29",
+        "kind": "Removed",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "risk_details",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 0,
+            "unitId": "u5",
+            "rawRange": [
+              122,
+              123
+            ],
+            "charIds": [
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i7:s0"
+            ],
+            "text": "|",
+            "quads": [
+              [
+                125.43,
+                810.464,
+                128.125,
+                810.464,
+                125.43,
+                819.777,
+                128.125,
+                819.777
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i7",
+                "itemText": "|",
+                "scalarRange": [
+                  0,
+                  1
+                ],
+                "utf16Range": [
+                  0,
+                  1
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "right": [],
+        "oldText": "|",
+        "newText": "",
+        "textOps": [
+          {
+            "kind": "delete",
+            "text": "|",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u5",
+                "rawRange": [
+                  122,
+                  123
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i7:s0"
+                ],
+                "text": "|",
+                "quads": [
+                  [
+                    125.43,
+                    810.464,
+                    128.125,
+                    810.464,
+                    125.43,
+                    819.777,
+                    128.125,
+                    819.777
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i7",
+                    "itemText": "|",
+                    "scalarRange": [
+                      0,
+                      1
+                    ],
+                    "utf16Range": [
+                      0,
+                      1
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ],
+            "right": []
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      },
+      {
+        "id": "d-25277cfadbbf0d382807",
+        "kind": "Removed",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "risk_details",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 0,
+            "unitId": "u4",
+            "rawRange": [
+              104,
+              121
+            ],
+            "charIds": [
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s0",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s1",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s2",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s3",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s4",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s5",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s6",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s7",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s8",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s9",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s10",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s11",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s12",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s13",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s14",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s15",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s16"
+            ],
+            "text": "FICTIONAL FIXTURE",
+            "quads": [
+              [
+                42,
+                810.464,
+                120.344,
+                810.464,
+                42,
+                819.777,
+                120.344,
+                819.777
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5",
+                "itemText": "FICTIONAL FIXTURE",
+                "scalarRange": [
+                  0,
+                  17
+                ],
+                "utf16Range": [
+                  0,
+                  17
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "right": [],
+        "oldText": "FICTIONAL FIXTURE",
+        "newText": "",
+        "textOps": [
+          {
+            "kind": "delete",
+            "text": "FICTIONAL FIXTURE",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u4",
+                "rawRange": [
+                  104,
+                  121
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s0",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s1",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s2",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s3",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s4",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s5",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s6",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s7",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s8",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s9",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s10",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s11",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s12",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s13",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s14",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s15",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5:s16"
+                ],
+                "text": "FICTIONAL FIXTURE",
+                "quads": [
+                  [
+                    42,
+                    810.464,
+                    120.344,
+                    810.464,
+                    42,
+                    819.777,
+                    120.344,
+                    819.777
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i5",
+                    "itemText": "FICTIONAL FIXTURE",
+                    "scalarRange": [
+                      0,
+                      17
+                    ],
+                    "utf16Range": [
+                      0,
+                      17
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ],
+            "right": []
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      },
+      {
+        "id": "d-49d28244cd01ced8fb54",
+        "kind": "Added",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "clauses",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [],
+        "right": [
+          {
+            "side": "right",
+            "pageIndex": 1,
+            "unitId": "u35",
+            "rawRange": [
+              90,
+              116
+            ],
+            "charIds": [
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s0",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s1",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s2",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s3",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s4",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s5",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s6",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s7",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s8",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s9",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s10",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s11",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s12",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s13",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s14",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s15",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s16",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s17",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s18",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s19",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s20",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s21",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s22",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s23",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s24",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s25"
+            ],
+            "text": "FICTIONAL FIXTURE | PAGE 2",
+            "quads": [
+              [
+                42,
+                810.648,
+                160.112,
+                810.648,
+                42,
+                819.585,
+                160.112,
+                819.585
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5",
+                "itemText": "FICTIONAL FIXTURE | PAGE 2",
+                "scalarRange": [
+                  0,
+                  26
+                ],
+                "utf16Range": [
+                  0,
+                  26
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "oldText": "",
+        "newText": "FICTIONAL FIXTURE | PAGE 2",
+        "textOps": [
+          {
+            "kind": "insert",
+            "text": "FICTIONAL FIXTURE | PAGE 2",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 1,
+                "unitId": "u35",
+                "rawRange": [
+                  90,
+                  116
+                ],
+                "charIds": [
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s0",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s1",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s2",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s3",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s4",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s5",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s6",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s7",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s8",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s9",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s10",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s11",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s12",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s13",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s14",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s15",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s16",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s17",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s18",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s19",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s20",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s21",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s22",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s23",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s24",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5:s25"
+                ],
+                "text": "FICTIONAL FIXTURE | PAGE 2",
+                "quads": [
+                  [
+                    42,
+                    810.648,
+                    160.112,
+                    810.648,
+                    42,
+                    819.585,
+                    160.112,
+                    819.585
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p1:i5",
+                    "itemText": "FICTIONAL FIXTURE | PAGE 2",
+                    "scalarRange": [
+                      0,
+                      26
+                    ],
+                    "utf16Range": [
+                      0,
+                      26
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ]
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      },
+      {
+        "id": "d-729140caf6300d592f9d",
+        "kind": "Removed",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "clauses",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 1,
+            "unitId": "u37",
+            "rawRange": [
+              90,
+              107
+            ],
+            "charIds": [
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s0",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s1",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s2",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s3",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s4",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s5",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s6",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s7",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s8",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s9",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s10",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s11",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s12",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s13",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s14",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s15",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s16"
+            ],
+            "text": "FICTIONAL FIXTURE",
+            "quads": [
+              [
+                42,
+                810.464,
+                120.344,
+                810.464,
+                42,
+                819.777,
+                120.344,
+                819.777
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5",
+                "itemText": "FICTIONAL FIXTURE",
+                "scalarRange": [
+                  0,
+                  17
+                ],
+                "utf16Range": [
+                  0,
+                  17
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "right": [],
+        "oldText": "FICTIONAL FIXTURE",
+        "newText": "",
+        "textOps": [
+          {
+            "kind": "delete",
+            "text": "FICTIONAL FIXTURE",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 1,
+                "unitId": "u37",
+                "rawRange": [
+                  90,
+                  107
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s0",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s1",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s2",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s3",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s4",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s5",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s6",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s7",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s8",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s9",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s10",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s11",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s12",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s13",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s14",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s15",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5:s16"
+                ],
+                "text": "FICTIONAL FIXTURE",
+                "quads": [
+                  [
+                    42,
+                    810.464,
+                    120.344,
+                    810.464,
+                    42,
+                    819.777,
+                    120.344,
+                    819.777
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i5",
+                    "itemText": "FICTIONAL FIXTURE",
+                    "scalarRange": [
+                      0,
+                      17
+                    ],
+                    "utf16Range": [
+                      0,
+                      17
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ],
+            "right": []
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      },
+      {
+        "id": "d-91a68f0afadad8a1569a",
+        "kind": "Removed",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "clauses",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 1,
+            "unitId": "u38",
+            "rawRange": [
+              108,
+              109
+            ],
+            "charIds": [
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i7:s0"
+            ],
+            "text": "|",
+            "quads": [
+              [
+                125.43,
+                810.464,
+                128.125,
+                810.464,
+                125.43,
+                819.777,
+                128.125,
+                819.777
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i7",
+                "itemText": "|",
+                "scalarRange": [
+                  0,
+                  1
+                ],
+                "utf16Range": [
+                  0,
+                  1
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "right": [],
+        "oldText": "|",
+        "newText": "",
+        "textOps": [
+          {
+            "kind": "delete",
+            "text": "|",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 1,
+                "unitId": "u38",
+                "rawRange": [
+                  108,
+                  109
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i7:s0"
+                ],
+                "text": "|",
+                "quads": [
+                  [
+                    125.43,
+                    810.464,
+                    128.125,
+                    810.464,
+                    125.43,
+                    819.777,
+                    128.125,
+                    819.777
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i7",
+                    "itemText": "|",
+                    "scalarRange": [
+                      0,
+                      1
+                    ],
+                    "utf16Range": [
+                      0,
+                      1
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ],
+            "right": []
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      },
+      {
+        "id": "d-ce10d0bc723cd07c4308",
+        "kind": "Removed",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "risk_details",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 0,
+            "unitId": "u6",
+            "rawRange": [
+              124,
+              130
+            ],
+            "charIds": [
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s0",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s1",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s2",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s3",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s4",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s5"
+            ],
+            "text": "PAGE 1",
+            "quads": [
+              [
+                133.211,
+                810.464,
+                162.395,
+                810.464,
+                133.211,
+                819.777,
+                162.395,
+                819.777
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9",
+                "itemText": "PAGE 1",
+                "scalarRange": [
+                  0,
+                  6
+                ],
+                "utf16Range": [
+                  0,
+                  6
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "right": [],
+        "oldText": "PAGE 1",
+        "newText": "",
+        "textOps": [
+          {
+            "kind": "delete",
+            "text": "PAGE 1",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u6",
+                "rawRange": [
+                  124,
+                  130
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s0",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s1",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s2",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s3",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s4",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9:s5"
+                ],
+                "text": "PAGE 1",
+                "quads": [
+                  [
+                    133.211,
+                    810.464,
+                    162.395,
+                    810.464,
+                    133.211,
+                    819.777,
+                    162.395,
+                    819.777
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p0:i9",
+                    "itemText": "PAGE 1",
+                    "scalarRange": [
+                      0,
+                      6
+                    ],
+                    "utf16Range": [
+                      0,
+                      6
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ],
+            "right": []
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      },
+      {
+        "id": "d-f4c3cddb102f2f5932b9",
+        "kind": "Removed",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "clauses",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 1,
+            "unitId": "u39",
+            "rawRange": [
+              110,
+              116
+            ],
+            "charIds": [
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s0",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s1",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s2",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s3",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s4",
+              "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s5"
+            ],
+            "text": "PAGE 2",
+            "quads": [
+              [
+                133.211,
+                810.464,
+                162.395,
+                810.464,
+                133.211,
+                819.777,
+                162.395,
+                819.777
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9",
+                "itemText": "PAGE 2",
+                "scalarRange": [
+                  0,
+                  6
+                ],
+                "utf16Range": [
+                  0,
+                  6
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "right": [],
+        "oldText": "PAGE 2",
+        "newText": "",
+        "textOps": [
+          {
+            "kind": "delete",
+            "text": "PAGE 2",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 1,
+                "unitId": "u39",
+                "rawRange": [
+                  110,
+                  116
+                ],
+                "charIds": [
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s0",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s1",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s2",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s3",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s4",
+                  "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9:s5"
+                ],
+                "text": "PAGE 2",
+                "quads": [
+                  [
+                    133.211,
+                    810.464,
+                    162.395,
+                    810.464,
+                    133.211,
+                    819.777,
+                    162.395,
+                    819.777
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a:p1:i9",
+                    "itemText": "PAGE 2",
+                    "scalarRange": [
+                      0,
+                      6
+                    ],
+                    "utf16Range": [
+                      0,
+                      6
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ],
+            "right": []
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      },
+      {
+        "id": "d-ff1faba4fafa49aebefb",
+        "kind": "Added",
+        "category": "Cosmetic",
+        "structurePath": {
+          "section": "risk_details",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [],
+        "right": [
+          {
+            "side": "right",
+            "pageIndex": 0,
+            "unitId": "u4",
+            "rawRange": [
+              104,
+              130
+            ],
+            "charIds": [
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s0",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s1",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s2",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s3",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s4",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s5",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s6",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s7",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s8",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s9",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s10",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s11",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s12",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s13",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s14",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s15",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s16",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s17",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s18",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s19",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s20",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s21",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s22",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s23",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s24",
+              "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s25"
+            ],
+            "text": "FICTIONAL FIXTURE | PAGE 1",
+            "quads": [
+              [
+                42,
+                810.648,
+                160.112,
+                810.648,
+                42,
+                819.585,
+                160.112,
+                819.585
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "sourceRanges": [
+              {
+                "itemId": "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5",
+                "itemText": "FICTIONAL FIXTURE | PAGE 1",
+                "scalarRange": [
+                  0,
+                  26
+                ],
+                "utf16Range": [
+                  0,
+                  26
+                ]
+              }
+            ],
+            "geometryMethod": "engine_run"
+          }
+        ],
+        "oldText": "",
+        "newText": "FICTIONAL FIXTURE | PAGE 1",
+        "textOps": [
+          {
+            "kind": "insert",
+            "text": "FICTIONAL FIXTURE | PAGE 1",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u4",
+                "rawRange": [
+                  104,
+                  130
+                ],
+                "charIds": [
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s0",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s1",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s2",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s3",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s4",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s5",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s6",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s7",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s8",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s9",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s10",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s11",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s12",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s13",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s14",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s15",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s16",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s17",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s18",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s19",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s20",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s21",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s22",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s23",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s24",
+                  "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5:s25"
+                ],
+                "text": "FICTIONAL FIXTURE | PAGE 1",
+                "quads": [
+                  [
+                    42,
+                    810.648,
+                    160.112,
+                    810.648,
+                    42,
+                    819.585,
+                    160.112,
+                    819.585
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "sourceRanges": [
+                  {
+                    "itemId": "1db81669185ec10238e3b86cdce9147f9a9f8a316705b92e58a46f6791c2283c:p0:i5",
+                    "itemText": "FICTIONAL FIXTURE | PAGE 1",
+                    "scalarRange": [
+                      0,
+                      26
+                    ],
+                    "utf16Range": [
+                      0,
+                      26
+                    ]
+                  }
+                ],
+                "geometryMethod": "engine_run"
+              }
+            ]
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      }
+    ],
+    "coverage": [],
+    "unresolved": [],
+    "alignment": [
+      {
+        "leftPage": 0,
+        "leftY": 29,
+        "rightPage": 0,
+        "rightY": 29
+      },
+      {
+        "leftPage": 0,
+        "leftY": 49,
+        "rightPage": 0,
+        "rightY": 49
+      },
+      {
+        "leftPage": 0,
+        "leftY": 81,
+        "rightPage": 0,
+        "rightY": 81
+      },
+      {
+        "leftPage": 0,
+        "leftY": 132,
+        "rightPage": 0,
+        "rightY": 132
+      },
+      {
+        "leftPage": 0,
+        "leftY": 155,
+        "rightPage": 0,
+        "rightY": 155
+      },
+      {
+        "leftPage": 0,
+        "leftY": 178,
+        "rightPage": 0,
+        "rightY": 178
+      },
+      {
+        "leftPage": 0,
+        "leftY": 201,
+        "rightPage": 0,
+        "rightY": 201
+      },
+      {
+        "leftPage": 0,
+        "leftY": 224,
+        "rightPage": 0,
+        "rightY": 224
+      },
+      {
+        "leftPage": 0,
+        "leftY": 247,
+        "rightPage": 0,
+        "rightY": 247
+      },
+      {
+        "leftPage": 0,
+        "leftY": 270,
+        "rightPage": 0,
+        "rightY": 270
+      },
+      {
+        "leftPage": 0,
+        "leftY": 293,
+        "rightPage": 0,
+        "rightY": 293
+      },
+      {
+        "leftPage": 0,
+        "leftY": 316,
+        "rightPage": 0,
+        "rightY": 316
+      },
+      {
+        "leftPage": 0,
+        "leftY": 339,
+        "rightPage": 0,
+        "rightY": 339
+      },
+      {
+        "leftPage": 0,
+        "leftY": 378,
+        "rightPage": 0,
+        "rightY": 378
+      },
+      {
+        "leftPage": 0,
+        "leftY": 399,
+        "rightPage": 0,
+        "rightY": 399
+      },
+      {
+        "leftPage": 0,
+        "leftY": 453,
+        "rightPage": 0,
+        "rightY": 453
+      },
+      {
+        "leftPage": 0,
+        "leftY": 474,
+        "rightPage": 0,
+        "rightY": 474
+      },
+      {
+        "leftPage": 0,
+        "leftY": 528,
+        "rightPage": 0,
+        "rightY": 528
+      },
+      {
+        "leftPage": 0,
+        "leftY": 549,
+        "rightPage": 0,
+        "rightY": 549
+      },
+      {
+        "leftPage": 1,
+        "leftY": 81,
+        "rightPage": 1,
+        "rightY": 81
+      },
+      {
+        "leftPage": 1,
+        "leftY": 136,
+        "rightPage": 1,
+        "rightY": 136
+      },
+      {
+        "leftPage": 1,
+        "leftY": 169,
+        "rightPage": 1,
+        "rightY": 169
+      },
+      {
+        "leftPage": 1,
+        "leftY": 204,
+        "rightPage": 1,
+        "rightY": 204
+      },
+      {
+        "leftPage": 1,
+        "leftY": 239,
+        "rightPage": 1,
+        "rightY": 239
+      },
+      {
+        "leftPage": 1,
+        "leftY": 274,
+        "rightPage": 1,
+        "rightY": 274
+      },
+      {
+        "leftPage": 1,
+        "leftY": 309,
+        "rightPage": 1,
+        "rightY": 309
+      }
+    ],
+    "stats": {
+      "leftScalars": 1401,
+      "rightScalars": 1401,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "differenceCount": 8,
+      "occurrenceCount": 8
+    },
+    "diagnostics": []
+  },
+  "score": {
+    "caseId": "R17_font_change",
+    "status": "FAIL",
+    "faults": [
+      "False content differences in control"
+    ],
+    "events": []
+  }
+}

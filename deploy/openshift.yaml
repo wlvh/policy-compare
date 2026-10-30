@@ -1,0 +1,37 @@
+# Optional organization integration. Replace image/digest and namespace before use.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policy-compare
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: policy-compare}
+  template:
+    metadata:
+      labels: {app: policy-compare}
+    spec:
+      containers:
+        - name: web
+          image: REPLACE_REGISTRY/policy-compare@sha256:REPLACE_DIGEST
+          ports: [{containerPort: 8080}]
+          resources:
+            requests: {cpu: 100m, memory: 64Mi}
+            limits: {cpu: '1', memory: 256Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities: {drop: ['ALL']}
+          readinessProbe:
+            httpGet: {path: /healthz, port: 8080}
+          livenessProbe:
+            httpGet: {path: /healthz, port: 8080}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: policy-compare
+spec:
+  selector: {app: policy-compare}
+  ports: [{port: 8080, targetPort: 8080}]

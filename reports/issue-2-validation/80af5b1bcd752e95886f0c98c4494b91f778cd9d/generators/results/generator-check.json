@@ -1,0 +1,1233 @@
+[
+ {
+  "generator": "chromium",
+  "engine": "mupdf",
+  "producers": [
+   "MuPDF.js mupdf/1.28.1+scalar-fix.1",
+   "MuPDF.js mupdf/1.28.1+scalar-fix.1"
+  ],
+  "inputSha256": [
+   "6cf0af0ca2bf2a670136b38563612bcc84e3bbc013b6a81c4a30db6d06d06edc",
+   "7432e0c689091317c4fcdce80b2509a5ec4c3151a2cac98aae4e705b67d34cf0"
+  ],
+  "resultSha256": "b55beafe5f4dd65761146cb2475b34eebf015d9499fb763e8e72666d57b75eaa",
+  "status": "complete_for_scope",
+  "cards": 11,
+  "unresolved": 0,
+  "eventsPassed": 10,
+  "eventsTotal": 10,
+  "crossedRecords": [],
+  "events": [
+   {
+    "id": "G1",
+    "what": "agreed value change",
+    "record": "1315",
+    "kind": "Replaced",
+    "old": "20,490,000",
+    "new": "19,210,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-b540cf19c5f01db7268d",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1315",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1315 CS-BTE 20,490,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1315 CS-BTE 19,210,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G2",
+    "what": "amount swap, first record",
+    "record": "1446",
+    "kind": "Replaced",
+    "old": "12,000,000",
+    "new": "10,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-0cf24c9de6de7fb87dbb",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1446",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1446 XA-EFA 12,000,000 Coral Bay Airways",
+      "newText": "ATR 72-600 1446 XA-EFA 10,000,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "id": "G3",
+    "what": "amount swap, second record",
+    "record": "1548",
+    "kind": "Replaced",
+    "old": "10,000,000",
+    "new": "12,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-d0e5b29184f427b49543",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1548",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1548 CS-FAE 10,000,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1548 CS-FAE 12,000,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G4",
+    "what": "lessee change into a wrapped cell",
+    "record": "4551",
+    "kind": "Replaced",
+    "old": "Kestrel Connect",
+    "new": "Coral Bay Regional Airways",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-5657e48c1837fee0854e",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Coral Bay Regional Airways"
+     }
+    ]
+   },
+   {
+    "id": "G5",
+    "what": "aircraft removed",
+    "record": "1760",
+    "kind": "Removed",
+    "old": "16,040,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-c70e98d0379f31ac6375",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": []
+      },
+      "oldText": "ATR 72-600 1760 ZK-ENV 16,040,000 Tasman Commuter",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G6",
+    "what": "aircraft inserted mid-table",
+    "record": "55228",
+    "kind": "Added",
+    "new": "39,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-6be81d51bfcf3d2a40e3",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "",
+      "newText": "Airbus A220-100 55228 VH-JXP 39,000,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "id": "G7",
+    "what": "body deductible change",
+    "kind": "Replaced",
+    "old": "250,000",
+    "new": "300,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-b23be113b173b0ee8b0b",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "joint-local-alignment",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        2
+       ],
+       "right": [
+        2
+       ]
+      },
+      "oldText": "Hull deductible: USD 250,000 each and every loss, not applicable to Total Loss.",
+      "newText": "Hull deductible: USD 300,000 each and every loss, not applicable to Total Loss."
+     }
+    ]
+   },
+   {
+    "id": "G8",
+    "what": "share change on its insurer",
+    "record": "HPX 0624",
+    "kind": "Replaced",
+    "old": "12.5%",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-95c451e243df0fb617a6",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "HPX 0624",
+      "pages": {
+       "left": [
+        3
+       ],
+       "right": [
+        3
+       ]
+      },
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2210 10.0% 03/10/2024"
+     }
+    ]
+   },
+   {
+    "id": "G9",
+    "what": "insurer leaves",
+    "record": "SLD 2988",
+    "kind": "Removed",
+    "old": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-d4c9e420575d58b76a42",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        3
+       ],
+       "right": []
+      },
+      "oldText": "SLD 2988 2988/AV/24/117 10.0% 04/10/2024",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G10",
+    "what": "insurer joins with the same share and date",
+    "record": "Corvane Insurance AG",
+    "kind": "Added",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-ad85120f84380cbd3723",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        3
+       ]
+      },
+      "oldText": "",
+      "newText": "Corvane Insurance AG CIA-AV-25-0311 10.0% 04/10/2024"
+     }
+    ]
+   }
+  ],
+  "otherCards": [
+   {
+    "id": "d-e9b0d7df80635aeb8aa3",
+    "kind": "Replaced",
+    "category": "Review",
+    "method": "page-furniture",
+    "section": "page_furniture",
+    "occurrences": 3,
+    "pages": {
+     "left": [
+      1
+     ],
+     "right": [
+      1
+     ]
+    },
+    "oldText": "UMR: B4417K240093",
+    "newText": "UMR: B4417K250093"
+   }
+  ]
+ },
+ {
+  "generator": "chromium",
+  "engine": "pdfjs",
+  "producers": [
+   "PDF.js pdfjs/6.4.299+strict-streams.1",
+   "PDF.js pdfjs/6.4.299+strict-streams.1"
+  ],
+  "inputSha256": [
+   "6cf0af0ca2bf2a670136b38563612bcc84e3bbc013b6a81c4a30db6d06d06edc",
+   "7432e0c689091317c4fcdce80b2509a5ec4c3151a2cac98aae4e705b67d34cf0"
+  ],
+  "resultSha256": "60e720eacf05d9c01e4dca9cfbaba76b0881eb68d83e14c6a05d6622ec00f17a",
+  "status": "complete_for_scope",
+  "cards": 11,
+  "unresolved": 0,
+  "eventsPassed": 10,
+  "eventsTotal": 10,
+  "crossedRecords": [],
+  "events": [
+   {
+    "id": "G1",
+    "what": "agreed value change",
+    "record": "1315",
+    "kind": "Replaced",
+    "old": "20,490,000",
+    "new": "19,210,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-c4b9c7cda85a31af5af1",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1315",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1315 CS-BTE 20,490,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1315 CS-BTE 19,210,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G2",
+    "what": "amount swap, first record",
+    "record": "1446",
+    "kind": "Replaced",
+    "old": "12,000,000",
+    "new": "10,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-2b2153009a528a5acceb",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1446",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1446 XA-EFA 12,000,000 Coral Bay Airways",
+      "newText": "ATR 72-600 1446 XA-EFA 10,000,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "id": "G3",
+    "what": "amount swap, second record",
+    "record": "1548",
+    "kind": "Replaced",
+    "old": "10,000,000",
+    "new": "12,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-7fb9a5c7cfae4500fc13",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1548",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1548 CS-FAE 10,000,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1548 CS-FAE 12,000,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G4",
+    "what": "lessee change into a wrapped cell",
+    "record": "4551",
+    "kind": "Replaced",
+    "old": "Kestrel Connect",
+    "new": "Coral Bay Regional Airways",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-e7ad97f2b04b11fbf0c2",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Coral Bay Regional Airways"
+     }
+    ]
+   },
+   {
+    "id": "G5",
+    "what": "aircraft removed",
+    "record": "1760",
+    "kind": "Removed",
+    "old": "16,040,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-1ffab54b25fbf22b311d",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": []
+      },
+      "oldText": "ATR 72-600 1760 ZK-ENV 16,040,000 Tasman Commuter",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G6",
+    "what": "aircraft inserted mid-table",
+    "record": "55228",
+    "kind": "Added",
+    "new": "39,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-1d80582b3849d79cb77c",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "",
+      "newText": "Airbus A220-100 55228 VH-JXP 39,000,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "id": "G7",
+    "what": "body deductible change",
+    "kind": "Replaced",
+    "old": "250,000",
+    "new": "300,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-9d642835e1645bd4636d",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "joint-local-alignment",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        2
+       ],
+       "right": [
+        2
+       ]
+      },
+      "oldText": "Hull deductible: USD 250,000 each and every loss, not applicable to Total Loss.",
+      "newText": "Hull deductible: USD 300,000 each and every loss, not applicable to Total Loss."
+     }
+    ]
+   },
+   {
+    "id": "G8",
+    "what": "share change on its insurer",
+    "record": "HPX 0624",
+    "kind": "Replaced",
+    "old": "12.5%",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-8e49629fb2306163f135",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "HPX 0624",
+      "pages": {
+       "left": [
+        3
+       ],
+       "right": [
+        3
+       ]
+      },
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2210 10.0% 03/10/2024"
+     }
+    ]
+   },
+   {
+    "id": "G9",
+    "what": "insurer leaves",
+    "record": "SLD 2988",
+    "kind": "Removed",
+    "old": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-a17caebef2a3290eae5d",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        3
+       ],
+       "right": []
+      },
+      "oldText": "SLD 2988 2988/AV/24/117 10.0% 04/10/2024",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G10",
+    "what": "insurer joins with the same share and date",
+    "record": "Corvane Insurance AG",
+    "kind": "Added",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-f7f2e75b14a46310130e",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        3
+       ]
+      },
+      "oldText": "",
+      "newText": "Corvane Insurance AG CIA-AV-25-0311 10.0% 04/10/2024"
+     }
+    ]
+   }
+  ],
+  "otherCards": [
+   {
+    "id": "d-061324bd5892e30d12b9",
+    "kind": "Replaced",
+    "category": "Review",
+    "method": "page-furniture",
+    "section": "page_furniture",
+    "occurrences": 3,
+    "pages": {
+     "left": [
+      1
+     ],
+     "right": [
+      1
+     ]
+    },
+    "oldText": "B4417K240093",
+    "newText": "B4417K250093"
+   }
+  ]
+ },
+ {
+  "generator": "libreoffice",
+  "engine": "mupdf",
+  "producers": [
+   "MuPDF.js mupdf/1.28.1+scalar-fix.1",
+   "MuPDF.js mupdf/1.28.1+scalar-fix.1"
+  ],
+  "inputSha256": [
+   "53d8bff6a95e4344baa3e2625f785d55aace382826a0cf21b04f74ea3c07b5e9",
+   "c562a6c695eabf6d4577316f7be35bea6ffe3c9516cc78af26117e5e8d10b05f"
+  ],
+  "resultSha256": "947bf3a17ad7cfb96cac7c2b63f0b96d3159b16aa22074a8c6b2f32ce77779cf",
+  "status": "complete_for_scope",
+  "cards": 12,
+  "unresolved": 0,
+  "eventsPassed": 10,
+  "eventsTotal": 10,
+  "crossedRecords": [],
+  "events": [
+   {
+    "id": "G1",
+    "what": "agreed value change",
+    "record": "1315",
+    "kind": "Replaced",
+    "old": "20,490,000",
+    "new": "19,210,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-5e005736e892e8225fe7",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1315",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1315 CS-BTE 20,490,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1315 CS-BTE 19,210,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G2",
+    "what": "amount swap, first record",
+    "record": "1446",
+    "kind": "Replaced",
+    "old": "12,000,000",
+    "new": "10,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-32a0f31f95d55de6641a",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1446",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1446 XA-EFA 12,000,000 Coral Bay Airways",
+      "newText": "ATR 72-600 1446 XA-EFA 10,000,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "id": "G3",
+    "what": "amount swap, second record",
+    "record": "1548",
+    "kind": "Replaced",
+    "old": "10,000,000",
+    "new": "12,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-4754a6d2d87a8ed07277",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1548",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1548 CS-FAE 10,000,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1548 CS-FAE 12,000,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G4",
+    "what": "lessee change into a wrapped cell",
+    "record": "4551",
+    "kind": "Replaced",
+    "old": "Kestrel Connect",
+    "new": "Coral Bay Regional Airways",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-12d9192334a3bc34bb47",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Coral Bay Regional  Airways"
+     }
+    ]
+   },
+   {
+    "id": "G5",
+    "what": "aircraft removed",
+    "record": "1760",
+    "kind": "Removed",
+    "old": "16,040,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-4f618c32518d19cdb5e4",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": []
+      },
+      "oldText": "ATR 72-600 1760 ZK-ENV 16,040,000 Tasman Commuter",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G6",
+    "what": "aircraft inserted mid-table",
+    "record": "55228",
+    "kind": "Added",
+    "new": "39,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-aba06c70f21508d67b30",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "",
+      "newText": "Airbus A220-100 55228 VH-JXP 39,000,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "id": "G7",
+    "what": "body deductible change",
+    "kind": "Replaced",
+    "old": "250,000",
+    "new": "300,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-1a0e5858dafd814e97d3",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "joint-local-alignment",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        4
+       ],
+       "right": [
+        4
+       ]
+      },
+      "oldText": "Hull deductible: USD 250,000 each and every loss, not applicable to Total Loss.",
+      "newText": "Hull deductible: USD 300,000 each and every loss, not applicable to Total Loss."
+     }
+    ]
+   },
+   {
+    "id": "G8",
+    "what": "share change on its insurer",
+    "record": "HPX 0624",
+    "kind": "Replaced",
+    "old": "12.5%",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-5506a1483e6466c0bc3b",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "HPX 0624",
+      "pages": {
+       "left": [
+        5
+       ],
+       "right": [
+        5
+       ]
+      },
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2210 10.0% 03/10/2024"
+     }
+    ]
+   },
+   {
+    "id": "G9",
+    "what": "insurer leaves",
+    "record": "SLD 2988",
+    "kind": "Removed",
+    "old": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-d270df34602f63ba7afe",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        5
+       ],
+       "right": []
+      },
+      "oldText": "SLD 2988 2988/AV/ 24/117 10.0% 04/10/2024",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G10",
+    "what": "insurer joins with the same share and date",
+    "record": "Corvane Insurance AG",
+    "kind": "Added",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-8771c8ba07b0d73388b5",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        5
+       ]
+      },
+      "oldText": "",
+      "newText": "Corvane Insurance  AG CIA-AV-25- 0311 10.0% 04/10/2024"
+     }
+    ]
+   }
+  ],
+  "otherCards": [
+   {
+    "id": "d-9987d83f1467909ebdaf",
+    "kind": "Replaced",
+    "category": "Cosmetic",
+    "method": "row-identity",
+    "section": "risk_details",
+    "occurrences": 0,
+    "pages": {
+     "left": [
+      1
+     ],
+     "right": [
+      1
+     ]
+    },
+    "oldText": "Bombardier CRJ900 15361 LN-AWL 12,170,000 Aurora Regional  Airways",
+    "newText": "Bombardier CRJ900 15361 LN-AWL 12,170,000 Aurora Regional Airways"
+   },
+   {
+    "id": "d-f0938805a0b0ff9b73d3",
+    "kind": "Replaced",
+    "category": "Cosmetic",
+    "method": "row-identity",
+    "section": "risk_details",
+    "occurrences": 0,
+    "pages": {
+     "left": [
+      1
+     ],
+     "right": [
+      1
+     ]
+    },
+    "oldText": "Embraer E175 1700046 8 LN-GYE 23,540,000 Aurora Regional  Airways",
+    "newText": "Embraer E175 1700046 8 LN-GYE 23,540,000 Aurora Regional Airways"
+   }
+  ]
+ },
+ {
+  "generator": "libreoffice",
+  "engine": "pdfjs",
+  "producers": [
+   "PDF.js pdfjs/6.4.299+strict-streams.1",
+   "PDF.js pdfjs/6.4.299+strict-streams.1"
+  ],
+  "inputSha256": [
+   "53d8bff6a95e4344baa3e2625f785d55aace382826a0cf21b04f74ea3c07b5e9",
+   "c562a6c695eabf6d4577316f7be35bea6ffe3c9516cc78af26117e5e8d10b05f"
+  ],
+  "resultSha256": "a6620540b8f247366ca7114fdda0452e09dd9743786fa47ebf50c3e261c1a15e",
+  "status": "complete_for_scope",
+  "cards": 10,
+  "unresolved": 0,
+  "eventsPassed": 10,
+  "eventsTotal": 10,
+  "crossedRecords": [],
+  "events": [
+   {
+    "id": "G1",
+    "what": "agreed value change",
+    "record": "1315",
+    "kind": "Replaced",
+    "old": "20,490,000",
+    "new": "19,210,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-4ad16f22408ab1d821bf",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1315",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1315 CS-BTE 20,490,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1315 CS-BTE 19,210,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G2",
+    "what": "amount swap, first record",
+    "record": "1446",
+    "kind": "Replaced",
+    "old": "12,000,000",
+    "new": "10,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-e25c3cafa0c83ca4493a",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1446",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1446 XA-EFA 12,000,000 Coral Bay Airways",
+      "newText": "ATR 72-600 1446 XA-EFA 10,000,000 Coral Bay Airways"
+     }
+    ]
+   },
+   {
+    "id": "G3",
+    "what": "amount swap, second record",
+    "record": "1548",
+    "kind": "Replaced",
+    "old": "10,000,000",
+    "new": "12,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-7428041a5e7dc78c109a",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "1548",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "ATR 72-600 1548 CS-FAE 10,000,000 Cobalt Atlantic",
+      "newText": "ATR 72-600 1548 CS-FAE 12,000,000 Cobalt Atlantic"
+     }
+    ]
+   },
+   {
+    "id": "G4",
+    "what": "lessee change into a wrapped cell",
+    "record": "4551",
+    "kind": "Replaced",
+    "old": "Kestrel Connect",
+    "new": "Coral Bay Regional Airways",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-28d17ee54ba467af60f3",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "4551",
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8- 400 4551 C-MRP 12,680,000 Coral Bay Regional Airways"
+     }
+    ]
+   },
+   {
+    "id": "G5",
+    "what": "aircraft removed",
+    "record": "1760",
+    "kind": "Removed",
+    "old": "16,040,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-d7c78469f76bd26b4e10",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        1
+       ],
+       "right": []
+      },
+      "oldText": "ATR 72-600 1760 ZK-ENV 16,040,000 Tasman Commuter",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G6",
+    "what": "aircraft inserted mid-table",
+    "record": "55228",
+    "kind": "Added",
+    "new": "39,000,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-be76086e9421ea49bfde",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        1
+       ]
+      },
+      "oldText": "",
+      "newText": "Airbus A220-100 55228 VH-JXP 39,000,000 Meridian Skies"
+     }
+    ]
+   },
+   {
+    "id": "G7",
+    "what": "body deductible change",
+    "kind": "Replaced",
+    "old": "250,000",
+    "new": "300,000",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-38f390ae69f0620f6ab2",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "joint-local-alignment",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        4
+       ],
+       "right": [
+        4
+       ]
+      },
+      "oldText": "Hull deductible: USD 250,000 each and every loss, not applicable to Total Loss.",
+      "newText": "Hull deductible: USD 300,000 each and every loss, not applicable to Total Loss."
+     }
+    ]
+   },
+   {
+    "id": "G8",
+    "what": "share change on its insurer",
+    "record": "HPX 0624",
+    "kind": "Replaced",
+    "old": "12.5%",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-da9cb5ee11822daa2a18",
+      "kind": "Replaced",
+      "category": "Material",
+      "method": "row-identity",
+      "rowKey": "HPX 0624",
+      "pages": {
+       "left": [
+        5
+       ],
+       "right": [
+        5
+       ]
+      },
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2210 10.0% 03/10/2024"
+     }
+    ]
+   },
+   {
+    "id": "G9",
+    "what": "insurer leaves",
+    "record": "SLD 2988",
+    "kind": "Removed",
+    "old": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-c2d97152961284f0fb82",
+      "kind": "Removed",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [
+        5
+       ],
+       "right": []
+      },
+      "oldText": "SLD 2988 2988/AV/ 24/117 10.0% 04/10/2024",
+      "newText": ""
+     }
+    ]
+   },
+   {
+    "id": "G10",
+    "what": "insurer joins with the same share and date",
+    "record": "Corvane Insurance AG",
+    "kind": "Added",
+    "new": "10.0%",
+    "status": "PASS",
+    "cards": [
+     {
+      "id": "d-79e22a5edf190e9654d5",
+      "kind": "Added",
+      "category": "Material",
+      "method": "unmatched",
+      "rowKey": null,
+      "pages": {
+       "left": [],
+       "right": [
+        5
+       ]
+      },
+      "oldText": "",
+      "newText": "Corvane Insurance AG CIA-AV-25- 0311 10.0% 04/10/2024"
+     }
+    ]
+   }
+  ],
+  "otherCards": []
+ }
+]

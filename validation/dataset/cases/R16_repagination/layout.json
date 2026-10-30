@@ -54508,7 +54508,7 @@
           },
           {
             "run_id": "run_0027",
-            "logical_path": null,
+            "logical_path": "document.page_heading.policy_wording",
             "role": "heading",
             "text": "POLICY WORDING",
             "font": "FixtureSans",

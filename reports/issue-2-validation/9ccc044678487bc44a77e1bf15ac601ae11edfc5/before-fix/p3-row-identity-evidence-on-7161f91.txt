@@ -1,0 +1,121 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/row-identity-evidence.test.ts (8 tests | 5 failed) 97ms
+   ❯ a descriptive cell does not bind two records (2)
+     × Registration | MSN | Model: G-AAAA/123/A320 -> G-BBBB/456/A320 is not one record 31ms
+     × without a heading row, unique names bind nothing; every change stays visible 12ms
+   ❯ an identifier written in the cell is identity evidence (3)
+     × MSN 1 / MSN 2 without a heading row: the rows pair by MSN, never across MSNs 6ms
+     ✓ control: a No. column counting 1..n is not identity, so an inserted row shifts nothing 10ms
+     ✓ control: an insurer code under its Insurer heading pairs the insurer's line 11ms
+   ❯ explicit identity evidence that conflicts stays unresolved (2)
+     ✓ MSN and registration pointing to different rows: one unresolved group 8ms
+     × the same MSN with another registration: the identifiers disagree, so unresolved 6ms
+   ❯ the same title above two tables is not one table (1)
+     × a registration in each table, on different sides, binds nothing 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/row-identity-evidence.test.ts > a descriptive cell does not bind two records > Registration | MSN | Model: G-AAAA/123/A320 -> G-BBBB/456/A320 is not one record
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/row-identity-evidence.test.ts:37:82
+     35|       [["Registration", "MSN", "Model"], ["G-BBBB", "456", "A320"], ["…
+     36|     );
+     37|     expect(r.differences.some((d) => d.matchEvidence.method === "row-i…
+       |                                                                                  ^
+     38|     expect(crossPaired(r, "G-AAAA", "G-BBBB")).toBe(false);
+     39|     expect([visible(r, "G-AAAA", "left"), visible(r, "G-BBBB", "right"…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/row-identity-evidence.test.ts > a descriptive cell does not bind two records > without a heading row, unique names bind nothing; every change stays visible
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/row-identity-evidence.test.ts:46:82
+     44|       [["Alpha Air", "A-1", "USD 200,000"], ["Beta Air", "B-2", "USD 1…
+     45|     );
+     46|     expect(r.differences.some((d) => d.matchEvidence.method === "row-i…
+       |                                                                                  ^
+     47|     for (const [text, side] of [["USD 100,000", "left"], ["USD 200,000…
+     48|       expect(visible(r, text, side)).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/row-identity-evidence.test.ts > an identifier written in the cell is identity evidence > MSN 1 / MSN 2 without a heading row: the rows pair by MSN, never across MSNs
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/row-identity-evidence.test.ts:58:46
+     56|       [["MSN 1", "Beta", "10%"], ["MSN 2", "Alpha", "20%"]],
+     57|     );
+     58|     expect(crossPaired(r, "MSN 1", "MSN 2")).toBe(false);
+       |                                              ^
+     59|     expect(crossPaired(r, "MSN 2", "MSN 1")).toBe(false);
+     60|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/row-identity-evidence.test.ts > explicit identity evidence that conflicts stays unresolved > the same MSN with another registration: the identifiers disagree, so unresolved
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/row-identity-evidence.test.ts:101:82
+     99|       [["MSN", "Registration", "Value"], ["1315", "G-ZZZZ", "USD 1,000…
+    100|     );
+    101|     expect(r.differences.some((d) => d.matchEvidence.method === "row-i…
+       |                                                                                  ^
+    102|     expect(r.unresolved.some((u) => u.reason === "ambiguous_identity")…
+    103|     expect([visible(r, "G-AAAA", "left"), visible(r, "G-ZZZZ", "right"…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/row-identity-evidence.test.ts > the same title above two tables is not one table > a registration in each table, on different sides, binds nothing
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/row-identity-evidence.test.ts:123:55
+    121|       ),
+    122|     );
+    123|     expect(crossPaired(r, "Alpha Air", "South Bank")).toBe(false);
+       |                                                       ^
+    124|     expect(r.differences.some((d) => d.matchEvidence.method === "row-i…
+    125|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 3 passed (8)
+   Start at  11:33:42
+   Duration  438ms (transform 37%, tests 33%, import 28%, worker 1%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json

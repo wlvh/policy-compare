@@ -1,0 +1,920 @@
+{
+  "score": {
+    "caseId": "R31_punctuation",
+    "status": "FAIL",
+    "faults": [
+      "Required event failed: R31_punctuation:E1"
+    ],
+    "events": [
+      {
+        "eventId": "R31_punctuation:E1",
+        "discovery": true,
+        "correspondence": true,
+        "position": false,
+        "visibility": true,
+        "completeness": true,
+        "pass": false
+      }
+    ]
+  },
+  "result": {
+    "schemaVersion": "policy-compare/0.1.0",
+    "coreVersion": "policy-compare/0.1.0+page-hash.1",
+    "extractors": [
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      },
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299",
+        "adapterVersion": "pdfjs-adapter/1",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range"
+        }
+      }
+    ],
+    "snapshotHashVersion": "page-merkle/1",
+    "tokenizerVersion": "unicode-tokens/1",
+    "profileVersion": "aviation/1.0.0",
+    "documentHashes": [
+      "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5",
+      "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5"
+    ],
+    "extractionSnapshotHashes": [
+      "3e4c87726764fe110de0d4ac411dd647059d86cde246a0030cbc3a1b9b8b48b6",
+      "579238e3fd666c30a1db4db17344cfccd7f7613433edba18af80e2eb7f6d0f0f"
+    ],
+    "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+    "scope": "extracted_text",
+    "status": "complete_for_scope",
+    "differences": [
+      {
+        "id": "d-9b21d18bde7c6dc1bad9",
+        "kind": "Replaced",
+        "category": "Material",
+        "structurePath": {
+          "section": "clauses",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [
+          {
+            "side": "left",
+            "pageIndex": 0,
+            "unitId": "u30",
+            "rawRange": [
+              902,
+              953
+            ],
+            "charIds": [
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s0",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s1",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s2",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s3",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s4",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s5",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s6",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s7",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s8",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s9",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s10",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s11",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s12",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s13",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s14",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s15",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s16",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s17",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s18",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s19",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s20",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s21",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s22",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s23",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s24",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s25",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s26",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s27",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s28",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s29",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s30",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s31",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s32",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s33",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s34",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s35",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s36",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s37",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s38",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s39",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s40",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s41",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s42",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s43",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s44",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s45",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s46",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s47",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s48",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s49",
+              "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s50"
+            ],
+            "text": "Cover includes liability for fire, theft and flood.",
+            "quads": [
+              [
+                42,
+                540.182,
+                263.729,
+                540.182,
+                42,
+                551.24,
+                263.729,
+                551.24
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "geometryMethod": "engine_run",
+            "sourceRanges": [
+              {
+                "itemId": "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63",
+                "scalarRange": [
+                  0,
+                  51
+                ],
+                "utf16Range": [
+                  0,
+                  51
+                ],
+                "itemText": "Cover includes liability for fire, theft and flood."
+              }
+            ],
+            "resolvedGeometry": {
+              "method": "text_layer_range",
+              "quads": [
+                [
+                  42.01167554034583,
+                  540.2547795028819,
+                  267.28401261229067,
+                  540.2547795028819,
+                  42.01167554034583,
+                  551.6913904538906,
+                  267.28401261229067,
+                  551.6913904538906
+                ]
+              ],
+              "text": "Cover includes liability for fire, theft and flood."
+            }
+          }
+        ],
+        "right": [
+          {
+            "side": "right",
+            "pageIndex": 0,
+            "unitId": "u30",
+            "rawRange": [
+              902,
+              952
+            ],
+            "charIds": [
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s0",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s1",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s2",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s3",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s4",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s5",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s6",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s7",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s8",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s9",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s10",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s11",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s12",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s13",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s14",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s15",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s16",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s17",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s18",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s19",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s20",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s21",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s22",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s23",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s24",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s25",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s26",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s27",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s28",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s29",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s30",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s31",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s32",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s33",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s34",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s35",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s36",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s37",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s38",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s39",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s40",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s41",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s42",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s43",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s44",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s45",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s46",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s47",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s48",
+              "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s49"
+            ],
+            "text": "Cover includes liability for fire theft and flood.",
+            "quads": [
+              [
+                42,
+                540.182,
+                260.709,
+                540.182,
+                42,
+                551.24,
+                260.709,
+                551.24
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "geometryMethod": "engine_run",
+            "sourceRanges": [
+              {
+                "itemId": "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63",
+                "scalarRange": [
+                  0,
+                  50
+                ],
+                "utf16Range": [
+                  0,
+                  50
+                ],
+                "itemText": "Cover includes liability for fire theft and flood."
+              }
+            ],
+            "resolvedGeometry": {
+              "method": "text_layer_range",
+              "quads": [
+                [
+                  42.01167554034583,
+                  540.2547795028819,
+                  264.264590961309,
+                  540.2547795028819,
+                  42.01167554034583,
+                  551.6913904538906,
+                  264.264590961309,
+                  551.6913904538906
+                ]
+              ],
+              "text": "Cover includes liability for fire theft and flood."
+            }
+          }
+        ],
+        "oldText": "Cover includes liability for fire, theft and flood.",
+        "newText": "Cover includes liability for fire theft and flood.",
+        "textOps": [
+          {
+            "kind": "equal",
+            "text": "Cover includes liability for fire",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u30",
+                "rawRange": [
+                  902,
+                  935
+                ],
+                "charIds": [
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s0",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s1",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s2",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s3",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s4",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s5",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s6",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s7",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s8",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s9",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s10",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s11",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s12",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s13",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s14",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s15",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s16",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s17",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s18",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s19",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s20",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s21",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s22",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s23",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s24",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s25",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s26",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s27",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s28",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s29",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s30",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s31",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s32"
+                ],
+                "text": "Cover includes liability for fire",
+                "quads": [
+                  [
+                    42,
+                    540.182,
+                    263.729,
+                    540.182,
+                    42,
+                    551.24,
+                    263.729,
+                    551.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63",
+                    "scalarRange": [
+                      0,
+                      33
+                    ],
+                    "utf16Range": [
+                      0,
+                      33
+                    ],
+                    "itemText": "Cover includes liability for fire, theft and flood."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      42.01167554034583,
+                      540.2547795028819,
+                      186.67070375681064,
+                      540.2547795028819,
+                      42.01167554034583,
+                      551.6913904538906,
+                      186.67070375681064,
+                      551.6913904538906
+                    ]
+                  ],
+                  "text": "Cover includes liability for fire"
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u30",
+                "rawRange": [
+                  902,
+                  935
+                ],
+                "charIds": [
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s0",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s1",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s2",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s3",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s4",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s5",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s6",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s7",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s8",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s9",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s10",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s11",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s12",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s13",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s14",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s15",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s16",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s17",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s18",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s19",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s20",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s21",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s22",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s23",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s24",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s25",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s26",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s27",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s28",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s29",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s30",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s31",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s32"
+                ],
+                "text": "Cover includes liability for fire",
+                "quads": [
+                  [
+                    42,
+                    540.182,
+                    260.709,
+                    540.182,
+                    42,
+                    551.24,
+                    260.709,
+                    551.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63",
+                    "scalarRange": [
+                      0,
+                      33
+                    ],
+                    "utf16Range": [
+                      0,
+                      33
+                    ],
+                    "itemText": "Cover includes liability for fire theft and flood."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      42.01167554034583,
+                      540.2547795028819,
+                      186.69499538651613,
+                      540.2547795028819,
+                      42.01167554034583,
+                      551.6913904538906,
+                      186.69499538651613,
+                      551.6913904538906
+                    ]
+                  ],
+                  "text": "Cover includes liability for fire"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "delete",
+            "text": ",",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u30",
+                "rawRange": [
+                  935,
+                  936
+                ],
+                "charIds": [
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s33"
+                ],
+                "text": ",",
+                "quads": [
+                  [
+                    42,
+                    540.182,
+                    263.729,
+                    540.182,
+                    42,
+                    551.24,
+                    263.729,
+                    551.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63",
+                    "scalarRange": [
+                      33,
+                      34
+                    ],
+                    "utf16Range": [
+                      33,
+                      34
+                    ],
+                    "itemText": "Cover includes liability for fire, theft and flood."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      186.65262464159878,
+                      540.2547795028819,
+                      189.72740049475416,
+                      540.2547795028819,
+                      186.65262464159878,
+                      551.6913904538906,
+                      189.72740049475416,
+                      551.6913904538906
+                    ]
+                  ],
+                  "text": ","
+                }
+              }
+            ],
+            "right": []
+          },
+          {
+            "kind": "equal",
+            "text": " theft and flood.",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u30",
+                "rawRange": [
+                  936,
+                  953
+                ],
+                "charIds": [
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s34",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s35",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s36",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s37",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s38",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s39",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s40",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s41",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s42",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s43",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s44",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s45",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s46",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s47",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s48",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s49",
+                  "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63:s50"
+                ],
+                "text": " theft and flood.",
+                "quads": [
+                  [
+                    42,
+                    540.182,
+                    263.729,
+                    540.182,
+                    42,
+                    551.24,
+                    263.729,
+                    551.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "9c33168fabef11c54eb2fe2384c8df96818aeef5eecb59ce2ee851c02eeb94d5:p0:i63",
+                    "scalarRange": [
+                      34,
+                      51
+                    ],
+                    "utf16Range": [
+                      34,
+                      51
+                    ],
+                    "itemText": "Cover includes liability for fire, theft and flood."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      189.70925157600865,
+                      540.2547795028819,
+                      267.28401261229067,
+                      540.2547795028819,
+                      189.70925157600865,
+                      551.6913904538906,
+                      267.28401261229067,
+                      551.6913904538906
+                    ]
+                  ],
+                  "text": " theft and flood."
+                }
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u30",
+                "rawRange": [
+                  935,
+                  952
+                ],
+                "charIds": [
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s33",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s34",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s35",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s36",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s37",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s38",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s39",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s40",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s41",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s42",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s43",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s44",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s45",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s46",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s47",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s48",
+                  "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63:s49"
+                ],
+                "text": " theft and flood.",
+                "quads": [
+                  [
+                    42,
+                    540.182,
+                    260.709,
+                    540.182,
+                    42,
+                    551.24,
+                    260.709,
+                    551.24
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "5203c2046873ec9693d8fa62488efdb43dc58b4b45efaaea0eee3ebdfb31c8e5:p0:i63",
+                    "scalarRange": [
+                      33,
+                      50
+                    ],
+                    "utf16Range": [
+                      33,
+                      50
+                    ],
+                    "itemText": "Cover includes liability for fire theft and flood."
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      186.67684646777064,
+                      540.2547795028819,
+                      264.264590961309,
+                      540.2547795028819,
+                      186.67684646777064,
+                      551.6913904538906,
+                      264.264590961309,
+                      551.6913904538906
+                    ]
+                  ],
+                  "text": " theft and flood."
+                }
+              }
+            ]
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "joint-local-alignment",
+          "score": 0.9473684210526315,
+          "details": [
+            "joint-local-alignment"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      }
+    ],
+    "coverage": [],
+    "unresolved": [],
+    "alignment": [
+      {
+        "leftPage": 0,
+        "leftY": 29,
+        "rightPage": 0,
+        "rightY": 29
+      },
+      {
+        "leftPage": 0,
+        "leftY": 49,
+        "rightPage": 0,
+        "rightY": 49
+      },
+      {
+        "leftPage": 0,
+        "leftY": 81,
+        "rightPage": 0,
+        "rightY": 81
+      },
+      {
+        "leftPage": 0,
+        "leftY": 132,
+        "rightPage": 0,
+        "rightY": 132
+      },
+      {
+        "leftPage": 0,
+        "leftY": 155,
+        "rightPage": 0,
+        "rightY": 155
+      },
+      {
+        "leftPage": 0,
+        "leftY": 178,
+        "rightPage": 0,
+        "rightY": 178
+      },
+      {
+        "leftPage": 0,
+        "leftY": 201,
+        "rightPage": 0,
+        "rightY": 201
+      },
+      {
+        "leftPage": 0,
+        "leftY": 224,
+        "rightPage": 0,
+        "rightY": 224
+      },
+      {
+        "leftPage": 0,
+        "leftY": 247,
+        "rightPage": 0,
+        "rightY": 247
+      },
+      {
+        "leftPage": 0,
+        "leftY": 270,
+        "rightPage": 0,
+        "rightY": 270
+      },
+      {
+        "leftPage": 0,
+        "leftY": 293,
+        "rightPage": 0,
+        "rightY": 293
+      },
+      {
+        "leftPage": 0,
+        "leftY": 316,
+        "rightPage": 0,
+        "rightY": 316
+      },
+      {
+        "leftPage": 0,
+        "leftY": 339,
+        "rightPage": 0,
+        "rightY": 339
+      },
+      {
+        "leftPage": 0,
+        "leftY": 378,
+        "rightPage": 0,
+        "rightY": 378
+      },
+      {
+        "leftPage": 0,
+        "leftY": 399,
+        "rightPage": 0,
+        "rightY": 399
+      },
+      {
+        "leftPage": 0,
+        "leftY": 453,
+        "rightPage": 0,
+        "rightY": 453
+      },
+      {
+        "leftPage": 0,
+        "leftY": 474,
+        "rightPage": 0,
+        "rightY": 474
+      },
+      {
+        "leftPage": 0,
+        "leftY": 528,
+        "rightPage": 0,
+        "rightY": 528
+      },
+      {
+        "leftPage": 0,
+        "leftY": 549,
+        "rightPage": 0,
+        "rightY": 549
+      },
+      {
+        "leftPage": 0,
+        "leftY": 817.89,
+        "rightPage": 0,
+        "rightY": 817.89
+      },
+      {
+        "leftPage": 1,
+        "leftY": 81,
+        "rightPage": 1,
+        "rightY": 81
+      },
+      {
+        "leftPage": 1,
+        "leftY": 136,
+        "rightPage": 1,
+        "rightY": 136
+      },
+      {
+        "leftPage": 1,
+        "leftY": 169,
+        "rightPage": 1,
+        "rightY": 169
+      },
+      {
+        "leftPage": 1,
+        "leftY": 204,
+        "rightPage": 1,
+        "rightY": 204
+      },
+      {
+        "leftPage": 1,
+        "leftY": 239,
+        "rightPage": 1,
+        "rightY": 239
+      },
+      {
+        "leftPage": 1,
+        "leftY": 274,
+        "rightPage": 1,
+        "rightY": 274
+      },
+      {
+        "leftPage": 1,
+        "leftY": 309,
+        "rightPage": 1,
+        "rightY": 309
+      },
+      {
+        "leftPage": 1,
+        "leftY": 817.89,
+        "rightPage": 1,
+        "rightY": 817.89
+      }
+    ],
+    "stats": {
+      "leftScalars": 1371,
+      "rightScalars": 1370,
+      "candidates": 1,
+      "tokenProducts": 90,
+      "differenceCount": 1,
+      "occurrenceCount": 1
+    },
+    "diagnostics": []
+  }
+}

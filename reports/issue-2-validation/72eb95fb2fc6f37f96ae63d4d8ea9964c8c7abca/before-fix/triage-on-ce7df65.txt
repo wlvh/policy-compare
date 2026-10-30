@@ -1,0 +1,5 @@
+# final triage tests (72eb95fb2fc6f37f96ae63d4d8ea9964c8c7abca) with scripts/renewal-triage.py of ce7df65 (renewal-triage/20)
+FAIL: test_the_author_paragraph_must_surround_the_edited_occurrence (test_renewal_triage.EditEvidence.test_the_author_paragraph_must_surround_the_edited_occurrence)
+FAIL: test_a_split_row_is_full_from_its_two_cards (test_renewal_triage.RecordIdentity.test_a_split_row_is_full_from_its_two_cards)
+Ran 65 tests in 0.443s
+FAILED (failures=2)

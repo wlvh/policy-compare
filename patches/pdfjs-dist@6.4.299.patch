@@ -1,0 +1,30 @@
+diff --git a/build/pdf.worker.mjs b/build/pdf.worker.mjs
+--- a/build/pdf.worker.mjs
++++ b/build/pdf.worker.mjs
+@@ -11705,8 +11705,9 @@
+       if (ex instanceof MissingDataException) {
+         throw ex;
+       }
+-      warn(`Invalid stream: "${ex}"`);
+-      return new NullStream();
++      // Policy comparison must not mistake a failed decoder for empty content.
++      // Propagate to the page error path (getDocument uses stopAtErrors: true).
++      throw ex;
+     }
+   }
+ }
+diff --git a/legacy/build/pdf.worker.mjs b/legacy/build/pdf.worker.mjs
+--- a/legacy/build/pdf.worker.mjs
++++ b/legacy/build/pdf.worker.mjs
+@@ -17366,8 +17366,9 @@
+       if (ex instanceof MissingDataException) {
+         throw ex;
+       }
+-      warn(`Invalid stream: "${ex}"`);
+-      return new NullStream();
++      // Policy comparison must not mistake a failed decoder for empty content.
++      // Propagate to the page error path (getDocument uses stopAtErrors: true).
++      throw ex;
+     }
+   }
+ }

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "RENEWAL-01",
+    "pair": "bizav_2024_vs_2025",
+    "engine": "pdfjs",
+    "finding": "page numbering appears as Material additions/removals",
+    "count": 35,
+    "materialCount": 35,
+    "examples": [
+      {
+        "id": "d-0ff6ab2380a4dbdc4d1e",
+        "kind": "Removed",
+        "category": "Material",
+        "oldText": "Page 1 of 17",
+        "newText": ""
+      },
+      {
+        "id": "d-6ad145e25a5b06a19985",
+        "kind": "Added",
+        "category": "Material",
+        "oldText": "",
+        "newText": "Page 1 of 18"
+      }
+    ],
+    "basis": "Author H4 labels page numbering as Header; page render confirms it is page furniture",
+    "status": "CONFIRMED_NEW_LAYOUT_NOISE",
+    "productChanged": false
+  },
+  {
+    "id": "RENEWAL-01",
+    "pair": "bizav_2024_vs_2025",
+    "engine": "mupdf",
+    "finding": "page numbering appears as Material additions/removals",
+    "count": 35,
+    "materialCount": 35,
+    "examples": [
+      {
+        "id": "d-abf3137943f4157208b6",
+        "kind": "Removed",
+        "category": "Material",
+        "oldText": "Page 1 of 17",
+        "newText": ""
+      },
+      {
+        "id": "d-df987ef10b3848c138d9",
+        "kind": "Added",
+        "category": "Material",
+        "oldText": "",
+        "newText": "Page 1 of 18"
+      }
+    ],
+    "basis": "Author H4 labels page numbering as Header; page render confirms it is page furniture",
+    "status": "CONFIRMED_NEW_LAYOUT_NOISE",
+    "productChanged": false
+  }
+]

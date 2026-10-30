@@ -1,0 +1,136 @@
+[
+  {
+    "id": "RENEWAL-01",
+    "pair": "bizav_2024_vs_2025",
+    "engine": "pdfjs",
+    "finding": "page numbering appears as Material additions/removals",
+    "count": 35,
+    "materialCount": 35,
+    "examples": [
+      {
+        "id": "d-0ff6ab2380a4dbdc4d1e",
+        "kind": "Removed",
+        "category": "Material",
+        "oldText": "Page 1 of 17",
+        "newText": ""
+      },
+      {
+        "id": "d-6ad145e25a5b06a19985",
+        "kind": "Added",
+        "category": "Material",
+        "oldText": "",
+        "newText": "Page 1 of 18"
+      }
+    ],
+    "basis": "Author H4 labels page numbering as Header; page render confirms it is page furniture",
+    "status": "CONFIRMED_NEW_LAYOUT_NOISE",
+    "productChanged": false
+  },
+  {
+    "id": "RENEWAL-01",
+    "pair": "bizav_2024_vs_2025",
+    "engine": "mupdf",
+    "finding": "page numbering appears as Material additions/removals",
+    "count": 35,
+    "materialCount": 35,
+    "examples": [
+      {
+        "id": "d-abf3137943f4157208b6",
+        "kind": "Removed",
+        "category": "Material",
+        "oldText": "Page 1 of 17",
+        "newText": ""
+      },
+      {
+        "id": "d-df987ef10b3848c138d9",
+        "kind": "Added",
+        "category": "Material",
+        "oldText": "",
+        "newText": "Page 1 of 18"
+      }
+    ],
+    "basis": "Author H4 labels page numbering as Header; page render confirms it is page furniture",
+    "status": "CONFIRMED_NEW_LAYOUT_NOISE",
+    "productChanged": false
+  },
+  {
+    "id": "RENEWAL-02",
+    "pair": "aviation_2024_vs_2025",
+    "engine": "pdfjs",
+    "status": "CONFIRMED_INCOMPLETE_BUSINESS_EVENT_WITH_PARTIAL_WARNING",
+    "expected": {
+      "entity": "HPX 0624",
+      "oldShare": "12.5%",
+      "newShare": "10.0%",
+      "leftPdfPage": 8,
+      "rightPdfPage": 8
+    },
+    "actualOldCard": {
+      "id": "d-e4c2df830ac7b134c275",
+      "kind": "Removed",
+      "category": "Material",
+      "oldText": "12.5%",
+      "newText": "",
+      "structurePath": {
+        "section": "clauses",
+        "entity": null,
+        "field": null,
+        "table": null,
+        "rowKey": null,
+        "confidence": "candidate"
+      }
+    },
+    "newShareSourceInUnresolved": {
+      "unitId": "u254",
+      "pageIndex": 7,
+      "text": "10.0%",
+      "rawRange": [
+        767,
+        772
+      ]
+    },
+    "differenceCardsUsingNewShareSource": [],
+    "structuralEvidence": "structural-diagnostics.json",
+    "productChanged": false
+  },
+  {
+    "id": "RENEWAL-02",
+    "pair": "aviation_2024_vs_2025",
+    "engine": "mupdf",
+    "status": "CONFIRMED_INCOMPLETE_BUSINESS_EVENT_WITH_PARTIAL_WARNING",
+    "expected": {
+      "entity": "HPX 0624",
+      "oldShare": "12.5%",
+      "newShare": "10.0%",
+      "leftPdfPage": 8,
+      "rightPdfPage": 8
+    },
+    "actualOldCard": {
+      "id": "d-c2dddb5720046c12291b",
+      "kind": "Removed",
+      "category": "Material",
+      "oldText": "12.5%",
+      "newText": "",
+      "structurePath": {
+        "section": "clauses",
+        "entity": null,
+        "field": null,
+        "table": null,
+        "rowKey": null,
+        "confidence": "candidate"
+      }
+    },
+    "newShareSourceInUnresolved": {
+      "unitId": "u219",
+      "pageIndex": 7,
+      "text": "10.0%",
+      "rawRange": [
+        753,
+        758
+      ]
+    },
+    "differenceCardsUsingNewShareSource": [],
+    "structuralEvidence": "structural-diagnostics.json",
+    "productChanged": false
+  }
+]

@@ -1,0 +1,211 @@
+{
+  "productRevision": "6850bb5773174ae65637fa5a6ebf3c9ff2bf7469",
+  "runId": 40273859874,
+  "runUrl": "https://github.com/wlvh/policy-compare/actions/runs/40273859874",
+  "status": "PASS",
+  "treeEquality": "PASS",
+  "productTree": "14095a2ad24d69b328fd8a300cd37a7552bbc0ff",
+  "testMergeRefs": [
+    "bb73181a7c404d8f55966e7f3b3d3ea10e6ca5b7"
+  ],
+  "containerStatus": {
+    "pdfjs": "PASS",
+    "mupdf": "PASS"
+  },
+  "functional": {
+    "pdfjs": {
+      "rules": "PASS",
+      "browserStats": {
+        "startTime": "2026-10-26T05:23:21.458Z",
+        "duration": 108864.16,
+        "expected": 15,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "reviewPdf": "PASS",
+      "reviewBrowser": "PASS",
+      "environment": {
+        "commit": "bb73181a7c404d8f55966e7f3b3d3ea10e6ca5b7",
+        "runId": "40273859874",
+        "engine": "pdfjs",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "arch": "x64",
+        "cpu": "AMD EPYC 7763 64-Core Processor",
+        "memoryBytes": 8317034496,
+        "purpose": "functional checks only; not target-device performance acceptance"
+      }
+    },
+    "mupdf": {
+      "rules": "PASS",
+      "browserStats": {
+        "startTime": "2026-10-26T05:23:20.735Z",
+        "duration": 115685.461,
+        "expected": 15,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "reviewPdf": "PASS",
+      "reviewBrowser": "PASS",
+      "environment": {
+        "commit": "bb73181a7c404d8f55966e7f3b3d3ea10e6ca5b7",
+        "runId": "40273859874",
+        "engine": "mupdf",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "arch": "x64",
+        "cpu": "AMD EPYC 7763 64-Core Processor",
+        "memoryBytes": 8317034496,
+        "purpose": "functional checks only; not target-device performance acceptance"
+      }
+    }
+  },
+  "scope": "Linux functional and container checks; not target-device browser performance",
+  "jobs": [
+    {
+      "name": "fixture-construction",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "functional (mupdf)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "linux-container (pdfjs)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "functional (pdfjs)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "linux-container (mupdf)",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "files": {
+    "reports/ci-review-fixes/40273859874/artifacts/fixture-construction-only/fixture_check_report.json": {
+      "sha256": "6c1f8a45872183cbc5bdf9c65c6d5f87dc7807c4e02f04dcaabecc9ce294a2d3",
+      "bytes": 4393
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/linux-container-mupdf/container-build-mupdf.log": {
+      "sha256": "b3df2ef9b4c5015311635019f0c998daa80d82bee8e6bd9063a4dd59dde71198",
+      "bytes": 8501
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/linux-container-mupdf/container-mupdf.json": {
+      "sha256": "7e174229abc0a22dc991d92671bd539b925514accdc78a4cd3918c3de75f6393",
+      "bytes": 371
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/linux-container-pdfjs/container-build-pdfjs.log": {
+      "sha256": "9c6e99685c7dc76461912f03ea2d5a539a4c9982934efde87d2ff8d0c5108c04",
+      "bytes": 7992
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/linux-container-pdfjs/container-pdfjs.json": {
+      "sha256": "a1b2afffc71d3fa4a37c1f0389abb396c90b2723e9db4dbcd46940d0af2001fb",
+      "bytes": 371
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/browser-review-mupdf.png": {
+      "sha256": "a3a398b635dbf64ad15f896051b3ebade9d22232dbd6d60d30aa90d15a6393db",
+      "bytes": 231469
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/browser-review-regressions-mupdf.json": {
+      "sha256": "f3419e8a23341d197471c60abec7f7281c1dd695bb0edf536608469ec8170654",
+      "bytes": 327138
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/browser-rules-mupdf.json": {
+      "sha256": "e89118e1ae19f5ffa4a97388e76845a0f92ec3a230291dce913a3c7dc4ba6a74",
+      "bytes": 10833
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/browser-tests-mupdf.json": {
+      "sha256": "7edfd89b98f4c9c957695e4acb673472b32a206de288a17f545dfc3cdb94f7dc",
+      "bytes": 420560
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/cancellation-mupdf.json": {
+      "sha256": "982fa1b0f7117b6161f55292a03d282ba566f924fe3ba121cf1df388a47d176e",
+      "bytes": 604
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/ci-environment-mupdf.json": {
+      "sha256": "6915b81155bc147adc5904c87248e4542389424f778d17fd819d7d061becdc63",
+      "bytes": 322
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/core-tests.json": {
+      "sha256": "d185349cc352ebb34a50cbb4ebd3040edfbaf49d64487b822e331d8fbed36a7d",
+      "bytes": 16389
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/pdf-checks-mupdf.json": {
+      "sha256": "6a7d2b63accd68b08d56885aaf69224801b114ce8f326b19539528c6e99d4bd6",
+      "bytes": 776
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/review-regressions-mupdf.json": {
+      "sha256": "2713941438613d5989f4e9768fb1fba2e3307b07dd1fc2c29585d8d0b41d1915",
+      "bytes": 6309
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/rotated-location-mupdf.png": {
+      "sha256": "86f951e24873088bbfdaf9b4a339040e5d8cb7bd8398a712005dcdaa75ecef24",
+      "bytes": 93243
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-mupdf/reports/rules-mupdf.json": {
+      "sha256": "c78eb8085d5993292f209543b083568b2d686ac967e53cc03863e0d7ba69f0da",
+      "bytes": 13221
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/browser-review-pdfjs.png": {
+      "sha256": "e7aab94f93c6440ec41156d9f33562419167b25d2ffe2eee7c85cb2b598f8fbe",
+      "bytes": 234896
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/browser-review-regressions-pdfjs.json": {
+      "sha256": "ac2fc6e36defe30a1ce23f96826db057c15c7f87b1f8ae39bdab9658cc030bd1",
+      "bytes": 206757
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/browser-rules-pdfjs.json": {
+      "sha256": "2c704b080cc92cf2ad6c34bad4a627c92a6e67903619c52cb45c969cd1547f5f",
+      "bytes": 10833
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/browser-tests-pdfjs.json": {
+      "sha256": "5ed511cf76be174ddea0bc7f51dddef3b7f6940363cc45b378d57e65c6101f57",
+      "bytes": 420560
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/cancellation-pdfjs.json": {
+      "sha256": "309ba975984e8ad7c9a42d5eafcb8c4da47d17c2bd246ffae4f33e428d4ac508",
+      "bytes": 568
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/ci-environment-pdfjs.json": {
+      "sha256": "2b54c0bb6c9a1a7d641806181b7eca0faf4ad7c1800d6a8e0f01bf2bdf2bf4d4",
+      "bytes": 322
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/core-tests.json": {
+      "sha256": "9cb77081b6c72d5fa8dbe33e90dcb71205c5ecec27f020f63989e25cc8dc5c3b",
+      "bytes": 16375
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/pdf-checks-pdfjs.json": {
+      "sha256": "f1f4a4a26bc7f4f52329526e625c2c21cea6ee823affe342aba6bc3f08ea4354",
+      "bytes": 796
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/review-regressions-pdfjs.json": {
+      "sha256": "1d532a0b6410d5651bd6e20940a0190063e23ca9685dc08012f6c47e61ed77d0",
+      "bytes": 6141
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/rotated-location-pdfjs.png": {
+      "sha256": "4a341def147289863f9e7b896cf3ff5e556abf9628e5bd7b734b2ef8ed5cdf71",
+      "bytes": 94177
+    },
+    "reports/ci-review-fixes/40273859874/artifacts/reports-pdfjs/reports/rules-pdfjs.json": {
+      "sha256": "5ed38ab5e3d2f29c7efc6ae7592b5c47e288a037b7adb7698ac4020946383339",
+      "bytes": 13278
+    },
+    "reports/ci-review-fixes/40273859874/run.json": {
+      "sha256": "3d3311170562eda1edc7b84bf05b53dbd150eeaf526602461cb01b93934e6853",
+      "bytes": 19767
+    },
+    "reports/ci-review-fixes/40273859874/run.log": {
+      "sha256": "b526a94347eb0b15f2b5fcf1637f759b452454994297bd221164e6e0300bb31b",
+      "bytes": 307573
+    }
+  }
+}

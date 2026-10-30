@@ -1,0 +1,705 @@
+{
+  "MIT": [
+    {
+      "name": "@esbuild/darwin-arm64",
+      "versions": [
+        "0.28.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@esbuild+darwin-arm64@0.28.2/node_modules/@esbuild/darwin-arm64"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/evanw/esbuild#readme",
+      "description": "The macOS ARM 64-bit binary for esbuild, a JavaScript bundler."
+    },
+    {
+      "name": "@jridgewell/resolve-uri",
+      "versions": [
+        "3.1.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@jridgewell+resolve-uri@3.1.2/node_modules/@jridgewell/resolve-uri"
+      ],
+      "license": "MIT",
+      "author": "Justin Ridgewell",
+      "homepage": "https://github.com/jridgewell/resolve-uri#readme",
+      "description": "Resolve a URI relative to an optional base URI"
+    },
+    {
+      "name": "@jridgewell/sourcemap-codec",
+      "versions": [
+        "1.6.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@jridgewell+sourcemap-codec@1.6.0/node_modules/@jridgewell/sourcemap-codec"
+      ],
+      "license": "MIT",
+      "author": "Justin Ridgewell",
+      "homepage": "https://github.com/jridgewell/sourcemaps/tree/main/packages/sourcemap-codec",
+      "description": "Encode/decode sourcemap mappings"
+    },
+    {
+      "name": "@jridgewell/trace-mapping",
+      "versions": [
+        "0.3.31"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@jridgewell+trace-mapping@0.3.31/node_modules/@jridgewell/trace-mapping"
+      ],
+      "license": "MIT",
+      "author": "Justin Ridgewell",
+      "homepage": "https://github.com/jridgewell/sourcemaps/tree/main/packages/trace-mapping",
+      "description": "Trace the original position through a source map"
+    },
+    {
+      "name": "@noble/hashes",
+      "versions": [
+        "2.0.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@noble+hashes@2.0.1/node_modules/@noble/hashes"
+      ],
+      "license": "MIT",
+      "author": "Paul Miller",
+      "homepage": "https://paulmillr.com/noble/",
+      "description": "Audited & minimal 0-dependency JS implementation of SHA, RIPEMD, BLAKE, HMAC, HKDF, PBKDF & Scrypt"
+    },
+    {
+      "name": "@oxc-project/types",
+      "versions": [
+        "0.155.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@oxc-project+types@0.155.0/node_modules/@oxc-project/types"
+      ],
+      "license": "MIT",
+      "author": "Boshen and oxc contributors",
+      "homepage": "https://oxc.rs",
+      "description": "Types for Oxc AST nodes"
+    },
+    {
+      "name": "@rolldown/binding-darwin-arm64",
+      "versions": [
+        "1.2.15"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@rolldown+binding-darwin-arm64@1.2.15/node_modules/@rolldown/binding-darwin-arm64"
+      ],
+      "license": "MIT",
+      "homepage": "https://rolldown.rs/",
+      "description": "Fast JavaScript/TypeScript bundler in Rust with Rollup-compatible API."
+    },
+    {
+      "name": "@rolldown/pluginutils",
+      "versions": [
+        "1.0.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@rolldown+pluginutils@1.0.1/node_modules/@rolldown/pluginutils"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/rolldown/plugins/tree/main/packages/pluginutils#readme",
+      "description": "Plugin utilities for Rolldown"
+    },
+    {
+      "name": "@types/chai",
+      "versions": [
+        "5.2.3"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@types+chai@5.2.3/node_modules/@types/chai"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/chai",
+      "description": "TypeScript definitions for chai"
+    },
+    {
+      "name": "@types/deep-eql",
+      "versions": [
+        "4.0.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@types+deep-eql@4.0.2/node_modules/@types/deep-eql"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/deep-eql",
+      "description": "TypeScript definitions for deep-eql"
+    },
+    {
+      "name": "@types/estree",
+      "versions": [
+        "1.0.9"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@types+estree@1.0.9/node_modules/@types/estree"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/estree",
+      "description": "TypeScript definitions for estree"
+    },
+    {
+      "name": "@types/node",
+      "versions": [
+        "24.10.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@types+node@24.10.1/node_modules/@types/node"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node",
+      "description": "TypeScript definitions for node"
+    },
+    {
+      "name": "@types/react",
+      "versions": [
+        "19.2.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@types+react@19.2.2/node_modules/@types/react"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react",
+      "description": "TypeScript definitions for react"
+    },
+    {
+      "name": "@types/react-dom",
+      "versions": [
+        "19.2.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@types+react-dom@19.2.2_@types+react@19.2.2/node_modules/@types/react-dom"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-dom",
+      "description": "TypeScript definitions for react-dom"
+    },
+    {
+      "name": "@vitest/mocker",
+      "versions": [
+        "5.0.5"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@vitest+mocker@5.0.5_vite@8.3.5_@types+node@24.10.1_esbuild@0.28.2_tsx@4.23.15_/node_modules/@vitest/mocker"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/vitest-dev/vitest/tree/main/packages/mocker",
+      "description": "Vitest module mocker implementation"
+    },
+    {
+      "name": "@vitest/spy",
+      "versions": [
+        "5.0.5"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@vitest+spy@5.0.5/node_modules/@vitest/spy"
+      ],
+      "license": "MIT",
+      "homepage": "https://vitest.dev/api/mock",
+      "description": "Lightweight Jest compatible spy implementation"
+    },
+    {
+      "name": "assertion-error",
+      "versions": [
+        "2.0.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/assertion-error@2.0.1/node_modules/assertion-error"
+      ],
+      "license": "MIT",
+      "author": "Jake Luer",
+      "homepage": "https://github.com/chaijs/assertion-error#readme",
+      "description": "Error constructor for test and validation frameworks that implements standardized AssertionError specification."
+    },
+    {
+      "name": "chai",
+      "versions": [
+        "6.3.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/chai@6.3.0/node_modules/chai"
+      ],
+      "license": "MIT",
+      "author": "Jake Luer",
+      "homepage": "http://chaijs.com",
+      "description": "BDD/TDD assertion library for node.js and the browser. Test framework agnostic."
+    },
+    {
+      "name": "csstype",
+      "versions": [
+        "3.2.3"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/csstype@3.2.3/node_modules/csstype"
+      ],
+      "license": "MIT",
+      "author": "Fredrik Nicol",
+      "homepage": "https://github.com/frenic/csstype#readme",
+      "description": "Strict TypeScript and Flow types for style based on MDN data"
+    },
+    {
+      "name": "es-module-lexer",
+      "versions": [
+        "2.3.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/es-module-lexer@2.3.2/node_modules/es-module-lexer"
+      ],
+      "license": "MIT",
+      "author": "Guy Bedford",
+      "homepage": "https://github.com/guybedford/es-module-lexer#readme",
+      "description": "Lexes ES modules returning their import/export metadata"
+    },
+    {
+      "name": "esbuild",
+      "versions": [
+        "0.28.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/esbuild@0.28.2/node_modules/esbuild"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/evanw/esbuild#readme",
+      "description": "An extremely fast JavaScript and CSS bundler and minifier."
+    },
+    {
+      "name": "estree-walker",
+      "versions": [
+        "3.0.3"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/estree-walker@3.0.3/node_modules/estree-walker"
+      ],
+      "license": "MIT",
+      "author": "Rich Harris",
+      "homepage": "https://github.com/Rich-Harris/estree-walker#readme",
+      "description": "Traverse an ESTree-compliant AST"
+    },
+    {
+      "name": "fdir",
+      "versions": [
+        "6.5.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/fdir@6.5.0_picomatch@4.0.7/node_modules/fdir"
+      ],
+      "license": "MIT",
+      "author": "thecodrr",
+      "homepage": "https://github.com/thecodrr/fdir#readme",
+      "description": "The fastest directory crawler & globbing alternative to glob, fast-glob, & tiny-glob. Crawls 1m files in < 1s"
+    },
+    {
+      "name": "fsevents",
+      "versions": [
+        "2.3.3"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/fsevents@2.3.3/node_modules/fsevents"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/fsevents/fsevents",
+      "description": "Native Access to MacOS FSEvents"
+    },
+    {
+      "name": "magic-string",
+      "versions": [
+        "1.4.3"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/magic-string@1.4.3/node_modules/magic-string"
+      ],
+      "license": "MIT",
+      "author": "Rich Harris",
+      "homepage": "https://github.com/Rich-Harris/magic-string#readme",
+      "description": "Modify strings, generate sourcemaps"
+    },
+    {
+      "name": "nanoid",
+      "versions": [
+        "3.3.20"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/nanoid@3.3.20/node_modules/nanoid"
+      ],
+      "license": "MIT",
+      "author": "Andrey Sitnik",
+      "homepage": "https://github.com/ai/nanoid#readme",
+      "description": "A tiny (116 bytes), secure URL-friendly unique string ID generator"
+    },
+    {
+      "name": "obug",
+      "versions": [
+        "3.0.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/obug@3.0.0/node_modules/obug"
+      ],
+      "license": "MIT",
+      "author": "Kevin Deng",
+      "homepage": "https://github.com/sxzz/obug#readme",
+      "description": "A lightweight JavaScript debugging utility, forked from debug, featuring TypeScript and ESM support."
+    },
+    {
+      "name": "picomatch",
+      "versions": [
+        "4.0.7"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/picomatch@4.0.7/node_modules/picomatch"
+      ],
+      "license": "MIT",
+      "author": "Jon Schlinkert",
+      "homepage": "https://github.com/micromatch/picomatch",
+      "description": "Blazing fast and accurate glob matcher written in JavaScript, with no dependencies and full support for standard and extended Bash glob features, including braces, extglobs, POSIX brackets, and regular expressions."
+    },
+    {
+      "name": "postcss",
+      "versions": [
+        "8.5.31"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/postcss@8.5.31/node_modules/postcss"
+      ],
+      "license": "MIT",
+      "author": "Andrey Sitnik",
+      "homepage": "https://postcss.org/",
+      "description": "Tool for transforming styles with JS plugins"
+    },
+    {
+      "name": "react",
+      "versions": [
+        "19.3.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/react@19.3.1/node_modules/react"
+      ],
+      "license": "MIT",
+      "homepage": "https://react.dev/",
+      "description": "React is a JavaScript library for building user interfaces."
+    },
+    {
+      "name": "react-dom",
+      "versions": [
+        "19.3.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/react-dom@19.3.1_react@19.3.1/node_modules/react-dom"
+      ],
+      "license": "MIT",
+      "homepage": "https://react.dev/",
+      "description": "React package for working with the DOM."
+    },
+    {
+      "name": "rolldown",
+      "versions": [
+        "1.2.15"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/rolldown@1.2.15/node_modules/rolldown"
+      ],
+      "license": "MIT",
+      "homepage": "https://rolldown.rs/",
+      "description": "Fast JavaScript/TypeScript bundler in Rust with Rollup-compatible API."
+    },
+    {
+      "name": "scheduler",
+      "versions": [
+        "0.28.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scheduler@0.28.0/node_modules/scheduler"
+      ],
+      "license": "MIT",
+      "homepage": "https://react.dev/",
+      "description": "Cooperative scheduler for the browser environment."
+    },
+    {
+      "name": "std-env",
+      "versions": [
+        "4.3.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/std-env@4.3.0/node_modules/std-env"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/unjs/std-env#readme",
+      "description": "Runtime agnostic JS utils"
+    },
+    {
+      "name": "tinybench",
+      "versions": [
+        "6.2.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tinybench@6.2.2/node_modules/tinybench"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/tinylibs/tinybench#readme",
+      "description": "🔎 A simple, tiny and lightweight benchmarking library!"
+    },
+    {
+      "name": "tinyexec",
+      "versions": [
+        "1.3.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tinyexec@1.3.1/node_modules/tinyexec"
+      ],
+      "license": "MIT",
+      "author": "James Garbutt",
+      "homepage": "https://github.com/tinylibs/tinyexec#readme",
+      "description": "A minimal library for executing processes in Node"
+    },
+    {
+      "name": "tinyglobby",
+      "versions": [
+        "0.2.17"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tinyglobby@0.2.17/node_modules/tinyglobby"
+      ],
+      "license": "MIT",
+      "author": "Superchupu",
+      "homepage": "https://superchupu.dev/tinyglobby",
+      "description": "A fast and minimal alternative to globby and fast-glob"
+    },
+    {
+      "name": "tsx",
+      "versions": [
+        "4.23.15"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tsx@4.23.15/node_modules/tsx"
+      ],
+      "license": "MIT",
+      "author": "Hiroki Osame",
+      "homepage": "https://tsx.hirok.io",
+      "description": "TypeScript Execute (tsx): Node.js enhanced with esbuild to run TypeScript & ESM files"
+    },
+    {
+      "name": "undici-types",
+      "versions": [
+        "7.16.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/undici-types@7.16.0/node_modules/undici-types"
+      ],
+      "license": "MIT",
+      "homepage": "https://undici.nodejs.org",
+      "description": "A stand-alone types package for Undici"
+    },
+    {
+      "name": "vite",
+      "versions": [
+        "8.3.5"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/vite@8.3.5_@types+node@24.10.1_esbuild@0.28.2_tsx@4.23.15/node_modules/vite"
+      ],
+      "license": "MIT",
+      "author": "Evan You",
+      "homepage": "https://vite.dev",
+      "description": "Native-ESM powered web dev build tool"
+    },
+    {
+      "name": "vitest",
+      "versions": [
+        "5.0.5"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/vitest@5.0.5_@types+node@24.10.1_vite@8.3.5_@types+node@24.10.1_esbuild@0.28.2_tsx@4.23.15_/node_modules/vitest"
+      ],
+      "license": "MIT",
+      "author": "Anthony Fu",
+      "homepage": "https://vitest.dev",
+      "description": "Next generation testing framework powered by Vite"
+    },
+    {
+      "name": "why-is-node-running",
+      "versions": [
+        "3.2.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/why-is-node-running@3.2.1/node_modules/why-is-node-running"
+      ],
+      "license": "MIT",
+      "author": "Mathias Buus",
+      "homepage": "https://github.com/mafintosh/why-is-node-running",
+      "description": "Node is running but you don't know why? why-is-node-running is here to help you."
+    },
+    {
+      "name": "zod",
+      "versions": [
+        "4.6.7"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/zod@4.6.7/node_modules/zod"
+      ],
+      "license": "MIT",
+      "author": "Colin McDonnell",
+      "homepage": "https://zod.dev",
+      "description": "TypeScript-first schema declaration and validation library with static type inference"
+    }
+  ],
+  "Apache-2.0": [
+    {
+      "name": "@playwright/test",
+      "versions": [
+        "1.64.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@playwright+test@1.64.1/node_modules/@playwright/test"
+      ],
+      "license": "Apache-2.0",
+      "author": "Microsoft Corporation",
+      "homepage": "https://playwright.dev",
+      "description": "A high-level API to automate web browsers"
+    },
+    {
+      "name": "@typescript/typescript-darwin-arm64",
+      "versions": [
+        "7.0.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/@typescript+typescript-darwin-arm64@7.0.2/node_modules/@typescript/typescript-darwin-arm64"
+      ],
+      "license": "Apache-2.0",
+      "author": "Microsoft Corp.",
+      "homepage": "https://www.typescriptlang.org/",
+      "description": "TypeScript is a language for application scale JavaScript development"
+    },
+    {
+      "name": "detect-libc",
+      "versions": [
+        "2.1.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/detect-libc@2.1.2/node_modules/detect-libc"
+      ],
+      "license": "Apache-2.0",
+      "author": "Lovell Fuller",
+      "homepage": "https://github.com/lovell/detect-libc#readme",
+      "description": "Node.js module to detect the C standard library (libc) implementation family and version"
+    },
+    {
+      "name": "expect-type",
+      "versions": [
+        "1.4.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/expect-type@1.4.0/node_modules/expect-type"
+      ],
+      "license": "Apache-2.0",
+      "homepage": "https://github.com/mmkal/expect-type#readme"
+    },
+    {
+      "name": "playwright",
+      "versions": [
+        "1.64.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright@1.64.1/node_modules/playwright"
+      ],
+      "license": "Apache-2.0",
+      "author": "Microsoft Corporation",
+      "homepage": "https://playwright.dev",
+      "description": "A high-level API to automate web browsers"
+    },
+    {
+      "name": "playwright-core",
+      "versions": [
+        "1.64.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright-core@1.64.1/node_modules/playwright-core"
+      ],
+      "license": "Apache-2.0",
+      "author": "Microsoft Corporation",
+      "homepage": "https://playwright.dev",
+      "description": "A high-level API to automate web browsers"
+    },
+    {
+      "name": "typescript",
+      "versions": [
+        "7.0.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/typescript@7.0.2/node_modules/typescript"
+      ],
+      "license": "Apache-2.0",
+      "author": "Microsoft Corp.",
+      "homepage": "https://www.typescriptlang.org/",
+      "description": "TypeScript is a language for application scale JavaScript development"
+    }
+  ],
+  "MPL-2.0": [
+    {
+      "name": "lightningcss",
+      "versions": [
+        "1.33.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/lightningcss@1.33.0/node_modules/lightningcss"
+      ],
+      "license": "MPL-2.0",
+      "homepage": "https://github.com/parcel-bundler/lightningcss#readme",
+      "description": "A CSS parser, transformer, and minifier written in Rust"
+    },
+    {
+      "name": "lightningcss-darwin-arm64",
+      "versions": [
+        "1.33.0"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/lightningcss-darwin-arm64@1.33.0/node_modules/lightningcss-darwin-arm64"
+      ],
+      "license": "MPL-2.0",
+      "homepage": "https://github.com/parcel-bundler/lightningcss#readme",
+      "description": "A CSS parser, transformer, and minifier written in Rust"
+    }
+  ],
+  "AGPL-3.0-or-later": [
+    {
+      "name": "mupdf",
+      "versions": [
+        "1.28.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf"
+      ],
+      "license": "AGPL-3.0-or-later",
+      "author": "Artifex Software, Inc.",
+      "homepage": "https://mupdf.readthedocs.io/en/latest/",
+      "description": "MuPDF.js"
+    }
+  ],
+  "ISC": [
+    {
+      "name": "picocolors",
+      "versions": [
+        "1.1.1"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/picocolors@1.1.1/node_modules/picocolors"
+      ],
+      "license": "ISC",
+      "author": "Alexey Raspopov",
+      "homepage": "https://github.com/alexeyraspopov/picocolors#readme",
+      "description": "The tiniest and the fastest library for terminal output formatting with ANSI colors"
+    }
+  ],
+  "BSD-3-Clause": [
+    {
+      "name": "source-map-js",
+      "versions": [
+        "1.2.2"
+      ],
+      "paths": [
+        "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/source-map-js@1.2.2/node_modules/source-map-js"
+      ],
+      "license": "BSD-3-Clause",
+      "author": "Valentin 7rulnik Semirulnik",
+      "homepage": "https://github.com/7rulnik/source-map-js",
+      "description": "Generates and consumes source maps"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+import {chromium} from '@playwright/test';import {writeFileSync} from 'node:fs';import {execFileSync} from 'node:child_process';import path from 'node:path';
+const smoke=process.argv.includes('--smoke'),repeats=smoke?1:20,output=smoke?'reports/interaction-smoke.json':'reports/interaction-profile.json';
+const records:any[]=[],commit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const percentile=(xs:number[])=>[...xs].sort((a,b)=>a-b)[Math.max(0,Math.ceil(xs.length*.95)-1)];
+for(let iteration=1;iteration<=repeats;iteration++)for(const engine of iteration%2?['pdfjs','mupdf']:['mupdf','pdfjs']){
+  const browser=await chromium.launch({channel:'chrome',headless:true});const page=await browser.newPage({viewport:{width:1500,height:1000}});const samples:any[]=[];
+  try{
+    await page.goto(`http://127.0.0.1:${engine==='pdfjs'?8081:8082}`);await page.waitForSelector('main[data-engine-ready="true"]');
+    for(const [side,name] of [[0,'before'],[1,'after']] as const)await page.getByLabel(side?'待审 PDF':'基准 PDF',{exact:true}).setInputFiles(path.resolve(`bench/generated/template_change-standard/${name}.pdf`));
+    await page.getByRole('button',{name:'开始比较',exact:true}).click();
+    let n=0;
+    while(!(await page.evaluate(()=>typeof window.__policyMetrics.total==='number'))){
+      if(await page.locator('[data-status]').getAttribute('data-status')==='failed')throw new Error('Comparison failed');
+      const start=performance.now();await page.getByLabel('按变化方式筛选').selectOption(n++%2?'Replaced':'all');await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>r(null))));samples.push({kind:'filter_during_comparison',ms:performance.now()-start});
+      if(n>300)throw new Error('Comparison timeout');
+    }
+    let start=performance.now();await page.getByLabel('按变化方式筛选').selectOption('all');await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>r(null))));samples.push({kind:'filter_full_results',ms:performance.now()-start});
+    const card=page.locator('.card').filter({hasText:'asset 00449'}).first();await card.scrollIntoViewIfNeeded();start=performance.now();await card.click();await page.waitForFunction(()=>[...document.querySelectorAll('.card.selected')].some(e=>e.textContent?.includes('asset 00449')));samples.push({kind:'jump_feedback',ms:performance.now()-start});await page.waitForFunction(()=>document.querySelectorAll('[data-ready-page="44"]').length===2);const jumpCompleteMs=performance.now()-start;
+    for(let i=0;i<4;i++){start=performance.now();await page.locator('.page-scroll').first().evaluate((el,y)=>{el.scrollTop=y;},i%2?50:200);await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>r(null))));samples.push({kind:'scroll',ms:performance.now()-start});}
+    await page.getByRole('button',{name:'开始比较',exact:true}).click();await page.waitForFunction(()=>window.__policyMetrics.extraction!==undefined||document.querySelector('[data-status]')?.getAttribute('data-status')==='complete_for_scope',{},{timeout:20000});start=performance.now();const cancel=page.getByRole('button',{name:'取消',exact:true});if(!(await cancel.isEnabled()))throw new Error('Task completed before cancellation measurement');await cancel.click();while(page.workers().length&&performance.now()-start<1500)await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>r(null))));const cancelMs=performance.now()-start;
+    records.push({engine,iteration,status:cancelMs<=1000&&page.workers().length===0?'PASS':'FAIL',samples,jumpCompleteMs,cancelMs,remainingWorkers:page.workers().length});console.log(engine,iteration,'interaction p95',percentile(samples.map(s=>s.ms)).toFixed(1),'cancel',cancelMs.toFixed(1));
+  }catch(e){records.push({engine,iteration,status:'FAIL',samples,error:String(e)});console.log(engine,iteration,'FAIL',String(e));}finally{await browser.close();writeFileSync(output,JSON.stringify({productRevision:commit,subject:'focused_late_filter_scroll_jump_cancel_on_standard_template',responseDefinition:'Input dispatch through automation to selected-state/frame feedback; page-render completion listed separately. Includes RPC overhead.',records},null,2)+'\n');}
+}
+const summary=['pdfjs','mupdf'].map(engine=>{const rows=records.filter(r=>r.engine===engine),responses=rows.flatMap(r=>r.samples.map((s:any)=>s.ms));return {engine,attempts:rows.length,failures:rows.filter(r=>r.status!=='PASS').length,responseP95:percentile(responses),responseMax:Math.max(...responses),jumpCompleteP95:percentile(rows.map(r=>r.jumpCompleteMs??Infinity)),cancelP95:percentile(rows.map(r=>r.cancelMs??Infinity)),status:rows.every(r=>r.status==='PASS')&&percentile(responses)<=100?'PASS':'FAIL'};});
+writeFileSync(output,JSON.stringify({productRevision:commit,subject:'focused_late_filter_scroll_jump_cancel_on_standard_template',responseDefinition:'Automation dispatch to selected-state or next frame; complete page jump is a separate metric.',summary,records},null,2)+'\n');console.log(summary);process.exitCode=summary.every(s=>s.status==='PASS')?0:1;

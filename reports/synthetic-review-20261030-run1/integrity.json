@@ -1,0 +1,649 @@
+{
+  "checkedAt": "2026-10-30T13:34:44.204283+00:00",
+  "testedCommit": "6fc78dc77b417fc374f7b5505ae11fa1be1a8afe",
+  "baselineProductCommit": "33ec5ba4448a686d65490f15e7be8c32d30bd74c",
+  "baselineToTestedChangedPaths": [
+    "validation/synthetic-review-20261030.zip",
+    "validation/synthetic-review-20261030/README.md",
+    "validation/synthetic-review-20261030/artifact-checks.json",
+    "validation/synthetic-review-20261030/author-layout.json",
+    "validation/synthetic-review-20261030/cases/E01/after.pdf",
+    "validation/synthetic-review-20261030/cases/E01/before.pdf",
+    "validation/synthetic-review-20261030/cases/E01/changes.json",
+    "validation/synthetic-review-20261030/cases/E02/after.pdf",
+    "validation/synthetic-review-20261030/cases/E02/before.pdf",
+    "validation/synthetic-review-20261030/cases/E02/changes.json",
+    "validation/synthetic-review-20261030/cases/E03/after.pdf",
+    "validation/synthetic-review-20261030/cases/E03/before.pdf",
+    "validation/synthetic-review-20261030/cases/E03/changes.json",
+    "validation/synthetic-review-20261030/cases/P01/after.pdf",
+    "validation/synthetic-review-20261030/cases/P01/before.pdf",
+    "validation/synthetic-review-20261030/cases/P01/changes.json",
+    "validation/synthetic-review-20261030/cases/P02/after.pdf",
+    "validation/synthetic-review-20261030/cases/P02/before.pdf",
+    "validation/synthetic-review-20261030/cases/P02/changes.json",
+    "validation/synthetic-review-20261030/cases/P03/after.pdf",
+    "validation/synthetic-review-20261030/cases/P03/before.pdf",
+    "validation/synthetic-review-20261030/cases/P03/changes.json",
+    "validation/synthetic-review-20261030/cases/P04/after.pdf",
+    "validation/synthetic-review-20261030/cases/P04/before.pdf",
+    "validation/synthetic-review-20261030/cases/P04/changes.json",
+    "validation/synthetic-review-20261030/cases/P05/after.pdf",
+    "validation/synthetic-review-20261030/cases/P05/before.pdf",
+    "validation/synthetic-review-20261030/cases/P05/changes.json",
+    "validation/synthetic-review-20261030/cases/P06/after.pdf",
+    "validation/synthetic-review-20261030/cases/P06/before.pdf",
+    "validation/synthetic-review-20261030/cases/P06/changes.json",
+    "validation/synthetic-review-20261030/cases/P07/after.pdf",
+    "validation/synthetic-review-20261030/cases/P07/before.pdf",
+    "validation/synthetic-review-20261030/cases/P07/changes.json",
+    "validation/synthetic-review-20261030/cases/P08/after.pdf",
+    "validation/synthetic-review-20261030/cases/P08/before.pdf",
+    "validation/synthetic-review-20261030/cases/P08/changes.json",
+    "validation/synthetic-review-20261030/cases/P09/after.pdf",
+    "validation/synthetic-review-20261030/cases/P09/before.pdf",
+    "validation/synthetic-review-20261030/cases/P09/changes.json",
+    "validation/synthetic-review-20261030/cases/P10/after.pdf",
+    "validation/synthetic-review-20261030/cases/P10/before.pdf",
+    "validation/synthetic-review-20261030/cases/P10/changes.json",
+    "validation/synthetic-review-20261030/cases/P11/after.pdf",
+    "validation/synthetic-review-20261030/cases/P11/before.pdf",
+    "validation/synthetic-review-20261030/cases/P11/changes.json",
+    "validation/synthetic-review-20261030/cases/P12/after.pdf",
+    "validation/synthetic-review-20261030/cases/P12/before.pdf",
+    "validation/synthetic-review-20261030/cases/P12/changes.json",
+    "validation/synthetic-review-20261030/cases/P13/after.pdf",
+    "validation/synthetic-review-20261030/cases/P13/before.pdf",
+    "validation/synthetic-review-20261030/cases/P13/changes.json",
+    "validation/synthetic-review-20261030/cases/P14/after.pdf",
+    "validation/synthetic-review-20261030/cases/P14/before.pdf",
+    "validation/synthetic-review-20261030/cases/P14/changes.json",
+    "validation/synthetic-review-20261030/compare-pair.mts",
+    "validation/synthetic-review-20261030/generate.py",
+    "validation/synthetic-review-20261030/identity.json",
+    "validation/synthetic-review-20261030/manifest.json",
+    "validation/synthetic-review-20261030/requirements-generate.txt",
+    "validation/synthetic-review-20261030/run-pack.py",
+    "validation/synthetic-review-20261030/sha256.json"
+  ],
+  "modifiedPreexistingTrackedFiles": [],
+  "frozenChecks": [
+    {
+      "case": "P01",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P01/before.pdf",
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+      "expected": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+      "matches": true
+    },
+    {
+      "case": "P01",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P01/after.pdf",
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+      "expected": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+      "matches": true
+    },
+    {
+      "case": "P01",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P01/changes.json",
+      "sha256": "fde09df446fb8de6701adbdf84a2c64aebad57ae883e7ef8fb13af784844e696",
+      "expected": "fde09df446fb8de6701adbdf84a2c64aebad57ae883e7ef8fb13af784844e696",
+      "matches": true
+    },
+    {
+      "case": "P01",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P02",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P02/before.pdf",
+      "sha256": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2",
+      "expected": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2",
+      "matches": true
+    },
+    {
+      "case": "P02",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P02/after.pdf",
+      "sha256": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963",
+      "expected": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963",
+      "matches": true
+    },
+    {
+      "case": "P02",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P02/changes.json",
+      "sha256": "b0de449c1bf9cbc386236f83095e736424d5969791ac073613fac42a39f8690f",
+      "expected": "b0de449c1bf9cbc386236f83095e736424d5969791ac073613fac42a39f8690f",
+      "matches": true
+    },
+    {
+      "case": "P02",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P03",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P03/before.pdf",
+      "sha256": "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f",
+      "expected": "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f",
+      "matches": true
+    },
+    {
+      "case": "P03",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P03/after.pdf",
+      "sha256": "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa",
+      "expected": "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa",
+      "matches": true
+    },
+    {
+      "case": "P03",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P03/changes.json",
+      "sha256": "115c315fafdb1e84c8b582ac5636118d1d8404f729e259695228c44f043d364e",
+      "expected": "115c315fafdb1e84c8b582ac5636118d1d8404f729e259695228c44f043d364e",
+      "matches": true
+    },
+    {
+      "case": "P03",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P04",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P04/before.pdf",
+      "sha256": "59ecb59ff4f365d9e32d9a33fbf87fc8a193ab536fac833c01dc6b500e1ac215",
+      "expected": "59ecb59ff4f365d9e32d9a33fbf87fc8a193ab536fac833c01dc6b500e1ac215",
+      "matches": true
+    },
+    {
+      "case": "P04",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P04/after.pdf",
+      "sha256": "be22e55c1f8d28e5e790d6ee5aa08a05ed98dd82febe608bc9de8992ef17015a",
+      "expected": "be22e55c1f8d28e5e790d6ee5aa08a05ed98dd82febe608bc9de8992ef17015a",
+      "matches": true
+    },
+    {
+      "case": "P04",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P04/changes.json",
+      "sha256": "02dd714d1281ebd9b875c2d0b87043f1f7e75427e37fadff9b9deb9bfc75cfb8",
+      "expected": "02dd714d1281ebd9b875c2d0b87043f1f7e75427e37fadff9b9deb9bfc75cfb8",
+      "matches": true
+    },
+    {
+      "case": "P04",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P05",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P05/before.pdf",
+      "sha256": "0b71a3cc823cbb5f1204c698fe2788b93f76d3da0a937d5d447d66f2387eba68",
+      "expected": "0b71a3cc823cbb5f1204c698fe2788b93f76d3da0a937d5d447d66f2387eba68",
+      "matches": true
+    },
+    {
+      "case": "P05",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P05/after.pdf",
+      "sha256": "4abab04b4eabe14186aea3b81bf6473710da8fdfaba3caea33ef137f34406ac9",
+      "expected": "4abab04b4eabe14186aea3b81bf6473710da8fdfaba3caea33ef137f34406ac9",
+      "matches": true
+    },
+    {
+      "case": "P05",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P05/changes.json",
+      "sha256": "fb69426a921ad56ad0e5f95e52f99665fa523d9e6a46f98c77dd8e00af2fa808",
+      "expected": "fb69426a921ad56ad0e5f95e52f99665fa523d9e6a46f98c77dd8e00af2fa808",
+      "matches": true
+    },
+    {
+      "case": "P05",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P06",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P06/before.pdf",
+      "sha256": "45029e8467e2d08481ec1f5983ac52407728dc5c73b194f404a0707387ff7a85",
+      "expected": "45029e8467e2d08481ec1f5983ac52407728dc5c73b194f404a0707387ff7a85",
+      "matches": true
+    },
+    {
+      "case": "P06",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P06/after.pdf",
+      "sha256": "1f7f0e01b9e939e799073392141cf7046037c4df6a61fff582c19d28780269a3",
+      "expected": "1f7f0e01b9e939e799073392141cf7046037c4df6a61fff582c19d28780269a3",
+      "matches": true
+    },
+    {
+      "case": "P06",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P06/changes.json",
+      "sha256": "a00458d124c0556113cc9c66cd12897dd84dd9fffedc77bf7a5c1ec395c97673",
+      "expected": "a00458d124c0556113cc9c66cd12897dd84dd9fffedc77bf7a5c1ec395c97673",
+      "matches": true
+    },
+    {
+      "case": "P06",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P07",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P07/before.pdf",
+      "sha256": "bc9e60a6f05a7f41650a328be9f6640bdb245ab27ecf3b17784b5f3d53e4e382",
+      "expected": "bc9e60a6f05a7f41650a328be9f6640bdb245ab27ecf3b17784b5f3d53e4e382",
+      "matches": true
+    },
+    {
+      "case": "P07",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P07/after.pdf",
+      "sha256": "707199744e411843476fa154091853d258a41b768c3ec133f6add2b81e758f3d",
+      "expected": "707199744e411843476fa154091853d258a41b768c3ec133f6add2b81e758f3d",
+      "matches": true
+    },
+    {
+      "case": "P07",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P07/changes.json",
+      "sha256": "b5288b5e5496bbf820f8be7c5d2e75ccb7ce436e0b7d66241df25251dcb16f9d",
+      "expected": "b5288b5e5496bbf820f8be7c5d2e75ccb7ce436e0b7d66241df25251dcb16f9d",
+      "matches": true
+    },
+    {
+      "case": "P07",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P08",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P08/before.pdf",
+      "sha256": "d7fdbd067b08e7919e694efec133d741e4d9a1a99e70d441e2ec9499c10e9d8f",
+      "expected": "d7fdbd067b08e7919e694efec133d741e4d9a1a99e70d441e2ec9499c10e9d8f",
+      "matches": true
+    },
+    {
+      "case": "P08",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P08/after.pdf",
+      "sha256": "c0629daedffb47ec3c1263d2352b0278bc8fbe56a69e30d7e8e7af33b9b2562f",
+      "expected": "c0629daedffb47ec3c1263d2352b0278bc8fbe56a69e30d7e8e7af33b9b2562f",
+      "matches": true
+    },
+    {
+      "case": "P08",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P08/changes.json",
+      "sha256": "3abb5d1c83f221806bf8ab14a7fea7581257312b0a1e308d8faa32d66d7c8803",
+      "expected": "3abb5d1c83f221806bf8ab14a7fea7581257312b0a1e308d8faa32d66d7c8803",
+      "matches": true
+    },
+    {
+      "case": "P08",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P09",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P09/before.pdf",
+      "sha256": "6a98d4b951b28845094c04905236c5d74054dac252376a7db8c19014cc4b9dc4",
+      "expected": "6a98d4b951b28845094c04905236c5d74054dac252376a7db8c19014cc4b9dc4",
+      "matches": true
+    },
+    {
+      "case": "P09",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P09/after.pdf",
+      "sha256": "5b50304b00935d908c15a5a302f2cfd259fdfad8101b3ac098ded0539d1f9e42",
+      "expected": "5b50304b00935d908c15a5a302f2cfd259fdfad8101b3ac098ded0539d1f9e42",
+      "matches": true
+    },
+    {
+      "case": "P09",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P09/changes.json",
+      "sha256": "2f5e4a6cb4a76d091b2b83af02cfb4a82694f8586f05a3a55dec3791bae3e62c",
+      "expected": "2f5e4a6cb4a76d091b2b83af02cfb4a82694f8586f05a3a55dec3791bae3e62c",
+      "matches": true
+    },
+    {
+      "case": "P09",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P10",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P10/before.pdf",
+      "sha256": "67932a9ff52fa4ff158470eb5580be238b1cbeb0bcbf5e5ecafdb23f87af5c16",
+      "expected": "67932a9ff52fa4ff158470eb5580be238b1cbeb0bcbf5e5ecafdb23f87af5c16",
+      "matches": true
+    },
+    {
+      "case": "P10",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P10/after.pdf",
+      "sha256": "da2a19ebea5d9593825ed2756e8556d8d61786967abb164383c35a36e4456020",
+      "expected": "da2a19ebea5d9593825ed2756e8556d8d61786967abb164383c35a36e4456020",
+      "matches": true
+    },
+    {
+      "case": "P10",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P10/changes.json",
+      "sha256": "1e782ca60cfc1d69b4cf2901cd29bfb0fc56ff7d1aeba97cd91c6bae1f47a3c4",
+      "expected": "1e782ca60cfc1d69b4cf2901cd29bfb0fc56ff7d1aeba97cd91c6bae1f47a3c4",
+      "matches": true
+    },
+    {
+      "case": "P10",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P11",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P11/before.pdf",
+      "sha256": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447",
+      "expected": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447",
+      "matches": true
+    },
+    {
+      "case": "P11",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P11/after.pdf",
+      "sha256": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31",
+      "expected": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31",
+      "matches": true
+    },
+    {
+      "case": "P11",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P11/changes.json",
+      "sha256": "962bc4b1ac5c66399f3c2b0660ffb8296da3861f267513a56498ddb083b96522",
+      "expected": "962bc4b1ac5c66399f3c2b0660ffb8296da3861f267513a56498ddb083b96522",
+      "matches": true
+    },
+    {
+      "case": "P11",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P12",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P12/before.pdf",
+      "sha256": "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba",
+      "expected": "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba",
+      "matches": true
+    },
+    {
+      "case": "P12",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P12/after.pdf",
+      "sha256": "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947",
+      "expected": "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947",
+      "matches": true
+    },
+    {
+      "case": "P12",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P12/changes.json",
+      "sha256": "7ecef7b11da64fe6a9f124086ad8ca726c3076f140d39af5e1b26a8569ec9ffc",
+      "expected": "7ecef7b11da64fe6a9f124086ad8ca726c3076f140d39af5e1b26a8569ec9ffc",
+      "matches": true
+    },
+    {
+      "case": "P12",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P13",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P13/before.pdf",
+      "sha256": "f889823c7c260a582d1aaf90a0958c2b61361b7747ec4cd58fc9e91b33ff318b",
+      "expected": "f889823c7c260a582d1aaf90a0958c2b61361b7747ec4cd58fc9e91b33ff318b",
+      "matches": true
+    },
+    {
+      "case": "P13",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P13/after.pdf",
+      "sha256": "1ffa2e0d3b3b3ce4189551d372c976ce9bd336f199d4bfb6d6e296d0e2b6e226",
+      "expected": "1ffa2e0d3b3b3ce4189551d372c976ce9bd336f199d4bfb6d6e296d0e2b6e226",
+      "matches": true
+    },
+    {
+      "case": "P13",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P13/changes.json",
+      "sha256": "f32e1ee700d8ca08be40186463ad960881330449629fd16998fa882bc63d188d",
+      "expected": "f32e1ee700d8ca08be40186463ad960881330449629fd16998fa882bc63d188d",
+      "matches": true
+    },
+    {
+      "case": "P13",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "P14",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/P14/before.pdf",
+      "sha256": "2e1e5a22868bc622b4887195e54e6a15938055f8b165d5f8e94ad218c9bd9f34",
+      "expected": "2e1e5a22868bc622b4887195e54e6a15938055f8b165d5f8e94ad218c9bd9f34",
+      "matches": true
+    },
+    {
+      "case": "P14",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/P14/after.pdf",
+      "sha256": "b16ecc156ede8b3bd6932ddfa754c4bd3e3c41ad0167c3e9b0aabb229bae0e15",
+      "expected": "b16ecc156ede8b3bd6932ddfa754c4bd3e3c41ad0167c3e9b0aabb229bae0e15",
+      "matches": true
+    },
+    {
+      "case": "P14",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/P14/changes.json",
+      "sha256": "4056f849db3ba2fe628f869425115c4df575b1639e1b03dc62b0d04d68767a5c",
+      "expected": "4056f849db3ba2fe628f869425115c4df575b1639e1b03dc62b0d04d68767a5c",
+      "matches": true
+    },
+    {
+      "case": "P14",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "E01",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/E01/before.pdf",
+      "sha256": "088f7d067a29aeb78e0398781f1ff8c2eee6bdc2ea377f0556a7475fd8fbc882",
+      "expected": "088f7d067a29aeb78e0398781f1ff8c2eee6bdc2ea377f0556a7475fd8fbc882",
+      "matches": true
+    },
+    {
+      "case": "E01",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/E01/after.pdf",
+      "sha256": "baa5a46543bc7accd3010f0473051d0f3313464f31d1c71c2a94440769bd7eb3",
+      "expected": "baa5a46543bc7accd3010f0473051d0f3313464f31d1c71c2a94440769bd7eb3",
+      "matches": true
+    },
+    {
+      "case": "E01",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/E01/changes.json",
+      "sha256": "4ded11b5e6fd1620d1d82ceaf91848827f0c0038c3bac387c58a17bcf8ab50fa",
+      "expected": "4ded11b5e6fd1620d1d82ceaf91848827f0c0038c3bac387c58a17bcf8ab50fa",
+      "matches": true
+    },
+    {
+      "case": "E01",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "E02",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/E02/before.pdf",
+      "sha256": "6c07baf21abaab4f342c370cedda15b45639b994334ec620b823ffaed7a41fb0",
+      "expected": "6c07baf21abaab4f342c370cedda15b45639b994334ec620b823ffaed7a41fb0",
+      "matches": true
+    },
+    {
+      "case": "E02",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/E02/after.pdf",
+      "sha256": "82c699b0dce0279dd0120306e8bf583e2436c7a0bdf4120a9435f61bf0a34613",
+      "expected": "82c699b0dce0279dd0120306e8bf583e2436c7a0bdf4120a9435f61bf0a34613",
+      "matches": true
+    },
+    {
+      "case": "E02",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/E02/changes.json",
+      "sha256": "47cb599d9e870c81078e4ad0984b9f2f25897e35d7f6b49e09e08f81546c3e66",
+      "expected": "47cb599d9e870c81078e4ad0984b9f2f25897e35d7f6b49e09e08f81546c3e66",
+      "matches": true
+    },
+    {
+      "case": "E02",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    },
+    {
+      "case": "E03",
+      "kind": "left",
+      "path": "validation/synthetic-review-20261030/cases/E03/before.pdf",
+      "sha256": "bcd232bf25c42324a4ea0008ebc28c408b5f71ce6f655de93bbb63b40a975eb7",
+      "expected": "bcd232bf25c42324a4ea0008ebc28c408b5f71ce6f655de93bbb63b40a975eb7",
+      "matches": true
+    },
+    {
+      "case": "E03",
+      "kind": "right",
+      "path": "validation/synthetic-review-20261030/cases/E03/after.pdf",
+      "sha256": "a0405599332d7f971dc4d7a6b3c2cdd030cd5d41b509158f04b7101202411a8a",
+      "expected": "a0405599332d7f971dc4d7a6b3c2cdd030cd5d41b509158f04b7101202411a8a",
+      "matches": true
+    },
+    {
+      "case": "E03",
+      "kind": "changes",
+      "path": "validation/synthetic-review-20261030/cases/E03/changes.json",
+      "sha256": "ffc6f1b257cb3a66fb5a3b847778fc800f441b25db55c166af7fd50599a708d4",
+      "expected": "ffc6f1b257cb3a66fb5a3b847778fc800f441b25db55c166af7fd50599a708d4",
+      "matches": true
+    },
+    {
+      "case": "E03",
+      "kind": "identity",
+      "path": "validation/synthetic-review-20261030/identity.json",
+      "sha256": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "expected": "ce7d1a7228ba184ca0a39bbfc5339482d6cf7fc3ae3eaf62531808e9488a5c5c",
+      "matches": true
+    }
+  ],
+  "inputZipSha256": "baa17ee010064c1287346eafa9c951caf75845c7f095b9e4e4871159077b1345",
+  "rawArchiveSha256": "3d31dca5cfc40e5a936a7bd7566b66d36b87b31d589767d12fc845a26d6a4a32",
+  "rawArchiveFiles": 273,
+  "rawArchiveReadbackVerified": true,
+  "node": "v24.22.1",
+  "pnpm": "10.12.1",
+  "python": "Python 3.15.0",
+  "commands": [
+    "pnpm install --frozen-lockfile",
+    "pnpm install:pdfjs",
+    "pnpm install:mupdf",
+    "python3 validation/synthetic-review-20261030/run-pack.py --repo \"$PWD\" --out /tmp/policy-compare-synthetic-20261030-run1",
+    "pnpm build:pdfjs",
+    "pnpm build:mupdf"
+  ],
+  "runnerExitCode": 0,
+  "builds": {
+    "pdfjs": 0,
+    "mupdf": 0
+  },
+  "actualPdfJsDocPageTotalAcross34Inputs": 36,
+  "scanDocChecks": [
+    {
+      "side": "left",
+      "pages": 1,
+      "chars": 0
+    },
+    {
+      "side": "right",
+      "pages": 1,
+      "chars": 0
+    }
+  ]
+}

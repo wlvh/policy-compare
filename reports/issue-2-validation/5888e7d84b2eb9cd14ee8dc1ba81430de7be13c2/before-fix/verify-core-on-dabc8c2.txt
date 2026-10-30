@@ -1,0 +1,55 @@
+# final tests (5888e7d84b2eb9cd14ee8dc1ba81430de7be13c2) with product, interface, contract and triage code of dabc8c2
+     × MSN | ESN | Serial | Share: 123/456 under MSN/ESN vs ESN/Serial is not one record 13ms
+     × two tables with the same title and heading row, a paragraph between, are not one table 6ms
+     × two tables with one heading on the same page, nothing between, are not one table (r4417493798) 5ms
+     × digit-free data rows (r4415822173): two tables with one heading, a paragraph between, are not one table 9ms
+     × a digit-free record that moves to the other table on every page is shown (r4416744444) 15ms
+     × a digit-free record does not become the heading of the rows below it (r4416878288) 5ms
+     × a digit-free record is read under its table's heading row (r4416942407) 4ms
+     × a qualified identifier heading with a year in another cell (2026 Limit) also ends the table (r4419250728) 4ms
+     × rows with the same text but identifiers in other columns are not the same record (r4417643759) 5ms
+     × a heading row with a year in another cell (2026 Limit) still names its identity columns (r4418068282) 5ms
+     × records repeated on every page are grouped only with the same identifier columns (r4418369390) 3ms
+     × a value-like cell under an identity heading (Serial AB12.34) still keeps two records apart (r4418369400) 3ms
+     × a full-width identity heading (Ｒｅｇｉｓｔｒａｔｉｏｎ) still names its column (PR #9 comment 6508095436) 4ms
+     × a cell under a descriptive heading (Status: Registration pending) names no identifier (r4418795510) 3ms
+     × an identifier under no heading cell leaves the row's identity incomplete (r4418900383) 2ms
+     × equal row text with identifiers moved between unplaced positions is not unchanged (r4419388482) 2ms
+     × equal text under headings with other cells is not unchanged, though the identifier is (r4420011674) 2ms
+     × equal text in the same slots with other cell boundaries is not unchanged (r4419804273) 5ms
+     × a record repeated on two pages with its identifiers moved between unplaced positions is not unchanged (r4419561470) 3ms
+     × a named identifier that looks like a value (Serial AB12.34) still tells two records apart (r4419472067) 2ms
+     × an unplaced value-like identifier (AB12.34) also leaves the row's identity incomplete (r4418984410) 2ms
+     × two cells under a descriptive column leave the row's identity incomplete when an identity column has none (r4420199960) 13ms
+     × a lone identifier reaching past a descriptive heading toward an empty identity column leaves identity incomplete (r4420346858) 3ms
+     × a heading row repeated on two pages with the same text but other cells is not one repeated header (r4420267662) 4ms
+     × equal text in a row without a heading row with other cells is not unchanged (r4420346862) 3ms
+     × an identifier label in a descriptive column of a record does not start a table (r4420429153) 7ms
+     × an identifier label under no heading cell does not start a table either (r4420588645) 3ms
+     × a heading row with the same text but other cells is another table (r4420146482) 4ms
+     × a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686) 3ms
+     × two spellings both present, their counts swapped 3+1 -> 1+3: each count change is shown 27ms
+     × a later page's page number changed (Page 3 -> Page 99) is shown, not hidden by the first page 21ms
+     × page counters in digits Number() cannot read stay content (r4416542434) 10ms
+     × a page counter is a whole number: Page 1.1 .. 1.4 is not a counting Page 1 (r4416744456) 6ms
+     × a profile-declared header keeps its page counter read against the page (r4418530241) 9ms
+     × a declared header whose value is a separate line keeps its page counter too (r4419941396) 7ms
+     × a profile-declared repeated header is split into its variants too (r4416656228) 13ms
+     × a whitespace edit on one page of a repeated line is shown (r4416942422) 6ms
+     × a page counter printed differently on one page is its own variant (r4417060269) 4ms
+     × a repeated line on one side only keeps its variants apart too (r4417244277) 4ms
+     × a fixed Page 1 on every page against a counting Page 1 .. 4 is shown (r4417303223) 4ms
+     × one text replaced by several: one card per new text, the old group not also unmatched 11ms
+     × controls: a single changed page, a page keeping the old text, repagination 5ms
+     × a day or year inside a longer number is no date: no fact (as the scorer reads dates, #10 4a12cd0) 14ms
+     × a row of amounts: each changed amount is paired with its own new value 12ms
+     × spaces and stray letters do not pair unrelated words 22ms
+     × two different words in the same place share only their common start and end 3ms
+     × the unchanged start and end of a text stop at a word boundary 9ms
+     × repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954) 58ms
+     × a repeated line's variant keeps its whitespace as the source prints it (#2's r4416942422) 11ms
+     × a page counter printed other than plainly stays as printed in its variant (#2's r4417060269) 4ms
+     × a counter is read per side: a fixed Page 1 against a counting Page 1 .. 4 (#2's r4417303223) 4ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 51 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  4 failed | 11 passed (15)
+      Tests  51 failed | 298 passed (349)
