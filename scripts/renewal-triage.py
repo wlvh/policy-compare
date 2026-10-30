@@ -85,7 +85,8 @@ units where each half's identity was confirmed (renewal-triage/22). Source range
 only where the card's own text shows those two characters side by side, and an Added/Removed
 paragraph is kept on the other side only as a whole-number match (renewal-triage/23). A date's
 day and year are whole numbers of the text, and an Added/Removed row on a card that names another
-record's row key is misattributed (renewal-triage/24).
+record's row key is misattributed (renewal-triage/24); one on a card the product marked unresolved
+is not evaluated (renewal-triage/25).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -117,7 +118,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/24'
+TOOL = 'renewal-triage/25'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -829,7 +830,11 @@ def row_cells(atoms, change, ctx):
     mixed = anchor and [' / '.join(o) for o in others if o != tuple(mine) and holds(anchor[1]['text'], o)]
     # A card that names a row key that is no cell of this record attributes the row to another one,
     # as judge_identity() reads it for replacements (PR #11 comment 6513304357).
-    key = anchor and (anchor[0].get('structurePath') or {}).get('rowKey')
+    sp = (anchor[0].get('structurePath') or {}) if anchor else {}
+    key = sp.get('rowKey')
+    # A card whose row correspondence the product marked unresolved certifies no row
+    # (PR #11 comment 6513806516), as judge_identity() reads it for replacements.
+    unresolved = sp.get('confidence') == 'unresolved'
     wrong_key = bool(key) and not bounded(norm(key), norm((change.get('left_text') or '') + ' | ' + (change.get('right_text') or '')))
     left = collections.Counter(anchor[2]) if anchor else collections.Counter()
     out = []
@@ -847,6 +852,9 @@ def row_cells(atoms, change, ctx):
             out.append(('merged_into_neighbour_card', 'not_evaluable', [], where, un,
                         f'{change["kind"].lower()} row shown as extra text in a neighbour row\'s '
                         f'{anchor[0]["kind"]} card'))
+        elif anchor and mine_here and unresolved:
+            out.append(('product_unresolved', 'not_evaluable', [], where, un,
+                        'product marked the row identity unresolved'))
         elif anchor and mine_here and wrong_key:
             out.append(('row_key_contradicted', 'misattributed', [], where, un,
                         f'the card names rowKey {key!r}, which is not a cell of this record'))

@@ -673,6 +673,19 @@ class AddedRemovedRows(unittest.TestCase):
             _, ev = run([c], result([own]), [table('aircraft', [0], c)])
             self.assertEqual((ev['78']['verdict'], ev['78']['row']['fullRowRecovered']), ('correct', True), kind)
 
+    def test_a_card_whose_row_the_product_left_unresolved_is_not_evaluated(self):
+        """PR #11 comment 6513806516: an Added card with confidence "unresolved" does not certify the row."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(79, 'ac_1315', kind, **{side: '1315 | Hull | USD 100'}, pages=(0, 11) if kind == 'Added' else (11, 0))
+            open_ = card('x', kind, **{side: [(11, 'u1', '1315 Hull USD 100')]}, confidence='unresolved')
+            _, ev = run([c], result([open_]), [table('aircraft', [0], c)])
+            self.assertEqual((ev['79']['verdict'], ev['79']['acceptedCards']), ('not_evaluable', []), kind)
+            self.assertNotEqual(ev['79']['row']['fullRowRecovered'], True, kind)
+            # Control: the same card as a candidate correspondence is correct.
+            _, ev = run([c], result([card('y', kind, **{side: [(11, 'u1', '1315 Hull USD 100')]})]), [table('aircraft', [0], c)])
+            self.assertEqual((ev['79']['verdict'], ev['79']['row']['fullRowRecovered']), ('correct', True), kind)
+
     def test_cells_find_a_non_overlapping_allocation_when_one_exists(self):
         """r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B"."""
         for kind in ('Added', 'Removed'):
