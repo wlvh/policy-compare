@@ -277,7 +277,7 @@ export const INVARIANTS: Record<
   },
   secondary_key_or_explicit_identity_review: {
     coverage: "indirect",
-    basis: "the registration event's card (or one delete + one add card) must lie on the record's registration cells by its edit sources; its row key must be the declared serial, or an explicit identity review (row key null, confidence unresolved), which is presented but not determined; the renamed registration or another record's key is a false identity claim and fails",
+    basis: "the registration event's card (or one delete + one add card) must lie on the record's registration cells by its edit sources; its row key must be the declared serial, or an explicit identity review (confidence unresolved, naming no other record), which is presented but not determined; the renamed registration or another record's key is a false identity claim and fails",
     tests: [
       "R26: matching the row by the renamed registration instead of the serial fails",
       "R26: an explicit identity review is accepted as presented, not as determined",
@@ -783,9 +783,11 @@ export const exitCode = (s: ReturnType<typeof summarize>) =>
   s.status === "PASS" ? 0 : s.knownGapsOnly ? 2 : 1;
 // What a card says about the record or party of its change. Where the change belongs is decided by
 // its edit sources (the event check); these values only judge the card's outward claim. "determined"
-// names an identity the answer accepts, "unresolved" is an explicit open identity (row key null,
-// confidence unresolved), "absent" names none, and "wrong" names another identity: only "wrong" is a
-// false claim, and a missing or unresolved identity counts only where the answer allows it.
+// names an identity the answer accepts, "unresolved" is an explicit open identity (confidence
+// unresolved, which the contract reads as "not determined", so a right label beside it names a
+// candidate and determines nothing), "absent" names none, and "wrong" names another identity: only
+// "wrong" is a false claim, checked first, and a missing or unresolved identity counts only where the
+// answer allows it.
 export type IdentityClaim = "determined" | "unresolved" | "absent" | "wrong";
 // Which identity check applies to an event; claim is null when no identity rule applies.
 export function identityRule(
@@ -800,8 +802,7 @@ export function identityRule(
   accepts: IdentityClaim[];
 } {
   const pathParts = e.logical_path.split(".");
-  const open = (d: Difference) =>
-    d.structurePath?.confidence === "unresolved" && d.structurePath.rowKey === null;
+  const open = (d: Difference) => d.structurePath?.confidence === "unresolved";
   if (e.detection_requirement === "visible_text_delta_with_identity_review") {
     const field = pathParts.at(-1);
     return {
@@ -829,7 +830,7 @@ export function identityRule(
         if (!p) return "absent";
         if ((p.entity !== null && p.entity !== entity) || (p.field !== null && p.field !== field))
           return "wrong";
-        return p.entity === entity && p.field === field ? "determined" : open(d) ? "unresolved" : "absent";
+        return open(d) ? "unresolved" : p.entity === entity && p.field === field ? "determined" : "absent";
       },
       accepts: ["determined"],
     };
@@ -863,7 +864,7 @@ export function identityRule(
           (p.field !== null && p.field !== field)
         )
           return "wrong";
-        return p.rowKey !== null && p.field === field ? "determined" : open(d) ? "unresolved" : "absent";
+        return open(d) ? "unresolved" : p.rowKey !== null && p.field === field ? "determined" : "absent";
       },
       accepts: review ? ["determined", "unresolved"] : ["determined"],
     };

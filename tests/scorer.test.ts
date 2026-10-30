@@ -1293,6 +1293,20 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.status).toBe("PASS");
     expect(score.events[0].identity).toMatchObject({ pass: true, determined: false, claims: ["unresolved"], outcome: "presented_unresolved" });
   });
+  // The contract: `confidence: "unresolved"` states that the correspondence was not determined, so a
+  // right row key beside it is a review naming its candidate, not a determined identity (PR #11
+  // comment 6514251883 B, the scorer side of an unresolved mark beside a row key).
+  it("R26: the declared serial on a card marked unresolved is presented as a review, not determined", () => {
+    const x = r26();
+    x.result.differences[0].structurePath!.confidence = "unresolved";
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("PASS");
+    expect(score.events[0].identity).toMatchObject({ pass: true, determined: false, claims: ["unresolved"], outcome: "presented_unresolved" });
+    // Another record's key stays a false claim whatever the confidence.
+    x.result.differences[0].structurePath!.rowKey = "TEST-C941";
+    expect(grade(x.result, x.expected, x.layout, x.docs).events[0].identity).toMatchObject({ pass: false, claims: ["wrong"], outcome: "wrong_statement" });
+  });
   it("R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer", () => {
     const x = r26();
     Object.assign(x.result.differences[0].structurePath!, { rowKey: null, entity: null });
@@ -1428,6 +1442,16 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["unresolved"], outcome: "requirement_unmet" });
     expect(summarize([score]).identityClaims).toMatchObject({ requirementUnmet: ["R22_table_value:E1"], wrong: [] });
   });
+  it("R22: the right row key on a card marked unresolved does not determine the record this answer requires", () => {
+    const x = r22();
+    x.result.differences[0].structurePath!.confidence = "unresolved";
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.events[0]).toMatchObject({ attribution: true });
+    expect(score.events[0].identity).toMatchObject({ pass: false, determined: false, claims: ["unresolved"], outcome: "requirement_unmet" });
+    expect(summarize([score]).identityClaims).toMatchObject({ requirementUnmet: ["R22_table_value:E1"], wrong: [] });
+  });
   it("R22: the correct record label on a card that deletes the same value from another record does not attribute the event", () => {
     // Row SYN-1026-001 also holds 200,000 and keeps it; the card takes its old text from there.
     const x = r22(["200,000", "200,000"]);
@@ -1546,6 +1570,14 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     const score = grade(x.result, x.expected, x.layout, x.docs);
     expect(score.status).toBe("FAIL");
     expect(score.faults.join("\n")).toContain("no_amount_or_currency_change");
+  });
+  it("R11: the right party field on a card marked unresolved does not determine the field", () => {
+    const x = r11();
+    x.result.differences[0].structurePath!.confidence = "unresolved";
+    expect(ResultSchema.safeParse(x.result).success).toBe(true);
+    const score = grade(x.result, x.expected, x.layout, x.docs);
+    expect(score.status).toBe("FAIL");
+    expect(score.events[0].identity).toMatchObject({ pass: false, claims: ["unresolved"], outcome: "requirement_unmet" });
   });
   it("R11: claiming part of the code inside an unchanged amount cell is NOT_EVALUATED", () => {
     // "USD 2,000,000" is one sum_insured cell; letters outside a whole token may be code or wording.
