@@ -81,7 +81,9 @@ its Removed and Added cards (renewal-triage/21). A Moved paragraph is met by a c
 the move, by the paragraph removed in one place and added in another, or by a card carrying one of
 the event's own edits (a moved and edited paragraph may show as a replacement); a card keeping the
 paragraph unchanged around another change is no evidence of the move; a split row reads only the
-units where each half's identity was confirmed (renewal-triage/22).
+units where each half's identity was confirmed (renewal-triage/22). Source ranges that meet join
+only where the card's own text shows those two characters side by side, and an Added/Removed
+paragraph is kept on the other side only as a whole-number match (renewal-triage/23).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -113,7 +115,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/22'
+TOOL = 'renewal-triage/23'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -207,21 +209,32 @@ def pieces(locs):
     return [keep[k] for k in sorted(keep)]
 
 
-def spliced(parts, shown=''):
+def spliced(parts, joined=frozenset()):
     """Texts of source locations, in order, set off by spaces. Raw ranges that meet are not always
     one word (a PDF places words apart without a space), so one that starts where the previous one
-    ends in the same unit continues its text only when the card's own text shows them together and
-    not apart: a space there would split a number the card shows whole (USD 100,000 as
-    USD 100 ,000, #11 comment 6508515495)."""
-    out, end, run = '', None, ''
+    ends in the same unit continues its text only where the card's own text shows the two
+    characters side by side (`joined`, see touching()): a space there would split a number the
+    card shows whole (USD 100,000 as USD 100 ,000, #11 comment 6508515495), and the same digits
+    spaced elsewhere on the card say nothing about this place (#11 comment 6512133284)."""
+    out, end = '', None
     for unit, (a, b), text in parts:
-        glued = bool(out) and end == (unit, a) and norm(run + text) in shown and norm(run + ' ' + text) not in shown
-        out, run = (out + text, run + text) if glued else ((out + ' ' if out else '') + text, text)
+        glued = bool(out) and end == (unit, a) and (unit, a) in joined
+        out = out + text if glued else (out + ' ' if out else '') + text
         end = (unit, b)
     return out
 
 
-def units(locations, wanted, shown=''):
+def touching(*sides):
+    """Where the card's own text puts a source character right after the one before it in the same
+    unit, with no space between: the (unit, raw position) of the later one. sides: (card, side)."""
+    out = set()
+    for d, side in sides:
+        m = marked(d, side)
+        out |= {(b[1], b[3]) for a, b in zip(m, m[1:]) if b[1] and a[1] == b[1] and b[3] == a[3] + 1}
+    return frozenset(out)
+
+
+def units(locations, wanted, joined=frozenset()):
     """Source units (page, unitId) of one side, in order, limited to the stated pages. A unit's
     text follows its source: its pieces in raw order, not in the order the card lists them, each
     source character once."""
@@ -232,7 +245,7 @@ def units(locations, wanted, shown=''):
         out.setdefault((loc['pageIndex'] + 1, loc['unitId']), []).append(loc)
     return [{'page': k[0], 'unitId': k[1], 'locs': pieces(v),
              'text': norm(spliced(((k, l['rawRange'], l['text']) for l in sorted(pieces(v), key=lambda l: l['rawRange'][0])),
-                                  shown))}
+                                  joined))}
             for k, v in out.items()]
 
 
@@ -472,7 +485,7 @@ def hits(d, side, needle, wanted, edit=False, only=None, changed=False, within=F
 def local(d, side, needle, wanted, edit=False, only=None):
     """Source units of a card side that the needle's qualifying occurrences come from."""
     keep = set().union(*hits(d, side, needle, wanted, edit, only))
-    return [u for u in units(d[side], wanted, side_text(d, side)) if (u['page'], u['unitId']) in keep]
+    return [u for u in units(d[side], wanted, touching((d, side))) if (u['page'], u['unitId']) in keep]
 
 
 def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=None, within=False):
@@ -496,7 +509,7 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
         best = ('unconfirmed', {'units': [], 'identity': [], 'otherRecords': []})
         for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side), changed=True,
                          within=within):
-            us = [u for u in units(d[side], wanted[side], side_text(d, side)) if (u['page'], u['unitId']) in keys]
+            us = [u for u in units(d[side], wanted[side], touching((d, side))) if (u['page'], u['unitId']) in keys]
             own = any(holds(u['text'], mine) for u in us)
             foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
             st = ('confirmed' if own and not foreign else 'contradicted' if foreign and not own
@@ -550,7 +563,7 @@ def context(d, side, needle, wanted, author, edit=False, within=False, only=None
     a = squeeze(norm(author or ''))
     for start, keys in hits(d, side, needle, wanted, edit, only, changed=bool(edit), within=within, starts=True):
         ids = {uid for _, uid in keys}
-        text = squeeze(norm(' '.join(u['text'] for u in units(d[side], wanted, side_text(d, side)) if u['unitId'] in ids)))
+        text = squeeze(norm(' '.join(u['text'] for u in units(d[side], wanted, touching((d, side))) if u['unitId'] in ids)))
         if in_context(text, squeeze(needle), a) and (a not in text or around(d, side, start, needle, author)):
             return True
     return False
@@ -792,7 +805,7 @@ def row_cells(atoms, change, ctx):
     texts = [a['new'] if side == 'right' else a['old'] for a in atoms]
     pool = []
     for d in diffs:
-        for u in units(d[side], wanted[side], side_text(d, side)):
+        for u in units(d[side], wanted[side], touching((d, side))):
             found = allocate(texts, u['text'])
             if found:
                 pool.append((d, u, found))
@@ -864,7 +877,8 @@ def paragraph_atom(atom, change, ctx):
              for d in held]
     # The card must add or remove the text: one that keeps it on the other side
     # too (an unchanged move, unchanged context) does neither.
-    hits = [d for d in held if t not in side_text(d, other)]
+    # Matched as the text was found: a longer number there is another text (PR #9 comment 6512254699).
+    hits = [d for d in held if not occurs(t, side_text(d, other))]
     if hits:
         return 'found', 'correct', hits, cands, [], ''
     if held:
@@ -954,9 +968,10 @@ def triage(change, result, declared, family, claimed):
                          and l['rawRange'][0] <= a and b <= l['rawRange'][1]), r['text'])
 
         def text(*keys):
-            shown = ' | '.join(side_text(cards[s], s) for s in ('left', 'right')) if card else ''
+            sides = sorted({s for k in keys for s in (('left', 'right') if k == 'refs' else (k,))})
+            joined = touching(*((cards[s], s) for s in sides)) if card else frozenset()
             return norm(spliced((((r['page'], r['unitId']), r['rawRange'], source(k, r))
-                                 for k in keys for r in (record or {}).get(k, [])), shown))
+                                 for k in keys for r in (record or {}).get(k, [])), joined))
         full = None
         if record and change['kind'] == 'Replaced':
             # Each author cell needs its own stretch of the record text (r4417329496).

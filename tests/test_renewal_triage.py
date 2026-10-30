@@ -80,6 +80,17 @@ def card(id, kind, left=(), right=(), row_key=None, table=None, confidence='cand
             'oldText': old, 'newText': new, 'hasTextChange': old != new, 'textOps': ops(left, right)}
 
 
+def shown(id, kind, side, text, cuts, page=11, unit='u1'):
+    """A one-sided card whose own text is `text`, its source locations cut at raw offsets `cuts` of
+    one unit: ranges that meet are together or apart exactly as the card's text shows them."""
+    locs = [loc(side, page, unit, text[a:b], a) for a, b in zip(cuts, cuts[1:] + [len(text)])]
+    d = card(id, kind)
+    d[side], d['oldText' if side == 'left' else 'newText'], d['hasTextChange'] = locs, text, True
+    d['textOps'] = [{'kind': 'delete' if side == 'left' else 'insert', 'text': text,
+                     'left': locs if side == 'left' else [], 'right': locs if side == 'right' else []}]
+    return d
+
+
 def group(left=(), right=()):
     return {'reason': 'ambiguous_match', 'message': 'm', 'defaultVisible': True,
             'left': [loc('left', *c) for c in placed(left)], 'right': [loc('right', *c) for c in placed(right)]}
@@ -469,6 +480,24 @@ class AMoveNeedsAMove(unittest.TestCase):
         self.assertEqual(ev['46']['atoms'], ['same_card_without_move'])
 
 
+class TheOtherSideHoldsWholeNumbers(unittest.TestCase):
+    """PR #9 comment 6512254699: a card keeping "Limit USD 1000" adds or removes "Limit USD 100"."""
+
+    def test_a_longer_number_on_the_other_side_is_not_the_paragraph(self):
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(48, 'lim', kind, **{side: 'Limit USD 100'}, pages=(0, 1) if kind == 'Added' else (1, 0))
+            cells = {'left': [(1, 'a', 'Limit USD 1000')], 'right': [(1, 'b', 'Limit USD 1000 Limit USD 100')]}
+            if kind == 'Removed':
+                cells = {'left': cells['right'], 'right': cells['left']}
+            _, ev = run([c], result([card('r', 'Replaced', **cells)]))
+            self.assertEqual((ev['48']['verdict'], ev['48']['acceptedCards']), ('correct', ['r']), kind)
+            # Control: the paragraph itself kept on the other side is no addition or removal.
+            kept = card('k', 'Replaced', [(1, 'a', 'Limit USD 100 applies')], [(1, 'b', 'Limit USD 100 applied')])
+            _, ev = run([c], result([kept]))
+            self.assertEqual(ev['48']['atoms'], ['kept_on_other_side'], kind)
+
+
 class PagesBoundTheText(unittest.TestCase):
     """Review of PR #11 (T4, fixed in #9): the text must be found in sources on the author's pages.
     A card holding it on another page, with unrelated text on the stated page, is not evidence."""
@@ -609,9 +638,7 @@ class AddedRemovedRows(unittest.TestCase):
             side = 'right' if kind == 'Added' else 'left'
             c = change(73, 'ac_1315', kind, **{side: '1315 | Hull | USD 100'}, pages=(0, 11) if kind == 'Added' else (11, 0))
             # The card shows 1315 Hull USD 100,000; its two locations meet before the comma.
-            split = card('x', kind, **{side: [(11, 'u1', '1315 Hull USD 100'), (11, 'u1', ',000')]})
-            split[side][1]['rawRange'] = [17, 21]
-            split['newText' if kind == 'Added' else 'oldText'] = '1315 Hull USD 100,000'
+            split = shown('x', kind, side, '1315 Hull USD 100,000', [0, 17])
             _, ev = run([c], result([split]), [table('aircraft', [0], c)])
             self.assertNotEqual(ev['73']['verdict'], 'correct', kind)
             self.assertFalse(ev['73']['row']['fullRowRecovered'], kind)
@@ -621,6 +648,17 @@ class AddedRemovedRows(unittest.TestCase):
             apart[side][1]['rawRange'] = [13, 16]
             _, ev = run([c], result([apart]), [table('aircraft', [0], c)])
             self.assertEqual((ev['73']['verdict'], ev['73']['row']['fullRowRecovered']), ('correct', True), kind)
+
+    def test_a_join_is_read_where_the_card_shows_it_not_anywhere_on_the_card(self):
+        """#11 comment 6512133284: "100 ,000" spaced in a note elsewhere on the card does not split
+        the amount the card shows whole."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(77, 'ac_1315', kind, **{side: '1315 | Hull | USD 100'}, pages=(0, 11) if kind == 'Added' else (11, 0))
+            note = shown('x', kind, side, '1315 Hull USD 100,000; Note 100 ,000', [0, 14, 17, 21])
+            _, ev = run([c], result([note]), [table('aircraft', [0], c)])
+            self.assertNotEqual(ev['77']['verdict'], 'correct', kind)
+            self.assertFalse(ev['77']['row']['fullRowRecovered'], kind)
 
     def test_cells_find_a_non_overlapping_allocation_when_one_exists(self):
         """r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B"."""
