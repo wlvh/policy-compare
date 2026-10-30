@@ -1,0 +1,6 @@
+# final tests (72eb95fb2fc6f37f96ae63d4d8ea9964c8c7abca) with product, interface, contract and triage code of 6cf0ea9
+     × an unplaced value-like identifier (AB12.34) also leaves the row's identity incomplete (r4418984410) 18ms
+     × two cells under one identity column leave the row's identity incomplete (r4419030685) 3ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 14 passed (15)
+      Tests  2 failed | 319 passed (321)

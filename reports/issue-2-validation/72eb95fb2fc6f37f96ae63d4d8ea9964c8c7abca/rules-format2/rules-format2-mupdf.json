@@ -1,0 +1,571 @@
+{
+ "engine": "mupdf",
+ "records": [
+  {
+   "caseId": "R01_identical",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 0,
+   "earlierCards": 0,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {},
+   "methods": {},
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R02_amount",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R03_currency",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R04_decimal",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R05_negation",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "joint-local-alignment": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R06_and_or",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "joint-local-alignment": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R07_shorter_term",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R08_normal_renewal",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {
+    "dates_rolled_forward_one_year": 1
+   },
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R09_header_limit",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "repeated-header": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R10_address_swap",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 2,
+   "earlierCards": 2,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 2
+   },
+   "methods": {
+    "reliable-field-identity": 2
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R11_label_alias",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R12_exact_move",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Moved": 1
+   },
+   "methods": {
+    "unique-exact": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R13_move_and_replacement",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 2,
+   "earlierCards": 2,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Added": 1,
+    "Moved": 1
+   },
+   "methods": {
+    "unmatched": 1,
+    "unique-exact": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R14_short_paragraph",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "joint-local-alignment": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R15_paragraph_split",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 0,
+   "earlierCards": 0,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {},
+   "methods": {},
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R16_repagination",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 5,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 4,
+    "Added": 1
+   },
+   "methods": {
+    "page-furniture": 2,
+    "repeated-header": 2,
+    "unmatched": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 4,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R17_font_change",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 0,
+   "earlierCards": 0,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {},
+   "methods": {},
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R18_ligature",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R19_rotated_status",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R20_plus_minus",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R21_checkbox_glyph",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "reliable-field-identity": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R22_table_value",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "declared-table-key": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R23_table_reorder",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 0,
+   "earlierCards": 0,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {},
+   "methods": {},
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R24_table_cross_page",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 10,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 9,
+    "Added": 1
+   },
+   "methods": {
+    "page-furniture": 2,
+    "repeated-header": 7,
+    "unmatched": 1
+   },
+   "facts": {
+    "continued_heading": 1
+   },
+   "occurrenceCountCards": 9,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R25_duplicate_keys",
+   "format2": true,
+   "status": "partial",
+   "requiredStatus": "partial_or_explicit_review",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "partial",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "unresolved-table-group": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 5
+  },
+  {
+   "caseId": "R26_key_change",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "declared-table-key": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R27_mixed_scan_page",
+   "format2": true,
+   "status": "partial",
+   "requiredStatus": "partial",
+   "cards": 0,
+   "earlierCards": 0,
+   "earlierStatus": "partial",
+   "kinds": {},
+   "methods": {},
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R28_inline_scan",
+   "format2": true,
+   "status": "partial",
+   "requiredStatus": "partial",
+   "cards": 0,
+   "earlierCards": 0,
+   "earlierStatus": "partial",
+   "kinds": {},
+   "methods": {},
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R29_clause_add",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 2,
+   "earlierCards": 2,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Added": 2
+   },
+   "methods": {
+    "unmatched": 2
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R30_clause_delete",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 2,
+   "earlierCards": 2,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Removed": 2
+   },
+   "methods": {
+    "unmatched": 2
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R31_punctuation",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 1,
+   "earlierCards": 1,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 1
+   },
+   "methods": {
+    "joint-local-alignment": 1
+   },
+   "facts": {},
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  },
+  {
+   "caseId": "R32_combined_changes",
+   "format2": true,
+   "status": "complete_for_scope",
+   "requiredStatus": "complete_for_scope",
+   "cards": 2,
+   "earlierCards": 2,
+   "earlierStatus": "complete_for_scope",
+   "kinds": {
+    "Replaced": 2
+   },
+   "methods": {
+    "reliable-field-identity": 2
+   },
+   "facts": {
+    "dates_rolled_forward_one_year": 1
+   },
+   "occurrenceCountCards": 0,
+   "unresolved": 0
+  }
+ ]
+}
