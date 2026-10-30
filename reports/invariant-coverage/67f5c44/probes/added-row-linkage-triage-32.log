@@ -1,0 +1,8 @@
+Added Codex: one unit "1315 Hull; 1760 Liability USD 100", 1760 not a declared event: correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+Added control: 1760 declared in the same table (another event): not_evaluable atoms=['not_evaluable', 'not_evaluable', 'not_evaluable'] fullRowRecovered=False unexplained=1
+Added control: unit "1315 Hull USD 100": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+Added control: unit "1315 Hull USD 100; 1760 Liability": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+Removed Codex: one unit "1315 Hull; 1760 Liability USD 100", 1760 not a declared event: correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+Removed control: 1760 declared in the same table (another event): not_evaluable atoms=['not_evaluable', 'not_evaluable', 'not_evaluable'] fullRowRecovered=False unexplained=1
+Removed control: unit "1315 Hull USD 100": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+Removed control: unit "1315 Hull USD 100; 1760 Liability": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
