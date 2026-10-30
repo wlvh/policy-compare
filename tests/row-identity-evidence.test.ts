@@ -600,6 +600,18 @@ describe("identity belongs to its own column and its own table", () => {
     const c = ResultSchemaV2.parse(compare(doc("Lead", "G-BBBB", "Beta", "USD 1000"), doc("Lead", "G-BBBB", "Beta", "USD 2000")));
     expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
   });
+  it("a cell holding only an identifier's name names no identifier (r4420795051)", () => {
+    // Without a heading row, "MSN" alone in a cell gives no value: MSN | Alpha Air | USD 1000
+    // and MSN | Delta Air | USD 2000 are not one record by it.
+    const doc = (cells: string[]) =>
+      textDoc([{ text: "SCHEDULE", y: 150 }, ...cells.map((text, k) => ({ text, x: 40 + k * 150, y: 200 }))]);
+    const r = ResultSchemaV2.parse(compare(doc(["MSN", "Alpha Air", "USD 1000"]), doc(["MSN", "Delta Air", "USD 2000"])));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")]).toEqual([true, true]);
+    // Control: a value after the name pairs.
+    const c = ResultSchemaV2.parse(compare(doc(["MSN 123", "Alpha Air", "USD 1000"]), doc(["MSN 123", "Alpha Air", "USD 2000"])));
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("an identifier label under no heading cell does not start a table either (r4420588645)", () => {
     // As r4420429153, but the record's cells sit at x 40/190/390/510: "Registration" (x 390)
     // overlaps no heading cell, so its column is unknown.

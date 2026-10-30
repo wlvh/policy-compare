@@ -347,7 +347,8 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
     // r4418795510); a named identifier counts only in a cell without one. A
     // named identifier that looks like a value (Serial AB12.34) still tells
     // records apart, like one under its heading; it links none (r4419472067).
-    if (at || !named) return [];
+    // A cell holding nothing but the name ("MSN") gives no identifier (r4420795051).
+    if (at || !named || identityName.test(c.trim())) return [];
     return [[`named ${named}`, c]];
   });
   const crowded = cells.some(([k]) => cells.filter(([x]) => x === k).length > 1),
@@ -753,7 +754,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.31+facts.5+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.32+facts.5+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
