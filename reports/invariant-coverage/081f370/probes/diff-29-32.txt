@@ -1,0 +1,32 @@
+31,32c31,32
+< Replaced, author 100 -> 200; card after a currency code: USD-100 -> USD-200: not_evaluable
+< Replaced, author 100 -> 200; card after a currency code: USD−100 -> USD−200: not_evaluable
+---
+> Replaced, author 100 -> 200; card after a currency code: USD-100 -> USD-200: not_located
+> Replaced, author 100 -> 200; card after a currency code: USD−100 -> USD−200: not_located
+36c36
+< Added, author 100; card after a currency code: USD−100: correct fullRowRecovered=True
+---
+> Added, author 100; card after a currency code: USD−100: partly_located fullRowRecovered=False
+39c39
+< Removed, author 100; card after a currency code: USD−100: correct fullRowRecovered=True
+---
+> Removed, author 100; card after a currency code: USD−100: partly_located fullRowRecovered=False
+41,42c41,42
+< Replaced, author USD 100 -> USD 200; card USD-100 -> USD-200: correct fullRowRecovered=False
+< Replaced, author USD 100 -> USD 200; card USD−100 -> USD−200: correct fullRowRecovered=False
+---
+> Replaced, author USD 100 -> USD 200; card USD-100 -> USD-200: not_located fullRowRecovered=None
+> Replaced, author USD 100 -> USD 200; card USD−100 -> USD−200: not_located fullRowRecovered=None
+46c46
+< Codex: 1760 first, its amount changes; 1315 follows unchanged: correct accepted=['x'] fullRowRecovered=True unexplained=0
+---
+> Codex: 1760 first, its amount changes; 1315 follows unchanged: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+129c129
+< Codex: two Replaced cards, the paragraph kept on each page, only "Liability excluded." -> "included." changes: split_attributable accepted=['p11', 'p12'] unexplained=0
+---
+> Codex: two Replaced cards, the paragraph kept on each page, only "Liability excluded." -> "included." changes: not_evaluable accepted=[] unexplained=2
+257c257
+< control: only the second copy edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=False unexplained=0
+---
+> control: only the second copy edited: verdict=not_evaluable outcome=incomplete atoms=['not_evaluable', 'not_evaluable'] fullRowRecovered=None unexplained=1
