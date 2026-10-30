@@ -1,0 +1,15 @@
+=== scorer 1344e17 (git show, imports pointed at this tree), product of 509b088
+year 20240 -> 20250 (ten years): product facts ["dates_rolled_forward_one_year"]; scorer factHolds true; grade PASS []
+day 121: product facts ["dates_rolled_forward_one_year"]; scorer factHolds true; grade PASS []
+year 2024.5: product facts ["dates_rolled_forward_one_year"]; scorer factHolds true; grade PASS []
+control: whole dates: product facts ["dates_rolled_forward_one_year"]; scorer factHolds true; grade PASS []
+=== scorer 4a12cd0 (tests/evaluation/scorer.ts), product of 509b088
+year 20240 -> 20250 (ten years): product facts ["dates_rolled_forward_one_year"]; scorer factHolds false; grade FAIL ["card d-5ece9184a97145e613cd states dates_rolled_forward_one_year, which its source texts disprove"]
+day 121: product facts ["dates_rolled_forward_one_year"]; scorer factHolds false; grade FAIL ["card d-f1fb8b9a60113ba95148 states dates_rolled_forward_one_year, which its source texts disprove"]
+year 2024.5: product facts ["dates_rolled_forward_one_year"]; scorer factHolds false; grade FAIL ["card d-a5dcf2afa047555989b5 states dates_rolled_forward_one_year, which its source texts disprove"]
+control: whole dates: product facts ["dates_rolled_forward_one_year"]; scorer factHolds true; grade PASS []
+=== triage renewal-triage/23 (scripts/renewal-triage.py of 509b088 to 4a12cd0)
+year 20240 -> 20250: {'dates_rolled_forward_one_year': 'contradicted'}
+day 121: {'dates_rolled_forward_one_year': 'contradicted'}
+year 2024.5: {'dates_rolled_forward_one_year': 'consistent'}
+control: whole dates: {'dates_rolled_forward_one_year': 'consistent'}

@@ -352,20 +352,22 @@ export const INVARIANTS: Record<
     tests: [],
   },
 };
-// Amounts: thousands-separated numbers or numbers right after a currency code; on a card or event
-// that names an amount field of the answers (R22/R26 agreed_value, R02/R03/R11 sum_insured, R09
+// Amounts: thousands-separated numbers or numbers right after a currency code or sign; on a card or
+// event that names an amount field of the answers (R22/R26 agreed_value, R02/R03/R11 sum_insured, R09
 // limit), or in a card location on a layout.json run whose logical path ends in such a field, any
 // standalone number counts too. The layout says what a cell is whatever field the card claims;
 // identifiers such as an MSN stay out. A sign written right before the number ("-", "−", "+", not
 // after a letter, digit, "." or ",") is part of the amount: -100,020 and 100,020 differ. A hyphen
-// between numbers ("1-100,000") is no sign; accounting parentheses are not read as one.
+// between numbers ("1-100,000") is no sign; accounting parentheses are not read as one. A currency
+// sign (a Unicode currency symbol such as €, $, £) is a currency as a code is (Codex PR #11 comment
+// 6513014284: € paired with $ read as no currency at all).
 const CODES = "USD|EUR|GBP|JPY|CHF|CNY|HKD|SGD|MYR|AUD|CAD",
   AMOUNT_FIELDS = ["agreed_value", "sum_insured", "limit", "header_limit", "deductible"],
-  CURRENCY = new RegExp(`\\b(?:${CODES})(?![A-Za-z])`, "g"),
+  CURRENCY = new RegExp(`\\b(?:${CODES})(?![A-Za-z])|\\p{Sc}`, "gu"),
   SIGN = `(?:(?<![\\w.,])[-\\u2212+](?=\\d))?`,
-  NUMBER = `${SIGN}\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=\\b(?:${CODES})\\s?)${SIGN}\\d+(?:\\.\\d+)?`,
-  AMOUNT = new RegExp(NUMBER, "g"),
-  DECLARED_AMOUNT = new RegExp(`${NUMBER}|(?:(?<![\\w.,])[-\\u2212+](?=\\d)|(?<![\\w.,\\u2212+-]))\\d+(?:\\.\\d+)?(?![\\w,-]|\\.\\d)`, "g");
+  NUMBER = `${SIGN}\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|(?<=(?:\\b(?:${CODES})|\\p{Sc})\\s?)${SIGN}\\d+(?:\\.\\d+)?`,
+  AMOUNT = new RegExp(NUMBER, "gu"),
+  DECLARED_AMOUNT = new RegExp(`${NUMBER}|(?:(?<![\\w.,])[-\\u2212+](?=\\d)|(?<![\\w.,\\u2212+-]))\\d+(?:\\.\\d+)?(?![\\w,-]|\\.\\d)`, "gu");
 const amountField = (path: string | null | undefined) =>
   (path ?? "").split(".").some((p) => AMOUNT_FIELDS.includes(p));
 const money = (text: string, declared = false) => [
@@ -883,7 +885,9 @@ export function identityRule(
 // sources prove the fact, false when they disprove it, null when the scorer cannot decide it.
 const words = (t: string) => t.trim().split(/\s+/u).join(" ");
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const DATE = /(\d{1,2}) ([A-Za-z]+) (\d{4})/g;
+// A date's day and year are whole numbers of the text, as page numbers are: the "2024" of "20240"
+// or the "21" of "121" is none (Codex PR #11 comment 6513158877).
+const DATE = /(?<!\d[.,]?)(\d{1,2}) ([A-Za-z]+) (\d{4})(?![.,]?\d)/g;
 const lineTexts = (doc: DocInput) =>
   doc.pages.flatMap((p) =>
     p.lines.map((l) => words(l.charIds.map((id) => p.chars.find((c) => c.id === id)?.text ?? "").join(""))),
