@@ -357,6 +357,27 @@ class RecordIdentity(unittest.TestCase):
         _, ev = run([c], result(own), [table('aircraft', [0], c)])
         self.assertEqual((ev['76']['verdict'], ev['76']['row']['fullRowRecovered']), ('split_attributable', True))
 
+    def test_a_row_is_full_from_every_accepted_card_of_its_unit(self):
+        """PR #11 comment 6517133695: two Replaced cards in one unit, one per edit, that together cite
+        every author cell recover the full row; the first card alone does not."""
+        c = change(85, 'ac_1315', 'Replaced', '1315 | Hull | USD 100 | EUR 300', '1315 | Hull | USD 200 | EUR 400',
+                   [('USD 100', 'USD 200'), ('EUR 300', 'EUR 400')], pages=(11, 11))
+
+        def later(d, by):
+            """The card's ranges after its first cell (the identity) moved `by` raw characters on in the unit."""
+            for l in d['left'] + d['right'] + [l for op in d['textOps'] for s in ('left', 'right') for l in op[s]]:
+                if l['rawRange'][0] >= 5:
+                    l['rawRange'] = [l['rawRange'][0] + by, l['rawRange'][1] + by]
+            return d
+        usd = card('p', 'Replaced', [(11, 'a', '1315 Hull USD 100')], [(11, 'b', '1315 Hull USD 200')])
+        eur = later(card('q', 'Replaced', [(11, 'a', '1315'), (11, 'a', 'EUR 300')], [(11, 'b', '1315'), (11, 'b', 'EUR 400')]), 13)
+        _, ev = run([c], result([usd, eur]), [table('aircraft', [0], c)])
+        self.assertEqual((ev['85']['verdict'], ev['85']['acceptedCards']), ('correct', ['p', 'q']))
+        self.assertTrue(ev['85']['row']['fullRowRecovered'])
+        # Control: the first card alone misses EUR 300 -> EUR 400.
+        _, ev = run([c], result([usd]), [table('aircraft', [0], c)])
+        self.assertFalse(ev['85']['row']['fullRowRecovered'])
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
@@ -1105,6 +1126,24 @@ class EditEvidence(unittest.TestCase):
             own = card('y', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])
             _, ev = run([row], result([own]), [table('aircraft', [0], row)])
             self.assertEqual((ev['41']['verdict'], ev['41']['acceptedCards']), ('correct', ['y']), r)
+
+    def test_copies_of_one_edit_each_need_an_edit_of_their_own(self):
+        """PR #11 comment 6516690587: the author's two USD 100 -> USD 200 edits are not both shown by
+        one edited copy, on one card or on a split."""
+        c = change(84, 'ac_1315', 'Replaced', '1315 | Hull | USD 100 | USD 100', '1315 | Hull | USD 200 | USD 200',
+                   [('USD 100', 'USD 200'), ('USD 100', 'USD 200')], pages=(11, 11))
+        verdicts = lambda cards: (lambda ev: (ev['84']['verdict'], [a['verdict'] for a in ev['84']['atomEvidence']]))(
+            run([c], result(cards), [table('aircraft', [0], c)])[1])
+        one = card('x', 'Replaced', [(11, 'a', '1315 Hull USD 100 USD 100')], [(11, 'b', '1315 Hull USD 200 USD 100')])
+        self.assertEqual(verdicts([one]), ('not_evaluable', ['correct', 'not_evaluable']))
+        removed = card('o', 'Removed', [(11, 'a', '1315 Hull USD 100 USD 100')])
+        self.assertEqual(verdicts([removed, card('n', 'Added', right=[(11, 'b', '1315 Hull USD 200')])]),
+                         ('not_evaluable', ['split_attributable', 'not_evaluable']))
+        # Controls: both copies edited.
+        both = card('x', 'Replaced', [(11, 'a', '1315 Hull USD 100 USD 100')], [(11, 'b', '1315 Hull USD 200 USD 200')])
+        self.assertEqual(verdicts([both]), ('correct', ['correct', 'correct']))
+        self.assertEqual(verdicts([removed, card('n', 'Added', right=[(11, 'b', '1315 Hull USD 200 USD 200')])]),
+                         ('split_attributable', ['split_attributable', 'split_attributable']))
 
     def test_either_copy_of_a_repeated_word_may_carry_the_insertion(self):
         """South Sudan, -> South Sudan, Sudan,: the card may mark the first Sudan as inserted."""

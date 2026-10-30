@@ -86,6 +86,24 @@ describe("wrapped table cells stay with their row", () => {
     expect(r.differences[0].newText).toBe("G-BETA Beta Air USD 2,500");
     expect(r.differences[0].structurePath?.rowKey).toBe("G-BETA");
   });
+  it("a compact table extracted column by column gives the same rows (r4421114827)", () => {
+    // MSN | Operator | Value over 123 | Alpha | USD 1000 and 456 | Beta | USD 2000, baselines
+    // 13 apart: listed column by column, each record's cell follows the cell above it.
+    const data = [
+      ["MSN", "Operator", "Value"],
+      ["123", "Alpha", "USD 1000"],
+      ["456", "Beta", "USD 2000"],
+    ];
+    const at = (i: number, k: number) => ({ text: data[i][k], x: 40 + k * 150, y: 180 + i * 13 });
+    const byRow = textDoc([{ text: "SCHEDULE", y: 150 }, ...data.flatMap((row, i) => row.map((_, k) => at(i, k)))]),
+      byColumn = textDoc([{ text: "SCHEDULE", y: 150 }, ...data[0].flatMap((_, k) => data.map((_, i) => at(i, k)))]);
+    expect(compare(byColumn, byRow).differences).toEqual([]);
+    expect(compare(byRow, byColumn).differences).toEqual([]);
+    // A changed value is reported on its own record whichever order the lines come in.
+    const changed = textDoc([{ text: "SCHEDULE", y: 150 }, ...data.flatMap((row, i) => row.map((_, k) => (i === 2 && k === 2 ? { ...at(i, k), text: "USD 2500" } : at(i, k))))]);
+    const r = compare(byColumn, changed);
+    expect(r.differences.map((d) => [d.oldText, d.newText])).toEqual([["456 Beta USD 2000", "456 Beta USD 2500"]]);
+  });
 });
 
 describe("identical text does not consume a record from another table", () => {
