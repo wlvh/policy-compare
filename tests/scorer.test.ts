@@ -1187,6 +1187,31 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     );
     expect(grade(z.result, z.expected, z.layout, z.docs).status).toBe("PASS");
   });
+  it("R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell", () => {
+    // Cards citing only the changed character: the event fails (they do not show its values), but the
+    // cell changes as declared, so agreed_value_unchanged has nothing against them. Without the
+    // declared change the same cards still fail the invariant.
+    for (const [oldCell, newCell] of [["100,020", "200,020"], ["-100,020", "+100,020"]] as const)
+      for (const declared of [true, false])
+        for (const shape of ["Replaced", "delete + add"]) {
+          const x = r26(false, [oldCell, "200,000"], undefined, [newCell, "200,000"]);
+          if (declared) {
+            x.expected.events.push({ ...x.expected.events[0], event_id: "R26_key_change:E2", logical_path: "aircraft_schedule.SYN-1026-001.agreed_value", old: oldCell, new: newCell });
+            x.expected.evidence_locations["R26_key_change:E2"] = { before: [{ page_index: 0, run_id: "l5" }], after: [{ page_index: 0, run_id: "l5" }] };
+          }
+          const [L1, R1] = [slice(lineLoc(x.docs[0], "left", "l5"), 0, 1), slice(lineLoc(x.docs[1], "right", "l5"), 0, 1)];
+          x.result.differences.push(
+            ...(shape === "Replaced"
+              ? [{ ...x.wrong, id: "frag", left: [L1], right: [R1], oldText: L1.text, newText: R1.text, textOps: [{ kind: "delete" as const, text: L1.text, left: [L1], right: [] }, { kind: "insert" as const, text: R1.text, left: [], right: [R1] }] }]
+              : [oneSided("Removed", "out", L1, "SYN-1026-001"), oneSided("Added", "in", R1, "SYN-1026-001")]),
+          );
+          expect(ResultSchema.safeParse(x.result).success).toBe(true);
+          const score = grade(x.result, x.expected, x.layout, x.docs),
+            name = `${oldCell} -> ${newCell}, ${shape}, declared ${declared}`;
+          expect(score.status, name).toBe("FAIL");
+          expect(score.faults.some((f) => f.startsWith("agreed_value_unchanged")), name).toBe(!declared);
+        }
+  });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
   it("R26: two delete + add pairs citing the same source characters fail, whatever keys they claim", () => {
