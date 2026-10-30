@@ -1250,6 +1250,39 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(split.invariants.find((i) => i.name === "agreed_value_unchanged")?.result, String(key)).toBe("FAIL");
       expect(split.faults.join("\n"), String(key)).toContain("claim U to E inside");
     }
+    // Codex PR #11 comment 6516504352: the card shows the whole declared amounts, "100,020U" ->
+    // "200,020E"; the currency claims are still checked. Control: the whole amounts alone pass.
+    const [L5, R5] = [lineLoc(l, "left", "l5"), lineLoc(r, "right", "l5")];
+    for (const withCodes of [true, false]) {
+      const z = structuredClone(x);
+      z.result.differences.pop();
+      const [Lz, Rz] = withCodes ? [[L5, L[1]], [R5, R[1]]] : [[L5], [R5]];
+      z.result.differences.push({ ...x.wrong, id: "whole", structurePath: { ...x.wrong.structurePath!, field: "registration" }, left: Lz, right: Rz,
+        oldText: withCodes ? "100,020U" : "100,020", newText: withCodes ? "200,020E" : "200,020", textOps: [
+          { kind: "delete", text: "100,020", left: [L5], right: [] },
+          ...(withCodes ? [{ kind: "delete" as const, text: "U", left: [L[1]], right: [] }] : []),
+          { kind: "insert", text: "200,020", left: [], right: [R5] },
+          ...(withCodes ? [{ kind: "insert" as const, text: "E", left: [], right: [R[1]] }] : []),
+        ] });
+      expect(ResultSchema.safeParse(z.result).success, `whole ${withCodes}`).toBe(true);
+      const whole = grade(z.result, z.expected, z.layout, z.docs);
+      expect(whole.invariants.find((i) => i.name === "agreed_value_unchanged")?.result, `whole ${withCodes}`).toBe(withCodes ? "FAIL" : "PASS");
+      if (withCodes) expect(whole.faults.join("\n")).toContain("U to E");
+      // The same as a delete + add pair, on the record and without one.
+      for (const key of ["SYN-1026-001", null]) {
+      const w = structuredClone(x);
+      w.result.differences.pop();
+      const gone = oneSided("Removed", "out", L5, key, "registration"),
+        come = oneSided("Added", "in", R5, key, "registration");
+      w.result.differences.push(
+        { ...gone, left: Lz, oldText: withCodes ? "100,020U" : "100,020", textOps: [{ kind: "delete", text: "100,020", left: [L5], right: [] }, ...(withCodes ? [{ kind: "delete" as const, text: "U", left: [L[1]], right: [] }] : [])] },
+        { ...come, right: Rz, newText: withCodes ? "200,020E" : "200,020", textOps: [{ kind: "insert", text: "200,020", left: [], right: [R5] }, ...(withCodes ? [{ kind: "insert" as const, text: "E", left: [], right: [R[1]] }] : [])] },
+      );
+      expect(ResultSchema.safeParse(w.result).success, `pair ${withCodes} ${key}`).toBe(true);
+      const pair = grade(w.result, w.expected, w.layout, w.docs);
+      expect(pair.invariants.find((i) => i.name === "agreed_value_unchanged")?.result, `pair ${withCodes} ${key}`).toBe(withCodes ? "FAIL" : "PASS");
+      }
+    }
   });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
