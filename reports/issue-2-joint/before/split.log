@@ -1,0 +1,3 @@
+Codex: 100 -> 300 and 400 -> 200: verdict=split_attributable outcome=incomplete accepted=['a', 'b'] unexplained=0
+control: Removed old + Added new: verdict=split_attributable outcome=incomplete accepted=['a', 'b'] unexplained=0
+control: one Replaced card 100 -> 200: verdict=correct outcome=complete accepted=['a'] unexplained=0

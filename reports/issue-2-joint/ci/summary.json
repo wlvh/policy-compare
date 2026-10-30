@@ -1,0 +1,111 @@
+{
+  "codeRevision": "39c3183f9e9c5707c9cfa0974516fc421bcc9298",
+  "prRun": "https://github.com/wlvh/policy-compare/actions/runs/41043985045",
+  "pushRun": "https://github.com/wlvh/policy-compare/actions/runs/41043970683",
+  "checks": {
+    "pdfjs": {
+      "core": {
+        "numTotalTests": 369,
+        "numPassedTests": 369,
+        "numFailedTests": 0
+      },
+      "rules": {
+        "status": "NOT_EVALUATED",
+        "passed": 28,
+        "total": 32,
+        "failed": [],
+        "notEvaluated": [
+          "R16_repagination",
+          "R18_ligature",
+          "R23_table_reorder",
+          "R24_table_cross_page"
+        ],
+        "knownGapsOnly": true,
+        "eventRegression": {
+          "status": "PASS",
+          "passed": 32,
+          "total": 32,
+          "failed": [],
+          "notEvaluated": []
+        },
+        "repeatedText": {
+          "pass": [
+            "R16_repagination:T1",
+            "R16_repagination:T2",
+            "R16_repagination:T3",
+            "R24_table_cross_page:T1",
+            "R24_table_cross_page:T2",
+            "R24_table_cross_page:T3",
+            "R24_table_cross_page:T4",
+            "R24_table_cross_page:T5",
+            "R24_table_cross_page:T6",
+            "R24_table_cross_page:T7",
+            "R24_table_cross_page:T8"
+          ],
+          "fail": []
+        }
+      },
+      "browser": {
+        "startTime": "2026-10-30T10:53:48.136Z",
+        "duration": 99679.68,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cancelMaxMs": 430.5114840000001
+    },
+    "mupdf": {
+      "core": {
+        "numTotalTests": 369,
+        "numPassedTests": 369,
+        "numFailedTests": 0
+      },
+      "rules": {
+        "status": "NOT_EVALUATED",
+        "passed": 28,
+        "total": 32,
+        "failed": [],
+        "notEvaluated": [
+          "R16_repagination",
+          "R18_ligature",
+          "R23_table_reorder",
+          "R24_table_cross_page"
+        ],
+        "knownGapsOnly": true,
+        "eventRegression": {
+          "status": "PASS",
+          "passed": 32,
+          "total": 32,
+          "failed": [],
+          "notEvaluated": []
+        },
+        "repeatedText": {
+          "pass": [
+            "R16_repagination:T1",
+            "R16_repagination:T2",
+            "R16_repagination:T3",
+            "R24_table_cross_page:T1",
+            "R24_table_cross_page:T2",
+            "R24_table_cross_page:T3",
+            "R24_table_cross_page:T4",
+            "R24_table_cross_page:T5",
+            "R24_table_cross_page:T6",
+            "R24_table_cross_page:T7",
+            "R24_table_cross_page:T8"
+          ],
+          "fail": []
+        }
+      },
+      "browser": {
+        "startTime": "2026-10-30T10:53:47.368Z",
+        "duration": 87567.888,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cancelMaxMs": 211.85757299999977
+    }
+  }
+}
