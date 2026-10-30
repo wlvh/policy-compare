@@ -529,13 +529,16 @@ export function structure(
     if (section !== profile.table.name) {
       const size = row.refs[0].char.size,
         level = baseline(row);
+      // Lines an earlier row took are passed over: a table extracted column by
+      // column lists this row's cells after the cells above them (r4421114827).
       let end = i + 1;
       while (
         end < lines.length &&
         lines[end].p === row.p &&
-        lines[end].text.trim() &&
-        baseline(lines[end]) > level - 0.3 * size &&
-        baseline(lines[end]) - level < 4 * size
+        (consumed.has(lines[end]) ||
+          (lines[end].text.trim() &&
+            baseline(lines[end]) > level - 0.3 * size &&
+            baseline(lines[end]) - level < 4 * size))
       )
         end++;
       const window = lines
@@ -572,8 +575,19 @@ export function structure(
           };
           // A wrapped line directly follows, in extraction order, the line above
           // it in the same cell; the next row's first cell follows another column.
+          // A line whose baseline holds a row of its own (three clusters, as above)
+          // is that row's cell, though a table extracted column by column puts it
+          // right after the cell above it (r4421114827).
           const wrapped = cells.map(() => [] as (typeof lines)[number][]),
             owner = new Map(cells.flatMap((c, k) => c.map((g) => [g, k] as const)));
+          const ownRow = (g: (typeof lines)[number]) => {
+            const level = baseline(g),
+              xs = lines
+                .filter((m) => m.p === g.p && !furniture.has(m) && m.text.trim() && Math.abs(baseline(m) - level) < 0.3 * size)
+                .map(span)
+                .sort((a, b) => a[0] - b[0]);
+            return xs.filter((x, j) => j === 0 || x[0] - Math.max(...xs.slice(0, j).map((y) => y[1])) > size).length >= 3;
+          };
           for (const g of window) {
             const k = column(g),
               previous = lines[position.get(g)! - 1];
@@ -582,7 +596,8 @@ export function structure(
               k < 0 ||
               owner.get(previous) !== k ||
               top(g) - top(previous) < 0.3 * size ||
-              top(g) - top(previous) > 1.6 * size
+              top(g) - top(previous) > 1.6 * size ||
+              ownRow(g)
             )
               continue;
             wrapped[k].push(g);

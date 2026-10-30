@@ -612,6 +612,18 @@ describe("identity belongs to its own column and its own table", () => {
     const c = ResultSchemaV2.parse(compare(doc(["MSN 123", "Alpha Air", "USD 1000"]), doc(["MSN 123", "Alpha Air", "USD 2000"])));
     expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
   });
+  it("a cell holding an identifier's name and punctuation names no identifier either (r4421180075)", () => {
+    const doc = (cells: string[]) =>
+      textDoc([{ text: "SCHEDULE", y: 150 }, ...cells.map((text, k) => ({ text, x: 40 + k * 150, y: 200 }))]);
+    for (const name of ["MSN:", "MSN -", "Serial No.:"]) {
+      const r = ResultSchemaV2.parse(compare(doc([name, "Alpha Air", "USD 1000"]), doc([name, "Delta Air", "USD 2000"])));
+      expect(r.differences.some((d) => d.matchEvidence.method === "row-identity"), name).toBe(false);
+      expect([visible(r, "Alpha Air", "left"), visible(r, "Delta Air", "right")], name).toEqual([true, true]);
+    }
+    // Control: a value after the name and its colon pairs.
+    const c = ResultSchemaV2.parse(compare(doc(["MSN: 123", "Alpha Air", "USD 1000"]), doc(["MSN: 123", "Alpha Air", "USD 2000"])));
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("an identifier label under no heading cell does not start a table either (r4420588645)", () => {
     // As r4420429153, but the record's cells sit at x 40/190/390/510: "Registration" (x 390)
     // overlaps no heading cell, so its column is unknown.
