@@ -197,8 +197,8 @@ const namesColumn = (u: Unit) => u.rowCells!.some((c) => identityHeading.test(c.
  * | 2026 Limit", r4418068282). A record with a value ("Reinsurer | 25%") is no
  * heading.
  */
-const headingLike = (u: Unit) =>
-  !/\p{N}/u.test(u.rawText) || (namesIdentity(u) && !u.rowCells!.some((c) => valueLike(c.normalize("NFKC"))));
+const valueFree = (u: Unit) => !u.rowCells!.some((c) => valueLike(c.normalize("NFKC")));
+const headingLike = (u: Unit) => !/\p{N}/u.test(u.rawText) || (namesIdentity(u) && valueFree(u));
 /**
  * The heading row of each recovered row: the closest digit-free row above it
  * (or one that names an identifier and holds no value, see headingLike) in the
@@ -217,7 +217,8 @@ const headingLike = (u: Unit) =>
  * rows below it. A later digit-free row with a cell that names an identifier
  * starts a table of its own (two tables with no text between them); one with
  * a cell that only ends with an identifier's name ends the table without
- * heading the rows after it; any other second heading line is not read.
+ * heading the rows after it, also with a year in another cell as long as no
+ * cell holds a value (r4419250728); any other second heading line is not read.
  */
 function rowHeadings(left: Unit[], right: Unit[]) {
   const headings = new Map<Unit, Unit>(),
@@ -248,7 +249,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         p = u.refs.find(Boolean)!.page.pageIndex,
         before = page.get(t);
       page.set(t, p);
-      if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u) && namesColumn(u)) {
+      if ((!/\p{N}/u.test(u.rawText) || valueFree(u)) && s && u.rawText !== s.text && !namesIdentity(u) && namesColumn(u)) {
         // A cell ending with an identifier's name ("Aircraft Registration")
         // may head another table or be a record's value ("Pending
         // Registration"): the table ends here, and neither this row nor the
@@ -720,7 +721,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.22+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.23+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",

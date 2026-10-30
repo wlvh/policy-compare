@@ -272,6 +272,28 @@ describe("identity belongs to its own column and its own table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "Beta Air", "left"), visible(r, "Gamma Air", "right")]).toEqual([true, true]);
   });
+  it("a qualified identifier heading with a year in another cell (2026 Limit) also ends the table (r4419250728)", () => {
+    const doc = (first: Cells[], second: Cells[]) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([["MSN", "Operator", "Value"], ...first, ["Aircraft Registration", "Model", "2026 Limit"], ...second], 180, 0, 220),
+      ]);
+    const r = ResultSchemaV2.parse(
+      compare(doc([["123", "Alpha", "USD 100"]], [["456", "Beta", "USD 200"]]), doc([["789", "Gamma", "USD 300"]], [["123", "Delta", "USD 400"]])),
+    );
+    expect(crossPaired(r, "Alpha", "Delta")).toBe(false);
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "Alpha", "left"), visible(r, "Delta", "right")]).toEqual([true, true]);
+  });
+  it("control: a record with an amount stays in its table, though a cell ends with an identifier (r4419250728)", () => {
+    const doc = (value: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...place([["MSN", "Registration", "Value"], ["123", "Pending Registration", "USD 100"], ["456", "G-BBBB", value]], 180, 0, 220),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("USD 200"), doc("USD 300")));
+    expect(r.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("rows with the same text but identifiers in other columns are not the same record (r4417643759)", () => {
     const head: Cells = ["MSN", "ESN", "Serial", "Share"];
     const doc = (row: Cells) => textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, row, ["900", "901", "902", "5%"]], 180)]);
