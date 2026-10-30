@@ -524,6 +524,43 @@ describe("identity belongs to its own column and its own table", () => {
     expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
     expect([visible(r, "G-AAAA", "left"), visible(r, "G-DDDD", "right")]).toEqual([true, true]);
   });
+  it("two cells under a descriptive column leave the row's identity incomplete when an identity column has none (r4420199960)", () => {
+    // MSN | Operator | Insurer | Value at x 40/190/340/490: a right-aligned MSN
+    // (x 160) and the operator both overlap Operator most; the MSN column has no cell.
+    const doc = (msn: string, value: string, x = 160) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["MSN", "Operator", "Insurer", "Value"].map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        { text: msn, x, y: 200 }, { text: "Beta", x: 220, y: 200 }, { text: "Alpha", x: 340, y: 200 }, { text: value, x: 490, y: 200 },
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("123456", "USD 1000"), doc("789012", "USD 1000")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "123456", "left"), visible(r, "789012", "right")]).toEqual([true, true]);
+    // Control: under its own heading the MSN is read, and the same MSN pairs.
+    const c = ResultSchemaV2.parse(compare(doc("123456", "USD 1000", 40), doc("123456", "USD 2000", 40)));
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
+  it("a heading row with the same text but other cells is another table (r4420146482)", () => {
+    // MSN | Serial No. | Value against MSN Serial | No. | Value: 123 stands under
+    // MSN on the left and under MSN Serial on the right, 456 and 789 under
+    // Serial No. and under No.
+    const doc = (head: string[], serial: string, value: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...head.map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        ...["123", serial, value].map((text, k) => ({ text, x: 40 + k * 150, y: 200 })),
+      ]);
+    const r = ResultSchemaV2.parse(
+      compare(doc(["MSN", "Serial No.", "Value"], "456", "USD 1000"), doc(["MSN Serial", "No.", "Value"], "789", "USD 2000")),
+    );
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "456", "left"), visible(r, "789", "right")]).toEqual([true, true]);
+    // Control: the same heading cells on both sides keep one table, and the MSN pairs.
+    const c = ResultSchemaV2.parse(
+      compare(doc(["MSN", "Serial No.", "Value"], "456", "USD 1000"), doc(["MSN", "Serial No.", "Value"], "456", "USD 2000")),
+    );
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
     const run2 = (head: Cells, a: Cells, b: Cells) =>
       ResultSchemaV2.parse(compare(textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, a], 180)]), textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, b], 180)])));
