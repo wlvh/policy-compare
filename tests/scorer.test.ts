@@ -1871,6 +1871,50 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       expect.stringContaining("states occurrence or page counts that differ"),
     ]);
   });
+  it("a repeated line's variant holds no other line's text, in a table extracted column by column (Codex PR #9 comment 6510906577)", () => {
+    // `MSN | Operator | Value` heads a table on each of 2 pages before and 3 after, each page with its own
+    // rows. The characters are in column order with an inferred newline (a separator line) between
+    // cells, so the raw text between two heading cells holds that column's data cells.
+    const table = (pages: string[][][]) => {
+      const doc = textDoc(pages.map((_, page) => ({ text: "x", page, y: 800 })));
+      doc.pages.forEach((p, page) => {
+        const cells = pages[page].flatMap((row, i) => row.map((text, k) => ({ text, x: [40, 200, 400][k], y: 60 + 30 * i, row: i })));
+        cells.sort((a, b) => a.x - b.x || a.y - b.y);
+        const line = (id: string, y: number) => ({ id, charIds: [] as string[], direction: [1, 0] as [number, number], writingMode: "horizontal" as const, baseline: [40, y] as [number, number], baselineProvenance: "synthetic" as const });
+        const rows = pages[page].map((_, i) => line(`r${i}`, 60 + 30 * i)), separators = line("s", 820);
+        const [model] = p.chars;
+        p.chars = [];
+        const put = (text: string, x: number, y: number, provenance: "synthetic" | "inferred") => {
+          const id = `${page}:${p.chars.length}`;
+          p.chars.push({ ...model, id, text, rawRange: [p.chars.length, p.chars.length + 1], origin: [x, y], quad: [x, y - 10, x + 6, y - 10, x, y + 2, x + 6, y + 2], provenance });
+          return id;
+        };
+        cells.forEach((c, k) => {
+          if (k) separators.charIds.push(put("\n", 560, 820, "inferred"));
+          Array.from(c.text).forEach((ch, i) => rows[c.row].charIds.push(put(ch, c.x + 6 * i, c.y, "synthetic")));
+        });
+        for (const r of rows) r.charIds.sort((a, b) => p.chars.find((c) => c.id === a)!.origin[0] - p.chars.find((c) => c.id === b)!.origin[0]);
+        p.lines = [...rows, separators];
+      });
+      return doc;
+    };
+    const head = ["MSN", "Operator", "Value"],
+      rows = [[["123", "Alpha", "USD 100"], ["456", "Beta", "USD 200"]], [["789", "Gamma", "USD 300"]], [["321", "Delta", "USD 400"]]];
+    const [left, right] = [table(rows.slice(0, 2).map((r) => [head, ...r])), table(rows.map((r) => [head, ...r]))];
+    expect(left.pages[0].chars.map((c) => c.text).join("")).toBe("MSN\n123\n456\nOperator\nAlpha\nBeta\nValue\nUSD 100\nUSD 200");
+    const graded = (mutate: (d: Difference) => void = () => {}) => {
+      const result = compare(left, right);
+      const card = result.differences.find((d) => d.repeat)!;
+      expect(card.repeat).toMatchObject({ left: 2, right: 3 });
+      mutate(card);
+      const expected: Expected = { case_id: "columns", required_status: result.status, events: [], invariants: [], coverage_requirements: [], evidence_locations: {} };
+      return grade(result, expected, { before: layoutOf(left), after: layoutOf(right) } as Layout, [left, right]);
+    };
+    expect(graded().faults).toEqual([]);
+    expect(graded((d) => (d.repeat!.right = 2)).faults).toEqual([
+      expect.stringContaining("states occurrence or page counts that differ"),
+    ]);
+  });
   it("a page counter printed other than plainly stays as printed in its variant (#2's r4417060269)", () => {
     // Page 1 .. Page 4; the third becomes "Page 03". Only a plainly printed counter is read against
     // its page, so "Page 03" is its own variant: the product's card counts it 4 -> 1, the rest context.
