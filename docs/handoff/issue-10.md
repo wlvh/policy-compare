@@ -61,7 +61,16 @@
 
 所有 Python 分诊探针可以一次跑完：`reports/invariant-coverage/tools/triage-probes.sh .`
 
-## 4. 不变的范围与口径
+## 4. 交接期间新到、只登记的审查发现
+
+按交接指令，下面这条只登记，没有复现、修复或重新验证，由接手的 Codex 处理：
+
+- **Codex [6520008977](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6520008977)**：评分器 `tests/evaluation/scorer.ts`，审的是 `09c3d5a`。
+  - Codex 声称：两张替换卡报告同一处、有来源支持的金额改动（引用完全相同的旧、新字符）时，`moneyChanges()` 分别给每张卡同一个声明事件的豁免，两条金额不变量都通过。
+  - Codex 的解释：替换卡从不进入删除卡、新增卡用的 `spread()` 重复检查。
+  - 相关的旧修复是 `786aefc`：同一处编辑报两次，不论卡片所称的记录都判失败。Codex 说替换卡不在这项检查范围内；这一点和整条发现是否成立，都未经核实。
+
+## 5. 不变的范围与口径
 
 README 顶部的“当前状态”一节分开写了以下几项，接手后沿用：
 
@@ -70,7 +79,7 @@ README 顶部的“当前状态”一节分开写了以下几项，接手后沿�
 - 未评价范围，包括 #91 的口径和四个费率事件拆卡的代价；
 - 明确不支持的格式：两栏表、稀疏表、逐行抽取的折行格。这些格式里未配上的卡不算已确认的记录身份。
 
-## 5. 入口
+## 6. 入口
 
 - 评分器 `tests/evaluation/scorer.ts`，测试 `tests/scorer.test.ts`。
 - 验收命令行 `scripts/acceptance.ts`，浏览器规则 `tests/browser/rules.spec.ts`，CI `.github/workflows/ci.yml`。
