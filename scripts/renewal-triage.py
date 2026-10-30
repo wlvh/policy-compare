@@ -91,7 +91,9 @@ entry (replaced, one-sided and added/removed rows) whether or not the product ma
 unresolved; only a right row key with that mark is not evaluated (renewal-triage/26).
 A pure insertion or deletion on a card that also shows the other side counts only where the card
 makes it as one: a card replacing another word with it (earlier -> later) reports no insertion,
-unless the event's other edits account for the replaced text (renewal-triage/27).
+unless the event's other edits account for the replaced text (renewal-triage/27). Within one
+source unit, a record identity counts for an edit only when nothing but the author row's own words
+and numbers lies between them (renewal-triage/28).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -123,7 +125,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/27'
+TOOL = 'renewal-triage/28'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -445,6 +447,24 @@ def holds(text, keys):
     return bool(keys) and all(bounded(c, text) for c in keys)
 
 
+def linked(d, side, start, needle, keys, change):
+    """Each identity cell has an occurrence on the card side that reaches the edited occurrence
+    (at `start`) across nothing but the author row's own words and numbers: in one source unit
+    holding two records, the unchanged record's identifier is not the edited one's (PR #11 comment
+    6514897964)."""
+    text = ''.join(x[0] for x in marked(d, side))
+    row = set(re.findall(r'[^\W_]+', norm((change.get('left_text') or '') + ' ' + (change.get('right_text') or '')).lower()))
+    end = start + len(needle)
+
+    def near(c):
+        for m in whole(c).finditer(text):
+            gap = text[m.end():start] if m.end() <= start else text[end:m.start()] if m.start() >= end else ''
+            if set(re.findall(r'[^\W_]+', gap.lower())) <= row:
+                return True
+        return False
+    return bool(keys) and all(near(c) for c in keys)
+
+
 def fragments(change):
     """Comparable atoms and the edits normalisation leaves nothing to compare in."""
     kind, atoms, dropped = change['kind'], [], []
@@ -501,7 +521,8 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
     Each side is judged on one qualifying occurrence at a time (carrying the edit where `edit` says
     the side changes): the identity must sit in the units of the occurrence that makes the change,
     not in an unchanged occurrence, another unit of the card, or a unit of the occurrence whose text
-    the card leaves unchanged (r4416699649)."""
+    the card leaves unchanged (r4416699649), and reach that occurrence across the author row's own
+    text only (see linked())."""
     edit = edit or {}
     sp = d.get('structurePath') or {}
     unresolved = sp.get('confidence') == 'unresolved'
@@ -519,10 +540,10 @@ def judge_identity(d, needles, ident, others, change, wanted, edit=None, only=No
     for side, needle in needles.items():
         mine = ident[side] or ident['cells']
         best = ('unconfirmed', {'units': [], 'identity': [], 'otherRecords': []})
-        for keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side), changed=True,
-                         within=within):
+        for start, keys in hits(d, side, needle, wanted[side], edit.get(side, False), (only or {}).get(side),
+                                changed=True, within=within, starts=True):
             us = [u for u in units(d[side], wanted[side], touching((d, side))) if (u['page'], u['unitId']) in keys]
-            own = any(holds(u['text'], mine) for u in us)
+            own = any(holds(u['text'], mine) for u in us) and linked(d, side, start, needle, mine, change)
             foreign = [list(o) for o in others if o != tuple(mine) and any(holds(u['text'], o) for u in us)]
             st = ('confirmed' if own and not foreign else 'contradicted' if foreign and not own
                   else 'ambiguous' if foreign else 'unconfirmed')

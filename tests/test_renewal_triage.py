@@ -305,7 +305,7 @@ class RecordIdentity(unittest.TestCase):
 
     def test_the_full_row_reads_only_the_records_identity_units(self):
         """#11 comment 6508818754: Alpha of record 1760 does not complete record 1315."""
-        c = change(74, 'ac_1315', 'Replaced', '1315 | Alpha | USD 100', '1315 | Alpha | USD 200',
+        c = change(74, 'ac_1315', 'Replaced', '1315 | Hull | Alpha | USD 100', '1315 | Hull | Alpha | USD 200',
                    [('USD 100', 'USD 200')], pages=(11, 11))
         two = card('t', 'Replaced', [(11, 'a', '1315 Hull USD 100'), (11, 'b', '1760 Alpha USD 100')],
                    [(11, 'c', '1315 Hull USD 200'), (11, 'd', '1760 Alpha USD 200')])
@@ -313,7 +313,7 @@ class RecordIdentity(unittest.TestCase):
         self.assertEqual(ev['74']['verdict'], 'correct')
         self.assertFalse(ev['74']['row']['fullRowRecovered'])
         # Control: the record's own unit holds every cell.
-        own = card('o', 'Replaced', [(11, 'a', '1315 Alpha USD 100')], [(11, 'c', '1315 Alpha USD 200')])
+        own = card('o', 'Replaced', [(11, 'a', '1315 Hull Alpha USD 100')], [(11, 'c', '1315 Hull Alpha USD 200')])
         _, ev = run([c], result([own]), [table('aircraft', [0], c)])
         self.assertEqual((ev['74']['verdict'], ev['74']['row']['fullRowRecovered']), ('correct', True))
 
@@ -331,7 +331,7 @@ class RecordIdentity(unittest.TestCase):
 
     def test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed(self):
         """PR #11 comment 6511895761: on a split too, Alpha of record 1760 does not complete record 1315."""
-        c = change(76, 'ac_1315', 'Replaced', '1315 | Alpha | USD 100', '1315 | Alpha | USD 200',
+        c = change(76, 'ac_1315', 'Replaced', '1315 | Hull | Alpha | USD 100', '1315 | Hull | Alpha | USD 200',
                    [('USD 100', 'USD 200')], pages=(11, 11))
         removed = card('o', 'Removed', [(11, 'a', '1315 Hull USD 100'), (11, 'b', '1760 Alpha USD 100')])
         added = card('n', 'Added', right=[(11, 'c', '1315 Hull USD 200'), (11, 'd', '1760 Alpha USD 200')])
@@ -340,7 +340,7 @@ class RecordIdentity(unittest.TestCase):
         self.assertFalse(ev['76']['row']['fullRowRecovered'])
         self.assertEqual([[r['unitId'] for r in ev['76']['row']['acceptedRecord'][s]] for s in ('left', 'right')], [['a'], ['c']])
         # Control: the record's own units hold every cell.
-        own = [card('o', 'Removed', [(11, 'a', '1315 Alpha USD 100')]), card('n', 'Added', right=[(11, 'c', '1315 Alpha USD 200')])]
+        own = [card('o', 'Removed', [(11, 'a', '1315 Hull Alpha USD 100')]), card('n', 'Added', right=[(11, 'c', '1315 Hull Alpha USD 200')])]
         _, ev = run([c], result(own), [table('aircraft', [0], c)])
         self.assertEqual((ev['76']['verdict'], ev['76']['row']['fullRowRecovered']), ('split_attributable', True))
 
@@ -878,7 +878,7 @@ class WholeNumbers(unittest.TestCase):
     """Review of PR #11 (r4413938264): a number at either end of the author text matches only as a
     whole number. "USD 100" inside "USD 1000" or "USD 100,000", or "0.0425%" inside "10.0425%", is
     another value, so a card changing it is no evidence for the author edit."""
-    ROW = change(52, 'ac_1315', 'Replaced', 'ATR | 1315 | USD 100', 'ATR | 1315 | USD 200',
+    ROW = change(52, 'ac_1315', 'Replaced', 'ATR | 1315 | Liability | USD 100', 'ATR | 1315 | Liability | USD 200',
                  [('USD 100', 'USD 200')], pages=(11, 11))
     RATE = change(87, 'rate_1_1', 'Replaced', '1.1 | Contingent Hull | 0.0425%', '1.1 | Contingent Hull | 0.0450%',
                   [('0.0425%', '0.0450%')], pages=(20, 19))
@@ -1030,6 +1030,23 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([row], result([own]), [table('aircraft', [1], row)])
         self.assertEqual((ev['41']['verdict'], ev['41']['acceptedCards']), ('correct', ['y']))
 
+    def test_the_identity_must_belong_to_the_edited_record_within_one_unit(self):
+        """PR #11 comment 6514897964: a unit holding records 1315 and 1760 changes 1760's amount;
+        1315 in the same unit does not make that edit 1315's."""
+        row = change(41, 'ac_1315', 'Replaced', '1315 | Hull | USD 100', '1315 | Hull | USD 200',
+                     [('USD 100', 'USD 200')], pages=(1, 1))
+        L = '1315 Hull USD 100; 1760 Liability USD 100'
+        other = card('x', 'Replaced', [(1, 'a', L)], [(1, 'b', '1315 Hull USD 100; 1760 Liability USD 200')])
+        _, ev = run([row], result([other]), [table('aircraft', [0], row)])
+        self.assertNotEqual(ev['41']['verdict'], 'correct')
+        self.assertEqual(ev['41']['acceptedCards'], [])
+        # Control: the same unit changing 1315's own amount, the identity after the edit too.
+        for l, r in ((L, '1315 Hull USD 200; 1760 Liability USD 100'),
+                     ('Hull USD 100 1315; 1760 Liability USD 100', 'Hull USD 200 1315; 1760 Liability USD 100')):
+            own = card('y', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])
+            _, ev = run([row], result([own]), [table('aircraft', [0], row)])
+            self.assertEqual((ev['41']['verdict'], ev['41']['acceptedCards']), ('correct', ['y']), r)
+
     def test_either_copy_of_a_repeated_word_may_carry_the_insertion(self):
         """South Sudan, -> South Sudan, Sudan,: the card may mark the first Sudan as inserted."""
         c = change(16, 'excluded', 'Replaced', 'Iran, South Sudan, Syria.', 'Iran, South Sudan, Sudan, Syria.',
@@ -1140,7 +1157,7 @@ class EditEvidence(unittest.TestCase):
         self.assertNotEqual(ev['42']['verdict'], 'correct')
         self.assertEqual(ev['42']['acceptedCards'], [])
         # Control: the identity in the unit that carries the edit.
-        _, ev = run([row], result([two_units('Hull USD', '100 1760 1315', '200 1760 1315')]), [table('aircraft', [1], row)])
+        _, ev = run([row], result([two_units('Hull USD', '100 1315', '200 1315')]), [table('aircraft', [1], row)])
         self.assertEqual((ev['42']['verdict'], ev['42']['acceptedCards']), ('correct', ['x']))
 
     def test_split_cards_must_change_the_part_the_edit_changes(self):
