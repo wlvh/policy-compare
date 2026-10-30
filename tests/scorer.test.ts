@@ -1210,6 +1210,43 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     expect(score(true)).toBe("NOT_EVALUATED");
     // Control: with glyph geometry the two claims lie on two cells, whose correspondence is not verified.
     expect(score(false)).toBe("NOT_EVALUATED");
+    // Codex PR #11 comment 6519387126: the two signs as one location with one shared quad (as
+    // sourceLocations() writes run-level characters): a claim of signs alone, without digits, was
+    // dropped there. A word in the run is not an amount claim (control).
+    const coalesced = (one: string, other: string) => {
+      const row = `${one} USD ${other}`;
+      const x = r26(false, undefined, { left: [row], right: [row], coarse: true });
+      for (const side of [x.layout.before, x.layout.after])
+        for (const r of side.pages[0].text_runs) if (r.logical_path === "aircraft_schedule.SYN-90.msn") r.logical_path = "aircraft_schedule.SYN-90.sum_insured";
+      const [L, R] = [lineLoc(x.docs[0], "left", "l11"), lineLoc(x.docs[1], "right", "l11")],
+        b = row.lastIndexOf(" ") + 1;
+      const join = (a: SourceLocation, c: SourceLocation): SourceLocation => ({ ...a, text: a.text + c.text, charIds: [...a.charIds, ...c.charIds], quads: [a.quads[0]] });
+      const left = [join(slice(L, 0, 1), slice(L, b, b + 1))],
+        right = [join(slice(R, b, b + 1), slice(R, 0, 1))];
+      const [o, n] = [left[0].text, right[0].text];
+      x.result.differences.push({ ...x.wrong, id: "signs", left, right, oldText: o, newText: n, textOps: [
+        { kind: "delete", text: o, left, right: [] },
+        { kind: "insert", text: n, left: [], right },
+      ] });
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      return grade(x.result, x.expected, x.layout, x.docs).invariants.find((i) => i.name === "agreed_value_unchanged")?.result;
+    };
+    expect(coalesced("-100,020", "+100,020")).toBe("NOT_EVALUATED");
+    const word = (() => {
+      const x = r26(false, undefined, { left: ["-100,020 Alpha +100,020"], right: ["-100,020 Beta +100,020"], coarse: true });
+      for (const side of [x.layout.before, x.layout.after])
+        for (const r of side.pages[0].text_runs) if (r.logical_path === "aircraft_schedule.SYN-90.msn") r.logical_path = "aircraft_schedule.SYN-90.sum_insured";
+      const [L, R] = [lineLoc(x.docs[0], "left", "l11"), lineLoc(x.docs[1], "right", "l11")];
+      const left = [{ ...slice(L, 9, 14), quads: [L.quads[0]] }],
+        right = [{ ...slice(R, 9, 13), quads: [R.quads[0]] }];
+      x.result.differences.push({ ...x.wrong, id: "word", left, right, oldText: "Alpha", newText: "Beta", textOps: [
+        { kind: "delete", text: "Alpha", left, right: [] },
+        { kind: "insert", text: "Beta", left: [], right },
+      ] });
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      return grade(x.result, x.expected, x.layout, x.docs).invariants.find((i) => i.name === "agreed_value_unchanged")?.result;
+    })();
+    expect(word).toBe("PASS");
   });
   // Codex PR #11 comment 6518833952: the decimal point of 100,020.25 removed on one side only.
   it("R26: a lone delete or add card citing only a separator of an unchanged amount fails, with or without a record", () => {
