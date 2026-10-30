@@ -1789,6 +1789,8 @@ Codex [6517133695](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6
 
 产品一侧由 #2 修复。第 0.58 节的三项新发现仍开放。
 
+**之后的分诊发现**（Codex [6518372639](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6518372639)，审 `409e4e2`；#2 的文件）：一行有两处措辞不同、文字重叠的编辑 `USD 100 → USD 200` 与 `100 → 200`，卡片只改了 `USD 100`（`1315 Hull USD 100 100` → `1315 Hull USD 200 100`），两个原子都判 `correct`，事件 `complete`。`/34` 只让完全相同的编辑各自占用一处改动，措辞不同时不分配。`/32` 结果相同。对照：两处都改仍 `correct`；只改裸的 `100` 时不是 `correct`。探针在 [`d9fc5a4/probes/`](d9fc5a4/probes/)。
+
 ## R19. 第十九轮：结果格式 2 上的事实验收，联合树 `3b3fb2e`
 
 > 第二十轮（第 0 节）收窄了本节 R19.2 中控制用例的许可：来源证明“只是形式”的未声明变化不再在任何控制用例中直接放行，R24 的续页标题回到 NOT_EVALUATED。本节保留第十九轮当时的规则与结果。
