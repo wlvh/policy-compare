@@ -331,7 +331,18 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
     if (at) return [];
     return named ? [[`named ${named}`, c]] : [];
   });
-  return new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+  const crowded = cells.some(([k]) => cells.filter(([x]) => x === k).length > 1),
+    m = new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+  // The row's identity is incomplete, and it links no row, when an identity
+  // column holds two cells (neither can be told to be the identifier,
+  // r4419030685), or when a cell under no heading cell (an identifier
+  // right-aligned under a short heading, a value-like serial too) may be the
+  // identifier of an identity column the row has no cell in (r4418900383,
+  // r4418984410).
+  const loose = h && r.rowCells!.some((_, k) => !heading(k));
+  if (crowded || (loose && h!.rowCells!.some((t, j) => identityHeading.test(t.normalize("NFKC").trim()) && !m.has(`column ${j}`))))
+    m.set("incomplete", "");
+  return m;
 }
 /**
  * Rows recovered from one baseline pair only through identity evidence (see
@@ -362,8 +373,9 @@ function rowIdentity(
   const owners = (rows: Unit[]) => {
     const m = new Map<string, Unit[]>();
     for (const r of rows)
-      for (const [k, c] of identities(r))
-        if (!valueLike(c)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
+      if (!identities(r).has("incomplete"))
+        for (const [k, c] of identities(r))
+          if (!valueLike(c)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
     return m;
   };
   const lt = tables(left),
@@ -708,7 +720,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.20+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.22+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
