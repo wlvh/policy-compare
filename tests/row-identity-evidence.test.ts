@@ -427,6 +427,30 @@ describe("identity belongs to its own column and its own table", () => {
     const c = ResultSchemaV2.parse(compare(doc("123456", "USD 1000", 40), doc("123456", "USD 2000", 40)));
     expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
   });
+  it("equal row text with identifiers moved between unplaced positions is not unchanged (r4419388482)", () => {
+    // MSN | ESN | Serial | Share at x 40/190/340/490: 123456 | 789012 sit between
+    // MSN and ESN on the left and between ESN and Serial on the right.
+    const doc = (xs: number[]) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["MSN", "ESN", "Serial", "Share"].map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        ...["123456", "789012", "10%"].map((text, k) => ({ text, x: xs[k], y: 200 })),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc([100, 250, 550]), doc([250, 400, 550])));
+    expect([visible(r, "123456", "left"), visible(r, "123456", "right")]).toEqual([true, true]);
+    // Control: the same unplaced positions on both sides are unchanged.
+    expect(ResultSchemaV2.parse(compare(doc([100, 250, 550]), doc([100, 250, 550]))).differences).toEqual([]);
+  });
+  it("a named identifier that looks like a value (Serial AB12.34) still tells two records apart (r4419472067)", () => {
+    const doc = (serial: string, value: string) =>
+      textDoc([{ text: "SCHEDULE", y: 150 }, ...place([[`Serial ${serial}`, "Insurer Alpha", value]], 180)]);
+    const r = ResultSchemaV2.parse(compare(doc("AB12.34", "USD 1000"), doc("AB56.78", "USD 1000")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "AB12.34", "left"), visible(r, "AB56.78", "right")]).toEqual([true, true]);
+    // Control: the same serial with another value pairs by the insurer; the serial links nothing itself.
+    const c = ResultSchemaV2.parse(compare(doc("AB12.34", "USD 1000"), doc("AB12.34", "USD 2000")));
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("an unplaced value-like identifier (AB12.34) also leaves the row's identity incomplete (r4418984410)", () => {
     const doc = (serial: string) =>
       textDoc([

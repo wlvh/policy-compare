@@ -311,26 +311,28 @@ function rowHeadings(left: Unit[], right: Unit[]) {
  * whichever of the two cells looks like a value (r4418369400, r4418461107).
  * The heading is read as NFKC, as namesIdentity does (Ｒｅｇｉｓｔｒａｔｉｏｎ).
  */
+/** The heading cell a row's cell [x0, x1] overlaps most, or null under no heading cell. */
+function under(h: Unit | undefined, [x0, x1]: [number, number]) {
+  if (!h) return null;
+  const overlap = h.rowSpans!.map(([a, b]) => Math.min(b, x1) - Math.max(a, x0)),
+    j = overlap.indexOf(Math.max(...overlap));
+  return overlap[j] > 0 ? { j, text: h.rowCells![j] } : null;
+}
 function identityCells(r: Unit, headings: Map<Unit, Unit>) {
   const h = headings.get(r);
-  const heading = (k: number) => {
-    const [x0, x1] = r.rowSpans![k];
-    if (!h) return null;
-    const overlap = h.rowSpans!.map(([a, b]) => Math.min(b, x1) - Math.max(a, x0)),
-      j = overlap.indexOf(Math.max(...overlap));
-    return overlap[j] > 0 ? { j, text: h.rowCells![j] } : null;
-  };
+  const heading = (k: number) => under(h, r.rowSpans![k]);
   const cells = r.rowCells!.flatMap((c0, k): [string, string][] => {
     const c = c0.normalize("NFKC"),
       at = heading(k),
       named = c.match(identityPrefix)?.[0].toLowerCase();
     if (at && identityHeading.test(at.text.normalize("NFKC").trim())) return [[`column ${at.j}`, c]];
-    if (valueLike(c)) return [];
     // A cell under another column's heading describes that column, though it
     // starts with an identifier's name (Status: Registration pending,
-    // r4418795510); a named identifier counts only in a cell without one.
-    if (at) return [];
-    return named ? [[`named ${named}`, c]] : [];
+    // r4418795510); a named identifier counts only in a cell without one. A
+    // named identifier that looks like a value (Serial AB12.34) still tells
+    // records apart, like one under its heading; it links none (r4419472067).
+    if (at || !named) return [];
+    return [[`named ${named}`, c]];
   });
   const crowded = cells.some(([k]) => cells.filter(([x]) => x === k).length > 1),
     m = new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
@@ -721,7 +723,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.23+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.24+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1057,10 +1059,23 @@ export function compare(
     er = map(rb, usedR, rawKey);
   // Equal row text is one record only with its identifiers in the same
   // columns: missing cells can move them (r4417643759).
+  // A row's cells by heading column, or for a cell under no heading cell by
+  // the gap between heading cells it sits in.
+  const slots = (u: Unit) => {
+    const h = headings.get(u);
+    return u.rowSpans!.map((s) => {
+      const at = under(h, s);
+      return at ? `c${at.j}` : `g${h ? h.rowSpans!.filter(([, b]) => b <= s[0]).length : 0}`;
+    }).join();
+  };
   const sameIds = (a: Unit, b: Unit) => {
     if (!a.rowCells || !b.rowCells) return true;
     const x = identityCells(a, headings),
       y = identityCells(b, headings);
+    // An incomplete identity cannot say the identifiers stayed in their
+    // columns: equal text is one record only with every cell in the same
+    // heading column or gap (r4419388482).
+    if (x.has("incomplete") || y.has("incomplete")) return slots(a) === slots(b);
     return x.size === y.size && [...x].every(([k, c]) => y.get(k) === c);
   };
   for (const [key, as] of el) {
