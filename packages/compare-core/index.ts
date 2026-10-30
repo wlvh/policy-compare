@@ -331,13 +331,16 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
     if (at) return [];
     return named ? [[`named ${named}`, c]] : [];
   });
-  const m = new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
-  // A cell under no heading cell (an identifier right-aligned under a short
-  // heading) cannot be placed: when the heading names an identity column the
-  // row has no cell in, that identifier may be the one that is unknown, so
-  // the row's identity is incomplete and it links no row (r4418900383).
-  const loose = h && r.rowCells!.some((c, k) => !heading(k) && !valueLike(c.normalize("NFKC")));
-  if (loose && h!.rowCells!.some((t, j) => identityHeading.test(t.normalize("NFKC").trim()) && !m.has(`column ${j}`)))
+  const crowded = cells.some(([k]) => cells.filter(([x]) => x === k).length > 1),
+    m = new Map(cells.filter(([k]) => cells.filter(([x]) => x === k).length === 1));
+  // The row's identity is incomplete, and it links no row, when an identity
+  // column holds two cells (neither can be told to be the identifier,
+  // r4419030685), or when a cell under no heading cell (an identifier
+  // right-aligned under a short heading, a value-like serial too) may be the
+  // identifier of an identity column the row has no cell in (r4418900383,
+  // r4418984410).
+  const loose = h && r.rowCells!.some((_, k) => !heading(k));
+  if (crowded || (loose && h!.rowCells!.some((t, j) => identityHeading.test(t.normalize("NFKC").trim()) && !m.has(`column ${j}`))))
     m.set("incomplete", "");
   return m;
 }
@@ -717,7 +720,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.21+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.22+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",

@@ -405,6 +405,28 @@ describe("identity belongs to its own column and its own table", () => {
     const c = ResultSchemaV2.parse(compare(doc("123456", "USD 1000", 40), doc("123456", "USD 2000", 40)));
     expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
   });
+  it("an unplaced value-like identifier (AB12.34) also leaves the row's identity incomplete (r4418984410)", () => {
+    const doc = (serial: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        { text: "Serial", x: 40, y: 180 }, { text: "Insurer", x: 190, y: 180 }, { text: "Value", x: 340, y: 180 },
+        { text: serial, x: 100, y: 200 }, { text: "Alpha", x: 190, y: 200 }, { text: "USD 1000", x: 340, y: 200 },
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("AB12.34"), doc("AB56.78")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "AB12.34", "left"), visible(r, "AB56.78", "right")]).toEqual([true, true]);
+  });
+  it("two cells under one identity column leave the row's identity incomplete (r4419030685)", () => {
+    const doc = (a: string, b: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        { text: "Aircraft Registration", x: 40, y: 180 }, { text: "Insurer", x: 240, y: 180 }, { text: "Value", x: 390, y: 180 },
+        { text: a, x: 40, y: 200 }, { text: b, x: 115, y: 200 }, { text: "Alpha", x: 240, y: 200 }, { text: "USD 1000", x: 390, y: 200 },
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("G-AAAA", "G-BBBB"), doc("G-CCCC", "G-DDDD")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "G-AAAA", "left"), visible(r, "G-DDDD", "right")]).toEqual([true, true]);
+  });
   it("a heading that only mentions an identifier (Registration Status) is no identity column (r4417386686)", () => {
     const run2 = (head: Cells, a: Cells, b: Cells) =>
       ResultSchemaV2.parse(compare(textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, a], 180)]), textDoc([{ text: "SCHEDULE", y: 150 }, ...place([head, b], 180)])));
