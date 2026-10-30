@@ -1,0 +1,307 @@
+﻿2026-10-30T12:06:46.0338736Z Current runner version: '2.338.0'
+2026-10-30T12:06:46.0363353Z ##[group]Runner Image Provisioner
+2026-10-30T12:06:46.0364200Z Hosted Compute Agent
+2026-10-30T12:06:46.0364889Z Version: 20261021.618
+2026-10-30T12:06:46.0365515Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-30T12:06:46.0366265Z Build Date: 2026-10-21T00:45:21Z
+2026-10-30T12:06:46.0366996Z Worker ID: {85e32100-4c87-4305-a094-7b2caa87814c}
+2026-10-30T12:06:46.0367691Z Region: westus2
+2026-10-30T12:06:46.0368286Z Cloud: Azure
+2026-10-30T12:06:46.0368817Z ##[endgroup]
+2026-10-30T12:06:46.0371341Z ##[group]Operating System
+2026-10-30T12:06:46.0372060Z Ubuntu
+2026-10-30T12:06:46.0372580Z 26.04.1
+2026-10-30T12:06:46.0373140Z LTS
+2026-10-30T12:06:46.0373648Z ##[endgroup]
+2026-10-30T12:06:46.0374181Z ##[group]Runner Image
+2026-10-30T12:06:46.0374918Z Image: ubuntu-26.04
+2026-10-30T12:06:46.0375486Z Version: 20261025.179.1
+2026-10-30T12:06:46.0376789Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-10-30T12:06:46.0378349Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-10-30T12:06:46.0379422Z ##[endgroup]
+2026-10-30T12:06:46.0380719Z ##[group]GITHUB_TOKEN Permissions
+2026-10-30T12:06:46.0382923Z Contents: read
+2026-10-30T12:06:46.0383546Z Metadata: read
+2026-10-30T12:06:46.0384279Z ##[endgroup]
+2026-10-30T12:06:46.0386350Z Secret source: Actions
+2026-10-30T12:06:46.0387352Z Cache mode: write
+2026-10-30T12:06:46.0388426Z Prepare workflow directory
+2026-10-30T12:06:46.0739730Z Prepare all required actions
+2026-10-30T12:06:46.0790697Z Getting action download info
+2026-10-30T12:06:46.4074747Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-30T12:06:46.5781333Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-30T12:06:46.7673571Z Complete job name: renewal-triage-tests
+2026-10-30T12:06:46.8542109Z ##[group]Run actions/checkout@v4
+2026-10-30T12:06:46.8543005Z with:
+2026-10-30T12:06:46.8543469Z   repository: wlvh/policy-compare
+2026-10-30T12:06:46.8547252Z   token: ***
+2026-10-30T12:06:46.8547685Z   ssh-strict: true
+2026-10-30T12:06:46.8548133Z   ssh-user: git
+2026-10-30T12:06:46.8548587Z   persist-credentials: true
+2026-10-30T12:06:46.8549068Z   clean: true
+2026-10-30T12:06:46.8549512Z   sparse-checkout-cone-mode: true
+2026-10-30T12:06:46.8550232Z   fetch-depth: 1
+2026-10-30T12:06:46.8550674Z   fetch-tags: false
+2026-10-30T12:06:46.8551116Z   show-progress: true
+2026-10-30T12:06:46.8551560Z   lfs: false
+2026-10-30T12:06:46.8551968Z   submodules: false
+2026-10-30T12:06:46.8552420Z   set-safe-directory: true
+2026-10-30T12:06:46.8552917Z   allow-unsafe-pr-checkout: false
+2026-10-30T12:06:46.8553686Z ##[endgroup]
+2026-10-30T12:06:47.2158239Z Syncing repository: wlvh/policy-compare
+2026-10-30T12:06:47.2160665Z ##[group]Getting Git version info
+2026-10-30T12:06:47.2161766Z Working directory is '/home/runner/work/policy-compare/policy-compare'
+2026-10-30T12:06:47.2163161Z [command]/usr/bin/git version
+2026-10-30T12:06:47.2201380Z git version 2.56.0
+2026-10-30T12:06:47.2223289Z ##[endgroup]
+2026-10-30T12:06:47.2239291Z Temporarily overriding HOME='/home/runner/work/_temp/a8d973e3-5ca6-42e6-a8b9-44a707fdbaa0' before making global git config changes
+2026-10-30T12:06:47.2241815Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-30T12:06:47.2245315Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/policy-compare/policy-compare
+2026-10-30T12:06:47.2336035Z Deleting the contents of '/home/runner/work/policy-compare/policy-compare'
+2026-10-30T12:06:47.2338802Z ##[group]Initializing the repository
+2026-10-30T12:06:47.2344707Z [command]/usr/bin/git init /home/runner/work/policy-compare/policy-compare
+2026-10-30T12:06:47.2491015Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-30T12:06:47.2493448Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-30T12:06:47.2495975Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-30T12:06:47.2497720Z hint: call:
+2026-10-30T12:06:47.2498823Z hint:
+2026-10-30T12:06:47.2500417Z hint: 	git config --global init.defaultBranch <name>
+2026-10-30T12:06:47.2501475Z hint:
+2026-10-30T12:06:47.2502125Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-30T12:06:47.2503126Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-30T12:06:47.2503934Z hint:
+2026-10-30T12:06:47.2504390Z hint: 	git branch -m <name>
+2026-10-30T12:06:47.2504900Z hint:
+2026-10-30T12:06:47.2505569Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-30T12:06:47.2513216Z Initialized empty Git repository in /home/runner/work/policy-compare/policy-compare/.git/
+2026-10-30T12:06:47.2526054Z [command]/usr/bin/git remote add origin https://github.com/wlvh/policy-compare
+2026-10-30T12:06:47.2584957Z ##[endgroup]
+2026-10-30T12:06:47.2586720Z ##[group]Disabling automatic garbage collection
+2026-10-30T12:06:47.2588086Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-30T12:06:47.2625742Z ##[endgroup]
+2026-10-30T12:06:47.2627142Z ##[group]Setting up auth
+2026-10-30T12:06:47.2635207Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T12:06:47.2672141Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-30T12:06:47.3247214Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T12:06:47.3282317Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-30T12:06:47.3555406Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T12:06:47.3592653Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-30T12:06:47.3870896Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-30T12:06:47.3911301Z ##[endgroup]
+2026-10-30T12:06:47.3912465Z ##[group]Fetching the repository
+2026-10-30T12:06:47.3921177Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +6d0d826eb07a186c8a8bbf4e171d3389dec3078b:refs/remotes/pull/9/merge
+2026-10-30T12:06:49.5983421Z From https://github.com/wlvh/policy-compare
+2026-10-30T12:06:49.5986529Z  * [new ref]         6d0d826eb07a186c8a8bbf4e171d3389dec3078b -> pull/9/merge
+2026-10-30T12:06:49.5993373Z ##[endgroup]
+2026-10-30T12:06:49.5996274Z ##[group]Determining the checkout info
+2026-10-30T12:06:49.5999339Z ##[endgroup]
+2026-10-30T12:06:49.6001669Z [command]/usr/bin/git sparse-checkout disable
+2026-10-30T12:06:49.6082694Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-30T12:06:49.6119183Z ##[group]Checking out the ref
+2026-10-30T12:06:49.6122362Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/9/merge
+2026-10-30T12:06:50.5997126Z Note: switching to 'refs/remotes/pull/9/merge'.
+2026-10-30T12:06:50.5997828Z 
+2026-10-30T12:06:50.5998351Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-30T12:06:50.5999462Z changes and commit them, and you can discard any commits you make in this
+2026-10-30T12:06:50.6000614Z state without impacting any branches by switching back to a branch.
+2026-10-30T12:06:50.6001046Z 
+2026-10-30T12:06:50.6001377Z If you want to create a new branch to retain commits you create, you may
+2026-10-30T12:06:50.6002037Z do so (now or later) by using -c with the switch command. Example:
+2026-10-30T12:06:50.6002497Z 
+2026-10-30T12:06:50.6002647Z   git switch -c <new-branch-name>
+2026-10-30T12:06:50.6003242Z 
+2026-10-30T12:06:50.6003389Z Or undo this operation with:
+2026-10-30T12:06:50.6003594Z 
+2026-10-30T12:06:50.6003723Z   git switch -
+2026-10-30T12:06:50.6003910Z 
+2026-10-30T12:06:50.6004180Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-30T12:06:50.6004580Z 
+2026-10-30T12:06:50.6004995Z HEAD is now at 6d0d826 Merge f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f into fbc207a726fbe6084c58f7d023fbe124f766e211
+2026-10-30T12:06:50.6105885Z ##[endgroup]
+2026-10-30T12:06:50.6159815Z [command]/usr/bin/git log -1 --format=%H
+2026-10-30T12:06:50.6184900Z 6d0d826eb07a186c8a8bbf4e171d3389dec3078b
+2026-10-30T12:06:50.6480688Z ##[group]Run actions/setup-python@v5
+2026-10-30T12:06:50.6481069Z with:
+2026-10-30T12:06:50.6481340Z   python-version: 3.12
+2026-10-30T12:06:50.6481624Z   check-latest: false
+2026-10-30T12:06:50.6484185Z   token: ***
+2026-10-30T12:06:50.6484452Z   update-environment: true
+2026-10-30T12:06:50.6484754Z   allow-prereleases: false
+2026-10-30T12:06:50.6485082Z   freethreaded: false
+2026-10-30T12:06:50.6485346Z ##[endgroup]
+2026-10-30T12:06:50.7962936Z ##[group]Installed versions
+2026-10-30T12:06:50.8134961Z (node:2638) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-30T12:06:50.8136298Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-30T12:06:50.8140968Z Successfully set up CPython (3.12.15)
+2026-10-30T12:06:50.8142376Z ##[endgroup]
+2026-10-30T12:06:50.8310418Z ##[group]Run python -m unittest discover -s tests -p 'test_renewal_triage.py' -v
+2026-10-30T12:06:50.8311153Z [36;1mpython -m unittest discover -s tests -p 'test_renewal_triage.py' -v[0m
+2026-10-30T12:06:50.8465886Z shell: /usr/bin/bash -e {0}
+2026-10-30T12:06:50.8466203Z env:
+2026-10-30T12:06:50.8466491Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-30T12:06:50.8466970Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-30T12:06:50.8467454Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-30T12:06:50.8467864Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-30T12:06:50.8468261Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-30T12:06:50.8468652Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-30T12:06:50.8468984Z ##[endgroup]
+2026-10-30T12:06:51.9070784Z test_a_card_carrying_the_moved_paragraphs_edit_shows_it (test_renewal_triage.AMoveNeedsAMove.test_a_card_carrying_the_moved_paragraphs_edit_shows_it)
+2026-10-30T12:06:51.9312109Z A moved and edited paragraph may show as a replacement (the author expects that for bizav #26). ... ok
+2026-10-30T12:06:51.9646160Z test_a_card_that_keeps_the_paragraph_in_place_shows_no_move (test_renewal_triage.AMoveNeedsAMove.test_a_card_that_keeps_the_paragraph_in_place_shows_no_move) ... ok
+2026-10-30T12:06:51.9648266Z test_a_card_naming_another_record_does_not_attribute_this_row (test_renewal_triage.AddedRemovedRows.test_a_card_naming_another_record_does_not_attribute_this_row)
+2026-10-30T12:06:51.9757252Z PR #11 comment 6513304357: an Added card holding 1315 Hull USD 100 but claiming rowKey 1760. ... ok
+2026-10-30T12:06:51.9758981Z test_a_card_whose_row_the_product_left_unresolved_is_not_evaluated (test_renewal_triage.AddedRemovedRows.test_a_card_whose_row_the_product_left_unresolved_is_not_evaluated)
+2026-10-30T12:06:51.9850203Z PR #11 comment 6513806516: an Added card with confidence "unresolved" does not certify the row. ... ok
+2026-10-30T12:06:51.9851956Z test_a_cell_amount_matches_only_as_a_whole_number (test_renewal_triage.AddedRemovedRows.test_a_cell_amount_matches_only_as_a_whole_number)
+2026-10-30T12:06:51.9944667Z r4416863588: "USD 100" inside "USD 100,000" is another amount, for Added and Removed rows. ... ok
+2026-10-30T12:06:51.9946222Z test_a_cell_must_reach_the_records_identity_in_its_unit (test_renewal_triage.AddedRemovedRows.test_a_cell_must_reach_the_records_identity_in_its_unit)
+2026-10-30T12:06:52.0104345Z PR #11 comment 6518043799: in one unit `1315 Hull; 1760 Liability USD 100` the amount is ... ok
+2026-10-30T12:06:52.0105795Z test_a_cell_value_does_not_match_a_signed_value (test_renewal_triage.AddedRemovedRows.test_a_cell_value_does_not_match_a_signed_value)
+2026-10-30T12:06:52.0393931Z r4417384098: 100 is not found in -100. ... ok
+2026-10-30T12:06:52.0395363Z test_a_join_is_read_where_the_card_shows_it_not_anywhere_on_the_card (test_renewal_triage.AddedRemovedRows.test_a_join_is_read_where_the_card_shows_it_not_anywhere_on_the_card)
+2026-10-30T12:06:52.0455498Z #11 comment 6512133284: "100 ,000" spaced in a note elsewhere on the card does not split ... ok
+2026-10-30T12:06:52.0456903Z test_a_single_character_cell_is_checked_too (test_renewal_triage.AddedRemovedRows.test_a_single_character_cell_is_checked_too)
+2026-10-30T12:06:52.0503917Z r4416771405: the A of 1315 | A | USD 100 was dropped from the row. ... ok
+2026-10-30T12:06:52.0505291Z test_a_source_range_listed_twice_is_one_occurrence (test_renewal_triage.AddedRemovedRows.test_a_source_range_listed_twice_is_one_occurrence)
+2026-10-30T12:06:52.0550644Z r4417511075: a card that lists the range of USD 100 twice shows it once. ... ok
+2026-10-30T12:06:52.0552510Z test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record)
+2026-10-30T12:06:52.1021260Z PR #9 comment 6514246431: a row key that is no cell of this record is misattributed whether or ... ok
+2026-10-30T12:06:52.1022982Z test_cells_find_a_non_overlapping_allocation_when_one_exists (test_renewal_triage.AddedRemovedRows.test_cells_find_a_non_overlapping_allocation_when_one_exists)
+2026-10-30T12:06:52.1076075Z r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B". ... ok
+2026-10-30T12:06:52.1128884Z test_cells_must_share_one_record (test_renewal_triage.AddedRemovedRows.test_cells_must_share_one_record) ... ok
+2026-10-30T12:06:52.1162227Z test_cells_scattered_over_different_records_are_not_complete (test_renewal_triage.AddedRemovedRows.test_cells_scattered_over_different_records_are_not_complete) ... ok
+2026-10-30T12:06:52.1188537Z test_cells_without_any_record_identity_are_not_evaluable (test_renewal_triage.AddedRemovedRows.test_cells_without_any_record_identity_are_not_evaluable) ... ok
+2026-10-30T12:06:52.1190779Z test_contiguous_source_ranges_join_without_a_space (test_renewal_triage.AddedRemovedRows.test_contiguous_source_ranges_join_without_a_space)
+2026-10-30T12:06:52.1284196Z #11 comment 6508515495: USD 100 is not in USD 100,000 split before the comma. ... ok
+2026-10-30T12:06:52.1285782Z test_identical_cells_are_allocated_without_trying_their_orders (test_renewal_triage.AddedRemovedRows.test_identical_cells_are_allocated_without_trying_their_orders)
+2026-10-30T12:06:52.1310504Z r4417631513: ten identical cells against nine copies took seconds, each more ten times longer. ... ok
+2026-10-30T12:06:52.1312091Z test_overlapping_cells_need_separate_occurrences (test_renewal_triage.AddedRemovedRows.test_overlapping_cells_need_separate_occurrences)
+2026-10-30T12:06:52.1401013Z r4417192877: USD 100 and 100 are not both recovered from one "USD 100". ... ok
+2026-10-30T12:06:52.1402379Z test_repeated_cells_need_their_own_occurrences (test_renewal_triage.AddedRemovedRows.test_repeated_cells_need_their_own_occurrences)
+2026-10-30T12:06:52.1445367Z r4416863597: two author cells "USD 100" are not both recovered from one "USD 100". ... ok
+2026-10-30T12:06:52.1542149Z test_row_inside_another_records_card (test_renewal_triage.AddedRemovedRows.test_row_inside_another_records_card) ... ok
+2026-10-30T12:06:52.2214593Z test_compatible_invocation (test_renewal_triage.Cli.test_compatible_invocation) ... /home/runner/work/policy-compare/policy-compare/tests/test_renewal_triage.py:1394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp6mtpvtmn/c.json' mode='w' encoding='UTF-8'>
+2026-10-30T12:06:52.2217180Z   json.dump({'changes': [c]}, open(cp, 'w'))
+2026-10-30T12:06:52.2218210Z ResourceWarning: Enable tracemalloc to get the object allocation traceback
+2026-10-30T12:06:52.2219752Z /home/runner/work/policy-compare/policy-compare/tests/test_renewal_triage.py:1395: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp6mtpvtmn/r.json' mode='w' encoding='UTF-8'>
+2026-10-30T12:06:52.2221051Z   json.dump(res, open(rp, 'w'))
+2026-10-30T12:06:52.2221473Z ResourceWarning: Enable tracemalloc to get the object allocation traceback
+2026-10-30T12:06:52.2720397Z /home/runner/work/policy-compare/policy-compare/tests/test_renewal_triage.py:1398: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp6mtpvtmn/e.json' mode='r' encoding='UTF-8'>
+2026-10-30T12:06:52.2722753Z   summary, events = json.loads(out), json.load(open(ep))
+2026-10-30T12:06:52.2724028Z ResourceWarning: Enable tracemalloc to get the object allocation traceback
+2026-10-30T12:06:52.2724896Z ok
+2026-10-30T12:06:52.2980324Z test_a_pure_insertion_or_deletion_is_accepted_on_its_card (test_renewal_triage.EditEvidence.test_a_pure_insertion_or_deletion_is_accepted_on_its_card) ... ok
+2026-10-30T12:06:52.2982314Z test_a_same_card_paragraph_edit_needs_the_author_paragraph (test_renewal_triage.EditEvidence.test_a_same_card_paragraph_edit_needs_the_author_paragraph)
+2026-10-30T12:06:52.3169321Z r4417631502: the Liability paragraph's card is not the Hull paragraph's edit. ... ok
+2026-10-30T12:06:52.3170937Z test_a_whole_paragraph_edit_is_its_own_context (test_renewal_triage.EditEvidence.test_a_whole_paragraph_edit_is_its_own_context)
+2026-10-30T12:06:52.3244582Z PR #11 comment 6509794672: Pay now. -> Pay later. on a Removed and an Added card. ... ok
+2026-10-30T12:06:52.3246076Z test_an_inserted_clause_may_repeat_the_words_after_it (test_renewal_triage.EditEvidence.test_an_inserted_clause_may_repeat_the_words_after_it)
+2026-10-30T12:06:52.3367266Z The card may pair the words an insertion repeats with the old text after it and mark ... ok
+2026-10-30T12:06:52.3464744Z test_characters_out_of_source_order_are_not_an_occurrence (test_renewal_triage.EditEvidence.test_characters_out_of_source_order_are_not_an_occurrence) ... ok
+2026-10-30T12:06:52.3466687Z test_copies_of_one_edit_each_need_an_edit_of_their_own (test_renewal_triage.EditEvidence.test_copies_of_one_edit_each_need_an_edit_of_their_own)
+2026-10-30T12:06:52.4114244Z PR #11 comment 6516690587: the author's two USD 100 -> USD 200 edits are not both shown by ... ok
+2026-10-30T12:06:52.4115870Z test_either_copy_of_a_repeated_word_may_carry_the_insertion (test_renewal_triage.EditEvidence.test_either_copy_of_a_repeated_word_may_carry_the_insertion)
+2026-10-30T12:06:52.4165000Z South Sudan, -> South Sudan, Sudan,: the card may mark the first Sudan as inserted. ... ok
+2026-10-30T12:06:52.4166462Z test_overlapping_edits_each_need_an_edit_of_their_own (test_renewal_triage.EditEvidence.test_overlapping_edits_each_need_an_edit_of_their_own)
+2026-10-30T12:06:52.4395692Z PR #11 comment 6518372639: `USD 100 -> USD 200` and `100 -> 200` are not both shown by the ... ok
+2026-10-30T12:06:52.4397184Z test_split_cards_must_change_the_part_the_edit_changes (test_renewal_triage.EditEvidence.test_split_cards_must_change_the_part_the_edit_changes)
+2026-10-30T12:06:52.4525674Z r4416771397: two cards that only swap currency codes are no split of USD 100 -> USD 200. ... ok
+2026-10-30T12:06:52.4527341Z test_split_paragraph_context_comes_from_the_units_carrying_the_edit (test_renewal_triage.EditEvidence.test_split_paragraph_context_comes_from_the_units_carrying_the_edit)
+2026-10-30T12:06:52.4710858Z PR #11 comment 6507993515: an unchanged Hull unit does not lend its paragraph to an edit ... ok
+2026-10-30T12:06:52.4712798Z test_the_author_paragraph_must_surround_the_edited_occurrence (test_renewal_triage.EditEvidence.test_the_author_paragraph_must_surround_the_edited_occurrence)
+2026-10-30T12:06:52.4900943Z PR #11 comment 6510958743: the Hull paragraph merely shares a unit with the Liability ... ok
+2026-10-30T12:06:52.4902637Z test_the_identity_must_belong_to_the_edited_record_within_one_unit (test_renewal_triage.EditEvidence.test_the_identity_must_belong_to_the_edited_record_within_one_unit)
+2026-10-30T12:06:52.5209864Z PR #11 comment 6514897964: a unit holding records 1315 and 1760 changes 1760's amount; ... ok
+2026-10-30T12:06:52.5211702Z test_the_identity_sits_in_a_unit_the_edit_changes (test_renewal_triage.EditEvidence.test_the_identity_sits_in_a_unit_the_edit_changes)
+2026-10-30T12:06:52.5300358Z r4416699649: an occurrence across two units, the identity only in the unit whose text ... ok
+2026-10-30T12:06:52.5302474Z test_the_old_and_new_occurrences_must_line_up_in_the_cards_edit (test_renewal_triage.EditEvidence.test_the_old_and_new_occurrences_must_line_up_in_the_cards_edit)
+2026-10-30T12:06:52.5425792Z r4415913728: edits only in the unchanged part of the author text (the currency codes) ... ok
+2026-10-30T12:06:52.5528091Z test_whitespace_edits_beside_the_amounts_are_not_the_amount_change (test_renewal_triage.EditEvidence.test_whitespace_edits_beside_the_amounts_are_not_the_amount_change) ... ok
+2026-10-30T12:06:52.5530465Z test_a_date_roll_needs_real_dates (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_date_roll_needs_real_dates)
+2026-10-30T12:06:52.5531676Z PR #9 comment 6508226511: 29 February 2025 does not exist. ... ok
+2026-10-30T12:06:52.5580892Z test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated) ... ok
+2026-10-30T12:06:52.5583876Z test_a_page_fact_needs_whole_page_numbers (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_page_fact_needs_whole_page_numbers)
+2026-10-30T12:06:52.5794756Z PR #9 comment 6508095436, PR #11 comment 6509987949: Page 1.1 -> 2.1 is no page change. ... ok
+2026-10-30T12:06:52.5805748Z test_excluded_events_keep_text_and_reason_and_never_count (test_renewal_triage.FactsFormatsExclusionsFurniture.test_excluded_events_keep_text_and_reason_and_never_count) ... ok
+2026-10-30T12:06:52.5827399Z test_page_furniture_is_listed_not_silently_filtered (test_renewal_triage.FactsFormatsExclusionsFurniture.test_page_furniture_is_listed_not_silently_filtered) ... ok
+2026-10-30T12:06:52.5855466Z test_stated_facts_are_rechecked_against_the_card_texts (test_renewal_triage.FactsFormatsExclusionsFurniture.test_stated_facts_are_rechecked_against_the_card_texts) ... ok
+2026-10-30T12:06:52.5858133Z test_literal_page_mask_text_is_not_a_page_number (test_renewal_triage.JointSourceBinding.test_literal_page_mask_text_is_not_a_page_number) ... ok
+2026-10-30T12:06:52.5864996Z test_page_facts_distinguish_disproved_from_undecided (test_renewal_triage.JointSourceBinding.test_page_facts_distinguish_disproved_from_undecided) ... ok
+2026-10-30T12:06:52.6191930Z test_repeated_cells_are_allocated_only_from_their_own_record (test_renewal_triage.JointSourceBinding.test_repeated_cells_are_allocated_only_from_their_own_record) ... ok
+2026-10-30T12:06:52.6625713Z test_split_cards_have_compatible_opposite_edits (test_renewal_triage.JointSourceBinding.test_split_cards_have_compatible_opposite_edits) ... ok
+2026-10-30T12:06:52.7591783Z test_split_edit_requires_the_complete_actual_counterpart (test_renewal_triage.JointSourceBinding.test_split_edit_requires_the_complete_actual_counterpart) ... ok
+2026-10-30T12:06:52.7960194Z test_split_edits_preserve_each_pair_inside_one_event (test_renewal_triage.JointSourceBinding.test_split_edits_preserve_each_pair_inside_one_event) ... ok
+2026-10-30T12:06:52.7962461Z test_a_card_adding_or_removing_one_copy_of_a_repeated_paragraph_shows_it (test_renewal_triage.MovedIsNotAddedOrRemoved.test_a_card_adding_or_removing_one_copy_of_a_repeated_paragraph_shows_it)
+2026-10-30T12:06:52.8065886Z PR #9 comment 6515226035: the second copy inserted next to the first is the addition, ... ok
+2026-10-30T12:06:52.8067546Z test_a_split_move_needs_cards_that_remove_and_add_the_paragraph (test_renewal_triage.MovedIsNotAddedOrRemoved.test_a_split_move_needs_cards_that_remove_and_add_the_paragraph)
+2026-10-30T12:06:52.8218212Z PR #11 comment 6516504352 (b): two Replaced cards that keep the Hull paragraph on its own ... ok
+2026-10-30T12:06:52.8298172Z test_real_removal_and_addition_are_still_accepted (test_renewal_triage.MovedIsNotAddedOrRemoved.test_real_removal_and_addition_are_still_accepted) ... ok
+2026-10-30T12:06:52.8347155Z test_text_removed_inside_a_replaced_card_is_still_a_removal (test_renewal_triage.MovedIsNotAddedOrRemoved.test_text_removed_inside_a_replaced_card_is_still_a_removal) ... ok
+2026-10-30T12:06:52.8386849Z test_unchanged_move_is_not_a_removal (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_a_removal) ... ok
+2026-10-30T12:06:52.8424408Z test_unchanged_move_is_not_an_addition (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_an_addition) ... ok
+2026-10-30T12:06:52.8524566Z test_an_edit_spanning_units_takes_identity_only_from_those_units (test_renewal_triage.OneQualifyingHit.test_an_edit_spanning_units_takes_identity_only_from_those_units) ... ok
+2026-10-30T12:06:52.8762584Z test_an_unchanged_occurrence_does_not_lend_its_record_to_another_records_edit (test_renewal_triage.OneQualifyingHit.test_an_unchanged_occurrence_does_not_lend_its_record_to_another_records_edit) ... ok
+2026-10-30T12:06:52.8928112Z test_split_cards_take_the_paragraph_context_from_the_stated_page (test_renewal_triage.OneQualifyingHit.test_split_cards_take_the_paragraph_context_from_the_stated_page) ... ok
+2026-10-30T12:06:52.9211720Z test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source) ... ok
+2026-10-30T12:06:52.9285212Z test_text_only_on_another_page_is_not_accepted (test_renewal_triage.PagesBoundTheText.test_text_only_on_another_page_is_not_accepted) ... ok
+2026-10-30T12:06:52.9456510Z test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row (test_renewal_triage.RecordIdentity.test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row) ... ok
+2026-10-30T12:06:52.9614714Z test_a_declared_composite_identity_needs_every_cell (test_renewal_triage.RecordIdentity.test_a_declared_composite_identity_needs_every_cell) ... ok
+2026-10-30T12:06:52.9822069Z test_a_long_row_in_one_source_unit_is_full (test_renewal_triage.RecordIdentity.test_a_long_row_in_one_source_unit_is_full) ... ok
+2026-10-30T12:06:52.9823675Z test_a_moved_row_is_full_only_with_every_cell (test_renewal_triage.RecordIdentity.test_a_moved_row_is_full_only_with_every_cell)
+2026-10-30T12:06:53.0026127Z PR #11 comment 6515146325: the 40-character opening and the identity do not recover a ... ok
+2026-10-30T12:06:53.0027681Z test_a_replaced_row_needs_each_cell_once_for_the_full_row (test_renewal_triage.RecordIdentity.test_a_replaced_row_needs_each_cell_once_for_the_full_row)
+2026-10-30T12:06:53.0178548Z r4417329496: two author cells USD 100 are not both recovered from one. ... ok
+2026-10-30T12:06:53.0179661Z test_a_replaced_value_does_not_match_a_signed_value (test_renewal_triage.RecordIdentity.test_a_replaced_value_does_not_match_a_signed_value)
+2026-10-30T12:06:53.0303945Z r4417560178: the edit 100 -> 200 is not -100 -> -200. ... ok
+2026-10-30T12:06:53.0305436Z test_a_row_is_full_from_every_accepted_card_of_its_unit (test_renewal_triage.RecordIdentity.test_a_row_is_full_from_every_accepted_card_of_its_unit)
+2026-10-30T12:06:53.0467955Z PR #11 comment 6517133695: two Replaced cards in one unit, one per edit, that together cite ... ok
+2026-10-30T12:06:53.0468971Z test_a_split_row_is_full_from_its_two_cards (test_renewal_triage.RecordIdentity.test_a_split_row_is_full_from_its_two_cards)
+2026-10-30T12:06:53.0611791Z PR #11 comment 6511266424: the full row reads the old side on the Removed card and the new ... ok
+2026-10-30T12:06:53.0613133Z test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed (test_renewal_triage.RecordIdentity.test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed)
+2026-10-30T12:06:53.0827352Z PR #11 comment 6511895761: on a split too, Alpha of record 1760 does not complete record 1315. ... ok
+2026-10-30T12:06:53.1151583Z test_an_identity_after_the_preview_is_on_the_record (test_renewal_triage.RecordIdentity.test_an_identity_after_the_preview_is_on_the_record) ... ok
+2026-10-30T12:06:53.1350532Z test_an_undeclared_row_is_not_evaluated_even_on_the_right_card (test_renewal_triage.RecordIdentity.test_an_undeclared_row_is_not_evaluated_even_on_the_right_card) ... ok
+2026-10-30T12:06:53.1477516Z test_correct_amount_on_the_wrong_record_is_misattributed (test_renewal_triage.RecordIdentity.test_correct_amount_on_the_wrong_record_is_misattributed) ... ok
+2026-10-30T12:06:53.1480118Z test_identity_comes_from_the_declaration_only (test_renewal_triage.RecordIdentity.test_identity_comes_from_the_declaration_only) ... ok
+2026-10-30T12:06:53.1607357Z test_one_correct_card_plus_a_misattributed_one_is_not_complete (test_renewal_triage.RecordIdentity.test_one_correct_card_plus_a_misattributed_one_is_not_complete) ... ok
+2026-10-30T12:06:53.1843944Z test_rows_sharing_the_same_values_each_keep_their_own_card (test_renewal_triage.RecordIdentity.test_rows_sharing_the_same_values_each_keep_their_own_card) ... ok
+2026-10-30T12:06:53.1846561Z test_the_full_row_reads_only_the_records_identity_units (test_renewal_triage.RecordIdentity.test_the_full_row_reads_only_the_records_identity_units)
+2026-10-30T12:06:53.2123553Z #11 comment 6508818754: Alpha of record 1760 does not complete record 1315. ... ok
+2026-10-30T12:06:53.2125343Z test_the_full_row_takes_only_cells_the_identity_reaches (test_renewal_triage.RecordIdentity.test_the_full_row_takes_only_cells_the_identity_reaches)
+2026-10-30T12:06:53.2332663Z PR #11 comment 6519018610: Alpha of record 1760, later in the same unit, does not complete ... ok
+2026-10-30T12:06:53.2383393Z test_unchanged_value_cells_do_not_confirm_a_row (test_renewal_triage.RecordIdentity.test_unchanged_value_cells_do_not_confirm_a_row) ... ok
+2026-10-30T12:06:53.2454171Z test_value_correct_and_full_row_are_reported_separately (test_renewal_triage.RecordIdentity.test_value_correct_and_full_row_are_reported_separately) ... ok
+2026-10-30T12:06:53.2754363Z test_cards_with_the_edit_are_still_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_with_the_edit_are_still_accepted) ... ok
+2026-10-30T12:06:53.2947861Z test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) ... ok
+2026-10-30T12:06:53.2961305Z test_both_sides_only_in_an_unresolved_group_are_not_evaluable (test_renewal_triage.SidesAndSplits.test_both_sides_only_in_an_unresolved_group_are_not_evaluable) ... ok
+2026-10-30T12:06:53.2983566Z test_one_side_in_cards (test_renewal_triage.SidesAndSplits.test_one_side_in_cards) ... ok
+2026-10-30T12:06:53.3221575Z test_paragraph_split_needs_the_author_context (test_renewal_triage.SidesAndSplits.test_paragraph_split_needs_the_author_context) ... ok
+2026-10-30T12:06:53.3408986Z test_row_split_needs_the_record_on_both_sides (test_renewal_triage.SidesAndSplits.test_row_split_needs_the_record_on_both_sides) ... ok
+2026-10-30T12:06:53.3421512Z test_unresolved_hit_on_one_side_is_not_both_sides (test_renewal_triage.SidesAndSplits.test_unresolved_hit_on_one_side_is_not_both_sides) ... ok
+2026-10-30T12:06:53.3515851Z test_a_longer_number_on_the_other_side_is_not_the_paragraph (test_renewal_triage.TheOtherSideHoldsWholeNumbers.test_a_longer_number_on_the_other_side_is_not_the_paragraph) ... ok
+2026-10-30T12:06:53.3517524Z test_a_cut_opening_does_not_end_inside_a_number (test_renewal_triage.WholeNumbers.test_a_cut_opening_does_not_end_inside_a_number) ... ok
+2026-10-30T12:06:53.3824010Z test_a_longer_number_is_not_the_author_value (test_renewal_triage.WholeNumbers.test_a_longer_number_is_not_the_author_value) ... ok
+2026-10-30T12:06:53.3824956Z 
+2026-10-30T12:06:53.3825222Z ----------------------------------------------------------------------
+2026-10-30T12:06:53.3825908Z Ran 88 tests in 1.475s
+2026-10-30T12:06:53.3826143Z 
+2026-10-30T12:06:53.3826278Z OK
+2026-10-30T12:06:53.4043417Z Post job cleanup.
+2026-10-30T12:06:53.5248652Z (node:2651) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-30T12:06:53.5250854Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-30T12:06:53.5437265Z Post job cleanup.
+2026-10-30T12:06:53.6342918Z [command]/usr/bin/git version
+2026-10-30T12:06:53.6387371Z git version 2.56.0
+2026-10-30T12:06:53.6430373Z Temporarily overriding HOME='/home/runner/work/_temp/eec5e732-91e2-45ac-98ff-5746f7c42aad' before making global git config changes
+2026-10-30T12:06:53.6431903Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-30T12:06:53.6436400Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/policy-compare/policy-compare
+2026-10-30T12:06:53.6480693Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-30T12:06:53.6529351Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-30T12:06:53.6856808Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-30T12:06:53.6885918Z http.https://github.com/.extraheader
+2026-10-30T12:06:53.6900915Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-30T12:06:53.6971930Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-30T12:06:53.7289386Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-30T12:06:53.7326693Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-30T12:06:53.7768888Z Cleaning up orphan processes
+2026-10-30T12:06:53.8208331Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

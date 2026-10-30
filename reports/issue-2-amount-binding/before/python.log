@@ -1,0 +1,41 @@
+..................../Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1394: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmpki4k2mf2/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1395: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmpki4k2mf2/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py:1398: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/tmpki4k2mf2/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..........................FFF.........................................
+======================================================================
+FAIL: test_split_edit_requires_the_complete_actual_counterpart (test_renewal_triage.JointSourceBinding.test_split_edit_requires_the_complete_actual_counterpart) (old='100', new='2000', shape='wrong')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1430, in test_split_edit_requires_the_complete_actual_counterpart
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'split_attributable' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_split_edit_requires_the_complete_actual_counterpart (test_renewal_triage.JointSourceBinding.test_split_edit_requires_the_complete_actual_counterpart) (old='2000', new='100', shape='wrong')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1430, in test_split_edit_requires_the_complete_actual_counterpart
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'split_attributable' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_split_edit_requires_the_complete_actual_counterpart (test_renewal_triage.JointSourceBinding.test_split_edit_requires_the_complete_actual_counterpart) (old='100.25', new='2000.25', shape='wrong')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/test_renewal_triage.py", line 1430, in test_split_edit_requires_the_complete_actual_counterpart
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'split_attributable' unexpectedly found in ('correct', 'split_attributable')
+
+----------------------------------------------------------------------
+Ran 88 tests in 0.641s
+
+FAILED (failures=3)
