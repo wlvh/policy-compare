@@ -1164,6 +1164,29 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     // Control: the same "-" removed and added again in its own cell.
     expect(pair("l5", 0).status).toBe("PASS");
   });
+  // Codex PR #11 comment 6516045905: a sign claimed on one side only is a claim on its amount too.
+  it("R26: a lone delete or add card citing only the sign of an unchanged amount fails, with or without a record", () => {
+    for (const [kind, sign] of [["Removed", "-"], ["Added", "+"], ["Removed", "−"]] as const)
+      for (const key of [null, "SYN-1026-001"]) {
+        const x = r26(false, [`${sign}100,020`, "200,000"]);
+        const [doc, side] = kind === "Removed" ? [x.docs[0], "left" as const] : [x.docs[1], "right" as const];
+        x.result.differences.push(oneSided(kind, "sign", slice(lineLoc(doc, side, "l5"), 0, 1), key));
+        expect(ResultSchema.safeParse(x.result).success).toBe(true);
+        const score = grade(x.result, x.expected, x.layout, x.docs);
+        expect(score.status, `${kind} ${sign} ${key}`).toBe("FAIL");
+        expect(score.faults.join("\n"), `${kind} ${sign} ${key}`).toContain("agreed_value_unchanged");
+      }
+    // Controls: a hyphen between numbers is no sign, and a whole delete + add of the cell on its record.
+    const y = r26(false, ["1-100,000", "200,000"]);
+    y.result.differences.push(oneSided("Removed", "hyphen", slice(lineLoc(y.docs[0], "left", "l5"), 1, 2), "SYN-1026-001"));
+    expect(grade(y.result, y.expected, y.layout, y.docs).status).toBe("PASS");
+    const z = r26(false, ["-100,020", "200,000"]);
+    z.result.differences.push(
+      oneSided("Removed", "out", slice(lineLoc(z.docs[0], "left", "l5"), 0, 1), "SYN-1026-001"),
+      oneSided("Added", "in", slice(lineLoc(z.docs[1], "right", "l5"), 0, 1), "SYN-1026-001"),
+    );
+    expect(grade(z.result, z.expected, z.layout, z.docs).status).toBe("PASS");
+  });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
   it("R26: two delete + add pairs citing the same source characters fail, whatever keys they claim", () => {

@@ -202,7 +202,7 @@ export const INVARIANTS: Record<
   },
   agreed_value_unchanged: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
     tests: [
       "R26: correct registration card plus a wrong agreed-value card fails",
       "R26: a wrong bare-number amount card fails whatever field it claims",
@@ -231,7 +231,7 @@ export const INVARIANTS: Record<
   },
   no_amount_or_currency_change: {
     coverage: "direct",
-    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
+    basis: "no card pairs or adds/removes amounts or currencies beyond the case's events; the bare value of every layout.json amount cell a card cites, at any granularity, counts (on a card that declares an amount field, every run it cites is an amount cell) (the amount or currency text a card's delete/insert operations assert in each cell, joined in its own citation order across locations, operations and a record's delete/add cards, must not change inside cells that keep their values; in a currency cell, letters outside every whole token, such as part of a code, are claimed text too, and so is, in an amount cell whose amount carries a sign, a sign claimed without its digits, on one side or both; two delete or two add edits citing the same source characters of such a cell report one edit twice and fail, whatever records they claim); delete/add amounts cancel only within one record and field, and only where the cells the record's cards cite lie in one layout.json record (a shared claimed key alone, across cards without a record, bare digits outside every layout run, run-level geometry changing an amount cell together with other cells, claims on several amount (or currency) cells of one side, part of a code or a lone sign or separator included, whose correspondence a multiset cannot show, a record whose delete/add values balance only once a cell cited by several cards counts once, claims that differ only in letters inside an amount cell that form no whole amount or currency code, or a delete/add group whose values fail to balance only by cells split over several of its cards while its joined claims agree: NOT_EVALUATED)",
     tests: [
       "R11: correct label card plus a wrong",
       "R11: a wrong bare-number amount card filed under a non-amount field fails",
@@ -499,9 +499,14 @@ function moneyChanges(
   };
   // Letters or digits a claim holds outside every amount or currency token, such as the "U" of "USD".
   const rest = (t: string) => t.replace(DECLARED_AMOUNT, " ").replace(CURRENCY, " ").replace(/[^\p{L}\p{N}]+/gu, "");
-  // In a currency cell they are part of a code, so they count as claimed text.
-  const tokens = (m: Map<string, string>) =>
-    [...m].flatMap(([key, t]) => [...money(t, true), ...(key.endsWith(":code") && rest(t) ? [rest(t)] : [])]);
+  // In a currency cell they are part of a code, so they count as claimed text. A sign claimed without
+  // its digits, in an amount cell whose amount carries a sign, is claimed text of that amount (Codex
+  // PR #11 comment 6516045905: the "-" of -100,020 removed on one side only); `cells` holds the
+  // claimed amount cells' text. A hyphen in a cell without a signed amount ("1-100,000") is no sign.
+  const signs = (t: string, cell = "") =>
+    money(cell, true).some((x) => /^[-−+]/u.test(x)) ? (t.replace(DECLARED_AMOUNT, " ").match(/[-−+]/gu) ?? []) : [];
+  const tokens = (m: Map<string, string>, cells: Map<string, string>) =>
+    [...m].flatMap(([key, t]) => [...money(t, true), ...(key.endsWith(":code") && rest(t) ? [rest(t)] : []), ...signs(t, cells.get(key))]);
   // In an amount cell they may be part of a code or wording such as "each loss": when only they
   // differ between the sides, the claim is not verified either way.
   const partial = (L: Map<string, string>, R: Map<string, string>) => {
@@ -556,8 +561,8 @@ function moneyChanges(
       R = cardMoney(d, "right");
     const r = minus(L.all, R.all),
       a = minus(R.all, L.all),
-      rc = minus(tokens(L.claimed), tokens(R.claimed)),
-      ac = minus(tokens(R.claimed), tokens(L.claimed));
+      rc = minus(tokens(L.claimed, L.editedCells), tokens(R.claimed, R.editedCells)),
+      ac = minus(tokens(R.claimed, R.editedCells), tokens(L.claimed, L.editedCells));
     const rv = minus(cellAmounts(L.editedCells), cellAmounts(R.editedCells)),
       av = minus(cellAmounts(R.editedCells), cellAmounts(L.editedCells));
     if ((r.length || a.length) && !allowed(r, a))
@@ -621,8 +626,8 @@ function moneyChanges(
       come = [...g.comeText, ...[...g.comeCells.values()].flatMap(bare)];
     const r = minus(gone, come),
       a = minus(come, gone),
-      rc = minus(tokens(g.goneClaimed), tokens(g.comeClaimed)),
-      ac = minus(tokens(g.comeClaimed), tokens(g.goneClaimed)),
+      rc = minus(tokens(g.goneClaimed, g.goneEdited), tokens(g.comeClaimed, g.comeEdited)),
+      ac = minus(tokens(g.comeClaimed, g.comeEdited), tokens(g.goneClaimed, g.goneEdited)),
       rv = minus(cellAmounts(g.goneEdited), cellAmounts(g.comeEdited)),
       av = minus(cellAmounts(g.comeEdited), cellAmounts(g.goneEdited));
     const twice = [...spread(g.goneEdits).twice, ...spread(g.comeEdits).twice],
@@ -659,8 +664,8 @@ function moneyChanges(
   }
   const r = minus(pool.gone, pool.come),
     a = minus(pool.come, pool.gone),
-    rc = minus(tokens(pool.goneClaimed), tokens(pool.comeClaimed)),
-    ac = minus(tokens(pool.comeClaimed), tokens(pool.goneClaimed)),
+    rc = minus(tokens(pool.goneClaimed, pool.goneEdited), tokens(pool.comeClaimed, pool.comeEdited)),
+    ac = minus(tokens(pool.comeClaimed, pool.comeEdited), tokens(pool.goneClaimed, pool.goneEdited)),
     rv = minus(cellAmounts(pool.goneEdited), cellAmounts(pool.comeEdited)),
     av = minus(cellAmounts(pool.comeEdited), cellAmounts(pool.goneEdited));
   const twice = [...spread(pool.goneEdits).twice, ...spread(pool.comeEdits).twice],
