@@ -1,6 +1,6 @@
 # #10 验收断言覆盖登记
 
-> **当前联合交付见 [issue-2-joint/README.md](../issue-2-joint/README.md)。** 本文以下保留交接前的历史状态、失败与证据；其中旧的“当前”“仍开放”和双分支同步安排不作为本次执行指令。当前工作统一按 issue #2。
+> **当前联合交付见 [issue-2-followup/README.md](../issue-2-followup/README.md)。** 本文以下保留交接前的历史状态、失败与证据；其中旧的“当前”“仍开放”和双分支同步安排不作为本次执行指令。当前工作统一按 issue #2。
 
 对应 [#10](https://github.com/wlvh/policy-compare/issues/10)。本目录交付的是评价工具本身：给出覆盖登记，修复假 PASS，并让工具如实报告尚未覆盖的部分。**这不是业务验收，也不表示全部业务要求已经通过。**
 
