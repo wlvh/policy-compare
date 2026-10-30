@@ -253,13 +253,15 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         before = page.get(t);
       page.set(t, p);
       // A cell that is an identifier's name under a descriptive heading cell of the
-      // open table (Status: Registration) may be a record's value or the next
-      // table's heading (r4420429153).
+      // open table (Status: Registration), or under none, may be a record's value or
+      // the next table's heading (r4420429153, r4420588645).
       const label =
+        !!s &&
         namesIdentity(u) &&
         u.rowCells!.some((c, k) => {
-          const at = s && identityName.test(c.normalize("NFKC").trim()) ? under(current.get(t), u.rowSpans![k]) : null;
-          return !!at && !identityHeading.test(at.text.normalize("NFKC").trim());
+          if (!identityName.test(c.normalize("NFKC").trim())) return false;
+          const at = under(current.get(t), u.rowSpans![k]);
+          return !at || !identityHeading.test(at.text.normalize("NFKC").trim());
         });
       if ((!/\p{N}/u.test(u.rawText) || valueFree(u)) && s && cellKey(u) !== s.text && (label || (!namesIdentity(u) && namesColumn(u)))) {
         // A cell ending with an identifier's name ("Aircraft Registration")
@@ -751,7 +753,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.30+facts.5+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.31+facts.5+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1069,8 +1071,9 @@ export function compare(
   // same columns (r4418369390) and the same cells (r4419561470).
   const headerKey = (u: Unit) => {
     if (!u.rowCells || (/\p{N}/u.test(u.rawText) && !starts.has(u))) return null;
-    // A repeated heading row is one header only with the same cells (r4420267662).
-    if (starts.has(u)) return `${u.path.section}\u0000${u.title}\u0000${cellKey(u)}`;
+    // A repeated heading row is one header only with the same cells (r4420267662)
+    // and the same raw text, its whitespace included (r4420485627).
+    if (starts.has(u)) return `${u.path.section}\u0000${u.title}\u0000${u.rawText}\u0000${cellKey(u)}`;
     const ids = identityCells(u, headings);
     return `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...ids].sort())}\u0000${slots(u)}`;
   };
