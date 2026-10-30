@@ -885,7 +885,9 @@ export function identityRule(
 // sources prove the fact, false when they disprove it, null when the scorer cannot decide it.
 const words = (t: string) => t.trim().split(/\s+/u).join(" ");
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const DATE = /(\d{1,2}) ([A-Za-z]+) (\d{4})/g;
+// A date's day and year are whole numbers of the text, as page numbers are: the "2024" of "20240"
+// or the "21" of "121" is none (Codex PR #11 comment 6513158877).
+const DATE = /(?<!\d[.,]?)(\d{1,2}) ([A-Za-z]+) (\d{4})(?![.,]?\d)/g;
 const lineTexts = (doc: DocInput) =>
   doc.pages.flatMap((p) =>
     p.lines.map((l) => words(l.charIds.map((id) => p.chars.find((c) => c.id === id)?.text ?? "").join(""))),

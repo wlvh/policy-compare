@@ -7,6 +7,7 @@ import {
   identityRule,
   summarize,
   exitCode,
+  factHolds,
   IDENTITY_NOT_APPLICABLE,
   INVARIANTS,
   type Expected,
@@ -292,6 +293,21 @@ describe("independent grader rejects dishonest outputs", () => {
         falseFacts: [expect.stringContaining(fact)],
       });
     }
+  });
+  it("a date fact needs whole day and year numbers (Codex PR #11 comment 6513158877)", () => {
+    // The product's card for one line changed; the fact is judged from its source-validated texts.
+    const held = (before: string, after: string) => {
+      const docs: [DocInput, DocInput] = [textDoc([{ text: before }]), textDoc([{ text: after }])];
+      const [d] = compare(...docs).differences;
+      expect([d.oldText, d.newText]).toEqual([before, after]);
+      return factHolds("dates_rolled_forward_one_year", d, docs);
+    };
+    // 2024 is not a year of 20240, nor 21 a day of 121: the printed numbers move by ten years, or are no date.
+    expect(held("1 January 20240 to 31 December 20240", "1 January 20250 to 31 December 20250")).toBe(false);
+    expect(held("121 January 2024 to 31 December 2024", "121 January 2025 to 31 December 2025")).toBe(false);
+    expect(held("1 January 2024.5 to 31 December 2024", "1 January 2025.5 to 31 December 2025")).toBe(false);
+    // Control: two whole dates, each moved one year.
+    expect(held("1 January 2024 to 31 December 2024", "1 January 2025 to 31 December 2025")).toBe(true);
   });
   it("format 2 has no category: the answer's old acceptable_categories are not checked", () => {
     const x = example();
