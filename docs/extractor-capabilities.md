@@ -12,7 +12,7 @@ walk 原实现用 String.fromCharCode 接收完整码点，会截断非 BMP 字�
 
 新增 Unicode 机制样本最初失败：ReportLab 4.4.9 生成 ToUnicode 的 `<1F600>` 不是有效偶数长度 UTF-16BE。pypdf 同样报告 odd-length string。生成器现显式修正为 `<D83DDE00>`；失败记录保留在 reports/failures/pdf-mechanisms-initial.json。这是独立新增测试输入的编码修复，validation 原 32 对 PDF、source、expected、layout 均未修改。
 
-边界：图片未做 OCR；批注/表单有可见覆盖提示；电子签名有效性和通用矢量内容识别未实现。普通文本页 complete_for_scope 仅表示可提取文本范围。复杂多栏阅读顺序和任意表型仍需要真实样本验证。
+边界：图片未做 OCR；批注/表单有可见覆盖提示；电子签名有效性和通用矢量内容识别未实现。普通文本页 complete_for_scope 仅表示可提取文本范围。复杂多栏阅读顺序和任意表型仍需要真实样本验证。两个版本把同一张表按不同次序抽取（一侧按行、一侧按列）时，只有每行各列都有内容、三栏以上的紧凑表按各自的基线成行；两栏表、某列有空格的稀疏表、按基线抽取的折行格不支持：文字都可见，但可能出现只是次序不同的卡，或一删一增（第十一轮，PR #9 r4421790337）。
 
 
 PDF.js 路线锁定 pdfjs-dist 6.4.299（Apache-2.0），实现位于 engines/pdfjs。已检查 getTextContent、TextLayer、PDFDocumentLoadingTask.destroy、PDFPageProxy.commonObjs 字体对象及算子表的实际代码与类型。显式 disableNormalization=true；同样的 TextContent 选项用于提取和显示来源。独立文字项、标量/UTF-16 区间、run 几何均保留，Node 不伪造字符 quad。

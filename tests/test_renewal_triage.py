@@ -378,6 +378,17 @@ class RecordIdentity(unittest.TestCase):
         _, ev = run([c], result([usd]), [table('aircraft', [0], c)])
         self.assertFalse(ev['85']['row']['fullRowRecovered'])
 
+    def test_the_full_row_takes_only_cells_the_identity_reaches(self):
+        """PR #11 comment 6519018610: Alpha of record 1760, later in the same unit, does not complete
+        row 1315, whose own edit the card shows."""
+        c = change(41, 'ac_1315', 'Replaced', '1315 | Alpha | USD 100', '1315 | Alpha | USD 200', [('USD 100', 'USD 200')],
+                   pages=(11, 11))
+        full = lambda old, new: (lambda e: (e['verdict'], e['row']['fullRowRecovered']))(
+            run([c], result([card('r', 'Replaced', [(11, 'a', old)], [(11, 'b', new)])]), [table('aircraft', [0], c)])[1]['41'])
+        self.assertEqual(full('1315 USD 100; 1760 Alpha USD 999', '1315 USD 200; 1760 Alpha USD 999'), ('correct', False))
+        # Control: Alpha in record 1315's own part of the unit.
+        self.assertEqual(full('1315 Alpha USD 100; 1760 Beta USD 999', '1315 Alpha USD 200; 1760 Beta USD 999'), ('correct', True))
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
@@ -677,8 +688,9 @@ class AddedRemovedRows(unittest.TestCase):
         self.assertEqual(ev['68']['verdict'], 'correct')
         # PR #11 comment 6516032862: a sign right after a currency code is the amount's sign, as in
         # #10's scorer (ea444a0): 100 is not in USD−100, on an added or a removed row.
+        # The author row has the code as a cell of its own, as the control's card shows it.
         for kind in ('Added', 'Removed'):
-            c = change(68, 'ac_1315', kind, **({'right': '1315 | Hull | 100'} if kind == 'Added' else {'left': '1315 | Hull | 100'}),
+            c = change(68, 'ac_1315', kind, **({'right': '1315 | Hull | USD | 100'} if kind == 'Added' else {'left': '1315 | Hull | USD | 100'}),
                        pages=(0, 11) if kind == 'Added' else (11, 0))
             for text, want in (('1315 Hull USD\u2212100', False), ('1315 Hull USD-100', False), ('1315 Hull USD 100', True)):
                 side = {'right': [(11, 'u1', text)]} if kind == 'Added' else {'left': [(11, 'u1', text)]}
@@ -821,6 +833,20 @@ class AddedRemovedRows(unittest.TestCase):
                       [(11, 'u1', t) for t in ('Airbus A220', '55228', 'VH-JXP', '39,000,000')])
         _, ev = run([self.ADDED], result([paired]), self.DECLARED)
         self.assertEqual((ev['63']['verdict'], ev['63']['atoms'][0]), ('misattributed', 'paired_with_other_record'))
+
+    def test_a_cell_must_reach_the_records_identity_in_its_unit(self):
+        """PR #11 comment 6518043799: in one unit `1315 Hull; 1760 Liability USD 100` the amount is
+        1760's, so the added (removed) row 1315 | Hull | USD 100 is not shown whole."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            row = change(63, 'ac_1315', kind, pages=(0, 1) if kind == 'Added' else (1, 0), **{side: '1315 | Hull | USD 100'})
+            seen = lambda shown: (lambda e: (e['verdict'], [a['verdict'] for a in e['atomEvidence']], e['row']['fullRowRecovered']))(
+                run([row], result([card('n', kind, **{side: [(1, 'u', shown)]})]), [table('aircraft', [0], row)])[1]['63'])
+            self.assertEqual(seen('1315 Hull; 1760 Liability USD 100'),
+                             ('not_evaluable', ['correct', 'correct', 'not_evaluable'], False), kind)
+            # Controls: the amount in record 1315's own part of the unit.
+            for shown in ('1315 Hull USD 100', '1315 Hull USD 100; 1760 Liability'):
+                self.assertEqual(seen(shown), ('correct', ['correct'] * 3, True), (kind, shown))
 
     def test_cells_without_any_record_identity_are_not_evaluable(self):
         a = card('a', 'Added', right=[(11, 'u1', 'Airbus A220'), (11, 'u1', 'VH-JXP')])
@@ -1144,6 +1170,17 @@ class EditEvidence(unittest.TestCase):
         self.assertEqual(verdicts([both]), ('correct', ['correct', 'correct']))
         self.assertEqual(verdicts([removed, card('n', 'Added', right=[(11, 'b', '1315 Hull USD 200 USD 200')])]),
                          ('split_attributable', ['split_attributable', 'split_attributable']))
+
+    def test_overlapping_edits_each_need_an_edit_of_their_own(self):
+        """PR #11 comment 6518372639: `USD 100 -> USD 200` and `100 -> 200` are not both shown by the
+        one edited `USD 100`."""
+        c = change(41, 'ac_1315', 'Replaced', '1315 | Hull | USD 100 | 100', '1315 | Hull | USD 200 | 200',
+                   [('USD 100', 'USD 200'), ('100', '200')], pages=(11, 11))
+        verdicts = lambda old, new: (lambda e: (e['verdict'], [a['verdict'] for a in e['atomEvidence']]))(
+            run([c], result([card('r', 'Replaced', [(11, 'a', old)], [(11, 'b', new)])]), [table('aircraft', [0], c)])[1]['41'])
+        self.assertEqual(verdicts('1315 Hull USD 100 100', '1315 Hull USD 200 100'), ('not_evaluable', ['correct', 'not_evaluable']))
+        # Control: both edited.
+        self.assertEqual(verdicts('1315 Hull USD 100 100', '1315 Hull USD 200 200'), ('correct', ['correct', 'correct']))
 
     def test_either_copy_of_a_repeated_word_may_carry_the_insertion(self):
         """South Sudan, -> South Sudan, Sudan,: the card may mark the first Sudan as inserted."""

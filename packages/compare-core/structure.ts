@@ -29,6 +29,8 @@ export type Furniture = {
   pageTokens: number[];
 };
 const NUMBER = /\p{N}+(?:[.,]\p{N}+)*/gu;
+/** ISO currency codes the product reads as money next to a number. */
+export const CURRENCY = "USD|EUR|GBP|JPY|CHF|CAD|AUD|NZD|CNY|RMB|HKD|SGD|INR|KRW|SEK|NOK|DKK|ZAR|BRL|MXN|AED|SAR";
 /**
  * Page-number expressions: "Page 3", "Page 3 of 10" or "Page 3/10" anywhere in
  * a line. A number alone on its line ("3", "- 3 -", "3%"), even one counting
@@ -36,7 +38,12 @@ const NUMBER = /\p{N}+(?:[.,]\p{N}+)*/gu;
  * An "of", a slash or a number that counts with the pages is not a page number
  * by itself.
  */
-const PAGE_EXPRESSIONS = [/\bpage\s*(\p{N}+)(?:\s*(?:of|\/)\s*(\p{N}+))?/dgiu];
+// A number followed by "%" or "‰", or by a currency code or sign, spaced or
+// not, is a percentage or an amount, never a page number ("Page 4%",
+// "per page 100USD", "Page 3 USD 100"; Codex r4421658769). The number is read
+// whole, so it does not shrink to a page number before its last digit.
+const PAGE_NUMBER = `(\\p{N}+)(?!\\p{N})(?!\\s*(?:[%‰\\p{Sc}]|(?:${CURRENCY})(?!\\p{L})))`;
+const PAGE_EXPRESSIONS = [new RegExp(`\\bpage\\s*${PAGE_NUMBER}(?:\\s*(?:of|\\/)\\s*${PAGE_NUMBER})?`, "dgiu")];
 /**
  * Positions, among a line's numbers, of page counters and page totals. A
  * capture counts only when it is a whole number of the line: the "1" of
@@ -575,9 +582,11 @@ export function structure(
           };
           // A wrapped line directly follows, in extraction order, the line above
           // it in the same cell; the next row's first cell follows another column.
-          // A line whose baseline holds a row of its own (three clusters, as above)
-          // is that row's cell, though a table extracted column by column puts it
-          // right after the cell above it (r4421114827).
+          // A line whose baseline holds a full row of its own (as many clusters as
+          // this row has cells) is that row's cell, though a table extracted column
+          // by column puts it right after the cell above it (r4421114827). A line
+          // with fewer, such as three cells of four wrapping together, is still a
+          // wrapped line here.
           const wrapped = cells.map(() => [] as (typeof lines)[number][]),
             owner = new Map(cells.flatMap((c, k) => c.map((g) => [g, k] as const)));
           const ownRow = (g: (typeof lines)[number]) => {
@@ -586,7 +595,7 @@ export function structure(
                 .filter((m) => m.p === g.p && !furniture.has(m) && m.text.trim() && Math.abs(baseline(m) - level) < 0.3 * size)
                 .map(span)
                 .sort((a, b) => a[0] - b[0]);
-            return xs.filter((x, j) => j === 0 || x[0] - Math.max(...xs.slice(0, j).map((y) => y[1])) > size).length >= 3;
+            return xs.filter((x, j) => j === 0 || x[0] - Math.max(...xs.slice(0, j).map((y) => y[1])) > size).length >= cells.length;
           };
           for (const g of window) {
             const k = column(g),

@@ -11,6 +11,7 @@ import {
 } from "../contracts/index";
 import { aviationProfile, type Profile } from "../../profiles/aviation";
 import {
+  CURRENCY,
   furnitureVariant,
   furnitureSignatures,
   maskedPageNumbers,
@@ -148,7 +149,6 @@ function tablePairs(
   }
   // Unmatched rows with unambiguous keys are additions/removals, not fuzzy text candidates.
 }
-const CURRENCY = "USD|EUR|GBP|JPY|CHF|CAD|AUD|NZD|CNY|RMB|HKD|SGD|INR|KRW|SEK|NOK|DKK|ZAR|BRL|MXN|AED|SAR";
 // Amounts, shares and dates. A currency code counts as money next to a number,
 // with or without a space (USD100000, 100000 JPY), so a registration such as
 // VH-AUD is not taken for one; dates are written d/m/y, ISO y-m-d or with an
@@ -755,7 +755,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.33+facts.5+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.34+facts.6+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
