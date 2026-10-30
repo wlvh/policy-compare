@@ -1,0 +1,26 @@
+{
+  "case_id": "P13",
+  "changes": [
+    {
+      "id": 1,
+      "block": "reference",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "Reference: Page 3 of 10.",
+      "right_text": "Reference: Page 4 of 10.",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "Page 3 of 10",
+          "new": "Page 4 of 10"
+        }
+      ]
+    }
+  ]
+}

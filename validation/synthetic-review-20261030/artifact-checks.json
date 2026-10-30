@@ -1,0 +1,328 @@
+{
+  "pairCount": 17,
+  "pdfCount": 34,
+  "pageCount": 36,
+  "productExecuted": false,
+  "nativeInputsCheckedBy": "PyMuPDF independent text extraction; author character multiplicities and page counts",
+  "versions": {
+    "reportlab": "4.4.9",
+    "PyMuPDF": "1.26.6",
+    "Pillow": "12.3.0"
+  },
+  "checks": [
+    {
+      "case": "P01",
+      "side": "left",
+      "pages": 1,
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P01",
+      "side": "right",
+      "pages": 1,
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P02",
+      "side": "left",
+      "pages": 1,
+      "sha256": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P02",
+      "side": "right",
+      "pages": 1,
+      "sha256": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P03",
+      "side": "left",
+      "pages": 1,
+      "sha256": "04cb6f8b2f9db551a76f3f8d5a953d6c59d117f5da99896711cefa0350d6868f",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P03",
+      "side": "right",
+      "pages": 1,
+      "sha256": "f256f97802b9b276d30f623d3c1bf438edc9ed543c5dca3fea542bb92932a3fa",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P04",
+      "side": "left",
+      "pages": 1,
+      "sha256": "59ecb59ff4f365d9e32d9a33fbf87fc8a193ab536fac833c01dc6b500e1ac215",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P04",
+      "side": "right",
+      "pages": 1,
+      "sha256": "be22e55c1f8d28e5e790d6ee5aa08a05ed98dd82febe608bc9de8992ef17015a",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P05",
+      "side": "left",
+      "pages": 1,
+      "sha256": "0b71a3cc823cbb5f1204c698fe2788b93f76d3da0a937d5d447d66f2387eba68",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P05",
+      "side": "right",
+      "pages": 1,
+      "sha256": "4abab04b4eabe14186aea3b81bf6473710da8fdfaba3caea33ef137f34406ac9",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P06",
+      "side": "left",
+      "pages": 1,
+      "sha256": "45029e8467e2d08481ec1f5983ac52407728dc5c73b194f404a0707387ff7a85",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P06",
+      "side": "right",
+      "pages": 1,
+      "sha256": "1f7f0e01b9e939e799073392141cf7046037c4df6a61fff582c19d28780269a3",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P07",
+      "side": "left",
+      "pages": 1,
+      "sha256": "bc9e60a6f05a7f41650a328be9f6640bdb245ab27ecf3b17784b5f3d53e4e382",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P07",
+      "side": "right",
+      "pages": 1,
+      "sha256": "707199744e411843476fa154091853d258a41b768c3ec133f6add2b81e758f3d",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P08",
+      "side": "left",
+      "pages": 1,
+      "sha256": "d7fdbd067b08e7919e694efec133d741e4d9a1a99e70d441e2ec9499c10e9d8f",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P08",
+      "side": "right",
+      "pages": 1,
+      "sha256": "c0629daedffb47ec3c1263d2352b0278bc8fbe56a69e30d7e8e7af33b9b2562f",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P09",
+      "side": "left",
+      "pages": 1,
+      "sha256": "6a98d4b951b28845094c04905236c5d74054dac252376a7db8c19014cc4b9dc4",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P09",
+      "side": "right",
+      "pages": 1,
+      "sha256": "5b50304b00935d908c15a5a302f2cfd259fdfad8101b3ac098ded0539d1f9e42",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P10",
+      "side": "left",
+      "pages": 1,
+      "sha256": "67932a9ff52fa4ff158470eb5580be238b1cbeb0bcbf5e5ecafdb23f87af5c16",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P10",
+      "side": "right",
+      "pages": 1,
+      "sha256": "da2a19ebea5d9593825ed2756e8556d8d61786967abb164383c35a36e4456020",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P11",
+      "side": "left",
+      "pages": 1,
+      "sha256": "db43e6f81e9b20d56a496a20849c84b221b25be617873030449641770a3eb447",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P11",
+      "side": "right",
+      "pages": 1,
+      "sha256": "d24000b27144c1029084559859c2dfe918a450b393840976215934b46554bb31",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P12",
+      "side": "left",
+      "pages": 1,
+      "sha256": "6b6da1e13cb96b8c92f2ae0f093b6e431fdbfb31a7017f5d1b2acb877ee5fcba",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P12",
+      "side": "right",
+      "pages": 1,
+      "sha256": "0cc63aa3bedfaf9f4feb81bd2f47048dd5a426d377519134ab0f279cbcc91947",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P13",
+      "side": "left",
+      "pages": 1,
+      "sha256": "f889823c7c260a582d1aaf90a0958c2b61361b7747ec4cd58fc9e91b33ff318b",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P13",
+      "side": "right",
+      "pages": 1,
+      "sha256": "1ffa2e0d3b3b3ce4189551d372c976ce9bd336f199d4bfb6d6e296d0e2b6e226",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P14",
+      "side": "left",
+      "pages": 1,
+      "sha256": "2e1e5a22868bc622b4887195e54e6a15938055f8b165d5f8e94ad218c9bd9f34",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "P14",
+      "side": "right",
+      "pages": 1,
+      "sha256": "b16ecc156ede8b3bd6932ddfa754c4bd3e3c41ad0167c3e9b0aabb229bae0e15",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "E01",
+      "side": "left",
+      "pages": 2,
+      "sha256": "088f7d067a29aeb78e0398781f1ff8c2eee6bdc2ea377f0556a7475fd8fbc882",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "E01",
+      "side": "right",
+      "pages": 2,
+      "sha256": "baa5a46543bc7accd3010f0473051d0f3313464f31d1c71c2a94440769bd7eb3",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "E02",
+      "side": "left",
+      "pages": 1,
+      "sha256": "6c07baf21abaab4f342c370cedda15b45639b994334ec620b823ffaed7a41fb0",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "E02",
+      "side": "right",
+      "pages": 1,
+      "sha256": "82c699b0dce0279dd0120306e8bf583e2436c7a0bdf4120a9435f61bf0a34613",
+      "native_text_matches_author_characters": true,
+      "image_only_confirmed": false,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "E03",
+      "side": "left",
+      "pages": 1,
+      "sha256": "bcd232bf25c42324a4ea0008ebc28c408b5f71ce6f655de93bbb63b40a975eb7",
+      "native_text_matches_author_characters": null,
+      "image_only_confirmed": true,
+      "text_overlap_count": 0
+    },
+    {
+      "case": "E03",
+      "side": "right",
+      "pages": 1,
+      "sha256": "a0405599332d7f971dc4d7a6b3c2cdd030cd5d41b509158f04b7101202411a8a",
+      "native_text_matches_author_characters": null,
+      "image_only_confirmed": true,
+      "text_overlap_count": 0
+    }
+  ],
+  "identical_control_bytes_equal": true,
+  "visualReview": {
+    "status": "complete",
+    "pagesInspected": 36,
+    "method": "Poppler PNG rendering, all nine four-page review sheets visually inspected",
+    "findings": "No clipping, text overlap, missing text or author/PDF mismatch observed."
+  },
+  "unique_case_identity_hashes": true
+}

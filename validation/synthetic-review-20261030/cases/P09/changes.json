@@ -1,0 +1,26 @@
+{
+  "case_id": "P09",
+  "changes": [
+    {
+      "id": 1,
+      "block": "schedule",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "1315 | Alpha Air Holdings | Hull and war | USD 1000 per annum",
+      "right_text": "1315 | Alpha Air Holdings | Hull and war | USD 1000 per month",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "per annum",
+          "new": "per month"
+        }
+      ]
+    }
+  ]
+}

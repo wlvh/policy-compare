@@ -1,0 +1,47 @@
+{
+  "case_id": "P11",
+  "changes": [
+    {
+      "id": 1,
+      "block": "schedule",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "123 (a) (b) | Alpha Air Holdings Limited | USD 1000 per annum net | 0.10% net annual",
+      "right_text": "123 (a) (b) | Alpha Air Holdings Limited | USD 1000 per annum net | 0.10% net monthly",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "annual",
+          "new": "monthly"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "block": "schedule",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "456 | Beta Air | USD 2000 | 0.20%",
+      "right_text": "456 | Beta Air | USD 2500 | 0.20%",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "USD 2000",
+          "new": "USD 2500"
+        }
+      ]
+    }
+  ]
+}

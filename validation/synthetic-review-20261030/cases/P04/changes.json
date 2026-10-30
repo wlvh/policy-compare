@@ -1,0 +1,47 @@
+{
+  "case_id": "P04",
+  "changes": [
+    {
+      "id": 1,
+      "block": "schedule",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "1315 | Alpha Air | USD 100 | annual",
+      "right_text": "1315 | Alpha Air | USD 300 | annual",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "USD 100",
+          "new": "USD 300"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "block": "schedule",
+      "kind": "Replaced",
+      "category": "Unclassified",
+      "notes": [],
+      "left_text": "1760 | Beta Air | USD 400 | annual",
+      "right_text": "1760 | Beta Air | USD 200 | annual",
+      "left_pages": [
+        1
+      ],
+      "right_pages": [
+        1
+      ],
+      "edits": [
+        {
+          "old": "USD 400",
+          "new": "USD 200"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,352 @@
+{
+  "version": "synthetic-author-identity/1",
+  "about": [
+    "这些身份与编辑在运行产品前由PDF作者固定。产品只读PDF，分诊才读取本文件。",
+    "三类探索样本不混入支持范围通过率；分诊不能代替所有布局、覆盖和事实检查。"
+  ],
+  "pairs": [
+    {
+      "pair": "P01",
+      "changes_sha256": "fde09df446fb8de6701adbdf84a2c64aebad57ae883e7ef8fb13af784844e696",
+      "tables": []
+    },
+    {
+      "pair": "P02",
+      "changes_sha256": "b0de449c1bf9cbc386236f83095e736424d5969791ac073613fac42a39f8690f",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Limit | Basis",
+          "events": [
+            1
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P03",
+      "changes_sha256": "115c315fafdb1e84c8b582ac5636118d1d8404f729e259695228c44f043d364e",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Limit | Basis",
+          "events": [
+            1,
+            2
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P04",
+      "changes_sha256": "02dd714d1281ebd9b875c2d0b87043f1f7e75427e37fadff9b9deb9bfc75cfb8",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Limit | Basis",
+          "events": [
+            1,
+            2
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P05",
+      "changes_sha256": "fb69426a921ad56ad0e5f95e52f99665fa523d9e6a46f98c77dd8e00af2fa808",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Hull Limit | War Limit",
+          "events": [
+            1
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P06",
+      "changes_sha256": "a00458d124c0556113cc9c66cd12897dd84dd9fffedc77bf7a5c1ec395c97673",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Hull Limit | War Limit",
+          "events": [
+            1
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": []
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P07",
+      "changes_sha256": "b5288b5e5496bbf820f8be7c5d2e75ccb7ce436e0b7d66241df25251dcb16f9d",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Limit | Basis",
+          "events": [
+            1,
+            2
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P08",
+      "changes_sha256": "3abb5d1c83f221806bf8ab14a7fea7581257312b0a1e308d8faa32d66d7c8803",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Hull Limit | War Limit",
+          "events": [
+            1
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P09",
+      "changes_sha256": "2f5e4a6cb4a76d091b2b83af02cfb4a82694f8586f05a3a55dec3791bae3e62c",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Cover | Terms",
+          "events": [
+            1
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P10",
+      "changes_sha256": "1e782ca60cfc1d69b4cf2901cd29bfb0fc56ff7d1aeba97cd91c6bae1f47a3c4",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Terms",
+          "events": [
+            1,
+            2
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者绘制的第一逻辑行第一格为123与续行(a)，第二条普通记录为456。歧义行允许产品未决；不得把(a)定成新行键。"
+        }
+      ]
+    },
+    {
+      "pair": "P11",
+      "changes_sha256": "962bc4b1ac5c66399f3c2b0660ffb8296da3861f267513a56498ddb083b96522",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Terms | Rate",
+          "events": [
+            1,
+            2
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者绘制逻辑记录123的第一格为123/(a)/(b)三行；可保留局部结构未决。下一条普通记录为456。"
+        }
+      ]
+    },
+    {
+      "pair": "P12",
+      "changes_sha256": "7ecef7b11da64fe6a9f124086ad8ca726c3076f140d39af5e1b26a8569ec9ffc",
+      "tables": [
+        {
+          "table": "hull_schedule",
+          "heading": "MSN | Operator | Limit | Basis",
+          "events": [
+            1
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": []
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        },
+        {
+          "table": "premium_schedule",
+          "heading": "Registration | Model | 2026 Share % | Premium USD",
+          "events": [
+            2
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    },
+    {
+      "pair": "P13",
+      "changes_sha256": "f32e1ee700d8ca08be40186463ad960881330449629fd16998fa882bc63d188d",
+      "tables": []
+    },
+    {
+      "pair": "P14",
+      "changes_sha256": "4056f849db3ba2fe628f869425115c4df575b1639e1b03dc62b0d04d68767a5c",
+      "tables": []
+    },
+    {
+      "pair": "E01",
+      "changes_sha256": "4ded11b5e6fd1620d1d82ceaf91848827f0c0038c3bac387c58a17bcf8ab50fa",
+      "tables": []
+    },
+    {
+      "pair": "E02",
+      "changes_sha256": "47cb599d9e870c81078e4ad0984b9f2f25897e35d7f6b49e09e08f81546c3e66",
+      "tables": []
+    },
+    {
+      "pair": "E03",
+      "changes_sha256": "ffc6f1b257cb3a66fb5a3b847778fc800f441b25db55c166af7fd50599a708d4",
+      "tables": [
+        {
+          "table": "schedule",
+          "heading": "MSN | Operator | Limit | Basis",
+          "events": [
+            1
+          ],
+          "identity": [
+            0
+          ],
+          "pages": {
+            "left": [
+              1
+            ],
+            "right": [
+              1
+            ]
+          },
+          "basis": "作者预先声明：印刷列标题和本样本记录号共同确定原文记录；仅供独立评价使用。"
+        }
+      ]
+    }
+  ]
+}
