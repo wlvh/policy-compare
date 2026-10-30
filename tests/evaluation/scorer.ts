@@ -1054,20 +1054,24 @@ const lineTexts = (doc: DocInput) =>
 // the text: the "1" of "Page 1.1" or the "10" of "of 10,5" is not one. A number followed by "%" or
 // "‰", or with a currency code or sign written right after it ("100USD", "100€"), is a percentage or
 // an amount, which the fact never covers (Codex r4421658769). A currency code or sign after a space
-// reads either way ("Page 3 USD 100", "per page 100 USD"): `spaced` marks such numbers.
+// reads either way ("Page 3 USD 100", "per page 100 USD"), and so do three capitals right after the
+// number or after a space that are no code listed here ("100NZD", "Page 3 AED 100"; Codex PR #11
+// comment 6519800754): `unsure` marks such numbers.
 const WHOLE = `(?![.,]?\\p{N})(?!\\s*[%‰]|(?:${CODES})(?![A-Za-z])|\\p{Sc})`;
 const PAGE_EXPRESSION = new RegExp(`\\bpage\\s*(\\p{N}+)${WHOLE}(?:\\s*(?:of|\\/)\\s*(\\p{N}+)${WHOLE})?`, "giu");
-const SPACED_CURRENCY = new RegExp(`^\\s+(?:(?:${CODES})(?![A-Za-z])|\\p{Sc})`, "iu");
+const SPACED_CURRENCY = new RegExp(`^\\s+(?:(?:${CODES})(?![A-Za-z])|\\p{Sc})`, "iu"),
+  UNLISTED_CODE = /^\s*[A-Z]{3}(?![A-Za-z])/u,
+  unsureAfter = (rest: string) => SPACED_CURRENCY.test(rest) || UNLISTED_CODE.test(rest);
 function pageNumbers(text: string) {
   const numbers: string[] = [],
-    spaced: boolean[] = [];
+    unsure: boolean[] = [];
   const masked = text.replace(PAGE_EXPRESSION, (m, n: string, of: string | undefined, at: number) => {
     numbers.push(n, of ?? "");
     const after = at + m.search(/\p{N}/u) + n.length;
-    spaced.push(SPACED_CURRENCY.test(text.slice(after)), !!of && SPACED_CURRENCY.test(text.slice(at + m.length)));
+    unsure.push(unsureAfter(text.slice(after)), !!of && unsureAfter(text.slice(at + m.length)));
     return m.replace(/\p{N}+/gu, "\u0000");
   });
-  return { numbers, spaced, masked, count: numbers.length / 2 };
+  return { numbers, unsure, masked, count: numbers.length / 2 };
 }
 export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput]): boolean | null {
   const [a, b] = [d.left.length ? d.oldText : null, d.right.length ? d.newText : null];
@@ -1088,12 +1092,12 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
       if (a !== null && b !== null) {
         const [x, y] = [pageNumbers(a), pageNumbers(b)];
         form = x.masked === y.masked && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
-        open = x.numbers.some((n, i) => n !== y.numbers[i] && (x.spaced[i] || y.spaced[i]));
+        open = x.numbers.some((n, i) => n !== y.numbers[i] && (x.unsure[i] || y.unsure[i]));
       } else {
         const one = (a ?? b)!,
           x = pageNumbers(one);
         form = x.count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
-        open = x.spaced.some(Boolean);
+        open = x.unsure.some(Boolean);
       }
       return form && open ? null : form;
     }

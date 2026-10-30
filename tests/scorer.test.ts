@@ -2162,7 +2162,16 @@ describe("result format 2: stated facts and form-only changes in controls", () =
   it("a changed page number with a currency after a space may be an amount: the page fact cannot be decided (Codex r4421658769)", () => {
     const fact = (a: string, b: string, invariants: string[] = []) =>
       control(docOf([{ text: a }]), docOf([{ text: b }]), ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], ["page_number_only"])], invariants);
-    for (const [a, b] of [["Cost per page 100 USD", "Cost per page 200 USD"], ["Page 3 USD 100", "Page 4 USD 100"], ["Page 3 of 10 € 100", "Page 3 of 11 € 100"]]) {
+    // Codex PR #11 comment 6519800754: three capitals right after a changed number may be a currency
+    // code the scorer does not list (NZD, INR, AED); undecided rather than taken for a page number.
+    for (const [a, b] of [
+      ["Cost per page 100 USD", "Cost per page 200 USD"],
+      ["Page 3 USD 100", "Page 4 USD 100"],
+      ["Page 3 of 10 € 100", "Page 3 of 11 € 100"],
+      ["Printing cost per page 100NZD", "Printing cost per page 200NZD"],
+      ["Printing cost per page 100INR", "Printing cost per page 200INR"],
+      ["Page 3 AED 100", "Page 4 AED 100"],
+    ]) {
       const score = fact(a, b);
       expect(score, a).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
       expect(score.notEvaluated.map((n) => n.kind), a).toEqual(["claim_unverifiable"]);
@@ -2174,6 +2183,9 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     // Controls: the changed number is not the one before the currency, or the currency is unchanged elsewhere.
     expect(fact("Page 3 of 10 USD 100", "Page 4 of 10 USD 100")).toMatchObject({ status: "PASS", faults: [], notEvaluated: [] });
     expect(fact("Page 3 of 10 rate USD 100", "Page 3 of 11 rate USD 100")).toMatchObject({ status: "PASS", faults: [], notEvaluated: [] });
+    // Capitals that are a word of two letters or of four or more stay text: "PAGE 3 OF 10", "PAGE 3 NOTE".
+    expect(fact("PAGE 3 OF 10", "PAGE 4 OF 10")).toMatchObject({ status: "PASS", faults: [], notEvaluated: [] });
+    expect(fact("PAGE 3 NOTE", "PAGE 4 NOTE")).toMatchObject({ status: "PASS", faults: [], notEvaluated: [] });
   });
   it("a page-number fact is decided from the texts, on a repeated page line or not: it holds, and the undeclared change stays open in the control", () => {
     const left = docOf([{ text: "Page 1 of 2" }, { text: "Page 2 of 2", page: 1 }]),
