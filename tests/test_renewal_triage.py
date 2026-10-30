@@ -389,6 +389,20 @@ class MovedIsNotAddedOrRemoved(unittest.TestCase):
             _, ev = run([c], result([card('x', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])]))
             self.assertEqual((ev['31']['verdict'], ev['31']['acceptedCards']), ('correct', ['x']), kind)
 
+    def test_a_split_move_needs_cards_that_remove_and_add_the_paragraph(self):
+        """PR #11 comment 6516504352 (b): two Replaced cards that keep the Hull paragraph on its own
+        page and change only the sentence after it do not show its move from page 11 to page 12."""
+        text = 'Hull cover is USD 100 for the aircraft.'
+        c = change(80, 'hull', 'Moved', text, text, pages=(11, 12))
+        keep = lambda id, page: card(id, 'Replaced', [(page, id + 'l', text + ' Liability excluded.')],
+                                     [(page, id + 'r', text + ' Liability included.')])
+        _, ev = run([c], result([keep('a', 11), keep('b', 12)]))
+        self.assertNotIn(ev['80']['verdict'], ('correct', 'split_attributable'))
+        self.assertEqual(ev['80']['acceptedCards'], [])
+        # Control: the paragraph removed on page 11 and added on page 12.
+        _, ev = run([c], result([card('o', 'Removed', [(11, 'a', text)]), card('n', 'Added', right=[(12, 'b', text)])]))
+        self.assertEqual((ev['80']['verdict'], ev['80']['acceptedCards']), ('split_attributable', ['n', 'o']))
+
     def test_unchanged_move_is_not_an_addition(self):
         moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)])
         summary, ev = run([change(31, 'pol', 'Added', right=self.TEXT, pages=(0, 5))], result([moved]))
@@ -640,6 +654,22 @@ class AddedRemovedRows(unittest.TestCase):
         self.assertFalse(ev['68']['row']['fullRowRecovered'])
         _, ev = run([c], result([card('y', 'Added', right=[(11, 'u1', '1315 Hull 100')])]), [table('aircraft', [0], c)])
         self.assertEqual(ev['68']['verdict'], 'correct')
+        # PR #11 comment 6516032862: a sign right after a currency code is the amount's sign, as in
+        # #10's scorer (ea444a0): 100 is not in USD−100, on an added or a removed row.
+        for kind in ('Added', 'Removed'):
+            c = change(68, 'ac_1315', kind, **({'right': '1315 | Hull | 100'} if kind == 'Added' else {'left': '1315 | Hull | 100'}),
+                       pages=(0, 11) if kind == 'Added' else (11, 0))
+            for text, want in (('1315 Hull USD\u2212100', False), ('1315 Hull USD-100', False), ('1315 Hull USD 100', True)):
+                side = {'right': [(11, 'u1', text)]} if kind == 'Added' else {'left': [(11, 'u1', text)]}
+                _, ev = run([c], result([card('z', kind, **side)]), [table('aircraft', [0], c)])
+                self.assertEqual(ev['68']['verdict'] == 'correct', want, (kind, text))
+        # The same in a paragraph's replaced amount.
+        c = change(69, 'limit', 'Replaced', 'Limit USD 100 applies.', 'Limit USD 200 applies.', [('100', '200')])
+        for (old, new), want in ((('Limit USD\u2212100 applies.', 'Limit USD\u2212200 applies.'), False),
+                                 (('Limit USD-100 applies.', 'Limit USD-200 applies.'), False),
+                                 (('Limit USD 100 applies.', 'Limit USD 200 applies.'), True)):
+            _, ev = run([c], result([card('p', 'Replaced', [(1, 'a', old)], [(1, 'b', new)])]))
+            self.assertEqual(ev['69']['verdict'] == 'correct', want, old)
 
     def test_a_source_range_listed_twice_is_one_occurrence(self):
         """r4417511075: a card that lists the range of USD 100 twice shows it once."""
@@ -1062,9 +1092,16 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([row], result([other]), [table('aircraft', [0], row)])
         self.assertNotEqual(ev['41']['verdict'], 'correct')
         self.assertEqual(ev['41']['acceptedCards'], [])
-        # Control: the same unit changing 1315's own amount, the identity after the edit too.
+        # PR #11 comment 6515923611: nor does the next record's 1315 right after 1760's edited amount;
+        # the author row has its identifier before the amount, with Hull between.
+        nxt = card('n', 'Replaced', [(1, 'a', '1760 Liability USD 100; 1315 Hull USD 100')],
+                   [(1, 'b', '1760 Liability USD 200; 1315 Hull USD 100')])
+        _, ev = run([row], result([nxt]), [table('aircraft', [0], row)])
+        self.assertNotEqual(ev['41']['verdict'], 'correct')
+        self.assertEqual(ev['41']['acceptedCards'], [])
+        # Controls: the same units changing 1315's own amount, the record first or second.
         for l, r in ((L, '1315 Hull USD 200; 1760 Liability USD 100'),
-                     ('Hull USD 100 1315; 1760 Liability USD 100', 'Hull USD 200 1315; 1760 Liability USD 100')):
+                     ('1760 Liability USD 100; 1315 Hull USD 100', '1760 Liability USD 100; 1315 Hull USD 200')):
             own = card('y', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])
             _, ev = run([row], result([own]), [table('aircraft', [0], row)])
             self.assertEqual((ev['41']['verdict'], ev['41']['acceptedCards']), ('correct', ['y']), r)
@@ -1178,8 +1215,11 @@ class EditEvidence(unittest.TestCase):
         _, ev = run([row], result([two_units('1315 USD', '100 1760', '200 1760')]), [table('aircraft', [1], row)])
         self.assertNotEqual(ev['42']['verdict'], 'correct')
         self.assertEqual(ev['42']['acceptedCards'], [])
-        # Control: the identity in the unit that carries the edit.
-        _, ev = run([row], result([two_units('Hull USD', '100 1315', '200 1315')]), [table('aircraft', [1], row)])
+        # Control: the identity in the unit that carries the edit, in a row whose identifier follows
+        # its amount as the card's does.
+        late = change(42, 'ac_1315', 'Replaced', 'ATR | Hull USD 100 | 1315', 'ATR | Hull USD 200 | 1315',
+                      [('USD 100', 'USD 200')], pages=(1, 1))
+        _, ev = run([late], result([two_units('Hull USD', '100 1315', '200 1315')]), [table('aircraft', [2], late)])
         self.assertEqual((ev['42']['verdict'], ev['42']['acceptedCards']), ('correct', ['x']))
 
     def test_split_cards_must_change_the_part_the_edit_changes(self):

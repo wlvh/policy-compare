@@ -95,7 +95,10 @@ unless the event's other edits account for the replaced text (renewal-triage/27)
 source unit, a record identity counts for an edit only when nothing but the author row's own words
 and numbers lies between them (renewal-triage/28). A card adding or removing one copy of a repeated
 paragraph shows that addition or removal; a moved row is full only with every author cell
-(renewal-triage/29).
+(renewal-triage/29). A sign right after a currency code (USD\u2212100) is the amount's sign, as in
+#10's scorer (renewal-triage/30). The identity also stands on the same side of the edit as in the
+author row, the words between them in the author's order (renewal-triage/31). The two halves of a move without
+edits each take the paragraph out or put it in (renewal-triage/32).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -127,7 +130,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/29'
+TOOL = 'renewal-triage/32'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -157,13 +160,19 @@ NUMBER = re.compile(r'\d(?:[.,]?\d)*')
 
 
 SIGN = '-\u2212+'
+# Currency codes after which a sign is the amount's (USD\u2212100), as #10's scorer reads them (ea444a0).
+CODES = ('USD', 'EUR', 'GBP', 'JPY', 'CHF', 'CNY', 'HKD', 'SGD', 'MYR', 'AUD', 'CAD')
 
 
 def signed(text, i):
     """A number starting at i of the text carries a sign: one right before it that does not follow
-    a letter, digit, '.' or ',' ("-100", "(\u2212100)"; not "1-200" or "SYN-1026"), as #10's scorer
-    reads signs (b6aa2c8)."""
-    return i > 0 and text[i - 1] in SIGN and not (i > 1 and re.match(r'[0-9A-Za-z.,]', text[i - 2]))
+    a letter, digit, '.' or ',' ("-100", "(\u2212100)"; not "1-200" or "SYN-1026"), or that follows a
+    currency code (USD\u2212100, PR #11 comment 6516032862), as #10's scorer reads signs (b6aa2c8,
+    ea444a0)."""
+    if not (i > 0 and text[i - 1] in SIGN):
+        return False
+    code = i > 3 and text[i - 4:i - 1] in CODES and not (i > 4 and re.match(r'[0-9A-Za-z]', text[i - 5]))
+    return code or not (i > 1 and re.match(r'[0-9A-Za-z.,]', text[i - 2]))
 
 
 def splits_number(text):
@@ -194,7 +203,9 @@ def whole(needle):
     or "," and a digit, so "1315" is not in "21,315,000" nor "USD 100" in "USD 100,000"
     (r4416863588); a number is not the unsigned part of a signed one ("100" in "-100",
     r4417384098; see signed())."""
-    sign = r'(?:(?<![-\u2212+])|(?<=[0-9A-Za-z.,][-\u2212+]))' if needle[:1].isdigit() else ''
+    code = '|'.join(CODES)
+    sign = (r'(?:(?<![-\u2212+])|(?<=[0-9A-Za-z.,][-\u2212+])(?<!(?<![0-9A-Za-z])(?:' + code + r')[-\u2212+]))'
+            if needle[:1].isdigit() else '')
     return re.compile(r'(?<![0-9A-Za-z])(?<![0-9][.,])' + sign + re.escape(needle) + r'(?![0-9A-Za-z])(?![.,][0-9])')
 
 
@@ -450,18 +461,43 @@ def holds(text, keys):
 
 
 def linked(d, side, start, needle, keys, change):
-    """Each identity cell has an occurrence on the card side that reaches the edited occurrence
-    (at `start`) across nothing but the author row's own words and numbers: in one source unit
-    holding two records, the unchanged record's identifier is not the edited one's (PR #11 comment
-    6514897964)."""
+    """Each identity cell has an occurrence on the card side that reaches the edited occurrence (at
+    `start`) as the author row of this side does: on the same side of the edit, across only words
+    and numbers the author row has between them there, in its order (some may be missing). In one
+    source unit holding two records, another record's text before the edit, or the next record's
+    identifier right after it, is not this record's (PR #11 comments 6514897964, 6515923611)."""
     text = ''.join(x[0] for x in marked(d, side))
-    row = set(re.findall(r'[^\W_]+', norm((change.get('left_text') or '') + ' ' + (change.get('right_text') or '')).lower()))
+    author = norm(change.get('left_text' if side == 'left' else 'right_text') or '')
+    words = lambda x: re.findall(r'[^\W_]+', x.lower())
     end = start + len(needle)
 
+    def ordered(got, want):
+        rest = iter(want)
+        return all(w in rest for w in got)
+
+    def ways(c):
+        """Per occurrence pair in the author row: whether the identity comes first, and the words between."""
+        out = []
+        for m in whole(c).finditer(author):
+            # A cut opening may end in a space (a Moved row's 40 characters): search its words.
+            for n in whole(needle.strip()).finditer(author) if needle.strip() else ():
+                if m.start() < n.end() and n.start() < m.end():
+                    out.append((None, []))
+                else:
+                    first = m.end() <= n.start()
+                    out.append((first, words(author[m.end():n.start()] if first else author[n.end():m.start()])))
+        return out
+
     def near(c):
+        want = ways(c)
         for m in whole(c).finditer(text):
-            gap = text[m.end():start] if m.end() <= start else text[end:m.start()] if m.start() >= end else ''
-            if set(re.findall(r'[^\W_]+', gap.lower())) <= row:
+            if m.start() < end and start < m.end():
+                if any(first is None for first, _ in want):
+                    return True
+                continue
+            first = m.end() <= start
+            got = words(text[m.end():start] if first else text[end:m.start()])
+            if any(f == first and ordered(got, w) for f, w in want):
                 return True
         return False
     return bool(keys) and all(near(c) for c in keys)
@@ -722,6 +758,12 @@ def text_atom(atom, change, ctx, claimed):
         lk, rk = [d for d in olds if ok(d, 'left', old, False)], [d for d in news if ok(d, 'right', new, False)]
         el = [d for d in olds if ok(d, 'left', old, need['left'])]
         er = [d for d in news if ok(d, 'right', new, need['right'])]
+        if atom.get('opening') and not (need['left'] or need['right']):
+            # A move without edits: each half must take the paragraph out (old side) or put it in
+            # (new side), every character of it changed; cards keeping it in place around another
+            # change do not show the move (PR #11 comment 6516504352).
+            gone = lambda d, side, n: any(all(x[2] for x in s if x[0] != ' ') for s in found(d, side, n, wanted[side]))
+            el, er = [d for d in el if gone(d, 'left', old)], [d for d in er if gone(d, 'right', new)]
         if el and er:
             return 'split_attributable', 'split_attributable', el + er, cands, ou + nu, 'separate cards; ' + why
         if lk and rk and not unmoved:
