@@ -1,0 +1,6 @@
+# final tests (8bf16df37ce0494f783dbe5712f414d106aaac6d) with product, interface, contract and triage code of 8f0e71b
+     × a cell holding an identifier's name and punctuation names no identifier either (r4421180075) 13ms
+     × a compact table extracted column by column gives the same rows (r4421114827) 45ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  2 failed | 13 passed (15)
+      Tests  2 failed | 355 passed (357)
