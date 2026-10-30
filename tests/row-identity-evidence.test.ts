@@ -540,6 +540,48 @@ describe("identity belongs to its own column and its own table", () => {
     const c = ResultSchemaV2.parse(compare(doc("123456", "USD 1000", 40), doc("123456", "USD 2000", 40)));
     expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
   });
+  it("a lone identifier reaching past a descriptive heading toward an empty identity column leaves identity incomplete (r4420346858)", () => {
+    // MSN | Operator | Insurer | Value at x 40/190/340/490: the MSN (x 160) overlaps
+    // only Operator, but starts left of it, toward the MSN column the row has no cell in.
+    const doc = (msn: string | null, value: string, x = 160) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["MSN", "Operator", "Insurer", "Value"].map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        ...(msn === null ? [] : [{ text: msn, x, y: 200 }]),
+        { text: "Alpha", x: 340, y: 200 }, { text: value, x: 490, y: 200 },
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("123456", "USD 1000"), doc("789012", "USD 1000")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "123456", "left"), visible(r, "789012", "right")]).toEqual([true, true]);
+    // Controls: an operator starting at its own heading is that column's value, and the
+    // insurer still pairs the rows; so does the MSN under its own heading.
+    for (const [a, b, x] of [["Beta Air", "Beta Air", 190], ["123456", "123456", 40]] as const) {
+      const c = ResultSchemaV2.parse(compare(doc(a, "USD 1000", x), doc(b, "USD 2000", x)));
+      expect(c.differences.map((d) => d.matchEvidence.method), a).toEqual(["row-identity"]);
+    }
+  });
+  it("a heading row repeated on two pages with the same text but other cells is not one repeated header (r4420267662)", () => {
+    const page = (head: string[], p: number) => [
+      ...head.map((text, j) => ({ text, x: 40 + j * 150, y: 180, page: p })),
+      ...["123", "456", "USD 1000"].map((text, k) => ({ text, x: 40 + k * 150, y: 200, page: p })),
+    ];
+    const doc = (head: string[]) => textDoc([{ text: "SCHEDULE", y: 150 }, ...page(head, 0), ...page(head, 1)]);
+    const r = ResultSchemaV2.parse(compare(doc(["MSN", "Serial No.", "Value"]), doc(["MSN Serial", "No.", "Value"])));
+    expect(r.differences.length + r.unresolved.length).toBeGreaterThan(0);
+    expect([visible(r, "Serial No.", "left"), visible(r, "MSN Serial", "right")]).toEqual([true, true]);
+    // Control: the same heading cells on both sides are one repeated header, unchanged.
+    expect(ResultSchemaV2.parse(compare(doc(["MSN", "Serial No.", "Value"]), doc(["MSN", "Serial No.", "Value"]))).differences).toEqual([]);
+  });
+  it("equal text in a row without a heading row with other cells is not unchanged (r4420346862)", () => {
+    // MSN 123 | USD 100 200 | 300 against MSN 123 | USD 100 | 200 300, cells at x 40/240/440.
+    const doc = (cells: string[]) =>
+      textDoc([{ text: "SCHEDULE", y: 150 }, ...cells.map((text, k) => ({ text, x: 40 + k * 200, y: 200 }))]);
+    const r = ResultSchemaV2.parse(compare(doc(["MSN 123", "USD 100 200", "300"]), doc(["MSN 123", "USD 100", "200 300"])));
+    expect(r.differences.length + r.unresolved.length).toBeGreaterThan(0);
+    expect([visible(r, "300", "left"), visible(r, "300", "right")]).toEqual([true, true]);
+    // Control: the same cells are unchanged.
+    expect(ResultSchemaV2.parse(compare(doc(["MSN 123", "USD 100 200", "300"]), doc(["MSN 123", "USD 100 200", "300"]))).differences).toEqual([]);
+  });
   it("a heading row with the same text but other cells is another table (r4420146482)", () => {
     // MSN | Serial No. | Value against MSN Serial | No. | Value: 123 stands under
     // MSN on the left and under MSN Serial on the right, 456 and 789 under
