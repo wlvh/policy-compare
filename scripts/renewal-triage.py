@@ -98,7 +98,9 @@ paragraph shows that addition or removal; a moved row is full only with every au
 (renewal-triage/29). A sign right after a currency code (USD\u2212100) is the amount's sign, as in
 #10's scorer (renewal-triage/30). The identity also stands on the same side of the edit as in the
 author row, the words between them in the author's order (renewal-triage/31). The two halves of a move without
-edits each take the paragraph out or put it in (renewal-triage/32).
+edits each take the paragraph out or put it in (renewal-triage/32). Copies of one edit each need an
+edited occurrence of their own on the accepted cards (renewal-triage/33), and a row's full-row check
+reads every accepted card, not only the first one per side (renewal-triage/34).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -130,7 +132,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/32'
+TOOL = 'renewal-triage/34'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -1025,6 +1027,27 @@ def paragraph_atom(atom, change, ctx):
     return 'not_found', 'not_located', [], cands, [], 'script did not locate the text'
 
 
+def copies(cards, side, needle, edit, change, ctx):
+    """Distinct source occurrences of the needle on one side of the cards that carry the edit and
+    belong to the event: for a row, the record identity reaches that occurrence (judge_identity() on
+    it alone); for a paragraph, the author paragraph surrounds it (context()). An occurrence two cards
+    cite counts once."""
+    ident, wanted, seen, n = ctx['ident'], ctx['wanted'], set(), 0
+    author = change.get('left_text' if side == 'left' else 'right_text')
+    for d in cards:
+        for i, span in occurrences(d, side, needle, wanted[side]):
+            ids = {(x[1], x[3]) for x in span if x[1] is not None}
+            if not carries(span, edit) or ids & seen:
+                continue
+            if (judge_identity(d, {side: needle}, ident, ctx['others'], change, wanted, {side: edit},
+                               {side: {i}})[0] != 'confirmed' if ident is not None
+                    else not context(d, side, needle, wanted[side], author, edit, only={i})):
+                continue
+            seen |= ids
+            n += 1
+    return n
+
+
 def event_verdict(verdicts):
     if not verdicts:
         return 'excluded'
@@ -1065,6 +1088,24 @@ def triage(change, result, declared, family, claimed):
         done = {i: judge(a) for i, a in enumerate(atoms) if not a.get('opening')}
         ctx['edited'] = {d['id'] for j in done.values() for d in j[2]}
         judged = [done[i] if i in done else judge(a) for i, a in enumerate(atoms)]
+        # Copies of one edit each need an edited occurrence of their own on the accepted cards: one
+        # edited copy does not show two (PR #11 comment 6516690587).
+        copied = collections.defaultdict(list)
+        for i, a in enumerate(atoms):
+            if not a.get('opening') and judged[i][1] in ('correct', 'split_attributable'):
+                copied[(a['old'], a['new'])].append(i)
+        for (old, new), ks in copied.items():
+            n = sum(1 for a in atoms if not a.get('opening') and (a['old'], a['new']) == (old, new))
+            if n < 2:
+                continue
+            need = needs_edit(old or '', new or '')
+            cards = list({d['id']: d for i in ks for d in judged[i][2]}.values())
+            room = min(copies(cards, side, text, need[side], change, ctx)
+                       for side, text in (('left', old), ('right', new)) if text and need[side])
+            for i in ks[room:]:
+                _, _, _, cands, un, _, where = judged[i]
+                judged[i] = ('copies_short', 'not_evaluable', [], cands, un,
+                             f'the accepted cards make this edit {room} time(s); the author lists it {n} times', where)
     detail = []
     for i, (atom, (state, verdict, acc, cands, un, why, where)) in enumerate(zip(atoms, judged)):
         detail.append({'index': i, 'old': atom['old'], 'new': atom['new'], 'authorCategory': atom['authorCategory'],
@@ -1081,30 +1122,42 @@ def triage(change, result, declared, family, claimed):
             keep = ((c.get('identityCells') or {}).get(side) or {}).get('units')
             return [r for r in c[side] if not keep or r['unitId'] in keep]
         if record is None:
-            # Each side from the accepted card that holds it: one card, or the Removed and the
-            # Added card of a split (PR #11 comment 6511266424).
-            held = {side: next(((c['card'], own(c, side)) for a in detail for c in a['candidates']
-                                if c['card'] in a['accepted'] and c[side]), (None, [])) for side in ('left', 'right')}
-            first = held['left'][0] or held['right'][0]
+            # Each side from the accepted cards that hold it: one card, the Removed and the Added
+            # card of a split (PR #11 comment 6511266424), or several cards, one per edit, whose
+            # locations are read together, each source character once (PR #11 comment 6517133695).
+            held = {side: list({c['card']: None for a in detail for c in a['candidates']
+                                if c['card'] in a['accepted'] and c[side]}) for side in ('left', 'right')}
+            first = (held['left'] or held['right'] or [None])[0]
+
+            def merged(side):
+                locs = [r for k in held[side] for a in detail for c in a['candidates']
+                        if c['card'] == k and k in a['accepted'] for r in own(c, side)]
+                by = collections.OrderedDict()
+                for r in locs:
+                    by.setdefault((r['page'], r['unitId']), []).append(r)
+                return [r for v in by.values() for r in pieces(v)]
             if first:
-                record = {'card': first, 'left': held['left'][1], 'right': held['right'][1],
-                          **({'rightCard': held['right'][0]} if held['right'][0] not in (None, first) else {})}
+                record = {'card': first, 'left': merged('left'), 'right': merged('right'),
+                          **({'rightCard': held['right'][0]} if held['right'] and held['right'][0] != first else {}),
+                          **({'cards': held} if len(held['left']) > 1 or len(held['right']) > 1 else {})}
         lc, rc = cells(change.get('left_text') or ''), cells(change.get('right_text') or '')
         diff = lambda i: next(d for d in result['differences'] if d['id'] == i)
         card = record and diff(record['card'])
-        cards = record and {'left': card, 'right': diff(record.get('rightCard', record['card']))}
+        cards = record and {s: [diff(k) for k in (record.get('cards') or {}).get(s) or
+                                [record.get('rightCard', record['card']) if s == 'right' else record['card']]]
+                            for s in ('left', 'right')}
 
         def source(key, r):
             """Full text of one accepted record location; refs keep only a preview (r4415969212). A
             location trimmed to its new characters (pieces()) is read from the card's location."""
             sides, (a, b) = ('left', 'right') if key == 'refs' else (key,), r['rawRange']
-            return next((l['text'][a - l['rawRange'][0]:b - l['rawRange'][0]] for side in sides for l in cards[side][side]
-                         if l['pageIndex'] + 1 == r['page'] and l['unitId'] == r['unitId']
+            return next((l['text'][a - l['rawRange'][0]:b - l['rawRange'][0]] for side in sides for d in cards[side]
+                         for l in d[side] if l['pageIndex'] + 1 == r['page'] and l['unitId'] == r['unitId']
                          and l['rawRange'][0] <= a and b <= l['rawRange'][1]), r['text'])
 
         def text(*keys):
             sides = sorted({s for k in keys for s in (('left', 'right') if k == 'refs' else (k,))})
-            joined = touching(*((cards[s], s) for s in sides)) if card else frozenset()
+            joined = touching(*((d, s) for s in sides for d in cards[s])) if card else frozenset()
             return norm(spliced((((r['page'], r['unitId']), r['rawRange'], source(k, r))
                                  for k in keys for r in (record or {}).get(k, [])), joined))
         full = None
