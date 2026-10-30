@@ -1,0 +1,6 @@
+# final tests (01892fded95d4c5317557287abcece0fd40ab0f3) with product, interface, contract and triage code of 437e9f3
+     × a record wrapping three of its four cells keeps the wrapped line (#11 README 0.58, regression of r4421114827) 17ms
+     × a percentage or amount after "page" is no page number (Codex r4421658769) 10ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  2 failed | 13 passed (15)
+      Tests  2 failed | 361 passed (363)
