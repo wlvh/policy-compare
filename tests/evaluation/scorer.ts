@@ -915,10 +915,9 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     // Both sides: only numbers inside explicit page expressions differ, the rest of the text (the
     // expressions' words and every whitespace character included, r4417386694) is the same; a
     // one-sided text is nothing but such expressions and whitespace. It says nothing about the
-    // printed numbers being right. The contract states it only on a repeated page line, a heading or
-    // a page-margin line (r4416542441). Of these the sources show only the first: the card's own
-    // text, by the occurrences it cites, printed on two or more pages of a document. On any other
-    // line the text form holds but its scope stays open.
+    // printed numbers being right, nor about the line's role: the shared definition is the text form
+    // alone (#2's round 11), so a single heading or a body sentence holds it as a repeated page line
+    // does. Where the product chooses to state it is the product's policy, not part of the fact.
     case "page_number_only": {
       let form: boolean;
       if (a !== null && b !== null) {
@@ -928,10 +927,7 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
         const one = (a ?? b)!;
         form = pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
       }
-      const repeated = (["left", "right"] as const).some(
-        (side) => new Set(ownOccurrences(d, side, docs).flatMap((o) => o[side].map((l) => l.pageIndex))).size > 1,
-      );
-      return form && !repeated ? null : form;
+      return form;
     }
     // One side only: a heading with an explicit "continued" suffix whose base is the whole text
     // of a line in both documents.
@@ -1409,10 +1405,7 @@ export function grade(
         claimsOpen.push({
           card: d.id,
           kind: "claim_unverifiable",
-          reason:
-            fact === "page_number_only"
-              ? `card ${d.id} states page_number_only; only page numbers differ, but its sources do not show a repeated page line, and a heading or page-margin line cannot be established from them`
-              : `card ${d.id} states ${fact}; its sources cannot decide it here`,
+          reason: `card ${d.id} states ${fact}; its sources cannot decide it here`,
         });
     }
     // Two occurrences citing the same source characters on a side are one occurrence listed twice;
