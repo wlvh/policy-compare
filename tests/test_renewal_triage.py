@@ -317,6 +317,19 @@ class RecordIdentity(unittest.TestCase):
         _, ev = run([c], result([own]), [table('aircraft', [0], c)])
         self.assertEqual((ev['74']['verdict'], ev['74']['row']['fullRowRecovered']), ('correct', True))
 
+    def test_a_moved_row_is_full_only_with_every_cell(self):
+        """PR #11 comment 6515146325: the 40-character opening and the identity do not recover a
+        moved row's amount cell."""
+        row = 'Long aircraft model description for the insured aircraft | 1315 | USD 100'
+        c = change(77, 'ac_1315', 'Moved', row, row, pages=(11, 12))
+        head = 'Long aircraft model description for the insured aircraft'[:40] + ' 1315'
+        _, ev = run([c], result([card('m', 'Moved', [(11, 'a', head)], [(12, 'b', head)])]), [table('aircraft', [1], c)])
+        self.assertFalse(ev['77']['row']['fullRowRecovered'])
+        # Control: the whole row on the Moved card.
+        whole = row.replace(' |', '')
+        _, ev = run([c], result([card('m', 'Moved', [(11, 'a', whole)], [(12, 'b', whole)])]), [table('aircraft', [1], c)])
+        self.assertTrue(ev['77']['row']['fullRowRecovered'])
+
     def test_a_split_row_is_full_from_its_two_cards(self):
         """PR #11 comment 6511266424: the full row reads the old side on the Removed card and the new
         side on the Added card."""
@@ -366,6 +379,15 @@ class MovedIsNotAddedOrRemoved(unittest.TestCase):
         self.assertNotEqual(ev['30']['verdict'], 'correct')
         self.assertEqual(ev['30']['acceptedCards'], [])
         self.assertEqual((summary['acceptedCards'], summary['unexplainedCards']), (0, 1))
+
+    def test_a_card_adding_or_removing_one_copy_of_a_repeated_paragraph_shows_it(self):
+        """PR #9 comment 6515226035: the second copy inserted next to the first is the addition,
+        though another copy stays on the other side (and the removal, mirrored)."""
+        text = 'The clause applies to every aircraft.'
+        for kind, side, (l, r) in (('Added', (0, 1), (text, text + ' ' + text)), ('Removed', (1, 0), (text + ' ' + text, text))):
+            c = change(31, 'clause', kind, *(('', text) if kind == 'Added' else (text, '')), pages=side)
+            _, ev = run([c], result([card('x', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])]))
+            self.assertEqual((ev['31']['verdict'], ev['31']['acceptedCards']), ('correct', ['x']), kind)
 
     def test_unchanged_move_is_not_an_addition(self):
         moved = card('m', 'Moved', [(4, 'a', self.TEXT)], [(5, 'b', self.TEXT)])

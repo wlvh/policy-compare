@@ -600,6 +600,32 @@ describe("identity belongs to its own column and its own table", () => {
     const c = ResultSchemaV2.parse(compare(doc("Lead", "G-BBBB", "Beta", "USD 1000"), doc("Lead", "G-BBBB", "Beta", "USD 2000")));
     expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
   });
+  it("an identifier label under no heading cell does not start a table either (r4420588645)", () => {
+    // As r4420429153, but the record's cells sit at x 40/190/390/510: "Registration" (x 390)
+    // overlaps no heading cell, so its column is unknown.
+    const doc = (reg: string, op: string, value: string) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["Registration", "Operator", "Status", "Value"].map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        ...["G-AAAA", "Alpha", "Registration", "Pending"].map((text, k) => ({ text, x: [40, 190, 390, 510][k], y: 200 })),
+        ...[reg, op, "Active", value].map((text, k) => ({ text, x: [40, 190, 390, 510][k], y: 220 })),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc("G-BBBB", "Beta", "USD 1000"), doc("G-CCCC", "Gamma", "USD 1000")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "G-BBBB", "left"), visible(r, "G-CCCC", "right")]).toEqual([true, true]);
+  });
+  it("a repeated heading row whose cell gains a space on one page only is not one unchanged header (r4420485627)", () => {
+    const page = (head: string[], msn: string, p: number) => [
+      ...head.map((text, j) => ({ text, x: 40 + j * 150, y: 180, page: p })),
+      ...[msn, "Alpha", "USD 1000"].map((text, k) => ({ text, x: 40 + k * 150, y: 200, page: p })),
+    ];
+    const head = ["MSN", "Operator", "Value"];
+    const doc = (second: string[]) => textDoc([{ text: "SCHEDULE", y: 150 }, ...page(head, "123", 0), ...page(second, "456", 1)]);
+    const r = ResultSchemaV2.parse(compare(doc(head), doc(["MSN", "Operator ", "Value"])));
+    expect(r.differences.length + r.unresolved.length).toBeGreaterThan(0);
+    // Control: the same heading on both pages is unchanged.
+    expect(ResultSchemaV2.parse(compare(doc(head), doc(head))).differences).toEqual([]);
+  });
   it("a heading row with the same text but other cells is another table (r4420146482)", () => {
     // MSN | Serial No. | Value against MSN Serial | No. | Value: 123 stands under
     // MSN on the left and under MSN Serial on the right, 456 and 789 under
