@@ -225,6 +225,7 @@ export const INVARIANTS: Record<
       "R26: delete + add amounts of two records cancel only under a shared claimed key: NOT_EVALUATED",
       "R26: one card swapping the signs of two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED",
       "R26: two delete + add pairs citing the same source characters fail, whatever keys they claim",
+      "R26: delete + add cards without a record that move a sign between two unchanged amounts fail",
       "R26: row-wide locations that layout.json does not cover are NOT_EVALUATED",
     ],
   },
@@ -658,7 +659,9 @@ function moneyChanges(
   const r = minus(pool.gone, pool.come),
     a = minus(pool.come, pool.gone),
     rc = minus(tokens(pool.goneClaimed), tokens(pool.comeClaimed)),
-    ac = minus(tokens(pool.comeClaimed), tokens(pool.goneClaimed));
+    ac = minus(tokens(pool.comeClaimed), tokens(pool.goneClaimed)),
+    rv = minus(cellAmounts(pool.goneEdited), cellAmounts(pool.comeEdited)),
+    av = minus(cellAmounts(pool.comeEdited), cellAmounts(pool.goneEdited));
   const twice = [...spread(pool.goneEdits).twice, ...spread(pool.comeEdits).twice],
     split = splitVerdict(r, a, rc, ac, pool.goneEdits, pool.comeEdits);
   if (twice.length)
@@ -669,6 +672,11 @@ function moneyChanges(
     unexplained.add("added/removed cards without a record split one amount or currency cell over several cards; their values cannot be counted reliably");
   else if ((r.length || a.length) && !allowed(r, a))
     out.push(`added/removed cards change ${r.join(",") || "-"} to ${a.join(",") || "-"}`);
+  // Their text shows no amount change, yet the amount cells their delete and add cards edit change their
+  // whole amounts, as for a record's delete + add cards (Codex PR #11 comment 6515705013: a sign moved
+  // between two records' cells). An edit on one side only is judged by its claims below.
+  else if (!r.length && !a.length && rv.length && av.length && !allowed(rv, av))
+    out.push(`added/removed cards without a record edit amount cells whose amounts change ${rv.join(",") || "-"} to ${av.join(",") || "-"}`);
   else if (!r.length && !a.length && (rc.length || ac.length))
     out.push(`added/removed cards without a record claim ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside cells that keep their values`);
   else if (!r.length && !a.length && (severalCells(pool.goneClaimed) || severalCells(pool.comeClaimed)))

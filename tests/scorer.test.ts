@@ -1127,6 +1127,26 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     // Control: both cards cite record SYN-1026-001's own cell.
     expect(pair("l5", "l5").status).toBe("PASS");
   });
+  // Codex PR #11 comment 6515705013: cards without a record have their edited amount cells compared as
+  // whole amounts too, as a Replaced card and a record's delete + add cards do.
+  it("R26: delete + add cards without a record that move a sign between two unchanged amounts fail", () => {
+    const pair = (inLine: string, inChar: number) => {
+      const x = r26(false, ["-100,020", "+100,020"]);
+      const [l, r] = x.docs;
+      x.result.differences.push(
+        oneSided("Removed", "out", slice(lineLoc(l, "left", "l5"), 0, 1), null),
+        oneSided("Added", "in", slice(lineLoc(r, "right", inLine), inChar, inChar + 1), null),
+      );
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      return grade(x.result, x.expected, x.layout, x.docs);
+    };
+    // The "-" of record SYN-1026-001's -100,020 removed, the "+" of record SYN-1026-003's +100,020 added.
+    const across = pair("l10", 0);
+    expect(across.status).toBe("FAIL");
+    expect(across.faults.join("\n")).toContain("agreed_value_unchanged");
+    // Control: the same "-" removed and added again in its own cell.
+    expect(pair("l5", 0).status).toBe("PASS");
+  });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
   it("R26: two delete + add pairs citing the same source characters fail, whatever keys they claim", () => {
