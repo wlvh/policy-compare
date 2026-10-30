@@ -1,0 +1,5 @@
+# final triage tests (81048e3b5359ccc2babb1351ab5361d578812d62) with scripts/renewal-triage.py of 3527ab2 (renewal-triage/26)
+FAIL: test_a_pure_insertion_or_deletion_is_accepted_on_its_card (test_renewal_triage.EditEvidence.test_a_pure_insertion_or_deletion_is_accepted_on_its_card)
+FAIL: test_the_identity_must_belong_to_the_edited_record_within_one_unit (test_renewal_triage.EditEvidence.test_the_identity_must_belong_to_the_edited_record_within_one_unit)
+Ran 74 tests in 0.674s
+FAILED (failures=2)
