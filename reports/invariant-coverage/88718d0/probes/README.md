@@ -1,0 +1,13 @@
+# Probes at `88718d0` (merge of #2's `01892fd`: product `+row-identity.34+facts.6`, triage `/37`)
+
+"Before" is #2's `8f0e71b` (product of `081f370`) or the joint tree `67f5c44` (product `+row-identity.33`, triage `/34`).
+
+| Probe | What it checks | Logs |
+|---|---|---|
+| `../../8906d05/probes/product-probes-review-6517899051.ts` | the user's items 1 and 2 | `product-probes-review-6517899051-88718d0.log` (equal to `67f5c44`'s) |
+| `../../67f5c44/probes/product-probes-33bda44.ts` | label forms, extraction order, the four-column record wrapping three cells | `product-probes-33bda44-88718d0.log`: the wrapped record is one Replaced card on row `123` again; "cell order vs line order" gives a Replaced and an Added card (wrapped cells extracted line by line, now stated unsupported in `docs/extractor-capabilities.md`) |
+| `../../733abbe/probes/product-page-fact-probe.ts` | the product side of r4421658769 | `product-page-fact-88718d0.log`: no `page_number_only` on `100USD`, `4%`, `100€`, `of 10%`; still on `Page 3 of 10` → `Page 4 of 10` |
+| `product-fullwrap-probe.ts` | a record whose every cell wraps (the first column too), each cell's lines extracted together; a four-column compact table read row by row against column by column | `product-fullwrap-88718d0.log`, `product-fullwrap-8f0e71b.log` |
+| every triage probe of `../../67f5c44/probes/all-probes-triage-34.log`, plus the three probes filed since (`67f5c44`, `d9fc5a4`, `77faf39`) | earlier findings; Codex 6518043799, 6518372639, 6519018610 | `all-probes-triage-34.log` (on `/34`), `all-probes-triage-37.log`, `diff-34-37.txt` |
+
+Run the TypeScript probes from the repository root with `pnpm exec tsx <probe>`, the Python probes as `python3 -I <probe> <dir holding tests/test_renewal_triage.py and scripts/renewal-triage.py>`.

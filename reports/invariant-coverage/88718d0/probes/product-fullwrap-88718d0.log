@@ -1,0 +1,3 @@
+three columns, all three cells wrap, cell order, "per annum" -> "per month": status=complete_for_scope unresolved=0 Replaced/row-identity/row=(a) "(a) Holdings per annum" -> "(a) Holdings per month"
+four columns, all four cells wrap, cell order, the same change: status=complete_for_scope unresolved=0 Replaced/row-identity/row=(a) "(a) Holdings war risks per annum" -> "(a) Holdings war risks per month"
+four-column compact table, row-major vs column-major: status=complete_for_scope unresolved=0 no differences

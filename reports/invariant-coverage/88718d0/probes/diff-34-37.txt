@@ -1,0 +1,39 @@
+--- all-probes-triage-34.log
++++ all-probes-triage-37.log
+@@ -34,10 +34,10 @@
+ Replaced, author 100 -> 200; card control: Hull-100 -> Hull-200 (no sign): correct
+ Added, author 100; card r4417384098 as written: -100: partly_located fullRowRecovered=False
+ Added, author 100; card after a currency code: USD−100: partly_located fullRowRecovered=False
+-Added, author 100; card control: USD 100: correct fullRowRecovered=True
++Added, author 100; card control: USD 100: not_evaluable fullRowRecovered=False
+ Removed, author 100; card r4417384098 shape, Removed: -100: partly_located fullRowRecovered=False
+ Removed, author 100; card after a currency code: USD−100: partly_located fullRowRecovered=False
+-Removed, author 100; card control: USD 100: correct fullRowRecovered=True
++Removed, author 100; card control: USD 100: not_evaluable fullRowRecovered=False
+ Replaced, author USD 100 -> USD 200; card USD-100 -> USD-200: not_located fullRowRecovered=None
+ Replaced, author USD 100 -> USD 200; card USD−100 -> USD−200: not_located fullRowRecovered=None
+ Replaced, author USD 100 -> USD 200; card control: USD 100 -> USD 200: correct fullRowRecovered=True
+@@ -261,19 +261,19 @@
+ control: one card with the whole row: verdict=correct outcome=complete accepted=['w'] atoms=['correct', 'correct'] fullRowRecovered=True unexplained=0
+ control: two cards, the second without the identity, on another unit: verdict=not_evaluable outcome=partly_complete accepted=['p'] atoms=['correct', 'not_evaluable'] fullRowRecovered=False unexplained=1
+ ## reports/invariant-coverage/67f5c44/probes/added-row-linkage-triage-probe.py
+-Added Codex: one unit "1315 Hull; 1760 Liability USD 100", 1760 not a declared event: correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
++Added Codex: one unit "1315 Hull; 1760 Liability USD 100", 1760 not a declared event: not_evaluable atoms=['correct', 'correct', 'not_evaluable'] fullRowRecovered=False unexplained=0
+ Added control: 1760 declared in the same table (another event): not_evaluable atoms=['not_evaluable', 'not_evaluable', 'not_evaluable'] fullRowRecovered=False unexplained=1
+ Added control: unit "1315 Hull USD 100": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+ Added control: unit "1315 Hull USD 100; 1760 Liability": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+-Removed Codex: one unit "1315 Hull; 1760 Liability USD 100", 1760 not a declared event: correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
++Removed Codex: one unit "1315 Hull; 1760 Liability USD 100", 1760 not a declared event: not_evaluable atoms=['correct', 'correct', 'not_evaluable'] fullRowRecovered=False unexplained=0
+ Removed control: 1760 declared in the same table (another event): not_evaluable atoms=['not_evaluable', 'not_evaluable', 'not_evaluable'] fullRowRecovered=False unexplained=1
+ Removed control: unit "1315 Hull USD 100": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+ Removed control: unit "1315 Hull USD 100; 1760 Liability": correct atoms=['correct', 'correct', 'correct'] fullRowRecovered=True unexplained=0
+ ## reports/invariant-coverage/d9fc5a4/probes/overlapping-atoms-triage-probe.py
+-Codex: only "USD 100" edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=False unexplained=0
++Codex: only "USD 100" edited: verdict=not_evaluable outcome=partly_complete atoms=['correct', 'not_evaluable'] fullRowRecovered=False unexplained=0
+ variant: only the bare "100" edited: verdict=one_side_only outcome=incomplete atoms=['one_side_only', 'not_evaluable'] fullRowRecovered=None unexplained=1
+ control: both edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=True unexplained=0
+ ## reports/invariant-coverage/77faf39/probes/fullrow-borrowed-cell-triage-probe.py
+-Codex: "Alpha" only in record 1760: verdict=correct outcome=complete atoms=['correct'] fullRowRecovered=True unexplained=0
++Codex: "Alpha" only in record 1760: verdict=correct outcome=complete atoms=['correct'] fullRowRecovered=False unexplained=0
+ control: "Alpha" in record 1315: verdict=correct outcome=complete atoms=['correct'] fullRowRecovered=True unexplained=0
+ control: no "Alpha" at all: verdict=correct outcome=complete atoms=['correct'] fullRowRecovered=False unexplained=0
