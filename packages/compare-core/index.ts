@@ -203,7 +203,9 @@ const headingLike = (u: Unit) => !/\p{N}/u.test(u.rawText) || (namesIdentity(u) 
  * The heading row of each recovered row: the closest digit-free row above it
  * (or one that names an identifier and holds no value, see headingLike) in the
  * same section and title, with nothing but page margins in between.
- * Its table is that section, title and heading row; a heading row repeated on
+ * Its table is that section, title and heading row, the row's cells and not
+ * only its text: the same words divided into other cells head other columns
+ * (MSN | Serial No. against MSN Serial | No., r4420146482). A heading row repeated on
  * a later page with only titles and page margins in between (a table continued
  * on the next page) continues it, and on the same page starts another table
  * (r4417493798). When either version has two or more tables with the same
@@ -220,6 +222,7 @@ const headingLike = (u: Unit) => !/\p{N}/u.test(u.rawText) || (namesIdentity(u) 
  * heading the rows after it, also with a year in another cell as long as no
  * cell holds a value (r4419250728); any other second heading line is not read.
  */
+const cellKey = (u: Unit) => JSON.stringify(u.rowCells);
 function rowHeadings(left: Unit[], right: Unit[]) {
   const headings = new Map<Unit, Unit>(),
     scopes = new Map<Unit, string>(),
@@ -249,7 +252,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         p = u.refs.find(Boolean)!.page.pageIndex,
         before = page.get(t);
       page.set(t, p);
-      if ((!/\p{N}/u.test(u.rawText) || valueFree(u)) && s && u.rawText !== s.text && !namesIdentity(u) && namesColumn(u)) {
+      if ((!/\p{N}/u.test(u.rawText) || valueFree(u)) && s && cellKey(u) !== s.text && !namesIdentity(u) && namesColumn(u)) {
         // A cell ending with an identifier's name ("Aircraft Registration")
         // may head another table or be a record's value ("Pending
         // Registration"): the table ends here, and neither this row nor the
@@ -260,14 +263,14 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         current.delete(t);
         open.delete(t);
         broken.add(t);
-        const key = t + "\u0000" + u.rawText,
+        const key = t + "\u0000" + cellKey(u),
           n = (count.get(key) ?? 0) + 1;
         count.set(key, n);
         closed.set(t, [key, n]);
         table.set(u, [key, n]);
         continue;
       }
-      if (!/\p{N}/u.test(u.rawText) && s && u.rawText !== s.text && !namesIdentity(u)) {
+      if (!/\p{N}/u.test(u.rawText) && s && cellKey(u) !== s.text && !namesIdentity(u)) {
         // A digit-free row inside a table another row started is one of its
         // records (G-AAAA | Alpha Air | Lead) or a further heading line: it
         // keeps that table's scope and is read under the table's heading row
@@ -277,19 +280,19 @@ function rowHeadings(left: Unit[], right: Unit[]) {
         table.set(u, [s.key, s.n]);
       } else if (headingLike(u)) {
         const prev = last.get(t),
-          key = t + "\u0000" + u.rawText;
-        const n = prev && prev.text === u.rawText && !broken.has(t) && p > before! ? prev.n : (count.get(key) ?? 0) + 1;
+          key = t + "\u0000" + cellKey(u);
+        const n = prev && prev.text === cellKey(u) && !broken.has(t) && p > before! ? prev.n : (count.get(key) ?? 0) + 1;
         count.set(key, Math.max(n, count.get(key) ?? 0));
-        last.set(t, { text: u.rawText, n });
+        last.set(t, { text: cellKey(u), n });
         broken.delete(t);
         current.set(t, u);
-        open.set(t, { text: u.rawText, key, n });
+        open.set(t, { text: cellKey(u), key, n });
         closed.delete(t);
         starts.add(u);
         table.set(u, [key, n]);
       } else if (current.has(t)) {
         headings.set(u, current.get(t)!);
-        table.set(u, [t + "\u0000" + current.get(t)!.rawText, s!.n]);
+        table.set(u, [t + "\u0000" + cellKey(current.get(t)!), s!.n]);
       } else if (closed.has(t)) table.set(u, closed.get(t)!);
     }
     return { count, table };
@@ -342,8 +345,10 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
   // r4419030685), or when a cell under no heading cell (an identifier
   // right-aligned under a short heading, a value-like serial too) may be the
   // identifier of an identity column the row has no cell in (r4418900383,
-  // r4418984410).
-  const loose = h && r.rowCells!.some((_, k) => !heading(k));
+  // r4418984410); so may either of two cells under one descriptive heading
+  // (r4420199960).
+  const columns = r.rowCells!.map((_, k) => heading(k)?.j);
+  const loose = h && columns.some((j) => j === undefined || columns.filter((x) => x === j).length > 1);
   if (crowded || (loose && h!.rowCells!.some((t, j) => identityHeading.test(t.normalize("NFKC").trim()) && !m.has(`column ${j}`))))
     m.set("incomplete", "");
   return m;
@@ -729,7 +734,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.27+facts.5+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.28+facts.5+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
