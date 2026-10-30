@@ -643,18 +643,19 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     bare: boolean,
     amounts = bare ? ["100000", "200000"] : ["100,000", "200,000"],
     rows: string[] = [],
+    currencies = ["USD", "USD"],
   ) =>
     textDoc([
       { text: "SCHEDULE OF AIRCRAFT", y: 100 },
       { text: "TEST-A789", x: 40, y: 150 },
       { text: "SYN-1026-001", x: 150, y: 150 },
       { text: "1315", x: 240, y: 150 },
-      { text: "USD", x: 300, y: 150 },
+      { text: currencies[0], x: 300, y: 150 },
       { text: amounts[0], x: 360, y: 150 },
       { text: registration, x: 40, y: 180 },
       { text: "SYN-1026-003", x: 150, y: 180 },
       { text: "1748", x: 240, y: 180 },
-      { text: "USD", x: 300, y: 180 },
+      { text: currencies[1], x: 300, y: 180 },
       { text: amounts[1], x: 360, y: 180 },
       ...rows.map((text, i) => ({ text, x: 40, y: 210 + 30 * i })),
     ]);
@@ -686,9 +687,9 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
         ];
       }),
     );
-  const r26 = (bare = false, amounts?: string[], rows?: Rows, newAmounts = amounts) => {
-    const left = table("TEST-C941", bare, amounts, rows?.left),
-      right = table("TEST-RENAMED", bare, newAmounts, rows?.right);
+  const r26 = (bare = false, amounts?: string[], rows?: Rows, newAmounts = amounts, currencies?: string[]) => {
+    const left = table("TEST-C941", bare, amounts, rows?.left, currencies),
+      right = table("TEST-RENAMED", bare, newAmounts, rows?.right, currencies);
     const expected: Expected = {
       case_id: "R26_key_change",
       required_status: "complete_for_scope",
@@ -1103,6 +1104,39 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
       expect(score.faults.filter((f) => !f.includes("agreed_value_unchanged"))).toEqual([]);
       expect(score.status).toBe("FAIL");
     }
+  });
+  it("R26: a card pairing one record's currency sign with another's fails as a code pairing does (Codex PR #11 comment 6513014284)", () => {
+    // Both rows keep their currencies; one Replaced card pairs row SYN-1026-001's currency cell with row
+    // SYN-1026-003's. A currency sign is a currency as a code is.
+    for (const currencies of [["€", "$"], ["EUR", "USD"]]) {
+      const x = r26(true, undefined, undefined, undefined, currencies);
+      expect(grade(x.result, x.expected, x.layout, x.docs).status, currencies.join(" ")).toBe("PASS");
+      const score = graded(
+        x,
+        replaced("cur-pair", lineLoc(x.docs[0], "left", "l4"), lineLoc(x.docs[1], "right", "l9"), {
+          section: "aircraft_schedule",
+          entity: "SYN-1026-001",
+          field: "currency",
+          table: "aircraft_schedule",
+          rowKey: "SYN-1026-001",
+        }),
+      );
+      expect(score.status, currencies.join(" ")).toBe("FAIL");
+      expect(score.faults.join("\n"), currencies.join(" ")).toContain(`${currencies[0]} to ${currencies[1]}`);
+    }
+    // Both rows in dollars: the same pairing changes no currency.
+    const same = r26(true, undefined, undefined, undefined, ["$", "$"]);
+    const kept = graded(
+      same,
+      replaced("cur-same", lineLoc(same.docs[0], "left", "l4"), lineLoc(same.docs[1], "right", "l9"), {
+        section: "aircraft_schedule",
+        entity: "SYN-1026-001",
+        field: "currency",
+        table: "aircraft_schedule",
+        rowKey: "SYN-1026-001",
+      }),
+    );
+    expect(kept.faults.filter((f) => f.includes("agreed_value_unchanged"))).toEqual([]);
   });
   it("R26: removing or changing part of an unchanged currency code fails, with or without a record", () => {
     // The USD cell of row SYN-1026-001 stays; the claims hold no whole currency code.
