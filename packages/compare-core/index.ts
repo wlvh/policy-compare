@@ -324,7 +324,8 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
   const cells = r.rowCells!.flatMap((c0, k): [string, string][] => {
     const c = c0.normalize("NFKC"),
       at = heading(k),
-      named = c.match(identityPrefix)?.[0].toLowerCase();
+      // S/N is a serial: the two labels name one identifier (r4419635988).
+      named = c.match(identityPrefix)?.[0].toLowerCase().replace(/^s\/n$/, "serial");
     if (at && identityHeading.test(at.text.normalize("NFKC").trim())) return [[`column ${at.j}`, c]];
     // A cell under another column's heading describes that column, though it
     // starts with an identifier's name (Status: Registration pending,
@@ -723,7 +724,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.24+facts.4+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.25+facts.4+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1027,14 +1028,24 @@ export function compare(
   // table instance, so a record repeated on several pages does not merge the
   // tables it sits in (r4416744444). An occurrence count that pagination does
   // not explain is shown on the card.
+  // A row's cells by heading column, or for a cell under no heading cell by
+  // the gap between heading cells it sits in.
+  const slots = (u: Unit) => {
+    const h = headings.get(u);
+    return u.rowSpans!.map((s) => {
+      const at = under(h, s);
+      return at ? `c${at.j}` : `g${h ? h.rowSpans!.filter(([, b]) => b <= s[0]).length : 0}`;
+    }).join();
+  };
   // A record groups only with copies that hold the same identifiers in the
-  // same columns (r4418369390).
-  const headerKey = (u: Unit) =>
-    !u.rowCells || (/\p{N}/u.test(u.rawText) && !starts.has(u))
-      ? null
-      : starts.has(u)
-        ? `${u.path.section}\u0000${u.title}\u0000${u.rawText}`
-        : `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...identityCells(u, headings)].sort())}`;
+  // same columns (r4418369390); with an incomplete identity, with every cell
+  // in the same column or gap (r4419561470).
+  const headerKey = (u: Unit) => {
+    if (!u.rowCells || (/\p{N}/u.test(u.rawText) && !starts.has(u))) return null;
+    if (starts.has(u)) return `${u.path.section}\u0000${u.title}\u0000${u.rawText}`;
+    const ids = identityCells(u, headings);
+    return `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...ids].sort())}${ids.has("incomplete") ? `\u0000${slots(u)}` : ""}`;
+  };
   const rh = map(rb, usedR, headerKey);
   for (const [key, as] of map(la, usedL, headerKey)) {
     const bs = rh.get(key),
@@ -1059,15 +1070,6 @@ export function compare(
     er = map(rb, usedR, rawKey);
   // Equal row text is one record only with its identifiers in the same
   // columns: missing cells can move them (r4417643759).
-  // A row's cells by heading column, or for a cell under no heading cell by
-  // the gap between heading cells it sits in.
-  const slots = (u: Unit) => {
-    const h = headings.get(u);
-    return u.rowSpans!.map((s) => {
-      const at = under(h, s);
-      return at ? `c${at.j}` : `g${h ? h.rowSpans!.filter(([, b]) => b <= s[0]).length : 0}`;
-    }).join();
-  };
   const sameIds = (a: Unit, b: Unit) => {
     if (!a.rowCells || !b.rowCells) return true;
     const x = identityCells(a, headings),

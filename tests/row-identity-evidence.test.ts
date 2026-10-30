@@ -441,6 +441,29 @@ describe("identity belongs to its own column and its own table", () => {
     // Control: the same unplaced positions on both sides are unchanged.
     expect(ResultSchemaV2.parse(compare(doc([100, 250, 550]), doc([100, 250, 550]))).differences).toEqual([]);
   });
+  it("a record repeated on two pages with its identifiers moved between unplaced positions is not unchanged (r4419561470)", () => {
+    // MSN | ESN | Serial | Status at x 40/190/340/490 on both pages; AAA | BBB sit
+    // between MSN and ESN on the left and between ESN and Serial on the right.
+    const page = (xs: number[], p: number) => [
+      ...["MSN", "ESN", "Serial", "Status"].map((text, j) => ({ text, x: 40 + j * 150, y: 180, page: p })),
+      ...["AAA", "BBB", "Active"].map((text, k) => ({ text, x: xs[k], y: 200, page: p })),
+    ];
+    const doc = (xs: number[]) => textDoc([{ text: "SCHEDULE", y: 150 }, ...page(xs, 0), ...page(xs, 1)]);
+    const r = ResultSchemaV2.parse(compare(doc([100, 250, 550]), doc([250, 400, 550])));
+    expect([visible(r, "AAA", "left"), visible(r, "AAA", "right")]).toEqual([true, true]);
+    // Control: the same positions on both sides are unchanged.
+    expect(ResultSchemaV2.parse(compare(doc([100, 250, 550]), doc([100, 250, 550]))).differences).toEqual([]);
+  });
+  it("Serial and S/N name one identifier: different serials under the two labels are not one record (r4419635988)", () => {
+    const doc = (serial: string, value: string) =>
+      textDoc([{ text: "SCHEDULE", y: 150 }, ...place([[serial, "Insurer Alpha", value]], 180)]);
+    const r = ResultSchemaV2.parse(compare(doc("Serial AB12", "USD 1000"), doc("S/N AB56", "USD 2000")));
+    expect(r.differences.some((d) => d.matchEvidence.method === "row-identity")).toBe(false);
+    expect([visible(r, "AB12", "left"), visible(r, "AB56", "right")]).toEqual([true, true]);
+    // Control: the same serial under the same label pairs.
+    const c = ResultSchemaV2.parse(compare(doc("Serial AB12", "USD 1000"), doc("Serial AB12", "USD 2000")));
+    expect(c.differences.map((d) => d.matchEvidence.method)).toEqual(["row-identity"]);
+  });
   it("a named identifier that looks like a value (Serial AB12.34) still tells two records apart (r4419472067)", () => {
     const doc = (serial: string, value: string) =>
       textDoc([{ text: "SCHEDULE", y: 150 }, ...place([[`Serial ${serial}`, "Insurer Alpha", value]], 180)]);
