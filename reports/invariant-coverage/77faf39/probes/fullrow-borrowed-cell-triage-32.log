@@ -1,0 +1,3 @@
+Codex: "Alpha" only in record 1760: verdict=correct outcome=complete atoms=['correct'] fullRowRecovered=True unexplained=0
+control: "Alpha" in record 1315: verdict=correct outcome=complete atoms=['correct'] fullRowRecovered=True unexplained=0
+control: no "Alpha" at all: verdict=correct outcome=complete atoms=['correct'] fullRowRecovered=False unexplained=0

@@ -1791,6 +1791,8 @@ Codex [6517133695](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6
 
 **之后的分诊发现**（Codex [6518372639](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6518372639)，审 `409e4e2`；#2 的文件）：一行有两处措辞不同、文字重叠的编辑 `USD 100 → USD 200` 与 `100 → 200`，卡片只改了 `USD 100`（`1315 Hull USD 100 100` → `1315 Hull USD 200 100`），两个原子都判 `correct`，事件 `complete`。`/34` 只让完全相同的编辑各自占用一处改动，措辞不同时不分配。`/32` 结果相同。对照：两处都改仍 `correct`；只改裸的 `100` 时不是 `correct`。探针在 [`d9fc5a4/probes/`](d9fc5a4/probes/)。
 
+**又一条分诊发现**（Codex [6519018610](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6519018610)，审 `77faf39`；#2 的文件）：作者行 `1315 | Alpha | USD 100` → `... USD 200`，卡片的一个单元是 `1315 USD 100; 1760 Alpha USD 999` → `1315 USD 200; 1760 Alpha USD 999`，判 `fullRowRecovered` 为真，可 `Alpha` 是 1760 那条记录的。改动确实属于 1315，但整行检查从同一个单元里另一条记录借了格。`/32` 结果相同。对照：`Alpha` 在 1315 自己那段里时为真；没有 `Alpha` 时为假。探针在 [`77faf39/probes/`](77faf39/probes/)。
+
 ### 0.60 一张卡的两侧不能把不同已声明事件的金额配成一对（`8ffff71`）
 
 **发现**（Codex [6518612374](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6518612374)，审 `6427bba`）：声明两条记录的金额都改了：SYN-1026-001 的 `100020 → 200020`，SYN-1026-003 的 `300040 → 400040`。一张替换卡把第一条的旧值 `100020` 配上第二条的新值 `400040`，两条金额断言都判 PASS。原因是旧侧的金额由第一个事件豁免，新侧的金额由第二个事件豁免，两侧各自核对，没有核对配对本身。第 0.55、0.56 节只限制了“引用的位置”，这里两侧引用的都确实是事件的证据位置，所以没拦住。
