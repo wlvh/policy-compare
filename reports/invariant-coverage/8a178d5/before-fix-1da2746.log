@@ -1,0 +1,177 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (138 tests | 1 failed | 137 skipped) 84ms
+   ↓ independent grader rejects dishonest outputs (25)
+     ↓ F6 rejects displaced final changed geometry on left
+     ↓ F6 rejects displaced final changed geometry on right
+     ↓ F6 rejects displaced final changed geometry on left/right
+     ↓ accepts valid evidence and a genuine control
+     ↓ empty required output
+     ↓ wrong subject
+     ↓ wrong page
+     ↓ hidden event
+     ↓ invalid source
+     ↓ reversed sides
+     ↓ unjustified partial
+     ↓ wrong operation
+     ↓ no precise changed source
+     ↓ coverage: empty
+     ↓ coverage: generic warning
+     ↓ coverage: wrong region
+     ↓ coverage: incorrect complete
+     ↓ duplicate-key warning alone cannot waive amount evidence
+     ↓ an undeclared text change in a control fails, whatever fact the card states
+     ↓ a false hasTextChange flag fails, and the control still sees the source text change
+     ↓ deleting and re-inserting the same text is no text change; a true flag on it is a false claim
+     ↓ a card that fails source validation cannot show that a control holds
+     ↓ a stated fact its sources disprove fails; discovery and attribution still pass
+     ↓ a date fact needs whole day and year numbers (Codex PR #11 comment 6513158877)
+     ↓ format 2 has no category: the answer's old acceptable_categories are not checked
+   ↓ identity applicability: checked, explicit N/A, or not evaluated (13)
+     ↓ the 32 pairs have exactly the 13 known N/A events in 12 cases and no unsupported path
+     ↓ N/A skips only the identity check
+     ↓ N/A still fails on wrong page
+     ↓ N/A still fails on hidden
+     ↓ N/A still fails on wrong operation
+     ↓ N/A still fails on false stated fact
+     ↓ N/A still fails on no output
+     ↓ N/A still fails on unjustified partial
+     ↓ an unknown path is NOT_EVALUATED, never PASS, and a proven fault still FAILs
+     ↓ an N/A entry does not cover the same event under another path
+     ↓ an unknown detection branch is NOT_EVALUATED
+     ↓ summaries never count NOT_EVALUATED or unknown states as passed
+     ↓ R13: the exact move and the similar new clause are not interchangeable
+   ❯ one correct event card cannot offset an extra wrong card (#10) (58)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry false)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry true)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry false)
+     ↓ R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry true)
+     ↓ R26: a wrong bare-number amount card fails whatever field it claims; layout.json names the cell
+     ↓ R26: a wrong amount card cannot hide the change by citing one location per digit
+     ↓ R26: an agreed value whose sign changes is an amount change (r4417025747)
+     ↓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry false)
+     ↓ R26: a wrong card citing whole rows cannot hide the amount change (fine geometry true)
+     ↓ R26: the same wrong pairing cited cell by cell, or under a declared amount field, fails as well
+     ↓ R26: a whole-row card for one record's MSN change passes
+     ↓ R26: a card claiming a change inside an unchanged amount cell by citing part of it fails
+     ↓ R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change
+     ↓ R26: splitting the claimed amount into one operation per glyph cannot hide the change
+     ↓ R26: one card swapping two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED
+     ↓ R26: one card swapping the signs of two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED
+     ↓ R26: one card swapping parts of two unchanged currency codes cannot pass; their correspondence is NOT_EVALUATED
+     ↓ R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED
+     ↓ R26: with run-level geometry a wrong row pairing still fails, and an MSN-only change cannot be attributed
+     ↓ R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS
+     ↓ R26: a bare-number identifier change (MSN) is not taken for an amount change
+     ↓ R26: amounts swapped between two records through delete + add cards fail
+     ↓ R26: delete + add amounts that cancel only across cards without a record are NOT_EVALUATED
+     ↓ R26: delete + add amounts of two records cancel only under a shared claimed key: NOT_EVALUATED
+     ↓ R26: delete + add cards without a record that move a sign between two unchanged amounts fail
+     ↓ R26: a lone delete or add card citing only the sign of an unchanged amount fails, with or without a record
+     × R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell 81ms
+     ↓ R26: two delete + add pairs citing the same source characters fail, whatever keys they claim
+     ↓ R26: delete + add cards claiming different parts of an unchanged amount cell fail
+     ↓ R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards
+     ↓ R26: removing an unchanged currency letter by letter across cards fails, with or without a record
+     ↓ R26: a card pairing one record's currency sign with another's fails as a code pairing does (Codex PR #11 comment 6513014284)
+     ↓ R26: removing or changing part of an unchanged currency code fails, with or without a record
+     ↓ R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails
+     ↓ R26: the saved segmentation inputs: split cells are NOT_EVALUATED, one edit reported twice and a claimed change fail
+     ↓ R26: a split cell left unevaluated does not hide a wrong pairing in another record
+     ↓ R26: one record shown as delete + add with the same amount passes
+     ↓ R26: matching the row by the renamed registration instead of the serial fails
+     ↓ R26: an explicit identity review is accepted as presented, not as determined
+     ↓ R26: the declared serial on a card marked unresolved is presented as a review, not determined
+     ↓ R26: a missing row key without an explicit review is not a wrong claim, but does not meet the answer
+     ↓ R26: one delete + one add card on the record's registration cell is accepted once
+     ↓ R26: a delete + add pair is not the event when the added text lies in another record, or is the old text moved
+     ↓ R26: with a delete + add pair, another record's key on one half is a false claim
+     ↓ R26: a table card that changes a record's text fails the row control by its sources, without a table label
+     ↓ R22: the record's declared serial or its registration is an accepted row key
+     ↓ R22: another record's serial or registration on a correctly sourced card fails as a false identity claim
+     ↓ R22: an explicitly unresolved identity is not wrong, but this answer does not allow it
+     ↓ R22: the right row key on a card marked unresolved does not determine the record this answer requires
+     ↓ R22: the correct record label on a card that deletes the same value from another record does not attribute the event
+     ↓ R11: correct label card plus a wrong amount card fails
+     ↓ R11: correct label card plus a wrong bare-number amount card fails
+     ↓ R11: correct label card plus a wrong currency card fails
+     ↓ R11: a wrong bare-number amount card filed under a non-amount field fails
+     ↓ R11: the right party field on a card marked unresolved does not determine the field
+     ↓ R11: claiming part of the code inside an unchanged amount cell is NOT_EVALUATED
+     ↓ R11: swapping parts of the codes of two unchanged amount cells is NOT_EVALUATED
+     ↓ R11: the label change attached to another field fails
+   ↓ result format 2: stated facts and form-only changes in controls (15)
+     ↓ an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not
+     ↓ R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it
+     ↓ a change that is not form only fails a control, and a form fact stated on it is false
+     ↓ a page-number fact is decided from the texts, on a repeated page line or not: it holds, and the undeclared change stays open in the control
+     ↓ a page-number fact is a text form: a line that is not a repeated page line holds it too (#2's round-11 definition)
+     ↓ repeat counts are checked against the documents' page counts and the occurrences the card cites
+     ↓ repeat counts the card's own variant on each side; another variant it cites there is context, not counted (r4414789954)
+     ↓ a repeated line's variant keeps its whitespace as the source prints it (#2's r4416942422)
+     ↓ a repeated line's variant holds no other line's text, in a table extracted column by column (Codex PR #9 comment 6510906577)
+     ↓ a repeated heading extracted right to left on one page is one variant with the others
+     ↓ a page counter printed other than plainly stays as printed in its variant (#2's r4417060269)
+     ↓ a counter is read per side: a fixed Page 1 against a counting Page 1 .. 4 (#2's r4417303223)
+     ↓ a fixed set of repeated text is checked for completeness and counts, whatever the cards' form
+     ↓ an event's text counts only where the card's own edit on the event's runs carries it, not from another unit of the card
+     ↓ an event's text is shown in the source's own order, carrying the card's own edit, the old and new occurrences lined up in that edit
+   ↓ invariant coverage register (#10) (18)
+     ↓ direct invariant check rejects a violation: no_content_differences
+     ↓ direct invariant check rejects a violation: no_material_differences
+     ↓ direct invariant check rejects a violation: no_false_text_added_or_removed
+     ↓ direct invariant check rejects a violation: no_false_clause_moves
+     ↓ direct invariant check rejects a violation: no_false_row_additions_or_deletions
+     ↓ direct invariant check rejects a violation: moved_clause_has_no_internal_word_edits
+     ↓ direct invariant check rejects a violation: must_not_classify_as_unchanged_duration_roll_forward
+     ↓ direct invariant check rejects a violation: grouping_allowed_only_with_all_occurrence_locations
+     ↓ direct invariant check rejects a violation: agreed_value_unchanged
+     ↓ direct invariant check rejects a violation: no_amount_or_currency_change
+     ↓ the register covers exactly the 31 invariants of the 32 answers, and every cited test exists
+     ↓ unsupported and unknown invariants are NOT_EVALUATED; a failure still wins
+     ↓ an indirect invariant follows the event checks
+     ↓ exit code: 0 strict PASS, 2 only registered gaps, 1 for failures or unregistered gaps
+     ↓ R25: the reported duplicate with a visible amount change passes
+     ↓ R25: an unreported duplicate identity fails
+     ↓ R25: asserting a unique row key without evidence fails
+     ↓ R25: asserting a party for the duplicate group is a false identity claim
+   ↓ R16: a declared added page title in a no-change control (9)
+     ↓ the exact title card passes, as one Added card stating no fact
+     ↓ an undeclared Review card still fails the control
+     ↓ a missing title fails
+     ↓ another title fails, and its card is not excused
+     ↓ the title at another position than declared is not excused
+     ↓ a card carrying body text with the title is not excused, though it contains the title
+     ↓ a continued_heading stated on the declared title is false and fails the event
+     ↓ a second card for the same title still fails the control
+     ↓ a hidden title card fails (the result schema already rejects it)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: claims inside an amount cell that changes as the case declares are not reported as a change inside an unchanged cell
+AssertionError: 100,020 -> 200,020, Replaced, declared true: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/scorer.test.ts:1212:90
+    1210|             name = `${oldCell} -> ${newCell}, ${shape}, declared ${dec…
+    1211|           expect(score.status, name).toBe("FAIL");
+    1212|           expect(score.faults.some((f) => f.startsWith("agreed_value_u…
+       |                                                                                          ^
+    1213|         }
+    1214|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 137 skipped (138)
+   Start at  06:04:06
+   Duration  736ms (transform 59%, import 24%, tests 16%, worker 1%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
