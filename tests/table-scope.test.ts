@@ -44,6 +44,7 @@ describe("wrapped table cells stay with their row", () => {
         expect(JSON.stringify(open)).toContain("(a)");
         expect(card(result, "per annum").length).toBeGreaterThan(0);
         expect(card(result, "per annum").every((d) => !d.structurePath?.rowKey && d.structurePath?.confidence === "unresolved")).toBe(true);
+        expect(card(result, "per annum").every((d) => d.matchEvidence.method === "unresolved-row-structure")).toBe(true);
         expect(card(result, "USD 2000").map((d) => d.structurePath?.rowKey)).toEqual(["456"]);
       }
     });

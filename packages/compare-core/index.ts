@@ -915,10 +915,7 @@ export function compare(
   }
   // Page furniture and repeated table header rows are compared once per
   // repeated line, never page by page; every occurrence stays on the card.
-  const singles: [Unit | undefined, Unit | undefined][] = [
-    ...uncertainL.map((u): [Unit, undefined] => [u, undefined]),
-    ...uncertainR.map((u): [undefined, Unit] => [undefined, u]),
-  ];
+  const singles: [Unit | undefined, Unit | undefined][] = [];
   const repeated = (us: Unit[], id: string, extra: Partial<Repeated> = {}) => {
     const u: Repeated = aggregate(us, id);
     Object.assign(u, normalize(us[0].rawText, us[0].refs));
@@ -1502,6 +1499,8 @@ export function compare(
     emit(p.a, p.b, p.method, p.score, moved);
   }
   for (const [a, b] of singles) emit(a, b, "page-furniture", null);
+  for (const u of uncertainL) emit(u, undefined, "unresolved-row-structure", null);
+  for (const u of uncertainR) emit(undefined, u, "unresolved-row-structure", null);
   if (!exhausted) {
     for (const u of unmatchedL) if(!ambiguousL.has(u))emit(u, undefined, "unmatched", null);
     for (const u of unmatchedR) if(!ambiguousR.has(u))emit(undefined, u, "unmatched", null);
