@@ -2001,6 +2001,12 @@ describe("result format 2: stated facts and form-only changes in controls", () =
       // A page expression's number is a whole number: the "1" of "Page 1.1" is not one (r4416744456).
       ["a decimal after Page", docOf([{ text: "Schedule Page 1.1" }]), docOf([{ text: "Schedule Page 2.1" }]), ["Schedule Page 1.1"], ["Schedule Page 2.1"], ["page_number_only"]],
       ["a total cut out of a longer number", docOf([{ text: "Page 3 of 10,5" }]), docOf([{ text: "Page 3 of 11,5" }]), ["Page 3 of 10,5"], ["Page 3 of 11,5"], ["page_number_only"]],
+      // A number written as a percentage or an amount after "page" is that, not a page number (Codex r4421658769).
+      ["a percentage after Page", docOf([{ text: "Page 4%" }]), docOf([{ text: "Page 5%" }]), ["Page 4%"], ["Page 5%"], ["page_number_only"]],
+      ["a percentage after Page, spaced", docOf([{ text: "Page 4 %" }]), docOf([{ text: "Page 5 %" }]), ["Page 4 %"], ["Page 5 %"], ["page_number_only"]],
+      ["an amount after page", docOf([{ text: "Printing cost per page 100USD" }]), docOf([{ text: "Printing cost per page 200USD" }]), ["Printing cost per page 100USD"], ["Printing cost per page 200USD"], ["page_number_only"]],
+      ["an amount after page, currency sign", docOf([{ text: "Cost per page 100€" }]), docOf([{ text: "Cost per page 200€" }]), ["Cost per page 100€"], ["Cost per page 200€"], ["page_number_only"]],
+      ["a percentage as the total", docOf([{ text: "Page 3 of 10%" }]), docOf([{ text: "Page 3 of 11%" }]), ["Page 3 of 10%"], ["Page 3 of 11%"], ["page_number_only"]],
       // Spaces changed beside a changed page number: the text outside the numbers differs (r4417386694).
       ["spaces added beside a changed page number", docOf([{ text: "Schedule coverage Page 1 of 10" }]), docOf([{ text: "Schedule coverage Page   2 of 10" }]), ["Schedule coverage Page 1 of 10"], ["Schedule coverage Page   2 of 10"], ["page_number_only"]],
       ["one side not only page expressions", docOf([{ text: "Row one" }]), docOf([{ text: "Row one" }, { text: "Draft Page 2" }]), [], ["Draft Page 2"], ["page_number_only"]],
@@ -2023,6 +2029,22 @@ describe("result format 2: stated facts and form-only changes in controls", () =
     ]);
     expect(spaces.status).toBe("FAIL");
     expect(spaces.faults).toEqual(["card c states page_number_only, which its source texts disprove"]);
+  });
+  it("a changed page number with a currency after a space may be an amount: the page fact cannot be decided (Codex r4421658769)", () => {
+    const fact = (a: string, b: string, invariants: string[] = []) =>
+      control(docOf([{ text: a }]), docOf([{ text: b }]), ([l, r]) => [card("c", [at(l, "left", a)], [at(r, "right", b)], ["page_number_only"])], invariants);
+    for (const [a, b] of [["Cost per page 100 USD", "Cost per page 200 USD"], ["Page 3 USD 100", "Page 4 USD 100"], ["Page 3 of 10 € 100", "Page 3 of 11 € 100"]]) {
+      const score = fact(a, b);
+      expect(score, a).toMatchObject({ status: "NOT_EVALUATED", faults: [] });
+      expect(score.notEvaluated.map((n) => n.kind), a).toEqual(["claim_unverifiable"]);
+      // Undeclared in a control, the change stays open: neither proved form only nor disproved.
+      const open = fact(a, b, ["no_material_differences"]);
+      expect(open.faults, a).toEqual([]);
+      expect(open.notEvaluated.map((n) => n.kind), a).toEqual(["claim_unverifiable", "invariant_unverifiable"]);
+    }
+    // Controls: the changed number is not the one before the currency, or the currency is unchanged elsewhere.
+    expect(fact("Page 3 of 10 USD 100", "Page 4 of 10 USD 100")).toMatchObject({ status: "PASS", faults: [], notEvaluated: [] });
+    expect(fact("Page 3 of 10 rate USD 100", "Page 3 of 11 rate USD 100")).toMatchObject({ status: "PASS", faults: [], notEvaluated: [] });
   });
   it("a page-number fact is decided from the texts, on a repeated page line or not: it holds, and the undeclared change stays open in the control", () => {
     const left = docOf([{ text: "Page 1 of 2" }, { text: "Page 2 of 2", page: 1 }]),

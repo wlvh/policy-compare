@@ -172,6 +172,7 @@ export const INVARIANTS: Record<
       "a card that fails source validation cannot show that a control holds",
       "R16",
       "R24: an undeclared continued schedule heading is NOT_EVALUATED until the case declares it",
+      "a changed page number with a currency after a space may be an amount: the page fact cannot be decided (Codex r4421658769)",
     ],
   },
   no_false_text_added_or_removed: {
@@ -1015,15 +1016,23 @@ const lineTexts = (doc: DocInput) =>
 // A text's explicit page expressions ("Page n", "Page n of N", "Page n/N"): their numbers, in
 // order, and the text with those numbers masked (the words "Page" and "of" kept). Whether a printed
 // number is the page's real place in the PDF is not part of the fact. n and N are whole numbers of
-// the text: the "1" of "Page 1.1" or the "10" of "of 10,5" is not one.
-const PAGE_EXPRESSION = /\bpage\s*(\p{N}+)(?![.,]?\p{N})(?:\s*(?:of|\/)\s*(\p{N}+)(?![.,]?\p{N}))?/giu;
+// the text: the "1" of "Page 1.1" or the "10" of "of 10,5" is not one. A number followed by "%" or
+// "‰", or with a currency code or sign written right after it ("100USD", "100€"), is a percentage or
+// an amount, which the fact never covers (Codex r4421658769). A currency code or sign after a space
+// reads either way ("Page 3 USD 100", "per page 100 USD"): `spaced` marks such numbers.
+const WHOLE = `(?![.,]?\\p{N})(?!\\s*[%‰]|(?:${CODES})(?![A-Za-z])|\\p{Sc})`;
+const PAGE_EXPRESSION = new RegExp(`\\bpage\\s*(\\p{N}+)${WHOLE}(?:\\s*(?:of|\\/)\\s*(\\p{N}+)${WHOLE})?`, "giu");
+const SPACED_CURRENCY = new RegExp(`^\\s+(?:(?:${CODES})(?![A-Za-z])|\\p{Sc})`, "iu");
 function pageNumbers(text: string) {
-  const numbers: string[] = [];
-  const masked = text.replace(PAGE_EXPRESSION, (m, n: string, of?: string) => {
+  const numbers: string[] = [],
+    spaced: boolean[] = [];
+  const masked = text.replace(PAGE_EXPRESSION, (m, n: string, of: string | undefined, at: number) => {
     numbers.push(n, of ?? "");
+    const after = at + m.search(/\p{N}/u) + n.length;
+    spaced.push(SPACED_CURRENCY.test(text.slice(after)), !!of && SPACED_CURRENCY.test(text.slice(at + m.length)));
     return m.replace(/\p{N}+/gu, "\u0000");
   });
-  return { numbers, masked, count: numbers.length / 2 };
+  return { numbers, spaced, masked, count: numbers.length / 2 };
 }
 export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput]): boolean | null {
   const [a, b] = [d.left.length ? d.oldText : null, d.right.length ? d.newText : null];
@@ -1038,16 +1047,20 @@ export function factHolds(fact: Fact, d: Difference, docs: [DocInput, DocInput])
     // printed numbers being right, nor about the line's role: the shared definition is the text form
     // alone (#2's round 11), so a single heading or a body sentence holds it as a repeated page line
     // does. Where the product chooses to state it is the product's policy, not part of the fact.
+    // A changed number with a currency after a space may be an amount: the sources cannot decide.
     case "page_number_only": {
-      let form: boolean;
+      let form: boolean, open: boolean;
       if (a !== null && b !== null) {
         const [x, y] = [pageNumbers(a), pageNumbers(b)];
         form = x.masked === y.masked && x.numbers.join("\u0000") !== y.numbers.join("\u0000");
+        open = x.numbers.some((n, i) => n !== y.numbers[i] && (x.spaced[i] || y.spaced[i]));
       } else {
-        const one = (a ?? b)!;
-        form = pageNumbers(one).count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
+        const one = (a ?? b)!,
+          x = pageNumbers(one);
+        form = x.count > 0 && !/\S/u.test(one.replace(PAGE_EXPRESSION, ""));
+        open = x.spaced.some(Boolean);
       }
-      return form;
+      return form && open ? null : form;
     }
     // One side only: a heading with an explicit "continued" suffix whose base is the whole text
     // of a line in both documents.
