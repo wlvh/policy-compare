@@ -104,6 +104,22 @@ describe("wrapped table cells stay with their row", () => {
     const r = compare(byColumn, changed);
     expect(r.differences.map((d) => [d.oldText, d.newText])).toEqual([["456 Beta USD 2000", "456 Beta USD 2500"]]);
   });
+  it("a record wrapping three of its four cells keeps the wrapped line (#11 README 0.58, regression of r4421114827)", () => {
+    // MSN | Operator | Cover | Value; record 123 wraps Operator, Cover and Value 11 below, each
+    // cell's two lines extracted together. The wrapped line has three clusters but no MSN cell.
+    const doc = (last: string) =>
+      textDoc([
+        ...["MSN", "Operator", "Cover", "Value"].map((text, k) => ({ text, x: [40, 150, 290, 430][k], y: 180 })),
+        { text: "123", x: 40, y: 195 },
+        { text: "Alpha Air", x: 150, y: 195 }, { text: "Holdings", x: 150, y: 206 },
+        { text: "Hull and", x: 290, y: 195 }, { text: "war risks", x: 290, y: 206 },
+        { text: "USD 1000", x: 430, y: 195 }, { text: last, x: 430, y: 206 },
+        ...["456", "Beta", "Hull", "USD 2000"].map((text, k) => ({ text, x: [40, 150, 290, 430][k], y: 225 })),
+      ]);
+    const r = compare(doc("per annum"), doc("per month"));
+    expect(r.differences.map((d) => [d.kind, d.structurePath?.rowKey])).toEqual([["Replaced", "123"]]);
+    expect(r.differences[0].newText).toBe("123 Alpha Air Holdings Hull and war risks USD 1000 per month");
+  });
 });
 
 describe("identical text does not consume a record from another table", () => {

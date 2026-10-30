@@ -65,6 +65,21 @@ describe("layout-only margin and heading changes state their fact", () => {
     const r = run("Policy wording - Page 3", "Policy wording - Page 4", 815);
     expect(r.differences.map((d) => d.facts)).toEqual([["page_number_only"]]);
   });
+  it("a percentage or amount after \"page\" is no page number (Codex r4421658769)", () => {
+    for (const [old, now] of [
+      ["Printing cost per page 100USD", "Printing cost per page 200USD"],
+      ["Cost per page 100€", "Cost per page 200€"],
+      ["Page 4%", "Page 5%"],
+      ["Page 4 %", "Page 5 %"],
+      ["Page 3 of 10%", "Page 3 of 11%"],
+      ["Cost per page 100 USD", "Cost per page 200 USD"],
+    ]) {
+      const r = run(old, now, 815);
+      expect(r.differences.map((d) => [d.oldText, d.newText, d.facts]), old).toEqual([[old, now, []]]);
+    }
+    // Control: a page counter beside an unchanged total.
+    expect(run("Page 3 of 10", "Page 4 of 10", 815).differences.map((d) => d.facts)).toEqual([["page_number_only"]]);
+  });
   it("a continuation heading of a schedule that both versions have: continued_heading", () => {
     const schedule = (pages: number) =>
       textDoc(
