@@ -728,7 +728,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.26+facts.5+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.27+facts.5+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1042,14 +1042,17 @@ export function compare(
       return [at ? `c${at.j}` : `g${h ? h.rowSpans!.filter(([, b]) => b <= s[0]).length : 0}`, u.rowCells![k]];
     }));
   };
+  // Under a heading row, or with an incomplete identity, a row's cells say
+  // more than its text: equal text is one record only with every cell in the
+  // same column or gap (r4419388482, r4420011674).
+  const placed = (u: Unit, ids: Map<string, string>) => headings.has(u) || ids.has("incomplete");
   // A record groups only with copies that hold the same identifiers in the
-  // same columns (r4418369390); with an incomplete identity, with every cell
-  // in the same column or gap (r4419561470).
+  // same columns (r4418369390), and, placed, the same cells (r4419561470).
   const headerKey = (u: Unit) => {
     if (!u.rowCells || (/\p{N}/u.test(u.rawText) && !starts.has(u))) return null;
     if (starts.has(u)) return `${u.path.section}\u0000${u.title}\u0000${u.rawText}`;
     const ids = identityCells(u, headings);
-    return `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...ids].sort())}${ids.has("incomplete") ? `\u0000${slots(u)}` : ""}`;
+    return `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...ids].sort())}${placed(u, ids) ? `\u0000${slots(u)}` : ""}`;
   };
   const rh = map(rb, usedR, headerKey);
   for (const [key, as] of map(la, usedL, headerKey)) {
@@ -1080,9 +1083,9 @@ export function compare(
     const x = identityCells(a, headings),
       y = identityCells(b, headings);
     // An incomplete identity cannot say the identifiers stayed in their
-    // columns: equal text is one record only with every cell in the same
-    // heading column or gap (r4419388482).
-    if (x.has("incomplete") || y.has("incomplete")) return slots(a) === slots(b);
+    // columns, nor a complete one that the other cells did (r4419388482,
+    // r4420011674).
+    if (placed(a, x) || placed(b, y)) return slots(a) === slots(b);
     return x.size === y.size && [...x].every(([k, c]) => y.get(k) === c);
   };
   for (const [key, as] of el) {
@@ -1362,7 +1365,19 @@ export function compare(
     // counts and both page counts; neither explains the other, and no page
     // of one version is said to correspond to a page of the other.
     const recount = !!ar && !!br && ar.length !== br.length;
-    if (a && b && a.rawText === b.rawText && !moved && !recount) return;
+    if (a && b && a.rawText === b.rawText && !moved && !recount) {
+      // The same row text and record with the cells split otherwise: which
+      // value stands in which column is not determined (r4420011674).
+      if (a.rowCells && b.rowCells && (placed(a, identityCells(a, headings)) || placed(b, identityCells(b, headings))) && slots(a) !== slots(b))
+        result.unresolved.push({
+          reason: "ambiguous_match",
+          message: "两版本这一表格行的原文相同，但各格的划分不同；哪个值在哪一列未能确定",
+          left: locations(a, "left"),
+          right: locations(b, "right"),
+          defaultVisible: true,
+        });
+      return;
+    }
     const kind: Difference["kind"] = moved
       ? "Moved"
       : a && b

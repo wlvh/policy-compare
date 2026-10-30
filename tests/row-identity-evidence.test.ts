@@ -441,6 +441,20 @@ describe("identity belongs to its own column and its own table", () => {
     // Control: the same unplaced positions on both sides are unchanged.
     expect(ResultSchemaV2.parse(compare(doc([100, 250, 550]), doc([100, 250, 550]))).differences).toEqual([]);
   });
+  it("equal text under headings with other cells is not unchanged, though the identifier is (r4420011674)", () => {
+    // MSN | Limit | Deductible: 123 | 100 200 | 300 against 123 | 100 | 200 300.
+    const doc = (cells: string[]) =>
+      textDoc([
+        { text: "SCHEDULE", y: 150 },
+        ...["MSN", "Limit", "Deductible"].map((text, j) => ({ text, x: 40 + j * 150, y: 180 })),
+        ...cells.map((text, k) => ({ text, x: 40 + k * 150, y: 200 })),
+      ]);
+    const r = ResultSchemaV2.parse(compare(doc(["123", "100 200", "300"]), doc(["123", "100", "200 300"])));
+    expect(r.differences.length + r.unresolved.length).toBeGreaterThan(0);
+    expect([visible(r, "300", "left"), visible(r, "300", "right")]).toEqual([true, true]);
+    // Control: the same cells under the same headings are unchanged.
+    expect(ResultSchemaV2.parse(compare(doc(["123", "100 200", "300"]), doc(["123", "100 200", "300"]))).differences).toEqual([]);
+  });
   it("equal text in the same slots with other cell boundaries is not unchanged (r4419804273)", () => {
     // MSN | ESN | Serial | Share at x 40/190/340/490: "123 456 | 789" against "123 | 456 789",
     // both under MSN and ESN, with the share in the gap after Share.

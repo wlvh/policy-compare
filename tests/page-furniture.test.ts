@@ -349,6 +349,21 @@ describe("each variant of a repeated line keeps its own occurrences and count", 
     // Control: the same counting header on both sides gives no card.
     expect(compare(four((p) => `REPEATED HEADER LIMIT: Page ${p + 1}`), four((p) => `REPEATED HEADER LIMIT: Page ${p + 1}`)).differences).toEqual([]);
   });
+  it("a declared header whose value is a separate line keeps its page counter too (r4419941396)", () => {
+    // REPEATED HEADER LIMIT: at x 40 and Page n at x 200 on the same baseline, as two lines.
+    const split = (counter: (page: number) => number) =>
+      pages(4, (p) => [
+        { text: "REPEATED HEADER LIMIT:", x: 40, y: 80 },
+        { text: `Page ${counter(p)}`, x: 200, y: 80 },
+        { text: `Ordinary body on page ${p + 1}`, x: 40, y: 300 },
+      ]);
+    const r = ResultSchema.parse(compare(split((p) => p + 1), split((p) => (p === 3 ? 5 : p + 1))));
+    expect(r.differences.some((d) => d.kind === "Removed" && d.oldText.trim() === "Page 4")).toBe(false);
+    const d = r.differences.find((d) => d.newText.trim() === "Page 5")!;
+    expect([own(d, "right"), d.repeat?.right]).toEqual([[3], 1]);
+    // Control: the same counting header on both sides gives no card.
+    expect(compare(split((p) => p + 1), split((p) => p + 1)).differences).toEqual([]);
+  });
   it("a profile-declared repeated header is split into its variants too (r4416656228)", () => {
     // REPEATED HEADER LIMIT: is a declared field of the aviation profile. Its
     // occurrences were concatenated into one card text counted four times.

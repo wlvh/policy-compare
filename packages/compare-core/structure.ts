@@ -455,6 +455,10 @@ export function structure(
           Math.abs(next.refs[0].char.origin[1] - y) < row.refs[0].char.size
         ) {
           active = add(next.refs, "field", field, entity, key, sc);
+          // A value on a line of its own keeps that line's page counter too
+          // (r4419941396).
+          const f = furniture.get(next);
+          if (f) active.furniture = f;
           i++;
         } else active = null;
       }
