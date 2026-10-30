@@ -1875,6 +1875,10 @@ Codex [6517133695](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6
 
 **仍开放（产品，#2 的文件）**：一条记录的每一格（包括第一列）都折到第二行、每格的两行连着抽取时，折行那一条基线的簇数等于这一行的格数，被当成独立一行。三栏、四栏都一样：`8f0e71b` 报记录 `123 (a)` 的一张替换卡；`88718d0` 报行键为 **`(a)`** 的替换卡，只含折行，`(a)` 被当成 MSN，是错误的身份陈述（[`product-fullwrap-probe.ts`](88718d0/probes/product-fullwrap-probe.ts)）。已交 #2（[PR #9 评论 6519496074](https://github.com/wlvh/policy-compare/pull/9#issuecomment-6519496074)）。
 
+**之后的两条分诊发现（#2 的文件，`/34` 就有，`/37` 相同）**，探针在 [`88718d0/probes/`](88718d0/probes/)：
+- Codex [6519547955](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6519547955)：段落改动 `USD 100 → USD 200`，同一段落上两张替换卡分别写 `100 → 300` 与 `400 → 200`，判 `split_attributable`，两张卡都被接受。这两张卡报的是另外两个替换，不是一删一增地展示同一个改动。
+- Codex [6519610839](https://github.com/wlvh/policy-compare/pull/11#issuecomment-6519610839)：新增（删除）行 `1315 | Hull | USD 100 | USD 100`，卡片一个单元 `1315 Hull USD 100; 1760 Liability USD 100`，判 `correct` 且 `fullRowRecovered`，第二个 `USD 100` 是 1760 的。编号能连到的只有第一个。
+
 **全套联合验收**（证据在 [`88718d0/`](88718d0/)）：
 - 评分器测试 144/144、分诊 `/37` 82/82、`verify:core` 363/363、`tsc` 0；
 - 两引擎构建、PDF 机制、审核回归通过，与 `081f370` 的结果相同；完整浏览器测试每个引擎 16/16；
