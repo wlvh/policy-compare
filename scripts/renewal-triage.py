@@ -89,6 +89,9 @@ record's row key is misattributed (renewal-triage/24); one on a card the product
 is not evaluated (renewal-triage/25). A row key naming another record is misattributed on every
 entry (replaced, one-sided and added/removed rows) whether or not the product marked the row
 unresolved; only a right row key with that mark is not evaluated (renewal-triage/26).
+A pure insertion or deletion on a card that also shows the other side counts only where the card
+makes it as one: a card replacing another word with it (earlier -> later) reports no insertion,
+unless the event's other edits account for the replaced text (renewal-triage/27).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -120,7 +123,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/26'
+TOOL = 'renewal-triage/27'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -724,25 +727,60 @@ def text_atom(atom, change, ctx, claimed):
     return 'not_found', 'not_located', [], cands, [], 'script did not locate either side'
 
 
+def pure(d, side, needle, wanted, edit, change):
+    """Starts of the occurrences whose change the card makes as an insertion (right) or deletion
+    (left): the run of changed operations around its changed characters removes (or adds) on the
+    other side only text the event's other edits remove (or add) there. A card that replaces
+    another word with it (earlier -> later) reports no insertion (PR #11 comment 6514669354)."""
+    ops, other = d.get('textOps') or [], 'delete' if side == 'right' else 'insert'
+    squeeze = lambda x: re.sub(r'\s+', '', norm(x))
+    known = [squeeze(e['new' if side == 'left' else 'old']) for e in change.get('edits', [])]
+    out = set()
+    for i, span in occurrences(d, side, needle, wanted):
+        if not carries(span, edit):
+            continue
+        run = {x[4][0] for x in span if x[4] and x[2]}
+        for n in sorted(run):
+            for step in (-1, 1):
+                k = n + step
+                while 0 <= k < len(ops) and ops[k]['kind'] != 'equal':
+                    run.add(k)
+                    k += step
+        if all(not squeeze(ops[k]['text']) or any(squeeze(ops[k]['text']) in e for e in known if e)
+               for k in run if ops[k]['kind'] == other):
+            out.add(i)
+    return out
+
+
 def one_side_edit(atom, change, ctx, claimed, need):
     """A pure insertion or deletion: its empty side needs no text. The other side needs an
     occurrence carrying the edit with, in that occurrence's own source units, the declared record
-    identity (rows) or the author paragraph around it (text)."""
+    identity (rows) or the author paragraph around it (text). On a card that also shows the other
+    side, the occurrence's change must be the insertion or deletion itself (see pure())."""
     diffs, wanted, ident, others = ctx['diffs'], ctx['wanted'], ctx['ident'], ctx['others']
     side = 'right' if atom['new'] else 'left'
     needle, edit = atom[{'left': 'old', 'right': 'new'}[side]], need[side]
     author = change.get('left_text' if side == 'left' else 'right_text')
-    cands, accepted, suspects, open_ = [], [], [], []
+    cands, accepted, suspects, open_, replaced = [], [], [], [], []
     for d in diffs:
         if not hits(d, side, needle, wanted[side], edit):
             continue
+        only = None
+        if d['left' if side == 'right' else 'right']:
+            only = pure(d, side, needle, wanted[side], edit, change)
+            if not only:
+                cands.append(candidate(d, {side: needle}, wanted, edit=False, need=need))
+                replaced.append(d)
+                continue
         if ident is None:
-            ok = context(d, side, needle, wanted[side], author, edit)
+            ok = context(d, side, needle, wanted[side], author, edit, only=only)
             status, why, seen = ('confirmed' if ok else 'unconfirmed'), \
                 'author paragraph around the edit in the source units of that occurrence', None
         else:
-            status, why, seen = judge_identity(d, {side: needle}, ident, others, change, wanted, {side: edit})
-        cands.append(candidate(d, {side: needle}, wanted, status, why, seen, edit=True, need=need))
+            status, why, seen = judge_identity(d, {side: needle}, ident, others, change, wanted, {side: edit},
+                                               only=None if only is None else {side: only})
+        cands.append(candidate(d, {side: needle}, wanted, status, why, seen, edit=True, need=need,
+                               only=None if only is None else {side: only}))
         if status == 'confirmed':
             accepted.append(d)
         elif status == 'contradicted' and not (claimed.get(d['id'], set()) - {ctx['id']}):
@@ -753,7 +791,7 @@ def one_side_edit(atom, change, ctx, claimed, need):
         return ('same_card_plus_misattributed' if accepted and suspects else
                 'same_card' if accepted else 'same_card_misattributed'), \
             'misattributed' if suspects else 'correct', accepted, cands, [], ''
-    held = [d for d in diffs if located(d, side, needle, wanted[side]) and d not in [c for c, _ in open_]]
+    held = [d for d in diffs if located(d, side, needle, wanted[side]) and d not in [c for c, _ in open_] + replaced]
     for d in held:
         cands.append(candidate(d, {side: needle}, wanted, need=need))
     un = unresolved_hits(ctx['result'], side, needle, wanted[side])
@@ -761,6 +799,10 @@ def one_side_edit(atom, change, ctx, claimed, need):
         return ('edit_without_context', 'not_evaluable', [], cands, un,
                 'the edit is on a card, but its record identity or author paragraph is ' +
                 ', '.join(sorted({s for _, s in open_})))
+    if replaced:
+        return ('same_card_unaligned', 'not_evaluable', [], cands, un,
+                'the card changes the text there, but replaces other text with it rather than '
+                + ('inserting' if side == 'right' else 'deleting') + ' it')
     if held:
         return ('same_card_without_edit', 'not_evaluable', [], cands, un,
                 'cards hold the text but none makes this edit here')
