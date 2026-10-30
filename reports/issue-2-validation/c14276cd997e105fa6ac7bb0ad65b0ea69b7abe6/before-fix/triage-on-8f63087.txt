@@ -1,0 +1,5 @@
+# final triage tests (c14276cd997e105fa6ac7bb0ad65b0ea69b7abe6) with scripts/renewal-triage.py of 8f63087 (renewal-triage/16)
+FAIL: test_a_source_range_listed_twice_is_one_occurrence (test_renewal_triage.AddedRemovedRows.test_a_source_range_listed_twice_is_one_occurrence)
+FAIL: test_a_replaced_value_does_not_match_a_signed_value (test_renewal_triage.RecordIdentity.test_a_replaced_value_does_not_match_a_signed_value)
+Ran 55 tests in 0.437s
+FAILED (failures=2)

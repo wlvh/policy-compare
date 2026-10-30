@@ -1,0 +1,22 @@
+{
+ "codeCommit": "4330c1b1e1d3d6d0f3c0e939aa1bb77487ff7cc4",
+ "baselineCommit": "fbc207a726fbe6084c58f7d023fbe124f766e211",
+ "node": "v22.22.0 (package.json pins >=24 <25; CI uses 24.19.0)",
+ "platform": "Linux x86_64 (cloud container)",
+ "samples": "jiehuan/falcon-mini@0eef67dd6cbe477ab625885220686c674640fb88, verified by scripts/fetch-renewal-samples.mjs",
+ "resultSha256": {
+  "v3/aviation_2024_vs_2025-mupdf.json": "a9220f317b648fb5ace4cffcf06e3c1b62bdb432d00013e6fea7ece9e2163122",
+  "v3/aviation_2024_vs_2025-pdfjs.json": "9b9de6198946bb0e98a128f0e6d0cafa52a1bc0928ec9f16a04629a09b60bf0f",
+  "v3/bizav_2024_vs_2025-mupdf.json": "bdfa1f82676e38b62dd79e616336b6eeebf9f6ee6480579a6aef8bd87dc571ea",
+  "v3/bizav_2024_vs_2025-pdfjs.json": "8711eadc5fd18fa41ba5ccba4efc74bdd0550740f2583a54bbe9b1029b4842e5",
+  "baseline/aviation_2024_vs_2025-mupdf.json": "38102a487bbabadc0fc7b9748e6f6840b0017696039564f6bdc0f18b53f4803c",
+  "baseline/aviation_2024_vs_2025-pdfjs.json": "f4a4ed93d16f5fcea32aac6e3e6eb934b0a503f5fd797d13f229e0cc06b89a78",
+  "baseline/bizav_2024_vs_2025-mupdf.json": "002d39090cd6d84c9dab659c7e43a4cb900a4bdd42913da8ac55557834becd4c",
+  "baseline/bizav_2024_vs_2025-pdfjs.json": "4aa3994c2b9c113888d151e1566d2d014364ba1fca9e3b50843d0e0e69ca9a1c"
+ },
+ "notRunHere": [
+  "browser tests (CI runs them on push)",
+  "performance benchmarks",
+  "different-generator PDF check"
+ ]
+}

@@ -1,0 +1,94 @@
+{
+ "purpose": "Known changes between left and right; read only by check-generators.ts after comparison",
+ "events": [
+  {
+   "id": "G1",
+   "what": "agreed value change",
+   "record": "1315",
+   "kind": "Replaced",
+   "old": "20,490,000",
+   "new": "19,210,000"
+  },
+  {
+   "id": "G2",
+   "what": "amount swap, first record",
+   "record": "1446",
+   "kind": "Replaced",
+   "old": "12,000,000",
+   "new": "10,000,000"
+  },
+  {
+   "id": "G3",
+   "what": "amount swap, second record",
+   "record": "1548",
+   "kind": "Replaced",
+   "old": "10,000,000",
+   "new": "12,000,000"
+  },
+  {
+   "id": "G4",
+   "what": "lessee change into a wrapped cell",
+   "record": "4551",
+   "kind": "Replaced",
+   "old": "Kestrel Connect",
+   "new": "Coral Bay Regional Airways"
+  },
+  {
+   "id": "G5",
+   "what": "aircraft removed",
+   "record": "1760",
+   "kind": "Removed",
+   "old": "16,040,000"
+  },
+  {
+   "id": "G6",
+   "what": "aircraft inserted mid-table",
+   "record": "55228",
+   "kind": "Added",
+   "new": "39,000,000"
+  },
+  {
+   "id": "G7",
+   "what": "body deductible change",
+   "kind": "Replaced",
+   "old": "250,000",
+   "new": "300,000"
+  },
+  {
+   "id": "G8",
+   "what": "share change on its insurer",
+   "record": "HPX 0624",
+   "kind": "Replaced",
+   "old": "12.5%",
+   "new": "10.0%"
+  },
+  {
+   "id": "G9",
+   "what": "insurer leaves",
+   "record": "SLD 2988",
+   "kind": "Removed",
+   "old": "10.0%"
+  },
+  {
+   "id": "G10",
+   "what": "insurer joins with the same share and date",
+   "record": "Corvane Insurance AG",
+   "kind": "Added",
+   "new": "10.0%"
+  }
+ ],
+ "mustNotPair": [
+  [
+   "SLD 2988",
+   "Corvane"
+  ],
+  [
+   "1760",
+   "55228"
+  ],
+  [
+   "1446",
+   "1548"
+  ]
+ ]
+}

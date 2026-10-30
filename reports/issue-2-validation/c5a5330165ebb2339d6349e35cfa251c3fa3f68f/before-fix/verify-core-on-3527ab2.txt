@@ -1,0 +1,7 @@
+# final tests (c5a5330165ebb2339d6349e35cfa251c3fa3f68f) with product, interface, contract and triage code of 3527ab2
+     × a lone identifier reaching past a descriptive heading toward an empty identity column leaves identity incomplete (r4420346858) 10ms
+     × a heading row repeated on two pages with the same text but other cells is not one repeated header (r4420267662) 7ms
+     × equal text in a row without a heading row with other cells is not unchanged (r4420346862) 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 14 passed (15)
+      Tests  3 failed | 339 passed (342)

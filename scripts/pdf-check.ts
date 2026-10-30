@@ -70,6 +70,22 @@ await check(
     assert.ok(!JSON.stringify(d).includes("fixture-secret"));
   },
 );
+await check(
+  "Chromium-printed Type 3 header/footer text is extracted, not a page failure",
+  async () => {
+    // Chromium's print header/footer templates use Type 3 fonts, for which
+    // PDF.js reports NaN ascent/descent.
+    const d = parseDoc(
+      await extractPdf(readFileSync(dir + "/chromium-type3-header.pdf")),
+    );
+    assert.equal(d.pages[0].coverageState, "text");
+    assert.deepEqual(d.pages[0].issues, []);
+    const text = d.pages[0].chars.map((c) => c.text).join("");
+    for (const part of ["B0000K000000", "SYNTHETIC TEST", "Page"])
+      assert.ok(text.includes(part), part);
+    assert.ok(d.pages[0].chars.every((c) => c.quad.every(Number.isFinite)));
+  },
+);
 await check("corrupt PDF is failed, not empty complete", async () => {
   await assert.rejects(() => extractPdf(readFileSync(dir + "/corrupt.pdf")));
 });

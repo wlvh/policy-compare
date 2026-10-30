@@ -1,0 +1,80 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (128 tests | 3 failed) 1177ms
+   ❯ result format 2: stated facts and form-only changes in controls (14)
+     × an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not 22ms
+     × a page-number fact is decided from the texts, on a repeated page line or not: it holds, and the undeclared change stays open in the control 7ms
+     × a page-number fact is a text form: a line that is not a repeated page line holds it too (#2's round-11 definition) 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > result format 2: stated facts and form-only changes in controls > an undeclared form-only change the sources prove is not allowed by that fact: NOT_EVALUATED, stated or not
+AssertionError: page numberpage_number_only: expected [ 'claim_unverifiable', …(1) ] to deeply equal [ 'invariant_unverifiable' ]
+
+- Expected
++ Received
+
+  [
++   "claim_unverifiable",
+    "invariant_unverifiable",
+  ]
+
+ ❯ open tests/scorer.test.ts:1658:57
+    1656|     expect(score.faults, name).toEqual([]);
+    1657|     expect(material(score), name).toBe("NOT_EVALUATED");
+    1658|     expect(score.notEvaluated.map((n) => n.kind), name).toEqual(kinds);
+       |                                                         ^
+    1659|     expect(exitCode(summarize([score])), name).toBe(1);
+    1660|   };
+ ❯ tests/scorer.test.ts:1681:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/scorer.test.ts > result format 2: stated facts and form-only changes in controls > a page-number fact is decided from the texts, on a repeated page line or not: it holds, and the undeclared change stays open in the control
+AssertionError: expected [ 'claim_unverifiable', …(1) ] to deeply equal [ 'invariant_unverifiable' ]
+
+- Expected
++ Received
+
+  [
++   "claim_unverifiable",
+    "invariant_unverifiable",
+  ]
+
+ ❯ tests/scorer.test.ts:1747:52
+    1745|     ]);
+    1746|     expect(joined).toMatchObject({ status: "NOT_EVALUATED", faults: []…
+    1747|     expect(joined.notEvaluated.map((n) => n.kind)).toEqual(["invariant…
+       |                                                    ^
+    1748|   });
+    1749|   it("a page-number fact is a text form: a line that is not a repeated…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/scorer.test.ts > result format 2: stated facts and form-only changes in controls > a page-number fact is a text form: a line that is not a repeated page line holds it too (#2's round-11 definition)
+AssertionError: expected { caseId: 'format-2-control', …(7) } to match object { status: 'PASS', faults: [], …(1) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "faults": [],
+-   "notEvaluated": [],
+-   "status": "PASS",
++   "notEvaluated": [
++     {
++       "card": "c",
++       "kind": "claim_unverifiable",
++       "reason": "card c states page_number_only; only page numbers differ, but its sources do not show a repeated page line, and a heading or page-margin line cannot be established from them",
++     },
++   ],
++   "status": "NOT_EVALUATED",
+  }
+
+ ❯ tests/scorer.test.ts:1756:40
+    1754|     const body = (facts: Difference["facts"]) =>
+    1755|       control(docOf([{ text: a, y: 300 }]), docOf([{ text: b, y: 300 }…
+    1756|     expect(body(["page_number_only"])).toMatchObject({ status: "PASS",…
+       |                                        ^

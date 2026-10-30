@@ -1,0 +1,8 @@
+# Codex PR #11 comment 6508515495 on triage 441a81d (/18): contiguous ranges joined with a space.
+=== tri-441a81d
+Added comment 6508515495: USD 100,000 split before the comma: correct fullRowRecovered=True unexplained=0
+Added control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Added control: USD 100 shown: correct fullRowRecovered=True unexplained=0
+Removed comment 6508515495: USD 100,000 split before the comma: correct fullRowRecovered=True unexplained=0
+Removed control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Removed control: USD 100 shown: correct fullRowRecovered=True unexplained=0

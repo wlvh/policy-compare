@@ -1,0 +1,6 @@
+split_attributable ['a', 'b'] True 0
+Traceback (most recent call last):
+  File "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-2-amount-binding/repro.py", line 25, in <module>
+    assert e["verdict"] not in ("correct", "split_attributable")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

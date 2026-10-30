@@ -1,0 +1,40 @@
+diff --git a/tests/scorer.test.ts b/tests/scorer.test.ts
+index 36a6ec7..6b629a7 100644
+--- a/tests/scorer.test.ts
++++ b/tests/scorer.test.ts
+@@ -972,6 +972,35 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
+       }
+     }
+   });
++  it("PROBE segmentation outside round 14", () => {
++    // Not a committed test: prints how cases outside the per-cell dedup are scored today.
++    const at = (x: ReturnType<typeof r26>, side: "left" | "right") => lineLoc(x.docs[side === "left" ? 0 : 1], side, "l5");
++    const whole = (x: ReturnType<typeof r26>, side: "left" | "right") => [at(x, side)];
++    const split = (x: ReturnType<typeof r26>, side: "left" | "right") => glyphs(at(x, side));
++    const cuts: [string, (x: ReturnType<typeof r26>) => [SourceLocation[], SourceLocation[]]][] = [
++      ["whole + whole", (x) => [whole(x, "left"), whole(x, "right")]],
++      ["glyphs + whole", (x) => [split(x, "left"), whole(x, "right")]],
++      ["whole + glyphs", (x) => [whole(x, "left"), split(x, "right")]],
++      ["glyphs + glyphs", (x) => [split(x, "left"), split(x, "right")]],
++      ["whole twice + whole", (x) => [[...whole(x, "left"), ...whole(x, "left")], whole(x, "right")]],
++    ];
++    const variants: [string, boolean, string[], string | null][] = [
++      ["formatted 100,020, record SYN-1026-001", false, ["100,020", "200,010"], "SYN-1026-001"],
++      ["bare 100020, no record", true, ["100020", "200010"], null],
++      ["bare 100020, record SYN-1026-001", true, ["100020", "200010"], "SYN-1026-001"],
++    ];
++    for (const [label, bare, amounts, rowKey] of variants)
++      for (const [name, cite] of cuts) {
++        const x = r26(bare, amounts);
++        const [gone, come] = cite(x);
++        x.result.differences.push(
++          ...gone.map((g, i) => oneSided("Removed", `out${i}`, g, rowKey)),
++          ...come.map((g, i) => oneSided("Added", `in${i}`, g, rowKey)),
++        );
++        const score = grade(x.result, x.expected, x.layout, x.docs);
++        console.log(`PROBE ${label} | ${name} | schema ${ResultSchema.safeParse(x.result).success} | ${score.status} | exit ${exitCode(summarize([score]))} | ${JSON.stringify(score.faults)} | ${JSON.stringify(score.notEvaluated.map((n) => n.reason ?? n))}`);
++      }
++  });
+   it("R26: one record shown as delete + add with the same amount passes", () => {
+     const x = r26();
+     const [l, r] = x.docs;

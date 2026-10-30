@@ -1,0 +1,8 @@
+# final triage tests (c5a5330165ebb2339d6349e35cfa251c3fa3f68f) with scripts/renewal-triage.py of 99d521c (renewal-triage/25)
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [replaced] (key='9999', confidence='unresolved')
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [one-sided] (key='9999', confidence='unresolved')
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [added] (key='9999', confidence='unresolved')
+FAIL: test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record (test_renewal_triage.AddedRemovedRows.test_an_unresolved_mark_does_not_hide_a_row_key_naming_another_record) [removed] (key='9999', confidence='unresolved')
+FAIL: test_a_pure_insertion_or_deletion_is_accepted_on_its_card (test_renewal_triage.EditEvidence.test_a_pure_insertion_or_deletion_is_accepted_on_its_card)
+Ran 73 tests in 0.606s
+FAILED (failures=5)

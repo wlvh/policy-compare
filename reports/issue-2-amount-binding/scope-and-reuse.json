@@ -1,0 +1,62 @@
+{
+  "baseline": "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a",
+  "codeRevision": "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f",
+  "changedFiles": [
+    "scripts/renewal-triage.py",
+    "tests/test_renewal_triage.py"
+  ],
+  "unchangedObjects": {
+    "packages": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "ac5370523ab15953011ee90dcdbfcb7a2f61ca48",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "ac5370523ab15953011ee90dcdbfcb7a2f61ca48"
+    },
+    "apps": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "7a25e1942837fa051e421e7eea372d4c720ca5eb",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "7a25e1942837fa051e421e7eea372d4c720ca5eb"
+    },
+    "engines": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "9693fbeac56c7a62a05693669522d308a19d9208",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "9693fbeac56c7a62a05693669522d308a19d9208"
+    },
+    "profiles": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "4894479d3dfb1e4189f6af39a189a7e3e23c11e7",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "4894479d3dfb1e4189f6af39a189a7e3e23c11e7"
+    },
+    "tests/evaluation/scorer.ts": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "1c89e381be017b11c85ebecd5d4ad467c36e935f",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "1c89e381be017b11c85ebecd5d4ad467c36e935f"
+    },
+    "tests/scorer.test.ts": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "7ea5a87ed85485ef2d5e1795481673f10d43a236",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "7ea5a87ed85485ef2d5e1795481673f10d43a236"
+    },
+    "package.json": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "4f2b0e0dd61f6f778def4d91ec87e07c5b4ab21f",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "4f2b0e0dd61f6f778def4d91ec87e07c5b4ab21f"
+    },
+    ".github/workflows/ci.yml": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "bc7c4e1f59030e3e33b0293ff5df35d9e9b9528c",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "bc7c4e1f59030e3e33b0293ff5df35d9e9b9528c"
+    },
+    "scripts/renewal-identity.json": {
+      "3a520c1b0880943e31e20d4c1d2e0a5ae4794e1a": "921ed51d218c940697c01227f8f811d8045ecd55",
+      "f8353c8e2e27b30bcb5a592bdbc010b81c2aa07f": "921ed51d218c940697c01227f8f811d8045ecd55"
+    }
+  },
+  "reusedProductAndTypeScriptCI": [
+    "https://github.com/wlvh/policy-compare/actions/runs/41048431006",
+    "https://github.com/wlvh/policy-compare/actions/runs/41048412027"
+  ],
+  "before": {
+    "userCommandExit": 1,
+    "pythonTestExit": 1,
+    "pythonFailingSubtests": 3
+  },
+  "after": {
+    "userCommandExit": 0,
+    "pythonTestExit": 0,
+    "pythonTests": 88,
+    "pyCompileExit": 0
+  },
+  "extractionPerformed": false
+}

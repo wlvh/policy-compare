@@ -1,0 +1,26 @@
+== renewal-triage at 948c3a1
+-- codex_r25_triage_probe.py
+short insertion "" -> "later" (Pay now. -> Pay later now.): not_evaluable accepted=[] unexplained=1
+short deletion "later" -> "": not_evaluable accepted=[] unexplained=1
+control: short replacement "now" -> "later": correct accepted=['c'] unexplained=0
+control: long insertion "" -> "approved": correct accepted=['c'] unexplained=0
+-- codex_r23_triage_probe.py
+long operator name before the MSN (MSN at character 90): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+control: short operator name (MSN at character 9): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+-- codex_r24b_triage_probe.py
+currency codes swapped (#2 input): not_evaluable accepted=[]
+control: Hull amount changed: correct accepted=['y']
+same card, no declared table: not_evaluable accepted=[]
+== renewal-triage at 72b87c4
+-- codex_r25_triage_probe.py
+short insertion "" -> "later" (Pay now. -> Pay later now.): correct accepted=['c'] unexplained=0
+short deletion "later" -> "": correct accepted=['c'] unexplained=0
+control: short replacement "now" -> "later": correct accepted=['c'] unexplained=0
+control: long insertion "" -> "approved": correct accepted=['c'] unexplained=0
+-- codex_r23_triage_probe.py
+long operator name before the MSN (MSN at character 90): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+control: short operator name (MSN at character 9): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+-- codex_r24b_triage_probe.py
+currency codes swapped (#2 input): not_evaluable accepted=[]
+control: Hull amount changed: correct accepted=['y']
+same card, no declared table: not_evaluable accepted=[]

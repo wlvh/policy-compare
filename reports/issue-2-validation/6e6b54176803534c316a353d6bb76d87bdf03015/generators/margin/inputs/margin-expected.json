@@ -1,0 +1,190 @@
+{
+ "purpose": "Margin and repeated lines (review of PR #9, third round); read only by browser-check.ts after comparison",
+ "cards": [
+  {
+   "id": "A1",
+   "what": "amount at the left of the header",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "USD 1000",
+   "new": "USD 2000",
+   "x": 45.4,
+   "left": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "right": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "A2",
+   "what": "amount at 110 mm of the header",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "USD 2000",
+   "new": "USD 1000",
+   "x": 311.8,
+   "left": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "right": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "B",
+   "what": "rate equal to the page total",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "Premium rate 4% - Page 1 of 4",
+   "new": "Premium rate 5% - Page 1 of 5",
+   "left": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "right": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "id": "C1",
+   "what": "MSN counting with the pages",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "Aircraft MSN 101",
+   "new": "Aircraft MSN 201",
+   "left": [
+    1
+   ],
+   "right": [
+    1
+   ]
+  },
+  {
+   "id": "C2",
+   "what": "MSN counting with the pages",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "Aircraft MSN 102",
+   "new": "Aircraft MSN 202",
+   "left": [
+    2
+   ],
+   "right": [
+    2
+   ]
+  },
+  {
+   "id": "C3",
+   "what": "MSN counting with the pages",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "Aircraft MSN 103",
+   "new": "Aircraft MSN 203",
+   "left": [
+    3
+   ],
+   "right": [
+    3
+   ]
+  },
+  {
+   "id": "C4",
+   "what": "MSN counting with the pages",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "Aircraft MSN 104",
+   "new": "Aircraft MSN 204",
+   "left": [
+    4
+   ],
+   "right": [
+    4
+   ]
+  },
+  {
+   "id": "E1",
+   "what": "sentence at the top of page 1",
+   "kind": "Replaced",
+   "category": "Review",
+   "old": "The insurer covers war risks.",
+   "new": "The insurer excludes war risks.",
+   "left": [
+    1
+   ],
+   "right": [
+    1
+   ]
+  },
+  {
+   "id": "E2",
+   "what": "capitals at the bottom of page 1",
+   "kind": "Replaced",
+   "category": "Review",
+   "old": "THE INSURER COVERS WAR RISKS.",
+   "new": "THE INSURER EXCLUDES WAR RISKS.",
+   "left": [
+    1
+   ],
+   "right": [
+    1
+   ]
+  },
+  {
+   "id": "E3",
+   "what": "limit at the top of page 2",
+   "kind": "Replaced",
+   "category": "Material",
+   "old": "HULL LIMIT USD 1,000,000",
+   "new": "HULL LIMIT USD 2,000,000",
+   "left": [
+    2
+   ],
+   "right": [
+    2
+   ]
+  },
+  {
+   "id": "E4-old",
+   "what": "capitals heading in the body of page 4, old text",
+   "kind": "Removed",
+   "category": "Review",
+   "old": "THE INSURER WAIVES SUBROGATION.",
+   "left": [
+    4
+   ],
+   "right": []
+  },
+  {
+   "id": "E4-new",
+   "what": "capitals heading in the body of page 4, new text",
+   "kind": "Added",
+   "category": "Review",
+   "new": "THE INSURER RESERVES SUBROGATION.",
+   "left": [],
+   "right": [
+    4
+   ]
+  }
+ ]
+}

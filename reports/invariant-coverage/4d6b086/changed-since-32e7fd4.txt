@@ -1,0 +1,10 @@
+files changed since 32e7fd4 (reports excluded):
+ packages/compare-core/index.ts      | 29 ++++++++++++------
+ packages/compare-core/structure.ts  |  3 +-
+ scripts/renewal-triage.py           | 36 ++++++++++++++++------
+ tests/evaluation/scorer.ts          | 61 ++++++++++++++++++++++++-------------
+ tests/page-furniture.test.ts        | 10 ++++++
+ tests/row-identity-evidence.test.ts | 23 ++++++++++++++
+ tests/scorer.test.ts                | 35 +++++++++++++++++++--
+ tests/test_renewal_triage.py        | 27 ++++++++++++++++
+ 8 files changed, 181 insertions(+), 43 deletions(-)

@@ -1,0 +1,1993 @@
+{
+ "browser": "chromium 153.0.8010.12",
+ "records": [
+  {
+   "engine": "pdfjs",
+   "pair": "aviation_2024_vs_2025",
+   "coreVersion": "policy-compare/0.1.0+row-identity.2",
+   "status": "complete_for_scope",
+   "cards": 99,
+   "highlights": [
+    {
+     "name": "aviation HPX share 12.5% -> 10.0%",
+     "cards": [
+      "d-b9d5a29191c1dc684c70"
+     ],
+     "rowKey": "HPX 0624",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2587 10.0% 02/10/2025"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 7,
+       "polygons": 5,
+       "changedText": "210|2|5|3|4",
+       "sourceRunBox": [
+        256,
+        336.3,
+        514.9,
+        348.5
+       ],
+       "drawnBoxes": [
+        [
+         290,
+         336.6,
+         305.5,
+         348
+        ],
+        [
+         376.1,
+         336.6,
+         381.3,
+         348
+        ],
+        [
+         383.7,
+         336.6,
+         388.8,
+         348
+        ],
+        [
+         472.2,
+         336.6,
+         477.4,
+         348
+        ],
+        [
+         509.8,
+         336.6,
+         514.9,
+         348
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.139,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 7,
+       "polygons": 5,
+       "changedText": "587|0|0|2|5",
+       "sourceRunBox": [
+        256,
+        336.3,
+        514.9,
+        348.5
+       ],
+       "drawnBoxes": [
+        [
+         290,
+         336.6,
+         305.5,
+         348
+        ],
+        [
+         376.1,
+         336.6,
+         381.3,
+         348
+        ],
+        [
+         383.7,
+         336.6,
+         388.8,
+         348
+        ],
+        [
+         472.2,
+         336.6,
+         477.4,
+         348
+        ],
+        [
+         509.8,
+         336.6,
+         514.9,
+         348
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.139,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "aviation MSN 15256 agreed value",
+     "cards": [
+      "d-2148b6088c0156c3deb6"
+     ],
+     "rowKey": "15256",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "Bombardier CRJ900 15256 CC-AXW 2013 90 16,900,000 Andes Pacific Airlines",
+      "newText": "Bombardier CRJ900 15256 CC-AXW 2013 90 15,640,000 Andes Pacific Airlines"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 10,
+       "polygons": 2,
+       "changedText": "6|90",
+       "sourceRunBox": [
+        385.5,
+        442.4,
+        429,
+        454
+       ],
+       "drawnBoxes": [
+        [
+         390.4,
+         442.5,
+         395.3,
+         454
+        ],
+        [
+         397.5,
+         442.5,
+         407.3,
+         454
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.337,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 10,
+       "polygons": 2,
+       "changedText": "5|64",
+       "sourceRunBox": [
+        385.5,
+        480.5,
+        429,
+        492.1
+       ],
+       "drawnBoxes": [
+        [
+         390.4,
+         480.6,
+         395.3,
+         492
+        ],
+        [
+         397.5,
+         480.6,
+         407.3,
+         492
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.337,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "aviation MSN 4551 lessee (wrapped type cell)",
+     "cards": [
+      "d-714af9a25d83b7b8138e"
+     ],
+     "rowKey": "4551",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Coral Bay Airways"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 11,
+       "polygons": 3,
+       "changedText": "Kest|e|Connect",
+       "sourceRunBox": [
+        437,
+        522.7,
+        499.9,
+        534.3
+       ],
+       "drawnBoxes": [
+        [
+         437,
+         522.9,
+         454.1,
+         534.3
+        ],
+        [
+         457.6,
+         522.9,
+         462.4,
+         534.3
+        ],
+        [
+         467,
+         522.9,
+         499.9,
+         534.3
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.873,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 11,
+       "polygons": 3,
+       "changedText": "Co|a|Bay Airways",
+       "sourceRunBox": [
+        437,
+        522.7,
+        508,
+        534.3
+       ],
+       "drawnBoxes": [
+        [
+         437,
+         522.9,
+         447.5,
+         534.3
+        ],
+        [
+         450.9,
+         522.9,
+         455.7,
+         534.3
+        ],
+        [
+         460.2,
+         522.9,
+         508,
+         534.3
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.888,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "aviation engine ESN 1949020 location",
+     "cards": [
+      "d-82e2f9a86a4dddac244f"
+     ],
+     "rowKey": "1949020",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "CF34-8C5 1949020 Tallinn, Estonia – Baltic Aero Technics 3,620,000 Serviceable",
+      "newText": "CF34-8C5 1949020 Singapore – Changi Engine Centre 3,620,000 Serviceable"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 13,
+       "polygons": 10,
+       "changedText": "Tall|n, Estoni|B|lt|c|A|ro|T|ch|ics",
+       "sourceRunBox": [
+        226,
+        229.7,
+        374.5,
+        241.3
+       ],
+       "drawnBoxes": [
+        [
+         226,
+         229.9,
+         239.8,
+         241.3
+        ],
+        [
+         247.2,
+         229.9,
+         281.4,
+         241.3
+        ],
+        [
+         295.1,
+         229.9,
+         300.6,
+         241.3
+        ],
+        [
+         305.3,
+         229.9,
+         310.6,
+         241.3
+        ],
+        [
+         312.7,
+         229.9,
+         316.8,
+         241.3
+        ],
+        [
+         319.1,
+         229.9,
+         324.6,
+         241.3
+        ],
+        [
+         329.3,
+         229.9,
+         337.9,
+         241.3
+        ],
+        [
+         340.3,
+         229.9,
+         345,
+         241.3
+        ],
+        [
+         349.7,
+         229.9,
+         359,
+         241.3
+        ],
+        [
+         364.2,
+         229.9,
+         374.6,
+         241.3
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.682,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 13,
+       "polygons": 8,
+       "changedText": "S|g|pore|Ch|ng|Engin|C|tre",
+       "sourceRunBox": [
+        226,
+        180.6,
+        362.2,
+        192.1
+       ],
+       "drawnBoxes": [
+        [
+         226,
+         180.7,
+         230.7,
+         192.2
+        ],
+        [
+         238.1,
+         180.7,
+         243.3,
+         192.2
+        ],
+        [
+         248,
+         180.7,
+         266.6,
+         192.2
+        ],
+        [
+         275.5,
+         180.7,
+         286.1,
+         192.2
+        ],
+        [
+         290.9,
+         180.7,
+         301.3,
+         192.2
+        ],
+        [
+         305.8,
+         180.7,
+         328.4,
+         192.2
+        ],
+        [
+         335.5,
+         180.7,
+         340.9,
+         192.2
+        ],
+        [
+         350.9,
+         180.7,
+         362.2,
+         192.2
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.652,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    }
+   ],
+   "navigation": [
+    {
+     "name": "aviation header UMR",
+     "cards": [
+      "d-250aed858feee5cea71c"
+     ],
+     "visited": [
+      {
+       "occurrence": 1,
+       "left": {
+        "pageIndex": 0,
+        "text": "UMR: B4417K240093/ALD3392AVN24117",
+        "polygons": 1,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 0,
+        "text": "UMR: B4417K250093/ALD3392AVN25129",
+        "polygons": 1,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 11,
+       "left": {
+        "pageIndex": 10,
+        "text": "UMR: B4417K240093/ALD3392AVN24117",
+        "polygons": 1,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 10,
+        "text": "UMR: B4417K250093/ALD3392AVN25129",
+        "polygons": 1,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 20,
+       "left": {
+        "pageIndex": 19,
+        "text": "UMR: B4417K240093/ALD3392AVN24117",
+        "polygons": 1,
+        "insideSource": true
+       }
+      }
+     ],
+     "occurrences": 20,
+     "buttonLabels": [
+      "1 · 基准 P1 · 待审 P1",
+      "2 · 基准 P2 · 待审 P2",
+      "3 · 基准 P3 · 待审 P3"
+     ],
+     "status": "PASS"
+    }
+   ]
+  },
+  {
+   "engine": "pdfjs",
+   "pair": "bizav_2024_vs_2025",
+   "coreVersion": "policy-compare/0.1.0+row-identity.2",
+   "status": "complete_for_scope",
+   "cards": 89,
+   "highlights": [
+    {
+     "name": "bizav Dubai hangar operator",
+     "cards": [
+      "d-caa31504859224a5b529"
+     ],
+     "rowKey": "Dubai (OMDW)",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "Dubai (OMDW) Al Maktoum Executive Hangars M-CHLS, 9H-PRT Shared",
+      "newText": "Dubai (OMDW) Desert Falcon Hangar Company M-CHLS, 9H-PRT Shared"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 14,
+       "polygons": 5,
+       "changedText": "Al Mak|oum|Exe|utive|s",
+       "sourceRunBox": [
+        174,
+        691.3,
+        298.3,
+        702.9
+       ],
+       "drawnBoxes": [
+        [
+         174,
+         691.5,
+         200.9,
+         702.9
+        ],
+        [
+         204,
+         691.5,
+         222.2,
+         702.9
+        ],
+        [
+         224.6,
+         691.5,
+         238.6,
+         702.9
+        ],
+        [
+         242.6,
+         691.5,
+         262.2,
+         702.9
+        ],
+        [
+         294.2,
+         691.5,
+         298.3,
+         702.9
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.666,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 14,
+       "polygons": 4,
+       "changedText": "Deser|Fal|on| Company",
+       "sourceRunBox": [
+        174,
+        691.3,
+        300.8,
+        702.9
+       ],
+       "drawnBoxes": [
+        [
+         174,
+         691.5,
+         197.3,
+         702.9
+        ],
+        [
+         202.7,
+         691.5,
+         214,
+         702.9
+        ],
+        [
+         218.1,
+         691.5,
+         228.5,
+         702.9
+        ],
+        [
+         260.5,
+         691.5,
+         300.8,
+         702.9
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.673,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "bizav M-FNKB Selwyn endorsement (wrapped party cell)",
+     "cards": [
+      "d-fb8e2504d83024665d58"
+     ],
+     "rowKey": "Selwyn Aircraft Finance Designated Activity Company",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67B",
+      "newText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67C"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 14,
+       "polygons": 1,
+       "changedText": "B",
+       "sourceRunBox": [
+        471.4,
+        291.4,
+        503.6,
+        303
+       ],
+       "drawnBoxes": [
+        [
+         498.1,
+         291.5,
+         503.6,
+         303
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.172,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 14,
+       "polygons": 1,
+       "changedText": "C",
+       "sourceRunBox": [
+        471.5,
+        291.4,
+        503.5,
+        303
+       ],
+       "drawnBoxes": [
+        [
+         498.2,
+         291.5,
+         503.6,
+         303
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.168,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    }
+   ],
+   "navigation": [
+    {
+     "name": "bizav Draft watermark",
+     "cards": [
+      "d-2299f9c43e4b5e963879"
+     ],
+     "visited": [
+      {
+       "occurrence": 1,
+       "right": {
+        "pageIndex": 0,
+        "text": "Draft",
+        "polygons": 1,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 20,
+       "right": {
+        "pageIndex": 9,
+        "text": "Draft",
+        "polygons": 1,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 38,
+       "right": {
+        "pageIndex": 18,
+        "text": "Draft",
+        "polygons": 1,
+        "insideSource": true
+       }
+      }
+     ],
+     "occurrences": 38,
+     "buttonLabels": [
+      "1 · 待审 P1",
+      "2 · 待审 P1",
+      "3 · 待审 P2"
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "bizav page numbers",
+     "cards": [
+      "d-f7e713c0b2bcf6239a45"
+     ],
+     "visited": [
+      {
+       "occurrence": 1,
+       "left": {
+        "pageIndex": 1,
+        "text": "Page 1 of 17",
+        "polygons": 1,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 1,
+        "text": "Page 1 of 18",
+        "polygons": 1,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 10,
+       "left": {
+        "pageIndex": 10,
+        "text": "Page 10 of 17",
+        "polygons": 1,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 10,
+        "text": "Page 10 of 18",
+        "polygons": 1,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 18,
+       "right": {
+        "pageIndex": 18,
+        "text": "Page 18 of 18",
+        "polygons": 1,
+        "insideSource": true
+       }
+      }
+     ],
+     "occurrences": 18,
+     "buttonLabels": [
+      "1 · 基准 P2 · 待审 P2",
+      "2 · 基准 P3 · 待审 P3",
+      "3 · 基准 P4 · 待审 P4"
+     ],
+     "status": "PASS"
+    }
+   ]
+  },
+  {
+   "engine": "mupdf",
+   "pair": "aviation_2024_vs_2025",
+   "coreVersion": "policy-compare/0.1.0+row-identity.2",
+   "status": "complete_for_scope",
+   "cards": 99,
+   "highlights": [
+    {
+     "name": "aviation HPX share 12.5% -> 10.0%",
+     "cards": [
+      "d-3a1c8587593b5ec9c901"
+     ],
+     "rowKey": "HPX 0624",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "HPX 0624 HX-AV-2210 12.5% 03/10/2024",
+      "newText": "HPX 0624 HX-AV-2587 10.0% 02/10/2025"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 7,
+       "polygons": 7,
+       "changedText": "210|2|5|3|4",
+       "sourceRunBox": [
+        290,
+        336.3,
+        514.9,
+        348.5
+       ],
+       "drawnBoxes": [
+        [
+         290,
+         336.3,
+         295.2,
+         348.5
+        ],
+        [
+         295.2,
+         336.3,
+         300.3,
+         348.5
+        ],
+        [
+         300.3,
+         336.3,
+         305.5,
+         348.5
+        ],
+        [
+         376.1,
+         336.3,
+         381.3,
+         348.5
+        ],
+        [
+         383.7,
+         336.3,
+         388.9,
+         348.5
+        ],
+        [
+         472.2,
+         336.3,
+         477.4,
+         348.5
+        ],
+        [
+         509.8,
+         336.3,
+         514.9,
+         348.5
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.16,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 7,
+       "polygons": 7,
+       "changedText": "587|0|0|2|5",
+       "sourceRunBox": [
+        290,
+        336.3,
+        514.9,
+        348.5
+       ],
+       "drawnBoxes": [
+        [
+         290,
+         336.3,
+         295.2,
+         348.5
+        ],
+        [
+         295.2,
+         336.3,
+         300.3,
+         348.5
+        ],
+        [
+         300.3,
+         336.3,
+         305.5,
+         348.5
+        ],
+        [
+         376.1,
+         336.3,
+         381.3,
+         348.5
+        ],
+        [
+         383.7,
+         336.3,
+         388.9,
+         348.5
+        ],
+        [
+         472.2,
+         336.3,
+         477.4,
+         348.5
+        ],
+        [
+         509.8,
+         336.3,
+         514.9,
+         348.5
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.16,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "aviation MSN 15256 agreed value",
+     "cards": [
+      "d-a682772ffd9895e10084"
+     ],
+     "rowKey": "15256",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "Bombardier CRJ900 15256 CC-AXW 2013 90 16,900,000 Andes Pacific Airlines",
+      "newText": "Bombardier CRJ900 15256 CC-AXW 2013 90 15,640,000 Andes Pacific Airlines"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 10,
+       "polygons": 3,
+       "changedText": "6|90",
+       "sourceRunBox": [
+        390.4,
+        442.4,
+        407.3,
+        454
+       ],
+       "drawnBoxes": [
+        [
+         390.4,
+         442.4,
+         395.3,
+         454
+        ],
+        [
+         397.6,
+         442.4,
+         402.4,
+         454
+        ],
+        [
+         402.4,
+         442.4,
+         407.3,
+         454
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.865,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 10,
+       "polygons": 3,
+       "changedText": "5|64",
+       "sourceRunBox": [
+        390.4,
+        480.5,
+        407.3,
+        492.1
+       ],
+       "drawnBoxes": [
+        [
+         390.4,
+         480.5,
+         395.3,
+         492.1
+        ],
+        [
+         397.6,
+         480.5,
+         402.4,
+         492.1
+        ],
+        [
+         402.4,
+         480.5,
+         407.3,
+         492.1
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.865,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "aviation MSN 4551 lessee (wrapped type cell)",
+     "cards": [
+      "d-23a4fac9c302d2ce561c"
+     ],
+     "rowKey": "4551",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Kestrel Connect",
+      "newText": "De Havilland Dash 8-400 4551 C-MRP 2011 78 12,680,000 Coral Bay Airways"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 11,
+       "polygons": 12,
+       "changedText": "Kest|e|Connect",
+       "sourceRunBox": [
+        437,
+        522.7,
+        499.9,
+        534.3
+       ],
+       "drawnBoxes": [
+        [
+         437,
+         522.7,
+         442.3,
+         534.3
+        ],
+        [
+         442.3,
+         522.7,
+         447.1,
+         534.3
+        ],
+        [
+         447.1,
+         522.7,
+         451.1,
+         534.3
+        ],
+        [
+         451.1,
+         522.7,
+         454.2,
+         534.3
+        ],
+        [
+         457.7,
+         522.7,
+         462.5,
+         534.3
+        ],
+        [
+         466.9,
+         522.7,
+         472.3,
+         534.3
+        ],
+        [
+         472.3,
+         522.7,
+         477.4,
+         534.3
+        ],
+        [
+         477.4,
+         522.7,
+         482.7,
+         534.3
+        ],
+        [
+         482.7,
+         522.7,
+         487.9,
+         534.3
+        ],
+        [
+         487.9,
+         522.7,
+         492.7,
+         534.3
+        ],
+        [
+         492.7,
+         522.7,
+         496.8,
+         534.3
+        ],
+        [
+         496.8,
+         522.7,
+         499.9,
+         534.3
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.874,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 11,
+       "polygons": 14,
+       "changedText": "Co|a|Bay Airways",
+       "sourceRunBox": [
+        437,
+        522.7,
+        508,
+        534.3
+       ],
+       "drawnBoxes": [
+        [
+         437,
+         522.7,
+         442.4,
+         534.3
+        ],
+        [
+         442.4,
+         522.7,
+         447.5,
+         534.3
+        ],
+        [
+         451,
+         522.7,
+         455.8,
+         534.3
+        ],
+        [
+         460.2,
+         522.7,
+         465.7,
+         534.3
+        ],
+        [
+         465.7,
+         522.7,
+         470.5,
+         534.3
+        ],
+        [
+         470.5,
+         522.7,
+         474.8,
+         534.3
+        ],
+        [
+         474.8,
+         522.7,
+         477,
+         534.3
+        ],
+        [
+         477,
+         522.7,
+         482.5,
+         534.3
+        ],
+        [
+         482.5,
+         522.7,
+         484.7,
+         534.3
+        ],
+        [
+         484.7,
+         522.7,
+         488.2,
+         534.3
+        ],
+        [
+         488.2,
+         522.7,
+         494.9,
+         534.3
+        ],
+        [
+         494.9,
+         522.7,
+         499.6,
+         534.3
+        ],
+        [
+         499.6,
+         522.7,
+         504,
+         534.3
+        ],
+        [
+         504,
+         522.7,
+         508,
+         534.3
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.889,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "aviation engine ESN 1949020 location",
+     "cards": [
+      "d-6e1a9be9044a34ad2a0f"
+     ],
+     "rowKey": "1949020",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "CF34-8C5 1949020 Tallinn, Estonia – Baltic Aero Technics 3,620,000 Serviceable",
+      "newText": "CF34-8C5 1949020 Singapore – Changi Engine Centre 3,620,000 Serviceable"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 13,
+       "polygons": 26,
+       "changedText": "Tall|n, Estoni|B|lt|c|A|ro|T|ch|ics",
+       "sourceRunBox": [
+        226,
+        229.7,
+        374.5,
+        241.3
+       ],
+       "drawnBoxes": [
+        [
+         226,
+         229.7,
+         230.7,
+         241.3
+        ],
+        [
+         230.7,
+         229.7,
+         235.5,
+         241.3
+        ],
+        [
+         235.5,
+         229.7,
+         237.7,
+         241.3
+        ],
+        [
+         237.7,
+         229.7,
+         239.9,
+         241.3
+        ],
+        [
+         247.3,
+         229.7,
+         252.6,
+         241.3
+        ],
+        [
+         252.6,
+         229.7,
+         254.9,
+         241.3
+        ],
+        [
+         254.9,
+         229.7,
+         257.1,
+         241.3
+        ],
+        [
+         257.1,
+         229.7,
+         261.8,
+         241.3
+        ],
+        [
+         261.8,
+         229.7,
+         265.9,
+         241.3
+        ],
+        [
+         265.9,
+         229.7,
+         268.9,
+         241.3
+        ],
+        [
+         268.9,
+         229.7,
+         274.1,
+         241.3
+        ],
+        [
+         274.1,
+         229.7,
+         279.3,
+         241.3
+        ],
+        [
+         279.3,
+         229.7,
+         281.5,
+         241.3
+        ],
+        [
+         295,
+         229.7,
+         300.5,
+         241.3
+        ],
+        [
+         305.3,
+         229.7,
+         307.4,
+         241.3
+        ],
+        [
+         307.4,
+         229.7,
+         310.5,
+         241.3
+        ],
+        [
+         312.7,
+         229.7,
+         316.8,
+         241.3
+        ],
+        [
+         319,
+         229.7,
+         324.4,
+         241.3
+        ],
+        [
+         329.2,
+         229.7,
+         332.7,
+         241.3
+        ],
+        [
+         332.7,
+         229.7,
+         337.9,
+         241.3
+        ],
+        [
+         340.1,
+         229.7,
+         344.8,
+         241.3
+        ],
+        [
+         349.6,
+         229.7,
+         353.7,
+         241.3
+        ],
+        [
+         353.7,
+         229.7,
+         358.9,
+         241.3
+        ],
+        [
+         364.2,
+         229.7,
+         366.4,
+         241.3
+        ],
+        [
+         366.4,
+         229.7,
+         370.5,
+         241.3
+        ],
+        [
+         370.5,
+         229.7,
+         374.5,
+         241.3
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.683,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 13,
+       "polygons": 19,
+       "changedText": "S|g|pore|Ch|ng|Engin|C|tre",
+       "sourceRunBox": [
+        226,
+        180.6,
+        362.2,
+        192.1
+       ],
+       "drawnBoxes": [
+        [
+         226,
+         180.6,
+         230.7,
+         192.1
+        ],
+        [
+         238.1,
+         180.6,
+         243.3,
+         192.1
+        ],
+        [
+         248.1,
+         180.6,
+         253.3,
+         192.1
+        ],
+        [
+         253.3,
+         180.6,
+         258.5,
+         192.1
+        ],
+        [
+         258.5,
+         180.6,
+         262,
+         192.1
+        ],
+        [
+         262,
+         180.6,
+         266.8,
+         192.1
+        ],
+        [
+         275.5,
+         180.6,
+         280.8,
+         192.1
+        ],
+        [
+         280.8,
+         180.6,
+         286.1,
+         192.1
+        ],
+        [
+         290.8,
+         180.6,
+         296.1,
+         192.1
+        ],
+        [
+         296.1,
+         180.6,
+         301.3,
+         192.1
+        ],
+        [
+         305.7,
+         180.6,
+         310.5,
+         192.1
+        ],
+        [
+         310.5,
+         180.6,
+         315.7,
+         192.1
+        ],
+        [
+         315.7,
+         180.6,
+         320.9,
+         192.1
+        ],
+        [
+         320.9,
+         180.6,
+         323.1,
+         192.1
+        ],
+        [
+         323.1,
+         180.6,
+         328.4,
+         192.1
+        ],
+        [
+         335.4,
+         180.6,
+         340.8,
+         192.1
+        ],
+        [
+         350.8,
+         180.6,
+         353.9,
+         192.1
+        ],
+        [
+         353.9,
+         180.6,
+         357.4,
+         192.1
+        ],
+        [
+         357.4,
+         180.6,
+         362.2,
+         192.1
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.654,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    }
+   ],
+   "navigation": [
+    {
+     "name": "aviation header UMR",
+     "cards": [
+      "d-b5ce5d7d2cc806370b7a"
+     ],
+     "visited": [
+      {
+       "occurrence": 1,
+       "left": {
+        "pageIndex": 0,
+        "text": "UMR: B4417K240093/ALD3392AVN24117",
+        "polygons": 33,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 0,
+        "text": "UMR: B4417K250093/ALD3392AVN25129",
+        "polygons": 33,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 11,
+       "left": {
+        "pageIndex": 10,
+        "text": "UMR: B4417K240093/ALD3392AVN24117",
+        "polygons": 33,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 10,
+        "text": "UMR: B4417K250093/ALD3392AVN25129",
+        "polygons": 33,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 20,
+       "left": {
+        "pageIndex": 19,
+        "text": "UMR: B4417K240093/ALD3392AVN24117",
+        "polygons": 33,
+        "insideSource": true
+       }
+      }
+     ],
+     "occurrences": 20,
+     "buttonLabels": [
+      "1 · 基准 P1 · 待审 P1",
+      "2 · 基准 P2 · 待审 P2",
+      "3 · 基准 P3 · 待审 P3"
+     ],
+     "status": "PASS"
+    }
+   ]
+  },
+  {
+   "engine": "mupdf",
+   "pair": "bizav_2024_vs_2025",
+   "coreVersion": "policy-compare/0.1.0+row-identity.2",
+   "status": "complete_for_scope",
+   "cards": 89,
+   "highlights": [
+    {
+     "name": "bizav Dubai hangar operator",
+     "cards": [
+      "d-d85be33ed74f0acab9a0"
+     ],
+     "rowKey": "Dubai (OMDW)",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "Dubai (OMDW) Al Maktoum Executive Hangars M-CHLS, 9H-PRT Shared",
+      "newText": "Dubai (OMDW) Desert Falcon Hangar Company M-CHLS, 9H-PRT Shared"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 14,
+       "polygons": 18,
+       "changedText": "Al Mak|oum|Exe|utive|s",
+       "sourceRunBox": [
+        174,
+        691.3,
+        298.3,
+        702.9
+       ],
+       "drawnBoxes": [
+        [
+         174,
+         691.3,
+         179.4,
+         702.9
+        ],
+        [
+         179.4,
+         691.3,
+         181.6,
+         702.9
+        ],
+        [
+         181.6,
+         691.3,
+         183.8,
+         702.9
+        ],
+        [
+         183.8,
+         691.3,
+         191.5,
+         702.9
+        ],
+        [
+         191.5,
+         691.3,
+         196.3,
+         702.9
+        ],
+        [
+         196.3,
+         691.3,
+         200.9,
+         702.9
+        ],
+        [
+         203.9,
+         691.3,
+         209.1,
+         702.9
+        ],
+        [
+         209.1,
+         691.3,
+         214.3,
+         702.9
+        ],
+        [
+         214.3,
+         691.3,
+         222.3,
+         702.9
+        ],
+        [
+         224.5,
+         691.3,
+         229.2,
+         702.9
+        ],
+        [
+         229.2,
+         691.3,
+         233.7,
+         702.9
+        ],
+        [
+         233.7,
+         691.3,
+         238.5,
+         702.9
+        ],
+        [
+         242.6,
+         691.3,
+         247.8,
+         702.9
+        ],
+        [
+         247.8,
+         691.3,
+         250.9,
+         702.9
+        ],
+        [
+         250.9,
+         691.3,
+         253.1,
+         702.9
+        ],
+        [
+         253.1,
+         691.3,
+         257.4,
+         702.9
+        ],
+        [
+         257.4,
+         691.3,
+         262.2,
+         702.9
+        ],
+        [
+         294.2,
+         691.3,
+         298.3,
+         702.9
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.667,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 14,
+       "polygons": 18,
+       "changedText": "Deser|Fal|on| Company",
+       "sourceRunBox": [
+        174,
+        691.3,
+        300.8,
+        702.9
+       ],
+       "drawnBoxes": [
+        [
+         174,
+         691.3,
+         180.2,
+         702.9
+        ],
+        [
+         180.2,
+         691.3,
+         185,
+         702.9
+        ],
+        [
+         185,
+         691.3,
+         189.1,
+         702.9
+        ],
+        [
+         189.1,
+         691.3,
+         193.9,
+         702.9
+        ],
+        [
+         193.9,
+         691.3,
+         197.4,
+         702.9
+        ],
+        [
+         202.7,
+         691.3,
+         207.1,
+         702.9
+        ],
+        [
+         207.1,
+         691.3,
+         211.8,
+         702.9
+        ],
+        [
+         211.8,
+         691.3,
+         214,
+         702.9
+        ],
+        [
+         218.1,
+         691.3,
+         223.2,
+         702.9
+        ],
+        [
+         223.2,
+         691.3,
+         228.5,
+         702.9
+        ],
+        [
+         260.5,
+         691.3,
+         262.7,
+         702.9
+        ],
+        [
+         262.7,
+         691.3,
+         268.1,
+         702.9
+        ],
+        [
+         268.1,
+         691.3,
+         273.3,
+         702.9
+        ],
+        [
+         273.3,
+         691.3,
+         281.2,
+         702.9
+        ],
+        [
+         281.2,
+         691.3,
+         286.4,
+         702.9
+        ],
+        [
+         286.4,
+         691.3,
+         291.2,
+         702.9
+        ],
+        [
+         291.2,
+         691.3,
+         296.5,
+         702.9
+        ],
+        [
+         296.5,
+         691.3,
+         300.8,
+         702.9
+        ]
+       ],
+       "drawnWidthOverRunWidth": 0.674,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "bizav M-FNKB Selwyn endorsement (wrapped party cell)",
+     "cards": [
+      "d-b25d1abf64132548e030"
+     ],
+     "rowKey": "Selwyn Aircraft Finance Designated Activity Company",
+     "card": {
+      "kind": "Replaced",
+      "category": "Material",
+      "oldText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67B",
+      "newText": "M-FNKB Selwyn Aircraft Finance Designated Activity Company Lessor AVN67C"
+     },
+     "sides": [
+      {
+       "side": "left",
+       "pageIndex": 14,
+       "polygons": 1,
+       "changedText": "B",
+       "sourceRunBox": [
+        498.1,
+        291.4,
+        503.6,
+        303
+       ],
+       "drawnBoxes": [
+        [
+         498.1,
+         291.4,
+         503.6,
+         303
+        ]
+       ],
+       "drawnWidthOverRunWidth": 1,
+       "insideSourceRuns": true
+      },
+      {
+       "side": "right",
+       "pageIndex": 14,
+       "polygons": 1,
+       "changedText": "C",
+       "sourceRunBox": [
+        498.2,
+        291.4,
+        503.5,
+        303
+       ],
+       "drawnBoxes": [
+        [
+         498.2,
+         291.4,
+         503.5,
+         303
+        ]
+       ],
+       "drawnWidthOverRunWidth": 1,
+       "insideSourceRuns": true
+      }
+     ],
+     "status": "PASS"
+    }
+   ],
+   "navigation": [
+    {
+     "name": "bizav Draft watermark",
+     "cards": [
+      "d-b250ffb977a3507ff701"
+     ],
+     "visited": [
+      {
+       "occurrence": 1,
+       "right": {
+        "pageIndex": 0,
+        "text": "Draft",
+        "polygons": 5,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 20,
+       "right": {
+        "pageIndex": 9,
+        "text": "Draft",
+        "polygons": 5,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 38,
+       "right": {
+        "pageIndex": 18,
+        "text": "Draft",
+        "polygons": 5,
+        "insideSource": true
+       }
+      }
+     ],
+     "occurrences": 38,
+     "buttonLabels": [
+      "1 · 待审 P1",
+      "2 · 待审 P1",
+      "3 · 待审 P2"
+     ],
+     "status": "PASS"
+    },
+    {
+     "name": "bizav page numbers",
+     "cards": [
+      "d-940e8ae601a4e7abbe0a"
+     ],
+     "visited": [
+      {
+       "occurrence": 1,
+       "left": {
+        "pageIndex": 1,
+        "text": "Page 1 of 17",
+        "polygons": 12,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 1,
+        "text": "Page 1 of 18",
+        "polygons": 12,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 10,
+       "left": {
+        "pageIndex": 10,
+        "text": "Page 10 of 17",
+        "polygons": 13,
+        "insideSource": true
+       },
+       "right": {
+        "pageIndex": 10,
+        "text": "Page 10 of 18",
+        "polygons": 13,
+        "insideSource": true
+       }
+      },
+      {
+       "occurrence": 18,
+       "right": {
+        "pageIndex": 18,
+        "text": "Page 18 of 18",
+        "polygons": 13,
+        "insideSource": true
+       }
+      }
+     ],
+     "occurrences": 18,
+     "buttonLabels": [
+      "1 · 基准 P2 · 待审 P2",
+      "2 · 基准 P3 · 待审 P3",
+      "3 · 基准 P4 · 待审 P4"
+     ],
+     "status": "PASS"
+    }
+   ]
+  }
+ ]
+}

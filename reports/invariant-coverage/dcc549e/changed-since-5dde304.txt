@@ -1,0 +1,12 @@
+files changed since the joint head 5dde304 (reports excluded):
+ apps/web/main.tsx                   |  13 +-
+ packages/compare-core/index.ts      | 149 ++++++++++++-----
+ packages/compare-core/structure.ts  |  18 ++-
+ packages/contracts/index.ts         |  28 +++-
+ scripts/renewal-triage.py           | 152 +++++++++++++++---
+ tests/evaluation/scorer.ts          | 252 ++++++++++++++++++++---------
+ tests/page-furniture.test.ts        |  85 ++++++++++
+ tests/row-identity-evidence.test.ts |  53 +++++++
+ tests/scorer.test.ts                | 307 +++++++++++++++++++++++++++++++-----
+ tests/test_renewal_triage.py        | 115 ++++++++++++--
+ 10 files changed, 968 insertions(+), 204 deletions(-)

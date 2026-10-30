@@ -288,22 +288,21 @@ h2 {
   font-size: 10px;
   padding: 1px 6px;
   border-radius: 4px;
-}
-.Material {
-  background: #fbe8df;
-  color: #a94f2a;
-}
-.Review {
-  background: #eee9f7;
-  color: #715193;
-}
-.RollForward {
-  background: #e1f1f1;
-  color: #267780;
-}
-.Cosmetic {
   background: #edf0f3;
-  color: #647482;
+  color: #3f4f5c;
+}
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 10px;
+}
+.facts span {
+  padding: 1px 6px;
+  border: 1px solid #dde4e8;
+  border-radius: 4px;
+  color: #3f4f5c;
 }
 h3 {
   font-size: 11px;
@@ -336,6 +335,8 @@ h3 {
 .occurrences {
   font-size: 10px;
   color: #4c818c;
+  max-height: 110px;
+  overflow-y: auto;
 }
 .documents {
   display: flex;

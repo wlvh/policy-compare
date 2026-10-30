@@ -1,0 +1,13 @@
+4/4 -> 3/5 policy-compare-result/2 complete_for_scope
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]
+4/4 -> 5/5 policy-compare-result/2 complete_for_scope
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]
+1%..4% -> 5%..8% policy-compare-result/2 complete_for_scope
+   ["Replaced",null,["page_number_only"],"1%","5%","page-furniture",{"left":4,"right":4,"leftPages":4,"rightPages":4},"页面附属：跨页重复的页码，基准 4 页、待审 4 页；逐处来源见出现位置"]
+$1..$4 -> $5..$8 policy-compare-result/2 complete_for_scope
+   ["Replaced",null,["page_number_only"],"$1","$5","page-furniture",{"left":4,"right":4,"leftPages":4,"rightPages":4},"页面附属：跨页重复的页码，基准 4 页、待审 4 页；逐处来源见出现位置"]
+- n - 4 -> 5 pages policy-compare-result/2 complete_for_scope
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]
+Page n of 4 -> of 5 policy-compare-result/2 complete_for_scope
+   ["Replaced",null,["page_number_only"],"Page 1 of 4","Page 1 of 5","page-furniture",{"left":4,"right":5,"leftPages":4,"rightPages":5},"页面附属：跨页重复的页码，基准 4 页、待审 5 页；逐处来源见出现位置"]
+   ["Added",null,[],"","Clause 5 keeps the insured terms unchanged.","unmatched",null,""]

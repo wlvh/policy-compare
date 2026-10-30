@@ -1,0 +1,15 @@
+commit 91366d2932f80032d2bcb21f35b68c6581704682
+v24.19.0
+verify:core 0
+triage-unittest 0
+tsc 0
+build:pdfjs 0
+pdf-check:pdfjs 0
+rules:pdfjs 2
+review-check:pdfjs 0
+browser:pdfjs 0
+build:mupdf 0
+pdf-check:mupdf 0
+rules:mupdf 2
+review-check:mupdf 0
+browser:mupdf 0

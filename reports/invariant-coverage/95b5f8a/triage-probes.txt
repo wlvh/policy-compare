@@ -1,0 +1,11 @@
+== codex_r20_probe
+card changes USD 1000 -> USD 2000 only: not_located accepted=[] unexplained=1
+control: card changes USD 100 -> USD 200: correct accepted=['e'] unexplained=0
+== codex_r19_probe1
+only ac_1315 declared; edit in 1760 unit: not_evaluable accepted=[] unexplained=1 atoms=['same_card_identity_unconfirmed']
+ac_1315 and ac_1760 declared; edit in 1760 unit: not_located accepted=[] unexplained=0 atoms=['not_found']
+control: 1315 unit changes: correct accepted=['r'] unexplained=0 atoms=['same_card']
+== codex_r18_probe2
+paragraph only on page 1; page 2 holds just the value: not_evaluable accepted=[] unexplained=2
+control: paragraph on page 2: split_attributable accepted=['n', 'o'] unexplained=0
+control: paragraph only on page 1: not_located accepted=[] unexplained=2

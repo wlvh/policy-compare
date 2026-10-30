@@ -269,7 +269,7 @@
         "before": 2,
         "after": 3
       },
-      "event_count": 0,
+      "event_count": 1,
       "required_status": "complete_for_scope",
       "pdf_sha256": {
         "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
@@ -397,7 +397,7 @@
         "before": 2,
         "after": 3
       },
-      "event_count": 0,
+      "event_count": 1,
       "required_status": "complete_for_scope",
       "pdf_sha256": {
         "before": "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",

@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 tests/browser/review-regressions.spec.ts:48:1 › F7 versioned resources escape old immutable cache and fixed paths revalidate (445ms)
+
+  1 passed (2.3s)

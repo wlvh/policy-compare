@@ -1,0 +1,16 @@
+# Renewal cards that differ between eec627f (core +row-identity.3) and 6e6b541 (+row-identity.4).
+# Same card = same id, kind, category, old/new text and occurrence count. Pages are 1-based.
+
+## aviation_2024_vs_2025 mupdf: 99 -> 99 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope
+d-7f2aa7a2b8571a16ce0b Added/Cosmetic -> Added/Material pages L[] R[2] '' => '1.8'
+d-c965ebdf9db23cfd78cc Added/Cosmetic -> Added/Material pages L[] R[4] '' => '1.8'
+d-fb0867858fe70e2039af Removed/Cosmetic -> Removed/Review pages L[2] R[] 'HOWEVER:' => ''
+
+## aviation_2024_vs_2025 pdfjs: 99 -> 99 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope
+d-09aa5e136f5a58e261cb Added/Cosmetic -> Added/Material pages L[] R[2] '' => '1.8'
+d-70ea01b89131b2202afe Added/Cosmetic -> Added/Material pages L[] R[4] '' => '1.8'
+d-421158d56a1a2044370f Removed/Cosmetic -> Removed/Review pages L[2] R[] 'HOWEVER:' => ''
+
+## bizav_2024_vs_2025 mupdf: 89 -> 89 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope
+
+## bizav_2024_vs_2025 pdfjs: 89 -> 89 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope

@@ -1,0 +1,10 @@
+Re-triage at b3e84c8: product unchanged since 8d1f1ea (its four results), triage /18 at be1ed04 -> /18 at 441a81d.
+A = 8d1f1ea product + be1ed04 triage (8d1f1ea/renewal); B = the same product + 441a81d triage (b3e84c8/renewal).
+## aviation_2024_vs_2025-mupdf: verdicts B {'correct': 75, 'not_located': 4, 'not_evaluable': 6, 'split_attributable': 5, 'excluded': 1, 'partly_located': 3}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []
+## aviation_2024_vs_2025-pdfjs: verdicts B {'correct': 77, 'not_located': 3, 'not_evaluable': 6, 'split_attributable': 5, 'excluded': 1, 'partly_located': 2}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-mupdf: verdicts B {'correct': 65, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-pdfjs: verdicts B {'correct': 66, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'not_located': 2, 'one_side_only': 1}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []

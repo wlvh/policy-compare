@@ -1,0 +1,68 @@
+library error: zlib error: incorrect header check
+read error; treating as end of file
+library error: zlib error: incorrect header check
+read error; treating as end of file
+library error: zlib error: incorrect header check
+read error; treating as end of file
+library error: zlib error: incorrect header check
+read error; treating as end of file
+library error: zlib error: incorrect header check
+read error; treating as end of file
+{
+  subject: 'independent_review_real_pdf_regressions',
+  engine: 'mupdf',
+  revision: '9ccc044678487bc44a77e1bf15ac601ae11edfc5',
+  status: 'PASS',
+  checks: [
+    {
+      name: 'F1 real PDF section-field ownership short-top',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F1 real PDF section-field ownership short-body',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F1 real PDF section-field ownership long-body',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F1 real PDF section-field ownership headings-body',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F1 unresolved duplicate-field ownership retains visible amount delta',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F2 malformed content stream cannot become complete zero differences',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F2 diagnostics are scoped; subsequent clean document stays complete',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F2 valid compressed stream is complete; damaged page does not hide another page change',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F5 image inside translated Form has authored region',
+      status: 'PASS',
+      evidence: [Object]
+    },
+    {
+      name: 'F5 nested Forms compose matrices and restore following image state',
+      status: 'PASS',
+      evidence: [Object]
+    }
+  ]
+}

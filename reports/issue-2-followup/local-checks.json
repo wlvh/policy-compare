@@ -1,0 +1,49 @@
+{
+  "reviewedRevision": "39735225004d4bafd9087c39076bd34964ead02c",
+  "codeRevision": "a6043d90dd30f360be6fac5350c374a1d4ee72a4",
+  "attachment": {
+    "providedReference": "sandbox:/workspace/scratch/ce9af0285af4/policy_compare_pr9_review_39735225.zip",
+    "accessibleLocally": false,
+    "reproductionBasis": "Exact inputs and invariants in the user review, added to existing formal tests; no claim to have executed the archive"
+  },
+  "before": {
+    "runtime": "39735225004d4bafd9087c39076bd34964ead02c",
+    "typescriptExit": 1,
+    "typescriptFailedTests": 5,
+    "pythonExit": 1,
+    "pythonFailingSubtests": 4,
+    "notes": "Only the four affected runtime files temporarily read the reviewed commit while new tests ran; a finally block restored the working fixes. No stash, reset or historical chain was used."
+  },
+  "after": {
+    "core": {
+      "exit": 0,
+      "tests": 373,
+      "log": "after/verify-core.log"
+    },
+    "python": {
+      "exit": 0,
+      "tests": 87,
+      "log": "after/python.log"
+    },
+    "types": {
+      "exit": 0,
+      "log": "after/tsc.log"
+    }
+  },
+  "newTests": [
+    "full-cell wrap uncertainty ignores fragment grouping: 3/4 columns, 2/3 lines, symmetric/asymmetric fragmentation, unchanged IDs and geometry, normal neighbour kept",
+    "monetary edits cannot be reused: none/copy/both omit structurePath; independent occurrences and optional fields are controls",
+    "split_edits_preserve_each_pair_inside_one_event: crossed vs correct replacement pairs and real delete/add",
+    "literal_page_mask_text_is_not_a_page_number: replacement, insertion and deletion; genuine Page positives"
+  ],
+  "knownBoundariesUnchanged": [
+    "R16",
+    "R18",
+    "R23",
+    "R24",
+    "aviation #87/#88/#89/#93 split-card cost",
+    "aviation #91 automatically unevaluated"
+  ],
+  "node": "v24.22.1",
+  "runtimeMatchesCodeRevision": true
+}

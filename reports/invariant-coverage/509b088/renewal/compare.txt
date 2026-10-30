@@ -1,0 +1,40 @@
+Renewal at 509b088: product 632dc80 (core +row-identity.24, re-extracted), triage renewal-triage/23.
+A = cedf563 product + /21 (cedf563/renewal); B = cedf563 product + /23 (509b088/renewal/old-product-new-triage); C = 509b088 product + /23 (509b088/renewal).
+## aviation_2024_vs_2025-mupdf: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.24+facts.4+repeat.9+ops.4
+  verdicts A {'correct': 75, 'not_located': 4, 'split_attributable': 6, 'excluded': 1, 'partly_located': 3, 'not_evaluable': 5}
+  verdicts C {'correct': 75, 'not_located': 4, 'split_attributable': 6, 'excluded': 1, 'partly_located': 3, 'not_evaluable': 5}
+  A->B (triage /21 -> /23, same product) differing events (verdict, accepted cards, row flags, written-out evidence): ['87', '88', '89', '93']
+    #87: split_attributable -> split_attributable; accepted ['d-585c8f20f0696b364f9c', 'd-dfd28c38675274860f0e'] -> ['d-585c8f20f0696b364f9c', 'd-dfd28c38675274860f0e']
+    #88: split_attributable -> split_attributable; accepted ['d-12a0f7fa25d15f29ba91', 'd-fb26d2531f36741907c4'] -> ['d-12a0f7fa25d15f29ba91', 'd-fb26d2531f36741907c4']
+    #89: split_attributable -> split_attributable; accepted ['d-19ad546edb5d782441e2', 'd-5f3dfecfcb1b7d180d04'] -> ['d-19ad546edb5d782441e2', 'd-5f3dfecfcb1b7d180d04']
+    #93: split_attributable -> split_attributable; accepted ['d-8fd3558f64a5a85da559', 'd-a9641c265ae9051fddcb'] -> ['d-8fd3558f64a5a85da559', 'd-a9641c265ae9051fddcb']
+  B->C (product cedf563 -> 509b088, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []
+## aviation_2024_vs_2025-pdfjs: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.24+facts.4+repeat.9+ops.4
+  verdicts A {'correct': 77, 'not_located': 3, 'split_attributable': 6, 'excluded': 1, 'partly_located': 2, 'not_evaluable': 5}
+  verdicts C {'correct': 77, 'not_located': 3, 'split_attributable': 6, 'excluded': 1, 'partly_located': 2, 'not_evaluable': 5}
+  A->B (triage /21 -> /23, same product) differing events (verdict, accepted cards, row flags, written-out evidence): ['87', '88', '89', '93']
+    #87: split_attributable -> split_attributable; accepted ['d-425a1cfab3e549f88aad', 'd-72e09cbe8fc183b84ed2'] -> ['d-425a1cfab3e549f88aad', 'd-72e09cbe8fc183b84ed2']
+    #88: split_attributable -> split_attributable; accepted ['d-1c60c04f9d3c82f5be78', 'd-1c63fc1afc26013a75c6'] -> ['d-1c60c04f9d3c82f5be78', 'd-1c63fc1afc26013a75c6']
+    #89: split_attributable -> split_attributable; accepted ['d-2d4246cf6bb84b58c280', 'd-918a85bb310c0d9d5cb4'] -> ['d-2d4246cf6bb84b58c280', 'd-918a85bb310c0d9d5cb4']
+    #93: split_attributable -> split_attributable; accepted ['d-051ee7abefb4625a0bb5', 'd-4c9db98b288eb7217bf1'] -> ['d-051ee7abefb4625a0bb5', 'd-4c9db98b288eb7217bf1']
+  B->C (product cedf563 -> 509b088, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-mupdf: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.24+facts.4+repeat.9+ops.4
+  verdicts A {'correct': 65, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  verdicts C {'correct': 65, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  A->B (triage /21 -> /23, same product) differing events (verdict, accepted cards, row flags, written-out evidence): ['38', '39', '69', '71', '73']
+    #38: split_attributable -> split_attributable; accepted ['d-0fac602f5bfa9bd715f1', 'd-50fb0565c42f319a3dd0'] -> ['d-0fac602f5bfa9bd715f1', 'd-50fb0565c42f319a3dd0']
+    #39: split_attributable -> split_attributable; accepted ['d-14f0f970746fddafa2b8', 'd-d0d2c12315d90ed10ae7'] -> ['d-14f0f970746fddafa2b8', 'd-d0d2c12315d90ed10ae7']
+    #69: split_attributable -> split_attributable; accepted ['d-edf53adb25b19ab68cff', 'd-ef022c1a9d8197fe96d5'] -> ['d-edf53adb25b19ab68cff', 'd-ef022c1a9d8197fe96d5']
+    #71: split_attributable -> split_attributable; accepted ['d-65c3d57a000f2224be48', 'd-d2b60b4f2ba5aa600552'] -> ['d-65c3d57a000f2224be48', 'd-d2b60b4f2ba5aa600552']
+    #73: split_attributable -> split_attributable; accepted ['d-c46143590223febd6baa', 'd-e4566bd243305505a9a3'] -> ['d-c46143590223febd6baa', 'd-e4566bd243305505a9a3']
+  B->C (product cedf563 -> 509b088, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-pdfjs: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4 -> policy-compare/0.1.0+row-identity.24+facts.4+repeat.9+ops.4
+  verdicts A {'correct': 66, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'not_located': 2, 'one_side_only': 1}
+  verdicts C {'correct': 66, 'not_evaluable': 10, 'excluded': 2, 'split_attributable': 7, 'not_located': 2, 'one_side_only': 1}
+  A->B (triage /21 -> /23, same product) differing events (verdict, accepted cards, row flags, written-out evidence): ['38', '39', '69', '71', '73']
+    #38: split_attributable -> split_attributable; accepted ['d-5c5f3a1e6ed56303f20b', 'd-a4ce35eaba721d057208'] -> ['d-5c5f3a1e6ed56303f20b', 'd-a4ce35eaba721d057208']
+    #39: split_attributable -> split_attributable; accepted ['d-2135fbc1b2328fb92fe3', 'd-aa74b45e4dab6350242f'] -> ['d-2135fbc1b2328fb92fe3', 'd-aa74b45e4dab6350242f']
+    #69: split_attributable -> split_attributable; accepted ['d-406f6714951186c25b82', 'd-7285a73ec44f917744a0'] -> ['d-406f6714951186c25b82', 'd-7285a73ec44f917744a0']
+    #71: split_attributable -> split_attributable; accepted ['d-7e41c350a6885c7c9887', 'd-bc44f6ac75d0ccdf9878'] -> ['d-7e41c350a6885c7c9887', 'd-bc44f6ac75d0ccdf9878']
+    #73: split_attributable -> split_attributable; accepted ['d-3fe680a45de322a52b33', 'd-8b4aaa5450b0a58828d6'] -> ['d-3fe680a45de322a52b33', 'd-8b4aaa5450b0a58828d6']
+  B->C (product cedf563 -> 509b088, same triage) differing events (verdict, accepted cards, row flags, written-out evidence): []

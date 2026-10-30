@@ -1,0 +1,5 @@
+# final triage tests (5888e7d84b2eb9cd14ee8dc1ba81430de7be13c2) with scripts/renewal-triage.py of 81048e3 (renewal-triage/28)
+FAIL: test_a_card_adding_or_removing_one_copy_of_a_repeated_paragraph_shows_it (test_renewal_triage.MovedIsNotAddedOrRemoved.test_a_card_adding_or_removing_one_copy_of_a_repeated_paragraph_shows_it)
+FAIL: test_a_moved_row_is_full_only_with_every_cell (test_renewal_triage.RecordIdentity.test_a_moved_row_is_full_only_with_every_cell)
+Ran 76 tests in 0.602s
+FAILED (failures=2)

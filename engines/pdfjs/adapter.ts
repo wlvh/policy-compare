@@ -102,7 +102,7 @@ export class PdfJsSession implements PdfSessionApi {
       extractor: {
         name: "PDF.js",
         version: EXTRACTOR_VERSION,
-        adapterVersion: "pdfjs-adapter/2",
+        adapterVersion: "pdfjs-adapter/3",
         options: {
           ...TEXT_OPTIONS,
           geometry: "engine_run; browser text_layer_range",
@@ -152,9 +152,10 @@ export class PdfJsSession implements PdfSessionApi {
         normal = [-dir[1], dir[0]],
         height = Math.hypot(tx[2], tx[3]),
         width = item.width * page.userUnit;
+      // Type 3 fonts (e.g. Chromium's printed header/footer) report NaN metrics.
       const style = content.styles[item.fontName],
-        ascent = style.ascent ?? 0.8,
-        descent = style.descent ?? -0.2;
+        ascent = Number.isFinite(style.ascent) ? style.ascent : 0.8,
+        descent = Number.isFinite(style.descent) ? style.descent : -0.2;
       const p = (along: number, vertical: number) => [
         tx[4] + dir[0] * along + normal[0] * vertical,
         tx[5] + dir[1] * along + normal[1] * vertical,

@@ -1,0 +1,5 @@
+# final triage tests (8bf16df37ce0494f783dbe5712f414d106aaac6d) with scripts/renewal-triage.py of 081f370 (renewal-triage/32)
+FAIL: test_copies_of_one_edit_each_need_an_edit_of_their_own (test_renewal_triage.EditEvidence.test_copies_of_one_edit_each_need_an_edit_of_their_own)
+FAIL: test_a_row_is_full_from_every_accepted_card_of_its_unit (test_renewal_triage.RecordIdentity.test_a_row_is_full_from_every_accepted_card_of_its_unit)
+Ran 79 tests in 0.956s
+FAILED (failures=2)

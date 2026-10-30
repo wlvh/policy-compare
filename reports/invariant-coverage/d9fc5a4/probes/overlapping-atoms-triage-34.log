@@ -1,0 +1,3 @@
+Codex: only "USD 100" edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=False unexplained=0
+variant: only the bare "100" edited: verdict=one_side_only outcome=incomplete atoms=['one_side_only', 'not_evaluable'] fullRowRecovered=None unexplained=1
+control: both edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=True unexplained=0

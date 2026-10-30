@@ -1,0 +1,64 @@
+# New round-4 tests against product code 6e6b541 and triage script at 3d391cd (before the fixes)
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > The insurer covers war risks. -> The insurer excludes war risks. at y=72 is Review
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > THE INSURER COVERS WAR RISKS. -> THE INSURER EXCLUDES WAR RISKS. at y=72 is Review
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > HULL LIMIT USD 1,000,000 -> HULL LIMIT USD 2,000,000 at y=72 is Material
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > The insurer covers war risks. -> The insurer excludes war risks. at y=150 is Review
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > THE INSURER COVERS WAR RISKS. -> THE INSURER EXCLUDES WAR RISKS. at y=150 is Review
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > HULL LIMIT USD 1,000,000 -> HULL LIMIT USD 2,000,000 at y=150 is Material
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > The insurer covers war risks. -> The insurer excludes war risks. at y=815 is Review
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > THE INSURER COVERS WAR RISKS. -> THE INSURER EXCLUDES WAR RISKS. at y=815 is Review
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > HULL LIMIT USD 1,000,000 -> HULL LIMIT USD 2,000,000 at y=815 is Material
+ ✓ tests/page-furniture.test.ts > page furniture is compared once, with every occurrence > page numbers give one cosmetic card, never one card per page
+ ✓ tests/page-furniture.test.ts > page furniture is compared once, with every occurrence > an unchanged page number sequence produces no card
+ ✓ tests/page-furniture.test.ts > page furniture is compared once, with every occurrence > a watermark on one side only is one visible Review card with all sources
+ ✓ tests/page-furniture.test.ts > page furniture is compared once, with every occurrence > a repeated header carrying a limit stays Material on one card
+ ✓ tests/table-scope.test.ts > wrapped table cells stay with their row > a wrapped list cell does not become a heading that splits the table
+ ✓ tests/table-scope.test.ts > wrapped table cells stay with their row > an amount after a wrapped cell is compared on its own record
+ ✓ tests/table-scope.test.ts > wrapped table cells stay with their row > in a compact table the next row is never taken for a wrapped line
+ ✓ tests/table-scope.test.ts > identical text does not consume a record from another table > an unchanged copy added to another schedule does not hide a value change
+ ✓ tests/table-scope.test.ts > identical text does not consume a record from another table > exact split/merge cannot take a row that identity evidence binds
+ ✓ tests/table-scope.test.ts > cells centred on their row (LibreOffice, spreadsheets) > a change in a centred cell stays on its record and nothing else changes
+ ✓ tests/margin-text.test.ts > a changed margin or heading line is compared as content > a heading added in capitals at the top of the page is not cosmetic
+ ✓ tests/margin-text.test.ts > layout-only margin and heading changes stay cosmetic > unchanged margin text gives no card
+ ✓ tests/margin-text.test.ts > layout-only margin and heading changes stay cosmetic > a footer whose page number changed is cosmetic
+ ✓ tests/margin-text.test.ts > layout-only margin and heading changes stay cosmetic > a continuation heading of a schedule that both versions have is cosmetic
+ × tests/margin-text.test.ts > layout-only margin and heading changes stay cosmetic > a title "POLICY WORDING" added on a page of its own is shown for review
+ × tests/margin-text.test.ts > layout-only margin and heading changes stay cosmetic > a title "WAR EXCLUSION" added on a page of its own is shown for review
+ × tests/margin-text.test.ts > layout-only margin and heading changes stay cosmetic > a title "POLICY CANCELLED" added on a page of its own is shown for review
+ ✓ tests/table-scope.test.ts > cells centred on their row (LibreOffice, spreadsheets) > adjacent centred cells join the row through each other
+ ✓ tests/table-scope.test.ts > identity cells keep their recovered column (review of PR #9) > a name that moved to another column does not make two records one
+ ✓ tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 100000 does not bind two companies
+ ✓ tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal JPY 100000 does not bind two companies
+ ✓ tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 100000 does not bind two companies under a header
+ ✓ tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal JPY 100000 does not bind two companies under a header
+ ✓ tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal value does not bind two different MSNs in an all-number row
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal USD100000 does not bind two companies
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 100000JPY does not bind two companies
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 2025-01-01 does not bind two companies
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 1 January 2025 does not bind two companies
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal USD100000 does not bind two companies under a header
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 100000JPY does not bind two companies under a header
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 2025-01-01 does not bind two companies under a header
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > an equal 1 January 2025 does not bind two companies under a header
+ × tests/page-furniture.test.ts > page furniture is compared once, with every occurrence > a repeated header limit written against its currency code stays Material
+ ✓ tests/page-furniture.test.ts > page furniture is compared once, with every occurrence > amounts that do not count with the pages are content, not furniture
+ ✓ tests/page-furniture.test.ts > a table header repeated on each page is not an identity conflict > unchanged headers pair silently and a value change keeps its row
+ ✓ tests/page-furniture.test.ts > variants inside a repeated line stay visible > a limit changed on one page only is a Material change with both values located
+ ✓ tests/page-furniture.test.ts > variants inside a repeated line stay visible > a limit on the page-number line keeps its Material change
+ ✓ tests/page-furniture.test.ts > variants inside a repeated line stay visible > only the page number changing on that line stays noise-free
+ × tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > a registration that contains a currency code still identifies the record
+ ✓ tests/table-scope.test.ts > amounts and unexplained bare numbers are not record identity > a bare MSN under its local MSN header still identifies the record
+ × tests/table-scope.test.ts > an explicitly headed MSN column is not a row counter > MSN 01 and 02 kept while the names swap stay a visible conflict
+ ✓ tests/table-scope.test.ts > an explicitly headed MSN column is not a row counter > a No. column counting 1..n is still a row number when a row is inserted
+ ✓ tests/page-furniture.test.ts > variants inside a repeated line stay visible > a page still carrying the old reference is named on the change card
+ ✓ tests/page-furniture.test.ts > a repeated line keeps its place, and only real page numbers are exempt > A: amounts swapped between two places are two Material changes, each at its own place
+ ✓ tests/page-furniture.test.ts > a repeated line keeps its place, and only real page numbers are exempt > B: a rate equal to the page total stays content; only the page expression is exempt
+ ✓ tests/page-furniture.test.ts > a repeated line keeps its place, and only real page numbers are exempt > C: business numbers that count with the pages are compared as content
+⎯⎯⎯⎯⎯⎯ Failed Tests 14 ⎯⎯⎯⎯⎯⎯⎯
+      Tests  14 failed | 41 passed (55)
+
+FAIL: test_unchanged_move_is_not_a_removal (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_a_removal)
+FAIL: test_unchanged_move_is_not_an_addition (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_an_addition)
+FAIL: test_a_long_row_in_one_source_unit_is_full (test_renewal_triage.RecordIdentity.test_a_long_row_in_one_source_unit_is_full)
+Ran 26 tests in 0.101s
+FAILED (failures=3)

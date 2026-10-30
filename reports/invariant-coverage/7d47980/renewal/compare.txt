@@ -1,0 +1,14 @@
+Renewal at 7d47980: product 6eb647d (core +row-identity.15, re-extracted), triage renewal-triage/16 (unchanged).
+A = 74707bd product and triage (74707bd/renewal); C = 7d47980 product and triage (7d47980/renewal).
+## aviation_2024_vs_2025-mupdf: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.14+facts.4+repeat.8+ops.4 -> policy-compare/0.1.0+row-identity.15+facts.4+repeat.8+ops.4
+  verdicts C {'correct': 77, 'not_located': 4, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 3}
+  A->C differing events (verdict, accepted cards, row flags, written-out evidence): []
+## aviation_2024_vs_2025-pdfjs: cards 111 -> 111; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.14+facts.4+repeat.8+ops.4 -> policy-compare/0.1.0+row-identity.15+facts.4+repeat.8+ops.4
+  verdicts C {'correct': 79, 'not_located': 3, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 2}
+  A->C differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-mupdf: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.14+facts.4+repeat.8+ops.4 -> policy-compare/0.1.0+row-identity.15+facts.4+repeat.8+ops.4
+  verdicts C {'correct': 67, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  A->C differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-pdfjs: cards 103 -> 103; cards identical (all fields): True; other fields differing: []; coreVersion policy-compare/0.1.0+row-identity.14+facts.4+repeat.8+ops.4 -> policy-compare/0.1.0+row-identity.15+facts.4+repeat.8+ops.4
+  verdicts C {'correct': 68, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'not_located': 2, 'one_side_only': 1}
+  A->C differing events (verdict, accepted cards, row flags, written-out evidence): []

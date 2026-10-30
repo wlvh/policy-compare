@@ -1,0 +1,4 @@
+commit 61e4add3a930818abbce3affa34727bf7194fff7
+v22.22.0
+10.12.1
+Python 3.13.17

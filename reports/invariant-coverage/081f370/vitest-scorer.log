@@ -1,0 +1,12 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ✓ tests/scorer.test.ts (139 tests) 1665ms
+
+ Test Files  1 passed (1)
+      Tests  139 passed (139)
+   Start at  06:57:51
+   Duration  3.23s (tests 58%, transform 26%, import 15%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
+exit 0

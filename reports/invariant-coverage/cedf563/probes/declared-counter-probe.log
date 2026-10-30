@@ -1,0 +1,6 @@
+## declared header REPEATED HEADER LIMIT: Page 1..4 -> last Page 5: product policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4
+  card Replaced " Page 1" -> " Page 5" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4} facts [] occurrences 8
+  scorer: PASS; faults []; open []
+## control: plain Page 1..4 -> last Page 5: product policy-compare/0.1.0+row-identity.22+facts.4+repeat.9+ops.4
+  card Replaced "Page 1" -> "Page 5" repeat {"left":4,"right":1,"leftPages":4,"rightPages":4} facts ["page_number_only"] occurrences 8
+  scorer: PASS; faults []; open []

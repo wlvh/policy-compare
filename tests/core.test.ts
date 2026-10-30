@@ -58,7 +58,8 @@ describe("pure core mechanism regressions", () => {
   it("keeps normalization changes visible and maps a ligature search to one glyph", () => {
     const a = textDoc([{ text: "Office" }]),
       b = textDoc([{ text: "Ofﬁce" }]);
-    expect(compare(a, b).differences[0].category).toBe("Cosmetic");
+    const d = compare(a, b).differences[0];
+    expect([d.hasTextChange, d.facts]).toEqual([true, []]);
     const hits = search(b, "fi", "right");
     expect(hits[0][0].charIds).toHaveLength(1);
     expect(hits[0][0].text).toBe("ﬁ");

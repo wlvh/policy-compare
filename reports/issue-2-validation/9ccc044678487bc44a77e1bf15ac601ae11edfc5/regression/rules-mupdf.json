@@ -1,0 +1,215 @@
+{
+  "subject": "actual_pdf_product_rules",
+  "engine": "mupdf",
+  "finePositionStatus": "PASS",
+  "finePositionEvidence": "Native character quads",
+  "commit": "9ccc044678487bc44a77e1bf15ac601ae11edfc5",
+  "manifestHash": "7781116f1386c5a1884a308f7d410f0b4b9a89a8e33015c9406fa8f61e835655",
+  "status": "FAIL",
+  "passed": 0,
+  "total": 32,
+  "failed": [
+    "R01_identical",
+    "R02_amount",
+    "R03_currency",
+    "R04_decimal",
+    "R05_negation",
+    "R06_and_or",
+    "R07_shorter_term",
+    "R08_normal_renewal",
+    "R09_header_limit",
+    "R10_address_swap",
+    "R11_label_alias",
+    "R12_exact_move",
+    "R13_move_and_replacement",
+    "R14_short_paragraph",
+    "R15_paragraph_split",
+    "R16_repagination",
+    "R17_font_change",
+    "R18_ligature",
+    "R19_rotated_status",
+    "R20_plus_minus",
+    "R21_checkbox_glyph",
+    "R22_table_value",
+    "R23_table_reorder",
+    "R24_table_cross_page",
+    "R25_duplicate_keys",
+    "R26_key_change",
+    "R27_mixed_scan_page",
+    "R28_inline_scan",
+    "R29_clause_add",
+    "R30_clause_delete",
+    "R31_punctuation",
+    "R32_combined_changes"
+  ],
+  "notEvaluated": [],
+  "identityApplicability": {
+    "checked": [],
+    "notApplicable": [],
+    "unsupported": [],
+    "coverageWarningEvents": [],
+    "unknownDetectionBranch": []
+  },
+  "records": [
+    {
+      "caseId": "R01_identical",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R02_amount",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R03_currency",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R04_decimal",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R05_negation",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R06_and_or",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R07_shorter_term",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R08_normal_renewal",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R09_header_limit",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R10_address_swap",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R11_label_alias",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R12_exact_move",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R13_move_and_replacement",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R14_short_paragraph",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R15_paragraph_split",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R16_repagination",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      2,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      3,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      4,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R17_font_change",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R18_ligature",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R19_rotated_status",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R20_plus_minus",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R21_checkbox_glyph",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R22_table_value",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R23_table_reorder",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R24_table_cross_page",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      2,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      3,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      4,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      5,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      6,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      7,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      8,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      9,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R25_duplicate_keys",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R26_key_change",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R27_mixed_scan_page",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R28_inline_scan",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R29_clause_add",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R30_clause_delete",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R31_punctuation",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    },
+    {
+      "caseId": "R32_combined_changes",
+      "status": "FAIL",
+      "error": "[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"policy-compare/0.1.0\"\n    ],\n    \"path\": [\n      \"schemaVersion\"\n    ],\n    \"message\": \"Invalid input: expected \\\"policy-compare/0.1.0\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      0,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  },\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"Material\",\n      \"Review\",\n      \"RollForward\",\n      \"Cosmetic\"\n    ],\n    \"path\": [\n      \"differences\",\n      1,\n      \"category\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"Material\\\"|\\\"Review\\\"|\\\"RollForward\\\"|\\\"Cosmetic\\\"\"\n  }\n]"
+    }
+  ]
+}

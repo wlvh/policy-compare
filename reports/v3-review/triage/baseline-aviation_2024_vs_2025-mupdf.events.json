@@ -1,0 +1,1126 @@
+[
+ {
+  "id": "1",
+  "kind": "Replaced",
+  "authorCategory": "RollForward",
+  "outcome": "complete",
+  "atoms": [
+   "same_card",
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "UMR 年份顺延"
+ },
+ {
+  "id": "2",
+  "kind": "Replaced",
+  "authorCategory": "Cosmetic",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "拼写更正（非标点/大小写，需要模糊规则才能判为格式性）"
+ },
+ {
+  "id": "3",
+  "kind": "Replaced",
+  "authorCategory": "RollForward",
+  "outcome": "not_found",
+  "atoms": [
+   "not_found"
+  ],
+  "bestProductCategory": null,
+  "note": "保险期间顺延一年；序数词上标"
+ },
+ {
+  "id": "4",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "not_found",
+  "atoms": [
+   "not_found"
+  ],
+  "bestProductCategory": null,
+  "note": "新增承保项 1.8"
+ },
+ {
+  "id": "5",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "2.1 限额上调"
+ },
+ {
+  "id": "6",
+  "kind": "Replaced",
+  "authorCategory": "Cosmetic",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "仅大小写"
+ },
+ {
+  "id": "7",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "(b) 总限额上调"
+ },
+ {
+  "id": "8",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "2.2 限额上调"
+ },
+ {
+  "id": "9",
+  "kind": "Replaced",
+  "authorCategory": "Cosmetic",
+  "outcome": "excluded",
+  "atoms": [],
+  "bestProductCategory": null,
+  "note": "仅空白（双空格 → 单空格）"
+ },
+ {
+  "id": "10",
+  "kind": "Replaced",
+  "authorCategory": "Cosmetic",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "仅标点"
+ },
+ {
+  "id": "11",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "最大座位数 100 → 120（新增 A220 机型）"
+ },
+ {
+  "id": "12",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "单机最高约定价值上调"
+ },
+ {
+  "id": "13",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "收回费用限额上调"
+ },
+ {
+  "id": "14",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card",
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "免赔额上调"
+ },
+ {
+  "id": "15",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "not_found",
+  "atoms": [
+   "not_found"
+  ],
+  "bestProductCategory": null,
+  "note": "新增 1.8 免赔额"
+ },
+ {
+  "id": "16",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card",
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "除外国家新增 Haiti"
+ },
+ {
+  "id": "17",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "not_found",
+  "atoms": [
+   "not_found"
+  ],
+  "bestProductCategory": null,
+  "note": "条款版本 LSW617H → LSW617J"
+ },
+ {
+  "id": "18",
+  "kind": "Moved",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "理算人条款从 CONDITIONS 移到 CLAIMS ADMINISTRATION 之后（跨章节移动，原文不变）"
+ },
+ {
+  "id": "19",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "AVN52E 子限额上调"
+ },
+ {
+  "id": "20",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "AVN60A 人身伤害限额上调"
+ },
+ {
+  "id": "21",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "条款版本变化"
+ },
+ {
+  "id": "22",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "删除过时的日期识别（Y2K）条款"
+ },
+ {
+  "id": "23",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "删除过时的日期识别（Y2K）条款"
+ },
+ {
+  "id": "24",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "删除过时的日期识别（Y2K）条款"
+ },
+ {
+  "id": "25",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "新增网络风险条款"
+ },
+ {
+  "id": "26",
+  "kind": "Replaced",
+  "authorCategory": "Cosmetic",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "弯引号 → 直引号，en dash → 连字符"
+ },
+ {
+  "id": "27",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card",
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "申报期限 30 → 45 天"
+ },
+ {
+  "id": "28",
+  "kind": "Moved",
+  "authorCategory": "Material",
+  "outcome": "not_found",
+  "atoms": [
+   "not_found"
+  ],
+  "bestProductCategory": null,
+  "note": "50/50 条款移到 Notice of Loss 之后，且内部改了一个词（settle → pay），应识别为移动并显示词级差异"
+ },
+ {
+  "id": "29",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "最低及预付保费比例 85% → 80%"
+ },
+ {
+  "id": "30",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "保费上调"
+ },
+ {
+  "id": "31",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "战争险保费上调"
+ },
+ {
+  "id": "32",
+  "kind": "Replaced",
+  "authorCategory": "RollForward",
+  "outcome": "partly_complete",
+  "atoms": [
+   "not_found",
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "付款日顺延"
+ },
+ {
+  "id": "33",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "机队数量"
+ },
+ {
+  "id": "34",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "not_found",
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "赔案记录期间顺延并新增一宗"
+ },
+ {
+  "id": "35",
+  "kind": "Moved",
+  "authorCategory": "Cosmetic",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "技术管理段落移到 INFORMATION 末尾（原文不变）"
+ },
+ {
+  "id": "36",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells",
+   "separate_cards",
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "承保人参考号顺延"
+ },
+ {
+  "id": "37",
+  "kind": "Replaced",
+  "authorCategory": "RollForward",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards",
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "承保人参考号顺延"
+ },
+ {
+  "id": "38",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards",
+   "separate_cards",
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "承保人参考号"
+ },
+ {
+  "id": "39",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "unresolved_only",
+   "found"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "承保人退出"
+ },
+ {
+  "id": "40",
+  "kind": "Replaced",
+  "authorCategory": "RollForward",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards",
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "承保人参考号顺延"
+ },
+ {
+  "id": "41",
+  "kind": "Replaced",
+  "authorCategory": "RollForward",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards",
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "承保人参考号顺延"
+ },
+ {
+  "id": "42",
+  "kind": "Replaced",
+  "authorCategory": "RollForward",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards",
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "承保人参考号顺延"
+ },
+ {
+  "id": "43",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "unresolved_only",
+   "found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "新承保人加入"
+ },
+ {
+  "id": "44",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "需共同同意的价值门槛上调"
+ },
+ {
+  "id": "45",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "跟随首席的赔案金额上调"
+ },
+ {
+  "id": "46",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "保费编码分配变化"
+ },
+ {
+  "id": "47",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "same_card"
+  ],
+  "bestProductCategory": "Material",
+  "note": "经纪佣金下调"
+ },
+ {
+  "id": "48",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "not_found",
+   "found",
+   "found",
+   "not_found",
+   "unresolved_only",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "飞机出售，移出机队（ATR 72-600 MSN 1760）"
+ },
+ {
+  "id": "49",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "not_found",
+   "found",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "飞机出售，移出机队（Bombardier CRJ900 MSN 15423）"
+ },
+ {
+  "id": "50",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "not_found",
+   "found",
+   "found",
+   "not_found",
+   "found",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "飞机出售，移出机队（De Havilland Dash 8-400 MSN 4566）"
+ },
+ {
+  "id": "51",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "not_found",
+   "found",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "飞机出售，移出机队（Embraer E175 MSN 17000873）"
+ },
+ {
+  "id": "52",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "53",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "54",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "55",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "56",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "57",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "58",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "59",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "60",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "转租给新承租人"
+ },
+ {
+  "id": "61",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Review",
+  "note": "转租给新承租人"
+ },
+ {
+  "id": "62",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "转租给新承租人"
+ },
+ {
+  "id": "63",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "found",
+   "found",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "新增飞机（Airbus A220-100）"
+ },
+ {
+  "id": "64",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "found",
+   "found",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "新增飞机（Airbus A220-100）"
+ },
+ {
+  "id": "65",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "not_found",
+   "found",
+   "found",
+   "found",
+   "unresolved_only",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "新增飞机（ATR 72-600）"
+ },
+ {
+  "id": "66",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "found",
+   "unresolved_only",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "新增飞机（Embraer E175）"
+ },
+ {
+  "id": "67",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "not_found",
+   "found",
+   "found",
+   "found",
+   "unresolved_only"
+  ],
+  "bestProductCategory": "Review",
+  "note": "备用发动机出售（ESN 9995860）"
+ },
+ {
+  "id": "68",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "not_found",
+   "found",
+   "found",
+   "found",
+   "unresolved_only"
+  ],
+  "bestProductCategory": "Review",
+  "note": "备用发动机出售（ESN ED3109）"
+ },
+ {
+  "id": "69",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Review",
+  "note": "存放地点变化"
+ },
+ {
+  "id": "70",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Review",
+  "note": "存放地点变化"
+ },
+ {
+  "id": "71",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Cosmetic",
+  "note": "约定价值重估"
+ },
+ {
+  "id": "72",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "新增备用发动机"
+ },
+ {
+  "id": "73",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "not_found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "对应飞机已出售，合同方删除"
+ },
+ {
+  "id": "74",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "not_found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "对应飞机已出售，合同方删除"
+ },
+ {
+  "id": "75",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "not_found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "对应飞机已出售，合同方删除"
+ },
+ {
+  "id": "76",
+  "kind": "Removed",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "not_found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "对应飞机已出售，合同方删除"
+ },
+ {
+  "id": "77",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Review",
+  "note": "再融资，合同方变更"
+ },
+ {
+  "id": "78",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "not_found",
+  "atoms": [
+   "not_found"
+  ],
+  "bestProductCategory": null,
+  "note": "背书格式变化"
+ },
+ {
+  "id": "79",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "partly_complete",
+  "atoms": [
+   "found",
+   "found",
+   "found",
+   "not_found"
+  ],
+  "bestProductCategory": "Review",
+  "note": "新飞机的合同方"
+ },
+ {
+  "id": "80",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "通知期 30 → 45 天"
+ },
+ {
+  "id": "81",
+  "kind": "Moved",
+  "authorCategory": "Cosmetic",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "同一背书内相邻两段对调（原文不变；引擎报告其中任一段为移动均可）"
+ },
+ {
+  "id": "82",
+  "kind": "Moved",
+  "authorCategory": "Material",
+  "outcome": "not_found",
+  "atoms": [
+   "not_found"
+  ],
+  "bestProductCategory": null,
+  "note": "Proof of Loss 段落从背书 1 移到背书 2 末尾（原文不变）"
+ },
+ {
+  "id": "83",
+  "kind": "Replaced",
+  "authorCategory": "Cosmetic",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "en dash → 连字符"
+ },
+ {
+  "id": "84",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "separate_cards"
+  ],
+  "bestProductCategory": "Material",
+  "note": "残骸清除子限额上调"
+ },
+ {
+  "id": "85",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "新增背书 8 标题"
+ },
+ {
+  "id": "86",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "新增背书 8 正文"
+ },
+ {
+  "id": "87",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "费率上调"
+ },
+ {
+  "id": "88",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "费率上调"
+ },
+ {
+  "id": "89",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "固定保费上调"
+ },
+ {
+  "id": "90",
+  "kind": "Added",
+  "authorCategory": "Material",
+  "outcome": "complete",
+  "atoms": [
+   "found",
+   "found",
+   "found"
+  ],
+  "bestProductCategory": "Material",
+  "note": "费率表新增 1.8 行"
+ },
+ {
+  "id": "91",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells",
+   "same_card_without_record_cells",
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "限额档位上调"
+ },
+ {
+  "id": "92",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "每机保费"
+ },
+ {
+  "id": "93",
+  "kind": "Replaced",
+  "authorCategory": "Material",
+  "outcome": "incomplete",
+  "atoms": [
+   "same_card_without_record_cells"
+  ],
+  "bestProductCategory": "Material",
+  "note": "战争险费率上调"
+ }
+]

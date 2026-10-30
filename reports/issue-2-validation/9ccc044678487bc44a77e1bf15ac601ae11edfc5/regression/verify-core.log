@@ -1,0 +1,297 @@
+
+> policy-compare@0.1.0 verify:core /home/user/policy-compare
+> vitest run
+
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (41 tests | 17 failed) 252ms
+   ❯ independent grader rejects dishonest outputs (19)
+     × F6 rejects displaced final changed geometry on left 51ms
+     × F6 rejects displaced final changed geometry on right 8ms
+     × F6 rejects displaced final changed geometry on left/right 7ms
+     × accepts valid evidence and a genuine control 3ms
+     ✓ empty required output 2ms
+     ✓ wrong subject 4ms
+     ✓ wrong page 7ms
+     ✓ hidden event 1ms
+     ✓ invalid source 3ms
+     ✓ reversed sides 3ms
+     ✓ unjustified partial 2ms
+     ✓ wrong operation 1ms
+     ✓ no precise changed source 3ms
+     ✓ coverage: empty 1ms
+     ✓ coverage: generic warning 2ms
+     ✓ coverage: wrong region 1ms
+     ✓ coverage: incorrect complete 2ms
+     ✓ duplicate-key warning alone cannot waive amount evidence 6ms
+     ✓ Review does not excuse false text in control 1ms
+   ❯ identity applicability: checked, explicit N/A, or not evaluated (13)
+     ✓ the 32 pairs have exactly the 12 known N/A events in 11 cases and no unsupported path 5ms
+     × N/A skips only the identity check 3ms
+     ✓ N/A still fails on wrong page 3ms
+     ✓ N/A still fails on hidden 5ms
+     ✓ N/A still fails on wrong operation 2ms
+     ✓ N/A still fails on wrong category 2ms
+     ✓ N/A still fails on no output 2ms
+     ✓ N/A still fails on unjustified partial 1ms
+     × an unknown path is NOT_EVALUATED, never PASS, and a proven fault still FAILs 2ms
+     × an N/A entry does not cover the same event under another path 2ms
+     × an unknown detection branch is NOT_EVALUATED 6ms
+     ✓ summaries never count NOT_EVALUATED or unknown states as passed 1ms
+     × R13: the exact move and the similar new clause are not interchangeable 11ms
+   ❯ R16: a declared added page title in a no-change control (9)
+     × the exact title card passes, as one Added/Review card 15ms
+     × an undeclared Review card still fails the control 5ms
+     × a missing title fails 5ms
+     × another title fails, and its card is not excused 5ms
+     × the title at another position than declared is not excused 6ms
+     × a card carrying body text with the title is not excused, though it contains the title 5ms
+     × Material still fails the control 8ms
+     × a second card for the same title still fails the control 20ms
+     ✓ a hidden title card fails (the result schema already rejects it) 23ms
+ ✓ tests/cosmetic-evidence.test.ts (21 tests) 257ms
+ ✓ tests/page-furniture.test.ts (14 tests) 287ms
+ ✓ tests/page-counts.test.ts (7 tests) 122ms
+ ✓ tests/table-scope.test.ts (26 tests) 176ms
+ ✓ tests/result-format-2.test.ts (17 tests) 181ms
+ ✓ tests/review-core.test.ts (13 tests) 92ms
+ ✓ tests/margin-text.test.ts (16 tests) 146ms
+ ✓ tests/server.test.ts (1 test) 201ms
+ ✓ tests/core.test.ts (8 tests) 80ms
+ ✓ tests/row-identity-evidence.test.ts (8 tests) 121ms
+ ✓ tests/row-identity.test.ts (12 tests) 121ms
+ ✓ tests/contracts.test.ts (4 tests) 14ms
+ ✓ tests/alignment.test.ts (4 tests) 55ms
+ ✓ tests/boundary.test.ts (2 tests) 13ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 17 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > independent grader rejects dishonest outputs > F6 rejects displaced final changed geometry on left
+ FAIL  tests/scorer.test.ts > independent grader rejects dishonest outputs > F6 rejects displaced final changed geometry on right
+ FAIL  tests/scorer.test.ts > independent grader rejects dishonest outputs > F6 rejects displaced final changed geometry on left/right
+AssertionError: expected 'FAIL' to be 'PASS' // Object.is equality
+
+Expected: "PASS"
+Received: "FAIL"
+
+ ❯ tests/scorer.test.ts:79:88
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/17]⎯
+
+ FAIL  tests/scorer.test.ts > independent grader rejects dishonest outputs > accepts valid evidence and a genuine control
+AssertionError: expected 'FAIL' to be 'PASS' // Object.is equality
+
+Expected: "PASS"
+Received: "FAIL"
+
+ ❯ tests/scorer.test.ts:85:66
+     83|   it("accepts valid evidence and a genuine control", () => {
+     84|     const x = example();
+     85|     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe(…
+       |                                                                  ^
+     86|     x.expected.events = [];
+     87|     x.expected.invariants = ["no_content_differences"];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/17]⎯
+
+ FAIL  tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A skips only the identity check
+AssertionError: expected 'FAIL' to be 'PASS' // Object.is equality
+
+Expected: "PASS"
+Received: "FAIL"
+
+ ❯ tests/scorer.test.ts:252:26
+    250|     const x = as(example(), "R05_negation:E1", "clauses.territory.text…
+    251|     const score = grade(x.result, x.expected, x.layout, x.docs);
+    252|     expect(score.status).toBe("PASS");
+       |                          ^
+    253|     expect(score.events[0].identity?.applicability).toBe("not_applicab…
+    254|     x.result.differences[0].structurePath!.entity = "wrong";
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/17]⎯
+
+ FAIL  tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > an unknown path is NOT_EVALUATED, never PASS, and a proven fault still FAILs
+AssertionError: expected 'FAIL' to be 'NOT_EVALUATED' // Object.is equality
+
+Expected: "NOT_EVALUATED"
+Received: "FAIL"
+
+ ❯ tests/scorer.test.ts:286:26
+    284|     const x = as(example(), "new_case:E1", "endorsements.cyber.limit");
+    285|     const score = grade(x.result, x.expected, x.layout, x.docs);
+    286|     expect(score.status).toBe("NOT_EVALUATED");
+       |                          ^
+    287|     expect(score.events[0]).toMatchObject({ verdict: "NOT_EVALUATED", …
+    288|     expect(score.notEvaluated.map((n) => n.eventId)).toEqual(["new_cas…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/17]⎯
+
+ FAIL  tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > an N/A entry does not cover the same event under another path
+AssertionError: expected 'FAIL' to be 'NOT_EVALUATED' // Object.is equality
+
+Expected: "NOT_EVALUATED"
+Received: "FAIL"
+
+ ❯ tests/scorer.test.ts:295:66
+    293|   it("an N/A entry does not cover the same event under another path", …
+    294|     const x = as(example(), "R05_negation:E1", "clauses.exclusions.tex…
+    295|     expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe(…
+       |                                                                  ^
+    296|   });
+    297|   it("an unknown detection branch is NOT_EVALUATED", () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/17]⎯
+
+ FAIL  tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > an unknown detection branch is NOT_EVALUATED
+AssertionError: expected { …(5) } to match object { status: 'NOT_EVALUATED', faults: [] }
+(3 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "faults": [],
+-   "status": "NOT_EVALUATED",
++   "faults": [
++     "Invalid result schema: schemaVersion,differences.0.category",
++   ],
++   "status": "FAIL",
+  }
+
+ ❯ tests/scorer.test.ts:300:59
+    298|     const x = example();
+    299|     x.expected.events[0].detection_requirement = "detect_if_possible";
+    300|     expect(grade(x.result, x.expected, x.layout, x.docs)).toMatchObjec…
+       |                                                           ^
+    301|       status: "NOT_EVALUATED",
+    302|       faults: [],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/17]⎯
+
+ FAIL  tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > R13: the exact move and the similar new clause are not interchangeable
+AssertionError: expected 'FAIL' to be 'PASS' // Object.is equality
+
+Expected: "PASS"
+Received: "FAIL"
+
+ ❯ tests/scorer.test.ts:405:26
+    403|     const fresh = () => compare(left, right);
+    404|     const score = grade(fresh(), expected, layout, docs);
+    405|     expect(score.status).toBe("PASS");
+       |                          ^
+    406|     expect(score.events.map((e) => e.identity?.applicability)).toEqual…
+    407|       "not_applicable",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/17]⎯
+
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > the exact title card passes, as one Added/Review card
+AssertionError: expected [ [ 'Added', undefined, …(1) ] ] to deeply equal [ [ 'Added', 'Review', …(1) ] ]
+
+- Expected
++ Received
+
+  [
+    [
+      "Added",
+-     "Review",
++     undefined,
+      "POLICY WORDING",
+    ],
+  ]
+
+ ❯ tests/scorer.test.ts:506:78
+    504|   it("the exact title card passes, as one Added/Review card", () => {
+    505|     const x = r16();
+    506|     expect(x.result.differences.map((d) => [d.kind, d.category, d.newT…
+       |                                                                              ^
+    507|     const score = grade(x.result, x.expected, x.layout, x.docs);
+    508|     expect(score).toMatchObject({ status: "PASS", faults: [] });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/17]⎯
+
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > an undeclared Review card still fails the control
+AssertionError: expected [ Array(1) ] to include 'False substantive change; Review is n…'
+ ❯ tests/scorer.test.ts:515:66
+    513|     x.expected.events = [];
+    514|     x.expected.evidence_locations = {};
+    515|     expect(grade(x.result, x.expected, x.layout, x.docs).faults).toCon…
+       |                                                                  ^
+    516|   });
+    517|   it("a missing title fails", () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/17]⎯
+
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > a missing title fails
+AssertionError: expected [ Array(1) ] to include 'Required event failed: R16_repaginati…'
+ ❯ tests/scorer.test.ts:520:66
+    518|     const x = r16();
+    519|     x.result.differences = [];
+    520|     expect(grade(x.result, x.expected, x.layout, x.docs).faults).toCon…
+       |                                                                  ^
+    521|   });
+    522|   it("another title fails, and its card is not excused", () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/17]⎯
+
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > another title fails, and its card is not excused
+AssertionError: expected [ Array(1) ] to include 'False substantive change; Review is n…'
+ ❯ tests/scorer.test.ts:526:26
+    524|     const score = grade(x.result, x.expected, x.layout, x.docs);
+    525|     expect(score.status).toBe("FAIL");
+    526|     expect(score.faults).toContain(invariant);
+       |                          ^
+    527|   });
+    528|   it("the title at another position than declared is not excused", () …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/17]⎯
+
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > the title at another position than declared is not excused
+AssertionError: expected [ Array(1) ] to include 'False substantive change; Review is n…'
+ ❯ tests/scorer.test.ts:532:26
+    530|     const score = grade(x.result, x.expected, x.layout, x.docs);
+    531|     expect(score.status).toBe("FAIL");
+    532|     expect(score.faults).toContain(invariant);
+       |                          ^
+    533|   });
+    534|   it("a card carrying body text with the title is not excused, though …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/17]⎯
+
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > a card carrying body text with the title is not excused, though it contains the title
+TypeError: Cannot read properties of undefined (reading 'verdict')
+ ❯ tests/scorer.test.ts:553:28
+    551|     ];
+    552|     const score = grade(x.result, x.expected, x.layout, x.docs);
+    553|     expect(score.events[0].verdict).toBe("PASS");
+       |                            ^
+    554|     expect(score.faults).toContain(invariant);
+    555|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/17]⎯
+
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > Material still fails the control
+ FAIL  tests/scorer.test.ts > R16: a declared added page title in a no-change control > a second card for the same title still fails the control
+AssertionError: expected [ Array(1) ] to include 'False substantive change; Review is n…'
+ ❯ tests/scorer.test.ts:568:68
+    566|       const x = r16();
+    567|       mutate(x.result);
+    568|       expect(grade(x.result, x.expected, x.layout, x.docs).faults).toC…
+       |                                                                    ^
+    569|     });
+    570|   it("a hidden title card fails (the result schema already rejects it)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/17]⎯
+
+
+ Test Files  1 failed | 14 passed (15)
+      Tests  17 failed | 177 passed (194)
+   Start at  11:53:14
+   Duration  2.58s (tests 41%, import 32%, transform 25%, worker 2%)
+
+    Isolate  15 workers spawned · ~135ms startup each (spawn + environment, per file)
+             at least ~541ms faster with isolate: false — reuses workers across files instead of one per file
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
+ ELIFECYCLE  Command failed with exit code 1.

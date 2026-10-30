@@ -1,0 +1,12 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ✓ tests/scorer.test.ts (32 tests) 183ms
+
+ Test Files  1 passed (1)
+      Tests  32 passed (32)
+   Start at  09:22:38
+   Duration  446ms (tests 60%, import 26%, transform 13%, worker 2%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
+vitest scorer exit=0

@@ -1,0 +1,111 @@
+test_a_card_carrying_the_moved_paragraphs_edit_shows_it (test_renewal_triage.AMoveNeedsAMove.test_a_card_carrying_the_moved_paragraphs_edit_shows_it)
+A moved and edited paragraph may show as a replacement (the author expects that for bizav #26). ... ok
+test_a_card_that_keeps_the_paragraph_in_place_shows_no_move (test_renewal_triage.AMoveNeedsAMove.test_a_card_that_keeps_the_paragraph_in_place_shows_no_move) ... ok
+test_a_cell_amount_matches_only_as_a_whole_number (test_renewal_triage.AddedRemovedRows.test_a_cell_amount_matches_only_as_a_whole_number)
+r4416863588: "USD 100" inside "USD 100,000" is another amount, for Added and Removed rows. ... ok
+test_a_cell_value_does_not_match_a_signed_value (test_renewal_triage.AddedRemovedRows.test_a_cell_value_does_not_match_a_signed_value)
+r4417384098: 100 is not found in -100. ... ok
+test_a_join_is_read_where_the_card_shows_it_not_anywhere_on_the_card (test_renewal_triage.AddedRemovedRows.test_a_join_is_read_where_the_card_shows_it_not_anywhere_on_the_card)
+#11 comment 6512133284: "100 ,000" spaced in a note elsewhere on the card does not split ... ok
+test_a_single_character_cell_is_checked_too (test_renewal_triage.AddedRemovedRows.test_a_single_character_cell_is_checked_too)
+r4416771405: the A of 1315 | A | USD 100 was dropped from the row. ... ok
+test_a_source_range_listed_twice_is_one_occurrence (test_renewal_triage.AddedRemovedRows.test_a_source_range_listed_twice_is_one_occurrence)
+r4417511075: a card that lists the range of USD 100 twice shows it once. ... ok
+test_cells_find_a_non_overlapping_allocation_when_one_exists (test_renewal_triage.AddedRemovedRows.test_cells_find_a_non_overlapping_allocation_when_one_exists)
+r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B". ... ok
+test_cells_must_share_one_record (test_renewal_triage.AddedRemovedRows.test_cells_must_share_one_record) ... ok
+test_cells_scattered_over_different_records_are_not_complete (test_renewal_triage.AddedRemovedRows.test_cells_scattered_over_different_records_are_not_complete) ... ok
+test_cells_without_any_record_identity_are_not_evaluable (test_renewal_triage.AddedRemovedRows.test_cells_without_any_record_identity_are_not_evaluable) ... ok
+test_contiguous_source_ranges_join_without_a_space (test_renewal_triage.AddedRemovedRows.test_contiguous_source_ranges_join_without_a_space)
+#11 comment 6508515495: USD 100 is not in USD 100,000 split before the comma. ... ok
+test_identical_cells_are_allocated_without_trying_their_orders (test_renewal_triage.AddedRemovedRows.test_identical_cells_are_allocated_without_trying_their_orders)
+r4417631513: ten identical cells against nine copies took seconds, each more ten times longer. ... ok
+test_overlapping_cells_need_separate_occurrences (test_renewal_triage.AddedRemovedRows.test_overlapping_cells_need_separate_occurrences)
+r4417192877: USD 100 and 100 are not both recovered from one "USD 100". ... ok
+test_repeated_cells_need_their_own_occurrences (test_renewal_triage.AddedRemovedRows.test_repeated_cells_need_their_own_occurrences)
+r4416863597: two author cells "USD 100" are not both recovered from one "USD 100". ... ok
+test_row_inside_another_records_card (test_renewal_triage.AddedRemovedRows.test_row_inside_another_records_card) ... ok
+test_compatible_invocation (test_renewal_triage.Cli.test_compatible_invocation) ... /home/user/policy-compare/tests/test_renewal_triage.py:1167: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp6j0j9694/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/policy-compare/tests/test_renewal_triage.py:1168: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp6j0j9694/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/policy-compare/tests/test_renewal_triage.py:1171: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp6j0j9694/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_pure_insertion_or_deletion_is_accepted_on_its_card (test_renewal_triage.EditEvidence.test_a_pure_insertion_or_deletion_is_accepted_on_its_card) ... ok
+test_a_same_card_paragraph_edit_needs_the_author_paragraph (test_renewal_triage.EditEvidence.test_a_same_card_paragraph_edit_needs_the_author_paragraph)
+r4417631502: the Liability paragraph's card is not the Hull paragraph's edit. ... ok
+test_a_whole_paragraph_edit_is_its_own_context (test_renewal_triage.EditEvidence.test_a_whole_paragraph_edit_is_its_own_context)
+PR #11 comment 6509794672: Pay now. -> Pay later. on a Removed and an Added card. ... ok
+test_an_inserted_clause_may_repeat_the_words_after_it (test_renewal_triage.EditEvidence.test_an_inserted_clause_may_repeat_the_words_after_it)
+The card may pair the words an insertion repeats with the old text after it and mark ... ok
+test_characters_out_of_source_order_are_not_an_occurrence (test_renewal_triage.EditEvidence.test_characters_out_of_source_order_are_not_an_occurrence) ... ok
+test_either_copy_of_a_repeated_word_may_carry_the_insertion (test_renewal_triage.EditEvidence.test_either_copy_of_a_repeated_word_may_carry_the_insertion)
+South Sudan, -> South Sudan, Sudan,: the card may mark the first Sudan as inserted. ... ok
+test_split_cards_must_change_the_part_the_edit_changes (test_renewal_triage.EditEvidence.test_split_cards_must_change_the_part_the_edit_changes)
+r4416771397: two cards that only swap currency codes are no split of USD 100 -> USD 200. ... ok
+test_split_paragraph_context_comes_from_the_units_carrying_the_edit (test_renewal_triage.EditEvidence.test_split_paragraph_context_comes_from_the_units_carrying_the_edit)
+PR #11 comment 6507993515: an unchanged Hull unit does not lend its paragraph to an edit ... ok
+test_the_author_paragraph_must_surround_the_edited_occurrence (test_renewal_triage.EditEvidence.test_the_author_paragraph_must_surround_the_edited_occurrence)
+PR #11 comment 6510958743: the Hull paragraph merely shares a unit with the Liability ... ok
+test_the_identity_sits_in_a_unit_the_edit_changes (test_renewal_triage.EditEvidence.test_the_identity_sits_in_a_unit_the_edit_changes)
+r4416699649: an occurrence across two units, the identity only in the unit whose text ... ok
+test_the_old_and_new_occurrences_must_line_up_in_the_cards_edit (test_renewal_triage.EditEvidence.test_the_old_and_new_occurrences_must_line_up_in_the_cards_edit)
+r4415913728: edits only in the unchanged part of the author text (the currency codes) ... ok
+test_whitespace_edits_beside_the_amounts_are_not_the_amount_change (test_renewal_triage.EditEvidence.test_whitespace_edits_beside_the_amounts_are_not_the_amount_change) ... ok
+test_a_date_roll_needs_real_dates (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_date_roll_needs_real_dates)
+PR #9 comment 6508226511: 29 February 2025 does not exist. ... ok
+test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_format_1_result_is_still_read_and_its_categories_are_not_evaluated) ... ok
+test_a_page_fact_needs_whole_page_numbers (test_renewal_triage.FactsFormatsExclusionsFurniture.test_a_page_fact_needs_whole_page_numbers)
+PR #9 comment 6508095436, PR #11 comment 6509987949: Page 1.1 -> 2.1 is no page change. ... ok
+test_excluded_events_keep_text_and_reason_and_never_count (test_renewal_triage.FactsFormatsExclusionsFurniture.test_excluded_events_keep_text_and_reason_and_never_count) ... ok
+test_page_furniture_is_listed_not_silently_filtered (test_renewal_triage.FactsFormatsExclusionsFurniture.test_page_furniture_is_listed_not_silently_filtered) ... ok
+test_stated_facts_are_rechecked_against_the_card_texts (test_renewal_triage.FactsFormatsExclusionsFurniture.test_stated_facts_are_rechecked_against_the_card_texts) ... ok
+test_real_removal_and_addition_are_still_accepted (test_renewal_triage.MovedIsNotAddedOrRemoved.test_real_removal_and_addition_are_still_accepted) ... ok
+test_text_removed_inside_a_replaced_card_is_still_a_removal (test_renewal_triage.MovedIsNotAddedOrRemoved.test_text_removed_inside_a_replaced_card_is_still_a_removal) ... ok
+test_unchanged_move_is_not_a_removal (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_a_removal) ... ok
+test_unchanged_move_is_not_an_addition (test_renewal_triage.MovedIsNotAddedOrRemoved.test_unchanged_move_is_not_an_addition) ... ok
+test_an_edit_spanning_units_takes_identity_only_from_those_units (test_renewal_triage.OneQualifyingHit.test_an_edit_spanning_units_takes_identity_only_from_those_units) ... ok
+test_an_unchanged_occurrence_does_not_lend_its_record_to_another_records_edit (test_renewal_triage.OneQualifyingHit.test_an_unchanged_occurrence_does_not_lend_its_record_to_another_records_edit) ... ok
+test_split_cards_take_the_paragraph_context_from_the_stated_page (test_renewal_triage.OneQualifyingHit.test_split_cards_take_the_paragraph_context_from_the_stated_page) ... ok
+test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source) ... ok
+test_text_only_on_another_page_is_not_accepted (test_renewal_triage.PagesBoundTheText.test_text_only_on_another_page_is_not_accepted) ... ok
+test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row (test_renewal_triage.RecordIdentity.test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row) ... ok
+test_a_declared_composite_identity_needs_every_cell (test_renewal_triage.RecordIdentity.test_a_declared_composite_identity_needs_every_cell) ... ok
+test_a_long_row_in_one_source_unit_is_full (test_renewal_triage.RecordIdentity.test_a_long_row_in_one_source_unit_is_full) ... ok
+test_a_replaced_row_needs_each_cell_once_for_the_full_row (test_renewal_triage.RecordIdentity.test_a_replaced_row_needs_each_cell_once_for_the_full_row)
+r4417329496: two author cells USD 100 are not both recovered from one. ... ok
+test_a_replaced_value_does_not_match_a_signed_value (test_renewal_triage.RecordIdentity.test_a_replaced_value_does_not_match_a_signed_value)
+r4417560178: the edit 100 -> 200 is not -100 -> -200. ... ok
+test_a_split_row_is_full_from_its_two_cards (test_renewal_triage.RecordIdentity.test_a_split_row_is_full_from_its_two_cards)
+PR #11 comment 6511266424: the full row reads the old side on the Removed card and the new ... ok
+test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed (test_renewal_triage.RecordIdentity.test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed)
+PR #11 comment 6511895761: on a split too, Alpha of record 1760 does not complete record 1315. ... ok
+test_an_identity_after_the_preview_is_on_the_record (test_renewal_triage.RecordIdentity.test_an_identity_after_the_preview_is_on_the_record) ... ok
+test_an_undeclared_row_is_not_evaluated_even_on_the_right_card (test_renewal_triage.RecordIdentity.test_an_undeclared_row_is_not_evaluated_even_on_the_right_card) ... ok
+test_correct_amount_on_the_wrong_record_is_misattributed (test_renewal_triage.RecordIdentity.test_correct_amount_on_the_wrong_record_is_misattributed) ... ok
+test_identity_comes_from_the_declaration_only (test_renewal_triage.RecordIdentity.test_identity_comes_from_the_declaration_only) ... ok
+test_one_correct_card_plus_a_misattributed_one_is_not_complete (test_renewal_triage.RecordIdentity.test_one_correct_card_plus_a_misattributed_one_is_not_complete) ... ok
+test_rows_sharing_the_same_values_each_keep_their_own_card (test_renewal_triage.RecordIdentity.test_rows_sharing_the_same_values_each_keep_their_own_card) ... ok
+test_the_full_row_reads_only_the_records_identity_units (test_renewal_triage.RecordIdentity.test_the_full_row_reads_only_the_records_identity_units)
+#11 comment 6508818754: Alpha of record 1760 does not complete record 1315. ... ok
+test_unchanged_value_cells_do_not_confirm_a_row (test_renewal_triage.RecordIdentity.test_unchanged_value_cells_do_not_confirm_a_row) ... ok
+test_value_correct_and_full_row_are_reported_separately (test_renewal_triage.RecordIdentity.test_value_correct_and_full_row_are_reported_separately) ... ok
+test_cards_with_the_edit_are_still_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_with_the_edit_are_still_accepted) ... ok
+test_cards_without_the_edit_are_not_accepted (test_renewal_triage.ReplacementNeedsTheEdit.test_cards_without_the_edit_are_not_accepted) ... ok
+test_both_sides_only_in_an_unresolved_group_are_not_evaluable (test_renewal_triage.SidesAndSplits.test_both_sides_only_in_an_unresolved_group_are_not_evaluable) ... ok
+test_one_side_in_cards (test_renewal_triage.SidesAndSplits.test_one_side_in_cards) ... ok
+test_paragraph_split_needs_the_author_context (test_renewal_triage.SidesAndSplits.test_paragraph_split_needs_the_author_context) ... ok
+test_row_split_needs_the_record_on_both_sides (test_renewal_triage.SidesAndSplits.test_row_split_needs_the_record_on_both_sides) ... ok
+test_unresolved_hit_on_one_side_is_not_both_sides (test_renewal_triage.SidesAndSplits.test_unresolved_hit_on_one_side_is_not_both_sides) ... ok
+test_a_longer_number_on_the_other_side_is_not_the_paragraph (test_renewal_triage.TheOtherSideHoldsWholeNumbers.test_a_longer_number_on_the_other_side_is_not_the_paragraph) ... ok
+test_a_cut_opening_does_not_end_inside_a_number (test_renewal_triage.WholeNumbers.test_a_cut_opening_does_not_end_inside_a_number) ... ok
+test_a_longer_number_is_not_the_author_value (test_renewal_triage.WholeNumbers.test_a_longer_number_is_not_the_author_value) ... ok
+
+----------------------------------------------------------------------
+Ran 70 tests in 0.502s
+
+OK

@@ -1,0 +1,19 @@
+# Triage /14 (scripts and test helpers from 4d6b086) and /15 (from 5989361) on Codex r4417329496, r4417384098, r4417384107.
+=== tri-4d6b086
+r4417329496: one of two equal amount cells shown: correct fullRowRecovered=True unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+Added r4417384098: card shows -100: correct fullRowRecovered=True unexplained=0
+Added control: card shows 100: correct fullRowRecovered=True unexplained=0
+Removed r4417384098: card shows -100: correct fullRowRecovered=True unexplained=0
+Removed control: card shows 100: correct fullRowRecovered=True unexplained=0
+Added r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+Removed r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+=== tri-5989361
+r4417329496: one of two equal amount cells shown: correct fullRowRecovered=True unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+Added r4417384098: card shows -100: correct fullRowRecovered=True unexplained=0
+Added control: card shows 100: correct fullRowRecovered=True unexplained=0
+Removed r4417384098: card shows -100: correct fullRowRecovered=True unexplained=0
+Removed control: card shows 100: correct fullRowRecovered=True unexplained=0
+Added r4417384107: exact card 1315 A A B B B: partly_located fullRowRecovered=False unexplained=0
+Removed r4417384107: exact card 1315 A A B B B: partly_located fullRowRecovered=False unexplained=0

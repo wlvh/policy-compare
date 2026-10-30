@@ -1,0 +1,35 @@
+=== renewal-triage/23 (scripts/renewal-triage.py and tests/test_renewal_triage.py of 509b088)
+-- row-key-one-sided
+Added comment 6513304357: card claims rowKey 1760: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Added control: card claims rowKey 1315: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Added control: no rowKey: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed comment 6513304357: card claims rowKey 1760: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed control: card claims rowKey 1315: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed control: no rowKey: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Replaced, card claims rowKey 1760: misattributed accepted=[] unexplained=1
+Replaced, card claims rowKey 1315: correct accepted=['r'] unexplained=0
+-- date-token (fact_check)
+year 20240 -> 20250: {'dates_rolled_forward_one_year': 'contradicted'}
+day 121: {'dates_rolled_forward_one_year': 'contradicted'}
+year 2024.5: {'dates_rolled_forward_one_year': 'consistent'}
+control: whole dates: {'dates_rolled_forward_one_year': 'consistent'}
+=== renewal-triage/24 (scripts/renewal-triage.py and tests/test_renewal_triage.py of 9e9104f)
+-- row-key-one-sided
+Added comment 6513304357: card claims rowKey 1760: misattributed accepted=[] fullRowRecovered=False unexplained=1
+Added control: card claims rowKey 1315: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Added control: no rowKey: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed comment 6513304357: card claims rowKey 1760: misattributed accepted=[] fullRowRecovered=False unexplained=1
+Removed control: card claims rowKey 1315: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed control: no rowKey: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Replaced, card claims rowKey 1760: misattributed accepted=[] unexplained=1
+Replaced, card claims rowKey 1315: correct accepted=['r'] unexplained=0
+-- date-token (fact_check)
+year 20240 -> 20250: {'dates_rolled_forward_one_year': 'contradicted'}
+day 121: {'dates_rolled_forward_one_year': 'contradicted'}
+year 2024.5: {'dates_rolled_forward_one_year': 'contradicted'}
+control: whole dates: {'dates_rolled_forward_one_year': 'consistent'}
+=== product of 9e9104f, scorer 4a12cd0 (unchanged in 9e9104f)
+year 20240 -> 20250 (ten years): product facts []; scorer factHolds false; grade PASS []
+day 121: product facts []; scorer factHolds false; grade PASS []
+year 2024.5: product facts []; scorer factHolds false; grade PASS []
+control: whole dates: product facts ["dates_rolled_forward_one_year"]; scorer factHolds true; grade PASS []

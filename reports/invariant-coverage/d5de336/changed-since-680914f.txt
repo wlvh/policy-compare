@@ -1,0 +1,6 @@
+files changed since 680914f (reports excluded):
+ packages/compare-core/index.ts      | 56 ++++++++++++++++++++++++++-----------
+ packages/compare-core/structure.ts  | 18 ++++++++----
+ tests/page-furniture.test.ts        | 18 ++++++++++++
+ tests/row-identity-evidence.test.ts | 29 +++++++++++++++++++
+ 4 files changed, 99 insertions(+), 22 deletions(-)

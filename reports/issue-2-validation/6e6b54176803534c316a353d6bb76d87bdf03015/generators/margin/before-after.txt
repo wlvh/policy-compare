@@ -1,0 +1,55 @@
+# Margin pair (generators/make_html.py margin-*.html, Chromium print), both engines.
+# Before: product code eec627f (core +row-identity.3). After: 6e6b541 (core +row-identity.4).
+# Each line: kind/category old => new, left pages, right pages, occurrence count, left edge (pt) of occurrences, section.
+
+## before (eec627f)
+== mupdf policy-compare/0.1.0+row-identity.3 complete_for_scope cards=8
+Added/Material "" => "Ordinary body text on page 5." L R5 occ=0 x= [clauses]
+Replaced/Cosmetic "Premium rate 4% - Page 1 of 4" => "Premium rate 5% - Page 1 of 5" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Cosmetic "The insurer covers war risks." => "The insurer excludes war risks." L1 R1 occ=0 x= [risk_details]
+Replaced/Cosmetic "Aircraft MSN 101" => "Aircraft MSN 201" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Cosmetic "THE INSURER COVERS WAR RISKS." => "THE INSURER EXCLUDES WAR RISKS." L1 R1 occ=0 x= [risk_details]
+Replaced/Cosmetic "HULL LIMIT USD 1,000,000" => "HULL LIMIT USD 2,000,000" L2 R2 occ=0 x= [risk_details]
+Removed/Cosmetic "THE INSURER WAIVES SUBROGATION." => "" L4 R occ=0 x= [clauses]
+Added/Cosmetic "" => "THE INSURER RESERVES SUBROGATION." L R4 occ=0 x= [clauses]
+== pdfjs policy-compare/0.1.0+row-identity.3 complete_for_scope cards=8
+Added/Material "" => "Ordinary body text on page 5." L R5 occ=0 x= [clauses]
+Replaced/Cosmetic "Premium rate 4% - Page 1 of 4" => "Premium rate 5% - Page 1 of 5" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Cosmetic "The insurer covers war risks." => "The insurer excludes war risks." L1 R1 occ=0 x= [risk_details]
+Replaced/Cosmetic "Aircraft MSN 101" => "Aircraft MSN 201" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Cosmetic "THE INSURER COVERS WAR RISKS." => "THE INSURER EXCLUDES WAR RISKS." L1 R1 occ=0 x= [risk_details]
+Replaced/Cosmetic "HULL LIMIT USD 1,000,000" => "HULL LIMIT USD 2,000,000" L2 R2 occ=0 x= [risk_details]
+Added/Cosmetic "" => "THE INSURER RESERVES SUBROGATION." L R4 occ=0 x= [clauses]
+Removed/Cosmetic "THE INSURER WAIVES SUBROGATION." => "" L4 R occ=0 x= [clauses]
+
+## after (6e6b541)
+== mupdf policy-compare/0.1.0+row-identity.4 complete_for_scope cards=14
+Replaced/Material "USD 1000" => "USD 2000" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Material "USD 2000" => "USD 1000" L1 R1 occ=5 x=312 [page_furniture]
+Replaced/Material "Premium rate 4% - Page 1 of 4" => "Premium rate 5% - Page 1 of 5" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Material "Aircraft MSN 101" => "Aircraft MSN 201" L1 R1 occ=0 x= [risk_details]
+Replaced/Material "HULL LIMIT USD 1,000,000" => "HULL LIMIT USD 2,000,000" L2 R2 occ=0 x= [risk_details]
+Replaced/Material "Aircraft MSN 102" => "Aircraft MSN 202" L2 R2 occ=0 x= [risk_details]
+Replaced/Material "Aircraft MSN 103" => "Aircraft MSN 203" L3 R3 occ=0 x= [risk_details]
+Replaced/Material "Aircraft MSN 104" => "Aircraft MSN 204" L4 R4 occ=0 x= [risk_details]
+Added/Material "" => "Aircraft MSN 205" L R5 occ=0 x= [clauses]
+Added/Material "" => "Ordinary body text on page 5." L R5 occ=0 x= [clauses]
+Replaced/Review "The insurer covers war risks." => "The insurer excludes war risks." L1 R1 occ=0 x= [risk_details]
+Replaced/Review "THE INSURER COVERS WAR RISKS." => "THE INSURER EXCLUDES WAR RISKS." L1 R1 occ=0 x= [risk_details]
+Removed/Review "THE INSURER WAIVES SUBROGATION." => "" L4 R occ=0 x= [clauses]
+Added/Review "" => "THE INSURER RESERVES SUBROGATION." L R4 occ=0 x= [clauses]
+== pdfjs policy-compare/0.1.0+row-identity.4 complete_for_scope cards=14
+Replaced/Material "USD 1000" => "USD 2000" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Material "USD 2000" => "USD 1000" L1 R1 occ=5 x=312 [page_furniture]
+Replaced/Material "Premium rate 4% - Page 1 of 4" => "Premium rate 5% - Page 1 of 5" L1 R1 occ=5 x=45 [page_furniture]
+Replaced/Material "Aircraft MSN 101" => "Aircraft MSN 201" L1 R1 occ=0 x= [risk_details]
+Replaced/Material "HULL LIMIT USD 1,000,000" => "HULL LIMIT USD 2,000,000" L2 R2 occ=0 x= [risk_details]
+Replaced/Material "Aircraft MSN 102" => "Aircraft MSN 202" L2 R2 occ=0 x= [risk_details]
+Replaced/Material "Aircraft MSN 103" => "Aircraft MSN 203" L3 R3 occ=0 x= [risk_details]
+Replaced/Material "Aircraft MSN 104" => "Aircraft MSN 204" L4 R4 occ=0 x= [risk_details]
+Added/Material "" => "Aircraft MSN 205" L R5 occ=0 x= [clauses]
+Added/Material "" => "Ordinary body text on page 5." L R5 occ=0 x= [clauses]
+Replaced/Review "The insurer covers war risks." => "The insurer excludes war risks." L1 R1 occ=0 x= [risk_details]
+Replaced/Review "THE INSURER COVERS WAR RISKS." => "THE INSURER EXCLUDES WAR RISKS." L1 R1 occ=0 x= [risk_details]
+Added/Review "" => "THE INSURER RESERVES SUBROGATION." L R4 occ=0 x= [clauses]
+Removed/Review "THE INSURER WAIVES SUBROGATION." => "" L4 R occ=0 x= [clauses]

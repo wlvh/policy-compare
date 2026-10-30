@@ -1,0 +1,4 @@
+commit c5acdb8d638696fcfc12c3dac4d5d20dce432bf6
+v22.22.0
+10.12.1
+Python 3.13.17

@@ -1,0 +1,5 @@
+case per-character quads, run-level: NOT_EVALUATED
+case per-character quads, glyph: NOT_EVALUATED
+case one location, one shared quad: PASS
+case control, a word in the run: PASS
+      Tests  1 passed | 143 skipped (144)

@@ -1,0 +1,15 @@
+# allocate() timing on be1ed04 and 441a81d (scripts copied from each).
+=== tri-be1ed04
+allocate 10 cells "0" over 9 occurrences: 0.0014s, 9 placed
+allocate 16 cells "0" over 15 occurrences: 0.0656s, 15 placed
+allocate 20 cells "0" over 19 occurrences: 1.3184s, 19 placed
+allocate 22 cells "0" over 21 occurrences: 5.9911s, 21 placed
+allocate 24 cells "0" over 23 occurrences: 22.3645s, 23 placed
+allocate 50: over 40 s (timeout)
+=== tri-441a81d
+allocate 10 cells "0" over 9 occurrences: 0.0008s, 9 placed
+allocate 16 cells "0" over 15 occurrences: 0.0009s, 15 placed
+allocate 20 cells "0" over 19 occurrences: 0.0010s, 19 placed
+allocate 22 cells "0" over 21 occurrences: 0.0011s, 21 placed
+allocate 24 cells "0" over 23 occurrences: 0.0017s, 23 placed
+allocate 50 cells "0" over 49 occurrences: 0.0041s, 49 placed

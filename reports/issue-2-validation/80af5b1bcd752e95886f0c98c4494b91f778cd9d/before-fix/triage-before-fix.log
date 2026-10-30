@@ -1,0 +1,48 @@
+........tests/test_renewal_triage.py:491: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpvtlrk0kn/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+tests/test_renewal_triage.py:492: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpvtlrk0kn/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+tests/test_renewal_triage.py:495: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpvtlrk0kn/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.....FFF...............
+======================================================================
+FAIL: test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source (test_renewal_triage.PagesBoundTheText.test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 347, in test_text_on_the_stated_or_any_page_is_accepted_with_its_own_source
+    self.assertEqual(ev['30']['acceptedCards'], [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['w'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'w'
+
+- ['w']
++ []
+
+======================================================================
+FAIL: test_text_only_on_another_page_is_not_accepted (test_renewal_triage.PagesBoundTheText.test_text_only_on_another_page_is_not_accepted) [removed]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 321, in test_text_only_on_another_page_is_not_accepted
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'correct' unexpectedly found in ('correct', 'split_attributable')
+
+======================================================================
+FAIL: test_text_only_on_another_page_is_not_accepted (test_renewal_triage.PagesBoundTheText.test_text_only_on_another_page_is_not_accepted) [added]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_renewal_triage.py", line 321, in test_text_only_on_another_page_is_not_accepted
+    self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'correct' unexpectedly found in ('correct', 'split_attributable')
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.144s
+
+FAILED (failures=3)

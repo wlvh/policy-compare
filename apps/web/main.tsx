@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type {
-  CompareResult,
+  CompareResultV2 as CompareResult,
+  DifferenceV2 as Difference,
+  Fact,
   SourceLocation,
 } from "../../packages/contracts/index";
 import "./style.css";
@@ -15,17 +17,53 @@ declare global {
 }
 type PageInfo = { width: number; height: number };
 type Snapshot = { url: string; pageIndex: number; textLayer?: unknown };
-const categories = {
-  Material: "重要变化",
-  Review: "需要复核",
-  RollForward: "期间顺延",
-  Cosmetic: "形式变化",
-};
+// A card states what was found, never how much it matters: the change, what
+// paired its two sides, and facts the texts themselves prove.
 const kinds = {
-  Added: "新增",
-  Removed: "删除",
-  Replaced: "修改",
-  Moved: "移动",
+  Replaced: "两侧对应、位置未变",
+  Moved: "位置移动",
+  Added: "基准侧未找到对应",
+  Removed: "待审侧未找到对应",
+};
+const change = (d: Difference) =>
+  d.kind === "Added" || d.kind === "Removed"
+    ? kinds[d.kind]
+    : d.kind === "Moved"
+      ? d.hasTextChange
+        ? "位置移动，文字也有变化"
+        : "位置移动，文字未变"
+      : d.hasTextChange
+        ? "文字变化"
+        : "出现次数变化";
+const bases: Record<string, string> = {
+  "declared-table-key": "按表格键对应",
+  "reliable-field-identity": "按字段身份对应",
+  "row-identity": "按表格行身份对应",
+  "unique-exact": "按相同原文对应",
+  "exact-context": "按相同原文对应",
+  "repeat-role": "按相同原文对应",
+  "adjacent-split": "按相邻段落拼合后的相同原文对应",
+  "adjacent-merge": "按相邻段落拼合后的相同原文对应",
+  "repeated-header": "按重复行对应",
+  "repeated-table-header": "按重复行对应",
+  "page-furniture": "按重复行对应",
+  "joint-local-alignment": "按相似文字对应",
+  "contextual-token-lcs": "按相似文字对应",
+};
+const basis = (d: Difference) =>
+  d.structurePath?.confidence === "unresolved"
+    ? "对应未确定"
+    : d.left.length && d.right.length
+      ? (bases[d.matchEvidence.method] ?? d.matchEvidence.method)
+      : "";
+// What a stated fact says, nothing more: page_number_only is a text form (the
+// numbers of "Page n" expressions), not a claim that the printed number is the
+// PDF page.
+const facts: Record<Fact, string> = {
+  whitespace_only: "仅空白字符变化",
+  page_number_only: "仅分页表达（Page n）中的数字变化",
+  dates_rolled_forward_one_year: "期间两端日期各顺延一年",
+  continued_heading: "两版都有的标题加续页字样",
 };
 function App() {
   const [files, setFiles] = useState<(File | null)[]>([null, null]),
@@ -243,10 +281,10 @@ function App() {
           setState(m.result.status);
           setMessage(
             m.result.status === "partial"
-              ? "比较未完全完成，请检查覆盖缺口和待复核范围。"
+              ? `已记录覆盖缺口 ${m.result.coverage.length} 处、对应未决 ${m.result.unresolved.length} 组，见下方列表；全部变化默认可见，按原文位置排列。`
               : m.result.differences.length
-                ? "可提取文本比较完成，所有变化默认可见。"
-                : "可提取文本中未发现差异。",
+                ? "没有记录到覆盖缺口或未决；全部变化默认可见，按原文位置排列。这不表示不存在未知遗漏。"
+                : "可提取文本中未发现差异；没有记录到覆盖缺口或未决。",
           );
         }
         if (m.type === "render") {
@@ -415,7 +453,7 @@ function App() {
   }
   const visible =
     result?.differences.filter(
-      (d) => filter === "all" || d.category === filter,
+      (d) => filter === "all" || d.kind === filter,
     ) ?? [];
   return (
     <main data-engine-ready={engineReady}>
@@ -497,9 +535,9 @@ function App() {
           {state === "running"
             ? "处理中"
             : state === "partial"
-              ? "未完全覆盖"
+              ? "本次处理结束 · 有已记录的缺口或未决"
               : state === "complete_for_scope"
-                ? "比较完成"
+                ? "本次处理结束"
                 : state === "cancelled"
                   ? "已取消"
                   : state === "failed"
@@ -554,12 +592,12 @@ function App() {
               变化清单 <span>{result?.stats.differenceCount ?? 0}</span>
             </h2>
             <select
-              aria-label="差异分类"
+              aria-label="按变化方式筛选"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             >
               <option value="all">全部变化</option>
-              {Object.entries(categories).map(([k, v]) => (
+              {Object.entries(kinds).map(([k, v]) => (
                 <option key={k} value={k}>
                   {v}
                 </option>
@@ -625,14 +663,21 @@ function App() {
                 }}
               >
                 <div>
-                  <span className={"badge " + d.category}>
-                    {categories[d.category]}
-                  </span>
-                  <b>{kinds[d.kind]}</b>
+                  <span className="badge">{change(d)}</span>
+                  <b>{basis(d)}</b>
                 </div>
+                {d.facts.length > 0 && (
+                  <div className="facts">
+                    {d.facts.map((f) => (
+                      <span key={f}>
+                        {f === "page_number_only" && !(d.oldText && d.newText) ? "仅分页表达（Page n）" : facts[f]}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <h3>
                   {[
-                    !['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
+                    d.structurePath?.section==='page_furniture'?'页面附属':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,
@@ -642,20 +687,16 @@ function App() {
                 </h3>
                 <div className="old">{d.oldText || "（无）"}</div>
                 <div className="new">{d.newText || "（无）"}</div>
-                <small>
-                  {d.reviewReasons.join("；") ||
-                    d.matchEvidence.details
-                      .map((x) =>
-                        x === "主体与字段身份一致"
-                          ? x
-                          : d.kind === "Moved"
-                            ? "条款相对顺序或章节发生变化"
-                            : "保留双方字符来源",
-                      )
-                      .join("；")}
-                </small>
+                {d.reviewReasons.length > 0 && (
+                  <small>{d.reviewReasons.join("；")}</small>
+                )}
                 {d.occurrences.length > 0 && (
-                  <div className="occurrences">{d.occurrences.length} 处出现位置：{d.occurrences.map((o,i)=><button key={i} aria-label={`出现位置 ${i+1}`} onClick={e=>{e.stopPropagation();setSelectedId(d.id);locate([...o.left,...o.right]);}}>第 {i+1} 处</button>)}</div>
+                  <div className="occurrences">{d.occurrences.length} 处出现位置（逐处核对{d.occurrences.some(o=>o.context)?`；其中 ${d.occurrences.filter(o=>o.context).length} 处是同一行的其他写法，只作上下文，不计入次数`:''}）：{d.occurrences.map((o,i)=>{
+                    // Each occurrence names its pages and keeps its own text, so every source can be checked.
+                    const where=[o.left[0]&&`基准 P${o.left[0].pageIndex+1}`,o.right[0]&&`待审 P${o.right[0].pageIndex+1}`,o.context&&'上下文'].filter(Boolean).join(' · ');
+                    const text=(locs:SourceLocation[])=>locs.map(l=>l.text).join('')||'（无）';
+                    return <button key={i} aria-label={`出现位置 ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();setSelectedId(d.id);locate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
+                  })}</div>
                 )}
               </div>
             ))}
@@ -766,7 +807,7 @@ function App() {
         </section>
       </div>
       <footer>
-        完整仅指可提取文本范围。分类辅助人工审阅，不输出法律解释。
+        处理范围仅限可提取文本。变化按原文位置排列、全部默认可见；程序不判断变化是否重要，不输出法律解释。
         <span>开发验证版 · 正式许可与业务留出验收尚未完成</span>
       </footer>
     </main>

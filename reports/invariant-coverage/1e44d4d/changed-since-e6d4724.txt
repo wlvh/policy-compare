@@ -1,0 +1,10 @@
+files changed since e6d4724 (reports excluded):
+ packages/compare-core/index.ts      | 31 +++++++++++++++++++++++--------
+ packages/compare-core/structure.ts  |  4 ++++
+ scripts/renewal-triage.py           | 14 +++++++++++---
+ tests/evaluation/scorer.ts          | 17 +++++------------
+ tests/page-furniture.test.ts        | 15 +++++++++++++++
+ tests/row-identity-evidence.test.ts | 14 ++++++++++++++
+ tests/scorer.test.ts                | 37 ++++++++++++++++++-------------------
+ tests/test_renewal_triage.py        | 13 +++++++++++++
+ 8 files changed, 103 insertions(+), 42 deletions(-)

@@ -1,0 +1,154 @@
+[
+ {
+  "engine": "mupdf",
+  "pair": "aviation_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 8
+   },
+   {
+    "title": "FROM PREMIUM",
+    "rows": 173
+   },
+   {
+    "title": "PREMIUM RATES",
+    "rows": 7
+   },
+   {
+    "title": "2.1",
+    "rows": 4
+   }
+  ],
+  "uniqueLinks": 218,
+  "mismatches": []
+ },
+ {
+  "engine": "mupdf",
+  "pair": "bizav_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 3
+   },
+   {
+    "title": "KLB",
+    "rows": 14
+   },
+   {
+    "title": "PREMIUM TO CODING:",
+    "rows": 4
+   },
+   {
+    "title": "SCHEDULE OF AIRCRAFT",
+    "rows": 13
+   },
+   {
+    "title": "PREMIUM SCHEDULE",
+    "rows": 6
+   },
+   {
+    "title": "SCHEDULE OF CONTRACT PARTIES",
+    "rows": 1
+   },
+   {
+    "title": "M-FNKA",
+    "rows": 1
+   },
+   {
+    "title": "M-FNKB",
+    "rows": 8
+   },
+   {
+    "title": "M-CHLS",
+    "rows": 2
+   },
+   {
+    "title": "SCHEDULE OF BASES AND HANGARAGE",
+    "rows": 2
+   },
+   {
+    "title": "M-HELI",
+    "rows": 5
+   }
+  ],
+  "uniqueLinks": 115,
+  "mismatches": []
+ },
+ {
+  "engine": "pdfjs",
+  "pair": "aviation_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 8
+   },
+   {
+    "title": "FROM PREMIUM",
+    "rows": 173
+   },
+   {
+    "title": "PREMIUM RATES",
+    "rows": 7
+   },
+   {
+    "title": "2.1",
+    "rows": 4
+   }
+  ],
+  "uniqueLinks": 218,
+  "mismatches": []
+ },
+ {
+  "engine": "pdfjs",
+  "pair": "bizav_2024_vs_2025",
+  "scopes": [
+   {
+    "title": "WRITTEN LINES",
+    "rows": 3
+   },
+   {
+    "title": "KLB",
+    "rows": 14
+   },
+   {
+    "title": "PREMIUM TO CODING:",
+    "rows": 4
+   },
+   {
+    "title": "SCHEDULE OF AIRCRAFT",
+    "rows": 13
+   },
+   {
+    "title": "PREMIUM SCHEDULE",
+    "rows": 6
+   },
+   {
+    "title": "SCHEDULE OF CONTRACT PARTIES",
+    "rows": 1
+   },
+   {
+    "title": "M-FNKA",
+    "rows": 1
+   },
+   {
+    "title": "M-FNKB",
+    "rows": 8
+   },
+   {
+    "title": "M-CHLS",
+    "rows": 2
+   },
+   {
+    "title": "SCHEDULE OF BASES AND HANGARAGE",
+    "rows": 2
+   },
+   {
+    "title": "M-HELI",
+    "rows": 5
+   }
+  ],
+  "uniqueLinks": 115,
+  "mismatches": []
+ }
+]

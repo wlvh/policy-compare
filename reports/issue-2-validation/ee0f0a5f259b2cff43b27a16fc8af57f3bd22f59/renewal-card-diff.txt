@@ -1,0 +1,10 @@
+# Renewal cards that differ between 6e6b541 (core +row-identity.4) and ee0f0a5 (product 384d88b, +row-identity.5).
+# Same card = same id, kind, category, old/new text and occurrence count. Pages are 1-based.
+
+## aviation_2024_vs_2025 mupdf: 99 -> 99 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope, differing cards: 0
+
+## aviation_2024_vs_2025 pdfjs: 99 -> 99 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope, differing cards: 0
+
+## bizav_2024_vs_2025 mupdf: 89 -> 89 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope, differing cards: 0
+
+## bizav_2024_vs_2025 pdfjs: 89 -> 89 cards, unresolved 0 -> 0, status complete_for_scope -> complete_for_scope, differing cards: 0

@@ -1,0 +1,10 @@
+Re-triage at 630a2af: product unchanged since 7d47980 (its four results), triage renewal-triage/16 -> /17.
+A = 7d47980 product + /16 (7d47980/renewal); B = the same product + /17 (630a2af/renewal).
+## aviation_2024_vs_2025-mupdf: verdicts B {'correct': 77, 'not_located': 4, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 3}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []
+## aviation_2024_vs_2025-pdfjs: verdicts B {'correct': 79, 'not_located': 3, 'not_evaluable': 4, 'split_attributable': 5, 'excluded': 1, 'partly_located': 2}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-mupdf: verdicts B {'correct': 67, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'partly_located': 1, 'not_located': 2, 'one_side_only': 1}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []
+## bizav_2024_vs_2025-pdfjs: verdicts B {'correct': 68, 'excluded': 2, 'split_attributable': 7, 'not_evaluable': 8, 'not_located': 2, 'one_side_only': 1}
+  A->B differing events (verdict, accepted cards, row flags, written-out evidence): []

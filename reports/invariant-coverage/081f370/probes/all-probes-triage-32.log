@@ -1,0 +1,257 @@
+## reports/invariant-coverage/16ae858/probes/same-unit-context-triage-probe.py
+comment 6510958743: each card one unit, the Liability amount edited: not_evaluable accepted=[] unexplained=2
+control: Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
+## reports/invariant-coverage/211a705/probes/unresolved-one-sided-row-triage-probe.py
+Added comment 6513806516: confidence unresolved: not_evaluable accepted=[] fullRowRecovered=False unexplained=1
+Added control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed comment 6513806516: confidence unresolved: not_evaluable accepted=[] fullRowRecovered=False unexplained=1
+Removed control: confidence candidate: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Replaced, confidence unresolved: not_evaluable accepted=[] unexplained=1
+Replaced, confidence candidate: correct accepted=['r'] unexplained=0
+## reports/invariant-coverage/211a705/probes/unresolved-over-wrong-rowkey-triage-probe.py
+Added rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Added rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
+Added control: no rowKey, unresolved: not_evaluable accepted=[] unexplained=1
+Added control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Removed rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Removed rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
+Removed control: no rowKey, unresolved: not_evaluable accepted=[] unexplained=1
+Removed control: rowKey 1315, candidate: correct accepted=['n'] unexplained=0
+Replaced, rowKey 9999, candidate: misattributed accepted=[] unexplained=1
+Replaced, rowKey 9999, unresolved: misattributed accepted=[] unexplained=1
+## reports/invariant-coverage/259d797/probes/moved-and-split-row-triage-probe.py
+move, Replaced card changing only "Liability excluded/included": not_evaluable accepted=[] unexplained=1
+control: a Moved card for the paragraph: correct accepted=['m'] unexplained=0
+control: no card: not_located accepted=[] unexplained=0
+split, each card with units 1315 Hull and 1760 Alpha: not_evaluable accepted=[] fullRowRecovered=None unexplained=2
+control: the same units on one Replaced card (comment 6508818754): not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: split, 1315 Alpha in its own unit: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/48a5887/probes/currency-sign-triage-probe.py
+Replaced, author 100 -> 200; card r4417560178 as written: -100 -> -200: not_located
+Replaced, author 100 -> 200; card after a currency code: USD-100 -> USD-200: not_located
+Replaced, author 100 -> 200; card after a currency code: USD−100 -> USD−200: not_located
+Replaced, author 100 -> 200; card control: USD 100 -> USD 200: not_evaluable
+Replaced, author 100 -> 200; card control: Hull-100 -> Hull-200 (no sign): correct
+Added, author 100; card r4417384098 as written: -100: partly_located fullRowRecovered=False
+Added, author 100; card after a currency code: USD−100: partly_located fullRowRecovered=False
+Added, author 100; card control: USD 100: correct fullRowRecovered=True
+Removed, author 100; card r4417384098 shape, Removed: -100: partly_located fullRowRecovered=False
+Removed, author 100; card after a currency code: USD−100: partly_located fullRowRecovered=False
+Removed, author 100; card control: USD 100: correct fullRowRecovered=True
+Replaced, author USD 100 -> USD 200; card USD-100 -> USD-200: not_located fullRowRecovered=None
+Replaced, author USD 100 -> USD 200; card USD−100 -> USD−200: not_located fullRowRecovered=None
+Replaced, author USD 100 -> USD 200; card control: USD 100 -> USD 200: correct fullRowRecovered=True
+Replaced, author USD 100 -> USD 200; card control: -100 -> -200: not_located fullRowRecovered=None
+## reports/invariant-coverage/48a5887/probes/following-record-identity-triage-probe.py
+Codex: 1760 first, its amount changes; 1315 follows unchanged: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: 1315 first and changes: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1760 first, 1315 (second) changes: correct accepted=['x'] fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/4a12cd0/probes/date-token-triage-probe.py
+year 20240 -> 20250: {'dates_rolled_forward_one_year': 'contradicted'}
+day 121: {'dates_rolled_forward_one_year': 'contradicted'}
+year 2024.5: {'dates_rolled_forward_one_year': 'contradicted'}
+control: whole dates: {'dates_rolled_forward_one_year': 'consistent'}
+## reports/invariant-coverage/4d6b086/probes/codex_r27_triage_probe.py
+two currency-only cards (split path): not_evaluable accepted=[] unexplained=2
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: partly_located fullRowRecovered=False atoms=['in_record', 'not_found', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record', 'in_record']
+## reports/invariant-coverage/4d6b086/probes/codex_r28_triage_probe.py
+r4416863588: amount cell inside a longer amount: partly_located fullRowRecovered=False unexplained=0
+r4416863588: the same, Removed: partly_located fullRowRecovered=False unexplained=0
+control: the whole row: correct fullRowRecovered=True unexplained=0
+r4416863597: two equal amount cells, one shown: not_evaluable fullRowRecovered=False unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/509b088/probes/adjacency-from-whole-card-triage-probe.py
+Added comment 6512133284: split at [0, 14, 17, 21, 36]: partly_located fullRowRecovered=False unexplained=0
+Added control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Added control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+Removed comment 6512133284: split at [0, 14, 17, 21, 36]: partly_located fullRowRecovered=False unexplained=0
+Removed control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Removed control: split at [0, 14, 17, 21] without the note: partly_located fullRowRecovered=False unexplained=0
+## reports/invariant-coverage/509b088/probes/moved-and-split-row-triage-probe.py
+move, Replaced card changing only "Liability excluded/included": not_evaluable accepted=[] unexplained=1
+control: a Moved card for the paragraph: correct accepted=['m'] unexplained=0
+control: no card: not_located accepted=[] unexplained=0
+split, each card with units 1315 Hull and 1760 Alpha: not_evaluable accepted=[] fullRowRecovered=None unexplained=2
+control: the same units on one Replaced card (comment 6508818754): not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: split, 1315 Alpha in its own unit: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/509b088/probes/opposite-side-whole-number-triage-probe.py
+Added comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": correct accepted=['r'] unexplained=0
+Added control: the paragraph itself kept on the other side: correct accepted=['r'] unexplained=0
+Removed comment 6512254699: keeps "Limit USD 1000", shows it plus "Limit USD 100": correct accepted=['r'] unexplained=0
+Removed control: the paragraph itself kept on the other side: correct accepted=['r'] unexplained=0
+## reports/invariant-coverage/61e4add/probes/moved-row-opening-triage-probe.py
+Codex: one unit, the first 40 characters plus 1315: correct accepted=['m'] fullRowRecovered=False unexplained=0
+control: one unit, the whole row: correct accepted=['m'] fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/61e4add/probes/repeated-paragraph-copy-triage-probe.py
+Added copy: Replaced card one line -> two copies: correct accepted=['x'] outcome=complete unexplained=0
+Removed copy: Replaced card two copies -> one line: correct accepted=['x'] outcome=complete unexplained=0
+control: Added card holding the new copy only: correct accepted=['x'] outcome=complete unexplained=0
+## reports/invariant-coverage/630a2af/probes/codex_r31_triage_probe.py
+r4417511075: USD 100 range listed twice: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+control: listed once: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+r4417560178: card -100 -> -200: not_located accepted=[] fullRowRecovered=None unexplained=1
+control: card 100 -> 200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: hyphen after a letter, Hull-100 -> Hull-200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+r4417631502: card on the Liability paragraph: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: card on the Hull paragraph: correct accepted=['p'] fullRowRecovered=None unexplained=0
+r4417631513: allocate 6 cells "0" over 5 occurrences: 0.00s, result found
+r4417631513: allocate 8 cells "0" over 7 occurrences: 0.00s, result found
+r4417631513: allocate 9 cells "0" over 8 occurrences: 0.00s, result found
+r4417631513: allocate 10 cells "0" over 9 occurrences: 0.00s, result found
+## reports/invariant-coverage/72b87c4/probes/codex_r23_triage_probe.py
+long operator name before the MSN (MSN at character 90): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+control: short operator name (MSN at character 9): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+## reports/invariant-coverage/72b87c4/probes/codex_r24b_triage_probe.py
+currency codes swapped (#2 input): not_evaluable accepted=[]
+control: Hull amount changed: correct accepted=['y']
+same card, no declared table: not_evaluable accepted=[]
+## reports/invariant-coverage/72b87c4/probes/codex_r25_triage_probe.py
+short insertion "" -> "later" (Pay now. -> Pay later now.): correct accepted=['c'] unexplained=0
+short deletion "later" -> "": correct accepted=['c'] unexplained=0
+control: short replacement "now" -> "later": correct accepted=['c'] unexplained=0
+control: long insertion "" -> "approved": correct accepted=['c'] unexplained=0
+## reports/invariant-coverage/74707bd/probes/replaced-row-sign-overlap-triage-probe.py
+r4417329496: one of two equal amount cells shown: correct fullRowRecovered=False unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+Added r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Added control: card shows 100: correct fullRowRecovered=True unexplained=0
+Removed r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Removed control: card shows 100: correct fullRowRecovered=True unexplained=0
+Added r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+Removed r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/786aefc/probes/shared-unit-identity-triage-probe.py
+Codex: 1760 changes in the unit, 1315 unchanged: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: 1315 changes in the shared unit: correct accepted=['x'] fullRowRecovered=True unexplained=0
+control: 1315 alone in its unit: correct accepted=['x'] fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/81e065a/probes/moved-split-triage-probe.py
+Codex: two Replaced cards, the paragraph kept on each page, only "Liability excluded." -> "included." changes: not_evaluable accepted=[] unexplained=2
+control: Removed on page 11, Added on page 12: split_attributable accepted=['n', 'o'] unexplained=0
+control: one Moved card from page 11 to 12: correct accepted=['m'] unexplained=0
+## reports/invariant-coverage/8c48dac/probes/codex_r26_triage_probe.py
+identity only in the unchanged unit ("1315 USD" + "100 1760" -> "200 1760"): not_evaluable accepted=[]
+control: identity in the edited unit ("Hull USD" + "100 1760 1315" -> "200 1760 1315"): not_evaluable accepted=[]
+## reports/invariant-coverage/8d1f1ea/probes/codex_r31_triage_probe.py
+r4417511075: USD 100 range listed twice: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+control: listed once: not_evaluable accepted=['n'] fullRowRecovered=False unexplained=0
+r4417560178: card -100 -> -200: not_located accepted=[] fullRowRecovered=None unexplained=1
+control: card 100 -> 200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: hyphen after a letter, Hull-100 -> Hull-200: correct accepted=['r'] fullRowRecovered=True unexplained=0
+r4417631502: card on the Liability paragraph: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: card on the Hull paragraph: correct accepted=['p'] fullRowRecovered=None unexplained=0
+r4417631513: allocate 6 cells "0" over 5 occurrences: 0.00s, result found
+r4417631513: allocate 8 cells "0" over 7 occurrences: 0.00s, result found
+r4417631513: allocate 9 cells "0" over 8 occurrences: 0.00s, result found
+r4417631513: allocate 10 cells "0" over 9 occurrences: 0.00s, result found
+## reports/invariant-coverage/8d1f1ea/probes/codex_r32_triage_probe.py
+comment 6507993515: two cards editing only the Liability units: not_evaluable accepted=[] unexplained=2
+control: the Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
+## reports/invariant-coverage/91aa884/probes/page-fact-boundary-triage-probe.py
+'Page 1.1' -> 'Page 2.1': page_number_only contradicted
+'Page 100,000' -> 'Page 200,000': page_number_only contradicted
+'Schedule Page 3 of 10,5' -> 'Schedule Page 3 of 11,5': page_number_only contradicted
+'Page 1 of 10' -> 'Page 2 of 10': page_number_only consistent
+'Page 3' -> 'Page 4': page_number_only consistent
+## reports/invariant-coverage/91aa884/probes/whole-paragraph-triage-probe.py
+comment 6509794672: exact Removed + Added cards: split_attributable accepted=['c', 'g'] unexplained=0
+control: one Replaced card: correct accepted=['r'] unexplained=0
+control: the edit inside a longer paragraph, Removed + Added: split_attributable accepted=['c', 'g'] unexplained=0
+## reports/invariant-coverage/9354b84/probes/full-row-other-record-triage-probe.py
+comment 6508818754: unit a 1315 Hull, unit b 1760 Alpha on one card: not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: unit a alone (no Alpha): not_evaluable accepted=[] fullRowRecovered=None unexplained=1
+control: 1315 Alpha on its own unit: correct accepted=['ok'] fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/9354b84/probes/split-number-triage-probe.py
+Added comment 6508515495: USD 100,000 split before the comma: partly_located fullRowRecovered=False unexplained=0
+Added control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Added control: USD 100 shown: correct fullRowRecovered=True unexplained=0
+Removed comment 6508515495: USD 100,000 split before the comma: partly_located fullRowRecovered=False unexplained=0
+Removed control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Removed control: USD 100 shown: correct fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/948c3a1/probes/codex_r23_triage_probe.py
+long operator name before the MSN (MSN at character 90): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+control: short operator name (MSN at character 9): verdict=correct fullRowRecovered=True primaryIdentityOnRecord=True acceptedWithoutPrimaryIdentity=[]
+## reports/invariant-coverage/948c3a1/probes/codex_r24b_triage_probe.py
+currency codes swapped (#2 input): not_evaluable accepted=[]
+control: Hull amount changed: correct accepted=['y']
+same card, no declared table: not_evaluable accepted=[]
+## reports/invariant-coverage/948c3a1/probes/codex_r25_triage_probe.py
+short insertion "" -> "later" (Pay now. -> Pay later now.): correct accepted=['c'] unexplained=0
+short deletion "later" -> "": correct accepted=['c'] unexplained=0
+control: short replacement "now" -> "later": correct accepted=['c'] unexplained=0
+control: long insertion "" -> "approved": correct accepted=['c'] unexplained=0
+## reports/invariant-coverage/9e9104f/probes/date-token-triage-probe.py
+year 20240 -> 20250: {'dates_rolled_forward_one_year': 'contradicted'}
+day 121: {'dates_rolled_forward_one_year': 'contradicted'}
+year 2024.5: {'dates_rolled_forward_one_year': 'contradicted'}
+control: whole dates: {'dates_rolled_forward_one_year': 'consistent'}
+## reports/invariant-coverage/9e9104f/probes/row-key-one-sided-triage-probe.py
+Added comment 6513304357: card claims rowKey 1760: misattributed accepted=[] fullRowRecovered=False unexplained=1
+Added control: card claims rowKey 1315: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Added control: no rowKey: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed comment 6513304357: card claims rowKey 1760: misattributed accepted=[] fullRowRecovered=False unexplained=1
+Removed control: card claims rowKey 1315: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Removed control: no rowKey: correct accepted=['n'] fullRowRecovered=True unexplained=0
+Replaced, card claims rowKey 1760: misattributed accepted=[] unexplained=1
+Replaced, card claims rowKey 1315: correct accepted=['r'] unexplained=0
+## reports/invariant-coverage/9ed97f2/probes/overlapping-cells-triage-probe.py
+Added r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Added control: both shown: correct fullRowRecovered=True unexplained=0
+Removed r4417192877: one USD 100 for the cells USD 100 and 100: partly_located fullRowRecovered=False unexplained=0
+Removed control: both shown: correct fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/9ed97f2/probes/split-cards-single-char-triage-probe.py
+two currency-only cards (split path): not_evaluable accepted=[] unexplained=2
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: partly_located fullRowRecovered=False atoms=['in_record', 'not_found', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record', 'in_record']
+control: Removed + Added cards: split_attributable accepted=['c', 'g'] unexplained=0
+## reports/invariant-coverage/b3e84c8/probes/alloc_time_probe.py
+## reports/invariant-coverage/b3e84c8/probes/split-number-triage-probe.py
+Added comment 6508515495: USD 100,000 split before the comma: partly_located fullRowRecovered=False unexplained=0
+Added control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Added control: USD 100 shown: correct fullRowRecovered=True unexplained=0
+Removed comment 6508515495: USD 100,000 split before the comma: partly_located fullRowRecovered=False unexplained=0
+Removed control: the same text as one location: partly_located fullRowRecovered=False unexplained=0
+Removed control: USD 100 shown: correct fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/b6aa2c8/probes/replaced-row-sign-overlap-triage-probe.py
+r4417329496: one of two equal amount cells shown: correct fullRowRecovered=False unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+Added r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Added control: card shows 100: correct fullRowRecovered=True unexplained=0
+Removed r4417384098: card shows -100: partly_located fullRowRecovered=False unexplained=0
+Removed control: card shows 100: correct fullRowRecovered=True unexplained=0
+Added r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+Removed r4417384107: exact card 1315 A A B B B: correct fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/cedf563/probes/split-row-full-triage-probe.py
+comment 6511266424: complete Removed + Added cards: split_attributable accepted=['c', 'g'] fullRowRecovered=True unexplained=0
+control: one complete Replaced card: correct accepted=['r'] fullRowRecovered=True unexplained=0
+control: Removed + Added, the Added card missing Hull: split_attributable accepted=['c', 'g'] fullRowRecovered=False unexplained=0
+## reports/invariant-coverage/cedf563/probes/whole-paragraph-around-edit-triage-probe.py
+comment 6510958743: each card one unit, the Liability amount edited: not_evaluable accepted=[] unexplained=2
+control: Hull paragraph changed on its own card: correct accepted=['own'] unexplained=0
+## reports/invariant-coverage/d5de336/probes/codex_r27_triage_probe.py
+two currency-only cards (split path): not_evaluable accepted=[] unexplained=2
+control: the Hull amount changed on one card: correct accepted=['y'] unexplained=0
+card without the "A" cell: partly_located fullRowRecovered=False atoms=['in_record', 'not_found', 'in_record']
+control: card with every cell: correct fullRowRecovered=True atoms=['in_record', 'in_record', 'in_record']
+## reports/invariant-coverage/d5de336/probes/codex_r28_triage_probe.py
+r4416863588: amount cell inside a longer amount: partly_located fullRowRecovered=False unexplained=0
+r4416863588: the same, Removed: partly_located fullRowRecovered=False unexplained=0
+control: the whole row: correct fullRowRecovered=True unexplained=0
+r4416863597: two equal amount cells, one shown: not_evaluable fullRowRecovered=False unexplained=0
+control: both shown: correct fullRowRecovered=True unexplained=0
+## reports/invariant-coverage/ed11a5f/probes/cross-row-split-triage-probe.py
+Added card from row 1760, both claim 1315: not_evaluable accepted=[] unexplained=2
+Added card from row 1760, no row keys: not_evaluable accepted=[] unexplained=2
+control: Added card from row 1315, both claim 1315: split_attributable accepted=['i', 'o'] unexplained=0
+## reports/invariant-coverage/ed11a5f/probes/replaced-card-other-edit-triage-probe.py
+insert, Codex: card "Pay earlier now." -> "Pay later now.": not_evaluable accepted=[] unexplained=1
+insert, control: card "Pay now." -> "Pay later now.": correct accepted=['x'] unexplained=0
+insert, control: Added card "Pay later now." only: correct accepted=['x'] unexplained=0
+delete, mirror: card "Pay later now." -> "Pay earlier now.": not_evaluable accepted=[] unexplained=1
+delete, control: card "Pay later now." -> "Pay now.": correct accepted=['x'] unexplained=0
+insert, long paragraph: card replaces "all" by "approved": not_evaluable accepted=[] unexplained=1
+## /tmp/claude-0/-home-user-policy-compare/ab27d908-d06b-5d48-b945-9d8487a308b7/scratchpad/codex_r60_repeated_atoms_triage_probe.py
+Codex: only the first copy edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=False unexplained=0
+control: both copies edited: verdict=correct outcome=complete atoms=['correct', 'correct'] fullRowRecovered=True unexplained=0
+control: only the second copy edited: verdict=not_evaluable outcome=incomplete atoms=['not_evaluable', 'not_evaluable'] fullRowRecovered=None unexplained=1

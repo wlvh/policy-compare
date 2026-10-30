@@ -1,0 +1,1104 @@
+{
+ "oldScript": {
+  "rev": "3d391cd",
+  "sha256": "31259c614febfbd9bd6531a11b18dde44b8da97ffd37b9a08fcd214991225129"
+ },
+ "newScript": {
+  "rev": "ee0f0a5f259b2cff43b27a16fc8af57f3bd22f59",
+  "sha256": "419e4c91f8f07f50f7146e5b4b2204d4a37f9abb110b0e2ff54ecbb3d6eec6f1"
+ },
+ "runs": [
+  {
+   "set": "v3-85dae98",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "a9220f317b648fb5ace4cffcf06e3c1b62bdb432d00013e6fea7ece9e2163122",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 79,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3,
+     "one_side_only": 1
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 18,
+    "unexplainedMaterialCards": 10,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 51
+   },
+   "new": {
+    "verdicts": {
+     "correct": 79,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3,
+     "one_side_only": 1
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 18,
+    "unexplainedMaterialCards": 10,
+    "fullRowRecovered": 46,
+    "changeCorrectlyAttributed": 51
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-4d01b90fe421efe23a7a"
+      ],
+      [
+       "d-4d01b90fe421efe23a7a"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-0f1268a98c92ff49f6be"
+      ],
+      [
+       "d-0f1268a98c92ff49f6be"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "9b9de6198946bb0e98a128f0e6d0cafa52a1bc0928ec9f16a04629a09b60bf0f",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 17,
+    "unexplainedMaterialCards": 11,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 51
+   },
+   "new": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 17,
+    "unexplainedMaterialCards": 11,
+    "fullRowRecovered": 46,
+    "changeCorrectlyAttributed": 51
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-8552f9bef15924219798"
+      ],
+      [
+       "d-8552f9bef15924219798"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-7692d9744715f8324243"
+      ],
+      [
+       "d-7692d9744715f8324243"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "bdfa1f82676e38b62dd79e616336b6eeebf9f6ee6480579a6aef8bd87dc571ea",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 3,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 81,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 6,
+    "fullRowRecovered": 36,
+    "changeCorrectlyAttributed": 43
+   },
+   "new": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 3,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 81,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 6,
+    "fullRowRecovered": 36,
+    "changeCorrectlyAttributed": 43
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "8711eadc5fd18fa41ba5ccba4efc74bdd0550740f2583a54bbe9b1029b4842e5",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 3,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 81,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 6,
+    "fullRowRecovered": 36,
+    "changeCorrectlyAttributed": 43
+   },
+   "new": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 3,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 81,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 6,
+    "fullRowRecovered": 36,
+    "changeCorrectlyAttributed": 43
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "eec627f",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "6c22378267e4bffcfad3b00486e789eb1d81bd62e7574fb3acea99d8b51e8c65",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 5,
+    "fullRowRecovered": 52,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 5,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-4d01b90fe421efe23a7a"
+      ],
+      [
+       "d-4d01b90fe421efe23a7a"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-0f1268a98c92ff49f6be"
+      ],
+      [
+       "d-0f1268a98c92ff49f6be"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "a0abbb70ea218d14e86f32717bc1565b978bb4b113350f29a8e5be4cba4e7d3f",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "unexplainedMaterialCards": 6,
+    "fullRowRecovered": 52,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "unexplainedMaterialCards": 6,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-8552f9bef15924219798"
+      ],
+      [
+       "d-8552f9bef15924219798"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-7692d9744715f8324243"
+      ],
+      [
+       "d-7692d9744715f8324243"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "dbd462052f13400b3be0dc85b274350ae9da6110368abd16523c3c3ecc0baba7",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "eec627f",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "ceb0b690f0fdfebd7b52706560e1b5437f5c2d53a286d8a587bdba035d38106b",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "6e6b541",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "f5be16d9982e02c66810cae7f70d1536845a50cf251edb33edbf879c4d58c108",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 7,
+    "fullRowRecovered": 52,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 7,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-4d01b90fe421efe23a7a"
+      ],
+      [
+       "d-4d01b90fe421efe23a7a"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-0f1268a98c92ff49f6be"
+      ],
+      [
+       "d-0f1268a98c92ff49f6be"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "9a572e67425f1a73cc32c65a24ead89d4e184d89c2fd6331101cc389a6d0ee34",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "unexplainedMaterialCards": 8,
+    "fullRowRecovered": 52,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "unexplainedMaterialCards": 8,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-8552f9bef15924219798"
+      ],
+      [
+       "d-8552f9bef15924219798"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-7692d9744715f8324243"
+      ],
+      [
+       "d-7692d9744715f8324243"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "698586e4f9be868d7f29362cf0cf5c6ab622170a6f7e1d59a42f745815780168",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "6e6b541",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "dbcbdc1ba8c527964d10d97722609723efb171781d959a5c78a861166280c45a",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "bfb76956d62cfd36f78292fd946ffc237473d847fe084ca39fec23f7e3bf3d44",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 7,
+    "fullRowRecovered": 52,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "unexplainedMaterialCards": 7,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-4d01b90fe421efe23a7a"
+      ],
+      [
+       "d-4d01b90fe421efe23a7a"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-0f1268a98c92ff49f6be"
+      ],
+      [
+       "d-0f1268a98c92ff49f6be"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "28aa1202fd09530f6f013f0e51db644f5ee6f66c0f4249f18c8af719edfb7b05",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "unexplainedMaterialCards": 8,
+    "fullRowRecovered": 52,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "unexplainedMaterialCards": 8,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "changedEvents": [
+    {
+     "id": "19",
+     "block": "avn52e",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-8552f9bef15924219798"
+      ],
+      [
+       "d-8552f9bef15924219798"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    },
+    {
+     "id": "20",
+     "block": "avn60a",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "correct"
+     ],
+     "acceptedCards": [
+      [
+       "d-7692d9744715f8324243"
+      ],
+      [
+       "d-7692d9744715f8324243"
+      ]
+     ],
+     "fullRowRecovered": [
+      false,
+      true
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card"
+      ]
+     ],
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "5b9363484861a365662fc0958e3914cf551f40abf709112f4261b331729785fc",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "1a73a53bd50c95a9aa02867723d2e7bd5f492f9487a695f8e0682bdc8fcd27fb",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "unexplainedMaterialCards": 3,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "changedEvents": []
+  }
+ ]
+}

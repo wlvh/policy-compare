@@ -1,0 +1,6 @@
+# The 9354b84 scorer's factHolds on the same texts.
+"Page 1.1" -> "Page 2.1": false
+"Page 100,000" -> "Page 200,000": false
+"Schedule Page 3 of 10,5" -> "Schedule Page 3 of 11,5": false
+"Page 1 of 10" -> "Page 2 of 10": null
+"Page 3" -> "Page 4": null

@@ -1,0 +1,6 @@
+# final tests (426565731ab678d45799fcdec47657ee29e9504a) with product, interface, contract and triage code of 5410ae8
+     × a record repeated on two pages with its identifiers moved between unplaced positions is not unchanged (r4419561470) 15ms
+     × Serial and S/N name one identifier: different serials under the two labels are not one record (r4419635988) 6ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed | 14 passed (15)
+      Tests  2 failed | 326 passed (328)

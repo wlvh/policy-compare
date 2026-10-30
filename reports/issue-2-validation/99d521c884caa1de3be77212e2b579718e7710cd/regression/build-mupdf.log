@@ -1,0 +1,21 @@
+
+> policy-compare@0.1.0 build:mupdf /home/user/policy-compare
+> tsc -p tsconfig.mupdf.json --noEmit && POLICY_ENGINE=mupdf vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+[plugin rolldown:vite-resolve] Module "node:fs" has been externalized for browser compatibility, imported by "/home/user/policy-compare/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin rolldown:vite-resolve] Module "module" has been externalized for browser compatibility, imported by "/home/user/policy-compare/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf-wasm.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+✓ 18 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/mupdf/assets/__vite-browser-external-UfK9GVxM.js       0.11 kB
+dist/mupdf/index.html                                       0.41 kB │ gzip:     0.31 kB
+dist/mupdf/assets/rolldown-runtime-WkwZ5CU-.js              0.59 kB
+dist/mupdf/assets/core.worker-hd_USbh9.js                 150.42 kB
+dist/mupdf/assets/pdf.worker-BCBUiecl.js                  202.98 kB
+dist/mupdf/assets/mupdf-wasm-Bvf0xebB.wasm             10,409.82 kB │ gzip: 4,778.44 kB
+dist/mupdf/assets/index-CRm3-Ta-.css                        7.64 kB │ gzip:     2.40 kB
+dist/mupdf/assets/index-BNchnLyO.js                       238.94 kB │ gzip:    76.08 kB
+
+✓ built in 486ms

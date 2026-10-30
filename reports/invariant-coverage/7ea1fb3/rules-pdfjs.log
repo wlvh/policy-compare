@@ -1,0 +1,39 @@
+
+> policy-compare@0.1.0 test:rules:pdfjs /home/user/policy-compare
+> tsx scripts/acceptance.ts pdfjs
+
+R01_identical PASS events PASS 
+R02_amount PASS events PASS 
+R03_currency PASS events PASS 
+R04_decimal PASS events PASS 
+R05_negation PASS events PASS 
+R06_and_or PASS events PASS 
+R07_shorter_term PASS events PASS 
+R08_normal_renewal PASS events PASS 
+R09_header_limit PASS events PASS 
+R10_address_swap PASS events PASS 
+R11_label_alias PASS events PASS 
+R12_exact_move PASS events PASS 
+R13_move_and_replacement PASS events PASS 
+R14_short_paragraph PASS events PASS 
+R15_paragraph_split PASS events PASS 
+R16_repagination NOT_EVALUATED events PASS not evaluated all_source_text_preserved: the result lists only differences, so it cannot show that every extracted character was compared; the scorer also does not compare extraction with layout.json; R16's other invariants only rule out false claims
+R17_font_change PASS events PASS 
+R18_ligature NOT_EVALUATED events PASS not evaluated ligature_geometry_not_uniformly_guessed: the fine-geometry check (browser only) accepts boxes inside the ligature glyph and cannot tell a uniform split from glyph geometry; Node runs check no final geometry
+R19_rotated_status PASS events PASS 
+R20_plus_minus PASS events PASS 
+R21_checkbox_glyph PASS events PASS 
+R22_table_value PASS events PASS 
+R23_table_reorder NOT_EVALUATED events PASS not evaluated all_aircraft_values_attached_to_original_identity: unchanged rows produce no card, so the result does not show which old row each new row was matched to; R23's other invariants only catch a reported false value change
+R24_table_cross_page NOT_EVALUATED events PASS not evaluated same_logical_row_order: row correspondence and order are not observable in the result; zero cards or equal row counts are not evidence of order
+R25_duplicate_keys PASS events PASS 
+R26_key_change PASS events PASS 
+R27_mixed_scan_page PASS events PASS 
+R28_inline_scan PASS events PASS 
+R29_clause_add PASS events PASS 
+R30_clause_delete PASS events PASS 
+R31_punctuation PASS events PASS 
+R32_combined_changes PASS events PASS 
+strict NOT_EVALUATED 28/32; events PASS 32/32; not evaluated: R16_repagination, R18_ligature, R23_table_reorder, R24_table_cross_page
+ ELIFECYCLE  Command failed with exit code 2.
+exit=2

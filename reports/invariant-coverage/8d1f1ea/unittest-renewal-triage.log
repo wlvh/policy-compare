@@ -1,0 +1,15 @@
+............/home/user/policy-compare/tests/test_renewal_triage.py:983: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpqmhoikvp/c.json' mode='w' encoding='utf-8'>
+  json.dump({'changes': [c]}, open(cp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/policy-compare/tests/test_renewal_triage.py:984: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpqmhoikvp/r.json' mode='w' encoding='utf-8'>
+  json.dump(res, open(rp, 'w'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/user/policy-compare/tests/test_renewal_triage.py:987: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpqmhoikvp/e.json' mode='r' encoding='utf-8'>
+  summary, events = json.loads(out), json.load(open(ep))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.............................................
+----------------------------------------------------------------------
+Ran 57 tests in 0.499s
+
+OK
+exit 0

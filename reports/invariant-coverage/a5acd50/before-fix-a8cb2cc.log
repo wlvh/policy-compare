@@ -1,0 +1,111 @@
+Preparing worktree (detached HEAD a8cb2cc)
+
+ RUN  v5.0.5 /tmp/tmp.4DCHn41YE8
+
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > F6 rejects displaced final changed geometry on left
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > F6 rejects displaced final changed geometry on right
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > F6 rejects displaced final changed geometry on left/right
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > accepts valid evidence and a genuine control
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > empty required output
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > wrong subject
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > wrong page
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > hidden event
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > invalid source
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > reversed sides
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > unjustified partial
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > wrong operation
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > no precise changed source
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > coverage: empty
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > coverage: generic warning
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > coverage: wrong region
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > coverage: incorrect complete
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > duplicate-key warning alone cannot waive amount evidence
+ ↓ tests/scorer.test.ts > independent grader rejects dishonest outputs > Review does not excuse false text in control
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > the 32 pairs have exactly the 11 known N/A events in 10 cases and no unsupported path
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A skips only the identity check
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A still fails on wrong page
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A still fails on hidden
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A still fails on wrong operation
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A still fails on wrong category
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A still fails on no output
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > N/A still fails on unjustified partial
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > an unknown path is NOT_EVALUATED, never PASS, and a proven fault still FAILs
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > an N/A entry does not cover the same event under another path
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > an unknown detection branch is NOT_EVALUATED
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > summaries never count NOT_EVALUATED or unknown states as passed
+ ↓ tests/scorer.test.ts > identity applicability: checked, explicit N/A, or not evaluated > R13: the exact move and the similar new clause are not interchangeable
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry false) 49ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: correct registration card plus a wrong agreed-value card fails (100,000, fine geometry true) 22ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry false) 13ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: correct registration card plus a wrong agreed-value card fails (100000, fine geometry true) 15ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a wrong bare-number amount card fails whatever field it claims; layout.json names the cell 6ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a wrong amount card cannot hide the change by citing one location per digit 9ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a wrong card citing whole rows cannot hide the amount change (fine geometry false) 12ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a wrong card citing whole rows cannot hide the amount change (fine geometry true) 17ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: the same wrong pairing cited cell by cell, or under a declared amount field, fails as well 19ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a whole-row card for one record's MSN change passes 12ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a card claiming a change inside an unchanged amount cell by citing part of it fails 6ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: citing an unchanged amount's glyphs in another order cannot hide the claimed change 7ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: splitting the claimed amount into one operation per glyph cannot hide the change 8ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: one card swapping two unchanged amount cells cannot pass; their correspondence is NOT_EVALUATED 8ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: run-level geometry that leaves a cited amount outside layout.json is NOT_EVALUATED 10ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: with run-level geometry a wrong row pairing still fails, and an MSN-only change cannot be attributed 21ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: row-wide locations that layout.json does not cover are NOT_EVALUATED, not PASS 10ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: a bare-number identifier change (MSN) is not taken for an amount change 9ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: amounts swapped between two records through delete + add cards fail 8ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: delete + add amounts that cancel only across cards without a record are NOT_EVALUATED 6ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: delete + add cards claiming different parts of an unchanged amount cell fail 5ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: delete + add cards declaring agreed_value cannot hide a claim by splitting it across cards 9ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: removing an unchanged currency letter by letter across cards fails, with or without a record 16ms
+ × tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails 44ms
+   → six glyphs + whole: expected 'FAIL' to be 'NOT_EVALUATED' // Object.is equality
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: one record shown as delete + add with the same amount passes 6ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: matching the row by the renamed registration instead of the serial fails 7ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R11: correct label card plus a wrong amount card fails 6ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R11: correct label card plus a wrong bare-number amount card fails 5ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R11: correct label card plus a wrong currency card fails 5ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R11: a wrong bare-number amount card filed under a non-amount field fails 4ms
+ ✓ tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R11: the label change attached to another field fails 4ms
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: no_content_differences
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: no_material_differences
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: no_false_text_added_or_removed
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: no_false_clause_moves
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: no_false_row_additions_or_deletions
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: moved_clause_has_no_internal_word_edits
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: must_not_classify_as_unchanged_duration_roll_forward
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: grouping_allowed_only_with_all_occurrence_locations
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: agreed_value_unchanged
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > direct invariant check rejects a violation: no_amount_or_currency_change
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > the register covers exactly the 31 invariants of the 32 answers, and every cited test exists
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > unsupported and unknown invariants are NOT_EVALUATED; a failure still wins
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > an indirect invariant follows the event checks
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > exit code: 0 strict PASS, 2 only registered gaps, 1 for failures or unregistered gaps
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > R25: the reported duplicate with a visible amount change passes
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > R25: an unreported duplicate identity fails
+ ↓ tests/scorer.test.ts > invariant coverage register (#10) > R25: asserting a unique row key without evidence fails
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > one correct event card cannot offset an extra wrong card (#10) > R26: one record's unchanged cell split differently on the two sides: duplicate counting is NOT_EVALUATED, a real claim change still fails
+AssertionError: six glyphs + whole: expected 'FAIL' to be 'NOT_EVALUATED' // Object.is equality
+
+Expected: "NOT_EVALUATED"
+Received: "FAIL"
+
+ ❯ tests/scorer.test.ts:968:34
+    966|       const score = grade(x.result, x.expected, x.layout, x.docs);
+    967|       expect(score.faults.filter((f) => !f.includes("agreed_value_unch…
+    968|       expect(score.status, name).toBe(want);
+       |                                  ^
+    969|       if (want === "NOT_EVALUATED") {
+    970|         expect(score.notEvaluated, name).toMatchObject([{ invariant: "…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 30 passed | 49 skipped (80)
+   Start at  06:50:52
+   Duration  961ms (tests 47%, transform 40%, import 12%, worker 1%)
+
+exit=1

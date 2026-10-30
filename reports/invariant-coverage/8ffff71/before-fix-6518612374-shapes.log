@@ -1,0 +1,7 @@
+shape across changes {"result":"PASS","notEvaluated":[]}
+shape group changes {"result":"PASS","notEvaluated":[]}
+shape own changes {"result":"PASS","notEvaluated":[]}
+shape both changes {"result":"PASS","notEvaluated":[]}
+shape pool changes {"result":"PASS","notEvaluated":[]}
+shape across one-sided {"result":"PASS","notEvaluated":[]}
+      Tests  1 passed | 141 skipped (142)

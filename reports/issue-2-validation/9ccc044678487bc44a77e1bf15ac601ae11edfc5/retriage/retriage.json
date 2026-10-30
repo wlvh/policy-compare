@@ -1,0 +1,3981 @@
+{
+ "oldScript": {
+  "rev": "80af5b1",
+  "sha256": "e149e8b2b8b08c2599a4ecfd4a01bde16fdf790205bfbf4e83b9849267d79553"
+ },
+ "newScript": {
+  "rev": "9ccc044678487bc44a77e1bf15ac601ae11edfc5",
+  "sha256": "f8596b6a8ada134ff93ae7ac4c5a9668555952e92eed616b5a3be0c1dca617a7"
+ },
+ "runs": [
+  {
+   "set": "v3-85dae98",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "a9220f317b648fb5ace4cffcf06e3c1b62bdb432d00013e6fea7ece9e2163122",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 79,
+     "not_located": 4,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 3,
+     "one_side_only": 1
+    },
+    "acceptedCards": 88,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 46,
+    "changeCorrectlyAttributed": 51
+   },
+   "new": {
+    "verdicts": {
+     "correct": 73,
+     "not_located": 4,
+     "not_evaluable": 10,
+     "split_attributable": 1,
+     "partly_located": 3,
+     "one_side_only": 1
+    },
+    "acceptedCards": 82,
+    "unexplainedCards": 24,
+    "fullRowRecovered": 40,
+    "changeCorrectlyAttributed": 45
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b9d8fb2d4e80a90a3a2c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-637363a6f580d4b006c7"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1feb295e4f38c344e782"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-89fe2898e589f6aa0271"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7268b494a1aa828cde0c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7cf1ec2a5ed9d9e72913"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "9b9de6198946bb0e98a128f0e6d0cafa52a1bc0928ec9f16a04629a09b60bf0f",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 81,
+     "not_located": 3,
+     "not_evaluable": 4,
+     "split_attributable": 1,
+     "partly_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 17,
+    "fullRowRecovered": 46,
+    "changeCorrectlyAttributed": 51
+   },
+   "new": {
+    "verdicts": {
+     "correct": 75,
+     "not_located": 3,
+     "not_evaluable": 10,
+     "split_attributable": 1,
+     "partly_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 23,
+    "fullRowRecovered": 40,
+    "changeCorrectlyAttributed": 45
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-f5150cc4756629be5a69"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1547204edae6a2842898"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a55103ae5bc50052dce9"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-906fc246bc7251a48619"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d3c850b9ca9e18a80721"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-bd30e292fc5be581a269"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "bdfa1f82676e38b62dd79e616336b6eeebf9f6ee6480579a6aef8bd87dc571ea",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 3,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 81,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 36,
+    "changeCorrectlyAttributed": 43
+   },
+   "new": {
+    "verdicts": {
+     "correct": 70,
+     "split_attributable": 3,
+     "not_evaluable": 5,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 13,
+    "fullRowRecovered": 34,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ce641b931df66e0a3cf1"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-5167dc70ccee9c7ef666"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "69",
+     "block": "cp_M-FNKB_Selwyn",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ea4447de732bbaa19e26"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      false,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "v3-85dae98",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "8711eadc5fd18fa41ba5ccba4efc74bdd0550740f2583a54bbe9b1029b4842e5",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.1",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 3,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 81,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 36,
+    "changeCorrectlyAttributed": 43
+   },
+   "new": {
+    "verdicts": {
+     "correct": 71,
+     "split_attributable": 3,
+     "not_evaluable": 5,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 13,
+    "fullRowRecovered": 34,
+    "changeCorrectlyAttributed": 40
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b7c982360ab38076ccfc"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-76ccb299492d36b64eb4"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "69",
+     "block": "cp_M-FNKB_Selwyn",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7fd0ee26288a192f68f7"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      false,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "6c22378267e4bffcfad3b00486e789eb1d81bd62e7574fb3acea99d8b51e8c65",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 16,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b9d8fb2d4e80a90a3a2c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-637363a6f580d4b006c7"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1feb295e4f38c344e782"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-89fe2898e589f6aa0271"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7268b494a1aa828cde0c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7cf1ec2a5ed9d9e72913"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "a0abbb70ea218d14e86f32717bc1565b978bb4b113350f29a8e5be4cba4e7d3f",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 84,
+    "unexplainedCards": 15,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-f5150cc4756629be5a69"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1547204edae6a2842898"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a55103ae5bc50052dce9"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-906fc246bc7251a48619"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d3c850b9ca9e18a80721"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-bd30e292fc5be581a269"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "dbd462052f13400b3be0dc85b274350ae9da6110368abd16523c3c3ecc0baba7",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ce641b931df66e0a3cf1"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-5167dc70ccee9c7ef666"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "eec627f",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "ceb0b690f0fdfebd7b52706560e1b5437f5c2d53a286d8a587bdba035d38106b",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.3",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b7c982360ab38076ccfc"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-76ccb299492d36b64eb4"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "f5be16d9982e02c66810cae7f70d1536845a50cf251edb33edbf879c4d58c108",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 16,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b9d8fb2d4e80a90a3a2c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-637363a6f580d4b006c7"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1feb295e4f38c344e782"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-89fe2898e589f6aa0271"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7268b494a1aa828cde0c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7cf1ec2a5ed9d9e72913"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "9a572e67425f1a73cc32c65a24ead89d4e184d89c2fd6331101cc389a6d0ee34",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 84,
+    "unexplainedCards": 15,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-f5150cc4756629be5a69"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1547204edae6a2842898"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a55103ae5bc50052dce9"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-906fc246bc7251a48619"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d3c850b9ca9e18a80721"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-bd30e292fc5be581a269"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "698586e4f9be868d7f29362cf0cf5c6ab622170a6f7e1d59a42f745815780168",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ce641b931df66e0a3cf1"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-5167dc70ccee9c7ef666"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "6e6b541",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "dbcbdc1ba8c527964d10d97722609723efb171781d959a5c78a861166280c45a",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.4",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b7c982360ab38076ccfc"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-76ccb299492d36b64eb4"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "bfb76956d62cfd36f78292fd946ffc237473d847fe084ca39fec23f7e3bf3d44",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 16,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b9d8fb2d4e80a90a3a2c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-637363a6f580d4b006c7"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1feb295e4f38c344e782"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-89fe2898e589f6aa0271"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7268b494a1aa828cde0c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7cf1ec2a5ed9d9e72913"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "28aa1202fd09530f6f013f0e51db644f5ee6f66c0f4249f18c8af719edfb7b05",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 84,
+    "unexplainedCards": 15,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-f5150cc4756629be5a69"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1547204edae6a2842898"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a55103ae5bc50052dce9"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-906fc246bc7251a48619"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d3c850b9ca9e18a80721"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-bd30e292fc5be581a269"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "5b9363484861a365662fc0958e3914cf551f40abf709112f4261b331729785fc",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ce641b931df66e0a3cf1"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-5167dc70ccee9c7ef666"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "ee0f0a5",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "1a73a53bd50c95a9aa02867723d2e7bd5f492f9487a695f8e0682bdc8fcd27fb",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.5",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b7c982360ab38076ccfc"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-76ccb299492d36b64eb4"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "4c03879310c3482b14d49acfb4f2049682d3db621d829425c45bde1619478a90",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 16,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b9d8fb2d4e80a90a3a2c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-637363a6f580d4b006c7"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1feb295e4f38c344e782"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-89fe2898e589f6aa0271"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7268b494a1aa828cde0c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7cf1ec2a5ed9d9e72913"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "1669304b4606ce7253d4362fbbb0091636d568c0c85c982dcb42ad3de1dadd3c",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 84,
+    "unexplainedCards": 15,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-f5150cc4756629be5a69"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1547204edae6a2842898"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a55103ae5bc50052dce9"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-906fc246bc7251a48619"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d3c850b9ca9e18a80721"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-bd30e292fc5be581a269"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "0d664502b2d7bf1b80507d629a547030a4fe76aed313f772be5278fcc8ee7502",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ce641b931df66e0a3cf1"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-5167dc70ccee9c7ef666"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "60bf50c",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "8b746a79cf2631ec87c8851f081d9024b1d01936f2b12e9c6655a02ae2940dd6",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.6",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b7c982360ab38076ccfc"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-76ccb299492d36b64eb4"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "9c817481052f114aa5da209d8a4b2a4397f857111e3d22076969132002752146",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 82,
+     "not_located": 4,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 89,
+    "unexplainedCards": 10,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 16,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b9d8fb2d4e80a90a3a2c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-637363a6f580d4b006c7"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1feb295e4f38c344e782"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-89fe2898e589f6aa0271"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7268b494a1aa828cde0c"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-7cf1ec2a5ed9d9e72913"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "c533cf5e95f3f98ab2d0dc18a25310e2f60b9c3f612ec896763ae6a72c809bd7",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 84,
+     "not_located": 3,
+     "not_evaluable": 2,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 90,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 54,
+    "changeCorrectlyAttributed": 54
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 84,
+    "unexplainedCards": 15,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": [
+    {
+     "id": "87",
+     "block": "rate_1_1",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-f5150cc4756629be5a69"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "88",
+     "block": "rate_1_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-1547204edae6a2842898"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "89",
+     "block": "rate_1_5",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-a55103ae5bc50052dce9"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "90",
+     "block": "rate_1_8",
+     "kind": "Added",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-906fc246bc7251a48619"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "in_record",
+       "in_record",
+       "in_record"
+      ],
+      [
+       "record_unconfirmed",
+       "record_unconfirmed",
+       "record_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "no declared record identity"
+     ]
+    },
+    {
+     "id": "92",
+     "block": "rate_2_2",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-d3c850b9ca9e18a80721"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    },
+    {
+     "id": "93",
+     "block": "rate_3_3",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-bd30e292fc5be581a269"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is unconfirmed"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "5a190266ea0c1a2d972018ef9469e39ba7c9960682a2021fdaa3ce4df4695372",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 74,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 72,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-ce641b931df66e0a3cf1"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-5167dc70ccee9c7ef666"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "80af5b1",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "5c3d473ae038a9d79fc17a9ded95aac9a83409317581ce2fc9df3de93c8ec126",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.7",
+   "old": {
+    "verdicts": {
+     "correct": 75,
+     "split_attributable": 2,
+     "not_evaluable": 2,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 80,
+    "unexplainedCards": 7,
+    "fullRowRecovered": 44,
+    "changeCorrectlyAttributed": 44
+   },
+   "new": {
+    "verdicts": {
+     "correct": 73,
+     "split_attributable": 2,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 78,
+    "unexplainedCards": 9,
+    "fullRowRecovered": 42,
+    "changeCorrectlyAttributed": 42
+   },
+   "changedEvents": [
+    {
+     "id": "15",
+     "block": "avn111",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-b7c982360ab38076ccfc"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    },
+    {
+     "id": "18",
+     "block": "lma5219",
+     "kind": "Replaced",
+     "verdict": [
+      "correct",
+      "not_evaluable"
+     ],
+     "acceptedCards": [
+      [
+       "d-76ccb299492d36b64eb4"
+      ],
+      []
+     ],
+     "fullRowRecovered": [
+      true,
+      null
+     ],
+     "atoms": [
+      [
+       "same_card"
+      ],
+      [
+       "same_card_identity_unconfirmed"
+      ]
+     ],
+     "reasons": [
+      "same card, but the record identity is ambiguous"
+     ]
+    }
+   ]
+  },
+  {
+   "set": "final-9ccc044",
+   "case": "aviation_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "e3e86146c9cd85c2a5dd8e1c94f72bcd14f60d517c70a2c907429370f16e8aba",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "error": "KeyError: 'category'"
+   },
+   "new": {
+    "verdicts": {
+     "correct": 76,
+     "not_located": 4,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 3
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 28,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "final-9ccc044",
+   "case": "aviation_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "b129989ea5fce44d5ccfda0eb61462cc779265bba229937acd1a6bdd214090d7",
+   "changesSha256": "a43dee625c55fda8c018b8e92ef28342cb242dae575f447a1dd355d3b41ee080",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "error": "KeyError: 'category'"
+   },
+   "new": {
+    "verdicts": {
+     "correct": 78,
+     "not_located": 3,
+     "not_evaluable": 8,
+     "split_attributable": 1,
+     "partly_located": 2
+    },
+    "acceptedCards": 84,
+    "unexplainedCards": 27,
+    "fullRowRecovered": 48,
+    "changeCorrectlyAttributed": 48
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "final-9ccc044",
+   "case": "bizav_2024_vs_2025",
+   "engine": "mupdf",
+   "resultSha256": "31071f1382de315c70bcb4383180d173a642dd7c25b2ae0955f63d3180ead0b4",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "error": "KeyError: 'category'"
+   },
+   "new": {
+    "verdicts": {
+     "correct": 67,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "partly_located": 1,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 37
+   },
+   "changedEvents": []
+  },
+  {
+   "set": "final-9ccc044",
+   "case": "bizav_2024_vs_2025",
+   "engine": "pdfjs",
+   "resultSha256": "2be0169cc8fa28097fb9400f408110693736e00b45e86778d99ed3e2bcc1bfd1",
+   "changesSha256": "7294862cda61879c5c6a92da6267b87821d40e2b450ece53ef5aeffb3c604a9c",
+   "coreVersion": "policy-compare/0.1.0+row-identity.8+facts.2",
+   "old": {
+    "error": "KeyError: 'category'"
+   },
+   "new": {
+    "verdicts": {
+     "correct": 68,
+     "split_attributable": 7,
+     "not_evaluable": 4,
+     "not_located": 2,
+     "one_side_only": 1
+    },
+    "acceptedCards": 83,
+    "unexplainedCards": 18,
+    "fullRowRecovered": 37,
+    "changeCorrectlyAttributed": 37
+   },
+   "changedEvents": []
+  }
+ ]
+}

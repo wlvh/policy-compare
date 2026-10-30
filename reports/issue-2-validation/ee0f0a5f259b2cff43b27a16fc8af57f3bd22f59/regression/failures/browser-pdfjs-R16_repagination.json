@@ -1,0 +1,412 @@
+{
+  "score": {
+    "caseId": "R16_repagination",
+    "status": "FAIL",
+    "faults": [
+      "False substantive change; Review is not an exemption"
+    ],
+    "notEvaluated": [],
+    "events": []
+  },
+  "result": {
+    "schemaVersion": "policy-compare/0.1.0",
+    "coreVersion": "policy-compare/0.1.0+row-identity.5",
+    "extractors": [
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299+strict-streams.1",
+        "adapterVersion": "pdfjs-adapter/3",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range",
+          "stopAtErrors": true,
+          "streamFailurePolicy": "throw-invalid-stream/1"
+        }
+      },
+      {
+        "name": "PDF.js",
+        "version": "pdfjs/6.4.299+strict-streams.1",
+        "adapterVersion": "pdfjs-adapter/3",
+        "options": {
+          "disableNormalization": true,
+          "includeMarkedContent": false,
+          "geometry": "engine_run; browser text_layer_range",
+          "stopAtErrors": true,
+          "streamFailurePolicy": "throw-invalid-stream/1"
+        }
+      }
+    ],
+    "snapshotHashVersion": "page-merkle/1",
+    "tokenizerVersion": "unicode-tokens/1",
+    "profileVersion": "aviation/1.0.0",
+    "documentHashes": [
+      "f6f85f635be40d07c4d494256d452cad6a5d28af782f7a352122def2f366967a",
+      "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe"
+    ],
+    "extractionSnapshotHashes": [
+      "dca364fc52d08522891c7259c7556d8e45c5029c50cd5f3c87b761e0717d0f6c",
+      "d700d70934fd3155a0f665870540a88dcd02f0c058603987aab86b8f9b27889d"
+    ],
+    "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+    "scope": "extracted_text",
+    "status": "complete_for_scope",
+    "differences": [
+      {
+        "id": "d-582c235602164f8598c3",
+        "kind": "Added",
+        "category": "Review",
+        "structurePath": {
+          "section": "risk_details",
+          "entity": null,
+          "field": null,
+          "table": null,
+          "rowKey": null,
+          "confidence": "candidate"
+        },
+        "left": [],
+        "right": [
+          {
+            "side": "right",
+            "pageIndex": 1,
+            "unitId": "u30",
+            "rawRange": [
+              70,
+              84
+            ],
+            "charIds": [
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s0",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s1",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s2",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s3",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s4",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s5",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s6",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s7",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s8",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s9",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s10",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s11",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s12",
+              "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s13"
+            ],
+            "text": "POLICY WORDING",
+            "quads": [
+              [
+                42,
+                67.077,
+                175.916,
+                67.077,
+                42,
+                84.538,
+                175.916,
+                84.538
+              ]
+            ],
+            "direction": [
+              1,
+              0
+            ],
+            "precision": "run",
+            "geometryMethod": "engine_run",
+            "sourceRanges": [
+              {
+                "itemId": "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3",
+                "scalarRange": [
+                  0,
+                  14
+                ],
+                "utf16Range": [
+                  0,
+                  14
+                ],
+                "itemText": "POLICY WORDING"
+              }
+            ],
+            "resolvedGeometry": {
+              "method": "text_layer_range",
+              "quads": [
+                [
+                  42.01167554034583,
+                  67.88700781700288,
+                  175.93170932096544,
+                  67.88700781700288,
+                  42.01167554034583,
+                  85.04192424351585,
+                  175.93170932096544,
+                  85.04192424351585
+                ]
+              ],
+              "text": "POLICY WORDING"
+            }
+          }
+        ],
+        "oldText": "",
+        "newText": "POLICY WORDING",
+        "textOps": [
+          {
+            "kind": "insert",
+            "text": "POLICY WORDING",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 1,
+                "unitId": "u30",
+                "rawRange": [
+                  70,
+                  84
+                ],
+                "charIds": [
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s0",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s1",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s2",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s3",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s4",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s5",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s6",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s7",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s8",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s9",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s10",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s11",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s12",
+                  "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3:s13"
+                ],
+                "text": "POLICY WORDING",
+                "quads": [
+                  [
+                    42,
+                    67.077,
+                    175.916,
+                    67.077,
+                    42,
+                    84.538,
+                    175.916,
+                    84.538
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "run",
+                "geometryMethod": "engine_run",
+                "sourceRanges": [
+                  {
+                    "itemId": "ec31ec57b12625c15c24fa6d21bff1c2b55013dd4d6258a8c175327e2ad1d9fe:p1:i3",
+                    "scalarRange": [
+                      0,
+                      14
+                    ],
+                    "utf16Range": [
+                      0,
+                      14
+                    ],
+                    "itemText": "POLICY WORDING"
+                  }
+                ],
+                "resolvedGeometry": {
+                  "method": "text_layer_range",
+                  "quads": [
+                    [
+                      42.01167554034583,
+                      67.88700781700288,
+                      175.93170932096544,
+                      67.88700781700288,
+                      42.01167554034583,
+                      85.04192424351585,
+                      175.93170932096544,
+                      85.04192424351585
+                    ]
+                  ],
+                  "text": "POLICY WORDING"
+                }
+              }
+            ]
+          }
+        ],
+        "hasTextChange": true,
+        "defaultVisible": true,
+        "matchEvidence": {
+          "method": "unmatched",
+          "score": null,
+          "details": [
+            "unmatched"
+          ]
+        },
+        "reviewReasons": [],
+        "occurrences": []
+      }
+    ],
+    "coverage": [],
+    "unresolved": [],
+    "alignment": [
+      {
+        "leftPage": 0,
+        "leftY": 29,
+        "rightPage": 0,
+        "rightY": 29
+      },
+      {
+        "leftPage": 0,
+        "leftY": 49,
+        "rightPage": 0,
+        "rightY": 49
+      },
+      {
+        "leftPage": 0,
+        "leftY": 81,
+        "rightPage": 0,
+        "rightY": 81
+      },
+      {
+        "leftPage": 0,
+        "leftY": 132,
+        "rightPage": 0,
+        "rightY": 132
+      },
+      {
+        "leftPage": 0,
+        "leftY": 155,
+        "rightPage": 0,
+        "rightY": 155
+      },
+      {
+        "leftPage": 0,
+        "leftY": 178,
+        "rightPage": 0,
+        "rightY": 178
+      },
+      {
+        "leftPage": 0,
+        "leftY": 201,
+        "rightPage": 0,
+        "rightY": 201
+      },
+      {
+        "leftPage": 0,
+        "leftY": 224,
+        "rightPage": 0,
+        "rightY": 224
+      },
+      {
+        "leftPage": 0,
+        "leftY": 247,
+        "rightPage": 0,
+        "rightY": 247
+      },
+      {
+        "leftPage": 0,
+        "leftY": 270,
+        "rightPage": 0,
+        "rightY": 270
+      },
+      {
+        "leftPage": 0,
+        "leftY": 293,
+        "rightPage": 0,
+        "rightY": 293
+      },
+      {
+        "leftPage": 0,
+        "leftY": 316,
+        "rightPage": 0,
+        "rightY": 316
+      },
+      {
+        "leftPage": 0,
+        "leftY": 339,
+        "rightPage": 0,
+        "rightY": 339
+      },
+      {
+        "leftPage": 0,
+        "leftY": 378,
+        "rightPage": 1,
+        "rightY": 135
+      },
+      {
+        "leftPage": 0,
+        "leftY": 399,
+        "rightPage": 1,
+        "rightY": 156
+      },
+      {
+        "leftPage": 0,
+        "leftY": 453,
+        "rightPage": 1,
+        "rightY": 210
+      },
+      {
+        "leftPage": 0,
+        "leftY": 474,
+        "rightPage": 1,
+        "rightY": 231
+      },
+      {
+        "leftPage": 0,
+        "leftY": 528,
+        "rightPage": 1,
+        "rightY": 285
+      },
+      {
+        "leftPage": 0,
+        "leftY": 549,
+        "rightPage": 1,
+        "rightY": 306
+      },
+      {
+        "leftPage": 1,
+        "leftY": 81,
+        "rightPage": 2,
+        "rightY": 81
+      },
+      {
+        "leftPage": 1,
+        "leftY": 136,
+        "rightPage": 2,
+        "rightY": 136
+      },
+      {
+        "leftPage": 1,
+        "leftY": 169,
+        "rightPage": 2,
+        "rightY": 169
+      },
+      {
+        "leftPage": 1,
+        "leftY": 204,
+        "rightPage": 2,
+        "rightY": 204
+      },
+      {
+        "leftPage": 1,
+        "leftY": 239,
+        "rightPage": 2,
+        "rightY": 239
+      },
+      {
+        "leftPage": 1,
+        "leftY": 274,
+        "rightPage": 2,
+        "rightY": 274
+      },
+      {
+        "leftPage": 1,
+        "leftY": 309,
+        "rightPage": 2,
+        "rightY": 309
+      }
+    ],
+    "stats": {
+      "leftScalars": 1401,
+      "rightScalars": 1511,
+      "candidates": 0,
+      "tokenProducts": 0,
+      "differenceCount": 1,
+      "occurrenceCount": 1
+    },
+    "diagnostics": []
+  }
+}
