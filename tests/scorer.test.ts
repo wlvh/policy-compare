@@ -1308,6 +1308,32 @@ describe("one correct event card cannot offset an extra wrong card (#10)", () =>
     // Controls: without the declared change the pairing fails too; the declared record's own card passes.
     expect(make(false, "across")).toBe("FAIL");
     expect(make(true, "own")).toBe("PASS");
+    // Codex PR #11 comment 6517783297: only the runs a card edits count, not unchanged context. Record
+    // SYN-1026-001 declares "100,020 each" -> "200,020 each"; the card pairs SYN-1026-003's 100,020 with
+    // SYN-90's 200,020 and cites the declared record's unchanged " each" as an equal operation.
+    const context = (declared: boolean, withContext: boolean) => {
+      const x = r26(false, ["100,020 each", "100,020"], { left: ["1315 Alpha Air 200,020"], right: ["1315 Alpha Air 200,020"] }, ["200,020 each", "100,020"]);
+      if (declared) {
+        x.expected.events.push({ ...x.expected.events[0], event_id: "R26_key_change:E2", logical_path: "aircraft_schedule.SYN-1026-001.agreed_value", old: "100,020 each", new: "200,020 each" });
+        x.expected.evidence_locations["R26_key_change:E2"] = { before: [{ page_index: 0, run_id: "l5" }], after: [{ page_index: 0, run_id: "l5" }] };
+      }
+      const [l, r] = x.docs;
+      const C = lineLoc(r, "right", "l11"),
+        [L, R] = [lineLoc(l, "left", "l10"), slice(C, C.text.lastIndexOf(" ") + 1, C.text.length)],
+        [AL, AR] = [lineLoc(l, "left", "l5"), lineLoc(r, "right", "l5")],
+        [EL, ER] = [slice(AL, 7, AL.text.length), slice(AR, 7, AR.text.length)];
+      x.result.differences.push({ ...x.wrong, id: "context", left: withContext ? [L, EL] : [L], right: withContext ? [R, ER] : [R],
+        oldText: L.text + (withContext ? EL.text : ""), newText: R.text + (withContext ? ER.text : ""), textOps: [
+          { kind: "delete", text: L.text, left: [L], right: [] },
+          { kind: "insert", text: R.text, left: [], right: [R] },
+          ...(withContext ? [{ kind: "equal" as const, text: EL.text, left: [EL], right: [ER] }] : []),
+        ] });
+      expect(ResultSchema.safeParse(x.result).success).toBe(true);
+      return grade(x.result, x.expected, x.layout, x.docs).invariants.find((i) => i.name === "agreed_value_unchanged")?.result;
+    };
+    expect(context(true, true)).toBe("FAIL");
+    expect(context(true, false)).toBe("FAIL");
+    expect(context(false, true)).toBe("FAIL");
   });
   // Codex PR #11 comment 6514962741: one edit reported twice is the same fault whatever records the
   // cards claim, so source characters are compared across all delete and add cards.
