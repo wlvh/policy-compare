@@ -1403,5 +1403,66 @@ class Cli(unittest.TestCase):
         self.assertNotIn('charIds', events[0]['atomEvidence'][0]['candidates'][0]['left'][0])
 
 
+class JointSourceBinding(unittest.TestCase):
+    def test_repeated_cells_are_allocated_only_from_their_own_record(self):
+        for kind in ('Added', 'Removed'):
+            side, pages = ('right', (0, 1)) if kind == 'Added' else ('left', (1, 0))
+            ch = change(63, 'ac_1315', kind, pages=pages, **{side: '1315 | Hull | USD 100 | USD 100'})
+            for shown, full in [('1315 Hull USD 100; 1760 Liability USD 100', False),
+                                ('1315 Hull USD 100 USD 100; 1760 Liability USD 999', True)]:
+                with self.subTest(kind=kind, shown=shown):
+                    _, ev = run([ch], result([card('r', kind, **{side: [(1, 'u', shown)]})]), [table('aircraft', [0], ch)])
+                    self.assertEqual(ev['63']['row']['fullRowRecovered'], full)
+                    self.assertEqual(ev['63']['verdict'] == 'correct', full)
+        ch = change(41, 'ac_1315', 'Replaced', '1315 | Alpha | Alpha | USD 100',
+                    '1315 | Alpha | Alpha | USD 200', [('USD 100', 'USD 200')])
+        for old, full in [('1315 Alpha USD 100; 1760 Alpha USD 999', False),
+                          ('1315 Alpha Alpha USD 100; 1760 Beta USD 999', True)]:
+            _, ev = run([ch], result([card('r', 'Replaced', [(1, 'a', old)], [(1, 'b', old.replace('100', '200'))])]),
+                        [table('aircraft', [0], ch)])
+            self.assertEqual(ev['41']['row']['fullRowRecovered'], full)
+
+    def test_split_cards_have_compatible_opposite_edits(self):
+        for row in (False, True):
+            old, new = ('1315 | Hull | USD 100', '1315 | Hull | USD 200') if row else (
+                'Hull cover is USD 100 for the aircraft.', 'Hull cover is USD 200 for the aircraft.')
+            ch = change(7, 'p', 'Replaced', old, new, [('USD 100', 'USD 200')])
+            tables = [table('aircraft', [0], ch)] if row else []
+            for shape in ('contradiction', 'delete-add', 'replacement'):
+                if shape == 'contradiction':
+                    cs = [card('a', 'Replaced', [(1, 'p', old)], [(1, 'q', old.replace('100', '300'))]),
+                          card('b', 'Replaced', [(1, 'r', new.replace('200', '400'))], [(1, 's', new)])]
+                elif shape == 'delete-add':
+                    cs = [card('a', 'Removed', [(1, 'p', old)]), card('b', 'Added', right=[(1, 's', new)])]
+                else:
+                    cs = [card('a', 'Replaced', [(1, 'p', old)], [(1, 's', new)])]
+                with self.subTest(row=row, shape=shape):
+                    _, ev = run([ch], result(cs), tables)
+                    if shape == 'contradiction':
+                        self.assertNotIn(ev['7']['verdict'], ('correct', 'split_attributable'))
+                        self.assertEqual(ev['7']['acceptedCards'], [])
+                    else:
+                        self.assertEqual(ev['7']['verdict'], 'correct' if shape == 'replacement' else 'split_attributable')
+
+    def test_page_facts_distinguish_disproved_from_undecided(self):
+        for a, b, expected in [
+            ('Premium per page 100USD', 'Premium per page 200USD', 'contradicted'),
+            ('Page 10%', 'Page 20%', 'contradicted'), ('Page 10 %', 'Page 20 %', 'contradicted'),
+            ('Page 10‰', 'Page 20‰', 'contradicted'),
+            ('Cost per page 100€', 'Cost per page 200€', 'contradicted'),
+            ('Page 3 of 10%', 'Page 3 of 11%', 'contradicted'),
+            ('Cost per page 100 USD', 'Cost per page 200 USD', None),
+            ('Page 3 AED 100', 'Page 4 AED 100', None),
+            ('per page 100NZD', 'per page 200NZD', None),
+            ('Page 3 of 10', 'Page 4 of 10', 'consistent'),
+            ('PAGE 3 OF 10', 'PAGE 4 OF 10', 'consistent'),
+            ('PAGE 3 NOTE', 'PAGE 4 NOTE', 'consistent'),
+            ('', 'Page 4%', 'contradicted'), ('Page 4%', '', 'contradicted'),
+            ('', 'Page 4 of 10', 'consistent'),
+        ]:
+            with self.subTest(a=a, b=b):
+                self.assertEqual(triage.fact_check({'oldText': a, 'newText': b, 'facts': ['page_number_only']})['page_number_only'], expected)
+
+
 if __name__ == '__main__':
     unittest.main()

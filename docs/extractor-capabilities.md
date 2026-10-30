@@ -15,6 +15,8 @@ walk 原实现用 String.fromCharCode 接收完整码点，会截断非 BMP 字�
 边界：图片未做 OCR；批注/表单有可见覆盖提示；电子签名有效性和通用矢量内容识别未实现。普通文本页 complete_for_scope 仅表示可提取文本范围。复杂多栏阅读顺序和任意表型仍需要真实样本验证。两个版本把同一张表按不同次序抽取（一侧按行、一侧按列）时，只有每行各列都有内容、三栏以上的紧凑表按各自的基线成行；两栏表、某列有空格的稀疏表、按基线抽取的折行格不支持：文字都可见，但可能出现只是次序不同的卡，或一删一增（第十一轮，PR #9 r4421790337）。
 
 
+局部行边界也可能有歧义：已恢复表内，两条完整基线的各列文字逐格成对抽取时，它们既可能是两条记录，也可能是一条记录的每格都换行。`+row-identity.35` 对这种局部块保留逐侧原文及 `ambiguous_identity`，不再把续行的 `(a)` 确定为独立行键；其他完整记录、部分格换行和紧凑表按行/按列提取沿用原有处理。这不扩大上述不支持格式的范围。
+
 PDF.js 路线锁定 pdfjs-dist 6.4.299（Apache-2.0），实现位于 engines/pdfjs。已检查 getTextContent、TextLayer、PDFDocumentLoadingTask.destroy、PDFPageProxy.commonObjs 字体对象及算子表的实际代码与类型。显式 disableNormalization=true；同样的 TextContent 选项用于提取和显示来源。独立文字项、标量/UTF-16 区间、run 几何均保留，Node 不伪造字符 quad。
 
 浏览器使用 PDF.js 自己的已加载字体，TextLayer 按提取项建立文本节点；通过 DOM Range 测量具体范围，并按实际 DOM 字号重新测量文本宽度，避免库的测量字号量化误差把标点推到邻字。所有调整基于实际字体前进宽度，没有均分文本段。R04/R09/R14/R31 的严格位置失败与修复证据保留。sourceRanges 中的 itemText 和 UTF-16 范围在测量前核对；核心与 DocInput 不接收 DOM。

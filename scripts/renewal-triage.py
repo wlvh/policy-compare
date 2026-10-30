@@ -136,7 +136,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/37'
+TOOL = 'renewal-triage/38'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -749,22 +749,29 @@ def text_atom(atom, change, ctx, claimed):
     def half(d, side, needle):
         """A card holding one side; with an identity, the units where it was confirmed are kept for
         the full row (PR #11 comment 6511895761)."""
+        only = {side: pure(d, side, needle, wanted[side], need[side], change)} if need[side] else None
         if ident is None:
-            return candidate(d, {side: needle}, wanted, need=need)
+            return candidate(d, {side: needle}, wanted, need=need, only=only)
         status, why, seen = judge_identity(d, {side: needle}, ident, others, change, wanted, {side: need[side]},
-                                           within=bool(need[side]))
-        return candidate(d, {side: needle}, wanted, status, why, seen, need=need)
+                                           only=only, within=bool(need[side]))
+        return candidate(d, {side: needle}, wanted, status, why, seen, need=need, only=only)
     cands += [half(d, 'left', old) for d in olds] + [half(d, 'right', new) for d in news]
     if olds and news:
         # The context or identity must sit with the occurrence on the stated pages that makes the
         # edit (el, er); lk, rk only tell whether some occurrence has it without the edit.
         if ident is None:
             author = {'left': change.get('left_text'), 'right': change.get('right_text')}
-            ok = lambda d, side, n, e: context(d, side, n, wanted[side], author[side], e, within=bool(e))
+            def ok(d, side, n, e):
+                only = pure(d, side, n, wanted[side], e, change) if e else None
+                return (only is None or bool(only)) and context(d, side, n, wanted[side], author[side], e,
+                                                                only=only, within=bool(e))
             why = 'author paragraph text around the change, in the source units of that occurrence'
         else:
-            ok = lambda d, side, n, e: judge_identity(d, {side: n}, ident, others, change, wanted,
-                                                     {side: e}, within=bool(e))[0] == 'confirmed'
+            def ok(d, side, n, e):
+                only = {side: pure(d, side, n, wanted[side], e, change)} if e else None
+                return (only is None or bool(only[side])) and judge_identity(
+                    d, {side: n}, ident, others, change, wanted, {side: e}, only=only,
+                    within=bool(e))[0] == 'confirmed'
             why = 'expected record identity in the source unit of each side\'s change'
         lk, rk = [d for d in olds if ok(d, 'left', old, False)], [d for d in news if ok(d, 'right', new, False)]
         el = [d for d in olds if ok(d, 'left', old, need['left'])]
@@ -887,7 +894,7 @@ def one_side_edit(atom, change, ctx, claimed, need):
     return 'not_found', 'not_located', [], cands, [], 'script did not locate the edited side'
 
 
-def allocate(texts, text):
+def allocate(texts, text, candidates=None):
     """The author cells a unit's text holds, each cell copy with a stretch of the text of its own:
     a text the row has twice is found twice only where the unit holds it twice (r4416863597), and
     overlapping cells (USD 100, 100) need separate stretches (r4417192877). Every candidate
@@ -896,8 +903,9 @@ def allocate(texts, text):
     interchangeable: they take stretches in text order, and once one is left out so are the rest,
     so their orders are not tried one by one (r4417631513)."""
     cells = sorted((t for t in texts if t), key=lambda t: (-len(t), t))
-    spans = {t: [(m.start(), m.end()) for i in range(len(text)) for m in [whole(t).match(text, i)] if m]
-             for t in set(cells)}
+    spans = candidates if candidates is not None else {
+        t: [(m.start(), m.end()) for i in range(len(text)) for m in [whole(t).match(text, i)] if m]
+        for t in set(cells)}
     best = []
 
     def place(k, taken, found, prev):
@@ -925,6 +933,15 @@ def allocate(texts, text):
     return best
 
 
+def record_cells(texts, text, mine, author):
+    """Allocate copies only after each candidate occurrence is proved reachable from this identity.
+    Counting globally and then asking whether any one occurrence belongs here can borrow the rest
+    from another record. Both row entry points use these same qualified spans."""
+    spans = {t: [(m.start(), m.end()) for i in range(len(text)) for m in [whole(t).match(text, i)]
+                 if m and reaches(text, m.start(), t, mine, author)] for t in set(texts) if t}
+    return allocate(texts, text, spans)
+
+
 def row_cells(atoms, change, ctx):
     """Added/Removed table row: all cells must sit in one unit that carries the record identity."""
     diffs, result, wanted, ident, others = ctx['diffs'], ctx['result'], ctx['wanted'], ctx['ident'], ctx['others']
@@ -937,7 +954,8 @@ def row_cells(atoms, change, ctx):
             if found:
                 pool.append((d, u, found))
     mine = ident[side] if ident else []
-    anchors = [(d, u, f) for d, u, f in pool if holds(u['text'], mine)]
+    author = norm(change.get('right_text' if side == 'right' else 'left_text') or '')
+    anchors = [(d, u, record_cells(texts, u['text'], mine, author)) for d, u, f in pool if holds(u['text'], mine)]
     # A removed (added) row belongs on a card of its own kind; inside another kind it was merged or paired.
     own_kind = [a for a in anchors if a[0]['kind'] == change['kind']]
     anchor = max(own_kind or anchors, key=lambda x: len(x[2]), default=None)
@@ -964,8 +982,6 @@ def row_cells(atoms, change, ctx):
     # In a unit holding several records, a cell counts for this record only where its identity
     # reaches the cell as in the author row (reaches()), not after another record's text (PR #11
     # comment 6518043799).
-    author = norm(change.get('right_text' if side == 'right' else 'left_text') or '')
-    reached = lambda t: any(reaches(anchor[1]['text'], m.start(), t, mine, author) for m in whole(t).finditer(anchor[1]['text']))
     out = []
     for atom, t in zip(atoms, texts):
         # This cell's own occurrence in the record unit, used up by the cell that takes it.
@@ -989,10 +1005,6 @@ def row_cells(atoms, change, ctx):
         elif anchor and mine_here and unresolved:
             out.append(('product_unresolved', 'not_evaluable', [], where, un,
                         'product marked the row identity unresolved'))
-        elif anchor and mine_here and not reached(t):
-            out.append(('cell_off_record', 'not_evaluable', [], where, un,
-                        'the record unit holds the cell only where other text than the author row\'s lies '
-                        'between it and the record identity'))
         elif anchor and mine_here and not mixed:
             out.append(('in_record', 'correct', [anchor[0]], where, un, ''))
         elif anchor and mine_here:
@@ -1212,8 +1224,7 @@ def triage(change, result, declared, family, claimed):
             def whole_row(side, row):
                 t, mine = text(side), ident[side] or ident['cells']
                 author = norm(change.get('left_text' if side == 'left' else 'right_text') or '')
-                return len(allocate(row, t)) == len([c for c in row if c]) and all(
-                    any(reaches(t, m.start(), c, mine, author) for m in whole(c).finditer(t)) for c in row if c)
+                return len(record_cells(row, t, mine, author)) == len([c for c in row if c])
             full = all(whole_row(side, row) for side, row in (('left', lc or []), ('right', rc or [])))
         elif record:
             full = all(a['verdict'] == 'correct' for a in detail)
@@ -1255,21 +1266,51 @@ def sha256(path):
         return hashlib.sha256(f.read()).hexdigest()
 
 
-PAGE = re.compile(r'\bpage\s*(\d+)(?:\s*(?:of|/)\s*(\d+))?', re.I)
+PAGE_CODES = 'USD|EUR|GBP|JPY|CHF|CNY|HKD|SGD|MYR|AUD|CAD'
+PAGE = re.compile(r'\bpage\s*(\d+)(?![.,]?\d)(?:\s*(?:of|/)\s*(\d+)(?![.,]?\d))?', re.I)
 
 
-def page_masked(text):
-    """The text with the counter and total of each Page n expression replaced by #, each only when
-    it is a whole number of the text (not the 1 of Page 1.1 or the 100 of Page 100,000), as the
-    product's maskedPageNumbers() reads them (PR #11 comment 6509987949)."""
+def page_form(text):
+    """Re-read the public Page n form independently from the product. Attached money and
+    percentages disprove a page token; spaced currency and unlisted three-capital suffixes
+    leave a changed token undecided, as in the independent scorer. No import of product logic."""
+    import unicodedata
+    numbers, unsure, matches = [], [], []
+
+    def suffix(at):
+        rest = text[at:]
+        stripped = rest.lstrip()
+        currency = bool(stripped and unicodedata.category(stripped[0]) == 'Sc')
+        attached = (rest.startswith(('%', '‰')) or stripped.startswith(('%', '‰')) or
+                    bool(re.match(r'(?:' + PAGE_CODES + r')(?![A-Za-z])', rest, re.I)) or
+                    (currency and rest == stripped))
+        spaced = rest != stripped and (currency or bool(re.match(r'(?:' + PAGE_CODES + r')(?![A-Za-z])', stripped, re.I)))
+        return attached, spaced or bool(re.match(r'[A-Z]{3}(?![A-Za-z])', stripped))
+
+    # The optional total is accepted separately: an invalid "of 10%" stays in
+    # the residual text, so a change to it cannot disappear under the mask.
     whole = {m.span() for m in re.finditer(r'\d+(?:[.,]\d+)*', text)}
-    out, at = '', 0
     for m in PAGE.finditer(text):
-        for g in (1, 2):
-            if m.group(g) and m.span(g) in whole:
-                out += text[at:m.start(g)] + '#'
-                at = m.end(g)
-    return out + text[at:]
+        if m.span(1) not in whole or suffix(m.end(1))[0]:
+            continue
+        groups = [1]
+        if m.group(2) and m.span(2) in whole and not suffix(m.end(2))[0]:
+            groups.append(2)
+        for g in groups:
+            matches.append(m.span(g))
+            numbers.append(m.group(g))
+            unsure.append(suffix(m.end(g))[1])
+        # Keep the same token slots as the scorer (counter, optional total).
+        if len(groups) == 1:
+            numbers.append('')
+            unsure.append(False)
+    out, at = '', 0
+    for a, b in matches:
+        out += text[at:a] + '#'
+        at = b
+    return out + text[at:], numbers, unsure
+
+
 # Day and year are whole numbers of the text, as the scorer and the product read them (#10 4a12cd0).
 DATE = re.compile(r'(?<!\d)(?<!\d[.,])(\d{1,2}) ([A-Za-z]+) (\d{4})(?![.,]?\d)')
 MONTHS = {m: i + 1 for i, m in enumerate(('january', 'february', 'march', 'april', 'may', 'june', 'july',
@@ -1288,15 +1329,24 @@ def real(date):
 
 
 def fact_check(d):
-    """Facts a card states, re-read from its own old and new text: each 'consistent' with the
-    texts or 'contradicted' by them. Consistent is not proof (page tokens are not re-confirmed)."""
+    """Facts independently re-read from the card texts: consistent, contradicted, or None
+    when the text does not settle the claim. A page fact verifies form, not printed page order."""
     old, new = d['oldText'], d['newText']
     checks = {}
     for f in d.get('facts') or []:
         if f == 'whitespace_only':
             ok = old != new and old.split() == new.split()
         elif f == 'page_number_only':
-            ok = old != new and (page_masked(old) == page_masked(new) if old and new else not PAGE.sub('', old or new).strip())
+            a, ns, us = page_form(old)
+            b, nt, ut = page_form(new)
+            if old and new:
+                form = a == b and ns != nt
+                undecided = any(x != y and (p or q) for x, y, p, q in zip(ns, nt, us, ut))
+            else:
+                mask, numbers, uncertain = (a, ns, us) if old else (b, nt, ut)
+                form = bool(numbers) and not re.sub(r'(?i)\bpage\s*#(?:\s*(?:of|/)\s*#)?', '', mask).strip()
+                undecided = any(uncertain)
+            ok = None if form and undecided else form
         elif f == 'dates_rolled_forward_one_year':
             a, b = DATE.findall(old), DATE.findall(new)
             ok = (len(a) == len(b) == 2 and all(real(x) and real(y) for x, y in zip(a, b))

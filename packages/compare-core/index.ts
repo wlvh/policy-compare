@@ -197,7 +197,15 @@ const namesColumn = (u: Unit) => u.rowCells!.some((c) => identityHeading.test(c.
  * | 2026 Limit", r4418068282). A record with a value ("Reinsurer | 25%") is no
  * heading.
  */
-const valueFree = (u: Unit) => !u.rowCells!.some((c) => valueLike(c.normalize("NFKC")));
+const valueFree = (u: Unit) => !u.rowCells!.some((c) => {
+  // A heading's unit label is no value: "2026 Share %", "Value USD". Keep
+  // units next to an actual numeric operand, including a spaced operand.
+  const text = c.normalize("NFKC").replace(
+    new RegExp(`[%‰\\p{Sc}]|\\b(?:${CURRENCY})\\b`, "gu"),
+    (unit, at: number, all: string) => /\p{N}\s*$/u.test(all.slice(0, at)) || /^\s*[-−+]?\p{N}/u.test(all.slice(at + unit.length)) ? unit : "",
+  );
+  return valueLike(text);
+});
 const headingLike = (u: Unit) => !/\p{N}/u.test(u.rawText) || (namesIdentity(u) && valueFree(u));
 /**
  * The heading row of each recovered row: the closest digit-free row above it
@@ -237,6 +245,7 @@ function rowHeadings(left: Unit[], right: Unit[]) {
       count = new Map<string, number>(),
       table = new Map<Unit, [string, number]>();
     for (const u of us) {
+      if (u.structureAmbiguous) continue;
       if (!u.rowCells) {
         if (!["furniture", "page_heading", "footer", "whitespace"].includes(u.role)) {
           current.clear();
@@ -403,7 +412,7 @@ function rowIdentity(
   const owners = (rows: Unit[]) => {
     const m = new Map<string, Unit[]>();
     for (const r of rows)
-      if (!identities(r).has("incomplete"))
+      if (!r.structureAmbiguous && !identities(r).has("incomplete"))
         for (const [k, c] of identities(r))
           if (!valueLike(c)) m.set(k + "\u0000" + c, [...(m.get(k + "\u0000" + c) ?? []), r]);
     return m;
@@ -755,7 +764,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.34+facts.6+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.35+facts.6+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -832,6 +841,16 @@ export function compare(
     usedL.add(a);
     usedR.add(b);
   };
+  // Reserve structurally ambiguous rows before every matching path (exact,
+  // repeated, identity and fuzzy). They remain visible on each side, with no
+  // inferred record key, and cannot certify a heading or another row's identity.
+  const uncertainL = la.filter((u) => u.structureAmbiguous),
+    uncertainR = rb.filter((u) => u.structureAmbiguous);
+  for (const [us, side, used] of [[uncertainL, "left", usedL], [uncertainR, "right", usedR]] as const)
+    for (const u of us) {
+      used.add(u);
+      result.unresolved.push({ reason: "ambiguous_identity", message: "这两条完整基线可能是两条记录，也可能是每格折行的一条记录；局部结构与身份未确定，原文分别保留", left: side === "left" ? locations(u, side) : [], right: side === "right" ? locations(u, side) : [], defaultVisible: true });
+    }
   tablePairs(la, rb, pairs, usedL, usedR, result);
   const map = (
     us: Unit[],
@@ -896,7 +915,10 @@ export function compare(
   }
   // Page furniture and repeated table header rows are compared once per
   // repeated line, never page by page; every occurrence stays on the card.
-  const singles: [Unit | undefined, Unit | undefined][] = [];
+  const singles: [Unit | undefined, Unit | undefined][] = [
+    ...uncertainL.map((u): [Unit, undefined] => [u, undefined]),
+    ...uncertainR.map((u): [undefined, Unit] => [undefined, u]),
+  ];
   const repeated = (us: Unit[], id: string, extra: Partial<Repeated> = {}) => {
     const u: Repeated = aggregate(us, id);
     Object.assign(u, normalize(us[0].rawText, us[0].refs));

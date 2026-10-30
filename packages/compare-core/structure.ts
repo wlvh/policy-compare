@@ -14,6 +14,8 @@ export type Unit = MappedText & {
   rowCells?: string[];
   /** Horizontal extent of each recovered cell, in page units. */
   rowSpans?: [number, number][];
+  /** A full baseline can also be a continuation of every cell above it. */
+  structureAmbiguous?: boolean;
   /** Repeated page furniture: digit pattern, position and page numbering. */
   furniture?: Furniture;
   title: string;
@@ -369,6 +371,7 @@ export function structure(
     ];
     Object.assign(unit, normalize(raw, all));
   }
+  const uncertain = new Set<(typeof lines)[number]>();
   const consumed = new Set<(typeof lines)[number]>(),
     position = new Map(lines.map((g, n) => [g, n])),
     centred = centredCells(lines),
@@ -597,6 +600,24 @@ export function structure(
                 .sort((a, b) => a[0] - b[0]);
             return xs.filter((x, j) => j === 0 || x[0] - Math.max(...xs.slice(0, j).map((y) => y[1])) > size).length >= cells.length;
           };
+          // Two complete baselines extracted as adjacent pairs in every column can be
+          // two records or one record with every cell wrapped. Only isolate that local
+          // block: a whole table read column by column interleaves its other baselines,
+          // and ordinary partial wraps do not fill the next baseline. The preceding
+          // recovered row establishes a table before this ambiguous record block.
+          if (units.at(-1)?.rowCells && cells.every((c) => c.length === 1)) {
+            const next = cells.map(([g]) => lines[position.get(g)! + 1]);
+            if (next.every((g, k) => g && column(g) === k &&
+                top(g) - top(cells[k][0]) >= 0.3 * size &&
+                top(g) - top(cells[k][0]) <= 1.6 * size &&
+                Math.abs(baseline(g) - baseline(next[0])) < 0.3 * size && ownRow(g))) {
+              const block = [...group, ...next],
+                first = Math.min(...block.map((g) => position.get(g)!)),
+                last = Math.max(...block.map((g) => position.get(g)!));
+              if (last - first + 1 === block.length)
+                block.forEach((g) => uncertain.add(g));
+            }
+          }
           for (const g of window) {
             const k = column(g),
               previous = lines[position.get(g)! - 1];
@@ -624,6 +645,10 @@ export function structure(
             Math.max(...c.map((g) => span(g)[1])),
           ]);
           u.path.table = "recovered_rows";
+          if (parts.flat().some((g) => uncertain.has(g))) {
+            u.structureAmbiguous = true;
+            u.path.confidence = "unresolved";
+          }
           active = null;
           continue;
         }

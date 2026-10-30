@@ -85,6 +85,50 @@ function example() {
   };
 }
 describe("independent grader rejects dishonest outputs", () => {
+  it("monetary edits cannot be reused across replacement, move and split cards", () => {
+    for (const kind of ["Replaced", "Moved", "Removed", "Added"] as const) {
+      const x = example();
+      x.expected.invariants = ["no_amount_or_currency_change", "agreed_value_unchanged"];
+      expect(grade(x.result, x.expected, x.layout, x.docs).status).toBe("PASS");
+      const copy = structuredClone(x.result.differences[0]);
+      copy.id += "-copy";
+      copy.kind = kind;
+      if (kind === "Removed") { copy.right = []; copy.newText = ""; copy.textOps = copy.textOps.filter((o) => o.kind === "delete"); }
+      if (kind === "Added") { copy.left = []; copy.oldText = ""; copy.textOps = copy.textOps.filter((o) => o.kind === "insert"); }
+      x.result.differences.push(copy);
+      expect(grade(x.result, x.expected, x.layout, x.docs).invariants.every((i) => i.result === "FAIL"), kind).toBe(true);
+    }
+    // Two source occurrences with identical values are independent edits.
+    const x = example();
+    x.expected.invariants = ["no_amount_or_currency_change"];
+    const copy = structuredClone(x.result.differences[0]);
+    copy.id += "-other";
+    // The second card cites a second actual source run, rather than just renaming the card.
+    for (const [n, side] of ["left", "right"].entries()) {
+      const page = x.docs[n].pages[0];
+      const original = page.chars.filter((c) => c.origin[0] >= 180);
+      const added = original.map((c) => ({ ...structuredClone(c), id: c.id + "-other", rawRange: [c.rawRange[0] + 100, c.rawRange[1] + 100] as [number, number], origin: [c.origin[0], c.origin[1] + 100] as [number, number], quad: c.quad.map((v, i) => v + (i % 2 ? 100 : 0)) as typeof c.quad }));
+      page.chars.push(...added);
+      const line = page.lines.find((l) => l.charIds.includes(original[0].id))!;
+      page.lines.push({ ...line, id: line.id + "-other", charIds: added.map((c) => c.id) });
+      const target = side as "left" | "right";
+      for (const loc of [...copy[target], ...copy.textOps.flatMap((o) => o[target])]) {
+        loc.charIds = loc.charIds.map((id) => id + "-other");
+        loc.rawRange = [loc.rawRange[0] + 100, loc.rawRange[1] + 100];
+        loc.quads = loc.quads.map((q) => q.map((v, i) => v + (i % 2 ? 100 : 0)) as typeof q);
+      }
+      const lp = x.layout[n === 0 ? "before" : "after"].pages[0];
+      const run = structuredClone(lp.text_runs[0]);
+      run.run_id = "amount-other";
+      for (const c of run.characters) c.quad_tl_tr_br_bl = c.quad_tl_tr_br_bl.map(([a, b]) => [a, b + 100]);
+      lp.text_runs.push(run);
+    }
+    x.expected.events.push({ ...x.expected.events[0], event_id: "other" });
+    x.expected.evidence_locations.other = { before: [{ page_index: 0, run_id: "amount-other" }], after: [{ page_index: 0, run_id: "amount-other" }] };
+    x.result.differences.push(copy);
+    const check = grade(x.result, x.expected, x.layout, x.docs);
+    expect(check.status, check.faults.join("\n")).toBe("PASS");
+  });
   for(const sides of [['left'],['right'],['left','right']] as const)
     it('F6 rejects displaced final changed geometry on '+sides.join('/'),()=>{
       const x=example();expect(grade(x.result,x.expected,x.layout,x.docs,true).status).toBe('PASS');

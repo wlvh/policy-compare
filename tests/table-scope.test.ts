@@ -26,6 +26,38 @@ const card = (r: CompareResult, text: string) =>
   r.differences.filter((d) => (d.oldText + "\n" + d.newText).includes(text));
 
 describe("wrapped table cells stay with their row", () => {
+  for (const columns of [3, 4])
+    it(`all ${columns} cells wrapping leaves the local row boundary unresolved`, () => {
+      const data: Cell[][] = columns === 3
+        ? [["MSN", "Operator", "Value"], [["123", "(a)"], ["Alpha Air", "Holdings"], ["USD 1000", "per annum"]], ["456", "Beta", "USD 2000"]]
+        : [["MSN", "Operator", "Cover", "Value"], [["123", "(a)"], ["Alpha Air", "Holdings"], ["Hull and", "war risks"], ["USD 1000", "per annum"]], ["456", "Beta", "Hull", "USD 2000"]];
+      const a = textDoc(rows("SCHEDULE", data));
+      const revised = structuredClone(data);
+      revised[1][columns - 1] = ["USD 1000", "per month"];
+      // A normal independent row still gets a definite identity.
+      revised[2][columns - 1] = "USD 2500";
+      for (const [l, r] of [[a, textDoc(rows("SCHEDULE", revised))], [textDoc(rows("SCHEDULE", revised)), a]]) {
+        const result = ResultSchema.parse(compare(l, r));
+        expect(result.status).toBe("partial");
+        const open = result.unresolved.filter((u) => u.reason === "ambiguous_identity");
+        expect(open.length).toBeGreaterThan(0);
+        expect(JSON.stringify(open)).toContain("(a)");
+        expect(card(result, "per annum").length).toBeGreaterThan(0);
+        expect(card(result, "per annum").every((d) => !d.structurePath?.rowKey && d.structurePath?.confidence === "unresolved")).toBe(true);
+        expect(card(result, "USD 2000").map((d) => d.structurePath?.rowKey)).toEqual(["456"]);
+      }
+    });
+  for (const label of ["2026 Share %", "2026 Value USD", "2026 Value €"])
+    it(`a unit-bearing heading closes the prior table: ${label}`, () => {
+      const doc = (first: string[], second: string[]) => textDoc(rows("SCHEDULE", [
+        ["MSN", "Operator", "Value"], first,
+        ["Registration", "Model", label], second,
+      ]));
+      const result = compare(doc(["123", "Alpha", "USD 100"], ["456", "Beta", "10%"]),
+        doc(["789", "Gamma", "USD 300"], ["123", "Delta", "20%"]));
+      expect(result.differences.some((d) => d.oldText.includes("Alpha") && d.newText.includes("Delta"))).toBe(false);
+      expect(result.differences.map((d) => d.oldText + d.newText).join(" ")).toContain("Delta");
+    });
   // A bases table names no identifier column, so its rows pair only by equal
   // text (round 8); each changed row is shown whole on its own side.
   it("a wrapped list cell does not become a heading that splits the table", () => {

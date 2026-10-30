@@ -619,7 +619,6 @@ function moneyChanges(
     return {
       split: [...byCell].filter(([, ids]) => ids.size > 1).flatMap(([k]) => money(text.get(k)!, true)),
       twice: twice.map((ids) => ids.join(" and ")),
-      twiceIds: twice,
     };
   };
   // A group whose values do not balance while one of its cells is split over cards: its joined claims
@@ -631,9 +630,15 @@ function moneyChanges(
     return !rc.length && !ac.length && [...r, ...a].every((t) => split.has(t)) ? "unsure" : null;
   };
   const out: string[] = [];
+  // Consume source characters globally on each side, before any declared-event
+  // allowance. Replacements and moves obey the same rule as delete/add cards;
+  // different card keys or a mix of card shapes cannot license a second edit.
+  const sourceEdits = { left: [] as Edit[], right: [] as Edit[] };
   for (const d of result.differences.filter((d) => d.kind === "Replaced" || d.kind === "Moved")) {
     const L = cardMoney(d, "left"),
       R = cardMoney(d, "right");
+    sourceEdits.left.push(L.edit);
+    sourceEdits.right.push(R.edit);
     scope = { left: L.runs, right: R.runs, paired: true };
     const r = minus(L.all, R.all),
       a = minus(R.all, L.all),
@@ -682,15 +687,14 @@ function moneyChanges(
     comeRuns: new Set<string>(),
   });
   const pool = group(),
-    records = new Map<string, typeof pool>(),
-    groupOf = new Map<string, string>();
+    records = new Map<string, typeof pool>();
   for (const d of result.differences.filter((d) => d.kind === "Removed" || d.kind === "Added")) {
     const who = d.structurePath?.rowKey ?? d.structurePath?.entity,
       key = who + "|" + (d.structurePath?.field ?? "");
     const g = who ? (records.get(key) ?? records.set(key, group()).get(key)!) : pool;
-    groupOf.set(d.id, who ? key : "");
     const removed = d.kind === "Removed",
       m = cardMoney(d, removed ? "left" : "right");
+    sourceEdits[removed ? "left" : "right"].push(m.edit);
     (removed ? g.gone : g.come).push(...m.all);
     merge(removed ? g.goneClaimed : g.comeClaimed, m.claimed);
     (removed ? g.goneText : g.comeText).push(...m.textTokens);
@@ -700,15 +704,16 @@ function moneyChanges(
     for (const rec of m.records) g.records.add(rec);
     for (const k of m.runs) (removed ? g.goneRuns : g.comeRuns).add(k);
   }
-  // One edit reported twice is the same fault whatever records the cards claim (Codex PR #11 comment
-  // 6514962741): source characters are compared across all delete (and all add) cards; pairs inside
-  // one group are reported with that group below.
-  const groups = [...records.values(), pool],
-    across = [...spread(groups.flatMap((g) => g.goneEdits)).twiceIds, ...spread(groups.flatMap((g) => g.comeEdits)).twiceIds]
-      .filter((ids) => new Set(ids.map((id) => groupOf.get(id))).size > 1);
-  if (across.length)
-    out.push(`cards ${across[0].join(" and ")} cite the same source characters of an amount or currency cell under different claimed records: one edit is reported twice`);
+  for (const side of ["left", "right"] as const) {
+    const twice = spread(sourceEdits[side]).twice;
+    if (twice.length) {
+      out.push(`cards ${twice[0]} cite the same ${side} source characters of an amount or currency cell: one edit is reported twice`);
+    }
+  }
+  // Reused characters prove a violation; summing those invalid claims would
+  // invent another amount (100020100020) from the duplicated source.
   for (const [key, g] of records) {
+    if (spread(g.goneEdits).twice.length || spread(g.comeEdits).twice.length) continue;
     scope = { left: g.goneRuns, right: g.comeRuns, paired: true };
     // Within a record, a source cell that several cards of one side cite counts once; the per-card
     // sums (g.gone / g.come) only tell whether that alone made the values balance.
@@ -720,11 +725,8 @@ function moneyChanges(
       ac = minus(tokens(g.comeClaimed, g.comeEdited), tokens(g.goneClaimed, g.goneEdited)),
       rv = minus(cellAmounts(g.goneEdited), cellAmounts(g.comeEdited)),
       av = minus(cellAmounts(g.comeEdited), cellAmounts(g.goneEdited));
-    const twice = [...spread(g.goneEdits).twice, ...spread(g.comeEdits).twice],
-      split = splitVerdict(r, a, rc, ac, g.goneEdits, g.comeEdits);
-    if (twice.length)
-      out.push(`record ${key} cards ${twice[0]} cite the same source characters of an amount or currency cell: one edit is reported twice`);
-    else if (split === "claims")
+    const split = splitVerdict(r, a, rc, ac, g.goneEdits, g.comeEdits);
+    if (split === "claims")
       out.push(`record ${key} delete/add cards claim ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside amount or currency cells split over several cards`);
     else if (split === "unsure")
       unexplained.add(`record ${key} delete/add cards split one amount or currency cell over several cards; their values cannot be counted reliably`);
@@ -763,6 +765,8 @@ function moneyChanges(
         unexplained.add(`record ${key} delete/add cards change letters inside an amount cell that form no whole amount or currency code`);
     }
   }
+  if (spread(pool.goneEdits).twice.length || spread(pool.comeEdits).twice.length)
+    return { violations: out, open: [] };
   scope = { left: pool.goneRuns, right: pool.comeRuns, paired: false };
   const r = minus(pool.gone, pool.come),
     a = minus(pool.come, pool.gone),
@@ -770,11 +774,8 @@ function moneyChanges(
     ac = minus(tokens(pool.comeClaimed, pool.comeEdited), tokens(pool.goneClaimed, pool.goneEdited)),
     rv = minus(cellAmounts(pool.goneEdited), cellAmounts(pool.comeEdited)),
     av = minus(cellAmounts(pool.comeEdited), cellAmounts(pool.goneEdited));
-  const twice = [...spread(pool.goneEdits).twice, ...spread(pool.comeEdits).twice],
-    split = splitVerdict(r, a, rc, ac, pool.goneEdits, pool.comeEdits);
-  if (twice.length)
-    out.push(`added/removed cards ${twice[0]} without a record cite the same source characters of an amount or currency cell: one edit is reported twice`);
-  else if (split === "claims")
+  const split = splitVerdict(r, a, rc, ac, pool.goneEdits, pool.comeEdits);
+  if (split === "claims")
     out.push(`added/removed cards without a record claim ${rc.join(",") || "-"} to ${ac.join(",") || "-"} inside amount or currency cells split over several cards`);
   else if (split === "unsure")
     unexplained.add("added/removed cards without a record split one amount or currency cell over several cards; their values cannot be counted reliably");
