@@ -83,7 +83,9 @@ the event's own edits (a moved and edited paragraph may show as a replacement); 
 paragraph unchanged around another change is no evidence of the move; a split row reads only the
 units where each half's identity was confirmed (renewal-triage/22). Source ranges that meet join
 only where the card's own text shows those two characters side by side, and an Added/Removed
-paragraph is kept on the other side only as a whole-number match (renewal-triage/23).
+paragraph is kept on the other side only as a whole-number match (renewal-triage/23). A date's
+day and year are whole numbers of the text, and an Added/Removed row on a card that names another
+record's row key is misattributed (renewal-triage/24).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -115,7 +117,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/23'
+TOOL = 'renewal-triage/24'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -825,6 +827,10 @@ def row_cells(atoms, change, ctx):
         merged = len(words) >= 2 and len(words & opposite) >= len(words) / 2
         paired = not merged
     mixed = anchor and [' / '.join(o) for o in others if o != tuple(mine) and holds(anchor[1]['text'], o)]
+    # A card that names a row key that is no cell of this record attributes the row to another one,
+    # as judge_identity() reads it for replacements (PR #11 comment 6513304357).
+    key = anchor and (anchor[0].get('structurePath') or {}).get('rowKey')
+    wrong_key = bool(key) and not bounded(norm(key), norm((change.get('left_text') or '') + ' | ' + (change.get('right_text') or '')))
     left = collections.Counter(anchor[2]) if anchor else collections.Counter()
     out = []
     for atom, t in zip(atoms, texts):
@@ -841,6 +847,9 @@ def row_cells(atoms, change, ctx):
             out.append(('merged_into_neighbour_card', 'not_evaluable', [], where, un,
                         f'{change["kind"].lower()} row shown as extra text in a neighbour row\'s '
                         f'{anchor[0]["kind"]} card'))
+        elif anchor and mine_here and wrong_key:
+            out.append(('row_key_contradicted', 'misattributed', [], where, un,
+                        f'the card names rowKey {key!r}, which is not a cell of this record'))
         elif anchor and mine_here and not mixed:
             out.append(('in_record', 'correct', [anchor[0]], where, un, ''))
         elif anchor and mine_here:
@@ -1032,7 +1041,8 @@ def page_masked(text):
                 out += text[at:m.start(g)] + '#'
                 at = m.end(g)
     return out + text[at:]
-DATE = re.compile(r'\b(\d{1,2}) ([A-Za-z]+) (\d{4})\b')
+# Day and year are whole numbers of the text, as the scorer and the product read them (#10 4a12cd0).
+DATE = re.compile(r'(?<!\d)(?<!\d[.,])(\d{1,2}) ([A-Za-z]+) (\d{4})(?![.,]?\d)')
 MONTHS = {m: i + 1 for i, m in enumerate(('january', 'february', 'march', 'april', 'may', 'june', 'july',
                                           'august', 'september', 'october', 'november', 'december'))}
 

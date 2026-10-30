@@ -660,6 +660,19 @@ class AddedRemovedRows(unittest.TestCase):
             self.assertNotEqual(ev['77']['verdict'], 'correct', kind)
             self.assertFalse(ev['77']['row']['fullRowRecovered'], kind)
 
+    def test_a_card_naming_another_record_does_not_attribute_this_row(self):
+        """PR #11 comment 6513304357: an Added card holding 1315 Hull USD 100 but claiming rowKey 1760."""
+        for kind in ('Added', 'Removed'):
+            side = 'right' if kind == 'Added' else 'left'
+            c = change(78, 'ac_1315', kind, **{side: '1315 | Hull | USD 100'}, pages=(0, 11) if kind == 'Added' else (11, 0))
+            other = card('x', kind, **{side: [(11, 'u1', '1315 Hull USD 100')]}, row_key='1760')
+            _, ev = run([c], result([other]), [table('aircraft', [0], c)])
+            self.assertEqual((ev['78']['verdict'], ev['78']['acceptedCards']), ('misattributed', []), kind)
+            # Control: the card names this record.
+            own = card('y', kind, **{side: [(11, 'u1', '1315 Hull USD 100')]}, row_key='1315')
+            _, ev = run([c], result([own]), [table('aircraft', [0], c)])
+            self.assertEqual((ev['78']['verdict'], ev['78']['row']['fullRowRecovered']), ('correct', True), kind)
+
     def test_cells_find_a_non_overlapping_allocation_when_one_exists(self):
         """r4417384107: 1315 | A | A B | B B is all in "1315 A A B B B"."""
         for kind in ('Added', 'Removed'):
@@ -1110,6 +1123,10 @@ class FactsFormatsExclusionsFurniture(unittest.TestCase):
             'dates_rolled_forward_one_year']
         self.assertEqual(fact('29 February 2024 to 28 February 2025', '29 February 2025 to 28 February 2026'), 'contradicted')
         self.assertEqual(fact('01 April 2024 to 31 March 2025', '01 April 2025 to 31 March 2026'), 'consistent')
+        # A day or year inside a longer number is no date, as the scorer reads dates (#10 4a12cd0).
+        for x, y in (('1.21 April 2024 to 30 June 2024', '1.21 April 2025 to 30 June 2025'),
+                     ('1 April 2024.5 to 30 June 2024', '1 April 2025.5 to 30 June 2025')):
+            self.assertEqual(fact(x, y), 'contradicted', x)
 
     def test_stated_facts_are_rechecked_against_the_card_texts(self):
         cards = [card('w', 'Replaced', [(1, 'a', 'Limit  USD 5,000')], [(1, 'b', 'Limit USD 5,000')], facts=['whitespace_only']),
