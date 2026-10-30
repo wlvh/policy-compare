@@ -100,7 +100,11 @@ paragraph shows that addition or removal; a moved row is full only with every au
 author row, the words between them in the author's order (renewal-triage/31). The two halves of a move without
 edits each take the paragraph out or put it in (renewal-triage/32). Copies of one edit each need an
 edited occurrence of their own on the accepted cards (renewal-triage/33), and a row's full-row check
-reads every accepted card, not only the first one per side (renewal-triage/34).
+reads every accepted card, not only the first one per side (renewal-triage/34). In a unit holding
+several records, an added or removed row's cell counts only where the record identity reaches it as
+in the author row (renewal-triage/35), and so does every cell of the full-row check
+(renewal-triage/36); edits worded differently that overlap need edited occurrences of their own too
+(renewal-triage/37).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -132,7 +136,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/34'
+TOOL = 'renewal-triage/37'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -464,12 +468,17 @@ def holds(text, keys):
 
 def linked(d, side, start, needle, keys, change):
     """Each identity cell has an occurrence on the card side that reaches the edited occurrence (at
-    `start`) as the author row of this side does: on the same side of the edit, across only words
-    and numbers the author row has between them there, in its order (some may be missing). In one
-    source unit holding two records, another record's text before the edit, or the next record's
-    identifier right after it, is not this record's (PR #11 comments 6514897964, 6515923611)."""
-    text = ''.join(x[0] for x in marked(d, side))
-    author = norm(change.get('left_text' if side == 'left' else 'right_text') or '')
+    `start`) as the author row of this side does (see reaches())."""
+    return reaches(''.join(x[0] for x in marked(d, side)), start, needle, keys,
+                   norm(change.get('left_text' if side == 'left' else 'right_text') or ''))
+
+
+def reaches(text, start, needle, keys, author):
+    """Each identity cell has an occurrence in the text that reaches the needle's occurrence at
+    `start` as the author row does: on the same side of it, across only words and numbers the author
+    row has between them there, in its order (some may be missing). In one source unit holding two
+    records, another record's text before the needle, or the next record's identifier right after
+    it, is not this record's (PR #11 comments 6514897964, 6515923611)."""
     words = lambda x: re.findall(r'[^\W_]+', x.lower())
     end = start + len(needle)
 
@@ -952,6 +961,11 @@ def row_cells(atoms, change, ctx):
     unresolved = sp.get('confidence') == 'unresolved'
     wrong_key = bool(key) and not bounded(norm(key), norm((change.get('left_text') or '') + ' | ' + (change.get('right_text') or '')))
     left = collections.Counter(anchor[2]) if anchor else collections.Counter()
+    # In a unit holding several records, a cell counts for this record only where its identity
+    # reaches the cell as in the author row (reaches()), not after another record's text (PR #11
+    # comment 6518043799).
+    author = norm(change.get('right_text' if side == 'right' else 'left_text') or '')
+    reached = lambda t: any(reaches(anchor[1]['text'], m.start(), t, mine, author) for m in whole(t).finditer(anchor[1]['text']))
     out = []
     for atom, t in zip(atoms, texts):
         # This cell's own occurrence in the record unit, used up by the cell that takes it.
@@ -975,6 +989,10 @@ def row_cells(atoms, change, ctx):
         elif anchor and mine_here and unresolved:
             out.append(('product_unresolved', 'not_evaluable', [], where, un,
                         'product marked the row identity unresolved'))
+        elif anchor and mine_here and not reached(t):
+            out.append(('cell_off_record', 'not_evaluable', [], where, un,
+                        'the record unit holds the cell only where other text than the author row\'s lies '
+                        'between it and the record identity'))
         elif anchor and mine_here and not mixed:
             out.append(('in_record', 'correct', [anchor[0]], where, un, ''))
         elif anchor and mine_here:
@@ -1027,25 +1045,50 @@ def paragraph_atom(atom, change, ctx):
     return 'not_found', 'not_located', [], cands, [], 'script did not locate the text'
 
 
-def copies(cards, side, needle, edit, change, ctx):
-    """Distinct source occurrences of the needle on one side of the cards that carry the edit and
-    belong to the event: for a row, the record identity reaches that occurrence (judge_identity() on
-    it alone); for a paragraph, the author paragraph surrounds it (context()). An occurrence two cards
-    cite counts once."""
-    ident, wanted, seen, n = ctx['ident'], ctx['wanted'], set(), 0
+def edited_occurrences(cards, side, needle, edit, change, ctx):
+    """The changed source characters of each occurrence of the needle on one side of the cards that
+    carries the edit and belongs to the event: for a row, the record identity reaches that
+    occurrence (judge_identity() on it alone); for a paragraph, the author paragraph surrounds it
+    (context()). An occurrence two cards cite is listed once."""
+    ident, wanted, seen = ctx['ident'], ctx['wanted'], {}
     author = change.get('left_text' if side == 'left' else 'right_text')
     for d in cards:
         for i, span in occurrences(d, side, needle, wanted[side]):
-            ids = {(x[1], x[3]) for x in span if x[1] is not None}
-            if not carries(span, edit) or ids & seen:
+            ids = frozenset((x[1], x[3]) for x in span if x[1] is not None)
+            if not carries(span, edit) or ids in seen:
                 continue
             if (judge_identity(d, {side: needle}, ident, ctx['others'], change, wanted, {side: edit},
                                {side: {i}})[0] != 'confirmed' if ident is not None
                     else not context(d, side, needle, wanted[side], author, edit, only={i})):
                 continue
-            seen |= ids
-            n += 1
-    return n
+            seen[ids] = frozenset((x[1], x[3]) for x in span if x[1] is not None and x[2] and x[0] != ' ')
+    return list(seen.values())
+
+
+def unshared(options):
+    """Atoms (keys) left without an edited occurrence of their own when each takes one whose changed
+    characters no other atom takes, as few left out as possible, earlier atoms served first. Only
+    atoms whose occurrences share changed characters with another atom's are allocated; an atom with
+    no listed occurrence keeps its verdict."""
+    keys = [k for k in sorted(options) if options[k] and any(
+        a & b for j in options if j != k for a in options[k] for b in options[j])]
+    best = None
+
+    def place(n, used, out):
+        nonlocal best
+        if best is not None and len(out) >= len(best):
+            return
+        if n == len(keys):
+            best = list(out)
+            return
+        for c in options[keys[n]]:
+            if not c & used:
+                place(n + 1, used | c, out)
+                if best == []:
+                    return
+        place(n + 1, used, out + [keys[n]])
+    place(0, frozenset(), [])
+    return set(best or [])
 
 
 def event_verdict(verdicts):
@@ -1088,24 +1131,23 @@ def triage(change, result, declared, family, claimed):
         done = {i: judge(a) for i, a in enumerate(atoms) if not a.get('opening')}
         ctx['edited'] = {d['id'] for j in done.values() for d in j[2]}
         judged = [done[i] if i in done else judge(a) for i, a in enumerate(atoms)]
-        # Copies of one edit each need an edited occurrence of their own on the accepted cards: one
-        # edited copy does not show two (PR #11 comment 6516690587).
-        copied = collections.defaultdict(list)
-        for i, a in enumerate(atoms):
-            if not a.get('opening') and judged[i][1] in ('correct', 'split_attributable'):
-                copied[(a['old'], a['new'])].append(i)
-        for (old, new), ks in copied.items():
-            n = sum(1 for a in atoms if not a.get('opening') and (a['old'], a['new']) == (old, new))
-            if n < 2:
-                continue
-            need = needs_edit(old or '', new or '')
-            cards = list({d['id']: d for i in ks for d in judged[i][2]}.values())
-            room = min(copies(cards, side, text, need[side], change, ctx)
-                       for side, text in (('left', old), ('right', new)) if text and need[side])
-            for i in ks[room:]:
-                _, _, _, cands, un, _, where = judged[i]
-                judged[i] = ('copies_short', 'not_evaluable', [], cands, un,
-                             f'the accepted cards make this edit {room} time(s); the author lists it {n} times', where)
+        # Each accepted edit needs an edited occurrence of its own on its accepted cards, per side it
+        # changes: one changed character does not show two of the author's edits, whether an edit is
+        # listed twice (PR #11 comment 6516690587) or two overlapping edits are worded differently
+        # (6518372639).
+        shown = [i for i, a in enumerate(atoms) if not a.get('opening') and judged[i][1] in ('correct', 'split_attributable')]
+        short = set()
+        for side in ('left', 'right'):
+            options = {}
+            for i in shown:
+                text, need = atoms[i]['old' if side == 'left' else 'new'], needs_edit(atoms[i]['old'] or '', atoms[i]['new'] or '')
+                if text and need[side]:
+                    options[i] = edited_occurrences(judged[i][2], side, text, need[side], change, ctx)
+            short |= unshared(options)
+        for i in sorted(short):
+            _, _, _, cands, un, _, where = judged[i]
+            judged[i] = ('edit_shared', 'not_evaluable', [], cands, un,
+                         'the accepted cards make this edit only where another of the event\'s edits is counted', where)
     detail = []
     for i, (atom, (state, verdict, acc, cands, un, why, where)) in enumerate(zip(atoms, judged)):
         detail.append({'index': i, 'old': atom['old'], 'new': atom['new'], 'authorCategory': atom['authorCategory'],
@@ -1164,9 +1206,15 @@ def triage(change, result, declared, family, claimed):
         # A moved row, too, is full only with every author cell, not by its opening (PR #11
         # comment 6515146325).
         if record and change['kind'] in ('Replaced', 'Moved'):
-            # Each author cell needs its own stretch of the record text (r4417329496).
-            full = all(len(allocate(row, text(side))) == len([c for c in row if c])
-                       for side, row in (('left', lc or []), ('right', rc or [])))
+            # Each author cell needs its own stretch of the record text (r4417329496), one its
+            # record identity reaches as in the author row: another record's cell later in the same
+            # unit does not complete this one (PR #11 comment 6519018610).
+            def whole_row(side, row):
+                t, mine = text(side), ident[side] or ident['cells']
+                author = norm(change.get('left_text' if side == 'left' else 'right_text') or '')
+                return len(allocate(row, t)) == len([c for c in row if c]) and all(
+                    any(reaches(t, m.start(), c, mine, author) for m in whole(c).finditer(t)) for c in row if c)
+            full = all(whole_row(side, row) for side, row in (('left', lc or []), ('right', rc or [])))
         elif record:
             full = all(a['verdict'] == 'correct' for a in detail)
         shown = text('left', 'right', 'refs')
