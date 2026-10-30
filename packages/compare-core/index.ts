@@ -346,11 +346,18 @@ function identityCells(r: Unit, headings: Map<Unit, Unit>) {
   // right-aligned under a short heading, a value-like serial too) may be the
   // identifier of an identity column the row has no cell in (r4418900383,
   // r4418984410); so may either of two cells under one descriptive heading
-  // (r4420199960).
-  const columns = r.rowCells!.map((_, k) => heading(k)?.j);
-  const loose = h && columns.some((j) => j === undefined || columns.filter((x) => x === j).length > 1);
-  if (crowded || (loose && h!.rowCells!.some((t, j) => identityHeading.test(t.normalize("NFKC").trim()) && !m.has(`column ${j}`))))
-    m.set("incomplete", "");
+  // (r4420199960), and a cell that reaches past its heading cell toward such a
+  // column (a right-aligned MSN under Operator, r4420346858).
+  const missing = h
+      ? h.rowCells!.flatMap((t, j) => (identityHeading.test(t.normalize("NFKC").trim()) && !m.has(`column ${j}`) ? [j] : []))
+      : [],
+    columns = r.rowCells!.map((_, k) => heading(k)?.j);
+  const open = columns.some((j, k) => {
+    if (j === undefined || columns.filter((x) => x === j).length > 1) return true;
+    const [[x0, x1], [h0, h1]] = [r.rowSpans![k], h!.rowSpans![j]];
+    return missing.some((e) => (e < j ? x0 < h0 - 1 : x1 > h1 + 1));
+  });
+  if (crowded || (missing.length && open)) m.set("incomplete", "");
   return m;
 }
 /**
@@ -734,7 +741,7 @@ export function compare(
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.28+facts.5+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.29+facts.5+repeat.9+ops.4",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -1048,17 +1055,14 @@ export function compare(
       return [at ? `c${at.j}` : `g${h ? h.rowSpans!.filter(([, b]) => b <= s[0]).length : 0}`, u.rowCells![k]];
     }));
   };
-  // Under a heading row, or with an incomplete identity, a row's cells say
-  // more than its text: equal text is one record only with every cell in the
-  // same column or gap (r4419388482, r4420011674).
-  const placed = (u: Unit, ids: Map<string, string>) => headings.has(u) || ids.has("incomplete");
   // A record groups only with copies that hold the same identifiers in the
-  // same columns (r4418369390), and, placed, the same cells (r4419561470).
+  // same columns (r4418369390) and the same cells (r4419561470).
   const headerKey = (u: Unit) => {
     if (!u.rowCells || (/\p{N}/u.test(u.rawText) && !starts.has(u))) return null;
-    if (starts.has(u)) return `${u.path.section}\u0000${u.title}\u0000${u.rawText}`;
+    // A repeated heading row is one header only with the same cells (r4420267662).
+    if (starts.has(u)) return `${u.path.section}\u0000${u.title}\u0000${cellKey(u)}`;
     const ids = identityCells(u, headings);
-    return `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...ids].sort())}${placed(u, ids) ? `\u0000${slots(u)}` : ""}`;
+    return `${tableScope(u)}\u0000${u.rawText}\u0000${JSON.stringify([...ids].sort())}\u0000${slots(u)}`;
   };
   const rh = map(rb, usedR, headerKey);
   for (const [key, as] of map(la, usedL, headerKey)) {
@@ -1083,17 +1087,12 @@ export function compare(
   const el = map(la, usedL, rawKey),
     er = map(rb, usedR, rawKey);
   // Equal row text is one record only with its identifiers in the same
-  // columns: missing cells can move them (r4417643759).
-  const sameIds = (a: Unit, b: Unit) => {
-    if (!a.rowCells || !b.rowCells) return true;
-    const x = identityCells(a, headings),
-      y = identityCells(b, headings);
-    // An incomplete identity cannot say the identifiers stayed in their
-    // columns, nor a complete one that the other cells did (r4419388482,
-    // r4420011674).
-    if (placed(a, x) || placed(b, y)) return slots(a) === slots(b);
-    return x.size === y.size && [...x].every(([k, c]) => y.get(k) === c);
-  };
+  // columns: missing cells can move them (r4417643759). Neither an
+  // incomplete identity nor a complete one says the other cells stayed in
+  // theirs, under a heading row or not (r4419388482, r4420011674,
+  // r4420346862), so every cell is compared in its column or gap; within one
+  // table that also keeps the identifiers in theirs.
+  const sameIds = (a: Unit, b: Unit) => !a.rowCells || !b.rowCells || slots(a) === slots(b);
   for (const [key, as] of el) {
     checkpoint?.();
     const bs = er.get(key);
@@ -1374,7 +1373,7 @@ export function compare(
     if (a && b && a.rawText === b.rawText && !moved && !recount) {
       // The same row text and record with the cells split otherwise: which
       // value stands in which column is not determined (r4420011674).
-      if (a.rowCells && b.rowCells && (placed(a, identityCells(a, headings)) || placed(b, identityCells(b, headings))) && slots(a) !== slots(b))
+      if (a.rowCells && b.rowCells && slots(a) !== slots(b))
         result.unresolved.push({
           reason: "ambiguous_match",
           message: "两版本这一表格行的原文相同，但各格的划分不同；哪个值在哪一列未能确定",

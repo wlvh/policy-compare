@@ -967,6 +967,20 @@ class EditEvidence(unittest.TestCase):
             summary, ev = run([c], result([card('x', 'Replaced', [(1, 'a', l)], [(1, 'b', r)])]))
             self.assertEqual((ev['24']['verdict'], ev['24']['acceptedCards'], summary['unexplainedCards']),
                              ('correct', ['x'], 0), kind)
+        # PR #11 comment 6514669354: a card that replaces another word there (earlier -> later)
+        # reports no insertion, nor (later -> earlier) a deletion; the event's own other edit may
+        # account for the text replaced beside it (now -> soon).
+        for kind, edit, (l, r), (cl, cr), want in (
+                ('insert', ('', 'later'), ('Pay now.', 'Pay later now.'), ('Pay earlier now.', 'Pay later now.'), False),
+                ('delete', ('later', ''), ('Pay later now.', 'Pay now.'), ('Pay later now.', 'Pay earlier now.'), False),
+                ('insert', ('', 'later'), ('Pay now.', 'Pay later soon.'), ('Pay now.', 'Pay later soon.'), True)):
+            edits = [edit] + ([('now', 'soon')] if want else [])
+            c = change(24, 'pay', 'Replaced', l, r, edits)
+            _, ev = run([c], result([card('x', 'Replaced', [(1, 'a', cl)], [(1, 'b', cr)])]))
+            self.assertEqual(ev['24']['acceptedCards'] == ['x'], want, (kind, cl, cr))
+            if not want:
+                self.assertNotEqual(ev['24']['verdict'], 'correct', (kind, cl, cr))
+                self.assertEqual(ev['24']['atoms'], ['same_card_unaligned'], (kind, cl, cr))
         # The same word added in another paragraph is not this insertion.
         c = change(20, 'pay', 'Replaced', old, new, [('', 'approved')])
         other = card('y', 'Replaced', [(1, 'c', 'The broker the operations.')], [(1, 'd', 'The broker approved the operations.')])
