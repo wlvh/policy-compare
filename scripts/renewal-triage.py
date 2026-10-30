@@ -136,7 +136,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/39'
+TOOL = 'renewal-triage/40'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -818,7 +818,7 @@ def pure(d, side, needle, wanted, edit, change, atom):
     present, changed and paired on this card. Values elsewhere in the event are no licence.
     A card that replaces
     another word with it (earlier -> later) reports no insertion (PR #11 comment 6514669354)."""
-    ops, other = d.get('textOps') or [], 'delete' if side == 'right' else 'insert'
+    ops, other_side = d.get('textOps') or [], 'left' if side == 'right' else 'right'
     squeeze = lambda x: re.sub(r'\s+', '', norm(x))
     opposite = 'new' if side == 'left' else 'old'
     paired = []
@@ -830,7 +830,7 @@ def pure(d, side, needle, wanted, edit, change, atom):
             need = needs_edit(e['old'], e['new'])
             left = [s for _, s in occurrences(d, 'left', e['old'], set()) if carries(s, need['left'])]
             right = [s for _, s in occurrences(d, 'right', e['new'], set()) if carries(s, need['right'])]
-            paired += [(squeeze(e[opposite]), l, r) for l in left for r in right if lined_up(l, r, unchanged, need)]
+            paired += [(l, r) for l in left for r in right if lined_up(l, r, unchanged, need)]
     out = set()
     for i, span in occurrences(d, side, needle, wanted):
         if not carries(span, edit):
@@ -842,16 +842,38 @@ def pure(d, side, needle, wanted, edit, change, atom):
                 while 0 <= k < len(ops) and ops[k]['kind'] != 'equal':
                     run.add(k)
                     k += step
-        known = [squeeze(atom[opposite])]
-        owners = {x[1] for x in span if x[1] is not None}
-        for text, left, right in paired:
-            own = left if side == 'left' else right
-            changed = [x for x in left + right if x[4] and x[2]]
-            if {x[1] for x in own if x[1] is not None} <= owners and all(x[4][0] in run for x in changed):
-                known.append(text)
-        if all(not squeeze(ops[k]['text']) or any(squeeze(ops[k]['text']) in e for e in known if e)
-               for k in run if ops[k]['kind'] == other):
-            out.add(i)
+        # Project this entire occurrence through the card's actual edit script.
+        # Equal characters remain part of the counterpart: 1 -> 2 inside 100
+        # yields 200, not an arbitrary author value containing the digit 2.
+        places = lambda xs: {x[4][:2] for x in xs if x[4]}
+        lo, hi = min(places(span)), max(places(span))
+        if ops[lo[0]]['kind'] != 'equal':
+            lo = (min(run), 0)
+        if ops[hi[0]]['kind'] != 'equal':
+            hi = (max(run), len(ops[max(run)]['text']))
+        counterpart = [x for x in marked(d, other_side) if x[4] and lo <= x[4][:2] <= hi]
+        if atom['old'] and atom['new']:
+            # No counterpart is a real removal/addition. Otherwise the complete
+            # author counterpart must occupy exactly these script positions,
+            # in source order and at whole-number boundaries, not elsewhere on
+            # the card and not merely as a substring of a longer amount.
+            if not counterpart or (squeeze(''.join(x[0] for x in counterpart)) == squeeze(atom[opposite]) and any(
+                    places(other) == places(counterpart)
+                    for _, other in occurrences(d, other_side, atom[opposite], set()))):
+                out.add(i)
+        else:
+            # A one-sided edit may share a replacement block with a separately
+            # proved adjacent edit (insert later, now -> soon). Consume that
+            # edit's exact counterpart positions, never a bank of allowed text.
+            remaining = places(counterpart)
+            owners = {x[1] for x in span if x[1] is not None}
+            for left, right in paired:
+                own, other = (left, right) if side == 'left' else (right, left)
+                changed = [x for x in left + right if x[4] and x[2]]
+                if {x[1] for x in own if x[1] is not None} <= owners and all(x[4][0] in run for x in changed):
+                    remaining -= places(other)
+            if not remaining:
+                out.add(i)
     return out
 
 

@@ -1404,6 +1404,49 @@ class Cli(unittest.TestCase):
 
 
 class JointSourceBinding(unittest.TestCase):
+    def test_split_edit_requires_the_complete_actual_counterpart(self):
+        # The changed digits 1/2 fit the answer, but retained zeros make the
+        # actual counterparts 200 and 1000, neither the declared 100 -> 2000.
+        for old, new, short_new, long_old in [('100', '2000', '200', '1000'),
+                                               ('2000', '100', '1000', '200'),
+                                               ('100.25', '2000.25', '200.25', '1000.25')]:
+            ch = change(7, 'row', 'Replaced', '123 | Alpha | USD ' + old, '123 | Alpha | USD ' + new,
+                        [('USD ' + old, 'USD ' + new)])
+            def replacement(id, a, b):
+                return card(id, 'Replaced', [(1, id + '-old', '123 Alpha USD ' + a)],
+                            [(1, id + '-new', '123 Alpha USD ' + b)], row_key='123')
+            for shape in ('wrong', 'wrong-old-half', 'wrong-new-half', 'correct', 'delete-add'):
+                if shape.startswith('wrong'):
+                    cs = [replacement('a', old, short_new), replacement('b', long_old, new)]
+                    if shape == 'wrong-old-half':
+                        cs[1] = card('b', 'Added', right=[(1, 'b-new', '123 Alpha USD ' + new)], row_key='123')
+                    elif shape == 'wrong-new-half':
+                        cs[0] = card('a', 'Removed', [(1, 'a-old', '123 Alpha USD ' + old)], row_key='123')
+                elif shape == 'correct':
+                    cs = [replacement('a', old, new)]
+                else:
+                    cs = [card('a', 'Removed', [(1, 'a-old', '123 Alpha USD ' + old)], row_key='123'),
+                          card('b', 'Added', right=[(1, 'b-new', '123 Alpha USD ' + new)], row_key='123')]
+                with self.subTest(old=old, new=new, shape=shape):
+                    summary, events = run([ch], result(cs), [table('values', [0], ch)])
+                    e = events['7']
+                    if shape.startswith('wrong'):
+                        self.assertNotIn(e['verdict'], ('correct', 'split_attributable'))
+                        self.assertEqual(e['acceptedCards'], [])
+                        self.assertFalse((e['row'] or {}).get('fullRowRecovered'))
+                        self.assertEqual(summary['unexplainedCards'], 2)
+                    else:
+                        self.assertEqual(e['verdict'], 'correct' if shape == 'correct' else 'split_attributable')
+                        self.assertTrue(e['row']['fullRowRecovered'])
+                        self.assertEqual(summary['unexplainedCards'], 0)
+                        if shape == 'correct':
+                            # Also exercise pure() directly: a complete, correctly
+                            # paired replacement is compatible on either side.
+                            atom = {'old': 'USD ' + old, 'new': 'USD ' + new}
+                            need = triage.needs_edit(atom['old'], atom['new'])
+                            for side, text in (('left', atom['old']), ('right', atom['new'])):
+                                self.assertTrue(triage.pure(cs[0], side, text, {1}, need[side], ch, atom))
+
     def test_split_edits_preserve_each_pair_inside_one_event(self):
         ch = change(7, 'ac_1315', 'Replaced', '1315 | Hull | USD 100 | USD 300',
                     '1315 | Hull | USD 200 | USD 400', [('USD 100', 'USD 200'), ('USD 300', 'USD 400')])
