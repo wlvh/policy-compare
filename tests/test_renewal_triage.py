@@ -318,6 +318,21 @@ class RecordIdentity(unittest.TestCase):
         _, ev = run([c], result([removed, card('n', 'Added', right=[(11, 'b', '1315 USD 200')])]), [table('aircraft', [0], c)])
         self.assertFalse(ev['75']['row']['fullRowRecovered'])
 
+    def test_a_split_row_reads_only_the_units_where_its_identity_was_confirmed(self):
+        """PR #11 comment 6511895761: on a split too, Alpha of record 1760 does not complete record 1315."""
+        c = change(76, 'ac_1315', 'Replaced', '1315 | Alpha | USD 100', '1315 | Alpha | USD 200',
+                   [('USD 100', 'USD 200')], pages=(11, 11))
+        removed = card('o', 'Removed', [(11, 'a', '1315 Hull USD 100'), (11, 'b', '1760 Alpha USD 100')])
+        added = card('n', 'Added', right=[(11, 'c', '1315 Hull USD 200'), (11, 'd', '1760 Alpha USD 200')])
+        _, ev = run([c], result([removed, added]), [table('aircraft', [0], c)])
+        self.assertEqual(ev['76']['verdict'], 'split_attributable')
+        self.assertFalse(ev['76']['row']['fullRowRecovered'])
+        self.assertEqual([[r['unitId'] for r in ev['76']['row']['acceptedRecord'][s]] for s in ('left', 'right')], [['a'], ['c']])
+        # Control: the record's own units hold every cell.
+        own = [card('o', 'Removed', [(11, 'a', '1315 Alpha USD 100')]), card('n', 'Added', right=[(11, 'c', '1315 Alpha USD 200')])]
+        _, ev = run([c], result(own), [table('aircraft', [0], c)])
+        self.assertEqual((ev['76']['verdict'], ev['76']['row']['fullRowRecovered']), ('split_attributable', True))
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
@@ -420,6 +435,38 @@ class ReplacementNeedsTheEdit(unittest.TestCase):
                 e = ev[str(event['id'])]
                 self.assertEqual((e['verdict'], e['acceptedCards']), (verdict, accepted))
                 self.assertEqual(summary['unexplainedCards'], 0)
+
+
+class AMoveNeedsAMove(unittest.TestCase):
+    """PR #11 comment 6511895761: a card that keeps the paragraph where it was reports no move."""
+    PARA = 'Hull cover is USD 100 for the aircraft.'
+
+    def test_a_card_that_keeps_the_paragraph_in_place_shows_no_move(self):
+        moved = change(44, 'hull', 'Moved', self.PARA, self.PARA, pages=(4, 4))
+        kept = card('k', 'Replaced', [(4, 'a', self.PARA + ' Liability excluded.')], [(4, 'b', self.PARA + ' Liability included.')])
+        summary, ev = run([moved], result([kept]))
+        self.assertEqual((ev['44']['verdict'], ev['44']['acceptedCards']), ('not_evaluable', []))
+        self.assertEqual(ev['44']['atoms'], ['same_card_without_move'])
+        self.assertEqual(summary['unexplainedCards'], 1)
+        # Controls: a card that reports the move, and the paragraph removed in one place and added in another.
+        cases = {'moved card': ([card('m', 'Moved', [(4, 'a', self.PARA)], [(4, 'c', self.PARA)])], 'correct', ['m']),
+                 'split': ([card('o', 'Removed', [(4, 'a', self.PARA)]), card('n', 'Added', right=[(4, 'c', self.PARA)])],
+                           'split_attributable', ['n', 'o'])}
+        for name, (cards, verdict, accepted) in cases.items():
+            with self.subTest(name):
+                _, ev = run([moved], result([kept] + cards))
+                self.assertEqual((ev['44']['verdict'], ev['44']['acceptedCards']), (verdict, accepted))
+
+    def test_a_card_carrying_the_moved_paragraphs_edit_shows_it(self):
+        """A moved and edited paragraph may show as a replacement (the author expects that for bizav #26)."""
+        moved = change(45, 'hull', 'Moved', self.PARA, self.PARA.replace('100', '200'), [('USD 100', 'USD 200')], pages=(4, 4))
+        replaced = card('r', 'Replaced', [(4, 'a', self.PARA)], [(4, 'b', self.PARA.replace('100', '200'))])
+        _, ev = run([moved], result([replaced]))
+        self.assertEqual((ev['45']['verdict'], ev['45']['acceptedCards']), ('correct', ['r']))
+        # Control: a card that keeps the moved paragraph unchanged around another change.
+        kept = card('k', 'Replaced', [(4, 'a', self.PARA + ' Liability excluded.')], [(4, 'b', self.PARA + ' Liability included.')])
+        _, ev = run([change(46, 'hull', 'Moved', self.PARA, self.PARA, pages=(4, 4))], result([kept]))
+        self.assertEqual(ev['46']['atoms'], ['same_card_without_move'])
 
 
 class PagesBoundTheText(unittest.TestCase):

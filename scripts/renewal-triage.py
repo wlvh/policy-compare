@@ -77,7 +77,11 @@ where the record's identity was confirmed (renewal-triage/19). The paragraph con
 the units carrying the edit, a whole paragraph is context even when it is the edit, and the
 page and date facts need whole page numbers and real dates (renewal-triage/20). A whole
 paragraph is context only around the edited occurrence itself, and a split row is full from
-its Removed and Added cards (renewal-triage/21).
+its Removed and Added cards (renewal-triage/21). A Moved paragraph is met by a card that reports
+the move, by the paragraph removed in one place and added in another, or by a card carrying one of
+the event's own edits (a moved and edited paragraph may show as a replacement); a card keeping the
+paragraph unchanged around another change is no evidence of the move; a split row reads only the
+units where each half's identity was confirmed (renewal-triage/22).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -109,7 +113,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/21'
+TOOL = 'renewal-triage/22'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -595,7 +599,7 @@ def text_atom(atom, change, ctx, claimed):
     oc = [d for d in diffs if located(d, 'left', old, wanted['left'])]
     nc = [d for d in diffs if located(d, 'right', new, wanted['right'])]
     same = [d for d in oc if d in nc]
-    cands, accepted, suspects, open_, unedited, unaligned = [], [], [], [], [], []
+    cands, accepted, suspects, open_, unedited, unaligned, unmoved = [], [], [], [], [], [], []
     for d in same:
         # The old and the new occurrence that carry the edit and line up in the card's edit script.
         unchanged = unchanged_script(d)
@@ -621,7 +625,12 @@ def text_atom(atom, change, ctx, claimed):
             status, why, seen = judge_identity(d, needles, ident, others, change, wanted, need, only)
         cands.append(candidate(d, needles, wanted, status, why, seen, edit=True if any(need.values()) else None,
                                need=need, only=only))
-        if status in ('confirmed', 'not_applicable'):
+        if status in ('confirmed', 'not_applicable') and atom.get('opening') and d['kind'] != 'Moved' \
+                and d['id'] not in ctx.get('edited', ()):
+            # The paragraph is on both sides, but the card neither reports a move nor carries one of
+            # the event's edits: it keeps the paragraph around another change (PR #11 comment 6511895761).
+            unmoved.append(d)
+        elif status in ('confirmed', 'not_applicable'):
             accepted.append(d)
         elif status == 'contradicted' and not (claimed.get(d['id'], set()) - {ctx['id']}):
             suspects.append(d)
@@ -642,10 +651,15 @@ def text_atom(atom, change, ctx, claimed):
     olds, news = [d for d in oc if d not in same], [d for d in nc if d not in same]
     ou = unresolved_hits(result, 'left', old, wanted['left'])
     nu = unresolved_hits(result, 'right', new, wanted['right'])
-    for d in olds:
-        cands.append(candidate(d, {'left': old}, wanted, need=need))
-    for d in news:
-        cands.append(candidate(d, {'right': new}, wanted, need=need))
+    def half(d, side, needle):
+        """A card holding one side; with an identity, the units where it was confirmed are kept for
+        the full row (PR #11 comment 6511895761)."""
+        if ident is None:
+            return candidate(d, {side: needle}, wanted, need=need)
+        status, why, seen = judge_identity(d, {side: needle}, ident, others, change, wanted, {side: need[side]},
+                                           within=bool(need[side]))
+        return candidate(d, {side: needle}, wanted, status, why, seen, need=need)
+    cands += [half(d, 'left', old) for d in olds] + [half(d, 'right', new) for d in news]
     if olds and news:
         # The context or identity must sit with the occurrence on the stated pages that makes the
         # edit (el, er); lk, rk only tell whether some occurrence has it without the edit.
@@ -662,12 +676,16 @@ def text_atom(atom, change, ctx, claimed):
         er = [d for d in news if ok(d, 'right', new, need['right'])]
         if el and er:
             return 'split_attributable', 'split_attributable', el + er, cands, ou + nu, 'separate cards; ' + why
-        if lk and rk:
+        if lk and rk and not unmoved:
             return ('separate_cards_without_edit', 'not_evaluable', [], cands, ou + nu,
                     'separate cards with the context, but the ' + ' and '.join(
                         s for s, e in (('left', el), ('right', er)) if not e) + ' card does not change the text')
-        return ('separate_cards', 'not_evaluable', [], cands, ou + nu,
-                'separate cards without verifiable common context (' + why + ')')
+        if not unmoved:
+            return ('separate_cards', 'not_evaluable', [], cands, ou + nu,
+                    'separate cards without verifiable common context (' + why + ')')
+    if unmoved:
+        return ('same_card_without_move', 'not_evaluable', [], cands, ou + nu,
+                'cards hold the paragraph on both sides, but none reports it moved or carries its edits')
     if unedited and len(unaligned) == len(unedited):
         return ('same_card_unaligned', 'not_evaluable', [], cands, ou + nu,
                 'cards change both texts, but their edits pair them with other text, not with each other')
@@ -892,8 +910,12 @@ def triage(change, result, declared, family, claimed):
         judged, record = row_cells(atoms, change, ctx)
         judged = [(s, v, acc, [], un, why, where) for (s, v, acc, where, un, why) in judged]
     else:
-        judged = [(*(paragraph_atom(a, change, ctx) if change['kind'] in ('Added', 'Removed')
-                     else text_atom(a, change, ctx, claimed)), None) for a in atoms]
+        judge = lambda a: (*(paragraph_atom(a, change, ctx) if change['kind'] in ('Added', 'Removed')
+                             else text_atom(a, change, ctx, claimed)), None)
+        # A Moved event's edits first: a card carrying one shows the moved paragraph for its opening.
+        done = {i: judge(a) for i, a in enumerate(atoms) if not a.get('opening')}
+        ctx['edited'] = {d['id'] for j in done.values() for d in j[2]}
+        judged = [done[i] if i in done else judge(a) for i, a in enumerate(atoms)]
     detail = []
     for i, (atom, (state, verdict, acc, cands, un, why, where)) in enumerate(zip(atoms, judged)):
         detail.append({'index': i, 'old': atom['old'], 'new': atom['new'], 'authorCategory': atom['authorCategory'],
