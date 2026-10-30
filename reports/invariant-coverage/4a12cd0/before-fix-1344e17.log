@@ -1,0 +1,35 @@
+
+ RUN  v5.0.5 /home/user/policy-compare
+
+ ❯ tests/scorer.test.ts (128 tests | 1 failed) 1190ms
+   ❯ independent grader rejects dishonest outputs (25)
+     × a date fact needs whole day and year numbers (Codex PR #11 comment 6513158877) 31ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/scorer.test.ts > independent grader rejects dishonest outputs > a date fact needs whole day and year numbers (Codex PR #11 comment 6513158877)
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/scorer.test.ts:306:98
+    304|     };
+    305|     // 2024 is not a year of 20240, nor 21 a day of 121: the printed n…
+    306|     expect(held("1 January 20240 to 31 December 20240", "1 January 202…
+       |                                                                                                  ^
+    307|     expect(held("121 January 2024 to 31 December 2024", "121 January 2…
+    308|     expect(held("1 January 2024.5 to 31 December 2024", "1 January 202…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 127 passed (128)
+   Start at  02:07:26
+   Duration  1.50s (tests 87%, import 9%, transform 4%)
+
+JSON report written to /home/user/policy-compare/reports/core-tests.json
