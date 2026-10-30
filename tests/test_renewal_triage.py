@@ -306,6 +306,18 @@ class RecordIdentity(unittest.TestCase):
         _, ev = run([c], result([own]), [table('aircraft', [0], c)])
         self.assertEqual((ev['74']['verdict'], ev['74']['row']['fullRowRecovered']), ('correct', True))
 
+    def test_a_split_row_is_full_from_its_two_cards(self):
+        """PR #11 comment 6511266424: the full row reads the old side on the Removed card and the new
+        side on the Added card."""
+        c = change(75, 'ac_1315', 'Replaced', '1315 | Hull | USD 100', '1315 | Hull | USD 200', [('USD 100', 'USD 200')],
+                   pages=(11, 11))
+        removed = card('o', 'Removed', [(11, 'a', '1315 Hull USD 100')])
+        _, ev = run([c], result([removed, card('n', 'Added', right=[(11, 'b', '1315 Hull USD 200')])]), [table('aircraft', [0], c)])
+        self.assertEqual((ev['75']['verdict'], ev['75']['row']['fullRowRecovered']), ('split_attributable', True))
+        # Control: the Added card misses Hull.
+        _, ev = run([c], result([removed, card('n', 'Added', right=[(11, 'b', '1315 USD 200')])]), [table('aircraft', [0], c)])
+        self.assertFalse(ev['75']['row']['fullRowRecovered'])
+
     def test_a_cell_only_in_another_unit_of_the_card_does_not_complete_the_row(self):
         name = 'Kestrel Regional Airways Holdings Limited (Operator and Lessee)'
         split = card('s', 'Replaced', [(11, 'a', 'ATR 72-600 1315 20,490,000'), (11, 'c', name)],
@@ -908,6 +920,20 @@ class EditEvidence(unittest.TestCase):
         # Control: the Hull paragraph removed and added on two cards.
         _, ev = run([c], result([card('o', 'Removed', [(1, 'a', hull[0])]), card('n', 'Added', right=[(1, 'b', hull[1])])]))
         self.assertEqual((ev['25']['verdict'], ev['25']['acceptedCards']), ('split_attributable', ['n', 'o']))
+
+    def test_the_author_paragraph_must_surround_the_edited_occurrence(self):
+        """PR #11 comment 6510958743: the Hull paragraph merely shares a unit with the Liability
+        amount the card changes."""
+        hull = ('Hull cover is USD 100 for the aircraft.', 'Hull cover is USD 200 for the aircraft.')
+        c = change(27, 'hull', 'Replaced', *hull, [('USD 100', 'USD 200')])
+        one = card('one', 'Replaced', [(1, 'a', hull[0] + ' Liability USD 100')], [(1, 'b', hull[0] + ' Liability USD 999')])
+        two = card('two', 'Replaced', [(1, 'c', hull[1] + ' Liability USD 999')], [(1, 'd', hull[1] + ' Liability USD 200')])
+        _, ev = run([c], result([one, two]))
+        self.assertNotIn(ev['27']['verdict'], ('correct', 'split_attributable'))
+        # Control: the Hull paragraph's own change, in a unit that also holds the Liability line.
+        own = card('o', 'Replaced', [(1, 'a', hull[0] + ' Liability USD 100')], [(1, 'b', hull[1] + ' Liability USD 100')])
+        _, ev = run([c], result([own]))
+        self.assertEqual((ev['27']['verdict'], ev['27']['acceptedCards']), ('correct', ['o']))
 
     def test_a_whole_paragraph_edit_is_its_own_context(self):
         """PR #11 comment 6509794672: Pay now. -> Pay later. on a Removed and an Added card."""

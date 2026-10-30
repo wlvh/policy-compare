@@ -75,7 +75,9 @@ allocated in text order only (renewal-triage/18). Source ranges that meet join w
 space only where the card's own text shows them together, and the full row reads only the units
 where the record's identity was confirmed (renewal-triage/19). The paragraph context comes from
 the units carrying the edit, a whole paragraph is context even when it is the edit, and the
-page and date facts need whole page numbers and real dates (renewal-triage/20).
+page and date facts need whole page numbers and real dates (renewal-triage/20). A whole
+paragraph is context only around the edited occurrence itself, and a split row is full from
+its Removed and Added cards (renewal-triage/21).
 A number at either end of the author text
 matches only as a whole number (renewal-triage/8): "USD 100" inside
 "USD 1000" or "USD 100,000" is another value; a 40-character opening ends
@@ -107,7 +109,7 @@ import json
 import re
 import sys
 
-TOOL = 'renewal-triage/20'
+TOOL = 'renewal-triage/21'
 # Event verdicts, most decisive first; an event takes the first one any of its atoms has.
 VERDICTS = ('misattributed', 'one_side_only', 'not_evaluable')
 
@@ -446,19 +448,20 @@ def on_pages(locations, wanted):
     return not wanted or bool(pages(locations) & wanted)
 
 
-def hits(d, side, needle, wanted, edit=False, only=None, changed=False, within=False):
+def hits(d, side, needle, wanted, edit=False, only=None, changed=False, within=False, starts=False):
     """Qualifying occurrences of the needle on one card side: every character from a source unit on
     the wanted pages and, when the author edit changes this side, carrying changed characters (and,
     with `only`, among those starts). Each occurrence is the set of source units (page, unitId) its
     characters come from; with `changed`, when the side carries an edit, only the units holding a
-    changed character of it (r4416699649), or all its units when no unit holds one."""
+    changed character of it (r4416699649), or all its units when no unit holds one. With `starts`,
+    each comes with its start in the side's text."""
     out = []
     for i, span in occurrences(d, side, needle, wanted):
         if not carries(span, edit, within) or (only is not None and i not in only):
             continue
         keys = {x[1] for x in span if x[1] is not None}
         mine = {x[1] for x in span if x[1] is not None and x[2]} if changed and edit else set()
-        out.append(mine or keys)
+        out.append((i, mine or keys) if starts else mine or keys)
     return out
 
 
@@ -516,18 +519,35 @@ def in_context(card, needle, author):
         len(a) >= len(needle) + 10 and card in a and len(card) >= len(needle) + 10)
 
 
+def around(d, side, start, needle, author):
+    """The author paragraph, whitespace aside, surrounds the occurrence that starts at `start` in
+    the card side's text: it holds that edited occurrence, not only another copy of its words in
+    the same unit (PR #11 comment 6510958743)."""
+    text = ''.join(x[0] for x in marked(d, side))
+    keep = [k for k, c in enumerate(text) if not c.isspace()]
+    squeezed, a = ''.join(text[k] for k in keep), re.sub(r'\s+', '', norm(author or ''))
+    lo, hi = bisect.bisect_left(keep, start), bisect.bisect_left(keep, start + len(needle))
+    p = squeezed.find(a) if a else -1
+    while p >= 0:
+        if p <= lo and hi <= p + len(a):
+            return True
+        p = squeezed.find(a, p + 1)
+    return False
+
+
 def context(d, side, needle, wanted, author, edit=False, within=False, only=None):
     """A qualifying occurrence whose own source units, read on the wanted pages only, show the
     author paragraph around it. Whitespace does not count: source units are joined with spaces
     the author text may not have, and lose ones it has (LIMITEDand/or, Liability:COVERED). Where
     the author edit changes this side, only the units carrying the change count: an unchanged
     unit of the occurrence does not lend its paragraph to another unit's edit (PR #11 comment
-    6507993515)."""
+    6507993515). A whole paragraph counts only when it surrounds the occurrence itself."""
     squeeze = lambda x: re.sub(r'\s+', '', x)
-    for keys in hits(d, side, needle, wanted, edit, only, changed=bool(edit), within=within):
+    a = squeeze(norm(author or ''))
+    for start, keys in hits(d, side, needle, wanted, edit, only, changed=bool(edit), within=within, starts=True):
         ids = {uid for _, uid in keys}
-        text = norm(' '.join(u['text'] for u in units(d[side], wanted, side_text(d, side)) if u['unitId'] in ids))
-        if in_context(squeeze(text), squeeze(needle), squeeze(norm(author or ''))):
+        text = squeeze(norm(' '.join(u['text'] for u in units(d[side], wanted, side_text(d, side)) if u['unitId'] in ids)))
+        if in_context(text, squeeze(needle), a) and (a not in text or around(d, side, start, needle, author)):
             return True
     return False
 
@@ -889,22 +909,30 @@ def triage(change, result, declared, family, claimed):
             another record the card also edits (#11 comment 6508818754)."""
             keep = ((c.get('identityCells') or {}).get(side) or {}).get('units')
             return [r for r in c[side] if not keep or r['unitId'] in keep]
-        record = record or next((
-            {'card': c['card'], 'left': own(c, 'left'), 'right': own(c, 'right')}
-            for a in detail for c in a['candidates'] if c['card'] in a['accepted']), None)
+        if record is None:
+            # Each side from the accepted card that holds it: one card, or the Removed and the
+            # Added card of a split (PR #11 comment 6511266424).
+            held = {side: next(((c['card'], own(c, side)) for a in detail for c in a['candidates']
+                                if c['card'] in a['accepted'] and c[side]), (None, [])) for side in ('left', 'right')}
+            first = held['left'][0] or held['right'][0]
+            if first:
+                record = {'card': first, 'left': held['left'][1], 'right': held['right'][1],
+                          **({'rightCard': held['right'][0]} if held['right'][0] not in (None, first) else {})}
         lc, rc = cells(change.get('left_text') or ''), cells(change.get('right_text') or '')
-        card = record and next(d for d in result['differences'] if d['id'] == record['card'])
+        diff = lambda i: next(d for d in result['differences'] if d['id'] == i)
+        card = record and diff(record['card'])
+        cards = record and {'left': card, 'right': diff(record.get('rightCard', record['card']))}
 
         def source(key, r):
             """Full text of one accepted record location; refs keep only a preview (r4415969212). A
             location trimmed to its new characters (pieces()) is read from the card's location."""
             sides, (a, b) = ('left', 'right') if key == 'refs' else (key,), r['rawRange']
-            return next((l['text'][a - l['rawRange'][0]:b - l['rawRange'][0]] for side in sides for l in card[side]
+            return next((l['text'][a - l['rawRange'][0]:b - l['rawRange'][0]] for side in sides for l in cards[side][side]
                          if l['pageIndex'] + 1 == r['page'] and l['unitId'] == r['unitId']
                          and l['rawRange'][0] <= a and b <= l['rawRange'][1]), r['text'])
 
         def text(*keys):
-            shown = ' | '.join(side_text(card, s) for s in ('left', 'right')) if card else ''
+            shown = ' | '.join(side_text(cards[s], s) for s in ('left', 'right')) if card else ''
             return norm(spliced((((r['page'], r['unitId']), r['rawRange'], source(k, r))
                                  for k in keys for r in (record or {}).get(k, [])), shown))
         full = None
