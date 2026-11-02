@@ -372,9 +372,9 @@ function App() {
       );
     }
   }, [result, imagesLoaded]);
-  function showPage(side: number, pageIndex: number, y = 0, inset = 0) {
+  function showPage(side: number, pageIndex: number, y = 0, inset = 0, reveal = false) {
     if (!pageInfos[side][pageIndex]) return;
-    viewportRefs[side].current?.goTo(pageIndex, y, inset);
+    viewportRefs[side].current?.goTo(pageIndex, y, inset, reveal);
   }
   function requestPage(side: number, pageIndex: number) {
     const requestId = ++renderIds.current[side];
@@ -399,7 +399,7 @@ function App() {
     ] as const) {
       const l = locs.find((x) => x.side === name);
       if (l) {
-        showPage(side, l.pageIndex, l.quads[0][1], 90);
+        showPage(side, l.pageIndex, l.quads[0][1], 90, true);
       }
     }
   }

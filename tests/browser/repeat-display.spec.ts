@@ -88,6 +88,29 @@ test('two count cards locate their own text examples on the same PDF page', asyn
   await expect(page.locator('.location-hint')).toContainText('不代表这里是新增或减少的位置');
 });
 
+test('a narrow window reveals the PDF and a clearly outlined text example after clicking a count card', async ({page}) => {
+  await page.setViewportSize({width: 650, height: 700});
+  await load(page, 'R16_repagination');
+  const card = page.locator('.card').filter({has: page.locator('.same-text').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'})});
+  await card.locator('.same-text').click();
+  const target = page.locator('.document').nth(1);
+  // An element that exists below the browser's fold does not satisfy location.
+  // IntersectionObserver can round a fully visible SVG to 0.99999.
+  await expect(target.locator('polygon.highlight-location').first()).toBeInViewport({ratio: 0.99});
+  await expect(target.locator('[data-location-focus]')).toBeInViewport({ratio: 0.99});
+  await expect(target.locator('.location-marker-label')).toHaveText('文字示例');
+  await expect(target.locator('.location-marker-label')).toBeInViewport({ratio: 0.99});
+  const style = await target.locator('[data-location-focus]').evaluate(el => {
+    const s = getComputedStyle(el), r = el.getBoundingClientRect();
+    return {border: parseFloat(s.borderTopWidth), width: r.width, height: r.height};
+  });
+  expect(style.border).toBeGreaterThanOrEqual(2);
+  expect(style.width).toBeGreaterThan(20);
+  expect(style.height).toBeGreaterThan(15);
+  await expect(page.locator('.document').nth(0).locator('[data-location-focus]')).toHaveCount(0);
+  await expect(card.locator('details')).not.toHaveAttribute('open');
+});
+
 test('changed repeated header remains a visible red-green comparison with accessible occurrences', async ({page}) => {
   await load(page, 'R09_header_limit');
   const card = page.locator('.card').filter({hasText: 'USD 4,000,000'});

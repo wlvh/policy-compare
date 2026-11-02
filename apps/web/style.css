@@ -483,9 +483,43 @@ h3 {
   stroke-width: 0.55;
 }
 .highlight-location {
-  fill: #7b9fb12e;
-  stroke: #607d8b;
-  stroke-width: 0.55;
+  fill: #2587d940;
+  stroke: #176ba3;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.location-marker {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  box-sizing: content-box;
+  padding: 5px;
+  min-width: 10px;
+  min-height: 8px;
+  border: 2px solid #176ba3;
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px #ffffffd9;
+  transform: translate(-7px, -7px);
+}
+.location-marker-label {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: -2px;
+  padding: 2px 6px;
+  color: white;
+  background: #176ba3;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.location-marker-label.below {
+  bottom: auto;
+  top: calc(100% + 4px);
+}
+.location-marker-label.right {
+  left: auto;
+  right: -2px;
 }
 .page-empty {
   height: 400px;

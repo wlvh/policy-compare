@@ -31,7 +31,9 @@ export function PageCanvas({
 }) {
   const sheet = useRef<HTMLDivElement>(null),
     layer = useRef<HTMLDivElement>(null),
-    view = useRef<TextLayerView | null>(null);
+    view = useRef<TextLayerView | null>(null),
+    latestSelection = useRef(selection);
+  latestSelection.current = selection;
   const [width, setWidth] = useState(0),
     [loaded, setLoaded] = useState(false),
     [resolvedPage, setResolvedPage] = useState<number | null>(null),
@@ -58,7 +60,9 @@ export function PageCanvas({
         }
         view.current = v;
         v.resolve(evidence);
-        setQuads(v.resolve(selection));
+        // A card may be selected while this asynchronous layer is loading.
+        // Resolve the current selection, not the one captured at load start.
+        setQuads(v.resolve(latestSelection.current));
         setResolvedPage(pageIndex);
         onReady(performance.now() - locationStart);
       })
@@ -80,6 +84,12 @@ export function PageCanvas({
       }
     }
   }, [selection]);
+  const focus = neutralSelection && quads.length ? quads.reduce((b, q) => ({
+    x0: Math.min(b.x0, q[0], q[2], q[4], q[6]),
+    y0: Math.min(b.y0, q[1], q[3], q[5], q[7]),
+    x1: Math.max(b.x1, q[0], q[2], q[4], q[6]),
+    y1: Math.max(b.y1, q[1], q[3], q[5], q[7]),
+  }), {x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity}) : null;
   return (
     <div className="sheet" ref={sheet} data-ready-page={active && resolvedPage === pageIndex ? pageIndex : undefined}>
       <img
@@ -101,6 +111,11 @@ export function PageCanvas({
           />
         ))}
       </svg>
+      {focus && <div className="location-marker" data-location-focus="true" aria-hidden="true"
+        style={{left: `${focus.x0 / info.width * 100}%`, top: `${focus.y0 / info.height * 100}%`,
+          width: `${(focus.x1 - focus.x0) / info.width * 100}%`, height: `${(focus.y1 - focus.y0) / info.height * 100}%`}}>
+        <span className={"location-marker-label" + (focus.y0 * width / info.width < 28 ? " below" : "") + (focus.x0 > info.width * 0.7 ? " right" : "")}>文字示例</span>
+      </div>}
     </div>
   );
 }
