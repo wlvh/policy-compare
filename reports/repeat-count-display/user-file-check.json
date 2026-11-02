@@ -1,0 +1,27 @@
+{
+  "pair": "user left.pdf/right.pdf (bizav_2024_vs_2025)",
+  "engine": "pdfjs",
+  "cards": 103,
+  "sameProductFieldsExceptGeometryAndSnapshotHashes": true,
+  "countCard": {
+    "id": "d-dbcb01f19601642cc979",
+    "hasTextChange": false,
+    "oldText": "Calloway",
+    "newText": "Calloway",
+    "repeat": {
+      "left": 17,
+      "right": 18,
+      "leftPages": 18,
+      "rightPages": 19
+    }
+  },
+  "occurrences": 18,
+  "lastRightOccurrencePage": 19,
+  "manualUiChecks": [
+    "one neutral text block, zero old/new blocks",
+    "locations initially collapsed",
+    "expanded position 18 navigates to PDF page 19",
+    "neutral location highlighting"
+  ],
+  "reference": "reports/issue-2-followup/renewal/bizav_2024_vs_2025-pdfjs.json.gz"
+}

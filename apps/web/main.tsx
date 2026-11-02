@@ -25,6 +25,11 @@ const kinds = {
   Added: "基准侧未找到对应",
   Removed: "待审侧未找到对应",
 };
+// A count change preserves the same text and all its sources; it is not a
+// deletion/replacement of that text, nor proof that pagination explains it.
+const countOnly = (d: Difference) =>
+  d.kind === "Replaced" && !d.hasTextChange && d.oldText === d.newText &&
+  !!d.repeat && d.repeat.left !== d.repeat.right;
 const change = (d: Difference) =>
   d.kind === "Added" || d.kind === "Removed"
     ? kinds[d.kind]
@@ -34,7 +39,7 @@ const change = (d: Difference) =>
         : "位置移动，文字未变"
       : d.hasTextChange
         ? "文字变化"
-        : "出现次数变化";
+        : countOnly(d) ? "文字未变，次数变化" : "文字未变";
 const bases: Record<string, string> = {
   "declared-table-key": "按表格键对应",
   "reliable-field-identity": "按字段身份对应",
@@ -44,9 +49,9 @@ const bases: Record<string, string> = {
   "repeat-role": "按相同原文对应",
   "adjacent-split": "按相邻段落拼合后的相同原文对应",
   "adjacent-merge": "按相邻段落拼合后的相同原文对应",
-  "repeated-header": "按重复行对应",
-  "repeated-table-header": "按重复行对应",
-  "page-furniture": "按重复行对应",
+  "repeated-header": "重复文字",
+  "repeated-table-header": "重复表头",
+  "page-furniture": "重复页眉/页脚",
   "joint-local-alignment": "按相似文字对应",
   "contextual-token-lcs": "按相似文字对应",
 };
@@ -65,6 +70,23 @@ const facts: Record<Fact, string> = {
   dates_rolled_forward_one_year: "期间两端日期各顺延一年",
   continued_heading: "两版都有的标题加续页字样",
 };
+function Occurrences({ difference: d, onLocate }: {
+  difference: Difference;
+  onLocate: (locs: SourceLocation[]) => void;
+}) {
+  const content = <div className="occurrences">
+    {d.occurrences.length} 处出现位置（逐处核对{d.occurrences.some(o=>o.context)?`；其中 ${d.occurrences.filter(o=>o.context).length} 处是同一行的其他写法，只作上下文，不计入次数`:''}）：
+    {d.occurrences.map((o,i)=>{
+      const where=[o.left[0]&&`基准 P${o.left[0].pageIndex+1}`,o.right[0]&&`待审 P${o.right[0].pageIndex+1}`,o.context&&'上下文'].filter(Boolean).join(' · ');
+      const text=(locs:SourceLocation[])=>locs.map(l=>l.text).join('')||'（无）';
+      return <button key={i} aria-label={`出现位置 ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();onLocate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
+    })}
+  </div>;
+  return countOnly(d) ? <details className="occurrence-details" onClick={e=>e.stopPropagation()}>
+    <summary>查看 {d.occurrences.length} 处出现位置</summary>
+    {content}
+  </details> : content;
+}
 function App() {
   const [files, setFiles] = useState<(File | null)[]>([null, null]),
     [passwords, setPasswords] = useState(["", ""]),
@@ -87,6 +109,7 @@ function App() {
     [snapshots, setSnapshots] = useState<(Snapshot | null)[]>([null, null]);
   const [selection, setSelection] = useState<SourceLocation[]>([]),
     [selectedId, setSelectedId] = useState(""),
+    [neutralSelection, setNeutralSelection] = useState(false),
     [sync, setSync] = useState(true);
   const workers = useRef<{ pdf: PdfClient; core: Worker } | null>(null),
     generation = useRef(0),
@@ -157,6 +180,7 @@ function App() {
     setResult(null);
     setHits([]);
     setSelection([]);
+    setNeutralSelection(false);
     setPageInfos([[], []]);
     setPages([0, 0]);
     setSnapshots([null, null]);
@@ -249,6 +273,7 @@ function App() {
             coreReady: performance.now() - start.current,
           });
           const first = m.result.differences[0];
+          setNeutralSelection(first ? countOnly(first) : false);
           const leftPage = first?.left[0]?.pageIndex ?? 0,
             rightPage = first?.right[0]?.pageIndex ?? 0;
           setPages([leftPage, rightPage]);
@@ -376,8 +401,9 @@ function App() {
       scale: 1.35,
     });
   }
-  function locate(locs: SourceLocation[]) {
+  function locate(locs: SourceLocation[], neutral = false) {
     setSelection(locs);
+    setNeutralSelection(neutral);
     for (const [side, name] of [
       [0, "left"],
       [1, "right"],
@@ -659,7 +685,7 @@ function App() {
                   const ops = d.textOps
                     .filter((x) => x.kind !== "equal")
                     .flatMap((x) => [...x.left, ...x.right]);
-                  locate(ops.length ? ops : [...d.left, ...d.right]);
+                  locate(ops.length ? ops : [...d.left, ...d.right], countOnly(d));
                 }}
               >
                 <div>
@@ -677,7 +703,7 @@ function App() {
                 )}
                 <h3>
                   {[
-                    d.structurePath?.section==='page_furniture'?'页面附属':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
+                    d.structurePath?.section==='page_furniture'?'页眉/页脚':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,
@@ -685,18 +711,18 @@ function App() {
                     .filter(Boolean)
                     .join(" / ") || "条款文字"}
                 </h3>
-                <div className="old">{d.oldText || "（无）"}</div>
-                <div className="new">{d.newText || "（无）"}</div>
+                {countOnly(d) ? <div className="same-text">{d.oldText}</div> : <>
+                  <div className="old">{d.oldText || "（无）"}</div>
+                  <div className="new">{d.newText || "（无）"}</div>
+                </>}
                 {d.reviewReasons.length > 0 && (
                   <small>{d.reviewReasons.join("；")}</small>
                 )}
                 {d.occurrences.length > 0 && (
-                  <div className="occurrences">{d.occurrences.length} 处出现位置（逐处核对{d.occurrences.some(o=>o.context)?`；其中 ${d.occurrences.filter(o=>o.context).length} 处是同一行的其他写法，只作上下文，不计入次数`:''}）：{d.occurrences.map((o,i)=>{
-                    // Each occurrence names its pages and keeps its own text, so every source can be checked.
-                    const where=[o.left[0]&&`基准 P${o.left[0].pageIndex+1}`,o.right[0]&&`待审 P${o.right[0].pageIndex+1}`,o.context&&'上下文'].filter(Boolean).join(' · ');
-                    const text=(locs:SourceLocation[])=>locs.map(l=>l.text).join('')||'（无）';
-                    return <button key={i} aria-label={`出现位置 ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();setSelectedId(d.id);locate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
-                  })}</div>
+                  <Occurrences difference={d} onLocate={locs=>{
+                    setSelectedId(d.id);
+                    locate(locs, countOnly(d));
+                  }} />
                 )}
               </div>
             ))}
@@ -758,6 +784,7 @@ function App() {
                       url={snapshots[side]!.url}
                       pageIndex={snapshots[side]!.pageIndex}
                       side={side}
+                      neutralSelection={neutralSelection}
                       info={pageInfos[side][snapshots[side]!.pageIndex]}
                       textLayer={snapshots[side]!.textLayer}
                       coverage={(result?.coverage??[]).filter(c=>c.side===(side?'right':'left')&&c.pageIndex===snapshots[side]!.pageIndex)}

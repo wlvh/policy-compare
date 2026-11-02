@@ -10,6 +10,7 @@ export function PageCanvas({
   textLayer,
   coverage=[],
   selection,
+  neutralSelection = false,
   evidence,
   onReady,
   onError,
@@ -21,6 +22,7 @@ export function PageCanvas({
   textLayer?: unknown;
   coverage?:CoverageIssue[];
   selection: SourceLocation[];
+  neutralSelection?: boolean;
   evidence: SourceLocation[];
   onReady: (ms: number) => void;
   onError: (s: string) => void;
@@ -93,7 +95,7 @@ export function PageCanvas({
           <polygon
             key={i}
             points={`${q[0]},${q[1]} ${q[2]},${q[3]} ${q[6]},${q[7]} ${q[4]},${q[5]}`}
-            className={side ? "highlight-new" : "highlight-old"}
+            className={neutralSelection ? "highlight-location" : side ? "highlight-new" : "highlight-old"}
           />
         ))}
       </svg>

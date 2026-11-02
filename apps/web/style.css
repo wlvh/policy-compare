@@ -326,6 +326,22 @@ h3 {
   background: #eaf6ed;
   border-left: 2px solid #76ac8e;
 }
+.same-text {
+  padding: 6px 8px;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  background: #f1f4f6;
+  border-left: 2px solid #9caeb7;
+}
+.occurrence-details {
+  margin-top: 8px;
+  font-size: 10px;
+  color: #4c818c;
+}
+.occurrence-details summary {
+  cursor: pointer;
+}
 .card small {
   display: block;
   color: #89969c;
@@ -432,6 +448,11 @@ h3 {
 .highlight-new {
   fill: #45bc873b;
   stroke: #228260;
+  stroke-width: 0.55;
+}
+.highlight-location {
+  fill: #7b9fb12e;
+  stroke: #607d8b;
   stroke-width: 0.55;
 }
 .page-empty {
