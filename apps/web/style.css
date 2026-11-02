@@ -467,6 +467,14 @@ h3 {
 .document-head strong {
   white-space: nowrap;
 }
+.reference-badge {
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: #e9f0f4;
+  color: #526a75;
+  font-size: 10px;
+  white-space: nowrap;
+}
 .document-head nav {
   display: flex;
   gap: 6px;

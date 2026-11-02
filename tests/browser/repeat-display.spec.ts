@@ -60,7 +60,8 @@ for (const reverse of [false, true]) test('count-only ' + (reverse ? 'decreases'
   await wording.click();
   await expect(page.locator(reverse ? 'polygon.highlight-old' : 'polygon.highlight-new').first()).toBeVisible();
   await expect(page.locator('polygon.highlight-location')).toHaveCount(0);
-  await expect(page.locator('.location-hint')).toHaveCount(0);
+  await expect(page.locator('.location-hint')).not.toContainText('数量摘要来源');
+  await expect(page.locator('.location-hint')).toContainText('无直接来源');
   await page.getByLabel('按变化方式筛选').selectOption('Replaced');
   const filtered = await page.locator('.cards .card').count();
   await expect(page.locator('aside > p.subtle')).toContainText(String(mainCount - filtered) + ' 项');

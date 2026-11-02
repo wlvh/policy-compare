@@ -1,0 +1,38 @@
+
+Running 1 test using 1 worker
+
+(node:71835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] tests/browser/one-sided-navigation.spec.ts:14:38 › added text navigates the missing side to reference context only when sync is enabled
+  1) tests/browser/one-sided-navigation.spec.ts:14:38 › added text navigates the missing side to reference context only when sync is enabled 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-ready-page="0"]')
+    Expected: 2
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('[data-ready-page="0"]') with timeout 5000ms
+      - waiting for locator('[data-ready-page="0"]')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      26 |   await expect(peer.locator('[data-ready-page="1"]')).toBeVisible();
+      27 |   await card.click();
+    > 28 |   await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);
+         |                                                       ^
+      29 |   await expect(peer.locator('.reference-badge')).toHaveText('参考位置');
+      30 |   await expect(peer.locator('polygon')).toHaveCount(0);
+      31 |   await expect(page.locator('.document').nth(sourceSide).locator(reverse ? 'polygon.highlight-old' : 'polygon.highlight-new').first()).toBeVisible();
+        at <repo>/tests/browser/one-sided-navigation.spec.ts:28:55
+
+    Error Context: tmp/one-sided-before-results/one-sided-navigation-added-ebbb6-t-only-when-sync-is-enabled/error-context.md
+
+
+  1 failed
+    tests/browser/one-sided-navigation.spec.ts:14:38 › added text navigates the missing side to reference context only when sync is enabled 

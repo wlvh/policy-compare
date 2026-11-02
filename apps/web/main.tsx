@@ -154,6 +154,7 @@ function App() {
     [selectedId, setSelectedId] = useState(""),
     [neutralSelection, setNeutralSelection] = useState(false),
     [locationHint, setLocationHint] = useState(""),
+    [referenceSide, setReferenceSide] = useState<number | null>(null),
     [sync, setSync] = useState(true);
   const workers = useRef<{ pdf: PdfClient; core: Worker } | null>(null),
     generation = useRef(0),
@@ -221,6 +222,7 @@ function App() {
     setSelection([]);
     setNeutralSelection(false);
     setLocationHint("");
+    setReferenceSide(null);
     setPageInfos([[], []]);
     setPages([0, 0]);
     setFilter("all");
@@ -414,19 +416,46 @@ function App() {
     });
     return requestId;
   }
-  function locate(locs: SourceLocation[], neutral = false, hint = "") {
+  function locate(locs: SourceLocation[], neutral = false, hint = "", references?: SourceLocation[]) {
     setSelection(locs);
     setNeutralSelection(neutral);
     setLocationHint(hint);
+    setReferenceSide(null);
     for (const [side, name] of [
       [0, "left"],
       [1, "right"],
     ] as const) {
-      const l = locs.find((x) => x.side === name);
+      // A pure insertion/deletion inside a paired paragraph may have edited
+      // characters on only one side, but both paragraph sources still exist.
+      const l = locs.find(x => x.side === name) ?? references?.find(x => x.side === name);
       if (l) {
         showPage(side, l.pageIndex, l.quads[0][1], 90, true);
       }
     }
+    if (!references?.length) return;
+    const hasLeft = references.some(l => l.side === "left");
+    const hasRight = references.some(l => l.side === "right");
+    if (hasLeft === hasRight) return;
+    const sourceSide = hasLeft ? 0 : 1, peerSide = 1 - sourceSide;
+    const source = locs.find(l => l.side === (hasLeft ? "left" : "right")) ?? references[0];
+    const peerName = peerSide ? "待审" : "基准";
+    setReferenceSide(peerSide);
+    let note: string;
+    if (!sync) note = `${peerName}侧无直接来源；同步滚动已关闭，保留其当前页。`;
+    else {
+      const offset = alignedOffset(sourceSide, source.pageIndex, source.quads[0][1]);
+      if (offset !== null) {
+        viewportRefs[peerSide].current?.scrollToOffset(offset - 90);
+        note = `${peerName}侧无直接来源；已按已有文字对应显示参考位置，不表示找到该项原文。`;
+      } else {
+        const p = Math.min(source.pageIndex, pageInfos[peerSide].length - 1);
+        if (p >= 0) showPage(peerSide, p);
+        note = p >= 0
+          ? `${peerName}侧无直接来源，且本页没有文字对应；仅显示${peerName} PDF 第 ${p + 1} 页作页码参考，不表示内容对应。`
+          : `${peerName}侧无直接来源，也没有可显示的参考页。`;
+      }
+    }
+    setLocationHint(hint ? hint + " " + note : note);
   }
   function doSearch() {
     setHits([]);
@@ -450,10 +479,10 @@ function App() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  function onScroll(side: number, pageIndex: number, y: number) {
-    if (!sync || !result) return;
+  function alignedOffset(side: number, pageIndex: number, y: number): number | null {
+    if (!result) return null;
     const to = viewportRefs[1 - side].current;
-    if (!to) return;
+    if (!to) return null;
     // Use the existing text alignment, including across page boundaries.
     // Equal physical page numbers alone do not establish a correspondence.
     const ordered = result.alignment.flatMap(a => {
@@ -462,7 +491,7 @@ function App() {
       return offset === null ? [] : [[side ? a.rightY : a.leftY, offset]];
     })
       .sort((a, b) => a[0] - b[0]);
-    if (!ordered.length) return;
+    if (!ordered.length) return null;
     let a = ordered[0],
       b = ordered.at(-1)!;
     for (let i = 1; i < ordered.length; i++)
@@ -471,9 +500,12 @@ function App() {
         b = ordered[i];
         break;
       }
-    const target =
-      a[1] + ((y - a[0]) * (b[1] - a[1])) / Math.max(1, b[0] - a[0]);
-    to.scrollToOffset(target);
+    return a[1] + ((y - a[0]) * (b[1] - a[1])) / Math.max(1, b[0] - a[0]);
+  }
+  function onScroll(side: number, pageIndex: number, y: number) {
+    if (!sync) return;
+    const target = alignedOffset(side, pageIndex, y);
+    if (target !== null) viewportRefs[1 - side].current?.scrollToOffset(target);
   }
   const reviewDifferences = result?.differences.filter(d => !canSummarizeCount(d)) ?? [];
   const repeatCounts = result?.differences.filter(canSummarizeCount) ?? [];
@@ -583,6 +615,7 @@ function App() {
             setHits([]);
             setPasswords(["", ""]);
             setLocationHint("");
+            setReferenceSide(null);
           }}
         >
           关闭任务
@@ -701,7 +734,7 @@ function App() {
                   const ops = d.textOps
                     .filter((x) => x.kind !== "equal")
                     .flatMap((x) => [...x.left, ...x.right]);
-                  locate(ops.length ? ops : [...d.left, ...d.right], !d.hasTextChange);
+                  locate(ops.length ? ops : [...d.left, ...d.right], !d.hasTextChange, "", [...d.left, ...d.right]);
                 }}
               >
                 <div>
@@ -765,6 +798,7 @@ function App() {
               <div className="document" key={side}>
                 <div className="document-head">
                   <strong>{side ? "待审版" : "基准版"}</strong>
+                  {referenceSide === side && <small className="reference-badge" title="本项在该侧没有直接来源，画面内容仅供参考。">参考位置</small>}
                   <span title={activeNames[side]}>
                     {activeNames[side] || "尚未选择"}
                   </span>
