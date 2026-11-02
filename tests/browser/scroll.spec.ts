@@ -96,3 +96,37 @@ test('a page shorter than the viewport still reaches the final page; rapid scrol
   expect(await right.locator('.sheet').count()).toBeLessThanOrEqual(3);
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', /complete_for_scope|partial/);
 });
+
+test('every on-screen page renders when the complete document fits without scrolling', async ({page}) => {
+  await page.setViewportSize({width: 1120, height: 2400});
+  await load(page, 'R16_repagination');
+  const right = page.getByRole('region', {name: '待审原文连续浏览'});
+  expect(await right.evaluate(el => el.scrollHeight <= el.clientHeight)).toBe(true);
+  await expect(right.locator('.sheet img')).toHaveCount(3);
+  await expect(right.locator('.page-placeholder')).toHaveCount(0);
+  await expect.poll(() => right.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
+  // Navigation must not evict another source page that is still on screen.
+  await page.getByRole('button', {name: '待审下一页', exact: true}).click();
+  await page.getByRole('button', {name: '待审下一页', exact: true}).click();
+  await expect(right.locator('[data-ready-page="2"]')).toBeVisible();
+  await expect(right.locator('.sheet img')).toHaveCount(3);
+});
+
+test('height-only resizing loads newly visible pages and retains visible predecessors at the bottom', async ({page}) => {
+  await page.setViewportSize({width: 1120, height: 800});
+  await load(page, 'R16_repagination');
+  await page.getByRole('checkbox', {name: '同步滚动'}).uncheck();
+  const right = page.getByRole('region', {name: '待审原文连续浏览'});
+  await page.setViewportSize({width: 1120, height: 2400});
+  expect(await right.evaluate(el => el.scrollHeight <= el.clientHeight)).toBe(true);
+  await expect(right.locator('.sheet img')).toHaveCount(3);
+  await page.setViewportSize({width: 1120, height: 1450});
+  await right.hover();
+  await page.mouse.wheel(0, 10000);
+  await expect(right.locator('[data-ready-page="2"]')).toBeVisible();
+  const visible = await right.evaluate(el => Array.from(el.querySelectorAll<HTMLElement>('[data-page-index]'))
+    .filter(slot => slot.offsetTop < el.scrollTop + el.clientHeight && slot.offsetTop + slot.offsetHeight > el.scrollTop)
+    .map(slot => Number(slot.dataset.pageIndex)));
+  expect(visible).toContain(0);
+  for (const p of visible) await expect(right.locator(`[data-page-index="${p}"] img`)).toHaveCount(1);
+});

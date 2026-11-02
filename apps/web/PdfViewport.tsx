@@ -12,8 +12,8 @@ export type PdfViewportHandle = {
   scrollToOffset: (offset: number) => void;
 };
 
-// Page-sized placeholders provide a real continuous scroll range. Only the
-// active page and its immediate neighbours hold images and text layers.
+// Page-sized placeholders provide a real continuous scroll range. Render every
+// visible page, plus one neighbour at either end; short pages can share a pane.
 export const PdfViewport = forwardRef<PdfViewportHandle, {
   side: number;
   infos: PageInfo[];
@@ -36,6 +36,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
   const cache = useRef(new Map<number, Snapshot>());
   const [snapshots, setSnapshots] = useState(new Map<number, Snapshot>());
   const inFlight = useRef<{ pageIndex: number; requestId: number } | null>(null);
+  const renderWindow = useRef<number[]>([]);
   const mounted = useRef(false);
   const programmaticTop = useRef<number | null>(null);
   const anchorY = useRef(0);
@@ -49,24 +50,42 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
   }
   function pump() {
     if (!mounted.current || inFlight.current) return;
-    const p = [active.current, active.current + 1, active.current - 1]
-      .find(p => props.infos[p] && !cache.current.has(p));
+    const p = renderWindow.current.find(p => !cache.current.has(p));
     if (p === undefined) return;
     inFlight.current = { pageIndex: p, requestId: callbacks.current.request(p) };
+  }
+  function refreshWindow() {
+    const el = pane.current;
+    if (!el) return;
+    const visible = props.infos.flatMap((_, p) => {
+      const page = slot(p);
+      return page && page.offsetTop < el.scrollTop + el.clientHeight &&
+        page.offsetTop + page.offsetHeight > el.scrollTop ? [p] : [];
+    });
+    const first = visible[0] ?? active.current, last = visible.at(-1) ?? first;
+    // Prioritize the selected visible page, then other visible pages, then
+    // prefetch neighbours. Eviction uses this same range, not the page counter.
+    renderWindow.current = [...new Set([
+      ...(visible.includes(active.current) ? [active.current] : []),
+      ...visible, last + 1, first - 1,
+    ])].filter(p => props.infos[p]);
+    let evicted = false;
+    for (const [p, snapshot] of cache.current) {
+      if (renderWindow.current.includes(p)) continue;
+      URL.revokeObjectURL(snapshot.url);
+      cache.current.delete(p);
+      evicted = true;
+    }
+    if (evicted) setSnapshots(new Map(cache.current));
+    pump();
   }
   function selectPage(p: number) {
     if (p !== active.current) {
       active.current = p;
       setPageIndex(p);
       callbacks.current.onPageChange(p);
-      for (const [n, snapshot] of cache.current) {
-        if (Math.abs(n - p) <= 1) continue;
-        URL.revokeObjectURL(snapshot.url);
-        cache.current.delete(n);
-      }
-      setSnapshots(new Map(cache.current));
     }
-    pump();
+    refreshWindow();
   }
   function visiblePage() {
     const el = pane.current!;
@@ -104,7 +123,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
     receive(page) {
       if (!mounted.current || page.requestId !== inFlight.current?.requestId || page.pageIndex !== inFlight.current.pageIndex) return;
       inFlight.current = null;
-      if (Math.abs(page.pageIndex - active.current) <= 1) {
+      if (renderWindow.current.includes(page.pageIndex)) {
         const url = URL.createObjectURL(new Blob([page.png], {type: "image/png"}));
         cache.current.set(page.pageIndex, {url, textLayer: page.textLayer});
         setSnapshots(new Map(cache.current));
@@ -121,7 +140,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
       if (next !== width) {
         width = next;
         goTo(active.current, anchorY.current);
-      }
+      } else refreshWindow(); // Height changes can expose additional pages.
     });
     observer.observe(pane.current!);
     return () => {

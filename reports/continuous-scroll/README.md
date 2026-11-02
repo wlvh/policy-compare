@@ -6,12 +6,22 @@
 
 ## 实现范围
 
-- 每页保留按 PDF 宽高比例计算的占位区域，保证完整的连续滚动距离。每侧仅缓存当前页及相邻页，最多3页图像／文字层；每侧最多1个渲染请求在途，快速滚动后优先处理最新目标，离开窗口的旧图像 URL 和文字层会释放。
+- 每页保留按 PDF 宽高比例计算的占位区域，保证完整的连续滚动距离。每侧缓存所有实际可见页及可见范围前后各一页，不再固定最多3页；每侧最多1个渲染请求在途，先处理可见页，再预加载相邻页。离开该范围的旧图像 URL 和文字层会释放。
 - 使用当前连续文档中的页面偏移计算来源定位和同步滚动。浏览区域宽度变化后保留当前页及页内阅读位置。
 - 修正“末页比浏览区域矮时，滚到底仍显示倒数第二页”的问题。
 - 本轮没有修改提取器、比较核心、独立评价器或导出格式；没有新增页面身份推断。缓存上限和任务资源检查不能代替完整内存峰值或指定设备性能验收。
 
-## 本地验证
+## 合并前审查与修复（2026-11-02）
+
+审查意见指出短页同屏时可能缺少原文。使用现有 R16 三页 PDF，在 1120×2400 浏览窗口中确认文档没有滚动范围，修复前只能加载2页；另从 1120×800 只增加窗口高度，同样停留在2页。两项新增浏览器回归在修复前均因“预期3页、实际2页”失败，没有修改 PDF 或作者预期。
+
+现在渲染、释放和接收异步结果使用同一个实际可见范围，窗口高度变化也会重新计算。新增回归同时检查无滚动空间时的全部页面、按钮跳转不释放仍可见页面，以及滚到底后仍可见的前页保留；原有快速滚动和释放检查保持。
+
+最终验证已包含同步进入本分支的 `babde5f`（[次数卡文字示例定位](../count-card-source/README.md)）：PDF.js、MuPDF 构建通过；两引擎各15项、共30项定向浏览器检查通过，其中连续滚动5项、次数展示4项、既有审阅6项。命令与下方相同。原始输出：[PDF.js 构建](review-build-pdfjs.log)、[MuPDF 构建](review-build-mupdf.log)、[PDF.js 浏览器](review-tests-pdfjs.log)、[MuPDF 浏览器](review-tests-mupdf.log)。
+
+以下初版日志和原文件截图保留其历史版本范围；本次没有重做原文件逐项业务验收，也没有测量完整内存峰值。
+
+## 初版的本地验证（91f4452）
 
 Node 24.22.1、pnpm 10.12.1；两引擎构建通过。
 
@@ -31,9 +41,9 @@ POLICY_ENGINE=pdfjs pnpm exec playwright test tests/browser/scroll.spec.ts tests
 POLICY_ENGINE=mupdf pnpm exec playwright test tests/browser/scroll.spec.ts tests/browser/repeat-display.spec.ts tests/browser/review.spec.ts --reporter=line
 ```
 
-保存的最终输出：[PDF.js 构建](build-pdfjs.log)、[MuPDF 构建](build-mupdf.log)、[PDF.js 浏览器测试](tests-pdfjs.log)、[MuPDF 浏览器测试](tests-mupdf.log)。没有把这24项定向测试表述为核心、浏览器全套、容器或业务验收全部通过。
+保存的初版输出：[PDF.js 构建](build-pdfjs.log)、[MuPDF 构建](build-mupdf.log)、[PDF.js 浏览器测试](tests-pdfjs.log)、[MuPDF 浏览器测试](tests-mupdf.log)。没有把这24项定向测试表述为核心、浏览器全套、容器或业务验收全部通过。
 
-## 用户原文件的实际页面核对
+## 初版用户原文件的实际页面核对（91f4452）
 
 在 PDF.js 页面重新选取用户的 `left.pdf`、`right.pdf`，仍为18／19页、103张变化卡。实际通过浏览器滚动接口操作：
 
