@@ -13,9 +13,9 @@ dist/mupdf/assets/__vite-browser-external-UfK9GVxM.js       0.11 kB
 dist/mupdf/index.html                                       0.41 kB │ gzip:     0.31 kB
 dist/mupdf/assets/rolldown-runtime-WkwZ5CU-.js              0.59 kB
 dist/mupdf/assets/core.worker-CnNIJNdf.js                 152.89 kB
-dist/mupdf/assets/pdf.worker-BCBUiecl.js                  202.98 kB
+dist/mupdf/assets/pdf.worker-ByyZ9gnE.js                  203.05 kB
 dist/mupdf/assets/mupdf-wasm-Bvf0xebB.wasm             10,409.82 kB │ gzip: 4,778.44 kB
 dist/mupdf/assets/index-Pb3-ClmU.css                        8.43 kB │ gzip:     2.60 kB
-dist/mupdf/assets/index-J3vDKDFC.js                       243.72 kB │ gzip:    77.66 kB
+dist/mupdf/assets/index-sa75iDbv.js                       244.52 kB │ gzip:    77.94 kB
 
-✓ built in 199ms
+✓ built in 186ms

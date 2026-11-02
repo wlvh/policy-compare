@@ -36,6 +36,21 @@ test('F2 damaged body produces explicit partial or failed state and clean/mixed 
  await load(page,`${root}/f2-clean.pdf`,`${root}/f2-clean.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');await expect(page.locator('.card')).toHaveCount(0);
  await load(page,`${root}/f2-mixed-before.pdf`,`${root}/f2-mixed-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('[data-ready-page="1"]')).toHaveCount(2);await expect(page.locator('.gaps')).toContainText('解析');
  const result=await exported(page);expect(result.coverage.length).toBeGreaterThanOrEqual(2);expect(result.coverage.every((c:any)=>c.pageIndex===0)).toBe(true);expect(result.differences[0].oldText).toContain('1,000');expect(result.differences[0].newText).toContain('2,000');records.push({case:'F2 mixed and clean controls',status:'PASS',result});
+ if(engine==='pdfjs'){
+  // The damaged first page is now prefetched beside the useful second page.
+  // Its preview failure must stay local, explicit, and leave navigation alive.
+  await expect(page.locator('[data-page-error="0"]')).toHaveCount(2);
+  await page.getByRole('button',{name:'基准上一页',exact:true}).click();
+  await expect(page.locator('.document').nth(0).locator('[data-page-error="0"]')).toBeInViewport();
+  await expect(page.locator('.document').nth(0)).toContainText('第 1 页原文无法显示');
+  await page.getByRole('button',{name:'基准下一页',exact:true}).click();
+  await expect(page.locator('[data-ready-page="1"]')).toHaveCount(2);
+  await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');
+  await expect(page.locator('.card')).toHaveCount(1);
+  await load(page,`${root}/f2-clean.pdf`,`${root}/f2-clean.pdf`);
+  await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
+  await expect(page.locator('[data-page-error]')).toHaveCount(0);
+ }
 });
 test('F5 visible image gap regions respect nested Form matrices and restored state',async({page})=>{
  await page.goto('/');

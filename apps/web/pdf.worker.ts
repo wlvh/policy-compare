@@ -114,9 +114,12 @@ onmessage = async (e) => {
       );
     } catch {
       postMessage({
-        type: "error",
+        type: "render-error",
         taskId,
         generation,
+        side: m.side,
+        pageIndex: m.pageIndex,
+        requestId: m.requestId,
         message: "页面渲染失败",
       });
     }

@@ -5,8 +5,10 @@ import { PageCanvas } from "./PageCanvas";
 type PageInfo = { width: number; height: number };
 type Snapshot = { url: string; textLayer?: unknown };
 export type RenderedPage = { pageIndex: number; requestId: number; png: ArrayBuffer; textLayer?: unknown };
+type RenderFailure = { pageIndex: number; requestId: number; message: string };
 export type PdfViewportHandle = {
   receive: (page: RenderedPage) => void;
+  receiveError: (error: RenderFailure) => void;
   goTo: (pageIndex: number, y?: number, inset?: number) => void;
   pointOffset: (pageIndex: number, y: number) => number | null;
   scrollToOffset: (offset: number) => void;
@@ -26,6 +28,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
   onPageChange: (pageIndex: number) => void;
   onScroll: (pageIndex: number, y: number) => void;
   onReady: (ms: number) => void;
+  onRenderError: (pageIndex: number, message: string) => void;
   onError: (message: string) => void;
 }>(function PdfViewport(props, ref) {
   const pane = useRef<HTMLDivElement>(null);
@@ -37,6 +40,8 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
   const [snapshots, setSnapshots] = useState(new Map<number, Snapshot>());
   const inFlight = useRef<{ pageIndex: number; requestId: number } | null>(null);
   const renderWindow = useRef<number[]>([]);
+  const failures = useRef(new Map<number, string>());
+  const [pageErrors, setPageErrors] = useState(new Map<number, string>());
   const mounted = useRef(false);
   const programmaticTop = useRef<number | null>(null);
   const anchorY = useRef(0);
@@ -50,7 +55,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
   }
   function pump() {
     if (!mounted.current || inFlight.current) return;
-    const p = renderWindow.current.find(p => !cache.current.has(p));
+    const p = renderWindow.current.find(p => !cache.current.has(p) && !failures.current.has(p));
     if (p === undefined) return;
     inFlight.current = { pageIndex: p, requestId: callbacks.current.request(p) };
   }
@@ -130,6 +135,14 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
       }
       pump();
     },
+    receiveError(error) {
+      if (!mounted.current || error.requestId !== inFlight.current?.requestId || error.pageIndex !== inFlight.current.pageIndex) return;
+      inFlight.current = null;
+      failures.current.set(error.pageIndex, error.message);
+      setPageErrors(new Map(failures.current));
+      callbacks.current.onRenderError(error.pageIndex, error.message);
+      pump();
+    },
   }));
   useEffect(() => {
     mounted.current = true;
@@ -178,7 +191,11 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
           coverage={props.coverage.filter(c => c.pageIndex === p)}
           onReady={ms => { if (p === active.current) callbacks.current.onReady(ms); }}
           onError={message => callbacks.current.onError(message)}
-        /> : <div className="page-placeholder">第 {p + 1} 页</div>}
+        /> : <div className="page-placeholder" data-page-error={pageErrors.has(p) ? p : undefined}>
+          {pageErrors.has(p)
+            ? <div role="note">第 {p + 1} 页原文无法显示<br />{pageErrors.get(p)}<br />请在 PDF 阅读器中核对该页；其他页面仍可浏览。</div>
+            : `第 ${p + 1} 页`}
+        </div>}
       </div>;
     })}
   </div>;

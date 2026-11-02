@@ -12,9 +12,9 @@ dist/pdfjs/assets/core.worker-CnNIJNdf.js    152.89 kB
 dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
 dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
 dist/pdfjs/assets/index-Pb3-ClmU.css           8.43 kB │ gzip:   2.60 kB
-dist/pdfjs/assets/index-DuBTYIw5.js          843.06 kB │ gzip: 258.87 kB
+dist/pdfjs/assets/index-C2Vz37QC.js          843.96 kB │ gzip: 259.16 kB
 
-✓ built in 156ms
+✓ built in 155ms
 [plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application

@@ -1,0 +1,180 @@
+{
+  "platform": "macOS arm64",
+  "browser": "Playwright Chromium 156.0.8078.4 (revision 1248)",
+  "baselineRevision": "573d2fd168449139717814b0264fee025cf3b357",
+  "candidateParent": "467b6bb86e750d930a698eed872bb1dd1d9e17b6",
+  "candidateScope": "working tree with page-local render-error fix, saved with this report",
+  "baseline": {
+    "status": "FAIL",
+    "passed": 26,
+    "total": 32,
+    "failed": [
+      "R14_short_paragraph",
+      "R31_punctuation"
+    ],
+    "notEvaluated": [
+      "R16_repagination",
+      "R18_ligature",
+      "R23_table_reorder",
+      "R24_table_cross_page"
+    ],
+    "failedRecords": [
+      {
+        "caseId": "R14_short_paragraph",
+        "status": "FAIL",
+        "eventStatus": "FAIL",
+        "faults": [
+          "Required event failed: R14_short_paragraph:E1"
+        ],
+        "notEvaluated": [],
+        "events": [
+          {
+            "eventId": "R14_short_paragraph:E1",
+            "branch": "text",
+            "verdict": "FAIL",
+            "discovery": true,
+            "attribution": false,
+            "representation": null,
+            "position": false,
+            "visibility": false,
+            "completeness": true,
+            "identity": {
+              "applicability": "not_applicable",
+              "pass": null,
+              "determined": null,
+              "claims": [],
+              "outcome": null,
+              "reason": "clause wording: no company/party or table-record identity to check; text, operation, stated facts, position, visibility and completeness still apply"
+            },
+            "falseFacts": [],
+            "pass": false
+          }
+        ],
+        "invariants": [],
+        "repeatedText": []
+      },
+      {
+        "caseId": "R31_punctuation",
+        "status": "FAIL",
+        "eventStatus": "FAIL",
+        "faults": [
+          "Invalid final changed geometry on one or more sides: d-9b21d18bde7c6dc1bad9",
+          "Required event failed: R31_punctuation:E1"
+        ],
+        "notEvaluated": [],
+        "events": [
+          {
+            "eventId": "R31_punctuation:E1",
+            "branch": "text",
+            "verdict": "FAIL",
+            "discovery": true,
+            "attribution": false,
+            "representation": null,
+            "position": false,
+            "visibility": false,
+            "completeness": true,
+            "identity": {
+              "applicability": "not_applicable",
+              "pass": null,
+              "determined": null,
+              "claims": [],
+              "outcome": null,
+              "reason": "clause wording: no company/party or table-record identity to check; text, operation, stated facts, position, visibility and completeness still apply"
+            },
+            "falseFacts": [],
+            "pass": false
+          }
+        ],
+        "invariants": [],
+        "repeatedText": []
+      }
+    ]
+  },
+  "candidate": {
+    "status": "FAIL",
+    "passed": 26,
+    "total": 32,
+    "failed": [
+      "R14_short_paragraph",
+      "R31_punctuation"
+    ],
+    "notEvaluated": [
+      "R16_repagination",
+      "R18_ligature",
+      "R23_table_reorder",
+      "R24_table_cross_page"
+    ],
+    "failedRecords": [
+      {
+        "caseId": "R14_short_paragraph",
+        "status": "FAIL",
+        "eventStatus": "FAIL",
+        "faults": [
+          "Required event failed: R14_short_paragraph:E1"
+        ],
+        "notEvaluated": [],
+        "events": [
+          {
+            "eventId": "R14_short_paragraph:E1",
+            "branch": "text",
+            "verdict": "FAIL",
+            "discovery": true,
+            "attribution": false,
+            "representation": null,
+            "position": false,
+            "visibility": false,
+            "completeness": true,
+            "identity": {
+              "applicability": "not_applicable",
+              "pass": null,
+              "determined": null,
+              "claims": [],
+              "outcome": null,
+              "reason": "clause wording: no company/party or table-record identity to check; text, operation, stated facts, position, visibility and completeness still apply"
+            },
+            "falseFacts": [],
+            "pass": false
+          }
+        ],
+        "invariants": [],
+        "repeatedText": []
+      },
+      {
+        "caseId": "R31_punctuation",
+        "status": "FAIL",
+        "eventStatus": "FAIL",
+        "faults": [
+          "Invalid final changed geometry on one or more sides: d-9b21d18bde7c6dc1bad9",
+          "Required event failed: R31_punctuation:E1"
+        ],
+        "notEvaluated": [],
+        "events": [
+          {
+            "eventId": "R31_punctuation:E1",
+            "branch": "text",
+            "verdict": "FAIL",
+            "discovery": true,
+            "attribution": false,
+            "representation": null,
+            "position": false,
+            "visibility": false,
+            "completeness": true,
+            "identity": {
+              "applicability": "not_applicable",
+              "pass": null,
+              "determined": null,
+              "claims": [],
+              "outcome": null,
+              "reason": "clause wording: no company/party or table-record identity to check; text, operation, stated facts, position, visibility and completeness still apply"
+            },
+            "falseFacts": [],
+            "pass": false
+          }
+        ],
+        "invariants": [],
+        "repeatedText": []
+      }
+    ]
+  },
+  "conclusion": "The same two rule cases fail on the baseline and candidate; this does not establish their root cause or waive their failures."
+}

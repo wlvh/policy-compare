@@ -9,6 +9,7 @@
 - 每页保留按 PDF 宽高比例计算的占位区域，保证完整的连续滚动距离。每侧缓存所有实际可见页及可见范围前后各一页，不再固定最多3页；每侧最多1个渲染请求在途，先处理可见页，再预加载相邻页。离开该范围的旧图像 URL 和文字层会释放。
 - 使用当前连续文档中的页面偏移计算来源定位和同步滚动。浏览区域宽度变化后保留当前页及页内阅读位置。
 - 修正“末页比浏览区域矮时，滚到底仍显示倒数第二页”的问题。
+- 某页生成预览失败时，按页显示错误、保留比较结果和其他页面，并继续处理后续页面。提取或比较阶段的整体错误仍按原方式终止；比较核心及导出格式没有改变，预览错误属于界面状态。
 - 本轮没有修改提取器、比较核心、独立评价器或导出格式；没有新增页面身份推断。缓存上限和任务资源检查不能代替完整内存峰值或指定设备性能验收。
 
 ## 合并前审查与修复（2026-11-02）
@@ -17,7 +18,18 @@
 
 现在渲染、释放和接收异步结果使用同一个实际可见范围，窗口高度变化也会重新计算。新增回归同时检查无滚动空间时的全部页面、按钮跳转不释放仍可见页面，以及滚到底后仍可见的前页保留；原有快速滚动和释放检查保持。
 
-最终验证已包含同步进入本分支的 `babde5f`（[次数卡文字示例定位](../count-card-source/README.md)）：PDF.js、MuPDF 构建通过；两引擎各15项、共30项定向浏览器检查通过，其中连续滚动5项、次数展示4项、既有审阅6项。命令与下方相同。原始输出：[PDF.js 构建](review-build-pdfjs.log)、[MuPDF 构建](review-build-mupdf.log)、[PDF.js 浏览器](review-tests-pdfjs.log)、[MuPDF 浏览器](review-tests-mupdf.log)。
+完整 CI 随后在 PDF.js 的 F2 混合损坏页检查中发现回归：预加载第1页失败会终止整个任务，抹去第2页的正常比较结果。本机复现后，将预览错误消息携带页码和请求编号交给对应浏览区域，显示明确错误并继续队列；已有 F2 预期不放宽，补查错误页导航、正常页和卡片保留、重新载入正常文档清除错误。见[首次失败的 CI](https://github.com/wlvh/policy-compare/actions/runs/41425736062)。
+
+验证包含同步进入本分支的 `babde5f`（[次数卡文字示例定位](../count-card-source/README.md)）。两引擎构建通过，最初各15项定向检查通过；修复 F2 后扩展到全部25项浏览器检查，macOS 使用仓库锁定的 Chromium 1248 串行执行：MuPDF **25/25通过**，PDF.js **24/25通过**。PDF.js 失败的是32对规则的综合测试，其中 R14、R31 的位置评价失败；相同浏览器、样本、预期在隔离的合并前 `main`（`573d2fd`）同样失败这两例。其余4个已登记未评价项保持未评价。没有把此结果写成本机全套通过，也没有据此声称已查明这两个失败的根因。[基线与候选的逐项对照](mac-pdfjs-rule-control.json)。
+
+默认本机 Chrome 的两次扩展运行曾因浏览器关闭而中断，未据此判断产品根因；锁定 Chromium 完成了上述检查。最终命令如下，日志仅去除行尾空白：[PDF.js 构建](review-build-pdfjs.log)、[MuPDF 构建](review-build-mupdf.log)、[PDF.js 浏览器](review-tests-pdfjs.log)、[MuPDF 浏览器](review-tests-mupdf.log)。
+
+```sh
+pnpm build:pdfjs
+pnpm build:mupdf
+POLICY_BROWSER_CHANNEL=bundled pnpm test:browser:pdfjs --reporter=list
+POLICY_BROWSER_CHANNEL=bundled pnpm test:browser:mupdf --reporter=list
+```
 
 以下初版日志和原文件截图保留其历史版本范围；本次没有重做原文件逐项业务验收，也没有测量完整内存峰值。
 

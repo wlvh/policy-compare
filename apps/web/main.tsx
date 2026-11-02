@@ -265,6 +265,7 @@ function App() {
           clearTimeout(timeout);
           failure(m.message);
         }
+        if (m.type === "render-error") viewportRefs[m.side].current?.receiveError(m);
         if (m.type === "page") {
           setPageInfos((old) => {
             const next = old.map((x) => [...x]);
@@ -798,6 +799,10 @@ function App() {
                         setImagesLoaded((old) =>
                           old.map((v, i) => (i === side ? true : v)),
                         );
+                      }}
+                      onRenderError={(pageIndex) => {
+                        setState("partial");
+                        setMessage(`比较结果已保留；${side ? "待审" : "基准"} PDF 第 ${pageIndex + 1} 页原文无法显示，详情见该页提示。请同时核对已有的缺口或未决。`);
                       }}
                       onError={(error) => {
                         setState("failed");
