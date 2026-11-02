@@ -30,6 +30,10 @@ const kinds = {
 const countOnly = (d: Difference) =>
   d.kind === "Replaced" && !d.hasTextChange && d.oldText === d.newText &&
   !!d.repeat && d.repeat.left !== d.repeat.right;
+const countDelta = (d: Difference) => {
+  const delta = d.repeat!.right - d.repeat!.left;
+  return `${delta > 0 ? "多" : "少"}出现 ${Math.abs(delta)} 次`;
+};
 const change = (d: Difference) =>
   d.kind === "Added" || d.kind === "Removed"
     ? kinds[d.kind]
@@ -74,6 +78,25 @@ function Occurrences({ difference: d, onLocate }: {
   difference: Difference;
   onLocate: (locs: SourceLocation[]) => void;
 }) {
+  if (countOnly(d)) return <details className="occurrence-details" onClick={e=>e.stopPropagation()}>
+    <summary>查看全部来源</summary>
+    <small>{d.reviewReasons.join("；")}</small>
+    <small>以下是两版的全部来源，不表示哪一处新增或减少，也不表示两版页面一一对应。</small>
+    <div className="occurrences">
+      {(["left", "right"] as const).map(side => {
+        const label = side === "left" ? "基准" : "待审";
+        const sources = d.occurrences.filter(o => o[side].length);
+        return <div key={side}>
+          <p>{label}版来源：</p>
+          {sources.map((o, i) => <button key={i}
+            aria-label={`${label}来源 ${i + 1}`}
+            title={o[side].map(l=>l.text).join("")}
+            onClick={e=>{e.stopPropagation();onLocate(o[side]);}}
+          >{label} P{o[side][0].pageIndex + 1}{o.context ? " · 上下文" : ""}</button>)}
+        </div>;
+      })}
+    </div>
+  </details>;
   const content = <div className="occurrences">
     {d.occurrences.length} 处出现位置（逐处核对{d.occurrences.some(o=>o.context)?`；其中 ${d.occurrences.filter(o=>o.context).length} 处是同一行的其他写法，只作上下文，不计入次数`:''}）：
     {d.occurrences.map((o,i)=>{
@@ -82,10 +105,7 @@ function Occurrences({ difference: d, onLocate }: {
       return <button key={i} aria-label={`出现位置 ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();onLocate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
     })}
   </div>;
-  return countOnly(d) ? <details className="occurrence-details" onClick={e=>e.stopPropagation()}>
-    <summary>查看 {d.occurrences.length} 处出现位置</summary>
-    {content}
-  </details> : content;
+  return content;
 }
 function App() {
   const [files, setFiles] = useState<(File | null)[]>([null, null]),
@@ -274,12 +294,13 @@ function App() {
           });
           const first = m.result.differences[0];
           setNeutralSelection(first ? countOnly(first) : false);
-          const leftPage = first?.left[0]?.pageIndex ?? 0,
-            rightPage = first?.right[0]?.pageIndex ?? 0;
+          const firstLocated = first && !countOnly(first) ? first : undefined;
+          const leftPage = firstLocated?.left[0]?.pageIndex ?? 0,
+            rightPage = firstLocated?.right[0]?.pageIndex ?? 0;
           setPages([leftPage, rightPage]);
           setSelection(
-            first
-              ? first.textOps
+            firstLocated
+              ? firstLocated.textOps
                   .filter((o: { kind: string }) => o.kind !== "equal")
                   .flatMap(
                     (o: {
@@ -682,6 +703,12 @@ function App() {
                 key={d.id}
                 onClick={() => {
                   setSelectedId(d.id);
+                  // A count difference does not identify an added/removed
+                  // occurrence. Clear prior highlights without guessing one.
+                  if (countOnly(d)) {
+                    locate([]);
+                    return;
+                  }
                   const ops = d.textOps
                     .filter((x) => x.kind !== "equal")
                     .flatMap((x) => [...x.left, ...x.right]);
@@ -715,7 +742,11 @@ function App() {
                   <div className="old">{d.oldText || "（无）"}</div>
                   <div className="new">{d.newText || "（无）"}</div>
                 </>}
-                {d.reviewReasons.length > 0 && (
+                {countOnly(d) && <div className="repeat-delta">
+                  <strong>{countDelta(d)}</strong>
+                  <small>具体{d.repeat!.right > d.repeat!.left ? "新增" : "减少"}位置未确定</small>
+                </div>}
+                {!countOnly(d) && d.reviewReasons.length > 0 && (
                   <small>{d.reviewReasons.join("；")}</small>
                 )}
                 {d.occurrences.length > 0 && (

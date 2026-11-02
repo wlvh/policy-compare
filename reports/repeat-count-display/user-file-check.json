@@ -3,6 +3,11 @@
   "engine": "pdfjs",
   "cards": 103,
   "sameProductFieldsExceptGeometryAndSnapshotHashes": true,
+  "comparisonExcludedFields": [
+    "extractionSnapshotHashes",
+    "quads",
+    "resolvedGeometry"
+  ],
   "countCard": {
     "id": "d-dbcb01f19601642cc979",
     "hasTextChange": false,
@@ -16,12 +21,18 @@
     }
   },
   "occurrences": 18,
+  "sourceCounts": {
+    "left": 17,
+    "right": 18
+  },
   "lastRightOccurrencePage": 19,
   "manualUiChecks": [
-    "one neutral text block, zero old/new blocks",
-    "locations initially collapsed",
-    "expanded position 18 navigates to PDF page 19",
-    "neutral location highlighting"
+    "summary shows only the increase of 1; added location explicitly undetermined",
+    "all source locations and full counts initially collapsed",
+    "clicking count summary clears previous highlights and does not change either displayed page",
+    "expanded sources list 17 baseline and 18 review locations separately",
+    "review source 18 navigates only the review side to PDF page 19; neutral highlight on that side only",
+    "returning to count summary clears neutral source highlight"
   ],
   "reference": "reports/issue-2-followup/renewal/bizav_2024_vs_2025-pdfjs.json.gz"
 }

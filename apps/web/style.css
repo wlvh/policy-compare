@@ -342,6 +342,14 @@ h3 {
 .occurrence-details summary {
   cursor: pointer;
 }
+.repeat-delta {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #3f4f5c;
+}
+.repeat-delta small {
+  margin-top: 3px;
+}
 .card small {
   display: block;
   color: #89969c;
