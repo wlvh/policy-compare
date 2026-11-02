@@ -19,9 +19,10 @@ export function createPdfClient(): PdfClient {
         if (!closed)
           client.onmessage?.({
             data: {
-              type: "error",
+              type: m.type === "render" ? "render-error" : "error",
               taskId,
               generation,
+              ...(m.type === "render" ? {side: m.side, pageIndex: m.pageIndex, requestId: m.requestId} : {}),
               message:
                 error instanceof Error ? error.message : "PDF.js 处理失败",
             },

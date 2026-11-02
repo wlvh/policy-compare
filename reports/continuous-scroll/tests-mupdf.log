@@ -1,0 +1,26 @@
+[WebServer] (node:27631) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:27652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 12 tests using 1 worker
+
+(node:27683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/12] tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the increase and does not invent a changed location
+[2/12] tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the decrease and does not invent a changed location
+[3/12] tests/browser/repeat-display.spec.ts:66:1 › changed repeated header remains a visible red-green comparison with accessible occurrences
+[4/12] tests/browser/review.spec.ts:26:1 › P1 real PDF amount, search, source quads and JSON export
+[5/12] tests/browser/review.spec.ts:45:1 › P1 identical, ligature and scan status
+[6/12] tests/browser/review.spec.ts:61:1 › cancel stops workers, old results cannot replace next task; no document upload
+[7/12] tests/browser/review.spec.ts:96:1 › repeated occurrences and uncovered image regions are navigable
+[8/12] tests/browser/review.spec.ts:100:1 › twenty complete tasks replace previous resources without refreshing the tab
+[9/12] tests/browser/review.spec.ts:105:1 › manual swap updates both file controls and comparison direction
+[10/12] tests/browser/scroll.spec.ts:21:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off
+[11/12] tests/browser/scroll.spec.ts:62:1 › synchronized wheel scrolling follows existing text alignment across pages; buttons still work
+[12/12] tests/browser/scroll.spec.ts:82:1 › a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view
+  12 passed (15.1s)

@@ -1,0 +1,40 @@
+
+> policy-compare@0.1.0 test:browser:mupdf /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> POLICY_ENGINE=mupdf playwright test --reporter\=list
+
+[WebServer] (node:38289) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:38310) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 25 tests using 1 worker
+
+(node:38316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/lifecycle.spec.ts:4:1 › twenty cancellation cycles leave no workers and allow a complete subsequent result (1.8s)
+  ✓   2 tests/browser/lifecycle.spec.ts:64:1 › a cancel click that lands after the task finished changes nothing (304ms)
+  ✓   3 tests/browser/lifecycle.spec.ts:87:1 › moved text jumps both sides; identity remains with displayed PDF after next selection (337ms)
+  ✓   4 tests/browser/lifecycle.spec.ts:116:1 › corrupt input fails and password is handled locally (535ms)
+  ✓   5 tests/browser/lifecycle.spec.ts:147:1 › non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit (443ms)
+  ✓   6 tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the increase and does not invent a changed location (549ms)
+  ✓   7 tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the decrease and does not invent a changed location (564ms)
+  ✓   8 tests/browser/repeat-display.spec.ts:73:1 › two count cards locate their own text examples on the same PDF page (510ms)
+  ✓   9 tests/browser/repeat-display.spec.ts:91:1 › changed repeated header remains a visible red-green comparison with accessible occurrences (353ms)
+  ✓  10 tests/browser/review-regressions.spec.ts:13:1 › F1 two changed deductibles retain visible sections and both real source rows (1.8s)
+  ✓  11 tests/browser/review-regressions.spec.ts:31:1 › F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful (615ms)
+  ✓  12 tests/browser/review-regressions.spec.ts:55:1 › F5 visible image gap regions respect nested Form matrices and restored state (509ms)
+  ✓  13 tests/browser/review-regressions.spec.ts:63:1 › F7 versioned resources escape old immutable cache and fixed paths revalidate (167ms)
+  ✓  14 tests/browser/review.spec.ts:26:1 › P1 real PDF amount, search, source quads and JSON export (488ms)
+  ✓  15 tests/browser/review.spec.ts:45:1 › P1 identical, ligature and scan status (778ms)
+  ✓  16 tests/browser/review.spec.ts:61:1 › cancel stops workers, old results cannot replace next task; no document upload (502ms)
+  ✓  17 tests/browser/review.spec.ts:96:1 › repeated occurrences and uncovered image regions are navigable (662ms)
+  ✓  18 tests/browser/review.spec.ts:100:1 › twenty complete tasks replace previous resources without refreshing the tab (5.4s)
+  ✓  19 tests/browser/review.spec.ts:105:1 › manual swap updates both file controls and comparison direction (623ms)
+  ✓  20 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (12.5s)
+  ✓  21 tests/browser/scroll.spec.ts:21:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off (1.2s)
+  ✓  22 tests/browser/scroll.spec.ts:62:1 › synchronized wheel scrolling follows existing text alignment across pages; buttons still work (564ms)
+  ✓  23 tests/browser/scroll.spec.ts:82:1 › a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view (523ms)
+  ✓  24 tests/browser/scroll.spec.ts:100:1 › every on-screen page renders when the complete document fits without scrolling (466ms)
+  ✓  25 tests/browser/scroll.spec.ts:115:1 › height-only resizing loads newly visible pages and retains visible predecessors at the bottom (497ms)
+
+  25 passed (33.7s)
