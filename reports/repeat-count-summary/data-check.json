@@ -1,0 +1,134 @@
+{
+  "engine": "pdfjs",
+  "source": "user left.pdf/right.pdf",
+  "rawRecords": 103,
+  "mainItems": 94,
+  "quantityItems": 9,
+  "sameProductFieldsExceptGeometryAndSnapshotHashes": true,
+  "comparisonExcludedFields": [
+    "extractionSnapshotHashes",
+    "quads",
+    "resolvedGeometry"
+  ],
+  "downloadSha256": "fd6b68b0e6c0e3d1de00590cfb71911d9027a1a5fe78efa75154a5b978f9970f",
+  "reference": "reports/issue-2-followup/renewal/bizav_2024_vs_2025-pdfjs.json.gz",
+  "quantities": [
+    {
+      "text": "Calloway",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "Calloway Specialty",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "731",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "KLB",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "Placed via PPL box",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "Calloway Limited",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "will not be signed",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "N/A",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    },
+    {
+      "text": "Contract Leader",
+      "repeat": {
+        "left": 17,
+        "right": 18,
+        "leftPages": 18,
+        "rightPages": 19
+      },
+      "sourceCounts": {
+        "left": 17,
+        "right": 18
+      }
+    }
+  ]
+}

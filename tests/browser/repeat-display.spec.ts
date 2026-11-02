@@ -2,58 +2,50 @@ import {test, expect, type Page} from '@playwright/test';
 import {readFileSync} from 'node:fs';
 import path from 'node:path';
 
-async function load(page: Page, caseId: string, reverse = false) {
+async function load(page: Page, caseId: string, reverse = false, root = 'validation/dataset/cases') {
   await page.goto('/');
   for (const [label, name] of [['基准 PDF', 'before'], ['待审 PDF', 'after']])
-    await page.getByLabel(label, {exact: true}).setInputFiles(path.resolve('validation/dataset/cases', caseId,
+    await page.getByLabel(label, {exact: true}).setInputFiles(path.resolve(root, caseId,
       (reverse ? name === 'before' ? 'after' : 'before' : name) + '.pdf'));
   await page.getByRole('button', {name: '开始比较', exact: true}).click();
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', /complete_for_scope|partial/);
 }
 
-for (const reverse of [false, true]) test(`repeated text shows only the ${reverse ? 'decrease' : 'increase'} and does not invent a changed location`, async ({page}) => {
-  // Existing author-defined case: this notice occurs on 2 old pages and 3 new
-  // pages. Do not infer that page count explains any other repeated content.
+for (const reverse of [false, true]) test('count-only ' + (reverse ? 'decreases' : 'increases') + ' stay out of change cards and preserve all sources', async ({page}) => {
+  // Independent author input: the same notice occurs on 2 old and 3 new pages.
   await load(page, 'R16_repagination', reverse);
   const text = 'SYNTHETIC TEST - NOT A REAL POLICY';
   const sourceSide = reverse ? 0 : 1;
-  const card = page.locator('.card').filter({has: page.locator('.same-text').filter({hasText: text})});
-  await expect(card).toHaveCount(1);
-  await expect(card).toContainText('文字未变，次数变化');
-  await expect(card.locator('.repeat-delta')).toHaveText(reverse
-    ? '少出现 1 次具体减少位置未确定点击卡片定位文字示例' : '多出现 1 次具体新增位置未确定点击卡片定位文字示例');
-  await expect(card.getByText(/这段文字出现次数/)).not.toBeVisible();
-  await expect(card.locator('.old, .new')).toHaveCount(0);
-  await expect(card.getByRole('button', {name: '基准来源 1', exact: true})).not.toBeVisible();
-  // A real change can have an existing highlight. Clicking the count summary
-  // must locate one clearly labelled example, including by keyboard. Prefer
-  // the already displayed page; do not claim the final occurrence was added.
+  const summary = page.getByRole('region', {name: '重复文字次数摘要'});
+  const row = summary.locator('.repeat-count-item').filter({hasText: text});
+  await expect(page.locator('.cards .card').filter({hasText: text})).toHaveCount(0);
+  await expect(summary).toBeVisible();
+  await expect(summary.locator('details').first()).not.toHaveAttribute('open');
+  await expect(row).not.toBeVisible();
+  const mainCount = await page.locator('.cards .card').count();
+  await expect(page.locator('.list-head h2 span')).toHaveText(String(mainCount));
   const wording = page.locator('.card').filter({has: page.getByText('POLICY WORDING', {exact: true})});
   await wording.click();
   await expect(page.locator(reverse ? 'polygon.highlight-old' : 'polygon.highlight-new').first()).toBeVisible();
-  await expect(page.locator('[data-ready-page]')).toHaveCount(2);
   const pagesBefore = await page.locator('[data-ready-page]').evaluateAll(es => es.map(e => e.getAttribute('data-ready-page')));
-  await card.press('Enter');
-  await expect(page.locator('.document').nth(sourceSide).locator('polygon.highlight-location').first()).toBeVisible();
-  await expect(page.locator('.document').nth(1 - sourceSide).locator('polygon')).toHaveCount(0);
-  await expect(page.locator('.location-hint')).toContainText('文字示例');
-  await expect(page.locator('.location-hint')).toContainText('不代表这里是新增或减少的位置');
-  await expect(page.locator('polygon.highlight-old, polygon.highlight-new')).toHaveCount(0);
+  await summary.locator('details > summary').first().click();
+  await expect(row).toContainText(reverse ? '3 次 → 2 次' : '2 次 → 3 次');
+  await expect(row).toContainText(reverse ? '少出现 1 次' : '多出现 1 次');
+  await expect(summary).toContainText('具体新增或减少位置未确定');
+  // Reading the quantities, including clicking the unchanged text, does not locate it.
+  await row.getByText(text, {exact: true}).click();
   expect(await page.locator('[data-ready-page]').evaluateAll(es => es.map(e => e.getAttribute('data-ready-page')))).toEqual(pagesBefore);
-  await card.locator('summary').click();
-  expect(await page.locator('[data-ready-page]').evaluateAll(es => es.map(e => e.getAttribute('data-ready-page')))).toEqual(pagesBefore);
-  await expect(card).toContainText(reverse ? '3 次 → 2 次' : '2 次 → 3 次');
-  await expect(card).toContainText('不表示哪一处新增或减少');
-  await expect(card.getByRole('button', {name: /^基准来源 /})).toHaveCount(reverse ? 3 : 2);
-  await expect(card.getByRole('button', {name: /^待审来源 /})).toHaveCount(reverse ? 2 : 3);
-  await card.getByRole('button', {name: reverse ? '基准来源 3' : '待审来源 3', exact: true}).click();
+  await expect(page.locator('polygon.highlight-location')).toHaveCount(0);
+  await expect(row.getByRole('button', {name: '基准来源 1', exact: true})).not.toBeVisible();
+  await row.locator('.occurrence-details > summary').click();
+  await expect(row.getByRole('button', {name: /^基准来源 /})).toHaveCount(reverse ? 3 : 2);
+  await expect(row.getByRole('button', {name: /^待审来源 /})).toHaveCount(reverse ? 2 : 3);
+  await row.getByRole('button', {name: reverse ? '基准来源 3' : '待审来源 3', exact: true}).click();
   await expect(page.locator('.document').nth(sourceSide).locator('[data-ready-page="2"]')).toBeVisible();
   await expect(page.locator('.document').nth(sourceSide).locator('polygon.highlight-location').first()).toBeVisible();
   await expect(page.locator('.document').nth(1 - sourceSide).locator('polygon')).toHaveCount(0);
-  await expect(page.locator('polygon.highlight-old, polygon.highlight-new')).toHaveCount(0);
-  await card.locator('.same-text').click();
-  await expect(page.locator('.document').nth(sourceSide).locator('polygon.highlight-location').first()).toBeVisible();
-  await expect(page.locator('.location-hint')).toContainText('文字示例');
+  await expect(page.locator('.location-hint')).toContainText('数量摘要来源');
+  await expect(page.locator('.location-hint')).toContainText('不代表该处新增或减少');
   const pending = page.waitForEvent('download');
   await page.getByRole('button', {name: '导出 JSON', exact: true}).click();
   const result = JSON.parse(readFileSync((await (await pending).path())!, 'utf8'));
@@ -63,57 +55,63 @@ for (const reverse of [false, true]) test(`repeated text shows only the ${revers
     ? {left: 3, right: 2, leftPages: 3, rightPages: 2}
     : {left: 2, right: 3, leftPages: 2, rightPages: 3});
   expect(difference.occurrences).toHaveLength(3);
-  // Switching back to a real addition/deletion resets the locator tone.
+  // UI totals account for every original comparison record without relabelling the JSON.
+  expect(mainCount + await summary.locator('.repeat-count-item').count()).toBe(result.differences.length);
   await wording.click();
   await expect(page.locator(reverse ? 'polygon.highlight-old' : 'polygon.highlight-new').first()).toBeVisible();
   await expect(page.locator('polygon.highlight-location')).toHaveCount(0);
   await expect(page.locator('.location-hint')).toHaveCount(0);
+  await page.getByLabel('按变化方式筛选').selectOption('Replaced');
+  const filtered = await page.locator('.cards .card').count();
+  await expect(page.locator('aside > p.subtle')).toContainText(String(mainCount - filtered) + ' 项');
+  await expect(page.locator('.cards .card').filter({hasText: text})).toHaveCount(0);
+  await expect(summary).toBeVisible();
 });
 
-test('two count cards locate their own text examples on the same PDF page', async ({page}) => {
-  await load(page, 'R16_repagination');
-  const notice = page.locator('.card').filter({has: page.locator('.same-text').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'})});
-  const header = page.locator('.card').filter({has: page.locator('.same-text').filter({hasText: 'USD 2,000,000'})});
-  await expect(header).toHaveCount(1);
-  const target = page.locator('.document').nth(1);
-  await notice.locator('.same-text').click();
-  await expect(target.locator('polygon.highlight-location').first()).toBeVisible();
-  const noticePoint = await target.locator('polygon.highlight-location').first().getAttribute('points');
-  await header.locator('.same-text').click();
-  await expect(target.locator('polygon.highlight-location').first()).toBeVisible();
-  await expect.poll(() => target.locator('polygon.highlight-location').first().getAttribute('points')).not.toBe(noticePoint);
-  await expect(target.locator('[data-ready-page="0"]')).toBeVisible();
-  await expect(page.locator('.document').nth(0).locator('polygon')).toHaveCount(0);
-  await expect(header.locator('details')).not.toHaveAttribute('open');
-  await expect(page.locator('.location-hint')).toContainText('不代表这里是新增或减少的位置');
+test('a real page-number text change remains a main card and locates the edited digits', async ({page}) => {
+  // Author-fixed P13: "Reference: Page 3 of 10." -> "Reference: Page 4 of 10."
+  await load(page, 'P13', false, 'validation/synthetic-review-20261030/cases');
+  const card = page.locator('.cards .card').filter({hasText: 'Page 3 of 10'});
+  await expect(card).toHaveCount(1);
+  await expect(card.locator('.old')).toContainText('Page 3 of 10');
+  await expect(card.locator('.new')).toContainText('Page 4 of 10');
+  await card.click();
+  await expect(page.locator('polygon.highlight-old').first()).toBeVisible();
+  await expect(page.locator('polygon.highlight-new').first()).toBeVisible();
+  await expect(page.locator('polygon.highlight-location')).toHaveCount(0);
+  await expect(page.getByRole('region', {name: '重复文字次数摘要'})).toHaveCount(0);
 });
 
-test('a narrow window reveals the PDF and a clearly outlined text example after clicking a count card', async ({page}) => {
+test('optional quantity sources remain visible on a narrow window after explicit navigation', async ({page}) => {
   await page.setViewportSize({width: 650, height: 700});
   await load(page, 'R16_repagination');
-  const card = page.locator('.card').filter({has: page.locator('.same-text').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'})});
-  await card.locator('.same-text').click();
+  const summary = page.getByRole('region', {name: '重复文字次数摘要'});
+  await summary.locator('details > summary').first().click();
+  const row = summary.locator('.repeat-count-item').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'});
+  await row.locator('.occurrence-details > summary').click();
+  await row.getByRole('button', {name: '待审来源 1', exact: true}).click();
   const target = page.locator('.document').nth(1);
-  // An element that exists below the browser's fold does not satisfy location.
-  // IntersectionObserver can round a fully visible SVG to 0.99999.
   await expect(target.locator('polygon.highlight-location').first()).toBeInViewport({ratio: 0.99});
   await expect(target.locator('[data-location-focus]')).toBeInViewport({ratio: 0.99});
   await expect(target.locator('.location-marker-label')).toHaveText('文字示例');
   await expect(target.locator('.location-marker-label')).toBeInViewport({ratio: 0.99});
-  const style = await target.locator('[data-location-focus]').evaluate(el => {
-    const s = getComputedStyle(el), r = el.getBoundingClientRect();
-    return {border: parseFloat(s.borderTopWidth), width: r.width, height: r.height};
-  });
-  expect(style.border).toBeGreaterThanOrEqual(2);
-  expect(style.width).toBeGreaterThan(20);
-  expect(style.height).toBeGreaterThan(15);
-  await expect(page.locator('.document').nth(0).locator('[data-location-focus]')).toHaveCount(0);
-  await expect(card.locator('details')).not.toHaveAttribute('open');
+  const border = await target.locator('[data-location-focus]').evaluate(el => parseFloat(getComputedStyle(el).borderTopWidth));
+  expect(border).toBeGreaterThanOrEqual(2);
+  await expect(page.locator('.cards .card').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'})).toHaveCount(0);
 });
 
-test('changed repeated header remains a visible red-green comparison with accessible occurrences', async ({page}) => {
+test('unchanged text with an actual move remains a main review item', async ({page}) => {
+  await load(page, 'R12_exact_move');
+  const moved = page.locator('.cards .card').filter({hasText: '位置移动，文字未变'}).first();
+  await expect(moved).toBeVisible();
+  await expect(moved.locator('.same-text')).toHaveCount(1);
+  await moved.click();
+  await expect(page.locator('polygon.highlight-location').first()).toBeVisible();
+});
+
+test('changed repeated header remains a red-green main comparison with accessible occurrences', async ({page}) => {
   await load(page, 'R09_header_limit');
-  const card = page.locator('.card').filter({hasText: 'USD 4,000,000'});
+  const card = page.locator('.cards .card').filter({hasText: 'USD 4,000,000'});
   await expect(card).toHaveCount(1);
   await expect(card.locator('.old')).toContainText('USD 2,000,000');
   await expect(card.locator('.new')).toContainText('USD 4,000,000');

@@ -342,13 +342,54 @@ h3 {
 .occurrence-details summary {
   cursor: pointer;
 }
-.repeat-delta {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #3f4f5c;
+.repeat-summary {
+  flex-shrink: 0;
+  margin: 0 0 10px;
+  border: 1px solid #dce4e9;
+  border-radius: 6px;
+  background: #f2f6f8;
+  font-size: 11px;
+  color: #526a75;
 }
-.repeat-delta small {
-  margin-top: 3px;
+.repeat-summary > details > summary {
+  padding: 8px;
+  cursor: pointer;
+}
+.repeat-summary-body {
+  padding: 0 8px 8px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.repeat-summary p {
+  margin: 0 0 8px;
+}
+.repeat-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.repeat-count-item + .repeat-count-item {
+  border-top: 1px solid #dce4e9;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+.repeat-count-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.repeat-count-head span {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  min-width: 0;
+}
+.repeat-count-head strong {
+  white-space: nowrap;
+}
+.repeat-summary small {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
 }
 .card small {
   display: block;
