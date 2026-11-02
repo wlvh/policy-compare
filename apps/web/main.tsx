@@ -128,6 +128,7 @@ function App() {
   const [selection, setSelection] = useState<SourceLocation[]>([]),
     [selectedId, setSelectedId] = useState(""),
     [neutralSelection, setNeutralSelection] = useState(false),
+    [locationHint, setLocationHint] = useState(""),
     [sync, setSync] = useState(true);
   const workers = useRef<{ pdf: PdfClient; core: Worker } | null>(null),
     generation = useRef(0),
@@ -194,6 +195,7 @@ function App() {
     setHits([]);
     setSelection([]);
     setNeutralSelection(false);
+    setLocationHint("");
     setPageInfos([[], []]);
     setPages([0, 0]);
     setFilter("all");
@@ -386,9 +388,10 @@ function App() {
     });
     return requestId;
   }
-  function locate(locs: SourceLocation[], neutral = false) {
+  function locate(locs: SourceLocation[], neutral = false, hint = "") {
     setSelection(locs);
     setNeutralSelection(neutral);
+    setLocationHint(hint);
     for (const [side, name] of [
       [0, "left"],
       [1, "right"],
@@ -398,6 +401,17 @@ function App() {
         showPage(side, l.pageIndex, l.quads[0][1], 90);
       }
     }
+  }
+  function locateCountExample(d: Difference) {
+    const side = d.repeat!.right > d.repeat!.left ? "right" : "left";
+    const sideIndex = side === "right" ? 1 : 0;
+    const sources = d.occurrences.filter(o => !o.context && o[side].length).map(o => o[side]);
+    // This selects an example of the unchanged text, never the unmatched tail
+    // of an ordinal occurrence list as evidence of an addition/deletion.
+    const example = sources.find(ls => ls[0].pageIndex === pages[sideIndex]) ?? sources[0] ?? d[side];
+    locate(example, true, example.length
+      ? `文字示例 · ${side === "right" ? "待审" : "基准"} PDF 第 ${example[0].pageIndex + 1} 页；此处仅供查看文字，不代表这里是新增或减少的位置。`
+      : "未找到可定位的文字示例，请查看全部来源。");
   }
   function doSearch() {
     setHits([]);
@@ -551,6 +565,7 @@ function App() {
             setPageInfos([[], []]);
             setHits([]);
             setPasswords(["", ""]);
+            setLocationHint("");
           }}
         >
           关闭任务
@@ -650,10 +665,8 @@ function App() {
                 key={d.id}
                 onClick={() => {
                   setSelectedId(d.id);
-                  // A count difference does not identify an added/removed
-                  // occurrence. Clear prior highlights without guessing one.
                   if (countOnly(d)) {
-                    locate([]);
+                    locateCountExample(d);
                     return;
                   }
                   const ops = d.textOps
@@ -692,6 +705,7 @@ function App() {
                 {countOnly(d) && <div className="repeat-delta">
                   <strong>{countDelta(d)}</strong>
                   <small>具体{d.repeat!.right > d.repeat!.left ? "新增" : "减少"}位置未确定</small>
+                  <small>点击卡片定位文字示例</small>
                 </div>}
                 {!countOnly(d) && d.reviewReasons.length > 0 && (
                   <small>{d.reviewReasons.join("；")}</small>
@@ -720,6 +734,7 @@ function App() {
               同步滚动
             </label>
           </div>
+          {locationHint && <div className="location-hint" aria-live="polite">{locationHint}</div>}
           <div className="dual">
             {[0, 1].map((side) => (
               <div className="document" key={side}>

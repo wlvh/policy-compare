@@ -1,0 +1,27 @@
+[WebServer] (node:33290) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:33318) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 13 tests using 1 worker
+
+(node:33325) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/13] tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the increase and does not invent a changed location
+[2/13] tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the decrease and does not invent a changed location
+[3/13] tests/browser/repeat-display.spec.ts:73:1 › two count cards locate their own text examples on the same PDF page
+[4/13] tests/browser/repeat-display.spec.ts:91:1 › changed repeated header remains a visible red-green comparison with accessible occurrences
+[5/13] tests/browser/review.spec.ts:26:1 › P1 real PDF amount, search, source quads and JSON export
+[6/13] tests/browser/review.spec.ts:45:1 › P1 identical, ligature and scan status
+[7/13] tests/browser/review.spec.ts:61:1 › cancel stops workers, old results cannot replace next task; no document upload
+[8/13] tests/browser/review.spec.ts:96:1 › repeated occurrences and uncovered image regions are navigable
+[9/13] tests/browser/review.spec.ts:100:1 › twenty complete tasks replace previous resources without refreshing the tab
+[10/13] tests/browser/review.spec.ts:105:1 › manual swap updates both file controls and comparison direction
+[11/13] tests/browser/scroll.spec.ts:21:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off
+[12/13] tests/browser/scroll.spec.ts:62:1 › synchronized wheel scrolling follows existing text alignment across pages; buttons still work
+[13/13] tests/browser/scroll.spec.ts:82:1 › a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view
+  13 passed (17.6s)
