@@ -20,8 +20,8 @@ async function load(page: Page, caseId: string) {
     "data-status",
     /complete_for_scope|partial/,
   );
-  await expect(page.getByAltText(/基准原文第/)).toBeVisible();
-  await expect(page.getByAltText(/待审原文第/)).toBeVisible();
+  await expect(page.locator('.document').nth(0).locator('[data-ready-page] img')).toBeVisible();
+  await expect(page.locator('.document').nth(1).locator('[data-ready-page] img')).toBeVisible();
 }
 test("P1 real PDF amount, search, source quads and JSON export", async ({
   page,

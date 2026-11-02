@@ -1,0 +1,22 @@
+
+> policy-compare@0.1.0 build:pdfjs /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 123 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/pdfjs/index.html                          0.41 kB │ gzip:   0.31 kB
+dist/pdfjs/assets/core.worker-CnNIJNdf.js    152.89 kB
+dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
+dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
+dist/pdfjs/assets/index-CnnxqZMt.css           8.30 kB │ gzip:   2.58 kB
+dist/pdfjs/assets/index-GZFrH17P.js          842.11 kB │ gzip: 258.54 kB
+
+✓ built in 159ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

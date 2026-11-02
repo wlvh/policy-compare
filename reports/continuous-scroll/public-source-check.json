@@ -1,0 +1,29 @@
+{
+  "verifiedOn": "2026-11-02",
+  "repository": "jiehuan/falcon-mini",
+  "public": true,
+  "repositoryApi": "https://api.github.com/repos/jiehuan/falcon-mini",
+  "directoryApi": "https://api.github.com/repos/jiehuan/falcon-mini/contents/testdata/renewal/bizav_2024_vs_2025",
+  "files": [
+    {
+      "name": "left.pdf",
+      "path": "testdata/renewal/bizav_2024_vs_2025/left.pdf",
+      "publicGitBlob": "136363eadd3059a3159d006d764b60ae6f07ed8b",
+      "size": 294835,
+      "url": "https://github.com/jiehuan/falcon-mini/blob/main/testdata/renewal/bizav_2024_vs_2025/left.pdf",
+      "localGitBlob": "136363eadd3059a3159d006d764b60ae6f07ed8b",
+      "localSha256": "39c95339537357a25b77a95737e26442681fb01b0a40b7330505f898bcbd918a",
+      "identicalToPublicFile": true
+    },
+    {
+      "name": "right.pdf",
+      "path": "testdata/renewal/bizav_2024_vs_2025/right.pdf",
+      "publicGitBlob": "7d525c9e3a49c7e387d725ee97578ff8f1147561",
+      "size": 296618,
+      "url": "https://github.com/jiehuan/falcon-mini/blob/main/testdata/renewal/bizav_2024_vs_2025/right.pdf",
+      "localGitBlob": "7d525c9e3a49c7e387d725ee97578ff8f1147561",
+      "localSha256": "a7bc4600f7043a7c6c2b7cabaf910a2321e8e55aa2c398d1afdb6d2f09f5d7fc",
+      "identicalToPublicFile": true
+    }
+  ]
+}

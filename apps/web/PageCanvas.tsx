@@ -6,6 +6,7 @@ export function PageCanvas({
   url,
   pageIndex,
   side,
+  active = true,
   info,
   textLayer,
   coverage=[],
@@ -18,6 +19,7 @@ export function PageCanvas({
   url: string;
   pageIndex: number;
   side: number;
+  active?: boolean;
   info: { width: number; height: number };
   textLayer?: unknown;
   coverage?:CoverageIssue[];
@@ -32,6 +34,7 @@ export function PageCanvas({
     view = useRef<TextLayerView | null>(null);
   const [width, setWidth] = useState(0),
     [loaded, setLoaded] = useState(false),
+    [resolvedPage, setResolvedPage] = useState<number | null>(null),
     [quads, setQuads] = useState<Quad[]>([]);
   useEffect(() => {
     const observer = new ResizeObserver((entries) =>
@@ -40,13 +43,12 @@ export function PageCanvas({
     if (sheet.current) observer.observe(sheet.current);
     return () => observer.disconnect();
   }, []);
-  useEffect(() => setLoaded(false), [url]);
+  useEffect(() => { setLoaded(false); setResolvedPage(null); }, [url]);
   useEffect(() => {
     if (!width || !loaded) return;
     let cancelled = false;
     view.current?.destroy();
     view.current = null;
-    delete sheet.current!.dataset.readyPage;
     const locationStart = performance.now();
     createTextLayer(layer.current!, textLayer, width)
       .then((v) => {
@@ -57,7 +59,7 @@ export function PageCanvas({
         view.current = v;
         v.resolve(evidence);
         setQuads(v.resolve(selection));
-        sheet.current!.dataset.readyPage = String(pageIndex);
+        setResolvedPage(pageIndex);
         onReady(performance.now() - locationStart);
       })
       .catch((e) => {
@@ -79,7 +81,7 @@ export function PageCanvas({
     }
   }, [selection]);
   return (
-    <div className="sheet" ref={sheet}>
+    <div className="sheet" ref={sheet} data-ready-page={active && resolvedPage === pageIndex ? pageIndex : undefined}>
       <img
         onLoad={() => setLoaded(true)}
         alt={(side ? "待审" : "基准") + "原文第 " + (pageIndex + 1) + " 页"}

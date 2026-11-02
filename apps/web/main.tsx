@@ -8,15 +8,14 @@ import type {
 } from "../../packages/contracts/index";
 import "./style.css";
 import { createPdfClient, ENGINE_NAME } from "@policy/pdf-client";
-import { PageCanvas } from "./PageCanvas";
-import type { PdfClient, TextLayerView } from "../../packages/pdf-adapter/api";
+import { PdfViewport, type PdfViewportHandle } from "./PdfViewport";
+import type { PdfClient } from "../../packages/pdf-adapter/api";
 declare global {
   interface Window {
     __policyMetrics: Record<string, unknown>;
   }
 }
 type PageInfo = { width: number; height: number };
-type Snapshot = { url: string; pageIndex: number; textLayer?: unknown };
 // A card states what was found, never how much it matters: the change, what
 // paired its two sides, and facts the texts themselves prove.
 const kinds = {
@@ -125,8 +124,7 @@ function App() {
     [searchSide, setSearchSide] = useState("both"),
     [hits, setHits] = useState<SourceLocation[][]>([]);
   const [pages, setPages] = useState([0, 0]),
-    [pageInfos, setPageInfos] = useState<PageInfo[][]>([[], []]),
-    [snapshots, setSnapshots] = useState<(Snapshot | null)[]>([null, null]);
+    [pageInfos, setPageInfos] = useState<PageInfo[][]>([[], []]);
   const [selection, setSelection] = useState<SourceLocation[]>([]),
     [selectedId, setSelectedId] = useState(""),
     [neutralSelection, setNeutralSelection] = useState(false),
@@ -134,12 +132,10 @@ function App() {
   const workers = useRef<{ pdf: PdfClient; core: Worker } | null>(null),
     generation = useRef(0),
     renderIds = useRef([0, 0]),
-    urls = useRef<string[]>([]),
     start = useRef(0),
     ready = useRef(false),
     searchRequest = useRef(0),
-    paneRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)],
-    scrollGuard = useRef(false);
+    viewportRefs = [useRef<PdfViewportHandle>(null), useRef<PdfViewportHandle>(null)];
   const metrics = useRef<Record<string, unknown>>({ activeWorkers: 0 });
   const cancellation=useRef<Int32Array|null>(null);
   function release() {
@@ -153,8 +149,6 @@ function App() {
     workers.current?.pdf.terminate();
     workers.current?.core.terminate();
     workers.current = null;
-    urls.current.forEach(URL.revokeObjectURL);
-    urls.current = [];
     metrics.current.activeWorkers = 0;
     window.__policyMetrics = { ...metrics.current };
   }
@@ -179,7 +173,6 @@ function App() {
     setState("cancelled");
     setMessage("本次任务已取消。");
     setResult(null);
-    setSnapshots([null, null]);
     setHits([]);
     metrics.current.cancelledAt = performance.now();
     window.__policyMetrics = { ...metrics.current };
@@ -203,7 +196,6 @@ function App() {
     setNeutralSelection(false);
     setPageInfos([[], []]);
     setPages([0, 0]);
-    setSnapshots([null, null]);
     setFilter("all");
     setState("running");
     setMessage("正在读取与提取 PDF…");
@@ -311,19 +303,6 @@ function App() {
               : [],
           );
           setSelectedId(first?.id ?? "");
-          for (const [side, pageIndex] of [
-            [0, leftPage],
-            [1, rightPage],
-          ])
-            pdf.postMessage({
-              type: "render",
-              taskId: token,
-              generation: token,
-              side,
-              pageIndex,
-              requestId: ++renderIds.current[side],
-              scale: 1.35,
-            });
           setState(m.result.status);
           setMessage(
             m.result.status === "partial"
@@ -337,25 +316,7 @@ function App() {
           if (!ready.current)
             metrics.current.renderMs =
               Number(metrics.current.renderMs ?? 0) + m.renderMs;
-          if (m.requestId !== renderIds.current[m.side]) return;
-          const blob = new Blob([m.png], { type: "image/png" }),
-            url = URL.createObjectURL(blob);
-          urls.current.push(url);
-          setSnapshots((old) => {
-            const copy = [...old];
-            if (copy[m.side]) {
-              URL.revokeObjectURL(copy[m.side]!.url);
-              urls.current = urls.current.filter(
-                (x) => x !== copy[m.side]!.url,
-              );
-            }
-            copy[m.side] = {
-              url,
-              pageIndex: m.pageIndex,
-              textLayer: m.textLayer,
-            };
-            return copy;
-          });
+          viewportRefs[m.side].current?.receive(m);
         }
         if (m.type === "search" && m.requestId === searchRequest.current)
           setHits(m.hits);
@@ -393,7 +354,6 @@ function App() {
   useEffect(() => {
     if (
       result &&
-      snapshots.every(Boolean) &&
       imagesLoaded.every(Boolean) &&
       !ready.current
     ) {
@@ -408,19 +368,23 @@ function App() {
         }),
       );
     }
-  }, [result, snapshots, imagesLoaded]);
-  function showPage(side: number, pageIndex: number) {
+  }, [result, imagesLoaded]);
+  function showPage(side: number, pageIndex: number, y = 0, inset = 0) {
     if (!pageInfos[side][pageIndex]) return;
-    setPages((old) => old.map((x, i) => (i === side ? pageIndex : x)));
+    viewportRefs[side].current?.goTo(pageIndex, y, inset);
+  }
+  function requestPage(side: number, pageIndex: number) {
+    const requestId = ++renderIds.current[side];
     workers.current?.pdf.postMessage({
       type: "render",
       taskId: generation.current,
       generation: generation.current,
       side,
       pageIndex,
-      requestId: ++renderIds.current[side],
+      requestId,
       scale: 1.35,
     });
+    return requestId;
   }
   function locate(locs: SourceLocation[], neutral = false) {
     setSelection(locs);
@@ -431,15 +395,7 @@ function App() {
     ] as const) {
       const l = locs.find((x) => x.side === name);
       if (l) {
-        showPage(side, l.pageIndex);
-        const pane = paneRefs[side].current;
-        if (pane) {
-          const width = pane.clientWidth;
-          pane.scrollTop = Math.max(
-            0,
-            (l.quads[0][1] * width) / pageInfos[side][l.pageIndex].width - 90,
-          );
-        }
+        showPage(side, l.pageIndex, l.quads[0][1], 90);
       }
     }
   }
@@ -465,21 +421,19 @@ function App() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  function onScroll(side: number) {
-    if (!sync || scrollGuard.current || !result) return;
-    const from = paneRefs[side].current,
-      to = paneRefs[1 - side].current;
-    if (!from || !to) return;
-    const relevant = result.alignment.filter(
-      (a) => a.leftPage === pages[0] && a.rightPage === pages[1],
-    );
-    if (!relevant.length) return;
-    scrollGuard.current = true;
-    const scale = from.clientWidth / pageInfos[side][pages[side]].width;
-    const y = from.scrollTop / scale;
-    const ordered = relevant
-      .map((a) => (side ? [a.rightY, a.leftY] : [a.leftY, a.rightY]))
+  function onScroll(side: number, pageIndex: number, y: number) {
+    if (!sync || !result) return;
+    const to = viewportRefs[1 - side].current;
+    if (!to) return;
+    // Use the existing text alignment, including across page boundaries.
+    // Equal physical page numbers alone do not establish a correspondence.
+    const ordered = result.alignment.flatMap(a => {
+      if ((side ? a.rightPage : a.leftPage) !== pageIndex) return [];
+      const offset = to.pointOffset(side ? a.leftPage : a.rightPage, side ? a.leftY : a.rightY);
+      return offset === null ? [] : [[side ? a.rightY : a.leftY, offset]];
+    })
       .sort((a, b) => a[0] - b[0]);
+    if (!ordered.length) return;
     let a = ordered[0],
       b = ordered.at(-1)!;
     for (let i = 1; i < ordered.length; i++)
@@ -490,13 +444,7 @@ function App() {
       }
     const target =
       a[1] + ((y - a[0]) * (b[1] - a[1])) / Math.max(1, b[0] - a[0]);
-    to.scrollTop = Math.max(
-      0,
-      (target * to.clientWidth) / pageInfos[1 - side][pages[1 - side]].width,
-    );
-    requestAnimationFrame(() => {
-      scrollGuard.current = false;
-    });
+    to.scrollToOffset(target);
   }
   const visible =
     result?.differences.filter(
@@ -600,7 +548,6 @@ function App() {
             setResult(null);
             setState("idle");
             setMessage("任务已关闭，文档资源已释放。");
-            setSnapshots([null, null]);
             setPageInfos([[], []]);
             setHits([]);
             setPasswords(["", ""]);
@@ -762,8 +709,7 @@ function App() {
         <section className="documents">
           <div className="viewer-toolbar">
             <span>
-              原文定位 ·{" "}
-              {ENGINE_NAME === "pdfjs" ? "文字层区间测量" : "原生字符四边形"}
+              原文定位 · 滚轮连续浏览
             </span>
             <label>
               <input
@@ -803,26 +749,19 @@ function App() {
                     </button>
                   </nav>
                 </div>
-                <div
-                  className="page-scroll"
-                  ref={paneRefs[side]}
-                  onScroll={() => onScroll(side)}
-                >
-                  {snapshots[side] &&
-                  pageInfos[side][snapshots[side]!.pageIndex] ? (
-                    <PageCanvas
-                      key={side}
-                      url={snapshots[side]!.url}
-                      pageIndex={snapshots[side]!.pageIndex}
+                {result ? <PdfViewport
+                      key={`${generation.current}-${side}`}
+                      ref={viewportRefs[side]}
+                      infos={pageInfos[side]}
+                      initialPage={pages[side]}
                       side={side}
                       neutralSelection={neutralSelection}
-                      info={pageInfos[side][snapshots[side]!.pageIndex]}
-                      textLayer={snapshots[side]!.textLayer}
-                      coverage={(result?.coverage??[]).filter(c=>c.side===(side?'right':'left')&&c.pageIndex===snapshots[side]!.pageIndex)}
+                      request={pageIndex => requestPage(side, pageIndex)}
+                      onPageChange={pageIndex => setPages(old => old.map((p, i) => i === side ? pageIndex : p))}
+                      onScroll={(pageIndex, y) => onScroll(side, pageIndex, y)}
+                      coverage={result.coverage.filter(c=>c.side===(side?'right':'left'))}
                       selection={selection.filter(
-                        (l) =>
-                          l.side === (side ? "right" : "left") &&
-                          l.pageIndex === snapshots[side]!.pageIndex,
+                        l => l.side === (side ? "right" : "left"),
                       )}
                       evidence={(
                         result?.differences.flatMap((d) => [
@@ -835,9 +774,7 @@ function App() {
                           ]),
                         ]) ?? []
                       ).filter(
-                        (l) =>
-                          l.side === (side ? "right" : "left") &&
-                          l.pageIndex === snapshots[side]!.pageIndex,
+                        l => l.side === (side ? "right" : "left"),
                       )}
                       onReady={(ms) => {
                         if (!ready.current)
@@ -851,14 +788,12 @@ function App() {
                         setState("failed");
                         setMessage("定位失败：" + error);
                       }}
-                    />
-                  ) : (
-                    <div className="page-empty">
+                    /> : (
+                    <div className="page-scroll"><div className="page-empty">
                       {side ? "待审原文" : "基准原文"}
                       <span>比较后显示可定位的 PDF 页面</span>
-                    </div>
+                    </div></div>
                   )}
-                </div>
               </div>
             ))}
           </div>

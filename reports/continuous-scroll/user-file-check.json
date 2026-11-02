@@ -1,0 +1,72 @@
+{
+  "pair": "user left.pdf/right.pdf",
+  "engine": "pdfjs",
+  "cards": 103,
+  "afterOneScreen": [
+    {
+      "currentPdfPage": 1,
+      "documentHeight": 8412,
+      "label": "基准原文连续浏览",
+      "renderedPages": 2,
+      "scrollTop": 14,
+      "viewportHeight": 540
+    },
+    {
+      "currentPdfPage": 2,
+      "documentHeight": 8879,
+      "label": "待审原文连续浏览",
+      "renderedPages": 3,
+      "scrollTop": 554,
+      "viewportHeight": 540
+    }
+  ],
+  "atEnd": [
+    {
+      "currentPdfPage": 1,
+      "documentHeight": 8412,
+      "renderedPages": 2,
+      "scrollTop": 14,
+      "viewportHeight": 540
+    },
+    {
+      "currentPdfPage": 19,
+      "documentHeight": 8879,
+      "renderedPages": 2,
+      "scrollTop": 8338.5,
+      "viewportHeight": 540
+    }
+  ],
+  "endNextPageEnabled": false,
+  "afterReturn": [
+    {
+      "page": 1,
+      "renderedPages": 2
+    },
+    {
+      "page": 1,
+      "renderedPages": 2
+    }
+  ],
+  "withSync": [
+    {
+      "page": 2,
+      "renderedPages": 3,
+      "scrollTop": 540
+    },
+    {
+      "page": 2,
+      "renderedPages": 3,
+      "scrollTop": 540
+    }
+  ],
+  "visiblePages": [
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      3
+    ]
+  ]
+}
