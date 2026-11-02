@@ -18,7 +18,7 @@
 
    第一条应显示 `v24.x.x`，最后一条应显示 `10.12.1`；已有正确版本无需重新安装。不要直接使用下载页默认的其他 Node 主版本。pnpm 安装问题可查看[官方安装说明](https://pnpm.io/installation)。
 
-2. 登录 GitHub，下载 [main 源码 ZIP](https://github.com/wlvh/policy-compare/archive/refs/heads/main.zip)并解压。仓库目前是私有的，使用者需要仓库读取权限；没有权限时请联系提供工具的维护者。
+2. 下载 [main 源码 ZIP](https://github.com/wlvh/policy-compare/archive/refs/heads/main.zip)并解压。当前仓库公开，下载源码不需要登录 GitHub。请使用此处明确指向 `main` 的链接，避免从其他分支下载旧版源码。
 3. 在解压后的 **`policy-compare-main` 文件夹**打开终端，该目录内应能看到 `package.json`。例如，macOS 解压到默认下载目录后，可执行 `cd "$HOME/Downloads/policy-compare-main"`；其他保存位置请相应调整。通过 Git 获取源码的使用者也在仓库根目录执行后续命令。
 4. 依次安装依赖、构建并启动 PDF.js 版；任何一步报错时先处理报错，再继续下一步：
 
@@ -96,7 +96,7 @@ pnpm preview:mupdf --port 8082 --strictPort
 | 浏览器打不开本地地址 | 确认终端中的启动命令仍在运行，且打开的地址、端口与终端输出一致。 |
 | 8080 端口被占用 | 如已有本工具服务，可直接使用；也可改成 `pnpm preview:pdfjs --port 8083 --strictPort`，随后打开 http://127.0.0.1:8083/。 |
 | 提示构建目录不存在 | 先完成 `pnpm install --frozen-lockfile`、对应引擎的安装和 `pnpm build:pdfjs`（或 `pnpm build:mupdf`）。 |
-| 下载源码或运行包返回 404 / 无权限 | 检查是否登录了获准读取本仓库的 GitHub 账号，向维护者确认访问权限。 |
+| 下载源码或运行包返回 404 / 无权限 | 确认使用了上方的源码或历史发布链接；仍无法访问时，向维护者确认链接及仓库访问状态。 |
 
 ## 给其他人使用与反馈
 
