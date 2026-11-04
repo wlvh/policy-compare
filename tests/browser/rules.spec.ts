@@ -14,7 +14,7 @@ test("all 32 pairs: no failure with browser fine location, only registered cover
   test.setTimeout(180_000);
   const { extractPdf } = await loadEngine(engine);
   const records: ReturnType<typeof grade>[] = [];
-  await page.goto("/");
+  await page.goto("./");
   for (const meta of manifest.cases) {
     const dir = path.resolve("validation/dataset/cases", meta.case_id);
     await page
@@ -77,12 +77,12 @@ test("all 32 pairs: no failure with browser fine location, only registered cover
       score.notEvaluated.some((n) => n.kind !== "invariant_unsupported")
     )
       writeFileSync(
-        `reports/failures/browser-${engine}-${meta.case_id}.json`,
+        `${process.env.POLICY_REPORT_DIR || 'reports'}/failures/browser-${engine}-${meta.case_id}.json`,
         JSON.stringify({ score, result }, null, 2),
       );
   }
   writeFileSync(
-    `reports/browser-rules-${engine}.json`,
+    `${process.env.POLICY_REPORT_DIR || 'reports'}/browser-rules-${engine}.json`,
     JSON.stringify(
       {
         engine,

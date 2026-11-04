@@ -1,0 +1,14 @@
+{
+  "environment": "local",
+  "namespace": null,
+  "releaseId": null,
+  "image": null,
+  "architecture": null,
+  "host": null,
+  "replicas": 1,
+  "routeLabels": null,
+  "ingressPeers": null,
+  "platformVersion": null,
+  "internalIngressController": null,
+  "contact": null
+}

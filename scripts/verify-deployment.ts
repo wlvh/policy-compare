@@ -1,0 +1,11 @@
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { recordEnvironment } from './delivery-evidence.ts';
+if (!process.env.POLICY_BASE_URL) throw new Error('Set POLICY_BASE_URL, POLICY_RELEASE_ID, POLICY_ENGINE and POLICY_MANIFEST_SHA256 from the expected artifact');
+const dir = process.env.POLICY_REPORT_DIR;
+if (!dir) throw new Error('Set a layer/version-specific POLICY_REPORT_DIR; evidence must not overwrite another layer');
+mkdirSync(dir,{recursive:true});
+await recordEnvironment(dir);
+const result = spawnSync('pnpm',['exec','playwright','test',...process.argv.slice(2)],{stdio:'inherit',env:process.env});
+writeFileSync(`${dir}/verification.json`,JSON.stringify({target:process.env.POLICY_BASE_URL,releaseId:process.env.POLICY_RELEASE_ID,engine:process.env.POLICY_ENGINE,manifestSha256:process.env.POLICY_MANIFEST_SHA256,exitCode:result.status,status:result.status===0?'PASS':'FAIL',scope:'Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance'},null,2)+'\n');
+process.exit(result.status ?? 1);

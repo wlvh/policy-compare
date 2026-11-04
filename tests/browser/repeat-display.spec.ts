@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import path from 'node:path';
 
 async function load(page: Page, caseId: string, reverse = false, root = 'validation/dataset/cases') {
-  await page.goto('/');
+  await page.goto('./');
   for (const [label, name] of [['基准 PDF', 'before'], ['待审 PDF', 'after']])
     await page.getByLabel(label, {exact: true}).setInputFiles(path.resolve(root, caseId,
       (reverse ? name === 'before' ? 'after' : 'before' : name) + '.pdf'));

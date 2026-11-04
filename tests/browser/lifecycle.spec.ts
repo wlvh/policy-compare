@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 test("twenty cancellation cycles leave no workers and allow a complete subsequent result", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   await page
     .getByLabel("基准 PDF", { exact: true })
     .setInputFiles(
@@ -45,7 +45,7 @@ test("twenty cancellation cycles leave no workers and allow a complete subsequen
   );
   await expect(page.locator(".card")).toContainText("USD 4,000,000");
   writeFileSync(
-    `reports/cancellation-${process.env.POLICY_ENGINE ?? "mupdf"}.json`,
+    `${process.env.POLICY_REPORT_DIR || 'reports'}/cancellation-${process.env.POLICY_ENGINE ?? "mupdf"}.json`,
     JSON.stringify(
       {
         status: Math.max(...timings) <= 1000 ? "PASS" : "FAIL",
@@ -64,7 +64,7 @@ test("twenty cancellation cycles leave no workers and allow a complete subsequen
 test("a cancel click that lands after the task finished changes nothing", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   await page
     .getByLabel("基准 PDF", { exact: true })
     .setInputFiles(
@@ -87,7 +87,7 @@ test("a cancel click that lands after the task finished changes nothing", async 
 test("moved text jumps both sides; identity remains with displayed PDF after next selection", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   await page
     .getByLabel("基准 PDF", { exact: true })
     .setInputFiles(
@@ -116,7 +116,7 @@ test("moved text jumps both sides; identity remains with displayed PDF after nex
 test("corrupt input fails and password is handled locally", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   await page
     .getByLabel("基准 PDF", { exact: true })
     .setInputFiles(path.resolve("tests/fixtures/mechanisms/corrupt.pdf"));
@@ -147,7 +147,7 @@ test("corrupt input fails and password is handled locally", async ({
 test("non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
   const file = path.resolve(
     "tests/fixtures/mechanisms/crop-rotate-userunit.pdf",
   );
@@ -187,6 +187,6 @@ test("non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit
   expect(intersection / area(expected)).toBeGreaterThan(0.55);
   expect(area(actual) / area(expected)).toBeLessThan(2.5);
   await page.screenshot({
-    path: `reports/rotated-location-${process.env.POLICY_ENGINE ?? "mupdf"}.png`,
+    path: `${process.env.POLICY_REPORT_DIR || 'reports'}/rotated-location-${process.env.POLICY_ENGINE ?? "mupdf"}.png`,
   });
 });

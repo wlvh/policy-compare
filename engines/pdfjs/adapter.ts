@@ -55,7 +55,7 @@ export class PdfJsSession implements PdfSessionApi {
       ? decodeURIComponent(
           new URL("./node_modules/pdfjs-dist/", import.meta.url).pathname,
         )
-      : `/pdfjs/${pdfjs.version}/`;
+      : `${import.meta.env.BASE_URL}pdfjs/${pdfjs.version}/`;
     const task = pdfjs.getDocument({
       data: Uint8Array.from(bytes),
       password,

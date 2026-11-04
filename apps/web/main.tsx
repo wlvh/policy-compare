@@ -10,6 +10,7 @@ import "./style.css";
 import { createPdfClient, ENGINE_NAME } from "@policy/pdf-client";
 import { PdfViewport, type PdfViewportHandle } from "./PdfViewport";
 import type { PdfClient } from "../../packages/pdf-adapter/api";
+import { buildInfo } from './build-info';
 declare global {
   interface Window {
     __policyMetrics: Record<string, unknown>;
@@ -137,6 +138,9 @@ function App() {
     [activeNames, setActiveNames] = useState(["", ""]),
     [imagesLoaded, setImagesLoaded] = useState([false, false]);
   const [engineReady, setEngineReady] = useState(false);
+  const [startupError, setStartupError] = useState('');
+  const [sampleLoading, setSampleLoading] = useState(false);
+  const sampleRequest = useRef<AbortController | null>(null);
   const prepared = useRef<{ client: PdfClient; ready: Promise<void> } | null>(
       null,
     ),
@@ -166,6 +170,8 @@ function App() {
   const metrics = useRef<Record<string, unknown>>({ activeWorkers: 0 });
   const cancellation=useRef<Int32Array|null>(null);
   function release() {
+    sampleRequest.current?.abort();
+    sampleRequest.current = null;
     if(cancellation.current)Atomics.store(cancellation.current,0,1);
     cancellation.current=null;
     initializing.current?.terminate();
@@ -179,19 +185,36 @@ function App() {
     metrics.current.activeWorkers = 0;
     window.__policyMetrics = { ...metrics.current };
   }
-  useEffect(() => {
-    const client = createPdfClient();
-    const ready = new Promise<void>((resolve, reject) => {
+  function prepareEngine() {
+    setStartupError('');
+    try {
+      if (!window.isSecureContext || !window.crossOriginIsolated || typeof SharedArrayBuffer === 'undefined')
+        throw new Error('网站安全配置不完整。请从本机地址或受信任的 HTTPS 入口打开；仍失败请联系维护者检查隔离响应头。');
+      if (typeof Worker === 'undefined' || typeof WebAssembly === 'undefined')
+        throw new Error('此浏览器缺少后台计算能力，请使用组织支持的新版 Chrome 或 Edge。');
+      const client = createPdfClient();
+      const ready = new Promise<void>((resolve, reject) => {
+      const timeout = window.setTimeout(() => reject(new Error('引擎资源加载超过 15 秒，请检查网络并重试。')), 15_000);
       client.onmessage = (e) => {
         if (e.data.type === "ready") {
+          clearTimeout(timeout);
           setEngineReady(true);
           resolve();
         }
       };
-      client.onerror = reject;
+      client.onerror = () => { clearTimeout(timeout); reject(new Error('引擎资源加载失败，请重试；仍失败请联系维护者。')); };
     });
     prepared.current = { client, ready };
-    void ready.catch(() => setMessage("引擎初始化失败，请重新开始任务。"));
+    void ready.catch(error => {
+      if (prepared.current?.client !== client) return;
+      client.terminate();
+      prepared.current = null;
+      setStartupError(error.message);
+    });
+    } catch (error) { setStartupError((error as Error).message); }
+  }
+  useEffect(() => {
+    prepareEngine();
     return () => release();
   }, []);
   function cancel() {
@@ -204,7 +227,8 @@ function App() {
     metrics.current.cancelledAt = performance.now();
     window.__policyMetrics = { ...metrics.current };
   }
-  async function run() {
+  async function run(selected = files, selectedPasswords = passwords) {
+    const files = selected;
     if (!files[0] || !files[1]) return;
     const warm = prepared.current;
     prepared.current = null;
@@ -261,7 +285,8 @@ function App() {
         generation.current++;
         release();
         setState("failed");
-        setMessage(text);
+        setMessage(text.includes('PASSWORD') ? `PDF 需要正确密码，请在对应文件下输入后重试（${text.includes('PASSWORD_REQUIRED') ? 'PASSWORD_REQUIRED' : 'PASSWORD_ERROR'}）。`
+          : /invalid|corrupt|format|损坏|解析/i.test(text) ? 'PDF 无法完整读取，可能已损坏或格式不受支持。请用原阅读器检查或重新取得文件。' : text);
         setResult(null);
       }
       const timeout = window.setTimeout(
@@ -280,7 +305,7 @@ function App() {
               taskId: token,
               generation: token,
               bytes,
-              passwords,
+              passwords: selectedPasswords,
               port: channel.port2,
             },
             [...bytes, channel.port2],
@@ -369,17 +394,50 @@ function App() {
             taskId: token,
             generation: token,
             bytes,
-            passwords,
+            passwords: selectedPasswords,
             port: channel.port2,
           },
           [...bytes, channel.port2],
         );
       }
     } catch {
+      if (token !== generation.current) return;
       release();
       setState("failed");
       setMessage("文件读取或任务启动失败");
     }
+  }
+  async function trySample(id: string) {
+    generation.current++;
+    release();
+    const token = generation.current;
+    const controller = new AbortController();
+    sampleRequest.current = controller;
+    setSampleLoading(true);
+    setResult(null);
+    setState('idle');
+    setMessage('正在从本站加载虚构样例…');
+    try {
+      const sampleFiles = await Promise.all(['before.pdf','after.pdf'].map(async name => {
+        const response = await fetch(`${import.meta.env.BASE_URL}samples/${id}/${name}`, {signal:controller.signal});
+        if (!response.ok) throw new Error('sample unavailable');
+        return new File([await response.blob()], `${id}-${name}`, {type:'application/pdf'});
+      }));
+      if (token !== generation.current) return;
+      sampleRequest.current = null;
+      setFiles(sampleFiles); setPasswords(['','']);
+      sampleFiles.forEach((file, side) => { const transfer = new DataTransfer(); transfer.items.add(file); (document.getElementById(`file-${side}`) as HTMLInputElement).files = transfer.files; });
+      await run(sampleFiles, ['', '']);
+    } catch {
+      if (token === generation.current) { setState('failed'); setMessage('样例加载失败，请检查连接后重试。'); }
+    } finally { setSampleLoading(false); }
+  }
+  function exportDiagnostic() {
+    const data = {releaseId:buildInfo.releaseId, engine:buildInfo.engine, engineVersion:buildInfo.engineVersion,
+      browser:navigator.userAgent, phase:state, errorCode:startupError ? 'STARTUP_FAILED' : state === 'failed' ? 'TASK_FAILED' : 'NONE'};
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+    const a = document.createElement('a'); a.href=url; a.download='policy-diagnostic.json'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   useEffect(() => {
     if (
@@ -527,6 +585,23 @@ function App() {
           本地处理<span>不上传文档 · 无 OCR</span>
         </div>
       </header>
+      <section className="welcome" aria-label="首次使用">
+        <details><summary>使用说明与版本信息</summary>
+          <p>选择基准与待审 PDF（每份最多 100 页、30 MiB），需要时输入密码，再开始比较。点击变化查看两侧原文；黄色提示表示有未比较内容或对应未确定。筛选会隐藏部分变化，核对结束前回到全部变化。JSON 导出含原文，分享前请确认资料授权；关闭任务后释放当前文档资源。</p>
+          <p>仅比较可提取文字，不识别扫描图片文字，不判断业务风险。复杂表格归属和部分高亮仍有已知问题，当前供受控开发试用，不能作为完整审单结论。</p>
+          <p>发布版本：{buildInfo.releaseId} · 引擎：{buildInfo.engine} {buildInfo.engineVersion} · 源码：{buildInfo.revision.slice(0,12)}</p>
+          <p>维护联系：{buildInfo.contact}。反馈时可主动下载诊断；其中只有版本、浏览器、阶段和错误代码。</p>
+          <button onClick={exportDiagnostic}>下载诊断</button>
+        </details>
+        <p>一键试用虚构样例（自动开始比较）：</p>
+        <div className="actions">
+          {([['P02','金额变化','1315 的 USD 100 → USD 2000；1760 的 USD 1000 未改'],['P01','相同文件','没有内容变化卡'],['E03','扫描图片','必须提示图片文字尚未比较，不能理解为无变化']] as const).map(([id,label,note]) =>
+            <button key={id} disabled={state === 'running' || sampleLoading || !!startupError} onClick={()=>void trySample(id)} title={note}>{id} {label}</button>)}
+        </div>
+        <p className="subtle">P02：金额修改且能定位；P01：相同文件无内容变化；E03：扫描图片应提示文字未比较。</p>
+        {startupError ? <div role="alert"><p>{startupError}</p><button onClick={()=>{release();prepareEngine();}}>重试启动</button></div>
+          : !engineReady && state === 'idle' && prepared.current && <p>正在准备比较引擎…</p>}
+      </section>
       <section className="input-panel" aria-label="文档选择">
         {[0, 1].map((side) => (
           <div className="file-field" key={side}>
@@ -562,8 +637,8 @@ function App() {
         <div className="actions">
           <button
             className="primary"
-            onClick={run}
-            disabled={!files.every(Boolean)}
+            onClick={()=>void run()}
+            disabled={!files.every(Boolean) || !!startupError || sampleLoading}
           >
             开始比较
           </button>
@@ -614,6 +689,10 @@ function App() {
             setPageInfos([[], []]);
             setHits([]);
             setPasswords(["", ""]);
+            setFiles([null,null]);
+            setActiveNames(['','']);
+            setQuery('');
+            for (const side of [0,1]) (document.getElementById(`file-${side}`) as HTMLInputElement).value = '';
             setLocationHint("");
             setReferenceSide(null);
           }}

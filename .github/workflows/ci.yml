@@ -96,8 +96,11 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: 24.19.0}
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
       - name: Build and start the selected Linux image
         run: pnpm test:container ${{ matrix.engine }}
+        env:
+          POLICY_BROWSER_CHANNEL: bundled
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -105,3 +108,4 @@ jobs:
           path: |
             reports/container-${{ matrix.engine }}.json
             reports/container-build-${{ matrix.engine }}.log
+            reports/local-deploy/
