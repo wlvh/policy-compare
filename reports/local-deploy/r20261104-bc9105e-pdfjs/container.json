@@ -1,0 +1,23 @@
+{
+  "engine": "pdfjs",
+  "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+  "releaseId": "r20261104-bc9105e",
+  "platform": "linux/arm64",
+  "status": "FAIL",
+  "imageId": "sha256:9cd5638c8f82934a88b0614737067c42e4b4d78da08d6b8484a4334a4b97dfaa",
+  "repoDigests": [],
+  "baseImage": "node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53",
+  "architecture": "arm64",
+  "manifestSha256": "8588407d553fb9297a35f169f2bdc0b1184982ebd2b48b00a29baed17513a849",
+  "container": {
+    "image": "sha256:9cd5638c8f82934a88b0614737067c42e4b4d78da08d6b8484a4334a4b97dfaa",
+    "readOnly": true,
+    "user": "12345:12345",
+    "memory": 268435456,
+    "nanoCpus": 1000000000,
+    "mounts": []
+  },
+  "origin": "http://127.0.0.1:56557",
+  "scope": "L2-A actual image and browser only; not OpenShift or performance acceptance",
+  "reason": "Command failed: pnpm verify:deployment tests/browser/deployment.spec.ts tests/browser/lifecycle.spec.ts tests/browser/review.spec.ts tests/browser/review-regressions.spec.ts tests/browser/scroll.spec.ts tests/browser/one-sided-navigation.spec.ts tests/browser/repeat-display.spec.ts\n(node:40683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:41149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+}

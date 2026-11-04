@@ -1,0 +1,114 @@
+{
+  "releaseId": "r20261104-bfc9161",
+  "revision": "bfc916161bf774e52f38b09064f209fefccc364e",
+  "engine": "mupdf",
+  "engineVersion": "1.28.1",
+  "base": "/releases/r20261104-bfc9161/",
+  "resources": [
+    {
+      "path": "assets/__vite-browser-external-UfK9GVxM.js",
+      "bytes": 119,
+      "sha256": "182b2b054bed5137d2bfd5c76af35d84196dc250e806d60c76233d28b5873598"
+    },
+    {
+      "path": "assets/core.worker-CnNIJNdf.js",
+      "bytes": 152899,
+      "sha256": "3e0edf40def73ef7b46e0780e1f7a0c72e3bb0fd08e8328aa043e77b0ffc955b"
+    },
+    {
+      "path": "assets/index-BsZ4Cosx.js",
+      "bytes": 2583,
+      "sha256": "64bb03f2157d126bf519f9c279e8316021496882ecec4e45d93a57a3e7350bff"
+    },
+    {
+      "path": "assets/index-DOmGcSji.css",
+      "bytes": 9955,
+      "sha256": "46cdff351e4bd663dfd5ea01ebf7fa3a5509772bd83127a75da1e52786961081"
+    },
+    {
+      "path": "assets/main-CUGcqP34.js",
+      "bytes": 251634,
+      "sha256": "6eba857cc21fb12cf9187d480d57a55be624653cd46b8a4fe2f9951bd71f7dbf"
+    },
+    {
+      "path": "assets/mupdf-wasm-Bvf0xebB.wasm",
+      "bytes": 10409826,
+      "sha256": "5a30ef7b027f541ea8fc54e7c73f16414b0b59940741a12efe5e55f1fd0a99d7"
+    },
+    {
+      "path": "assets/pdf.worker-CmCLSFl2.js",
+      "bytes": 203077,
+      "sha256": "d11bdfc9617c14b0fd54ed4c6b722cb4becc3694180477b953791b43203ebfe8"
+    },
+    {
+      "path": "assets/rolldown-runtime-WkwZ5CU-.js",
+      "bytes": 599,
+      "sha256": "2629f2ad3cb75a57d98de697127f5af7d777ef572bbcdfa6e3ce8f438cd4527e"
+    },
+    {
+      "path": "index.html",
+      "bytes": 733,
+      "sha256": "493c80a5aef985666510cec3d28a320c1c43b7bca3285836641eb0e597874f05"
+    },
+    {
+      "path": "licenses/common/@noble-hashes/LICENSE",
+      "bytes": 1109,
+      "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec"
+    },
+    {
+      "path": "licenses/common/react/LICENSE",
+      "bytes": 1088,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "licenses/common/react-dom/LICENSE",
+      "bytes": 1088,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "licenses/common/scheduler/LICENSE",
+      "bytes": 1088,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "licenses/common/zod/LICENSE",
+      "bytes": 1072,
+      "sha256": "3f1189b28e3866e0d979968d466b78f813f76827cfdca1fbb124cc0a5c8841f8"
+    },
+    {
+      "path": "licenses/mupdf-LICENSE",
+      "bytes": 34520,
+      "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6"
+    },
+    {
+      "path": "samples/E03/after.pdf",
+      "bytes": 46598,
+      "sha256": "a0405599332d7f971dc4d7a6b3c2cdd030cd5d41b509158f04b7101202411a8a"
+    },
+    {
+      "path": "samples/E03/before.pdf",
+      "bytes": 46091,
+      "sha256": "bcd232bf25c42324a4ea0008ebc28c408b5f71ce6f655de93bbb63b40a975eb7"
+    },
+    {
+      "path": "samples/P01/after.pdf",
+      "bytes": 2109,
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0"
+    },
+    {
+      "path": "samples/P01/before.pdf",
+      "bytes": 2109,
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0"
+    },
+    {
+      "path": "samples/P02/after.pdf",
+      "bytes": 2117,
+      "sha256": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963"
+    },
+    {
+      "path": "samples/P02/before.pdf",
+      "bytes": 2116,
+      "sha256": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2"
+    }
+  ]
+}

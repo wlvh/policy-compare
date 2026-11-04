@@ -2,9 +2,11 @@ import { it, expect } from 'vitest';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
 import { resolve } from 'node:path';
+import { existsSync } from 'node:fs';
 it('local launcher refuses an occupied port, then starts and stops only its own service',async()=>{
  const probe=createServer();await new Promise<void>(r=>probe.listen(0,'127.0.0.1',r));const port=(probe.address() as {port:number}).port;
- const launch=()=>spawn(process.execPath,['--import','tsx',resolve('scripts/local-dev.ts'),'mupdf',String(port)],{env:{...process.env,POLICY_NO_OPEN:'1'},stdio:['ignore','pipe','pipe']});
+ const engine=process.env.POLICY_ENGINE || (existsSync('engines/mupdf/node_modules/mupdf')?'mupdf':'pdfjs');
+ const launch=()=>spawn(process.execPath,['--import','tsx',resolve('scripts/local-dev.ts'),engine,String(port)],{env:{...process.env,POLICY_NO_OPEN:'1'},stdio:['ignore','pipe','pipe']});
  const occupied=launch();let message='';occupied.stderr.on('data',b=>message+=b);expect(await new Promise(r=>occupied.once('exit',r))).toBe(1);expect(message).toContain('已被占用');expect(probe.listening).toBe(true);
  await new Promise<void>(r=>probe.close(()=>r()));
  const child=launch();

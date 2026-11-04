@@ -1,0 +1,91 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/deployment.spec.ts tests/browser/lifecycle.spec.ts tests/browser/review.spec.ts tests/browser/review-regressions.spec.ts tests/browser/scroll.spec.ts tests/browser/one-sided-navigation.spec.ts tests/browser/repeat-display.spec.ts
+
+
+Running 34 tests using 1 worker
+
+  ✓   1 tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic (1.3s)
+  ✓   2 tests/browser/deployment.spec.ts:46:1 › missing isolation is actionable and comparison cannot start (227ms)
+  ✓   3 tests/browser/deployment.spec.ts:60:1 › engine bundle download failure leaves a reload screen (374ms)
+  ✓   4 tests/browser/lifecycle.spec.ts:4:1 › twenty cancellation cycles leave no workers and allow a complete subsequent result (3.3s)
+  ✓   5 tests/browser/lifecycle.spec.ts:64:1 › a cancel click that lands after the task finished changes nothing (480ms)
+  ✓   6 tests/browser/lifecycle.spec.ts:87:1 › moved text jumps both sides; identity remains with displayed PDF after next selection (514ms)
+  ✓   7 tests/browser/lifecycle.spec.ts:116:1 › corrupt input fails and password is handled locally (734ms)
+  ✓   8 tests/browser/lifecycle.spec.ts:147:1 › non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit (517ms)
+  ✓   9 tests/browser/one-sided-navigation.spec.ts:14:38 › added text navigates the missing side to reference context only when sync is enabled (588ms)
+  ✓  10 tests/browser/one-sided-navigation.spec.ts:14:38 › removed text navigates the missing side to reference context only when sync is enabled (620ms)
+  ✓  11 tests/browser/one-sided-navigation.spec.ts:43:1 › different page counts do not force equal physical page numbers (498ms)
+  ✓  12 tests/browser/one-sided-navigation.spec.ts:56:1 › an unextractable counterpart uses a labelled page reference, never a claimed text match (478ms)
+  ✓  13 tests/browser/one-sided-navigation.spec.ts:72:1 › a paired paragraph navigates both direct sources even when only one side has edited characters (510ms)
+  ✓  14 tests/browser/repeat-display.spec.ts:14:38 › count-only increases stay out of change cards and preserve all sources (743ms)
+  ✓  15 tests/browser/repeat-display.spec.ts:14:38 › count-only decreases stay out of change cards and preserve all sources (759ms)
+  ✓  16 tests/browser/repeat-display.spec.ts:72:1 › a real page-number text change remains a main card and locates the edited digits (359ms)
+  ✓  17 tests/browser/repeat-display.spec.ts:86:1 › optional quantity sources remain visible on a narrow window after explicit navigation (639ms)
+  ✓  18 tests/browser/repeat-display.spec.ts:104:1 › unchanged text with an actual move remains a main review item (536ms)
+  ✓  19 tests/browser/repeat-display.spec.ts:113:1 › changed repeated header remains a red-green main comparison with accessible occurrences (526ms)
+  ✓  20 tests/browser/review-regressions.spec.ts:13:1 › F1 two changed deductibles retain visible sections and both real source rows (2.2s)
+  ✓  21 tests/browser/review-regressions.spec.ts:31:1 › F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful (1.1s)
+  ✓  22 tests/browser/review-regressions.spec.ts:55:1 › F5 visible image gap regions respect nested Form matrices and restored state (634ms)
+  -  23 tests/browser/review-regressions.spec.ts:63:1 › F7 versioned resources escape old immutable cache and fixed paths revalidate
+  ✓  24 tests/browser/review.spec.ts:26:1 › P1 real PDF amount, search, source quads and JSON export (670ms)
+  ✓  25 tests/browser/review.spec.ts:45:1 › P1 identical, ligature and scan status (1.0s)
+  ✓  26 tests/browser/review.spec.ts:61:1 › cancel stops workers, old results cannot replace next task; no document upload (576ms)
+  ✓  27 tests/browser/review.spec.ts:96:1 › repeated occurrences and uncovered image regions are navigable (794ms)
+  ✓  28 tests/browser/review.spec.ts:100:1 › twenty complete tasks replace previous resources without refreshing the tab (5.4s)
+  ✓  29 tests/browser/review.spec.ts:105:1 › manual swap updates both file controls and comparison direction (682ms)
+  ✓  30 tests/browser/scroll.spec.ts:28:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off (1.4s)
+  ✓  31 tests/browser/scroll.spec.ts:71:1 › synchronized wheel scrolling follows existing text alignment across pages; buttons still work (712ms)
+  ✓  32 tests/browser/scroll.spec.ts:91:1 › a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view (693ms)
+  ✓  33 tests/browser/scroll.spec.ts:109:1 › every on-screen page renders when the complete document fits without scrolling (608ms)
+  ✘  34 tests/browser/scroll.spec.ts:124:1 › height-only resizing loads newly visible pages and retains visible predecessors at the bottom (392ms)
+
+
+  1) tests/browser/scroll.spec.ts:124:1 › height-only resizing loads newly visible pages and retains visible predecessors at the bottom 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('[data-status]')
+    Expected pattern: /complete_for_scope|partial/
+    Received string:  "running"
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-status]') with timeout 5000ms
+      - waiting for locator('[data-status]')
+        3 × locator resolved to <section role="status" class="status " data-status="running">…</section>
+          - unexpected value "running"
+      - Target page, context or browser has been closed
+
+
+       7 |     await page.getByLabel(label, {exact: true}).setInputFiles(path.resolve('validation/dataset/cases', caseId, name + '.pdf'));
+       8 |   await page.getByRole('button', {name: '开始比较', exact: true}).click();
+    >  9 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', /complete_for_scope|partial/);
+         |                                               ^
+      10 |   await expect(page.locator('[data-ready-page]')).toHaveCount(2);
+      11 |   // The first selected item is now a real content change, which may be on a
+      12 |   // later page. Scroll tests explicitly start at page one on both sides.
+        at load (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/scroll.spec.ts:9:47)
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/scroll.spec.ts:126:3
+
+    Error: browserContext.close: Target page, context or browser has been closed
+
+    Error Context: test-results/pdfjs/scroll-height-only-resizin-806d9--predecessors-at-the-bottom/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pdfjs/scroll-height-only-resizin-806d9--predecessors-at-the-bottom/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/pdfjs/scroll-height-only-resizin-806d9--predecessors-at-the-bottom/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/scroll.spec.ts:124:1 › height-only resizing loads newly visible pages and retains visible predecessors at the bottom 
+  1 skipped
+  32 passed (31.3s)
+ ELIFECYCLE  Command failed with exit code 1.
+(node:18657) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Command failed: pnpm verify:deployment tests/browser/deployment.spec.ts tests/browser/lifecycle.spec.ts tests/browser/review.spec.ts tests/browser/review-regressions.spec.ts tests/browser/scroll.spec.ts tests/browser/one-sided-navigation.spec.ts tests/browser/repeat-display.spec.ts
+(node:18657) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

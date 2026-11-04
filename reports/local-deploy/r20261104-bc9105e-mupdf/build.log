@@ -1,0 +1,159 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.50kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 215B done
+#3 DONE 0.0s
+
+#4 [build  1/14] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#4 DONE 0.0s
+
+#5 [build  2/14] WORKDIR /build
+#5 CACHED
+
+#6 [internal] load build context
+#6 transferring context: 4.80kB done
+#6 DONE 0.0s
+
+#7 [build  3/14] RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
+#7 0.156 Preparing pnpm@10.12.1 for immediate activation...
+#7 DONE 2.1s
+
+#8 [build  4/14] COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.pdfjs.json tsconfig.mupdf.json vite.config.ts ./
+#8 DONE 0.0s
+
+#9 [build  5/14] COPY patches ./patches
+#9 DONE 0.0s
+
+#10 [build  6/14] RUN pnpm install --frozen-lockfile
+#10 0.386 Lockfile is up to date, resolution step is skipped
+#10 0.400 Progress: resolved 1, reused 0, downloaded 0, added 0
+#10 0.480 Packages: +55
+#10 0.480 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#10 1.626 Progress: resolved 55, reused 0, downloaded 0, added 0
+#10 2.586 
+#10 2.586    ╭───────────────────────────────────────────────╮
+#10 2.586    │                                               │
+#10 2.586    │     Update available! 10.12.1 → 12.16.1.      │
+#10 2.586    │     Changelog: https://pnpm.io/v/12.16.1      │
+#10 2.586    │   To update, run: corepack use pnpm@12.16.1   │
+#10 2.586    │                                               │
+#10 2.586    ╰───────────────────────────────────────────────╯
+#10 2.586 
+#10 2.626 Progress: resolved 55, reused 0, downloaded 9, added 9
+#10 3.627 Progress: resolved 55, reused 0, downloaded 34, added 33
+#10 4.629 Progress: resolved 55, reused 0, downloaded 44, added 44
+#10 5.630 Progress: resolved 55, reused 0, downloaded 46, added 46
+#10 6.635 Progress: resolved 55, reused 0, downloaded 47, added 47
+#10 7.636 Progress: resolved 55, reused 0, downloaded 48, added 48
+#10 8.679 Progress: resolved 55, reused 0, downloaded 49, added 48
+#10 9.679 Progress: resolved 55, reused 0, downloaded 50, added 50
+#10 10.68 Progress: resolved 55, reused 0, downloaded 52, added 52
+#10 13.04 Progress: resolved 55, reused 0, downloaded 53, added 52
+#10 13.62 Progress: resolved 55, reused 0, downloaded 55, added 55, done
+#10 13.63 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#10 13.63 (Use `node --trace-deprecation ...` to show where the warning was created)
+#10 13.64 .../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+#10 13.68 .../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+#10 13.72 
+#10 13.72 dependencies:
+#10 13.72 + @noble/hashes 2.0.1
+#10 13.72 + react 19.3.1
+#10 13.72 + react-dom 19.3.1
+#10 13.72 + zod 4.6.7
+#10 13.72 
+#10 13.72 devDependencies:
+#10 13.72 + @playwright/test 1.64.1
+#10 13.72 + @types/node 24.10.1
+#10 13.72 + @types/react 19.2.2
+#10 13.72 + @types/react-dom 19.2.2
+#10 13.72 + tsx 4.23.15
+#10 13.72 + typescript 7.0.2
+#10 13.72 + vite 8.3.5
+#10 13.72 + vitest 5.0.5
+#10 13.72 
+#10 13.73 Done in 13.5s using pnpm v10.12.1
+#10 DONE 13.8s
+
+#11 [build  7/14] COPY engines/mupdf ./engines/mupdf
+#11 DONE 0.0s
+
+#12 [build  8/14] RUN pnpm --dir engines/mupdf install --frozen-lockfile
+#12 0.299 Lockfile is up to date, resolution step is skipped
+#12 0.305 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 0.308 Packages: +1
+#12 0.308 +
+#12 4.133 Progress: resolved 1, reused 0, downloaded 1, added 0
+#12 4.139 Progress: resolved 1, reused 0, downloaded 1, added 1, done
+#12 4.146 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#12 4.146 (Use `node --trace-deprecation ...` to show where the warning was created)
+#12 4.172 
+#12 4.172 dependencies:
+#12 4.172 + mupdf 1.28.1
+#12 4.172 
+#12 4.176 Done in 4s using pnpm v10.12.1
+#12 DONE 4.4s
+
+#13 [build  9/14] COPY apps ./apps
+#13 DONE 0.0s
+
+#14 [build 10/14] COPY packages ./packages
+#14 DONE 0.0s
+
+#15 [build 11/14] COPY profiles ./profiles
+#15 DONE 0.0s
+
+#16 [build 12/14] COPY scripts/release-config.ts ./scripts/release-config.ts
+#16 DONE 0.0s
+
+#17 [build 13/14] RUN test -n "mupdf" && test -n "r20261104-bc9105e" && test -n "bc9105e44bece8bcb326f5b06cdde733c3618bb4"
+#17 DONE 0.1s
+
+#18 [build 14/14] RUN POLICY_RELEASE_ID=r20261104-bc9105e POLICY_REVISION=bc9105e44bece8bcb326f5b06cdde733c3618bb4 POLICY_CONTACT="" pnpm build:mupdf
+#18 0.297 
+#18 0.297 > policy-compare@0.1.0 build:mupdf /build
+#18 0.297 > tsc -p tsconfig.mupdf.json --noEmit && POLICY_ENGINE=mupdf vite build
+#18 0.297 
+#18 0.563 vite v8.3.5 building client environment for production...
+#18 0.568 transforming...
+#18 0.654 [plugin rolldown:vite-resolve] Module "node:fs" has been externalized for browser compatibility, imported by "/build/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+#18 0.662 [plugin rolldown:vite-resolve] Module "module" has been externalized for browser compatibility, imported by "/build/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf-wasm.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+#18 0.701 ✓ 22 modules transformed.
+#18 0.722 rendering chunks...
+#18 0.750 computing gzip size...
+#18 0.864 dist/mupdf/assets/__vite-browser-external-UfK9GVxM.js       0.11 kB
+#18 0.864 dist/mupdf/assets/rolldown-runtime-WkwZ5CU-.js              0.59 kB
+#18 0.864 dist/mupdf/index.html                                       0.73 kB │ gzip:     0.55 kB
+#18 0.864 dist/mupdf/assets/core.worker-CnNIJNdf.js                 152.89 kB
+#18 0.864 dist/mupdf/assets/pdf.worker-Bo70UvCO.js                  203.07 kB
+#18 0.864 dist/mupdf/assets/mupdf-wasm-Bvf0xebB.wasm             10,409.82 kB │ gzip: 4,778.44 kB
+#18 0.864 dist/mupdf/assets/index-D48Dlxkb.css                       10.01 kB │ gzip:     3.00 kB
+#18 0.864 dist/mupdf/assets/index-CjHX6hvS.js                         2.58 kB │ gzip:     1.36 kB
+#18 0.864 dist/mupdf/assets/main-Ch1LwJEg.js                        251.84 kB │ gzip:    80.56 kB
+#18 0.864 
+#18 0.864 ✓ built in 300ms
+#18 DONE 0.9s
+
+#19 [stage-1 2/5] WORKDIR /app
+#19 CACHED
+
+#20 [stage-1 3/5] COPY --from=build /build/dist/mupdf ./dist
+#20 DONE 0.0s
+
+#21 [stage-1 4/5] COPY deploy/server.mjs ./server.mjs
+#21 DONE 0.0s
+
+#22 [stage-1 5/5] RUN chmod -R a=rX /app
+#22 DONE 0.1s
+
+#23 exporting to image
+#23 exporting layers 0.0s done
+#23 writing image sha256:f4769d0bf32c8bd96a1cb84c479871aa942da2eeabb9374d36800d35ca01b1ae done
+#23 naming to docker.io/library/policy-compare:r20261104-bc9105e-mupdf done
+#23 DONE 0.0s

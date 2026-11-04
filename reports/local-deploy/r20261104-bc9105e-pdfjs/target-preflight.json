@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:56557/releases/r20261104-bc9105e/",
+  "releaseId": "r20261104-bc9105e",
+  "engine": "pdfjs",
+  "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+  "manifestSha256": "8588407d553fb9297a35f169f2bdc0b1184982ebd2b48b00a29baed17513a849",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

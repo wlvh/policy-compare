@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:54985/releases/r20261104-bfc9161/",
+  "releaseId": "r20261104-bfc9161",
+  "engine": "mupdf",
+  "manifestSha256": "a7bd07fa273aefd7f00b2e69ccc0591a6bf5b3e06ee9cc891ef0b2461da8a1e5",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

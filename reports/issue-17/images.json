@@ -1,0 +1,35 @@
+[
+  {
+    "tag": "policy-compare:r20261104-bc9105e-prev-mupdf",
+    "imageId": "sha256:825c47b9dfc10ec1c34d9ff8ff237f72b85f491392e1bf545216ba33d5d6b677",
+    "architecture": "arm64",
+    "repoDigests": [],
+    "labels": {
+      "org.opencontainers.image.revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+      "org.opencontainers.image.version": "r20261104-bc9105e-prev",
+      "org.policy.engine": "mupdf"
+    }
+  },
+  {
+    "tag": "policy-compare:r20261104-bc9105e-mupdf",
+    "imageId": "sha256:f4769d0bf32c8bd96a1cb84c479871aa942da2eeabb9374d36800d35ca01b1ae",
+    "architecture": "arm64",
+    "repoDigests": [],
+    "labels": {
+      "org.opencontainers.image.revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+      "org.opencontainers.image.version": "r20261104-bc9105e",
+      "org.policy.engine": "mupdf"
+    }
+  },
+  {
+    "tag": "policy-compare:r20261104-bc9105e-pdfjs",
+    "imageId": "sha256:9cd5638c8f82934a88b0614737067c42e4b4d78da08d6b8484a4334a4b97dfaa",
+    "architecture": "arm64",
+    "repoDigests": [],
+    "labels": {
+      "org.opencontainers.image.revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+      "org.opencontainers.image.version": "r20261104-bc9105e",
+      "org.policy.engine": "pdfjs"
+    }
+  }
+]

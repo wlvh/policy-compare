@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:53499/releases/r20261104-issue17/",
+  "releaseId": "r20261104-issue17",
+  "engine": "pdfjs",
+  "revision": "8c95954ea37fc4eb967ab906f6d5b95aaf6849d1",
+  "manifestSha256": "53b2eaddcf2c354e2d74963510f09eac3c0fe6f21c49d8c95818c7828621f27f",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}
