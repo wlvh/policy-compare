@@ -1,36 +1,36 @@
-# 在 OpenShift 部署保单比对工具：一步一步操作
+# OpenShift 部署操作指南
 
-目标：把这个仓库部署成一个内网 HTTPS 网站。完成后，使用者打开网址、选择两份 PDF 就能使用。
+目标：将保单比对工具部署到 OpenShift，通过内网 HTTPS 地址提供浏览器访问。
 
-本指南只写部署操作。首次请使用平台管理员给你的测试/试用项目；测试通过后，正式环境继续使用同一份已验证镜像。**下面的源码一律从 `main` 获取，相关 PR 合入主干后再执行。**
+本指南适用于首次部署、版本更新和入口回滚。首次部署使用平台分配的测试/试用项目，正式环境推广使用已验证的同架构镜像。**源码统一从 `main` 获取，相关 PR 合入主干后执行。**
 
-你会按顺序完成：**登录集群 → 下载主干代码 → 读取平台配置 → 打包并检查 → 推送镜像 → 部署 → 检查网址 → 开放固定入口。**
+操作顺序：**登录集群 → 下载主干代码 → 读取平台配置 → 打包并检查 → 推送镜像 → 部署 → 检查网址 → 开放固定入口。**
 
-## 第 0 步：让平台管理员先准备好这些东西
+## 第 0 步：确认部署前置条件
 
-这一步需要公司的 OpenShift 管理员配合，不需要你猜集群参数。可以把本节直接发给他。
+部署前需落实以下平台配置与权限，由平台管理员提供或确认。
 
-1. 给你一个 OpenShift 控制台网址和登录账号，以及一个本工具专用的测试项目。
-2. 提供一个本工具专用的内网域名，并配置好 DNS、受信任的 HTTPS 证书和内部访问入口。
-3. 提供可推送镜像的仓库及账号，并让上述 OpenShift 项目的默认服务账号有权拉取这个仓库的镜像。**你在部署机上登录 Docker，不会自动给集群配置拉取权限。**
-4. 填好 [平台配置示例](../deploy/openshift/operator-settings.example.json)，交给你一个名为 `platform.json` 的文件。所有 `REPLACE_...` 都必须替换，里面不要放密码或令牌。
-5. 确认下面这台“部署机”能访问集群、镜像仓库、GitHub、构建所需的 npm 包和基础镜像；若公司禁止直接访问外网，由管理员先准备对应的内部制品来源。
+1. 提供 OpenShift 控制台地址、登录账号和本工具专用的测试项目。
+2. 为本工具分配独立内网域名，并配置 DNS、受信任的 HTTPS 证书和内部访问入口。
+3. 提供镜像仓库与推送凭据，并为目标项目的默认服务账号配置镜像拉取权限。部署机的 Docker 登录状态与集群的镜像拉取凭据分别配置。
+4. 根据 [平台配置示例](../deploy/openshift/operator-settings.example.json) 生成 `platform.json`，替换全部 `REPLACE_...` 占位值。该文件仅保存环境参数，不保存密码或访问令牌。
+5. 确认部署机可访问集群、镜像仓库、GitHub、构建所需的 npm 包和基础镜像；构建环境禁止直接访问外网时，预先准备内部制品来源。
 
-**部署机**就是你接下来打开终端执行命令的电脑或服务器。本文使用 macOS/Linux 的 Bash 终端；Windows 使用已准备好的 WSL/Linux 部署机。管理员在部署机上安装：Git、Docker、Node.js 24、pnpm 10.12.1、OpenShift 命令行工具 `oc`。浏览器自动检查所需组件会在第 5 步安装。
+**部署机**指执行本指南命令的工作站或服务器。本文命令适用于 macOS/Linux 的 Bash 终端；Windows 环境使用已配置的 WSL/Linux 部署机。部署机需安装 Git、Docker、Node.js 24、pnpm 10.12.1 和 OpenShift 命令行工具 `oc`。浏览器自动检查组件在第 5 步安装。
 
-管理员填写配置时参考下表；你收到文件后，后续命令会自动读取这些值。
+平台配置字段如下，后续命令从 `platform.json` 读取。
 
-| 配置项 | 管理员填写什么 |
+| 配置项 | 配置要求 |
 |---|---|
-| `namespace` | 测试项目的真实名称。 |
+| `namespace` | 目标测试项目名称。 |
 | `architecture` | 应用节点架构：`amd64` 或 `arm64`。部署机也需能实际运行该架构镜像；本机模拟不能代替目标架构验收。 |
-| `host` | 给本工具使用的内网域名，只填主机名，不带 `https://`、端口或路径。 |
+| `host` | 本工具的内网主机名，不包含 `https://`、端口或路径。 |
 | `replicas` | 首次试用保留 `1`。 |
 | `routeLabels` | 平台内部入口用于选择本应用网址的实际标签。 |
-| `ingressPeers` | 允许内部入口访问容器的实际来源选择器；按集群网络配置填写，示例结构不能照搬。 |
+| `ingressPeers` | 允许内部入口访问容器的来源选择器，按实际集群网络配置填写。 |
 | `platformVersion` | 实际 OpenShift 版本。 |
 | `internalIngressController` | 应当接收本应用网址的内部路由器名称。 |
-| `contact` | 使用者遇到问题时联系谁。 |
+| `contact` | 应用维护联系人或反馈渠道。 |
 | `registryServer` | 镜像仓库主机名，必要时包含端口；不带 `https://` 或项目路径。 |
 | `imageRepository` | 镜像完整仓库路径，例如 `registry.example.internal/team/policy-compare`；不带版本标签。 |
 | `baseImage` | 组织批准、且与项目 Dockerfile 兼容的 Node.js 24 基础镜像，必须带 `@sha256:...` 内容标识。 |
@@ -41,11 +41,11 @@
 node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
 ```
 
-**这一步完成标志：**你有登录账号、填好的 `platform.json`、镜像推送账号，以及已安装工具的部署机。尚未取得这些条件时，先请管理员补齐；后面的命令不能自动推断它们。
+**完成条件：**登录账号、已填充的 `platform.json`、镜像推送凭据及部署机工具均已就绪。
 
 ## 第 1 步：检查部署机的工具
 
-**在哪里操作：**部署机的 Bash 终端。后续步骤使用同一个终端；每个代码框逐行执行，任一命令报错就停在该步。
+**执行位置：**部署机的 Bash 终端。后续步骤依赖当前会话中的环境变量，需在同一终端中顺序执行。命令失败时，完成故障处理后再执行下一步。
 
 ```sh
 git --version
@@ -55,13 +55,13 @@ pnpm --version
 oc version --client
 ```
 
-**成功标志：**五条命令均成功；Node 显示 `v24.x.x`，pnpm 显示 `10.12.1`，`docker info` 能显示 Server 信息。若 Docker 提示无法连接，先启动 Docker 服务。
+**预期结果：**五条命令均成功；Node 显示 `v24.x.x`，pnpm 显示 `10.12.1`，`docker info` 能显示 Server 信息。若 Docker 提示无法连接，先启动 Docker 服务。
 
 ## 第 2 步：登录 OpenShift
 
-**在哪里操作：**先用浏览器登录管理员提供的 OpenShift 控制台。
+**执行位置：**浏览器中的 OpenShift 控制台。
 
-点击右上角用户名菜单 → **Copy login command（复制登录命令）**，按页面提示取得登录命令。回到部署机终端，执行该命令；它已经包含你的集群地址和登录信息。不要把这条带令牌的命令贴进仓库或反馈截图。
+点击右上角用户名菜单 → **Copy login command（复制登录命令）**，按页面提示取得登录命令，并在部署机终端执行。登录命令包含集群地址与访问令牌，不得提交至仓库或包含在反馈截图中。
 
 然后执行：
 
@@ -71,44 +71,44 @@ oc whoami --show-server
 export POLICY_CONTEXT="$(oc config current-context)"
 ```
 
-**成功标志：**第一条显示你的账号，第二条显示管理员给你的集群地址。地址不对时重新登录正确集群，再继续。
+**预期结果：**第一条显示当前账号，第二条显示目标集群地址。集群地址与部署目标不一致时，重新登录目标集群。
 
 ## 第 3 步：下载主干代码
 
-**在哪里操作：**部署机终端。先进入你用于保存项目的目录；首次下载执行：
+**执行位置：**部署机终端。进入项目存放目录，首次获取源码时执行：
 
 ```sh
 git clone --branch main --single-branch https://github.com/wlvh/policy-compare.git &&
 cd policy-compare
 ```
 
-已有这个仓库时，改为进入仓库根目录，处理好自己的未提交改动后执行：
+已有工作区时，进入仓库根目录，处理未提交改动后执行：
 
 ```sh
 git switch main &&
 git pull --ff-only origin main
 ```
 
-下面所有命令都在这个 `policy-compare` 目录执行：
+后续命令均在 `policy-compare` 仓库根目录执行：
 
 ```sh
 git branch --show-current
 test -f deploy/Dockerfile && test -f scripts/render-openshift.ts && echo '部署文件已找到'
 ```
 
-**成功标志：**分支显示 `main`，并显示“部署文件已找到”。如果主干缺少部署文件，先确认相关 PR 已合入 `main`。
+**预期结果：**分支显示 `main`，并显示“部署文件已找到”。如果主干缺少部署文件，先确认相关 PR 已合入 `main`。
 
-## 第 4 步：放入管理员填好的配置
+## 第 4 步：配置部署参数
 
-创建一个保存本次部署资料的目录：
+创建部署资料目录：
 
 ```sh
 mkdir -p tmp/openshift
 ```
 
-用文件管理器把管理员给你的 **`platform.json`** 放到仓库中的 **`tmp/openshift/`**，文件的最终位置应为 `policy-compare/tmp/openshift/platform.json`。这个目录已被 Git 忽略。
+将已填充的 `platform.json` 保存至仓库的 `tmp/openshift/` 目录。最终路径为 `policy-compare/tmp/openshift/platform.json`，该目录已被 Git 忽略。
 
-复制执行以下检查，它会找出漏填的值：
+执行配置完整性检查：
 
 ```sh
 node --input-type=module <<'NODE'
@@ -117,17 +117,17 @@ const c = JSON.parse(fs.readFileSync('tmp/openshift/platform.json', 'utf8'));
 const required = ['namespace', 'architecture', 'host', 'routeLabels', 'ingressPeers', 'platformVersion', 'internalIngressController', 'contact', 'registryServer', 'imageRepository', 'baseImage'];
 for (const name of required) {
   const v = c[name];
-  if (!v || (typeof v === 'object' && !Object.keys(v).length)) throw new Error(`请管理员填写 ${name}`);
+  if (!v || (typeof v === 'object' && !Object.keys(v).length)) throw new Error(`缺少必填配置：${name}`);
 }
-if (/REPLACE_|待填/.test(JSON.stringify(c))) throw new Error('配置里还有未替换的占位值');
+if (/REPLACE_|待填/.test(JSON.stringify(c))) throw new Error('配置包含未替换的占位值');
 if (!['amd64', 'arm64'].includes(c.architecture)) throw new Error('architecture 必须是 amd64 或 arm64');
 if (!/@sha256:[a-f0-9]{64}$/.test(c.baseImage)) throw new Error('baseImage 必须带实际 SHA-256 摘要');
 if (!c.imageRepository.startsWith(c.registryServer + '/')) throw new Error('imageRepository 必须位于 registryServer 下');
-console.log('配置已填齐；真实入口标签和网络来源仍以管理员确认为准。');
+console.log('配置完整性校验通过；入口标签与网络来源以平台审核结果为准。');
 NODE
 ```
 
-再复制这一整段，把配置读入当前终端；不用手工修改其中的变量名：
+将配置加载为当前终端的环境变量，并选择目标项目：
 
 ```sh
 export POLICY_NAMESPACE="$(node -p "require('./tmp/openshift/platform.json').namespace")"
@@ -140,11 +140,11 @@ export POLICY_NODE_IMAGE="$(node -p "require('./tmp/openshift/platform.json').ba
 oc --context "$POLICY_CONTEXT" project "$POLICY_NAMESPACE"
 ```
 
-**成功标志：**配置检查通过；最后一条命令显示正在使用管理员给你的项目。若提示没有权限，请管理员授权，不要换成别人的项目试运行。
+**预期结果：**配置检查通过，最后一条命令显示目标项目。权限不足时，由平台管理员为当前账号授予该项目所需权限。
 
 ## 第 5 步：安装打包和自动检查需要的依赖
 
-**在哪里操作：**仍在部署机、仓库根目录。这里安装的是发布工具，没有启动本地开发服务。
+**执行位置：**部署机终端，仓库根目录。
 
 ```sh
 pnpm install --frozen-lockfile &&
@@ -152,15 +152,15 @@ pnpm install:mupdf &&
 pnpm exec playwright install --with-deps chromium
 ```
 
-**成功标志：**三条命令均成功退出。Linux 安装浏览器依赖可能要求管理员权限。若下载失败，请管理员检查构建网络或提供内部制品，不要跳过失败继续部署。
+**预期结果：**三条命令均成功退出。Linux 浏览器依赖安装可能要求管理员权限。下载失败时，检查构建网络或内部制品来源，修复后重新执行。
 
-本指南固定使用 MuPDF；组织需要换引擎时，由维护者明确修改并重新验证。本次打包和部署不等于实际组织使用条件已核实。
+本指南使用 MuPDF；调整引擎后需重新验证，组织实际使用条件由维护者另行确认。
 
 ## 第 6 步：打包并自动检查候选镜像
 
-镜像是包含网页和静态服务器的运行包。这一步会构建它，启动临时容器，自动操作浏览器检查，最后停止该临时容器。
+镜像包含网页资源和静态服务器。构建检查会启动临时容器执行浏览器自动检查，完成后停止临时容器。
 
-先生成本次版本号并记录主干提交：
+生成发布版本号并记录主干提交：
 
 ```sh
 export POLICY_REVISION="$(git rev-parse HEAD)"
@@ -171,13 +171,13 @@ export POLICY_IMAGE_TAG="$POLICY_IMAGE_REPO:$POLICY_RELEASE_ID"
 printf '本次版本：%s\n主干提交：%s\n资料目录：%s\n' "$POLICY_RELEASE_ID" "$POLICY_REVISION" "$POLICY_REPORT_DIR"
 ```
 
-然后执行自动打包检查，等待它结束：
+执行镜像构建和自动检查：
 
 ```sh
 POLICY_BROWSER_CHANNEL=bundled pnpm test:container mupdf
 ```
 
-**成功标志：**命令正常退出，末尾 JSON 中 `status` 是 `PASS`。它验证的是临时容器，下一步才会把同一个镜像交给 OpenShift。
+**预期结果：**命令正常退出，结果 JSON 中 `status` 为 `PASS`。检查针对临时容器运行，后续将该镜像推送并部署至 OpenShift。
 
 读取已验证镜像的编号：
 
@@ -187,11 +187,11 @@ export POLICY_IMAGE_ID &&
 printf '已验证镜像：%s\n' "$POLICY_IMAGE_ID"
 ```
 
-**成功标志：**输出一个以 `sha256:` 开头的编号。若检查失败，看本次资料目录中的 `failure.log`；不要把失败改成 PASS。需要重新打包时，从本步重新生成新版本号，保留旧记录。
+**预期结果：**输出以 `sha256:` 开头的镜像 ID。检查失败时，查看本次资料目录的 `failure.log`。修复后使用新版本号重新构建，保留原检查记录。
 
-## 第 7 步：把已验证镜像推送到公司仓库
+## 第 7 步：推送已验证镜像
 
-**在哪里操作：**部署机终端。按提示输入管理员给你的仓库账号和密码/访问令牌：
+**执行位置：**部署机终端。使用镜像仓库账号及密码/访问令牌完成登录：
 
 ```sh
 docker login "$POLICY_REGISTRY" &&
@@ -199,9 +199,9 @@ docker tag "$POLICY_IMAGE_ID" "$POLICY_IMAGE_TAG" &&
 docker push "$POLICY_IMAGE_TAG"
 ```
 
-**成功标志：**登录提示 `Login Succeeded`；推送结束显示 `digest: sha256:...`。推送失败时先处理账号、权限或网络问题。
+**预期结果：**登录提示 `Login Succeeded`；推送结束显示 `digest: sha256:...`。推送失败时先处理账号、权限或网络问题。
 
-复制以下命令，自动取得这个仓库中镜像的固定地址。不要自己抄写那串摘要：
+从 Docker 镜像元数据中读取仓库摘要，生成固定镜像地址：
 
 ```sh
 docker image inspect "$POLICY_IMAGE_TAG" > "$POLICY_REPORT_DIR/registry-image.json" &&
@@ -210,11 +210,11 @@ export POLICY_IMAGE_DIGEST &&
 printf 'OpenShift 将使用：%s\n' "$POLICY_IMAGE_DIGEST"
 ```
 
-**成功标志：**输出 `你的内部仓库/路径/policy-compare@sha256:...`。这才是交给 OpenShift 的镜像地址。
+**预期结果：**输出完整的 `仓库主机/项目/policy-compare@sha256:...` 地址，后续 OpenShift 配置使用该地址。
 
 ## 第 8 步：生成 OpenShift 部署文件
 
-以下命令自动把平台配置、本次版本和镜像地址组合起来：
+将平台配置、发布版本和镜像地址写入发布参数文件：
 
 ```sh
 node --input-type=module <<'NODE'
@@ -226,17 +226,17 @@ fs.writeFileSync(process.env.POLICY_REPORT_DIR + '/parameters.json', JSON.string
 NODE
 ```
 
-没有报错后，再生成部署清单：
+参数文件生成成功后，生成部署清单：
 
 ```sh
 pnpm exec tsx scripts/render-openshift.ts "$POLICY_REPORT_DIR/parameters.json" > "$POLICY_REPORT_DIR/candidate.json"
 ```
 
-**成功标志：**没有报错，资料目录出现 `parameters.json` 和 `candidate.json`。后者包含启动应用、集群内部访问、版本网址和网络规则四项配置。配置未填齐时生成器会报错，按错误字段请管理员修正。
+**预期结果：**没有报错，资料目录出现 `parameters.json` 和 `candidate.json`。部署清单包含四项配置：应用运行（Deployment）、集群内部访问（Service）、版本网址接入（Route）和网络访问控制（NetworkPolicy）。配置校验失败时，按错误字段修正参数后重新生成。
 
-## 第 9 步：让 OpenShift 启动应用
+## 第 9 步：部署应用
 
-先只让集群检查配置，再实际创建应用：
+先执行服务端配置校验，再创建资源并等待应用就绪：
 
 ```sh
 oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" apply --dry-run=server -f "$POLICY_REPORT_DIR/candidate.json" &&
@@ -245,15 +245,15 @@ oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" rollout status "deployment
 oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" get pods -l "release=$POLICY_RELEASE_ID"
 ```
 
-**成功标志：**出现 `successfully rolled out`，应用行的 `READY` 为 `1/1`、`STATUS` 为 `Running`。
+**预期结果：**出现 `successfully rolled out`，Pod 的 `READY` 为 `1/1`、`STATUS` 为 `Running`。
 
-- `ImagePullBackOff`：集群拉不到镜像，检查集群的仓库凭据和网络；部署机的 `docker login` 不负责这件事。
+- `ImagePullBackOff`：集群无法拉取镜像，检查项目的镜像拉取凭据、仓库权限和网络。
 - `Pending`：请管理员检查节点架构、配额和调度条件。
 - `CrashLoopBackOff`：应用反复退出，按文末的日志命令检查。
 
-**看到 Running 只说明容器启动了；继续检查真实网址。**
+容器运行状态检查完成后，继续执行网址访问与功能验证。
 
-## 第 10 步：检查版本网址，再运行浏览器检查
+## 第 10 步：验证版本访问地址
 
 先查看 OpenShift 是否接收了版本网址：
 
@@ -262,11 +262,11 @@ oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" get route "policy-$POLICY_
 printf '本次版本网址：https://%s/releases/%s/\n' "$POLICY_HOST" "$POLICY_RELEASE_ID"
 ```
 
-**成功标志：**管理员指定的内部路由器显示 `Admitted=True`。若另一个入口也显示 `Admitted=True`，先请管理员确认暴露范围，暂不切换固定入口。
+**预期结果：**管理员指定的内部路由器显示 `Admitted=True`。若另一个入口也显示 `Admitted=True`，先请管理员确认暴露范围，暂不切换固定入口。
 
-用浏览器打开输出的网址。**成功标志：**没有证书警告，显示保单比对页面，能看到样例按钮。遇到证书警告，请管理员处理信任配置。
+用浏览器打开输出的网址。**预期结果：**没有证书警告，显示保单比对页面，能看到样例按钮。遇到证书警告，请管理员处理信任配置。
 
-然后复制执行真实网址的自动检查：
+执行目标网址的自动检查：
 
 ```sh
 export POLICY_MANIFEST_SHA256="$(node -p "JSON.parse(require('node:fs').readFileSync(process.env.POLICY_REPORT_DIR + '/container.json', 'utf8')).manifestSha256")"
@@ -277,27 +277,27 @@ POLICY_REPORT_DIR="$POLICY_REPORT_DIR/route-check" \
 pnpm verify:deployment
 ```
 
-**成功标志：**命令正常退出，`route-check/verification.json` 中 `status` 为 `PASS`。校验用的资源标识来自第 6 步已验证的镜像，不从未知网站现取一个值凑通过。
+**预期结果：**命令正常退出，`route-check/verification.json` 中 `status` 为 `PASS`。预期资源摘要取自第 6 步已验证的镜像，用于核对目标网站提供的发布产物。
 
 这套检查允许四项已登记的严格要求保留“未评价”；独立临时服务器的 F7 用例会跳过。这些状态不代表扫描文字、所有复杂表格或业务来源全部验收通过，具体边界见[验收记录](../reports/issue-17/README.md)。
 
-## 第 11 步：手工试用三个按钮
+## 第 11 步：执行手工功能检查
 
-**在哪里操作：**刚才打开的版本网址。
+**执行位置：**第 10 步验证的版本网址。
 
-| 你点击什么 | 应当看到什么 |
+| 操作 | 预期结果 |
 |---|---|
 | `P02 金额变化` | 自动比较，1315 的 `USD 100 → USD 2000` 可见，点击变化能回到原文；1760 的 `USD 1000` 未改。再搜索 `1315`，尝试导出 JSON。 |
 | `P01 相同文件` | 完成比较，没有内容变化卡。 |
 | `E03 扫描图片` | 提示图片文字尚未比较；不能把零张文字卡理解为没有变化。 |
 
-最后点“关闭任务”，再载入一组你有权使用的文档，检查密码、方向、取消和原文定位。先按试用范围人工核对结果。
+点击“关闭任务”，再载入一组授权文档，检查密码、方向、取消和原文定位，并按试用范围核对结果。
 
-**成功标志：**上述操作符合预期；如果结果不对，保留版本网址和操作记录交给维护者，暂不开放固定入口。
+**预期结果：**上述操作符合预期；如果结果不对，保留版本网址和操作记录交给维护者，暂不开放固定入口。
 
 ## 第 12 步：开放固定网址
 
-先备份已有固定入口，便于回滚。下面命令只保存入口配置：
+切换固定入口前，保存现有入口配置作为回滚依据：
 
 ```sh
 oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" get route policy-entry --ignore-not-found -o json > "$POLICY_REPORT_DIR/entry-before-raw.json" &&
@@ -317,7 +317,7 @@ if (!text) {
 NODE
 ```
 
-**成功标志：**显示“旧入口已保存”或“这是首次部署”。如果报错，停在这里。
+**预期结果：**显示“旧入口已保存”或“这是首次部署”。备份失败时，中止入口切换并处理错误。
 
 再生成并切换固定入口：
 
@@ -327,16 +327,16 @@ oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" apply -f "$POLICY_REPORT_D
 printf '使用者访问这个固定网址：https://%s/\n' "$POLICY_HOST"
 ```
 
-**成功标志：**新开浏览器窗口访问输出的网址，会进入本次版本路径；“使用说明与版本信息”中的版本与第 6 步相同，再试一次 P02。
+**预期结果：**新开浏览器窗口访问输出的网址，会进入本次版本路径；“使用说明与版本信息”中的版本与第 6 步相同，重新执行 P02 功能检查。
 
-把这个固定网址发给获准试用的人。他们只需要浏览器，无需安装上面的部署工具。**到这里，首次部署操作结束。**
+将固定网址提供给授权试用人员。使用者通过浏览器访问，无需安装部署工具。**首次部署流程完成。**
 
-## 以后更新：沿用同一套步骤
+## 版本更新与正式环境推广
 
 1. 在仓库根目录同步 `main`；先处理已有未提交改动，再执行第 3 步的更新命令。
 2. 从第 4 步开始，重新读取配置、生成新版本并完成第 6–11 步。每次用新版本号，旧版本保留。
 3. 切入口前，在浏览器保留一个旧版任务；完成第 12 步后，确认旧标签页仍可定位/搜索/开始新任务，新窗口进入新版。
-4. 默认保留被替换版本及其镜像、配置和验收记录至少 7 天；回收前由维护者确认回滚目标与通知窗口。不要一更新就删除旧 Deployment、Service 或版本网址。
+4. 默认保留被替换版本及其镜像、配置和验收记录至少 7 天；回收前由维护者确认回滚目标与通知窗口。保留期内保持旧 Deployment、Service、版本路径 Route 和镜像可用。
 
 推广到另一个正式项目由平台维护者执行，需先确认前面的真实 OpenShift 检查通过，且正式集群能够拉取同一已验镜像。保留原版本号和 `POLICY_IMAGE_DIGEST`；把正式环境配置替换到 `tmp/openshift/platform.json`，重新执行第 2、4 步，确认登录的是正式集群和正式项目。
 
@@ -351,22 +351,22 @@ cp "$POLICY_VERIFIED_REPORT_DIR/container.json" "$POLICY_REPORT_DIR/container.js
 
 然后执行第 8–12 步，复核正式网址与入口。这里不执行第 6、7 步，不重新构建；如果公司要求换仓库或重建，维护者需另行核验实际镜像，不能只凭代码提交相同放行。
 
-## 如果新版本出问题：切回旧入口
+## 回滚固定入口
 
-**在哪里操作：**部署机、仓库根目录。使用出问题这次发布的资料目录，先确认其中确实有旧入口：
+**执行位置：**部署机终端，仓库根目录。将 `POLICY_REPORT_DIR` 设置为待回滚发布的资料目录，检查旧入口备份后执行恢复：
 
 ```sh
 test -s "$POLICY_REPORT_DIR/entry-before.json" && echo '已找到旧入口备份' &&
 oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" apply -f "$POLICY_REPORT_DIR/entry-before.json"
 ```
 
-**成功标志：**新开窗口访问固定网址，进入旧版本；查看版本信息，并重新比较 P02。严重问题版本停止新访问的处理由平台维护者执行，先保留故障证据。
+**预期结果：**新开窗口访问固定网址，进入旧版本；查看版本信息，并重新比较 P02。严重问题版本停止新访问的处理由平台维护者执行，先保留故障证据。
 
-首次部署没有旧入口时，不执行这段回滚命令。回滚依赖旧版本的应用、服务和镜像仍然存在；不是只改一个版本号就能恢复。
+首次部署无旧入口时不适用该回滚操作。入口回滚要求旧版本 Deployment、Service、版本路径 Route 和镜像保持可用。
 
-## 遇到问题，先收集这三项
+## 故障排查
 
-先记下第 6 步打印的资料目录，再执行：
+记录第 6 步输出的发布资料目录，查询 Pod 状态、应用日志和部署事件：
 
 ```sh
 oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" get pods -l "release=$POLICY_RELEASE_ID"
@@ -374,21 +374,21 @@ oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" logs "deployment/policy-$P
 oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" describe "deployment/policy-$POLICY_RELEASE_ID"
 ```
 
-| 现象 | 下一步找谁、检查什么 |
+| 现象 | 排查项与责任方 |
 |---|---|
 | 命令找不到、Node/pnpm 版本不符 | 部署机维护者安装第 0 步的工具。 |
 | 提示 `Forbidden` | OpenShift 管理员授权当前账号操作这个项目。 |
 | 基础镜像安装依赖时提示权限或目录错误 | 构建维护者核对基础镜像与 Dockerfile 的用户/目录兼容性，按实际镜像修正后重新构建验证。 |
 | 推送失败或 `ImagePullBackOff` | 仓库/平台管理员分别检查推送权限、集群拉取凭据和网络。 |
 | 容器 Running，网址却 503/超时 | 平台管理员检查网址是否被内部入口接收、Service 和网络来源选择器。 |
-| 证书警告、页面提示网站安全配置不完整 | 平台管理员检查证书信任、实际 HTTPS 入口和响应头。不要通过忽略证书警告绕过。 |
+| 证书警告、页面提示网站安全配置不完整 | 平台管理员检查证书信任、实际 HTTPS 入口和响应头。修复证书链与终端信任后复测。 |
 | 网页能打开，但金额、高亮或记录归属不对 | 应用维护者按原文核查。保存版本、页码和获准分享的诊断/结果；平台健康不证明比较正确。 |
 | 打包提示候选或报告目录已存在 | 从第 6 步生成新版本号；旧证据保留。 |
-| 终端关闭，变量丢失 | 从第 2、4 步重新登录和读取配置。已有发布的版本号与资料目录需按原记录重新设置，再继续维护；不要把新生成版本当旧发布回滚。 |
+| 终端关闭，变量丢失 | 从第 2、4 步重新登录和读取配置。已有发布的版本号与资料目录按原记录恢复，回滚使用对应发布的旧入口备份。 |
 
-## 给平台维护者的最后确认
+## 发布验收范围
 
-正式开放前，平台维护者核对：内部入口的可达范围、证书与组织认证、镜像摘要、实际节点架构、平台分配用户、只读文件系统、资源限制、网络规则和重新调度；再由指定办公终端和使用者完成试用。这里的步骤不代替这些真实环境证据。
+正式开放前，平台维护者核对：内部入口的可达范围、证书与组织认证、镜像摘要、实际节点架构、平台分配用户、只读文件系统、资源限制、网络规则和重新调度；再由指定办公终端和使用者完成试用。验收结论应以实际环境记录为依据。
 
 PDF 在使用者浏览器内处理，服务器提供网页资源；目前仍有复杂表格与部分来源位置的已知问题。页面处理结束不代表业务正确，扫描图片文字没有被识别。现有证据和未完成项保留在[分层验收记录](../reports/issue-17/README.md)。
 
