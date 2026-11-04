@@ -599,7 +599,7 @@ function App() {
             <button key={id} disabled={state === 'running' || sampleLoading || !!startupError} onClick={()=>void trySample(id)} title={note}>{id} {label}</button>)}
         </div>
         <p className="subtle">P02：金额修改且能定位；P01：相同文件无内容变化；E03：扫描图片应提示文字未比较。</p>
-        {startupError ? <div role="alert"><p>{startupError}</p><button onClick={()=>{release();prepareEngine();}}>重试启动</button></div>
+        {startupError ? <div role="alert"><p>{startupError}</p><p>重试会重新加载程序，之后请重新选择文件。</p><button onClick={()=>location.reload()}>重试启动</button></div>
           : !engineReady && state === 'idle' && prepared.current && <p>正在准备比较引擎…</p>}
       </section>
       <section className="input-panel" aria-label="文档选择">
@@ -678,6 +678,7 @@ function App() {
                     : "准备就绪"}
         </strong>
         <span>{message}</span>
+        {state === 'failed' && <button onClick={()=>location.reload()}>重新加载程序（需重新选文件）</button>}
         {result && <button onClick={exportJson}>导出 JSON</button>}
         <button
           onClick={() => {
