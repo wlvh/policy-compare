@@ -1,0 +1,30 @@
+[WebServer] (node:45990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:46014) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 16 tests using 1 worker
+
+(node:46020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/16] tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the increase and does not invent a changed location
+[2/16] tests/browser/repeat-display.spec.ts:14:38 › repeated text shows only the decrease and does not invent a changed location
+[3/16] tests/browser/repeat-display.spec.ts:73:1 › two count cards locate their own text examples on the same PDF page
+[4/16] tests/browser/repeat-display.spec.ts:91:1 › a narrow window reveals the PDF and a clearly outlined text example after clicking a count card
+[5/16] tests/browser/repeat-display.spec.ts:114:1 › changed repeated header remains a visible red-green comparison with accessible occurrences
+[6/16] tests/browser/review.spec.ts:26:1 › P1 real PDF amount, search, source quads and JSON export
+[7/16] tests/browser/review.spec.ts:45:1 › P1 identical, ligature and scan status
+[8/16] tests/browser/review.spec.ts:61:1 › cancel stops workers, old results cannot replace next task; no document upload
+[9/16] tests/browser/review.spec.ts:96:1 › repeated occurrences and uncovered image regions are navigable
+[10/16] tests/browser/review.spec.ts:100:1 › twenty complete tasks replace previous resources without refreshing the tab
+[11/16] tests/browser/review.spec.ts:105:1 › manual swap updates both file controls and comparison direction
+[12/16] tests/browser/scroll.spec.ts:21:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off
+[13/16] tests/browser/scroll.spec.ts:62:1 › synchronized wheel scrolling follows existing text alignment across pages; buttons still work
+[14/16] tests/browser/scroll.spec.ts:82:1 › a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view
+[15/16] tests/browser/scroll.spec.ts:100:1 › every on-screen page renders when the complete document fits without scrolling
+[16/16] tests/browser/scroll.spec.ts:115:1 › height-only resizing loads newly visible pages and retains visible predecessors at the bottom
+  16 passed (16.4s)

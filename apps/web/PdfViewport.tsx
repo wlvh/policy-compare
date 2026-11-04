@@ -9,7 +9,7 @@ type RenderFailure = { pageIndex: number; requestId: number; message: string };
 export type PdfViewportHandle = {
   receive: (page: RenderedPage) => void;
   receiveError: (error: RenderFailure) => void;
-  goTo: (pageIndex: number, y?: number, inset?: number) => void;
+  goTo: (pageIndex: number, y?: number, inset?: number, reveal?: boolean) => void;
   pointOffset: (pageIndex: number, y: number) => number | null;
   scrollToOffset: (offset: number) => void;
 };
@@ -108,13 +108,22 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
     const el = slot(p);
     if (el) anchorY.current = (pane.current!.scrollTop - el.offsetTop) * props.infos[p].width / el.clientWidth;
   }
-  function goTo(p: number, y = 0, inset = 0) {
+  function goTo(p: number, y = 0, inset = 0, reveal = false) {
     const offset = pointOffset(p, y);
     if (offset === null || !pane.current) return;
     pane.current.scrollTop = Math.max(0, offset - inset);
     programmaticTop.current = pane.current.scrollTop;
     selectPage(p);
     rememberPosition(p);
+    if (reveal) requestAnimationFrame(() => {
+      const el = pane.current;
+      if (!el) return;
+      const bounds = el.getBoundingClientRect();
+      // On narrow screens the viewer is below the cards. Scrolling inside a
+      // hidden PDF pane alone cannot show the user the selected source.
+      if (bounds.top < 0 || bounds.top + Math.min(bounds.height, 240) > window.innerHeight)
+        el.closest('.documents')?.scrollIntoView({block: 'start', inline: 'nearest'});
+    });
   }
   useImperativeHandle(ref, () => ({
     goTo, pointOffset,

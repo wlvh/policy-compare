@@ -1,0 +1,34 @@
+{
+  "engine": "pdfjs",
+  "mainCards": 94,
+  "mainHeader": "变化清单 94",
+  "quantityItems": 9,
+  "quantityExpanded": null,
+  "unchangedWordsInMain": {
+    "731": 0,
+    "Calloway": 0,
+    "Calloway Specialty": 0
+  },
+  "pageNumber": {
+    "old": "Page 1 of 17",
+    "new": "Page 1 of 18",
+    "leftMarks": 1,
+    "rightMarks": 1,
+    "exampleMarks": 0
+  },
+  "quantityRows": [
+    "Calloway17 次 → 18 次",
+    "Calloway Specialty17 次 → 18 次",
+    "73117 次 → 18 次",
+    "KLB17 次 → 18 次",
+    "Placed via PPL box17 次 → 18 次",
+    "Calloway Limited17 次 → 18 次",
+    "will not be signed17 次 → 18 次",
+    "N/A17 次 → 18 次",
+    "Contract Leader17 次 → 18 次"
+  ],
+  "callowaySources": {
+    "baseline": 17,
+    "review": 18
+  }
+}

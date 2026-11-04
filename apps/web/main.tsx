@@ -29,6 +29,9 @@ const kinds = {
 const countOnly = (d: Difference) =>
   d.kind === "Replaced" && !d.hasTextChange && d.oldText === d.newText &&
   !!d.repeat && d.repeat.left !== d.repeat.right;
+// Preserve unresolved ownership as a review item, even when its text is equal.
+const canSummarizeCount = (d: Difference) =>
+  countOnly(d) && d.structurePath?.confidence !== "unresolved";
 const countDelta = (d: Difference) => {
   const delta = d.repeat!.right - d.repeat!.left;
   return `${delta > 0 ? "多" : "少"}出现 ${Math.abs(delta)} 次`;
@@ -106,6 +109,28 @@ function Occurrences({ difference: d, onLocate }: {
   </div>;
   return content;
 }
+function RepeatCountSummary({ differences, onLocate }: {
+  differences: Difference[];
+  onLocate: (locs: SourceLocation[]) => void;
+}) {
+  if (!differences.length) return null;
+  return <section className="repeat-summary" aria-label="重复文字次数摘要">
+    <details>
+      <summary>重复文字次数变化 · {differences.length} 项</summary>
+      <div className="repeat-summary-body">
+        <p>以下文字相同，仅出现次数变化，不计入主变化清单。具体新增或减少位置未确定。</p>
+        <ul>{differences.map(d => <li key={d.id} className="repeat-count-item">
+          <div className="repeat-count-head">
+            <span>{d.oldText}</span>
+            <strong>{d.repeat!.left} 次 → {d.repeat!.right} 次</strong>
+          </div>
+          <small>{countDelta(d)}</small>
+          <Occurrences difference={d} onLocate={onLocate} />
+        </li>)}</ul>
+      </div>
+    </details>
+  </section>;
+}
 function App() {
   const [files, setFiles] = useState<(File | null)[]>([null, null]),
     [passwords, setPasswords] = useState(["", ""]),
@@ -129,6 +154,7 @@ function App() {
     [selectedId, setSelectedId] = useState(""),
     [neutralSelection, setNeutralSelection] = useState(false),
     [locationHint, setLocationHint] = useState(""),
+    [referenceSide, setReferenceSide] = useState<number | null>(null),
     [sync, setSync] = useState(true);
   const workers = useRef<{ pdf: PdfClient; core: Worker } | null>(null),
     generation = useRef(0),
@@ -196,6 +222,7 @@ function App() {
     setSelection([]);
     setNeutralSelection(false);
     setLocationHint("");
+    setReferenceSide(null);
     setPageInfos([[], []]);
     setPages([0, 0]);
     setFilter("all");
@@ -287,9 +314,9 @@ function App() {
           Object.assign(metrics.current, m.timings, {
             coreReady: performance.now() - start.current,
           });
-          const first = m.result.differences[0];
-          setNeutralSelection(first ? countOnly(first) : false);
-          const firstLocated = first && !countOnly(first) ? first : undefined;
+          const first = m.result.differences.find((d: Difference) => !canSummarizeCount(d));
+          setNeutralSelection(first ? !first.hasTextChange : false);
+          const firstLocated = first;
           const leftPage = firstLocated?.left[0]?.pageIndex ?? 0,
             rightPage = firstLocated?.right[0]?.pageIndex ?? 0;
           setPages([leftPage, rightPage]);
@@ -309,9 +336,9 @@ function App() {
           setState(m.result.status);
           setMessage(
             m.result.status === "partial"
-              ? `已记录覆盖缺口 ${m.result.coverage.length} 处、对应未决 ${m.result.unresolved.length} 组，见下方列表；全部变化默认可见，按原文位置排列。`
+              ? `已记录覆盖缺口 ${m.result.coverage.length} 处、对应未决 ${m.result.unresolved.length} 组，见下方列表；内容与位置变化默认展示，重复次数变化另列数量摘要。`
               : m.result.differences.length
-                ? "没有记录到覆盖缺口或未决；全部变化默认可见，按原文位置排列。这不表示不存在未知遗漏。"
+                ? "没有记录到覆盖缺口或未决；内容与位置变化默认展示，重复次数变化另列数量摘要。这不表示不存在未知遗漏。"
                 : "可提取文本中未发现差异；没有记录到覆盖缺口或未决。",
           );
         }
@@ -372,9 +399,9 @@ function App() {
       );
     }
   }, [result, imagesLoaded]);
-  function showPage(side: number, pageIndex: number, y = 0, inset = 0) {
+  function showPage(side: number, pageIndex: number, y = 0, inset = 0, reveal = false) {
     if (!pageInfos[side][pageIndex]) return;
-    viewportRefs[side].current?.goTo(pageIndex, y, inset);
+    viewportRefs[side].current?.goTo(pageIndex, y, inset, reveal);
   }
   function requestPage(side: number, pageIndex: number) {
     const requestId = ++renderIds.current[side];
@@ -389,30 +416,46 @@ function App() {
     });
     return requestId;
   }
-  function locate(locs: SourceLocation[], neutral = false, hint = "") {
+  function locate(locs: SourceLocation[], neutral = false, hint = "", references?: SourceLocation[]) {
     setSelection(locs);
     setNeutralSelection(neutral);
     setLocationHint(hint);
+    setReferenceSide(null);
     for (const [side, name] of [
       [0, "left"],
       [1, "right"],
     ] as const) {
-      const l = locs.find((x) => x.side === name);
+      // A pure insertion/deletion inside a paired paragraph may have edited
+      // characters on only one side, but both paragraph sources still exist.
+      const l = locs.find(x => x.side === name) ?? references?.find(x => x.side === name);
       if (l) {
-        showPage(side, l.pageIndex, l.quads[0][1], 90);
+        showPage(side, l.pageIndex, l.quads[0][1], 90, true);
       }
     }
-  }
-  function locateCountExample(d: Difference) {
-    const side = d.repeat!.right > d.repeat!.left ? "right" : "left";
-    const sideIndex = side === "right" ? 1 : 0;
-    const sources = d.occurrences.filter(o => !o.context && o[side].length).map(o => o[side]);
-    // This selects an example of the unchanged text, never the unmatched tail
-    // of an ordinal occurrence list as evidence of an addition/deletion.
-    const example = sources.find(ls => ls[0].pageIndex === pages[sideIndex]) ?? sources[0] ?? d[side];
-    locate(example, true, example.length
-      ? `文字示例 · ${side === "right" ? "待审" : "基准"} PDF 第 ${example[0].pageIndex + 1} 页；此处仅供查看文字，不代表这里是新增或减少的位置。`
-      : "未找到可定位的文字示例，请查看全部来源。");
+    if (!references?.length) return;
+    const hasLeft = references.some(l => l.side === "left");
+    const hasRight = references.some(l => l.side === "right");
+    if (hasLeft === hasRight) return;
+    const sourceSide = hasLeft ? 0 : 1, peerSide = 1 - sourceSide;
+    const source = locs.find(l => l.side === (hasLeft ? "left" : "right")) ?? references[0];
+    const peerName = peerSide ? "待审" : "基准";
+    setReferenceSide(peerSide);
+    let note: string;
+    if (!sync) note = `${peerName}侧无直接来源；同步滚动已关闭，保留其当前页。`;
+    else {
+      const offset = alignedOffset(sourceSide, source.pageIndex, source.quads[0][1]);
+      if (offset !== null) {
+        viewportRefs[peerSide].current?.scrollToOffset(offset - 90);
+        note = `${peerName}侧无直接来源；已按已有文字对应显示参考位置，不表示找到该项原文。`;
+      } else {
+        const p = Math.min(source.pageIndex, pageInfos[peerSide].length - 1);
+        if (p >= 0) showPage(peerSide, p);
+        note = p >= 0
+          ? `${peerName}侧无直接来源，且本页没有文字对应；仅显示${peerName} PDF 第 ${p + 1} 页作页码参考，不表示内容对应。`
+          : `${peerName}侧无直接来源，也没有可显示的参考页。`;
+      }
+    }
+    setLocationHint(hint ? hint + " " + note : note);
   }
   function doSearch() {
     setHits([]);
@@ -436,10 +479,10 @@ function App() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  function onScroll(side: number, pageIndex: number, y: number) {
-    if (!sync || !result) return;
+  function alignedOffset(side: number, pageIndex: number, y: number): number | null {
+    if (!result) return null;
     const to = viewportRefs[1 - side].current;
-    if (!to) return;
+    if (!to) return null;
     // Use the existing text alignment, including across page boundaries.
     // Equal physical page numbers alone do not establish a correspondence.
     const ordered = result.alignment.flatMap(a => {
@@ -448,7 +491,7 @@ function App() {
       return offset === null ? [] : [[side ? a.rightY : a.leftY, offset]];
     })
       .sort((a, b) => a[0] - b[0]);
-    if (!ordered.length) return;
+    if (!ordered.length) return null;
     let a = ordered[0],
       b = ordered.at(-1)!;
     for (let i = 1; i < ordered.length; i++)
@@ -457,14 +500,19 @@ function App() {
         b = ordered[i];
         break;
       }
-    const target =
-      a[1] + ((y - a[0]) * (b[1] - a[1])) / Math.max(1, b[0] - a[0]);
-    to.scrollToOffset(target);
+    return a[1] + ((y - a[0]) * (b[1] - a[1])) / Math.max(1, b[0] - a[0]);
   }
+  function onScroll(side: number, pageIndex: number, y: number) {
+    if (!sync) return;
+    const target = alignedOffset(side, pageIndex, y);
+    if (target !== null) viewportRefs[1 - side].current?.scrollToOffset(target);
+  }
+  const reviewDifferences = result?.differences.filter(d => !canSummarizeCount(d)) ?? [];
+  const repeatCounts = result?.differences.filter(canSummarizeCount) ?? [];
   const visible =
-    result?.differences.filter(
+    reviewDifferences.filter(
       (d) => filter === "all" || d.kind === filter,
-    ) ?? [];
+    );
   return (
     <main data-engine-ready={engineReady}>
       <header>
@@ -567,6 +615,7 @@ function App() {
             setHits([]);
             setPasswords(["", ""]);
             setLocationHint("");
+            setReferenceSide(null);
           }}
         >
           关闭任务
@@ -599,7 +648,7 @@ function App() {
         <aside>
           <div className="list-head">
             <h2>
-              变化清单 <span>{result?.stats.differenceCount ?? 0}</span>
+              变化清单 <span>{reviewDifferences.length}</span>
             </h2>
             <select
               aria-label="按变化方式筛选"
@@ -615,9 +664,16 @@ function App() {
             </select>
           </div>
           <p className="subtle">
-            默认展示所有变化 · 当前筛选隐藏{" "}
-            {(result?.differences.length ?? 0) - visible.length} 项
+            文字与位置变化 · 当前筛选隐藏{" "}
+            {reviewDifferences.length - visible.length} 项
           </p>
+          <RepeatCountSummary differences={repeatCounts} onLocate={locs => {
+            setSelectedId("");
+            const source = locs[0];
+            locate(locs, true, source
+              ? `数量摘要来源 · ${source.side === "right" ? "待审" : "基准"} PDF 第 ${source.pageIndex + 1} 页；不代表该处新增或减少。`
+              : "该数量项没有可定位来源。");
+          }} />
           <div className="search">
             <input
               aria-label="搜索原文"
@@ -660,20 +716,25 @@ function App() {
                 </p>
               </div>
             )}
+            {result && !visible.length && <div className="empty">
+              {reviewDifferences.length
+                ? "当前筛选下没有变化卡。"
+                : result.coverage.length || result.unresolved.length
+                  ? "当前没有可展示的变化卡，请核对上方的缺口或未决说明。"
+                  : repeatCounts.length
+                    ? "未发现文字或位置变化；另有重复次数变化，见数量摘要。"
+                    : "可提取文本中未发现差异。"}
+            </div>}
             {visible.map((d) => (
               <div role="button" tabIndex={0} onKeyDown={e=>{if(e.target===e.currentTarget&&['Enter',' '].includes(e.key)){e.preventDefault();e.currentTarget.click();}}}
                 className={"card " + (selectedId === d.id ? "selected" : "")}
                 key={d.id}
                 onClick={() => {
                   setSelectedId(d.id);
-                  if (countOnly(d)) {
-                    locateCountExample(d);
-                    return;
-                  }
                   const ops = d.textOps
                     .filter((x) => x.kind !== "equal")
                     .flatMap((x) => [...x.left, ...x.right]);
-                  locate(ops.length ? ops : [...d.left, ...d.right], countOnly(d));
+                  locate(ops.length ? ops : [...d.left, ...d.right], !d.hasTextChange, "", [...d.left, ...d.right]);
                 }}
               >
                 <div>
@@ -699,22 +760,18 @@ function App() {
                     .filter(Boolean)
                     .join(" / ") || "条款文字"}
                 </h3>
-                {countOnly(d) ? <div className="same-text">{d.oldText}</div> : <>
+                {!d.hasTextChange && d.oldText === d.newText ? <div className="same-text">{d.oldText}</div> : <>
                   <div className="old">{d.oldText || "（无）"}</div>
                   <div className="new">{d.newText || "（无）"}</div>
                 </>}
-                {countOnly(d) && <div className="repeat-delta">
-                  <strong>{countDelta(d)}</strong>
-                  <small>具体{d.repeat!.right > d.repeat!.left ? "新增" : "减少"}位置未确定</small>
-                  <small>点击卡片定位文字示例</small>
-                </div>}
-                {!countOnly(d) && d.reviewReasons.length > 0 && (
+                {countOnly(d) && <small>出现次数：{d.repeat!.left} 次 → {d.repeat!.right} 次；对应未确定，请核对归属。</small>}
+                {d.reviewReasons.length > 0 && (
                   <small>{d.reviewReasons.join("；")}</small>
                 )}
                 {d.occurrences.length > 0 && (
                   <Occurrences difference={d} onLocate={locs=>{
                     setSelectedId(d.id);
-                    locate(locs, countOnly(d));
+                    locate(locs, !d.hasTextChange);
                   }} />
                 )}
               </div>
@@ -741,6 +798,7 @@ function App() {
               <div className="document" key={side}>
                 <div className="document-head">
                   <strong>{side ? "待审版" : "基准版"}</strong>
+                  {referenceSide === side && <small className="reference-badge" title="本项在该侧没有直接来源，画面内容仅供参考。">参考位置</small>}
                   <span title={activeNames[side]}>
                     {activeNames[side] || "尚未选择"}
                   </span>
@@ -820,7 +878,7 @@ function App() {
         </section>
       </div>
       <footer>
-        处理范围仅限可提取文本。变化按原文位置排列、全部默认可见；程序不判断变化是否重要，不输出法律解释。
+        处理范围仅限可提取文本。文字与位置变化默认展示，重复次数变化另列数量摘要；程序不判断变化是否重要，不输出法律解释。
         <span>开发验证版 · 正式许可与业务留出验收尚未完成</span>
       </footer>
     </main>

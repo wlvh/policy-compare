@@ -1,0 +1,52 @@
+[WebServer] (node:45405) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:45429) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 1 test using 1 worker
+
+(node:45435) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] tests/browser/repeat-display.spec.ts:91:1 › a narrow window reveals the PDF and a clearly outlined text example after clicking a count card
+  1) tests/browser/repeat-display.spec.ts:91:1 › a narrow window reveals the PDF and a clearly outlined text example after clicking a count card 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator:  locator('.document').nth(1).locator('polygon.highlight-location').first()
+    Expected: in viewport
+    Received: viewport ratio 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeInViewport" locator('.document').nth(1).locator('polygon.highlight-location').first() with timeout 5000ms
+      - waiting for locator('.document').nth(1).locator('polygon.highlight-location').first()
+        13 × locator resolved to <polygon class="highlight-location" points="41.99475132275133,19.685039682539685 215.67831707175927,19.685039682539685 215.67831707175927,30.183727513227517 41.99475132275133,30.183727513227517"></polygon>
+           - unexpected value "viewport ratio 0"
+
+
+       96 |   const target = page.locator('.document').nth(1);
+       97 |   // An element that exists below the browser's fold does not satisfy location.
+    >  98 |   await expect(target.locator('polygon.highlight-location').first()).toBeInViewport({ratio: 1});
+          |                                                                      ^
+       99 |   await expect(target.locator('[data-location-focus]')).toBeInViewport({ratio: 1});
+      100 |   await expect(target.locator('.location-marker-label')).toHaveText('文字示例');
+      101 |   await expect(target.locator('.location-marker-label')).toBeInViewport({ratio: 1});
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/visible-location-marker/tests/browser/repeat-display.spec.ts:98:70
+
+    Error Context: test-results/pdfjs/repeat-display-a-narrow-wi-0edd1-after-clicking-a-count-card/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pdfjs/repeat-display-a-narrow-wi-0edd1-after-clicking-a-count-card/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results/pdfjs/repeat-display-a-narrow-wi-0edd1-after-clicking-a-count-card/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    tests/browser/repeat-display.spec.ts:91:1 › a narrow window reveals the PDF and a clearly outlined text example after clicking a count card 

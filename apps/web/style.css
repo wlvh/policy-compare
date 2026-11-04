@@ -342,13 +342,54 @@ h3 {
 .occurrence-details summary {
   cursor: pointer;
 }
-.repeat-delta {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #3f4f5c;
+.repeat-summary {
+  flex-shrink: 0;
+  margin: 0 0 10px;
+  border: 1px solid #dce4e9;
+  border-radius: 6px;
+  background: #f2f6f8;
+  font-size: 11px;
+  color: #526a75;
 }
-.repeat-delta small {
-  margin-top: 3px;
+.repeat-summary > details > summary {
+  padding: 8px;
+  cursor: pointer;
+}
+.repeat-summary-body {
+  padding: 0 8px 8px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.repeat-summary p {
+  margin: 0 0 8px;
+}
+.repeat-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.repeat-count-item + .repeat-count-item {
+  border-top: 1px solid #dce4e9;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+.repeat-count-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.repeat-count-head span {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  min-width: 0;
+}
+.repeat-count-head strong {
+  white-space: nowrap;
+}
+.repeat-summary small {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
 }
 .card small {
   display: block;
@@ -426,6 +467,14 @@ h3 {
 .document-head strong {
   white-space: nowrap;
 }
+.reference-badge {
+  padding: 2px 4px;
+  border-radius: 3px;
+  background: #e9f0f4;
+  color: #526a75;
+  font-size: 10px;
+  white-space: nowrap;
+}
 .document-head nav {
   display: flex;
   gap: 6px;
@@ -483,9 +532,43 @@ h3 {
   stroke-width: 0.55;
 }
 .highlight-location {
-  fill: #7b9fb12e;
-  stroke: #607d8b;
-  stroke-width: 0.55;
+  fill: #2587d940;
+  stroke: #176ba3;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.location-marker {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  box-sizing: content-box;
+  padding: 5px;
+  min-width: 10px;
+  min-height: 8px;
+  border: 2px solid #176ba3;
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px #ffffffd9;
+  transform: translate(-7px, -7px);
+}
+.location-marker-label {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: -2px;
+  padding: 2px 6px;
+  color: white;
+  background: #176ba3;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.location-marker-label.below {
+  bottom: auto;
+  top: calc(100% + 4px);
+}
+.location-marker-label.right {
+  left: auto;
+  right: -2px;
 }
 .page-empty {
   height: 400px;

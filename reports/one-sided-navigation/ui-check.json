@@ -1,0 +1,28 @@
+{
+  "engine": "pdfjs",
+  "preview": "http://127.0.0.1:8081/",
+  "baseRevision": "b6e4a1691911fc3581594ec08966fc22479adcb1",
+  "sourceSha256": {
+    "apps/web/main.tsx": "2f4f62ab8a959a223f8f0597086fc69dcf7242a5091a66a8c5fc4ade6e4526c2",
+    "apps/web/style.css": "f20b4044bbeb8b6dd0d51782cf215d4ef7d4c996d38eeb582b6f8c34e97e6368"
+  },
+  "inputSha256": {
+    "left.pdf": "39c95339537357a25b77a95737e26442681fb01b0a40b7330505f898bcbd918a",
+    "right.pdf": "a7bc4600f7043a7c6c2b7cabaf910a2321e8e55aa2c398d1afdb6d2f09f5d7fc"
+  },
+  "selectedCard": "d-a023da18bc7c1df8715e",
+  "beforePhysicalPages": {
+    "left": 12,
+    "right": 1
+  },
+  "afterPhysicalPages": {
+    "left": 9,
+    "right": 9
+  },
+  "leftReferenceBadge": true,
+  "leftHighlightPolygons": 0,
+  "rightAddedHighlightPolygons": 3,
+  "visibleNote": "基准侧无直接来源；已按已有文字对应显示参考位置，不表示找到该项原文。",
+  "screenshot": "Local only: tmp/local-preview/one-sided-navigation.png (main checkout)",
+  "scope": "Manual original-input UI navigation check only; no business acceptance claim"
+}

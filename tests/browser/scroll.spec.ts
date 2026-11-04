@@ -8,6 +8,13 @@ async function load(page: Page, caseId: string) {
   await page.getByRole('button', {name: '开始比较', exact: true}).click();
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', /complete_for_scope|partial/);
   await expect(page.locator('[data-ready-page]')).toHaveCount(2);
+  // The first selected item is now a real content change, which may be on a
+  // later page. Scroll tests explicitly start at page one on both sides.
+  for (const side of ['基准', '待审']) {
+    const previous = page.getByRole('button', {name: side + '上一页', exact: true});
+    while (await previous.isEnabled()) await previous.click();
+  }
+  await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);
 }
 
 async function wheelTo(page: Page, pane: Locator, pageIndex: number, inset = 20) {
@@ -48,8 +55,10 @@ test('wheel crosses page boundaries in either direction, panes remain independen
   await page.mouse.wheel(0, -10000);
   await expect(right.locator('[data-ready-page="0"]')).toBeVisible();
   // A source jump still selects the requested PDF page after scrolling.
-  const repeated = page.locator('.card').filter({has: page.getByText('SYNTHETIC TEST - NOT A REAL POLICY', {exact: true})});
-  await repeated.locator('summary').click();
+  const quantities = page.getByRole('region', {name: '重复文字次数摘要'});
+  await quantities.locator('details > summary').first().click();
+  const repeated = quantities.locator('.repeat-count-item').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'});
+  await repeated.locator('.occurrence-details > summary').click();
   await repeated.getByRole('button', {name: '待审来源 3', exact: true}).click();
   await expect(right.locator('[data-ready-page="2"]')).toBeVisible();
   await expect(right.locator('polygon.highlight-location').first()).toBeVisible();
