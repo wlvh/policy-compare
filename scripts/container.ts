@@ -1,14 +1,16 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createHash } from 'node:crypto';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 const exec = promisify(execFile);
 const engine = process.argv[2];
 if (!engine) {
   const variants=[];
   for (const selected of ['pdfjs','mupdf']) {
-    try { const output=await exec('pnpm',['test:container',selected],{timeout:1_200_000,maxBuffer:16*1024*1024}); console.log(output.stdout); } catch {}
-    variants.push(JSON.parse((await import('node:fs')).readFileSync(`reports/container-${selected}.json`,'utf8')));
+    try {
+      const output=await exec('pnpm',['test:container',selected],{timeout:1_200_000,maxBuffer:16*1024*1024}); console.log(output.stdout);
+      variants.push(JSON.parse(readFileSync(`reports/container-${selected}.json`,'utf8')));
+    } catch(error) { variants.push({engine:selected,status:'FAIL',error:String(error)}); }
   }
   const report={status:variants.every(x=>x.status==='PASS')?'PASS':variants.some(x=>x.status==='BLOCKED')?'BLOCKED':'FAIL',variants};
   writeFileSync('reports/container.json',JSON.stringify(report,null,2)+'\n');process.exit(report.status==='PASS'?0:1);
@@ -23,6 +25,7 @@ const baseImage=process.env.POLICY_NODE_IMAGE || 'node:24.22.1-alpine@sha256:06d
 if (!/@sha256:[a-f0-9]{64}$/.test(baseImage)) throw new Error('Pin POLICY_NODE_IMAGE by digest');
 if (!['linux/arm64','linux/amd64'].includes(platform)) throw new Error('Unsupported target platform');
 const dir = process.env.POLICY_REPORT_DIR || `reports/local-deploy/${releaseId}-${engine}`;
+if (existsSync(`${dir}/container.json`)) throw new Error('Evidence directory already contains an attempt; choose a new release ID and report directory');
 mkdirSync(dir,{recursive:true});
 let id = '', report:Record<string,unknown> = {engine,revision,releaseId,platform,status:'NOT_EVALUATED'};
 try {
@@ -34,6 +37,8 @@ try {
 }
 try {
   const image = `policy-compare:${releaseId}-${engine}`;
+  const previous = await exec('docker',['image','inspect',image]).catch(()=>null);
+  if (previous) throw new Error('Candidate tag already exists; choose a new release ID or verify the existing image without rebuilding it');
   const args = ['build','--platform',platform,'--build-arg',`ENGINE=${engine}`,'--build-arg',`RELEASE_ID=${releaseId}`,'--build-arg',`REVISION=${revision}`,'--build-arg',`CONTACT=${process.env.POLICY_CONTACT || ''}`,'-f','deploy/Dockerfile','-t',image,'.'];
   args.splice(1,0,'--build-arg',`NODE_IMAGE=${baseImage}`);
   console.log(`Building ${image} (${platform}); output in ${dir}/build.log`);

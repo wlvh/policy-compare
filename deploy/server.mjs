@@ -8,7 +8,7 @@ const port = Number(process.env.PORT || 8080), host = process.env.HOST || '127.0
 const infoPath = resolve(root, 'build-info.json');
 const info = existsSync(infoPath) ? JSON.parse(readFileSync(infoPath, 'utf8')) : null;
 const base = info?.base || '/';
-if (base !== '/' && (!/^[a-z][a-z0-9-]{0,39}$/.test(info?.releaseId) || base !== `/releases/${info.releaseId}/`)) throw new Error('Invalid release base');
+if (base !== '/' && (!/^[a-z](?:[a-z0-9-]{0,38}[a-z0-9])?$/.test(info?.releaseId) || base !== `/releases/${info.releaseId}/`)) throw new Error('Invalid release base');
 if (!statSync(resolve(root, 'index.html')).isFile()) throw new Error('Missing index.html');
 // Validate the built bytes before readiness; never repair a release at runtime.
 if (info) {

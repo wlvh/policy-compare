@@ -27,7 +27,7 @@ STATIC_ROOT=dist/mupdf node deploy/server.mjs
 
 ## 冻结版本与候选镜像（L2-A）
 
-先提交源码，确保工作区产品文件与提交一致。release-id 是 1–40 位小写字母、数字、连字符，以字母开头；不同内容必须使用不同版本号，禁止覆盖已发布版本。明确传入引擎与 Linux 架构：
+先提交源码，确保工作区产品文件与提交一致。release-id 是 1–40 位小写字母、数字、连字符，以字母开头、字母或数字结尾；不同内容必须使用不同版本号，禁止覆盖已发布版本。容器入口拒绝覆盖已有候选标签或已有验收记录；重验已构建镜像时使用公共浏览器验证入口。明确传入引擎与 Linux 架构：
 
 ```sh
 POLICY_RELEASE_ID=r20261104-abc1234 POLICY_PLATFORM=linux/arm64 pnpm test:container mupdf

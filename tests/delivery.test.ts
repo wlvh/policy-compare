@@ -30,7 +30,7 @@ describe('OpenShift publication contract',()=>{
    expect(old.items[1].spec.selector).not.toEqual(service.spec.selector);
  });
  it('refuses incomplete environment, floating image and invalid release paths',()=>{
-   for(const change of [{image:'policy:latest'},{architecture:null},{ingressPeers:[]},{routeLabels:null},{namespace:null},{platformVersion:null},{releaseId:'../wrong'}]) expect(()=>render({...config,...change})).toThrow();
+   for(const change of [{image:'policy:latest'},{architecture:null},{ingressPeers:[]},{routeLabels:null},{namespace:null},{platformVersion:null},{releaseId:'../wrong'},{releaseId:'invalid-'}]) expect(()=>render({...config,...change})).toThrow();
  });
 });
 
