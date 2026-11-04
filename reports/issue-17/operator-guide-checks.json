@@ -1,0 +1,12 @@
+{
+  "shellBlocks": 24,
+  "shellSyntax": "PASS",
+  "mainOnlyAndNoDevelopmentFlow": "PASS",
+  "unfilledPlatformRejected": "PASS",
+  "filledPlatformAccepted": "PASS",
+  "registryDigestSelectionAndMismatchRejection": "PASS",
+  "documentCommandsRenderCandidateAndRootEntry": "PASS",
+  "firstInstallExistingEntryAndHostConflictBackup": "PASS",
+  "documentSha256": "104b1d9d8952cf92a7f47cc779f8da38afbe5f7c4debd9d4548e56c27f72996b",
+  "scope": "Documentation command syntax and fixture-based configuration generation only; no registry push or live OpenShift deployment executed"
+}
