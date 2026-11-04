@@ -2,6 +2,35 @@
 
 本指南是可执行交付入口，不是集群已部署的证明。应用仅分发静态资源，PDF 在浏览器内处理。当前支持受控开发体验；来源错误、复杂表格归属和严格样本未评价范围继续按 README 与原报告登记。正式目标架构、访问入口、目标终端与实际引擎使用条件需由组织确认。
 
+## 源码统一从 main 主干获取
+
+相关代码合入 `main` 后按本指南执行。本地开发、候选镜像构建和 OpenShift 发布的源码来源统一为 [main 主干](https://github.com/wlvh/policy-compare/tree/main)。平台侧配置 Git 来源时，仓库地址填写 `https://github.com/wlvh/policy-compare.git`，分支（ref）填写 `main`。
+
+首次获取源码：
+
+```sh
+git clone --branch main --single-branch https://github.com/wlvh/policy-compare.git
+cd policy-compare
+```
+
+已有工作区更新时，先处理自己的未提交改动，再切换并同步主干：
+
+```sh
+git switch main
+git pull --ff-only origin main
+```
+
+镜像构建使用仓库根目录作为构建上下文，构建文件为 [deploy/Dockerfile](https://github.com/wlvh/policy-compare/blob/main/deploy/Dockerfile)。本指南的源码和构建文件链接均指向 `main`。
+
+发布前记录这次实际取到的主干提交：
+
+```sh
+git branch --show-current  # 应输出 main
+git rev-parse HEAD         # 保存本次发布对应的完整提交号
+```
+
+`main` 指定源码来自哪里，具体提交号和镜像内容摘要确定本次发布的内容。每次发布仍需绑定实际提交并验证候选镜像；后续主干更新不会自动改变已发布版本，推广和回滚继续使用已验证的镜像摘要。
+
 ## 本地开发（L1）
 
 macOS/Linux 使用 Node.js 24、pnpm 10.12.1，从锁文件安装：
@@ -27,7 +56,7 @@ STATIC_ROOT=dist/mupdf node deploy/server.mjs
 
 ## 冻结版本与候选镜像（L2-A）
 
-先提交源码，确保工作区产品文件与提交一致。release-id 是 1–40 位小写字母、数字、连字符，以字母开头、字母或数字结尾；不同内容必须使用不同版本号，禁止覆盖已发布版本。容器入口拒绝覆盖已有候选标签或已有验收记录；重验已构建镜像时使用公共浏览器验证入口。明确传入引擎与 Linux 架构：
+从已同步的 `main` 主干构建，记录当前提交号，并确保工作区产品文件与该提交一致。release-id 是 1–40 位小写字母、数字、连字符，以字母开头、字母或数字结尾；不同内容必须使用不同版本号，禁止覆盖已发布版本。容器入口拒绝覆盖已有候选标签或已有验收记录；重验已构建镜像时使用公共浏览器验证入口。明确传入引擎与 Linux 架构：
 
 ```sh
 POLICY_RELEASE_ID=r20261104-abc1234 POLICY_PLATFORM=linux/arm64 pnpm test:container mupdf
@@ -61,6 +90,8 @@ pnpm exec tsx scripts/release-rehearsal.ts <previous-image-id> <candidate-image-
 它在本机路径代理后切换固定入口，验证旧标签页在切换后首次比较仍加载原版本、新会话进入新版、回滚后新会话进入旧版及新版标签页继续工作。它是容器版本保留验证，**不是 OpenShift Route 验证**。
 
 ## 真实 OpenShift（L2-B）与正式推广（L3）
+
+本节部署的候选镜像应由上述 `main` 主干流程构建并验证。将实际主干提交号、发布版本和仓库镜像摘要一起交接给平台维护者。
 
 共用运行约束在 `deploy/openshift/base/`；环境参数分别在 `overlays/local/`、`overlays/production/`。示例的 null 是尚未取得的真实信息，生成器会拒绝，不提供可误用的假域名或镜像。
 
