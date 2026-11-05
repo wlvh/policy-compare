@@ -26,7 +26,7 @@
 |---|---|
 | `namespace` | 已创建、且当前账号具有部署权限的 OpenShift 项目实际名称，例如 `policy-compare-test`。使用已有项目时填写分配的名称；使用新名称时须先完成第 2.1 步创建。不得填写项目的中文展示名称。 |
 | `architecture` | 实际承载应用的 OpenShift 工作节点 CPU 架构，按第 2.2 步查询并确认后填写 `amd64` 或 `arm64`。镜像必须与该架构一致；不得根据访问网页的电脑或当前 Mac 的架构填写。 |
-| `host` | 本工具的内网主机名，不包含 `https://`、端口或路径。 |
+| `host` | 平台批准分配给本工具的完整内网域名，按第 2.3 步确认 DNS、内部入口和证书后填写，例如 `policy-compare.apps.internal.example.com`。不包含 `https://`、端口或路径，不填写 IP、`localhost` 或 OpenShift 控制台地址。 |
 | `replicas` | 首次试用保留 `1`。 |
 | `routeLabels` | 平台内部入口用于选择本应用网址的实际标签。 |
 | `ingressPeers` | 允许内部入口访问容器的来源选择器，按实际集群网络配置填写。 |
@@ -162,6 +162,49 @@ docker version --format '{{.Server.Os}}/{{.Server.Arch}}'
 
 **完成条件：**已确认本项目可用工作节点的架构、同架构的镜像验证环境及基础镜像支持情况，配置中的 `architecture` 与 `POLICY_ARCH` 一致。浏览器所在电脑的 CPU 架构不参与这个字段的选择。
 
+### 第 2.3 步：确定用户访问域名
+
+`host` 是用户在浏览器中访问本工具时使用的域名。部署文件将它写入网址接入配置（Route）的 `spec.host`，用户访问地址为 `https://<host>/`；具体发布版本使用该域名下的 `/releases/<版本号>/` 路径。
+
+先由平台确认本项目应使用的内部入口控制器、允许使用的域名范围及分配给本工具的完整域名。有查询权限时，可在已登录的部署机终端查看入口控制器名称和实际使用的域名：
+
+```sh
+oc --context "$POLICY_CONTEXT" -n openshift-ingress-operator get ingresscontrollers -o custom-columns='NAME:.metadata.name,DOMAIN:.status.domain'
+```
+
+**预期结果：**列出入口控制器及其域名，名称与平台指定的 `internalIngressController` 对应。若提示 `Forbidden`，由平台管理员提供查询结果。该列表本身不能证明哪个入口仅供内网使用，不应直接将默认入口当作内部入口。
+
+例如，平台确认内部入口域为 `apps.internal.example.com`，并批准本工具使用 `policy-compare` 这个应用名称，可以分配完整域名 `policy-compare.apps.internal.example.com`。以下均为示例，须替换为实际分配值。
+
+填写前需确认：
+
+- 内网用户使用的 DNS 能将该完整域名解析到平台指定的内部入口地址。平台已配置适用的泛域名解析时可沿用，否则需单独配置该名称的解析。DNS 负责将域名转换为访问地址。
+- 内部入口提供的 HTTPS 证书覆盖该完整域名，且目标办公浏览器信任其签发机构。泛域名证书 `*.apps.internal.example.com` 可覆盖上述单层子域名示例。
+- 该域名及本工具使用的路径已经分配给本项目，没有与其他应用冲突。名称中含有 `internal` 不会自动限制访问范围，实际内部入口仍需在第 10 步核验。
+
+**当前模板使用接收该 Route 的入口控制器默认证书，没有在 Route 中设置单独的证书和私钥。** 使用默认域下的应用名称或公司另行分配的自定义域名，都必须先确认该默认证书覆盖目标名称。本项目的部署文件不包含公司 DNS 记录或单独域名证书的创建配置；平台若有自动配置机制，仍须确认其结果，不能仅凭已填写 `host` 判断 DNS 和证书已经就绪。[Route 与证书说明](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/network_apis/route-route-openshift-io-v1)
+
+确定实际域名后，设置变量并检查部署机上的 DNS 解析。将示例域名替换为已分配值：
+
+```sh
+export POLICY_HOST="policy-compare.apps.internal.example.com"
+node --input-type=module <<'NODE'
+import { lookup } from 'node:dns/promises';
+console.log(process.env.POLICY_HOST);
+console.log(await lookup(process.env.POLICY_HOST, { all: true }));
+NODE
+```
+
+**预期结果：**显示实际域名及解析地址，并与平台提供的内部入口地址一致。`ENOTFOUND` 表示当前解析器未能找到该名称，需检查域名填写、公司 DNS 或内网连接。部署机解析成功不等于办公终端也可访问；第 10 步还需从目标内网浏览器检查 HTTPS 和实际页面，本步骤不要求尚未部署的应用已经返回网页。
+
+在 `platform.json` 中填写相同域名，例如：
+
+```json
+"host": "policy-compare.apps.internal.example.com"
+```
+
+**完成条件：**完整域名已获分配，DNS、内部入口与默认证书已确认，配置中的 `host` 与 `POLICY_HOST` 完全一致。不得将本机试用的 `127.0.0.1:8088` 或服务器 IP 填入该字段；本指南的域名 Route 和 HTTPS 流程使用域名访问。
+
 ## 第 3 步：下载主干代码
 
 **执行位置：**部署机终端。进入项目存放目录，首次获取源码时执行：
@@ -202,6 +245,7 @@ mkdir -p tmp/openshift
 ```sh
 node --input-type=module <<'NODE'
 import fs from 'node:fs';
+import { isIP } from 'node:net';
 const c = JSON.parse(fs.readFileSync('tmp/openshift/platform.json', 'utf8'));
 const required = ['namespace', 'architecture', 'host', 'routeLabels', 'ingressPeers', 'platformVersion', 'internalIngressController', 'contact', 'registryServer', 'imageRepository', 'baseImage'];
 for (const name of required) {
@@ -212,6 +256,11 @@ if (/REPLACE_|待填/.test(JSON.stringify(c))) throw new Error('配置包含未�
 if (c.namespace !== process.env.POLICY_NAMESPACE) throw new Error('namespace 与第 2.1 步选定的 POLICY_NAMESPACE 不一致，请确认项目名称');
 if (!['amd64', 'arm64'].includes(c.architecture)) throw new Error('architecture 必须是 amd64 或 arm64');
 if (c.architecture !== process.env.POLICY_ARCH) throw new Error('architecture 与第 2.2 步确认的 POLICY_ARCH 不一致，请确认目标节点架构');
+if (typeof c.host !== 'string' || c.host.length > 253 || !c.host.includes('.') || isIP(c.host) ||
+    c.host.split('.').some(label => !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(label))) {
+  throw new Error('host 必须是完整域名，不填写协议、端口、路径、IP 或 localhost');
+}
+if (c.host !== process.env.POLICY_HOST) throw new Error('host 与第 2.3 步确认的 POLICY_HOST 不一致，请确认访问域名');
 if (!/@sha256:[a-f0-9]{64}$/.test(c.baseImage)) throw new Error('baseImage 必须带实际 SHA-256 摘要');
 if (!c.imageRepository.startsWith(c.registryServer + '/')) throw new Error('imageRepository 必须位于 registryServer 下');
 console.log('配置完整性校验通过；入口标签与网络来源以平台审核结果为准。');
