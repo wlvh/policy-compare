@@ -1,5 +1,5 @@
 {
-  "shellBlocks": 29,
+  "shellBlocks": 32,
   "shellSyntax": "PASS",
   "mainOnlyAndNoDevelopmentFlow": "PASS",
   "unfilledPlatformRejected": "PASS",
@@ -7,9 +7,13 @@
   "registryDigestSelectionAndMismatchRejection": "PASS",
   "documentCommandsRenderCandidateAndRootEntry": "PASS",
   "firstInstallExistingEntryAndHostConflictBackup": "PASS",
-  "documentSha256": "f23bb0fe07567ccb607e364df95d8767b7efb46168cfda6c27f4c9c21dbd8b44",
-  "scope": "Documentation command syntax and fixture-based configuration generation, including selected-project consistency only; no live project creation, permission check, registry push or OpenShift deployment executed",
+  "documentSha256": "7e09b502d0b95998bce6eab6fb6772ee5e3a299a502bc6f86122cac393cbe24e",
+  "scope": "Documentation command syntax and fixture-based configuration generation, including selected project/architecture consistency and rendered node selectors only; no live node query, project creation, permission check, registry push or OpenShift deployment executed",
   "namespaceSelectionMismatchRejected": "PASS",
   "namespaceSelectionMatchAccepted": "PASS",
+  "architectureSelectionMismatchRejected": "PASS",
+  "unsupportedArchitectureRejected": "PASS",
+  "amd64AndArm64SelectionAccepted": "PASS",
+  "architectureNodeSelectorsMatch": "PASS",
   "localFileLinks": "PASS"
 }

@@ -25,7 +25,7 @@
 | 配置项 | 配置要求 |
 |---|---|
 | `namespace` | 已创建、且当前账号具有部署权限的 OpenShift 项目实际名称，例如 `policy-compare-test`。使用已有项目时填写分配的名称；使用新名称时须先完成第 2.1 步创建。不得填写项目的中文展示名称。 |
-| `architecture` | 应用节点架构：`amd64` 或 `arm64`。部署机也需能实际运行该架构镜像；本机模拟不能代替目标架构验收。 |
+| `architecture` | 实际承载应用的 OpenShift 工作节点 CPU 架构，按第 2.2 步查询并确认后填写 `amd64` 或 `arm64`。镜像必须与该架构一致；不得根据访问网页的电脑或当前 Mac 的架构填写。 |
 | `host` | 本工具的内网主机名，不包含 `https://`、端口或路径。 |
 | `replicas` | 首次试用保留 `1`。 |
 | `routeLabels` | 平台内部入口用于选择本应用网址的实际标签。 |
@@ -119,6 +119,49 @@ oc --context "$POLICY_CONTEXT" project "$POLICY_NAMESPACE"
 
 **完成条件：**目标项目已存在、当前账号可访问并已取得部署所需权限，配置中的 `namespace` 与本步骤的 `POLICY_NAMESPACE` 完全一致。
 
+### 第 2.2 步：查询并确定应用运行架构
+
+`architecture` 表示运行容器的服务器所使用的 CPU 架构。它同时决定第 6 步构建哪一种镜像，以及部署后应用可以被分配到哪一类节点，必须按目标环境填写。
+
+**执行位置：**已登录目标 OpenShift 的部署机终端。查询节点及其架构标签：
+
+```sh
+oc --context "$POLICY_CONTEXT" get nodes -L kubernetes.io/arch
+```
+
+**预期结果：**节点列表最后一列显示 `amd64` 或 `arm64` 等实际架构。只采用平台允许本项目部署应用的工作节点结果，不能仅根据控制平面节点填写；节点显示 `Ready` 也不代表本项目一定可使用它，还需满足项目的节点选择、资源和调度限制。若提示 `Forbidden`，由平台管理员执行该查询并确认本项目可用节点的架构。
+
+| 目标工作节点架构 | `architecture` 填写值 |
+|---|---|
+| Intel/AMD 的 x86-64 服务器 | `amd64` |
+| ARM64 服务器 | `arm64` |
+
+若集群同时具有两种架构，选择平台允许本项目使用的一种，本次镜像构建与部署统一使用该值。本项目当前仅接受上述两种架构；查询到其他架构时，现有部署模板不支持，不能通过更改配置名称代替适配。
+
+例如，已确认目标工作节点为 `amd64` 时执行以下命令；目标为 `arm64` 时将引号内的值改为 `arm64`：
+
+```sh
+export POLICY_ARCH="amd64"
+```
+
+将相同值填入 `platform.json` 的 `architecture` 字段。以下为 `amd64` 示例：
+
+```json
+"architecture": "amd64"
+```
+
+再检查部署机的 Docker 服务实际运行架构：
+
+```sh
+docker version --format '{{.Server.Os}}/{{.Server.Arch}}'
+```
+
+**预期结果：**显示 `linux/amd64` 或 `linux/arm64`。本指南在部署机上构建并立即运行镜像执行自动检查，应使用与目标架构一致的 Docker 环境。例如，Docker 为 `linux/arm64`、目标节点为 `amd64` 时，应在具备原生 amd64 Docker 的构建/验证机上执行后续镜像检查；跨架构模拟运行可以用于探索，但不能替代目标架构的实际运行验证。
+
+部署文件会按所填架构生成节点选择条件 `kubernetes.io/arch`。填成集群中没有可用节点的架构时，应用可能一直等待分配；镜像与实际运行节点不匹配时也可能启动失败。[节点架构与调度说明](https://docs.redhat.com/en/documentation/openshift_container_platform/4.15/html/postinstallation_configuration/configuring-multi-architecture-compute-machines-on-an-openshift-cluster)
+
+**完成条件：**已确认本项目可用工作节点的架构、同架构的镜像验证环境及基础镜像支持情况，配置中的 `architecture` 与 `POLICY_ARCH` 一致。浏览器所在电脑的 CPU 架构不参与这个字段的选择。
+
 ## 第 3 步：下载主干代码
 
 **执行位置：**部署机终端。进入项目存放目录，首次获取源码时执行：
@@ -168,6 +211,7 @@ for (const name of required) {
 if (/REPLACE_|待填/.test(JSON.stringify(c))) throw new Error('配置包含未替换的占位值');
 if (c.namespace !== process.env.POLICY_NAMESPACE) throw new Error('namespace 与第 2.1 步选定的 POLICY_NAMESPACE 不一致，请确认项目名称');
 if (!['amd64', 'arm64'].includes(c.architecture)) throw new Error('architecture 必须是 amd64 或 arm64');
+if (c.architecture !== process.env.POLICY_ARCH) throw new Error('architecture 与第 2.2 步确认的 POLICY_ARCH 不一致，请确认目标节点架构');
 if (!/@sha256:[a-f0-9]{64}$/.test(c.baseImage)) throw new Error('baseImage 必须带实际 SHA-256 摘要');
 if (!c.imageRepository.startsWith(c.registryServer + '/')) throw new Error('imageRepository 必须位于 registryServer 下');
 console.log('配置完整性校验通过；入口标签与网络来源以平台审核结果为准。');
