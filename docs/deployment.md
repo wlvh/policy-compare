@@ -12,7 +12,7 @@
 
 部署前需落实以下平台配置与权限，由平台管理员提供或确认。
 
-1. 提供 OpenShift 控制台地址、登录账号和本工具专用的测试项目。
+1. 确认 OpenShift 控制台地址、登录账号及本工具专用的测试项目。已有项目使用实际项目名称；需要新建时，在第 2.1 步创建，并确认账号具有项目内的部署权限。
 2. 为本工具分配独立内网域名，并配置 DNS、受信任的 HTTPS 证书和内部访问入口。
 3. 提供镜像仓库与推送凭据，并为目标项目的默认服务账号配置镜像拉取权限。部署机的 Docker 登录状态与集群的镜像拉取凭据分别配置。
 4. 根据 [平台配置示例](../deploy/openshift/operator-settings.example.json) 生成 `platform.json`，替换全部 `REPLACE_...` 占位值。该文件仅保存环境参数，不保存密码或访问令牌。
@@ -24,7 +24,7 @@
 
 | 配置项 | 配置要求 |
 |---|---|
-| `namespace` | 目标测试项目名称。 |
+| `namespace` | 已创建、且当前账号具有部署权限的 OpenShift 项目实际名称，例如 `policy-compare-test`。使用已有项目时填写分配的名称；使用新名称时须先完成第 2.1 步创建。不得填写项目的中文展示名称。 |
 | `architecture` | 应用节点架构：`amd64` 或 `arm64`。部署机也需能实际运行该架构镜像；本机模拟不能代替目标架构验收。 |
 | `host` | 本工具的内网主机名，不包含 `https://`、端口或路径。 |
 | `replicas` | 首次试用保留 `1`。 |
@@ -36,6 +36,8 @@
 | `registryServer` | 镜像仓库主机名，必要时包含端口；不带 `https://` 或项目路径。 |
 | `imageRepository` | 镜像完整仓库路径，例如 `registry.example.internal/team/policy-compare`；不带版本标签。 |
 | `baseImage` | 组织批准、且与项目 Dockerfile 兼容的 Node.js 24 基础镜像，必须带 `@sha256:...` 内容标识。 |
+
+OpenShift 项目是放置本工具运行实例、内部服务和访问入口等资源的工作区，其实际名称对应 `namespace`（命名空间）。该名称与 GitHub 仓库名称没有绑定关系；填写 `platform.json` 或运行本项目的部署脚本都不会自动创建项目。
 
 若组织批准使用项目当前的公共基础镜像，`baseImage` 可填以下完整值；否则由管理员提供内部镜像的实际地址和摘要：
 
@@ -74,6 +76,48 @@ export POLICY_CONTEXT="$(oc config current-context)"
 ```
 
 **预期结果：**第一条显示当前账号，第二条显示目标集群地址。集群地址与部署目标不一致时，重新登录目标集群。
+
+### 第 2.1 步：确认或创建目标项目
+
+**执行位置：**已完成第 2 步登录的部署机终端。
+
+先查看当前账号可以访问的项目：
+
+```sh
+oc --context "$POLICY_CONTEXT" projects
+```
+
+**预期结果：**列出可访问的项目。若控制台显示中文展示名称，应使用其对应的实际项目名称填写配置。
+
+确定本次使用的项目名称。以下以 `policy-compare-test` 为例；已有分配项目时，将引号内的值替换为其实际名称：
+
+```sh
+export POLICY_NAMESPACE="policy-compare-test"
+```
+
+**只有需要新建项目时执行以下命令；已有目标项目时跳过。** 新建名称须遵守公司命名规范，可使用 `policy-compare-test` 这样的名称，避免 `openshift-`、`kube-` 系统前缀。账号具备项目创建权限时执行：
+
+```sh
+oc --context "$POLICY_CONTEXT" new-project "$POLICY_NAMESPACE"
+```
+
+**预期结果：**显示项目已创建并被选中。若提示 `Forbidden` 或 `You may not request a new project`，按公司流程申请创建及部署权限；若提示项目已存在，确认该项目归属和使用授权后再继续。[项目创建权限与命名说明](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/building_applications/projects#creating-a-project-using-the-CLI_projects)
+
+无论使用已有还是新建项目，最后执行以下命令确认目标：
+
+```sh
+oc --context "$POLICY_CONTEXT" project "$POLICY_NAMESPACE"
+```
+
+**预期结果：**显示正在使用指定项目。该命令只切换项目，不会创建项目。切换成功表示可以访问该项目，部署还需账号对 Deployment、Service、Route 和 NetworkPolicy 具有所需的读取、创建和更新权限；第 9 步执行服务端配置校验。新建项目后还须落实第 0 步要求的镜像拉取权限及其他平台配置。
+
+将同一名称填入 `platform.json`，例如以下字段（文件中其余字段保留各自的实际配置）：
+
+```json
+"namespace": "policy-compare-test"
+```
+
+**完成条件：**目标项目已存在、当前账号可访问并已取得部署所需权限，配置中的 `namespace` 与本步骤的 `POLICY_NAMESPACE` 完全一致。
 
 ## 第 3 步：下载主干代码
 
@@ -122,6 +166,7 @@ for (const name of required) {
   if (!v || (typeof v === 'object' && !Object.keys(v).length)) throw new Error(`缺少必填配置：${name}`);
 }
 if (/REPLACE_|待填/.test(JSON.stringify(c))) throw new Error('配置包含未替换的占位值');
+if (c.namespace !== process.env.POLICY_NAMESPACE) throw new Error('namespace 与第 2.1 步选定的 POLICY_NAMESPACE 不一致，请确认项目名称');
 if (!['amd64', 'arm64'].includes(c.architecture)) throw new Error('architecture 必须是 amd64 或 arm64');
 if (!/@sha256:[a-f0-9]{64}$/.test(c.baseImage)) throw new Error('baseImage 必须带实际 SHA-256 摘要');
 if (!c.imageRepository.startsWith(c.registryServer + '/')) throw new Error('imageRepository 必须位于 registryServer 下');
@@ -142,7 +187,7 @@ export POLICY_NODE_IMAGE="$(node -p "require('./tmp/openshift/platform.json').ba
 oc --context "$POLICY_CONTEXT" project "$POLICY_NAMESPACE"
 ```
 
-**预期结果：**配置检查通过，最后一条命令显示目标项目。权限不足时，由平台管理员为当前账号授予该项目所需权限。
+**预期结果：**配置检查通过，最后一条命令显示第 2.1 步确认的目标项目。项目不存在时返回第 2.1 步完成创建；权限不足时申请该项目所需权限，处理后再继续。
 
 ## 第 5 步：安装打包和自动检查需要的依赖
 

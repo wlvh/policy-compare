@@ -1,5 +1,5 @@
 {
-  "shellBlocks": 25,
+  "shellBlocks": 29,
   "shellSyntax": "PASS",
   "mainOnlyAndNoDevelopmentFlow": "PASS",
   "unfilledPlatformRejected": "PASS",
@@ -7,6 +7,9 @@
   "registryDigestSelectionAndMismatchRejection": "PASS",
   "documentCommandsRenderCandidateAndRootEntry": "PASS",
   "firstInstallExistingEntryAndHostConflictBackup": "PASS",
-  "documentSha256": "f2d8eb86bd7562b6f303714e183309e636bf24551dfde16f1e30c932a06d740d",
-  "scope": "Documentation command syntax and fixture-based configuration generation only; no registry push or live OpenShift deployment executed"
+  "documentSha256": "f23bb0fe07567ccb607e364df95d8767b7efb46168cfda6c27f4c9c21dbd8b44",
+  "scope": "Documentation command syntax and fixture-based configuration generation, including selected-project consistency only; no live project creation, permission check, registry push or OpenShift deployment executed",
+  "namespaceSelectionMismatchRejected": "PASS",
+  "namespaceSelectionMatchAccepted": "PASS",
+  "localFileLinks": "PASS"
 }
