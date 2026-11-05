@@ -1,5 +1,5 @@
 {
-  "shellBlocks": 34,
+  "shellBlocks": 39,
   "shellSyntax": "PASS",
   "mainOnlyAndNoDevelopmentFlow": "PASS",
   "unfilledPlatformRejected": "PASS",
@@ -7,27 +7,12 @@
   "registryDigestSelectionAndMismatchRejection": "PASS",
   "documentCommandsRenderCandidateAndRootEntry": "PASS",
   "firstInstallExistingEntryAndHostConflictBackup": "PASS",
-  "documentSha256": "c3398de39a18b877b0654862b53f0edcfc9e48db440fddc8ceb68d9e04433759",
-  "scope": "Documentation command syntax and fixture-based configuration generation, including selected project/architecture/host consistency, host format and rendered selectors/Routes only; no live controller/node query, company DNS resolution, certificate check, project creation, permission check, registry push or OpenShift deployment executed",
-  "namespaceSelectionMismatchRejected": "PASS",
-  "namespaceSelectionMatchAccepted": "PASS",
-  "architectureSelectionMismatchRejected": "PASS",
-  "unsupportedArchitectureRejected": "PASS",
-  "amd64AndArm64SelectionAccepted": "PASS",
-  "architectureNodeSelectorsMatch": "PASS",
-  "hostSelectionMismatchRejected": "PASS",
-  "hostSelectionMatchAccepted": "PASS",
-  "hostInvalidFormatsRejected": "PASS",
-  "candidateAndEntryHostsMatch": "PASS",
-  "localFileLinks": "PASS",
-  "rejectedHostExamples": [
-    "127.0.0.1",
-    "10.1.2.3",
-    "localhost",
-    "https://policy.apps.test",
-    "policy.apps.test:443",
-    "policy.apps.test/path",
-    "policy..apps.test",
-    "-policy.apps.test"
-  ]
+  "documentSha256": "5b63e322a7002df63700c5abc07f3abf113d7968e353175ee00b0d85c139857f",
+  "scope": "Documentation shell syntax, native configuration validation, full example alignment and fixture-based rendering/promotion guards only; no live cluster, DNS/certificate, authentication, network reachability, registry login/push/pull or user acceptance executed",
+  "allTwelveFieldsAndFullExample": "PASS",
+  "nativeNode24PreDependencyCheck": "PASS",
+  "selectedProjectArchitectureHostAndRouterConsistency": "PASS",
+  "selectorAndRepositoryInputGuards": "PASS",
+  "candidatePromotionVersionArchitectureAndRepositoryGuards": "PASS",
+  "localFileLinks": "PASS"
 }

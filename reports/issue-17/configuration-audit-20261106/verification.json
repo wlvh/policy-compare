@@ -1,0 +1,133 @@
+{
+  "checkedAt": "2026-11-05T16:39:01.980497+00:00",
+  "scope": "Configuration completeness and local engineering verification only",
+  "fields": [
+    "namespace",
+    "architecture",
+    "host",
+    "replicas",
+    "routeLabels",
+    "ingressPeers",
+    "platformVersion",
+    "internalIngressController",
+    "contact",
+    "registryServer",
+    "imageRepository",
+    "baseImage"
+  ],
+  "fieldCount": 12,
+  "typecheck": {
+    "mupdf": "PASS",
+    "pdfjs": "PASS"
+  },
+  "core": {
+    "numTotalTests": 409,
+    "numPassedTests": 409,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "success": true,
+    "suites": [
+      {
+        "name": "tests/alignment.test.ts",
+        "status": "passed",
+        "assertions": 4
+      },
+      {
+        "name": "tests/boundary.test.ts",
+        "status": "passed",
+        "assertions": 2
+      },
+      {
+        "name": "tests/contracts.test.ts",
+        "status": "passed",
+        "assertions": 4
+      },
+      {
+        "name": "tests/core.test.ts",
+        "status": "passed",
+        "assertions": 8
+      },
+      {
+        "name": "tests/cosmetic-evidence.test.ts",
+        "status": "passed",
+        "assertions": 21
+      },
+      {
+        "name": "tests/delivery.test.ts",
+        "status": "passed",
+        "assertions": 4
+      },
+      {
+        "name": "tests/local-dev.test.ts",
+        "status": "passed",
+        "assertions": 1
+      },
+      {
+        "name": "tests/margin-text.test.ts",
+        "status": "passed",
+        "assertions": 17
+      },
+      {
+        "name": "tests/page-counts.test.ts",
+        "status": "passed",
+        "assertions": 7
+      },
+      {
+        "name": "tests/page-furniture.test.ts",
+        "status": "passed",
+        "assertions": 27
+      },
+      {
+        "name": "tests/platform-config.test.ts",
+        "status": "passed",
+        "assertions": 31
+      },
+      {
+        "name": "tests/result-format-2.test.ts",
+        "status": "passed",
+        "assertions": 25
+      },
+      {
+        "name": "tests/review-core.test.ts",
+        "status": "passed",
+        "assertions": 13
+      },
+      {
+        "name": "tests/row-identity-evidence.test.ts",
+        "status": "passed",
+        "assertions": 50
+      },
+      {
+        "name": "tests/row-identity.test.ts",
+        "status": "passed",
+        "assertions": 12
+      },
+      {
+        "name": "tests/scorer.test.ts",
+        "status": "passed",
+        "assertions": 145
+      },
+      {
+        "name": "tests/server.test.ts",
+        "status": "passed",
+        "assertions": 1
+      },
+      {
+        "name": "tests/table-scope.test.ts",
+        "status": "passed",
+        "assertions": 37
+      }
+    ]
+  },
+  "newConfigurationTests": 31,
+  "shellBlocks": 39,
+  "documentAndFixtureChecks": "PASS",
+  "clusterAcceptance": "NOT_EVALUATED",
+  "manualUserAcceptance": "NOT_EVALUATED",
+  "sourceSha256": {
+    "docs/deployment.md": "5b63e322a7002df63700c5abc07f3abf113d7968e353175ee00b0d85c139857f",
+    "deploy/openshift/operator-settings.example.json": "a802f3b6a329596cf91a671158e02a7d60400d64da18410f69d90d17c8d21116",
+    "scripts/check-platform.ts": "872e965939424df8a2db95d25db87ef5720856b9f5a11fe79f8c95052b30973a",
+    "tests/platform-config.test.ts": "e283897e8f3a5e4e6edb36fab6f36af4aca035950ac5fb2d734c86f732a4d63d"
+  }
+}

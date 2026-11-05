@@ -14,28 +14,28 @@
 
 1. 确认 OpenShift 控制台地址、登录账号及本工具专用的测试项目。已有项目使用实际项目名称；需要新建时，在第 2.1 步创建，并确认账号具有项目内的部署权限。
 2. 为本工具分配独立内网域名，并配置 DNS、受信任的 HTTPS 证书和内部访问入口。
-3. 提供镜像仓库与推送凭据，并为目标项目的默认服务账号配置镜像拉取权限。部署机的 Docker 登录状态与集群的镜像拉取凭据分别配置。
-4. 根据 [平台配置示例](../deploy/openshift/operator-settings.example.json) 生成 `platform.json`，替换全部 `REPLACE_...` 占位值。该文件仅保存环境参数，不保存密码或访问令牌。
+3. 提供镜像仓库地址、推送权限和基础镜像来源，并为目标项目的默认服务账号配置镜像拉取权限。部署机的 Docker 登录状态与集群的镜像拉取凭据分别配置；私有基础镜像需在构建前登录其所属仓库。
+4. 按第 2 步确认实际参数，在第 4 步复制 [平台配置模板](../deploy/openshift/operator-settings.example.json) 并填写全部字段。该文件只保存环境参数，不保存密码、令牌、证书私钥或镜像拉取凭据内容。
 5. 确认部署机可访问集群、镜像仓库、GitHub、构建所需的 npm 包和基础镜像；构建环境禁止直接访问外网时，预先准备内部制品来源。
 
 **部署机**指执行本指南命令的工作站或服务器。本文命令适用于 macOS/Linux 的 Bash 终端；Windows 环境使用已配置的 WSL/Linux 部署机。部署机需安装 Git、Docker、Node.js 24、pnpm 10.12.1 和 OpenShift 命令行工具 `oc`。浏览器自动检查组件在第 5 步安装。
 
-平台配置字段如下，后续命令从 `platform.json` 读取。
+`platform.json` 共有以下 **12 个字段，全部必填**。它们不是 12 个自由命名项：项目、架构、域名、入口规则和镜像仓库必须对应实际平台；可自行决定的是经授权的新名称、首次副本数和实际维护渠道。查询命令及确认步骤集中在第 2.1–2.5 步。
 
-| 配置项 | 配置要求 |
-|---|---|
-| `namespace` | 已创建、且当前账号具有部署权限的 OpenShift 项目实际名称，例如 `policy-compare-test`。使用已有项目时填写分配的名称；使用新名称时须先完成第 2.1 步创建。不得填写项目的中文展示名称。 |
-| `architecture` | 实际承载应用的 OpenShift 工作节点 CPU 架构，按第 2.2 步查询并确认后填写 `amd64` 或 `arm64`。镜像必须与该架构一致；不得根据访问网页的电脑或当前 Mac 的架构填写。 |
-| `host` | 平台批准分配给本工具的完整内网域名，按第 2.3 步确认 DNS、内部入口和证书后填写，例如 `policy-compare.apps.internal.example.com`。不包含 `https://`、端口或路径，不填写 IP、`localhost` 或 OpenShift 控制台地址。 |
-| `replicas` | 首次试用保留 `1`。 |
-| `routeLabels` | 平台内部入口用于选择本应用网址的实际标签。 |
-| `ingressPeers` | 允许内部入口访问容器的来源选择器，按实际集群网络配置填写。 |
-| `platformVersion` | 实际 OpenShift 版本。 |
-| `internalIngressController` | 应当接收本应用网址的内部路由器名称。 |
-| `contact` | 应用维护联系人或反馈渠道。 |
-| `registryServer` | 镜像仓库主机名，必要时包含端口；不带 `https://` 或项目路径。 |
-| `imageRepository` | 镜像完整仓库路径，例如 `registry.example.internal/team/policy-compare`；不带版本标签。 |
-| `baseImage` | 组织批准、且与项目 Dockerfile 兼容的 Node.js 24 基础镜像，必须带 `@sha256:...` 内容标识。 |
+| 配置项 | 实际作用 | 取值来源与填写要求 |
+|---|---|---|
+| `namespace` | 放置本工具资源的项目。 | 第 2.1 步查询已有项目，或获准后新建。填项目实际名称，如 `policy-compare-test`，不填中文展示名称；项目须存在且账号有部署权限。 |
+| `architecture` | 决定镜像架构和应用运行节点。 | 第 2.2 步确认本项目可用工作节点，填 `amd64` 或 `arm64`。不能根据办公电脑选择；镜像验证环境须与之匹配。 |
+| `host` | 用户访问服务的完整域名。 | 第 2.3 步由平台分配并落实 DNS、内部入口和证书，如 `policy-compare.apps.internal.example.com`。只填域名，不带协议、端口、路径或 IP。 |
+| `replicas` | 每个发布版本运行多少个网页服务副本。 | 首次试用填整数 `1`；当前生成器接受 `1–20`，增大前核对项目配额。不是浏览器并发数，也不会加速浏览器内的 PDF 比较。旧版本保留期间会另占资源。 |
+| `routeLabels` | 给候选和固定入口 Route 加标签，供入口控制器筛选。 | 第 2.4 步依据平台实际 `routeSelector` 提供 JSON 键值对象。不能自行编造 `internal: true`；增加标签也不会自动让其他入口拒绝该 Route。 |
+| `ingressPeers` | 允许哪些网络来源访问应用容器的 TCP 8080 端口。 | 第 2.4 步由平台按实际网络、路由器命名空间/Pod 标签或来源网段提供 JSON 数组。是入口路由器的后端来源，不是办公电脑 IP 清单；结构与组合含义见该步骤。 |
+| `platformVersion` | 记录本次实际 OpenShift 版本。 | 第 2.4 步查 `oc get clusterversion version`，填实际版本字符串，如 `4.20.1`。不填客户端 `oc` 版本；此字段不会升级集群，也不证明已兼容该版本。 |
+| `internalIngressController` | 记录本工具应由哪个内部入口接收，供验收对照。 | 第 2.4 步填实际控制器资源名称，如 `internal`。不填域名、IP、Pod 名或 Service 名；它不会自动绑定 Route 或排除默认入口，第 10 步须核对实际接收者。 |
+| `contact` | 显示在网页“使用说明与版本信息”中的维护渠道。 | 应用维护负责人提供真实团队、邮箱或工单地址，填单行文本。构建时写入网页；修改后需创建新候选，仅修改部署参数不会更新已验镜像的页面。 |
+| `registryServer` | 部署机登录的候选镜像仓库。 | 第 2.5 步由仓库维护者提供主机名，可带端口，如 `registry.example.internal:5000`。不带协议、项目路径或凭据；不是应用的 `host`。 |
+| `imageRepository` | 本工具候选镜像在仓库中的完整路径。 | 第 2.5 步使用已创建或获准创建且有推送/拉取权限的路径，如 `registry.example.internal:5000/team/policy-compare`。必须以 `registryServer/` 开头，不带 `:版本` 或 `@sha256:摘要`。仓库项目与 OpenShift 项目不一定同名。 |
+| `baseImage` | Dockerfile 用来构建并运行应用的 Node 基础镜像。 | 第 2.5 步提供兼容当前 Dockerfile、支持目标架构的 Node.js 24 完整镜像引用，必须固定 `@sha256:...`。它与最终应用镜像是两个对象，不能用 `imageRepository` 代替；摘要格式正确不等于内容、架构和组织使用条件已核实。 |
 
 OpenShift 项目是放置本工具运行实例、内部服务和访问入口等资源的工作区，其实际名称对应 `namespace`（命名空间）。该名称与 GitHub 仓库名称没有绑定关系；填写 `platform.json` 或运行本项目的部署脚本都不会自动创建项目。
 
@@ -45,7 +45,9 @@ OpenShift 项目是放置本工具运行实例、内部服务和访问入口等�
 node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
 ```
 
-**完成条件：**登录账号、已填充的 `platform.json`、镜像推送凭据及部署机工具均已就绪。
+另有三类前置条件不通过这 12 个字段自动建立：项目操作权限与镜像凭据、DNS/HTTPS 证书与终端信任、组织要求的用户登录控制。当前模板没有应用登录功能，也没有公司统一账号登录（SSO）的配置开关；集群登录、仓库登录和内网访问也不等同于应用用户鉴权。若组织要求入口 SSO，由平台落实并保留浏览器所需响应头；现有自动网址检查不包含 SSO 登录步骤，需要先完成测试登录适配，不能把登录页当作应用检查通过。
+
+**完成条件：**账号和部署机工具就绪，已明确平台、仓库及应用维护负责人。第 2 步确认实际参数，第 4 步保存配置并检查；尚未落实的项不能用示例值代替。
 
 ## 第 1 步：检查部署机的工具
 
@@ -205,6 +207,92 @@ NODE
 
 **完成条件：**完整域名已获分配，DNS、内部入口与默认证书已确认，配置中的 `host` 与 `POLICY_HOST` 完全一致。不得将本机试用的 `127.0.0.1:8088` 或服务器 IP 填入该字段；本指南的域名 Route 和 HTTPS 流程使用域名访问。
 
+### 第 2.4 步：确认平台版本、入口选择和网络来源
+
+**执行位置：**已登录的部署机终端。以下读取集群配置；权限不足时，由平台维护者执行并提供结果，不通过猜测名称或标签补齐参数。
+
+查看 OpenShift 平台版本：
+
+```sh
+oc --context "$POLICY_CONTEXT" get clusterversion version
+```
+
+**预期结果：**显示集群实际版本，`AVAILABLE=True` 且 `PROGRESSING=False`。将实际 `VERSION` 填入 `platformVersion`；若正在升级，先与平台确认部署窗口。此字段只记录环境，不会改变集群版本或选择另一套部署模板。
+
+将平台指定的内部入口控制器名称写入变量。以下名称 `internal` 必须替换为第 2.3 步确认的实际资源名称，再读取完整配置及来源标签：
+
+```sh
+export POLICY_INTERNAL_ROUTER="internal"
+oc --context "$POLICY_CONTEXT" -n openshift-ingress-operator get ingresscontroller "$POLICY_INTERNAL_ROUTER" -o json
+oc --context "$POLICY_CONTEXT" get namespace "$POLICY_NAMESPACE" --show-labels
+oc --context "$POLICY_CONTEXT" get namespace openshift-ingress --show-labels
+oc --context "$POLICY_CONTEXT" -n openshift-ingress get pods --show-labels
+```
+
+**预期结果：**控制器存在，并取得其选择条件、对外提供入口的方式以及路由器 Pod 标签。平台标准路由器通常位于 `openshift-ingress`；使用不同部署方式时，来源和网络规则须按实际环境确认。将控制器资源名称填入 `internalIngressController`。
+
+平台需要据此提供两项不同配置：
+
+| 字段 | 如何确定 | 不能由此推断的结论 |
+|---|---|---|
+| `routeLabels` | 使本工具 Route 标签满足指定内部控制器实际 `spec.routeSelector`；应用项目自身还须符合控制器的 `spec.namespaceSelector`。选择器包含 `matchExpressions` 时也须满足表达式。 | 标签不是“仅内网”开关。其他控制器如果不筛选 Route，仍可能接收它；平台需配置其他入口的排除规则，并在第 10 步检查所有实际接收者。 |
+| `ingressPeers` | 允许入口路由器访问后端 Pod 的来源。用实际命名空间标签和路由器 Pod 标签确定，或由平台在适用网络下提供明确来源网段。 | Route 被接收不证明后端网络可达，Pod 选择器也不必然适用于所有网络实现。不能用开放全部来源替代排查。 |
+
+下面只说明 JSON 结构：`routeLabels` 是键值对象，`ingressPeers` 是来源数组。示例标签必须按上面查询结果及平台审核值替换，不能直接视作公司集群参数：
+
+```json
+{
+  "routeLabels": { "example.com/visibility": "internal" },
+  "ingressPeers": [
+    {
+      "namespaceSelector": { "matchLabels": { "kubernetes.io/metadata.name": "openshift-ingress" } },
+      "podSelector": { "matchLabels": { "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "internal" } }
+    }
+  ]
+}
+```
+
+同一个来源对象内的 `namespaceSelector` 和 `podSelector` 必须同时满足；拆成数组中的两个对象会放宽为满足任一来源。只填写 `podSelector` 时，其范围是应用所在项目，不能用它跨项目选择路由器。选择器可使用 `matchLabels` 或有效的 `matchExpressions`。本流程拒绝空选择器、空来源对象和 `/0` 全来源网段，不能将它们用作待填占位值。
+
+路由器使用 `hostNetwork` 等方式时，网络插件可能按节点地址识别其流量；平台需确认当前网络实现，必要时提供 `ipBlock` 来源网段并验证。网段使用“地址/掩码长度”（CIDR）格式，例如 `[{"ipBlock":{"cidr":"10.10.0.0/16"}}]` 只展示结构，必须换成平台确认的实际来源。`ipBlock` 与标签选择器不能写在同一来源对象。多条 NetworkPolicy 的放行规则会叠加，现有其他策略可能扩大访问范围。模板自身不放行容器主动出站；这不控制办公浏览器的网络。上述事实须在实际环境验证，配置格式检查无法证明隔离生效。[入口选择条件](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html-single/operator_apis/index)、[网络策略语义](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+
+**完成条件：**平台提供实际 `platformVersion`、`internalIngressController`、`routeLabels` 和 `ingressPeers`，确认应用项目满足入口选择条件，明确其他入口排除规则及网络验证方式。未落实真实平台规则时，停止在部署前准备阶段。
+
+### 第 2.5 步：确认仓库、基础镜像、副本和维护渠道
+
+由镜像仓库维护者提供可用仓库地址及本工具的路径。以下说明三个字段的区别，均为示例：
+
+| 字段 | 示例 | 来源及要求 |
+|---|---|---|
+| `registryServer` | `registry.example.internal:5000` | 候选镜像仓库的登录主机。当前流程只使用一套候选镜像地址，部署机和集群节点都须可访问、解析并信任其证书。不能仅提供集群内部可解析的 `.svc` 地址给外部部署机。 |
+| `imageRepository` | `registry.example.internal:5000/team/policy-compare` | 已分配的仓库/项目/镜像路径。先确认仓库项目已创建或支持获准自动创建；登录成功不证明具有该路径的推送权限。集群拉取权限也须分别配置。 |
+| `baseImage` | `node:24.22.1-alpine@sha256:...` | 组织批准的 Node.js 24 基础镜像完整引用，摘要使用实际的 64 个十六进制字符，不能把 `...` 填入文件。摘要可标识多架构清单或单架构镜像；所选内容必须支持 `architecture`。 |
+
+使用 OpenShift 集成仓库时，镜像路径中的项目须存在，按平台权限配置推送和拉取；使用其他仓库时，其项目不必与 `namespace` 同名。若平台分别提供部署机推送地址和节点拉取地址，须先确定一套双方可用的地址，或由维护者调整并验证跨地址的镜像推广流程，不能直接将两者混填。
+
+`baseImage` 必须与当前 `deploy/Dockerfile` 兼容：构建阶段需要 Node.js 24、Corepack/pnpm 及所需的文件写入权限，运行阶段需要 Node 并能按非 root 用户读取静态资源。不能只看“Node 24”名称就认定另一种 UBI/其他基础镜像可以直接替换。使用私有基础镜像时，部署机须先登录其所属仓库；若不同于 `registryServer`，两处分别登录。构建网络还需能取得锁定的 npm 包和浏览器依赖，最终网页不依赖外部 CDN 不代表镜像构建可完全离线。
+
+本工具每个副本申请 `100m CPU/64Mi`，上限 `1 CPU/256Mi`；`replicas` 是每个发布版本的副本数，首次填数字 `1`。资源配额需同时容纳仍保留的旧版本。浏览器内的 PDF 内存不计入容器限制，增加副本不等于提高单次比较性能。
+
+`contact` 填实际承担支持工作的团队、邮箱或工单地址，例如“保单工具维护组，工单入口：公司实际地址”。它会作为普通文字显示，不会自动发邮件或创建工单，也不能填写访问令牌。正式推广同一镜像时保留镜像中已写入的维护渠道；若测试和正式需要不同联系人，应在创建候选前确定共同渠道，或另建候选并重新检查。
+
+最后由平台确认目标项目默认服务账号的镜像拉取配置。只查看已关联的凭据名称：
+
+```sh
+oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" get serviceaccount default -o jsonpath='{.imagePullSecrets[*].name}{"\n"}'
+```
+
+**预期结果：**平台能说明实际使用的项目/全局凭据或其他拉取机制，以及它对本次仓库路径的权限；空输出本身不能证明可拉取或不可拉取。若平台已为本次仓库创建项目拉取凭据，并要求关联到默认服务账号，将下方示例名称替换为实际凭据名称后执行：
+
+```sh
+export POLICY_PULL_SECRET="替换为已创建的项目拉取凭据名称"
+oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" secrets link default "$POLICY_PULL_SECRET" --for=pull
+```
+
+本步骤不创建或输出凭据内容；全局凭据、跨项目授权或外部凭据供应方式由平台处理。关联成功仍须在第 9 步用实际 Pod 拉取结果验证。[镜像拉取权限说明](https://docs.redhat.com/en/documentation/openshift_container_platform/4.15/html/images/managing-images)
+
+**完成条件：**仓库路径与推送/拉取权限、双方网络与证书信任、兼容的固定基础镜像、副本配额及维护渠道均已明确，再进入源码和配置步骤。
+
 ## 第 3 步：下载主干代码
 
 **执行位置：**部署机终端。进入项目存放目录，首次获取源码时执行：
@@ -236,36 +324,42 @@ test -f deploy/Dockerfile && test -f scripts/render-openshift.ts && echo '部署
 
 ```sh
 mkdir -p tmp/openshift
+test -f tmp/openshift/platform.json || cp deploy/openshift/operator-settings.example.json tmp/openshift/platform.json
 ```
 
-将已填充的 `platform.json` 保存至仓库的 `tmp/openshift/` 目录。最终路径为 `policy-compare/tmp/openshift/platform.json`，该目录已被 Git 忽略。
+用文本编辑器打开 `tmp/openshift/platform.json`，按第 2.1–2.5 步确认的实际值填写 12 个字段，替换全部占位值。上面的复制命令保留已经存在的配置，更新部署时应核对原文件是否仍适用于当前目标。目录已被 Git 忽略。
 
-执行配置完整性检查：
+下面是一个完整 JSON 的结构示例，用来核对对象、数组、字符串和整数的写法。域名、标签、版本、仓库和联系人均为示例，不代表公司已经提供了这些资源；除首次 `replicas: 1` 外均按实际环境填写。基础镜像只在组织批准使用该固定公共镜像时沿用：
+
+```json
+{
+  "namespace": "policy-compare-test",
+  "architecture": "amd64",
+  "host": "policy-compare.apps.internal.example.com",
+  "replicas": 1,
+  "routeLabels": { "example.com/visibility": "internal" },
+  "ingressPeers": [
+    {
+      "namespaceSelector": { "matchLabels": { "kubernetes.io/metadata.name": "openshift-ingress" } },
+      "podSelector": { "matchLabels": { "ingresscontroller.operator.openshift.io/deployment-ingresscontroller": "internal" } }
+    }
+  ],
+  "platformVersion": "4.20.1",
+  "internalIngressController": "internal",
+  "contact": "保单工具维护组 support@example.com",
+  "registryServer": "registry.example.internal:5000",
+  "imageRepository": "registry.example.internal:5000/team/policy-compare",
+  "baseImage": "node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53"
+}
+```
+
+执行统一配置检查。只需要已安装的 Node.js 24，不依赖第 5 步的 pnpm 安装：
 
 ```sh
-node --input-type=module <<'NODE'
-import fs from 'node:fs';
-import { isIP } from 'node:net';
-const c = JSON.parse(fs.readFileSync('tmp/openshift/platform.json', 'utf8'));
-const required = ['namespace', 'architecture', 'host', 'routeLabels', 'ingressPeers', 'platformVersion', 'internalIngressController', 'contact', 'registryServer', 'imageRepository', 'baseImage'];
-for (const name of required) {
-  const v = c[name];
-  if (!v || (typeof v === 'object' && !Object.keys(v).length)) throw new Error(`缺少必填配置：${name}`);
-}
-if (/REPLACE_|待填/.test(JSON.stringify(c))) throw new Error('配置包含未替换的占位值');
-if (c.namespace !== process.env.POLICY_NAMESPACE) throw new Error('namespace 与第 2.1 步选定的 POLICY_NAMESPACE 不一致，请确认项目名称');
-if (!['amd64', 'arm64'].includes(c.architecture)) throw new Error('architecture 必须是 amd64 或 arm64');
-if (c.architecture !== process.env.POLICY_ARCH) throw new Error('architecture 与第 2.2 步确认的 POLICY_ARCH 不一致，请确认目标节点架构');
-if (typeof c.host !== 'string' || c.host.length > 253 || !c.host.includes('.') || isIP(c.host) ||
-    c.host.split('.').some(label => !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(label))) {
-  throw new Error('host 必须是完整域名，不填写协议、端口、路径、IP 或 localhost');
-}
-if (c.host !== process.env.POLICY_HOST) throw new Error('host 与第 2.3 步确认的 POLICY_HOST 不一致，请确认访问域名');
-if (!/@sha256:[a-f0-9]{64}$/.test(c.baseImage)) throw new Error('baseImage 必须带实际 SHA-256 摘要');
-if (!c.imageRepository.startsWith(c.registryServer + '/')) throw new Error('imageRepository 必须位于 registryServer 下');
-console.log('配置完整性校验通过；入口标签与网络来源以平台审核结果为准。');
-NODE
+node scripts/check-platform.ts tmp/openshift/platform.json
 ```
+
+**预期结果：**显示“12 项配置格式及已选环境一致性检查通过”。检查覆盖全部必填项、拼写错误/多余字段、占位值、副本范围、域名、标签和来源结构、仓库路径与固定摘要，以及第 2 步确认的项目、架构、域名和入口名称。它不能核实标签是否属于真实集群、平台是否批准、DNS/证书是否生效或账号是否有权限；这些仍按对应步骤验证。报错时按字段修正后重跑，不先构建镜像。
 
 将配置加载为当前终端的环境变量，并选择目标项目：
 
@@ -277,14 +371,27 @@ export POLICY_REGISTRY="$(node -p "require('./tmp/openshift/platform.json').regi
 export POLICY_IMAGE_REPO="$(node -p "require('./tmp/openshift/platform.json').imageRepository")"
 export POLICY_CONTACT="$(node -p "require('./tmp/openshift/platform.json').contact")"
 export POLICY_NODE_IMAGE="$(node -p "require('./tmp/openshift/platform.json').baseImage")"
+export POLICY_INTERNAL_ROUTER="$(node -p "require('./tmp/openshift/platform.json').internalIngressController")"
 oc --context "$POLICY_CONTEXT" project "$POLICY_NAMESPACE"
 ```
 
 **预期结果：**配置检查通过，最后一条命令显示第 2.1 步确认的目标项目。项目不存在时返回第 2.1 步完成创建；权限不足时申请该项目所需权限，处理后再继续。
 
-## 第 5 步：安装打包和自动检查需要的依赖
+## 第 5 步：检查镜像来源并安装打包依赖
 
 **执行位置：**部署机终端，仓库根目录。
+
+先登录候选仓库。若私有基础镜像属于另一个仓库，先额外执行 `docker login 基础镜像所属的实际仓库主机`，使用该仓库的凭据；公共可匿名拉取的基础镜像无需额外登录。
+
+```sh
+docker login "$POLICY_REGISTRY" &&
+docker pull --platform "linux/$POLICY_ARCH" "$POLICY_NODE_IMAGE" &&
+docker image inspect --format '{{.Os}}/{{.Architecture}}' "$POLICY_NODE_IMAGE"
+```
+
+**预期结果：**登录成功，拉取成功，最后显示与第 2.2 步相同的 `linux/amd64` 或 `linux/arm64`。认证、证书、架构或网络失败先处理后再构建；登录成功不证明路径推送权限，基础镜像兼容性仍以第 6 步真实构建与运行检查为准。
+
+然后安装依赖：
 
 ```sh
 pnpm install --frozen-lockfile &&
@@ -329,6 +436,8 @@ printf '已验证镜像：%s\n' "$POLICY_IMAGE_ID"
 
 **预期结果：**输出以 `sha256:` 开头的镜像 ID。检查失败时，查看本次资料目录的 `failure.log`。修复后使用新版本号重新构建，保留原检查记录。
 
+`releaseId` 和最终镜像地址 `image` 不手工填入 `platform.json`：前者由本步骤生成，后者在第 7 步推送后取得。`POLICY_IMAGE_ID` 是本机镜像编号，`POLICY_IMAGE_TAG` 是可重新指向的仓库标签，`POLICY_IMAGE_DIGEST` 才是部署使用的固定仓库地址；三者不可互换。`POLICY_CONTEXT` 来自登录时的实际上下文，`POLICY_REPORT_DIR` 按本次版本生成，所有检查和失败记录保存在对应目录。
+
 ### 第 6.1 步：人工试用同一候选镜像
 
 ```sh
@@ -341,15 +450,14 @@ pnpm preview:release "$POLICY_REPORT_DIR/container.json" 8088
 
 ## 第 7 步：推送已验证镜像
 
-**执行位置：**部署机终端。使用镜像仓库账号及密码/访问令牌完成登录：
+**执行位置：**部署机终端。第 5 步已登录候选仓库；凭据过期时重新执行 `docker login "$POLICY_REGISTRY"`，然后推送本次已验证镜像：
 
 ```sh
-docker login "$POLICY_REGISTRY" &&
 docker tag "$POLICY_IMAGE_ID" "$POLICY_IMAGE_TAG" &&
 docker push "$POLICY_IMAGE_TAG"
 ```
 
-**预期结果：**登录提示 `Login Succeeded`；推送结束显示 `digest: sha256:...`。推送失败时先处理账号、权限或网络问题。
+**预期结果：**推送结束显示 `digest: sha256:...`。推送失败时先处理账号、该仓库路径的推送权限或网络问题。
 
 从 Docker 镜像元数据中读取仓库摘要，生成固定镜像地址：
 
@@ -364,12 +472,16 @@ printf 'OpenShift 将使用：%s\n' "$POLICY_IMAGE_DIGEST"
 
 ## 第 8 步：生成 OpenShift 部署文件
 
-将平台配置、发布版本和镜像地址写入发布参数文件：
+将平台配置、发布版本和镜像地址写入发布参数文件，并核对原候选检查记录：
 
 ```sh
 node --input-type=module <<'NODE'
 import fs from 'node:fs';
 const c = JSON.parse(fs.readFileSync('tmp/openshift/platform.json', 'utf8'));
+const verified = JSON.parse(fs.readFileSync(process.env.POLICY_REPORT_DIR + '/container.json', 'utf8'));
+if (verified.status !== 'PASS') throw new Error('原候选镜像自动检查未通过');
+if (verified.releaseId !== process.env.POLICY_RELEASE_ID || verified.platform !== 'linux/' + c.architecture) throw new Error('发布版本或目标架构与已验镜像不一致');
+if (!process.env.POLICY_IMAGE_DIGEST?.startsWith(c.imageRepository + '@sha256:')) throw new Error('固定镜像地址与已配置仓库路径不一致，跨仓库推广须另行核验');
 c.releaseId = process.env.POLICY_RELEASE_ID;
 c.image = process.env.POLICY_IMAGE_DIGEST;
 fs.writeFileSync(process.env.POLICY_REPORT_DIR + '/parameters.json', JSON.stringify(c, null, 2) + '\n');
@@ -382,7 +494,7 @@ NODE
 pnpm exec tsx scripts/render-openshift.ts "$POLICY_REPORT_DIR/parameters.json" > "$POLICY_REPORT_DIR/candidate.json"
 ```
 
-**预期结果：**没有报错，资料目录出现 `parameters.json` 和 `candidate.json`。部署清单包含四项配置：应用运行（Deployment）、集群内部访问（Service）、版本网址接入（Route）和网络访问控制（NetworkPolicy）。配置校验失败时，按错误字段修正参数后重新生成。
+**预期结果：**没有报错，资料目录出现 `parameters.json` 和 `candidate.json`。部署清单包含四项配置：应用运行（Deployment）、集群内部访问（Service）、版本网址接入（Route）和网络访问控制（NetworkPolicy）。配置校验失败时，按错误字段修正参数后重新生成。`platformVersion` 和 `internalIngressController` 是环境与验收记录，不会作为集群版本控制或入口独占开关写入资源；`contact` 和 `baseImage` 已在镜像构建时使用，此步不会改写已有镜像。
 
 ## 第 9 步：部署应用
 
@@ -435,6 +547,8 @@ pnpm verify:deployment
 
 **执行位置：**第 10 步验证的版本网址。
 
+先展开“使用说明与版本信息”，核对发布版本、引擎及实际维护渠道与本次候选一致，再执行下面的功能检查。只修改配置文件不会改变已构建网页中的联系信息。
+
 | 操作 | 预期结果 |
 |---|---|
 | `P02 金额变化` | 自动比较，1315 的 `USD 100 → USD 2000` 可见，点击变化能回到原文；1760 的 `USD 1000` 未改。再搜索 `1315`，尝试导出 JSON。 |
@@ -484,11 +598,11 @@ printf '使用者访问这个固定网址：https://%s/\n' "$POLICY_HOST"
 ## 版本更新与正式环境推广
 
 1. 在仓库根目录同步 `main`；先处理已有未提交改动，再执行第 3 步的更新命令。
-2. 从第 4 步开始，重新读取配置、生成新版本并完成第 6–11 步。每次用新版本号，旧版本保留。
+2. 重新执行第 2 步及第 2.1–2.5 步，确认目标并设置当前终端变量；再执行第 4–11 步。每次用新版本号，旧版本保留。重新打开终端后也先恢复这些变量，不能继承另一个集群或旧配置的选择结果。
 3. 切入口前，在浏览器保留一个旧版任务；完成第 12 步后，确认旧标签页仍可定位/搜索/开始新任务，新窗口进入新版。
 4. 默认保留被替换版本及其镜像、配置和验收记录至少 7 天；回收前由维护者确认回滚目标与通知窗口。保留期内保持旧 Deployment、Service、版本路径 Route 和镜像可用。
 
-推广到另一个正式项目由平台维护者执行，需先确认前面的真实 OpenShift 检查通过，且正式集群能够拉取同一已验镜像。保留原版本号和 `POLICY_IMAGE_DIGEST`；把正式环境配置替换到 `tmp/openshift/platform.json`，重新执行第 2、4 步，确认登录的是正式集群和正式项目。
+推广到另一个正式项目由平台维护者执行，需先确认前面的真实 OpenShift 检查通过，且正式集群能够拉取同一已验镜像。保留原版本号和 `POLICY_IMAGE_DIGEST`，候选仓库地址及路径不变；正式工作节点架构必须与原候选记录一致。将正式环境配置替换到 `tmp/openshift/platform.json`，重新执行第 2 步及第 2.1–2.5 步、再执行第 4 步，确认正式集群、项目、架构、域名、内部入口、网络规则与拉取权限。镜像内的维护渠道和基础镜像不会因参数文件改变而更新。
 
 随后给正式环境建立独立的资料目录，并带上原镜像的校验记录：
 

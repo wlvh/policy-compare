@@ -1,0 +1,99 @@
+{
+  "numTotalTests": 409,
+  "numPassedTests": 409,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "success": true,
+  "suites": [
+    {
+      "name": "tests/alignment.test.ts",
+      "status": "passed",
+      "assertions": 4
+    },
+    {
+      "name": "tests/boundary.test.ts",
+      "status": "passed",
+      "assertions": 2
+    },
+    {
+      "name": "tests/contracts.test.ts",
+      "status": "passed",
+      "assertions": 4
+    },
+    {
+      "name": "tests/core.test.ts",
+      "status": "passed",
+      "assertions": 8
+    },
+    {
+      "name": "tests/cosmetic-evidence.test.ts",
+      "status": "passed",
+      "assertions": 21
+    },
+    {
+      "name": "tests/delivery.test.ts",
+      "status": "passed",
+      "assertions": 4
+    },
+    {
+      "name": "tests/local-dev.test.ts",
+      "status": "passed",
+      "assertions": 1
+    },
+    {
+      "name": "tests/margin-text.test.ts",
+      "status": "passed",
+      "assertions": 17
+    },
+    {
+      "name": "tests/page-counts.test.ts",
+      "status": "passed",
+      "assertions": 7
+    },
+    {
+      "name": "tests/page-furniture.test.ts",
+      "status": "passed",
+      "assertions": 27
+    },
+    {
+      "name": "tests/platform-config.test.ts",
+      "status": "passed",
+      "assertions": 31
+    },
+    {
+      "name": "tests/result-format-2.test.ts",
+      "status": "passed",
+      "assertions": 25
+    },
+    {
+      "name": "tests/review-core.test.ts",
+      "status": "passed",
+      "assertions": 13
+    },
+    {
+      "name": "tests/row-identity-evidence.test.ts",
+      "status": "passed",
+      "assertions": 50
+    },
+    {
+      "name": "tests/row-identity.test.ts",
+      "status": "passed",
+      "assertions": 12
+    },
+    {
+      "name": "tests/scorer.test.ts",
+      "status": "passed",
+      "assertions": 145
+    },
+    {
+      "name": "tests/server.test.ts",
+      "status": "passed",
+      "assertions": 1
+    },
+    {
+      "name": "tests/table-scope.test.ts",
+      "status": "passed",
+      "assertions": 37
+    }
+  ]
+}

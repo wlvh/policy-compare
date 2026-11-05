@@ -12,6 +12,11 @@
         "matchLabels": {
           "REPLACE_ROUTER_NAMESPACE_LABEL": "REPLACE_ROUTER_NAMESPACE_VALUE"
         }
+      },
+      "podSelector": {
+        "matchLabels": {
+          "REPLACE_ROUTER_POD_LABEL": "REPLACE_ROUTER_POD_VALUE"
+        }
       }
     }
   ],
