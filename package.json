@@ -42,7 +42,8 @@
     "package:delivery": ".venv/bin/python scripts/package-delivery.py",
     "start:local": "tsx scripts/local-dev.ts",
     "verify:deployment": "tsx scripts/verify-deployment.ts",
-    "deploy:render": "tsx scripts/render-openshift.ts"
+    "deploy:render": "tsx scripts/render-openshift.ts",
+    "preview:release": "tsx scripts/preview-release.ts"
   },
   "dependencies": {
     "@noble/hashes": "2.0.1",

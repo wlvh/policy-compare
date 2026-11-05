@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-11-05T14:38:23.705631+00:00",
+  "typecheck": {
+    "mupdf": "PASS",
+    "pdfjs": "PASS"
+  },
+  "documents": {
+    "docs/deployment.md": {
+      "shellBlocks": 25,
+      "shellSyntax": "PASS",
+      "localFileLinks": "PASS"
+    },
+    "docs/release-image-testing.md": {
+      "shellBlocks": 4,
+      "shellSyntax": "PASS",
+      "localFileLinks": "PASS"
+    }
+  },
+  "helperLifecycle": "PASS",
+  "selectedBrowserCases": {
+    "engine": "mupdf",
+    "passed": 4,
+    "failed": 0
+  },
+  "manualReview": "NOT_EVALUATED",
+  "openShiftAcceptance": "NOT_EVALUATED",
+  "sourceSha256": {
+    "scripts/preview-release.ts": "663ae4561b224993c7979fa37ddd2decb14f3d5573e4c6d44f314e12e2bad1ff",
+    "package.json": "d77255bf9f8e9d2191832ff27f610145c39b4a7e4df638a0c21a433bc50ed859",
+    "docs/deployment.md": "f2d8eb86bd7562b6f303714e183309e636bf24551dfde16f1e30c932a06d740d",
+    "docs/release-image-testing.md": "68b2f988576a7d70b707463ee802ef0f339cb5c4abec67d4096660932c9ca342",
+    ".github/workflows/ci.yml": "72e64ccdc662cb4a722c65b6ad43e1c0d08169f88e71676e953d325cec4702ea"
+  },
+  "scope": "New preview helper and selected browser integration only; does not replace complete regression, human review, business acceptance or real OpenShift evidence",
+  "ciRunBlocksSyntax": "PASS"
+}

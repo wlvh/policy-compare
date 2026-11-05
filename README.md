@@ -51,6 +51,8 @@ pnpm preview:mupdf --port 8082 --strictPort
 
 Issue #17 的版本路径、真实候选容器浏览器检查、OpenShift 共用模板及发布回滚步骤见[部署指南](docs/deployment.md)。这不是已经提供的公司内网服务；真实 OpenShift、正式入口和指定使用者验收状态见本次报告。
 
+发布前增加[同一候选发布镜像测试流程](docs/release-image-testing.md)：自动容器检查通过后，运行 `pnpm preview:release <container.json路径> 8088`，在本机 Docker 中复用已验镜像完成浏览器试用并记录结果。无需 Red Hat 账号；该流程单独保存人工检查状态，后续仍需实际 OpenShift 验证。
+
 ## 完成一次比较
 
 1. 在「01 基准版」选择旧 PDF，在「02 待审版」选择新 PDF；有密码就在对应输入框填写。每份最多 **100 页、30 MiB**。
