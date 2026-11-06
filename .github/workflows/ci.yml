@@ -141,3 +141,27 @@ jobs:
             reports/container-${{ matrix.engine }}.json
             reports/container-build-${{ matrix.engine }}.log
             reports/local-deploy/
+
+  scroll-baseline-evidence:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: pnpm/action-setup@v4
+        with: {version: 10.12.1}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24.19.0}
+      - run: rustup toolchain install 1.93.0 --profile minimal --target wasm32-unknown-unknown
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm install:pdfjs
+      - run: pnpm build:core
+      - run: pnpm exec playwright install --with-deps chromium
+      # Collect both outcomes; an old failing case is not changed to PASS.
+      # The independent functional/container jobs remain product gates.
+      - run: pnpm exec tsx scripts/review20-scroll-comparison.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scroll-baseline-evidence
+          path: reports/issue-19/review-followup/scroll-comparison/

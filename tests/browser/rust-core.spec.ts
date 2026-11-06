@@ -1,3 +1,4 @@
+import {inspectCliCoreArtifact,assertSameCoreArtifact} from '../../scripts/cli-core-artifact';
 import {gunzipSync} from 'node:zlib';
 import {test,expect} from '@playwright/test';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
@@ -10,10 +11,14 @@ const reportDir=process.env.POLICY_REPORT_DIR||'reports';
 const fixtures=JSON.parse(readFileSync('reports/issue-19/frozen-baseline.json','utf8')).records.filter((x:any)=>x.engine===engine);
 test('frozen inputs: shipped Worker and formal CLI have identical complete core outputs',async({page})=>{
  test.setTimeout(120_000);await page.goto('./');
- const records=[];const cliDir=path.resolve('tmp/issue19-cli',engine,(cliImage||'host').replaceAll(/[:/]/g,'_'));mkdirSync(cliDir,{recursive:true});
+ const records=[];
+ const cliImageId=cliImage?execFileSync('docker',['image','inspect','--format','{{.Id}}',cliImage],{encoding:'utf8'}).trim():undefined;
+ const cliArtifact=inspectCliCoreArtifact(cliImageId);
+ const cliDir=path.resolve('tmp/issue19-cli',engine,(cliImageId||'host').replaceAll(/[:/]/g,'_'));mkdirSync(cliDir,{recursive:true});
+ assertSameCoreArtifact(coreArtifact.sha256,cliArtifact);
  for(const meta of fixtures){const {docs,result:legacy}=JSON.parse(gunzipSync(readFileSync(meta.file)).toString('utf8'));
   const files=['left','right'].map((s,i)=>{const file=path.join(cliDir,`${s}.json`);writeFileSync(file,JSON.stringify(docs[i]));return file;});const out=path.join(cliDir,'result.json');
-  try{if(cliImage){execFileSync('docker',['run','--rm','--network','none','-v',`${cliDir}:/inputs`,cliImage,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
+  try{if(cliImageId){execFileSync('docker',['run','--rm','--network','none','-v',`${cliDir}:/inputs`,cliImageId,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
   const cli=JSON.parse(readFileSync(out,'utf8'));expect(cli).toEqual({...legacy,coreVersion:cli.coreVersion});
   const browser=await page.evaluate(async docs=>{
    const info=await(await fetch(new URL('build-info.json',location.href))).json();
@@ -27,10 +32,10 @@ test('frozen inputs: shipped Worker and formal CLI have identical complete core 
     worker.postMessage({type:'init',taskId:1,generation:1,port:ch.port1},[ch.port1]);
    });
   },docs);
-  expect(browser.artifact.sha256).toBe(coreArtifact.sha256);expect(browser.result).toEqual(cli);
-  records.push({case:meta.case,status:'PASS',coreVersion:cli.coreVersion,sha256:browser.artifact.sha256});
+  expect(browser.artifact.sha256).toBe(coreArtifact.sha256);assertSameCoreArtifact(browser.artifact.sha256,cliArtifact);expect(browser.result).toEqual(cli);
+  records.push({case:meta.case,status:'PASS',coreVersion:cli.coreVersion,browserCoreSha256:browser.artifact.sha256,cliCoreSha256:cliArtifact.sha256});
  }
- writeFileSync(`${reportDir}/cross-entry-${engine}.json`,JSON.stringify({status:'PASS',coreArtifact,records},null,2)+'\n');
+ writeFileSync(`${reportDir}/cross-entry-${engine}.json`,JSON.stringify({evidenceSchemaVersion:'cross-entry-core/2',status:'PASS',coreArtifact,cliArtifact,cliImageId:cliImageId??null,browserCoreSha256:coreArtifact.sha256,cliCoreSha256:cliArtifact.sha256,records},null,2)+'\n');
 });
 for(const mode of ['cancel','failure','timeout'] as const)test(`WASM initialization ${mode} then retry, no stale task or duplicate transfer`,async({page})=>{
  test.setTimeout(45000);const requested:string[]=[];

@@ -1,3 +1,4 @@
+import {inspectCliCoreArtifact,assertSameCoreArtifact} from './cli-core-artifact';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
@@ -17,10 +18,16 @@ for(const engine of ['mupdf','pdfjs']){
   for(let n=0;n<100;n++){try{if((await fetch(origin+'/healthz')).ok)break}catch{}await new Promise(r=>setTimeout(r,50));}
   const manifest=JSON.parse(readFileSync(`${dir}/build-info.json`,'utf8'));
   writeFileSync(`${dir}/core-info.json`,JSON.stringify(manifest.coreArtifact,null,2)+'\n');
+  const cliArtifact=inspectCliCoreArtifact(cli);
+  writeFileSync(`${dir}/cli-core-artifact.json`,JSON.stringify(cliArtifact,null,2)+'\n');
+  assertSameCoreArtifact(manifest.coreArtifact.sha256,cliArtifact);
   const target=`${dir}/cross-entry`;mkdirSync(target,{recursive:true});
   const run=await exec('pnpm',['verify:deployment','tests/browser/rust-core.spec.ts','--grep','frozen inputs'],{timeout:240000,maxBuffer:16*1024*1024,env:{...process.env,POLICY_BROWSER_CHANNEL:'bundled',POLICY_ENGINE:engine,POLICY_BASE_URL:origin+manifest.base,POLICY_REPORT_DIR:target,POLICY_RELEASE_ID:candidate.releaseId,POLICY_MANIFEST_SHA256:candidate.manifestSha256,POLICY_CLI_IMAGE:cli,POLICY_CORE_INFO:path.resolve(`${dir}/core-info.json`)}});
   writeFileSync(`${dir}/cross-entry.log`,run.stdout+run.stderr);
-  writeFileSync(`${dir}/cross-entry-candidate.json`,JSON.stringify({status:'PASS',candidateRevision:candidate.revision,imageId:candidate.imageId,cliBuildImageId:cli,coreArtifact:manifest.coreArtifact,evidence:`${target}/cross-entry-${engine}.json`},null,2)+'\n');
+  const parity=JSON.parse(readFileSync(`${target}/cross-entry-${engine}.json`,'utf8'));
+  assertSameCoreArtifact(parity.browserCoreSha256,cliArtifact);
+  if(parity.cliCoreSha256!==cliArtifact.sha256)throw new Error('CLI hash audit differs from cross-entry report');
+  writeFileSync(`${dir}/cross-entry-candidate.json`,JSON.stringify({evidenceSchemaVersion:'cross-entry-core/2',status:'PASS',browserCoreSha256:parity.browserCoreSha256,cliCoreSha256:cliArtifact.sha256,candidateRevision:candidate.revision,imageId:candidate.imageId,cliBuildImageId:cli,coreArtifact:manifest.coreArtifact,evidence:`${target}/cross-entry-${engine}.json`},null,2)+'\n');
   console.log(engine,'PASS',manifest.coreArtifact.sha256);
- }catch(e:any){writeFileSync(`${dir}/cross-entry-failure.log`,(e.stdout||'')+(e.stderr||'')+String(e));throw e;}finally{await exec('docker',['stop',id]);}
+ }catch(e:any){writeFileSync(`${dir}/cross-entry-candidate.json`,JSON.stringify({status:'FAIL',candidateRevision:candidate.revision,imageId:candidate.imageId,cliBuildImageId:cli,error:String(e)},null,2)+'\n');writeFileSync(`${dir}/cross-entry-failure.log`,(e.stdout||'')+(e.stderr||'')+String(e));throw e;}finally{await exec('docker',['stop',id]);}
 }
