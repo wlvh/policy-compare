@@ -44,11 +44,14 @@ jobs:
         run: |
           mkdir -p reports
           node --input-type=module -e 'import fs from "node:fs"; import os from "node:os"; fs.writeFileSync(`reports/ci-environment-${process.env.ENGINE}.json`, JSON.stringify({commit:process.env.GITHUB_SHA,runId:process.env.GITHUB_RUN_ID,engine:process.env.ENGINE,node:process.version,platform:process.platform,arch:process.arch,cpu:os.cpus()[0].model,memoryBytes:os.totalmem(),purpose:"functional checks only; not target-device performance acceptance"},null,2)+"\n")'
+      - run: rustup toolchain install 1.93.0 --profile minimal --target wasm32-unknown-unknown
       - run: pnpm install --frozen-lockfile
       - id: engine
         run: pnpm install:${{ matrix.engine }}
       - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
         run: pnpm verify:core
+      - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
+        run: pnpm exec tsx scripts/issue19-parity.ts
       - id: build
         if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
         run: pnpm build:${{ matrix.engine }}

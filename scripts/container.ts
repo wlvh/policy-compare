@@ -17,7 +17,7 @@ if (!engine) {
 }
 if (!['pdfjs','mupdf'].includes(engine)) throw new Error('Explicit engine required: pnpm test:container mupdf|pdfjs');
 const revision = (await exec('git',['rev-parse','HEAD'])).stdout.trim();
-const productChanges = (await exec('git',['status','--porcelain','--','apps','packages','engines','profiles','patches','deploy','scripts','vite.config.ts','package.json','pnpm-lock.yaml','.dockerignore'])).stdout.trim();
+const productChanges = (await exec('git',['status','--porcelain','--','apps','packages','engines','profiles','patches','deploy','scripts','vite.config.ts','package.json','pnpm-lock.yaml','crates','Cargo.toml','Cargo.lock','rust-toolchain.toml','.dockerignore'])).stdout.trim();
 if (productChanges) throw new Error('Commit product sources before building a frozen candidate; working tree differs from revision');
 const releaseId = process.env.POLICY_RELEASE_ID || `r${new Date().toISOString().slice(0,10).replaceAll('-','')}-${revision.slice(0,7)}`;
 const platform = process.env.POLICY_PLATFORM || `linux/${process.arch === 'arm64'?'arm64':'amd64'}`;

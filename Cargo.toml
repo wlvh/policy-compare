@@ -1,0 +1,8 @@
+[workspace]
+members = ["crates/compare-core"]
+resolver = "3"
+[profile.release]
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true

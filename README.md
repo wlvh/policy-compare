@@ -123,3 +123,5 @@ Issue #17 的版本路径、真实候选容器浏览器检查、OpenShift 共用
 [review-20261026-fixes 下载页](https://github.com/wlvh/policy-compare/releases/tag/review-20261026-fixes)中的 [PDF.js 包](https://github.com/wlvh/policy-compare/releases/download/review-20261026-fixes/policy-compare-pdfjs.tar.gz)和 [MuPDF 包](https://github.com/wlvh/policy-compare/releases/download/review-20261026-fixes/policy-compare-mupdf.tar.gz)对应 `1ce93d4`；版本与文件哈希见[交付清单](DELIVERY_MANIFEST.json)。它们不代表当前 `main`，此处保留链接供复核历史版本。
 
 历史包需要 Node.js 24，但无需 pnpm 或源码依赖。解压后在包含 `server.mjs` 的目录执行 `node server.mjs`，打开 http://127.0.0.1:8080/；包内 `samples/before.pdf` / `after.pdf` 可用于旧版试用。
+
+The production comparison and raw-text search run in the Rust WASM core. See [Rust core build and verification](docs/rust-core.md) and [Issue #19 evidence](reports/issue-19/README.md).

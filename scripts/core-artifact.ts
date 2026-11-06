@@ -1,0 +1,12 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const bytes=readFileSync('packages/rust-core/generated/core.wasm');
+if(!WebAssembly.validate(bytes))throw new Error('Invalid core WASM');
+const module=new WebAssembly.Module(bytes);
+if(WebAssembly.Module.imports(module).some(x=>x.module!=='host'||!['phase','check'].includes(x.name)))throw new Error('Unexpected core host imports');
+const api=new WebAssembly.Instance(module,{host:{phase(){},check(){}}}).exports as any;
+const cmd=new TextEncoder().encode('{"op":"version"}');const ptr=api.input_ptr(cmd.length);new Uint8Array(api.memory.buffer,ptr,cmd.length).set(cmd);api.call();
+const version=JSON.parse(new TextDecoder().decode(new Uint8Array(api.memory.buffer,api.output_ptr(),api.output_len()))).ok;
+if(version.abi!=='policy-core-session/1'||version.result!=='policy-compare-result/2')throw new Error('Invalid core ABI');
+const info={abi:version.abi,coreVersion:version.coreVersion,sha256:createHash('sha256').update(bytes).digest('hex'),bytes:bytes.length,rust:'1.93.0',target:'wasm32-unknown-unknown'};
+writeFileSync('packages/rust-core/generated/core-info.json',JSON.stringify(info,null,2)+'\n');console.log(info);

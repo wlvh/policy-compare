@@ -657,3 +657,10 @@ oc --context "$POLICY_CONTEXT" -n "$POLICY_NAMESPACE" describe "deployment/polic
 PDF 在使用者浏览器内处理，服务器提供网页资源；目前仍有复杂表格与部分来源位置的已知问题。页面处理结束不代表业务正确，扫描图片文字没有被识别。现有证据和未完成项保留在[分层验收记录](../reports/issue-17/README.md)。
 
 供维护者核对平台行为的官方资料：[OpenShift 登录命令](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/cli_tools/openshift-cli-oc)、[OpenShift 路由配置](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html-single/ingress_and_load_balancing/index)、[Docker 镜像推送](https://docs.docker.com/reference/cli/docker/image/push/)。界面名称及平台限制以实际集群版本为准。
+
+
+## Rust 核心构建补充（Issue #19）
+
+候选镜像现在先在固定摘要的 Rust 1.93.0 构建阶段生成 WASM，再构建所选 PDF 网页版本。部署机只执行现有 Docker 构建，不需要额外安装 Rust；镜像构建网络需要访问 Rust 基础镜像、目标标准库和 Cargo 锁定依赖的来源。隔离网络应由维护者预置经过核验的镜像与依赖，不能仅替换 Node 基础镜像就认为 Rust 阶段也已适配。运行镜像仍只提供静态网页和引擎文件，不新增比较计算服务。
+
+`build-info.json` 的 `coreArtifact` 标识实际 Rust 核心和 WASM SHA-256；资源清单包含 `.wasm` 与 Rust 依赖许可证。核验候选时同时核对发布版本、提取器和核心哈希。发布目录、缓存规则、HTTPS、安全响应头和回滚步骤沿用本文原流程；回滚必须指向已验收的实际旧镜像，旧 TypeScript 候选的验收不代替包含 Rust 的新候选验收。开发环境与冻结输入验证见 [Rust 核心说明](rust-core.md)。

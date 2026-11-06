@@ -19,6 +19,10 @@ for (const name of [
   "apps",
   "packages",
   "profiles",
+  "crates",
+  "Cargo.toml",
+  "Cargo.lock",
+  "rust-toolchain.toml",
 ])
   cpSync(name, resolve(target, name), { recursive: true });
 cpSync("engines/pdfjs", resolve(target, "engines/pdfjs"), {
@@ -27,6 +31,9 @@ cpSync("engines/pdfjs", resolve(target, "engines/pdfjs"), {
 });
 mkdirSync(resolve(target,'patches'),{recursive:true});
 mkdirSync(resolve(target,'scripts'),{recursive:true});
+cpSync('scripts/rust-licenses.ts',resolve(target,'scripts/rust-licenses.ts'));
+cpSync('scripts/core-artifact.ts',resolve(target,'scripts/core-artifact.ts'));
+cpSync('scripts/build-rust.ts',resolve(target,'scripts/build-rust.ts'));
 cpSync('scripts/release-config.ts',resolve(target,'scripts/release-config.ts'));
 cpSync('patches/pdfjs-dist@6.4.299.patch',resolve(target,'patches/pdfjs-dist@6.4.299.patch'));
 const log: string[] = [];

@@ -1,0 +1,16 @@
+[package]
+name = "policy-compare-core"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.93"
+publish = false
+[lib]
+crate-type = ["cdylib", "rlib"]
+[dependencies]
+serde = { version = "=1.0.228", features = ["derive"] }
+serde_json = { version = "=1.0.149", features = ["float_roundtrip"] }
+unicode-normalization = "=0.1.25"
+fancy-regex = "=0.16.2"
+sha2 = "=0.10.9"
+ryu-js = "=1.0.2"
+indexmap = "=2.13.0"

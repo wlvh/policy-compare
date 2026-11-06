@@ -6,7 +6,7 @@ const requested = process.argv[2],
 if (engines.some((e) => !["pdfjs", "mupdf"].includes(e)))
   throw new Error("Unknown engine");
 const sourceMatches=(revision:string)=>{
-  const diff=spawnSync('git',['diff',revision,'--','apps','packages','engines','profiles','patches','deploy','vite.config.ts','bench'],{encoding:'utf8'});
+  const diff=spawnSync('git',['diff',revision,'--','apps','packages','engines','profiles','patches','deploy','vite.config.ts','bench','crates','Cargo.toml','Cargo.lock','rust-toolchain.toml'],{encoding:'utf8'});
   return diff.status===0&&!diff.stdout.trim();
 };
 const checks: {

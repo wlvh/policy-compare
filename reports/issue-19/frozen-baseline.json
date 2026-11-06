@@ -1,0 +1,965 @@
+{
+  "revision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+  "records": [
+    {
+      "engine": "mupdf",
+      "case": "R01_identical",
+      "file": "validation/migration/issue-19/mupdf-R01_identical.json.gz",
+      "coreMs": 24.242541999999986,
+      "stages": {
+        "snapshot": 0.6911670000000072,
+        "structure": 14.30249999999998,
+        "matching": 20.670917000000003,
+        "diff": 21.857916999999986,
+        "done": 22.100374999999985
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "d8a22339f07fcd6a29132b3647d98f1fc43046bd025f46adf4526732d8ccae4d"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R02_amount",
+      "file": "validation/migration/issue-19/mupdf-R02_amount.json.gz",
+      "coreMs": 20.141250000000014,
+      "stages": {
+        "snapshot": 0.03741700000000492,
+        "structure": 12.01600000000002,
+        "matching": 15.417167000000006,
+        "diff": 15.797875000000005,
+        "done": 16.721542
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "e91d00b1d5770f2280923146d8b30a22d75dcbebbed8ef563058b630e5d5de46"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R03_currency",
+      "file": "validation/migration/issue-19/mupdf-R03_currency.json.gz",
+      "coreMs": 19.361041,
+      "stages": {
+        "snapshot": 0.03129099999998175,
+        "structure": 12.33141599999999,
+        "matching": 15.579332999999991,
+        "diff": 15.931040999999993,
+        "done": 16.108874999999983
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "9823dca4af76a1c45a0f91cd3e00e8aa0e18048ae803d7d20e27e197ade7b51f"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R04_decimal",
+      "file": "validation/migration/issue-19/mupdf-R04_decimal.json.gz",
+      "coreMs": 19.28795800000003,
+      "stages": {
+        "snapshot": 0.033125000000012506,
+        "structure": 12.024916999999988,
+        "matching": 15.444917000000004,
+        "diff": 15.761875000000003,
+        "done": 15.986500000000007
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "6f92879fdb76a8074ca70f7aee431240b16d1a951896843c1b8fceb820378e1b"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R05_negation",
+      "file": "validation/migration/issue-19/mupdf-R05_negation.json.gz",
+      "coreMs": 20.494583000000034,
+      "stages": {
+        "snapshot": 0.032500000000027285,
+        "structure": 13.36141600000002,
+        "matching": 16.236166000000026,
+        "diff": 17.724125000000015,
+        "done": 18.19387499999999
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "cca752d02a7fd253b1f987ab97b2f16645110ba2d1d6d2734fa2943f43febf22"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R06_and_or",
+      "file": "validation/migration/issue-19/mupdf-R06_and_or.json.gz",
+      "coreMs": 18.97191700000002,
+      "stages": {
+        "snapshot": 0.03279200000002902,
+        "structure": 13.215874999999983,
+        "matching": 16.187792,
+        "diff": 16.62349999999998,
+        "done": 16.898292000000026
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "34e0838d85b9388213af7ebe2f90bbf9f8a689c5c06e7a0dfc97b775e580e505"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R07_shorter_term",
+      "file": "validation/migration/issue-19/mupdf-R07_shorter_term.json.gz",
+      "coreMs": 20.088166,
+      "stages": {
+        "snapshot": 0.03370799999999008,
+        "structure": 13.426375000000007,
+        "matching": 15.934750000000008,
+        "diff": 16.237124999999992,
+        "done": 16.661166000000037
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "fdfc35992c6767a0c02539344adab753c2f3abc87aa5574fa4f35c738dcf433c"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R08_normal_renewal",
+      "file": "validation/migration/issue-19/mupdf-R08_normal_renewal.json.gz",
+      "coreMs": 18.698082999999997,
+      "stages": {
+        "snapshot": 0.02504199999998491,
+        "structure": 12.192042000000015,
+        "matching": 14.65033299999999,
+        "diff": 14.948125000000005,
+        "done": 15.241499999999974
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "fd60983e9591a8d23dff3369bfb5899d3d63e124f0bc4b433ff584bccd7266fb"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R09_header_limit",
+      "file": "validation/migration/issue-19/mupdf-R09_header_limit.json.gz",
+      "coreMs": 19.086833000000013,
+      "stages": {
+        "snapshot": 0.030500000000017735,
+        "structure": 12.069583000000023,
+        "matching": 14.901792,
+        "diff": 15.256583000000035,
+        "done": 15.441374999999994
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "b5ed8a994e0fabd8300c050973fb671aad58541cf7440f0f62a2b8f167a440be"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R10_address_swap",
+      "file": "validation/migration/issue-19/mupdf-R10_address_swap.json.gz",
+      "coreMs": 19.990542000000005,
+      "stages": {
+        "snapshot": 0.030041999999980362,
+        "structure": 12.035000000000025,
+        "matching": 15.599625000000003,
+        "diff": 15.903250000000014,
+        "done": 16.293999999999983
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "c790a86d66791637ecd649ef33133df64cde74bfe67bc464e29bbcb0a0a002fc"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R11_label_alias",
+      "file": "validation/migration/issue-19/mupdf-R11_label_alias.json.gz",
+      "coreMs": 19.092458000000022,
+      "stages": {
+        "snapshot": 0.030542000000025382,
+        "structure": 11.562457999999992,
+        "matching": 15.312707999999986,
+        "diff": 15.598124999999982,
+        "done": 15.712041999999997
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "cbcf71d89abdb7ba4348a0373d85d3b03ace829192e60e7bea9462c5ba3da37a"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R12_exact_move",
+      "file": "validation/migration/issue-19/mupdf-R12_exact_move.json.gz",
+      "coreMs": 17.95829199999997,
+      "stages": {
+        "snapshot": 0.03412500000001728,
+        "structure": 11.643957999999998,
+        "matching": 15.193041999999991,
+        "diff": 15.447457999999983,
+        "done": 15.79420799999997
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "edf073c6902c4f273a9a086f6246585533f3bf8ce0d8dec2e3f7443844d3c9bc"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R13_move_and_replacement",
+      "file": "validation/migration/issue-19/mupdf-R13_move_and_replacement.json.gz",
+      "coreMs": 19.55637500000006,
+      "stages": {
+        "snapshot": 0.030333000000041466,
+        "structure": 12.422375000000045,
+        "matching": 15.843042000000025,
+        "diff": 16.169083,
+        "done": 17.21495800000008
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "53cf79bebe2460e216d273a869dfa98dd6efc381660ab7c771d6f577ab754e11"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R14_short_paragraph",
+      "file": "validation/migration/issue-19/mupdf-R14_short_paragraph.json.gz",
+      "coreMs": 16.854291999999987,
+      "stages": {
+        "snapshot": 0.024416999999971267,
+        "structure": 11.464875000000006,
+        "matching": 14.338624999999979,
+        "diff": 14.651707999999985,
+        "done": 14.842624999999998
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "137d4d863165f7edf0b1412b12bb03964a3d2a45dcc06aad19c29622eb05d2da"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R15_paragraph_split",
+      "file": "validation/migration/issue-19/mupdf-R15_paragraph_split.json.gz",
+      "coreMs": 23.05966699999999,
+      "stages": {
+        "snapshot": 0.023874999999975444,
+        "structure": 15.467583999999988,
+        "matching": 20.464999999999918,
+        "diff": 20.933166999999912,
+        "done": 20.99716699999999
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "3f0c97797d04fee7c7d7796cdf537def652335452034c476ce3b237510e1f6b4"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R16_repagination",
+      "file": "validation/migration/issue-19/mupdf-R16_repagination.json.gz",
+      "coreMs": 22.095042000000035,
+      "stages": {
+        "snapshot": 0.04166699999996126,
+        "structure": 12.324666999999977,
+        "matching": 16.844542000000047,
+        "diff": 17.307708000000048,
+        "done": 18.077957999999967
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "9583720c4a2d1c572d87dcaf9063c9788ed523685c69e563ae93330616f08234"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R17_font_change",
+      "file": "validation/migration/issue-19/mupdf-R17_font_change.json.gz",
+      "coreMs": 17.954291999999896,
+      "stages": {
+        "snapshot": 0.017208999999979824,
+        "structure": 11.954499999999939,
+        "matching": 15.43158399999993,
+        "diff": 15.734583999999927,
+        "done": 15.802666999999929
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "a6a7c62d2e32d80a3773585083eea7c5f8780566306b05e7f9b700587c7ba3b4"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R18_ligature",
+      "file": "validation/migration/issue-19/mupdf-R18_ligature.json.gz",
+      "coreMs": 19.267165999999975,
+      "stages": {
+        "snapshot": 0.03137499999991178,
+        "structure": 11.980707999999936,
+        "matching": 15.10191599999996,
+        "diff": 15.400582999999983,
+        "done": 15.732749999999896
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "b267ddabd1de2d5f4d318d3f005b86de2e8ad692216909f3ac96b855b0eb9200"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R19_rotated_status",
+      "file": "validation/migration/issue-19/mupdf-R19_rotated_status.json.gz",
+      "coreMs": 19.132833000000005,
+      "stages": {
+        "snapshot": 0.03229200000009769,
+        "structure": 12.019375000000082,
+        "matching": 15.310500000000047,
+        "diff": 15.594375000000014,
+        "done": 15.693042000000105
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "42f5ab14954808e6eed7cd34034fbb9fb06d70ba443d0901ae51433de33e22bb"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R20_plus_minus",
+      "file": "validation/migration/issue-19/mupdf-R20_plus_minus.json.gz",
+      "coreMs": 21.252917000000025,
+      "stages": {
+        "snapshot": 0.041084000000068954,
+        "structure": 11.558875000000057,
+        "matching": 14.530500000000075,
+        "diff": 14.81554200000005,
+        "done": 14.966792000000055
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "c5990bb62c3b83104e007eedd5b0aeb862640ea2c5f504b0a885fcdf4f52b956"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R21_checkbox_glyph",
+      "file": "validation/migration/issue-19/mupdf-R21_checkbox_glyph.json.gz",
+      "coreMs": 20.100791999999956,
+      "stages": {
+        "snapshot": 0.03129200000000765,
+        "structure": 12.343041999999969,
+        "matching": 15.461584000000016,
+        "diff": 15.735708999999929,
+        "done": 15.956249999999955
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "281023191b03c105c79562418112ec62db0346fd06583f46881c25e8a49a4c9b"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R22_table_value",
+      "file": "validation/migration/issue-19/mupdf-R22_table_value.json.gz",
+      "coreMs": 17.011250000000018,
+      "stages": {
+        "snapshot": 0.030166000000008353,
+        "structure": 11.450541000000044,
+        "matching": 14.43991600000004,
+        "diff": 14.741083000000003,
+        "done": 14.861999999999966
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "0883c8ccf6ab11749e7c4eafcf827c76e926e52de9e1f82c425a0b6c9bd2631b"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R23_table_reorder",
+      "file": "validation/migration/issue-19/mupdf-R23_table_reorder.json.gz",
+      "coreMs": 19.19008400000007,
+      "stages": {
+        "snapshot": 0.030834000000027117,
+        "structure": 12.365292000000068,
+        "matching": 16.089166999999975,
+        "diff": 16.400792000000024,
+        "done": 16.47383400000001
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "d2e10bb9fccbdd3fbcf29cdeafb76613c50d66f9233fadfba2b12035dd7def4d"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R24_table_cross_page",
+      "file": "validation/migration/issue-19/mupdf-R24_table_cross_page.json.gz",
+      "coreMs": 20.75758399999995,
+      "stages": {
+        "snapshot": 0.032874999999989996,
+        "structure": 12.369459000000006,
+        "matching": 15.46266700000001,
+        "diff": 15.873124999999959,
+        "done": 16.448750000000018
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "d7431ae65a8baa027f6e7325c31956e3c2589b057f822ac678efb6eb34f544f0"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R25_duplicate_keys",
+      "file": "validation/migration/issue-19/mupdf-R25_duplicate_keys.json.gz",
+      "coreMs": 19.45220800000004,
+      "stages": {
+        "snapshot": 0.026625000000080945,
+        "structure": 11.799833000000035,
+        "matching": 15.002583000000072,
+        "diff": 15.52475000000004,
+        "done": 15.666917000000012
+      },
+      "status": "partial",
+      "inputAndLegacyResultSha256": "1b9422f08f7412203e00e03bdb42af0f57a7e39dacd11230be1c1d46b1948a54"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R26_key_change",
+      "file": "validation/migration/issue-19/mupdf-R26_key_change.json.gz",
+      "coreMs": 17.066708000000062,
+      "stages": {
+        "snapshot": 0.03291699999999764,
+        "structure": 11.638042000000041,
+        "matching": 14.590874999999983,
+        "diff": 14.90020800000002,
+        "done": 15.017917000000011
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "cae8e4bd5661a8f27b2ef9354410bbdd75d31db3de17909f75eca52268fce7d0"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R27_mixed_scan_page",
+      "file": "validation/migration/issue-19/mupdf-R27_mixed_scan_page.json.gz",
+      "coreMs": 13.069500000000062,
+      "stages": {
+        "snapshot": 0.01920800000004874,
+        "structure": 8.341541000000007,
+        "matching": 10.375250000000051,
+        "diff": 10.48070800000005,
+        "done": 10.506250000000023
+      },
+      "status": "partial",
+      "inputAndLegacyResultSha256": "61be988fe20f3e316c26f89b935a900ef0e8556d35f3b089c2a1f31716310c40"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R28_inline_scan",
+      "file": "validation/migration/issue-19/mupdf-R28_inline_scan.json.gz",
+      "coreMs": 19.7549590000001,
+      "stages": {
+        "snapshot": 0.0244590000000926,
+        "structure": 12.205542000000037,
+        "matching": 15.65416700000003,
+        "diff": 15.90462500000001,
+        "done": 15.951917000000094
+      },
+      "status": "partial",
+      "inputAndLegacyResultSha256": "0c4e5c603e914e4ffba042be5fac5ba429b9bd61e953e368d9e039bc2d49b7ed"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R29_clause_add",
+      "file": "validation/migration/issue-19/mupdf-R29_clause_add.json.gz",
+      "coreMs": 17.848666999999978,
+      "stages": {
+        "snapshot": 0.021333999999910702,
+        "structure": 12.069499999999948,
+        "matching": 15.187874999999963,
+        "diff": 15.481249999999932,
+        "done": 15.668333999999959
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "e98855be02d2d03e2b3a54f5ec2028ac028d5e2bc8adf740d11ec63fc2711dc3"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R30_clause_delete",
+      "file": "validation/migration/issue-19/mupdf-R30_clause_delete.json.gz",
+      "coreMs": 19.10424999999998,
+      "stages": {
+        "snapshot": 0.03899999999998727,
+        "structure": 11.614833999999973,
+        "matching": 15.242042000000083,
+        "diff": 15.594584000000054,
+        "done": 17.04316700000004
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "e598b46ab9918f4d46ce5cecd932d40fd95e12dd625b37e7adc868c7354958a8"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R31_punctuation",
+      "file": "validation/migration/issue-19/mupdf-R31_punctuation.json.gz",
+      "coreMs": 18.676625000000058,
+      "stages": {
+        "snapshot": 0.03662500000007185,
+        "structure": 12.111958000000072,
+        "matching": 15.584625000000074,
+        "diff": 15.926333,
+        "done": 16.153833000000077
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "50e3227519fca963d210dfad3e0ccf2b1f583b0d7329a22d79b6d9a522411d19"
+    },
+    {
+      "engine": "mupdf",
+      "case": "R32_combined_changes",
+      "file": "validation/migration/issue-19/mupdf-R32_combined_changes.json.gz",
+      "coreMs": 19.529416000000083,
+      "stages": {
+        "snapshot": 0.03345799999999599,
+        "structure": 12.163874999999962,
+        "matching": 15.341083000000026,
+        "diff": 15.613749999999982,
+        "done": 15.939249999999902
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "4f3c0800243cdf0dcc23c77abc8e2b8aeaa68d2238e1e01e3a07efecdc66fd27"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R01_identical",
+      "file": "validation/migration/issue-19/pdfjs-R01_identical.json.gz",
+      "coreMs": 26.109666999999945,
+      "stages": {
+        "snapshot": 0.047667000000046755,
+        "structure": 19.741792000000032,
+        "matching": 23.18491700000004,
+        "diff": 23.574333000000024,
+        "done": 23.656582999999955
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "a2fb2ad677e32b2a4bf5a619088c69cfa7618e4008eed6457d8bb49da56d6560"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R02_amount",
+      "file": "validation/migration/issue-19/pdfjs-R02_amount.json.gz",
+      "coreMs": 27.166791999999987,
+      "stages": {
+        "snapshot": 0.030250000000023647,
+        "structure": 17.466333000000077,
+        "matching": 20.17766699999993,
+        "diff": 20.500125000000025,
+        "done": 20.773208000000068
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "a2dcf711ece5fba57eb942db32decb054a48dc02810a3653c05f901f8d18ea0e"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R03_currency",
+      "file": "validation/migration/issue-19/pdfjs-R03_currency.json.gz",
+      "coreMs": 26.531625000000076,
+      "stages": {
+        "snapshot": 0.03099999999994907,
+        "structure": 16.082540999999992,
+        "matching": 20.167958,
+        "diff": 20.45962499999996,
+        "done": 20.601208000000042
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "f180569d38ab5204c4ab8e0d90a775c8cc5a61e8caae7f95b216845ef3227cc2"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R04_decimal",
+      "file": "validation/migration/issue-19/pdfjs-R04_decimal.json.gz",
+      "coreMs": 26.038708000000042,
+      "stages": {
+        "snapshot": 0.024916000000075655,
+        "structure": 16.175583000000188,
+        "matching": 19.02562499999999,
+        "diff": 19.347750000000133,
+        "done": 19.552291000000196
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "88f6143c99222c40268f7209d1395e4542f6c435702156330d2e0873bd0d3de7"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R05_negation",
+      "file": "validation/migration/issue-19/pdfjs-R05_negation.json.gz",
+      "coreMs": 24.02237500000001,
+      "stages": {
+        "snapshot": 0.02208399999994981,
+        "structure": 16.287583999999924,
+        "matching": 18.96845899999994,
+        "diff": 19.354708999999957,
+        "done": 19.747667000000092
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "2362a450c8c153f3f502fcb808f46d135a0b5f5d5386387b317347d5d93ab73e"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R06_and_or",
+      "file": "validation/migration/issue-19/pdfjs-R06_and_or.json.gz",
+      "coreMs": 23.36441600000012,
+      "stages": {
+        "snapshot": 0.02591600000005201,
+        "structure": 15.85487500000022,
+        "matching": 18.542666000000054,
+        "diff": 18.848083000000088,
+        "done": 19.162708000000066
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "d4c9f489523b225b3922bc66899c6519b4fd5e7d8a25b9f13733af8f451fb746"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R07_shorter_term",
+      "file": "validation/migration/issue-19/pdfjs-R07_shorter_term.json.gz",
+      "coreMs": 25.91775000000007,
+      "stages": {
+        "snapshot": 0.01929199999995035,
+        "structure": 16.222792000000027,
+        "matching": 18.842292000000043,
+        "diff": 19.109750000000076,
+        "done": 19.425625000000082
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "45cdfec88bcf412c4aa616ceae38fe98d49ae603ce1294b030d29ce000a8470e"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R08_normal_renewal",
+      "file": "validation/migration/issue-19/pdfjs-R08_normal_renewal.json.gz",
+      "coreMs": 25.613790999999992,
+      "stages": {
+        "snapshot": 0.026333000000022366,
+        "structure": 16.077749999999924,
+        "matching": 18.646124999999984,
+        "diff": 18.923041000000012,
+        "done": 19.23350000000005
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "a79af92786ef767faaeccb29fd2f39f946611e7faac74fd2b97dc428f079f66d"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R09_header_limit",
+      "file": "validation/migration/issue-19/pdfjs-R09_header_limit.json.gz",
+      "coreMs": 25.321916999999985,
+      "stages": {
+        "snapshot": 0.02295800000001691,
+        "structure": 15.93116699999996,
+        "matching": 18.477374999999938,
+        "diff": 18.750958000000082,
+        "done": 18.94662500000004
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "319e1a4efdf9bae59cb96dc5cff02a843bc10cb18fe3edc0e7fa9772b8054bd9"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R10_address_swap",
+      "file": "validation/migration/issue-19/pdfjs-R10_address_swap.json.gz",
+      "coreMs": 26.194916999999805,
+      "stages": {
+        "snapshot": 0.020541999999977634,
+        "structure": 16.237041999999974,
+        "matching": 18.978624999999965,
+        "diff": 19.294541999999865,
+        "done": 19.79291699999999
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "8bcd7481f8284bd7d833fb08551755a420d38cb96aa8c6d649fb7b9a405002d1"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R11_label_alias",
+      "file": "validation/migration/issue-19/pdfjs-R11_label_alias.json.gz",
+      "coreMs": 25.318040999999994,
+      "stages": {
+        "snapshot": 0.02062500000010914,
+        "structure": 16.072666000000027,
+        "matching": 18.605375000000095,
+        "diff": 18.85808300000008,
+        "done": 18.98633300000006
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "7ccd8ebe3e2db315e46bf69f2c6c9abbefb44d822f51cd406239e8d52ac0301e"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R12_exact_move",
+      "file": "validation/migration/issue-19/pdfjs-R12_exact_move.json.gz",
+      "coreMs": 23.723042000000078,
+      "stages": {
+        "snapshot": 0.019583000000011452,
+        "structure": 16.317792000000054,
+        "matching": 18.767707999999857,
+        "diff": 19.016832999999906,
+        "done": 19.497499999999945
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "0a0a1a1e65322d786ad62e68ba47dee2c4b2f4c99a799b93c4eef851ff7a71e0"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R13_move_and_replacement",
+      "file": "validation/migration/issue-19/pdfjs-R13_move_and_replacement.json.gz",
+      "coreMs": 26.07054100000005,
+      "stages": {
+        "snapshot": 0.016249999999899956,
+        "structure": 17.12912499999993,
+        "matching": 20.89370800000006,
+        "diff": 21.149832999999944,
+        "done": 21.825582999999824
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "e1cb8f54251e129583c65aec44cd4ebf67c506cd5cd72a10c2bf772c01dd6b8b"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R14_short_paragraph",
+      "file": "validation/migration/issue-19/pdfjs-R14_short_paragraph.json.gz",
+      "coreMs": 22.3263750000001,
+      "stages": {
+        "snapshot": 0.017500000000381988,
+        "structure": 15.118167000000085,
+        "matching": 17.595875000000433,
+        "diff": 17.881958000000395,
+        "done": 18.185125000000426
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "ae20a75eb6958ca1f8489e5d0c81fc48824bf3c6bd87dc3cf4f96cb5a3b8d235"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R15_paragraph_split",
+      "file": "validation/migration/issue-19/pdfjs-R15_paragraph_split.json.gz",
+      "coreMs": 21.99770899999976,
+      "stages": {
+        "snapshot": 0.01937499999985448,
+        "structure": 16.438959000000068,
+        "matching": 19.229667000000063,
+        "diff": 19.501459000000068,
+        "done": 19.550208999999995
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "80dc0f56f0ce45c6f21e465b3bb7d7697e987d40d9a391d9baf66e3b23329829"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R16_repagination",
+      "file": "validation/migration/issue-19/pdfjs-R16_repagination.json.gz",
+      "coreMs": 29.343916999999692,
+      "stages": {
+        "snapshot": 0.018874999999752617,
+        "structure": 17.66687499999989,
+        "matching": 21.06870899999967,
+        "diff": 21.532916999999998,
+        "done": 22.331874999999854
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "1ea38e2624ed1e012941edfc798bd47c7cdaa56281372c9a68896bec17d7da74"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R17_font_change",
+      "file": "validation/migration/issue-19/pdfjs-R17_font_change.json.gz",
+      "coreMs": 22.84754200000043,
+      "stages": {
+        "snapshot": 0.021292000000357802,
+        "structure": 17.12012500000037,
+        "matching": 20.02804200000037,
+        "diff": 20.28237500000023,
+        "done": 20.34637500000008
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "04e94cd34eaf6279e9319b862d477c768eae6aa157910a1be481ded49a5606f2"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R18_ligature",
+      "file": "validation/migration/issue-19/pdfjs-R18_ligature.json.gz",
+      "coreMs": 28.247917000000143,
+      "stages": {
+        "snapshot": 0.024459000000206288,
+        "structure": 17.022542000000158,
+        "matching": 20.0829590000003,
+        "diff": 20.334375000000364,
+        "done": 20.594375000000127
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "9b5753b1c6271f8d9f8ee311f2b30cc03729afbbb9cb29aeeefc0c8027c8418c"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R19_rotated_status",
+      "file": "validation/migration/issue-19/pdfjs-R19_rotated_status.json.gz",
+      "coreMs": 27.252874999999676,
+      "stages": {
+        "snapshot": 0.02304199999980483,
+        "structure": 17.090333999999984,
+        "matching": 19.986041999999998,
+        "diff": 20.23645899999974,
+        "done": 20.355958999999984
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "73752144798509e9918b47d8d074d73ee6ee7512dd1bbfedc1662df0d3e746c4"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R20_plus_minus",
+      "file": "validation/migration/issue-19/pdfjs-R20_plus_minus.json.gz",
+      "coreMs": 25.346042000000125,
+      "stages": {
+        "snapshot": 0.026250000000345608,
+        "structure": 15.795583999999963,
+        "matching": 18.510541999999987,
+        "diff": 18.76287500000035,
+        "done": 18.932542000000012
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "0e56673ca2ce1b80e7ca22de23537d06f425d2da109b0bfdd0342aa955fe6711"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R21_checkbox_glyph",
+      "file": "validation/migration/issue-19/pdfjs-R21_checkbox_glyph.json.gz",
+      "coreMs": 27.64087500000005,
+      "stages": {
+        "snapshot": 0.026833000000351603,
+        "structure": 17.263666000000285,
+        "matching": 19.9015830000003,
+        "diff": 20.173791000000165,
+        "done": 20.370916000000307
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "9de7d529a1d98b4d069f954b5144d99f4cc5a19fc52fa49b3f8eea1b3443933b"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R22_table_value",
+      "file": "validation/migration/issue-19/pdfjs-R22_table_value.json.gz",
+      "coreMs": 24.312667000000147,
+      "stages": {
+        "snapshot": 0.01633399999991525,
+        "structure": 16.180709000000206,
+        "matching": 19.870625000000018,
+        "diff": 20.12145899999996,
+        "done": 20.250417000000198
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "6276c3c1e3f6f978316bbedb2891e3e7bf69bd7076099daee668c2fcb849bf51"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R23_table_reorder",
+      "file": "validation/migration/issue-19/pdfjs-R23_table_reorder.json.gz",
+      "coreMs": 21.024333000000297,
+      "stages": {
+        "snapshot": 0.015707999999904132,
+        "structure": 15.709333000000242,
+        "matching": 18.30554200000006,
+        "diff": 18.552416999999878,
+        "done": 18.599167000000307
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "742ff29e9f515cce0e01ce0fee4070f593faa3b1e79b083ec60e2170d350aadc"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R24_table_cross_page",
+      "file": "validation/migration/issue-19/pdfjs-R24_table_cross_page.json.gz",
+      "coreMs": 29.1528330000001,
+      "stages": {
+        "snapshot": 0.026374999999916326,
+        "structure": 17.17599999999993,
+        "matching": 20.30383299999994,
+        "diff": 20.763790999999856,
+        "done": 21.72674999999981
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "3a92fe11a1ba0ac09c35481c552f8229e5c394ba0330b25c0f356767bec898b0"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R25_duplicate_keys",
+      "file": "validation/migration/issue-19/pdfjs-R25_duplicate_keys.json.gz",
+      "coreMs": 26.790083000000322,
+      "stages": {
+        "snapshot": 0.024333000000297034,
+        "structure": 16.676750000000084,
+        "matching": 19.59925000000021,
+        "diff": 20.041583000000173,
+        "done": 20.198083000000224
+      },
+      "status": "partial",
+      "inputAndLegacyResultSha256": "109e4f879dc15cd6db5bc37e9fb07c9622386aa9a7bdb219a080e4b0b1d068b0"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R26_key_change",
+      "file": "validation/migration/issue-19/pdfjs-R26_key_change.json.gz",
+      "coreMs": 25.472207999999682,
+      "stages": {
+        "snapshot": 0.028291000000081112,
+        "structure": 17.35041599999977,
+        "matching": 20.39104099999986,
+        "diff": 20.674290999999812,
+        "done": 20.827832999999828
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "b1898d2b9d13a704e6b508ea0be1736be4416fc73774c39fe04a23c58b68eaf8"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R27_mixed_scan_page",
+      "file": "validation/migration/issue-19/pdfjs-R27_mixed_scan_page.json.gz",
+      "coreMs": 17.759042000000136,
+      "stages": {
+        "snapshot": 0.025208000000020547,
+        "structure": 12.288208000000395,
+        "matching": 14.2631250000004,
+        "diff": 14.375167000000147,
+        "done": 14.40612500000043
+      },
+      "status": "partial",
+      "inputAndLegacyResultSha256": "897bf9e6a4aad453852efcb56b5626b923761f1de60200d017bb40f990a53df3"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R28_inline_scan",
+      "file": "validation/migration/issue-19/pdfjs-R28_inline_scan.json.gz",
+      "coreMs": 26.677874999999858,
+      "stages": {
+        "snapshot": 0.022457999999915046,
+        "structure": 19.143165999999837,
+        "matching": 21.699540999999954,
+        "diff": 21.98333300000013,
+        "done": 22.03362500000003
+      },
+      "status": "partial",
+      "inputAndLegacyResultSha256": "262bb46c2cb33007a854786ac1ee12d1b3417fb0a63e80e9c927b571bee93d58"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R29_clause_add",
+      "file": "validation/migration/issue-19/pdfjs-R29_clause_add.json.gz",
+      "coreMs": 25.36104099999966,
+      "stages": {
+        "snapshot": 0.017457999999805907,
+        "structure": 17.12762500000008,
+        "matching": 20.865457999999762,
+        "diff": 21.107250000000022,
+        "done": 21.332790999999816
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "3930f1ebf744ffa1f8db92d7cb1274547fd24e4ec84634abe000e8e79d51ef27"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R30_clause_delete",
+      "file": "validation/migration/issue-19/pdfjs-R30_clause_delete.json.gz",
+      "coreMs": 22.59704200000033,
+      "stages": {
+        "snapshot": 0.02070800000001327,
+        "structure": 15.478375000000142,
+        "matching": 18.050500000000284,
+        "diff": 18.296208000000206,
+        "done": 18.525750000000244
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "db3e25baba93138dbb14658c761fa95ef185eb39b66be56a97275f69df09b83d"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R31_punctuation",
+      "file": "validation/migration/issue-19/pdfjs-R31_punctuation.json.gz",
+      "coreMs": 23.465375000000222,
+      "stages": {
+        "snapshot": 0.017792000000099506,
+        "structure": 15.957750000000033,
+        "matching": 18.638374999999996,
+        "diff": 18.905666999999994,
+        "done": 19.149917000000187
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "d3b2d264946a540d20e901ca680a1a33a7a2678b1ac1aecf0ae58d6901e0c2a9"
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R32_combined_changes",
+      "file": "validation/migration/issue-19/pdfjs-R32_combined_changes.json.gz",
+      "coreMs": 25.741833000000042,
+      "stages": {
+        "snapshot": 0.01733299999978044,
+        "structure": 16.021374999999807,
+        "matching": 18.77020799999991,
+        "diff": 19.013416999999663,
+        "done": 19.36691699999983
+      },
+      "status": "complete_for_scope",
+      "inputAndLegacyResultSha256": "05f3fff4caf57113d035baea932bc146b47e372d740c83c1cdc445cb849c293a"
+    }
+  ]
+}

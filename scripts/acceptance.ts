@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import { loadEngine, type EngineName } from "../packages/pdf-adapter/node";
 const engine: EngineName = process.argv[2] === "pdfjs" ? "pdfjs" : "mupdf";
 const { extractPdf } = await loadEngine(engine);
-import { compare } from "../packages/compare-core/index";
+import { compare,coreArtifact } from "../packages/compare-core/index";
 import { parseDoc, digest, ResultSchemaV2 } from "../packages/contracts/index";
 import { grade, summarize, exitCode } from "../tests/evaluation/scorer";
 const manifest = JSON.parse(
@@ -62,6 +62,7 @@ for (const meta of manifest.cases) {
 const summary = summarize(records);
 const report = {
   subject: "actual_pdf_product_rules",
+  coreArtifact,
   engine,
   finePositionStatus: engine === "pdfjs" ? "NOT_RUN" : "PASS",
   finePositionEvidence:
