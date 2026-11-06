@@ -4,7 +4,7 @@ import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import path from 'node:path';
 const exec=promisify(execFile);
 for(const engine of ['mupdf','pdfjs']){
- const dir=`reports/issue-19/candidate-${engine}`;
+ const dir=`${process.argv[2]||'reports/issue-19'}/candidate-${engine}`;
  const candidate=JSON.parse(readFileSync(`${dir}/container.json`,'utf8'));
  if(candidate.status!=='PASS')throw new Error('Candidate must have passed image checks');
  const tag=`policy-compare:issue19-cli-${engine}`;
