@@ -1,3 +1,4 @@
+import {chromium} from '@playwright/test';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {mkdirSync,writeFileSync,readFileSync,existsSync,symlinkSync} from 'node:fs';
 import path from 'node:path';
@@ -22,5 +23,6 @@ for(const [label,revision]of [['baseline','6a5f1ef7e3f6997e58a1bf303774419c16cb9
  const data=JSON.parse(readFileSync(`${target}/browser-tests-pdfjs.json`,'utf8'));const cases:any[]=[];const walk=(s:any)=>{for(const spec of s.specs||[])for(const t of spec.tests)cases.push({title:spec.title,status:t.results.map((r:any)=>r.status),errors:t.results.flatMap((r:any)=>r.errors||[])});for(const c of s.suites||[])walk(c);};walk(data);
  records.push({label,revision,exitCode:run.status,stats:data.stats,cases});
 }
-writeFileSync(`${report}/comparison.json`,JSON.stringify({scope:'Evidence collection on one runner and bundled Chromium; full preceding container-suite sequence retained; individual failures remain failures',node:process.version,os:os.release(),arch:process.arch,records},null,2)+'\n');
+const browser=await chromium.launch({headless:true});const browserVersion=browser.version();await browser.close();
+writeFileSync(`${report}/comparison.json`,JSON.stringify({browserVersion,scope:'Evidence collection on one runner and bundled Chromium; full preceding container-suite sequence retained; individual failures remain failures',node:process.version,os:os.release(),arch:process.arch,records},null,2)+'\n');
 console.log(records.map(x=>({label:x.label,exitCode:x.exitCode,stats:x.stats,scroll:x.cases.filter((c:any)=>c.title.startsWith('wheel crosses'))})));

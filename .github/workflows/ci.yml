@@ -76,6 +76,7 @@ jobs:
           path: |
             reports/ci-environment-${{ matrix.engine }}.json
             reports/core-tests.json
+            reports/cross-entry-${{ matrix.engine }}.json
             reports/pdf-checks-${{ matrix.engine }}.json
             reports/rules-${{ matrix.engine }}.json
             reports/review-regressions-${{ matrix.engine }}.json
@@ -143,7 +144,8 @@ jobs:
             reports/local-deploy/
 
   scroll-baseline-evidence:
-    if: github.event_name == 'pull_request'
+    # Frozen-source investigation for this review, not a gate on future Rust work.
+    if: github.event_name == 'pull_request' && github.event.pull_request.number == 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

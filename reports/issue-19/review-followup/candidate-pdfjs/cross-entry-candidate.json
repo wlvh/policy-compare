@@ -1,0 +1,18 @@
+{
+  "evidenceSchemaVersion": "cross-entry-core/2",
+  "status": "PASS",
+  "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+  "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+  "candidateRevision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+  "imageId": "sha256:adb2429146cee1ad8407cb22cdc3e0f8441b41950a659db9150af32629be1aa3",
+  "cliBuildImageId": "sha256:dfe9dd38cf375166d297a04dbbaf3820d23d32d6076e63db6a8bce35a465031a",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "bytes": 2510123,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "evidence": "reports/issue-19/review-followup/candidate-pdfjs/cross-entry/cross-entry-pdfjs.json"
+}

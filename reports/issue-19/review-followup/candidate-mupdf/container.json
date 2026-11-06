@@ -1,0 +1,22 @@
+{
+  "engine": "mupdf",
+  "revision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+  "releaseId": "r20-a3-mupdf",
+  "platform": "linux/arm64",
+  "status": "PASS",
+  "imageId": "sha256:fee53485a33b436a3f48ca17084f2a46e128e7c3bf64655ffd758adbbd5ed998",
+  "repoDigests": [],
+  "baseImage": "node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53",
+  "architecture": "arm64",
+  "manifestSha256": "766c5704bbeb17a8e6e7ff6e151056219c8316b96b51ce5f3d7e3a3b6c382416",
+  "container": {
+    "image": "sha256:fee53485a33b436a3f48ca17084f2a46e128e7c3bf64655ffd758adbbd5ed998",
+    "readOnly": true,
+    "user": "12345:12345",
+    "memory": 268435456,
+    "nanoCpus": 1000000000,
+    "mounts": []
+  },
+  "origin": "http://127.0.0.1:58544",
+  "scope": "L2-A actual image and browser only; not OpenShift or performance acceptance"
+}

@@ -20,8 +20,8 @@
     },
     {
       "number": 2,
-      "status": "PASS",
-      "scopeAndReason": "64 frozen-input outputs agree across actual Linux candidate browser Worker and formal CLI, with identical core artifact hash.",
+      "status": "NOT_EVALUATED",
+      "scopeAndReason": "The original frozen-candidate run proved output equality and browser-manifest identity only. It did not audit CLI bytes independently. That artifact-identity claim is withdrawn; new positive evidence is versioned separately in reviewFollowup.",
       "evidence": [
         "release/candidate-mupdf/cross-entry-candidate.json",
         "release/candidate-pdfjs/cross-entry-candidate.json"
@@ -133,5 +133,15 @@
       "repoDigests": [],
       "manifestSha256": "8bd26fc76850632daa4a894734576f09ef5152e20cd16e2ea57347c33e43f8f6"
     }
+  },
+  "reviewFollowup": {
+    "productRevision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+    "evidence": "review-followup/README.md",
+    "cliLoadingFailure": "PASS",
+    "actualCoreArtifactIdentity": "PASS",
+    "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "scroll": "Pre-migration occurrence confirmed; fresh same-runner comparison passed; precise mechanism remains unresolved. Not marked fixed.",
+    "ciRun": "https://github.com/wlvh/policy-compare/actions/runs/42228008179"
   }
 }

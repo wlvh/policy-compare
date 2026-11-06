@@ -1,0 +1,18 @@
+{
+  "evidenceSchemaVersion": "cross-entry-core/2",
+  "status": "PASS",
+  "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+  "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+  "candidateRevision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+  "imageId": "sha256:fee53485a33b436a3f48ca17084f2a46e128e7c3bf64655ffd758adbbd5ed998",
+  "cliBuildImageId": "sha256:6e8d33fd7adbda49cc67c92fea4a3e65909fd337593339e9b69524db71606f55",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "bytes": 2510123,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "evidence": "reports/issue-19/review-followup/candidate-mupdf/cross-entry/cross-entry-mupdf.json"
+}

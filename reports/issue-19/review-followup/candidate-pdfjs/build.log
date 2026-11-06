@@ -1,0 +1,229 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.68kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#3 DONE 2.3s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 253B done
+#4 DONE 0.0s
+
+#5 [rust-core 1/7] FROM docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#5 DONE 0.0s
+
+#6 [build  1/18] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#6 DONE 0.0s
+
+#7 [build  2/18] WORKDIR /build
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 8.04kB 0.0s done
+#8 DONE 0.0s
+
+#9 [rust-core 7/7] RUN cargo metadata --format-version 1 --locked > /rust-licenses/cargo-metadata.json
+#9 CACHED
+
+#10 [build  3/18] RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
+#10 0.160 Preparing pnpm@10.12.1 for immediate activation...
+#10 DONE 7.1s
+
+#11 [build  4/18] COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.pdfjs.json tsconfig.mupdf.json vite.config.ts ./
+#11 DONE 0.0s
+
+#12 [build  5/18] COPY patches ./patches
+#12 DONE 0.0s
+
+#13 [build  6/18] RUN pnpm install --frozen-lockfile
+#13 0.412 Lockfile is up to date, resolution step is skipped
+#13 0.426 Progress: resolved 1, reused 0, downloaded 0, added 0
+#13 0.452 Packages: +55
+#13 0.452 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#13 1.428 Progress: resolved 55, reused 0, downloaded 3, added 3
+#13 2.429 Progress: resolved 55, reused 0, downloaded 8, added 8
+#13 3.429 Progress: resolved 55, reused 0, downloaded 13, added 13
+#13 4.434 Progress: resolved 55, reused 0, downloaded 20, added 20
+#13 5.436 Progress: resolved 55, reused 0, downloaded 23, added 23
+#13 6.440 Progress: resolved 55, reused 0, downloaded 30, added 30
+#13 7.441 Progress: resolved 55, reused 0, downloaded 34, added 34
+#13 8.443 Progress: resolved 55, reused 0, downloaded 41, added 41
+#13 9.446 Progress: resolved 55, reused 0, downloaded 43, added 43
+#13 10.39 
+#13 10.39    ╭───────────────────────────────────────────────╮
+#13 10.39    │                                               │
+#13 10.39    │     Update available! 10.12.1 → 12.18.0.      │
+#13 10.39    │     Changelog: https://pnpm.io/v/12.18.0      │
+#13 10.39    │   To update, run: corepack use pnpm@12.18.0   │
+#13 10.39    │                                               │
+#13 10.39    ╰───────────────────────────────────────────────╯
+#13 10.39 
+#13 16.74 Progress: resolved 55, reused 0, downloaded 44, added 43
+#13 17.75 Progress: resolved 55, reused 0, downloaded 44, added 44
+#13 18.75 Progress: resolved 55, reused 0, downloaded 46, added 46
+#13 23.76 Progress: resolved 55, reused 0, downloaded 47, added 46
+#13 24.77 Progress: resolved 55, reused 0, downloaded 47, added 47
+#13 28.22 Progress: resolved 55, reused 0, downloaded 48, added 47
+#13 29.23 Progress: resolved 55, reused 0, downloaded 48, added 48
+#13 50.74 Progress: resolved 55, reused 0, downloaded 49, added 48
+#13 51.75 Progress: resolved 55, reused 0, downloaded 49, added 49
+#13 53.38 Progress: resolved 55, reused 0, downloaded 50, added 49
+#13 54.39 Progress: resolved 55, reused 0, downloaded 50, added 50
+#13 55.39 Progress: resolved 55, reused 0, downloaded 51, added 51
+#13 63.91 Progress: resolved 55, reused 0, downloaded 52, added 51
+#13 64.92 Progress: resolved 55, reused 0, downloaded 52, added 52
+#13 85.60 Progress: resolved 55, reused 0, downloaded 53, added 52
+#13 86.60 Progress: resolved 55, reused 0, downloaded 53, added 53
+#13 91.07 Progress: resolved 55, reused 0, downloaded 54, added 53
+#13 92.08 Progress: resolved 55, reused 0, downloaded 54, added 54
+#13 92.69 Progress: resolved 55, reused 0, downloaded 55, added 55, done
+#13 92.70 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#13 92.70 (Use `node --trace-deprecation ...` to show where the warning was created)
+#13 92.71 .../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+#13 92.74 .../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+#13 92.77 
+#13 92.77 dependencies:
+#13 92.77 + @noble/hashes 2.0.1
+#13 92.77 + react 19.3.1
+#13 92.77 + react-dom 19.3.1
+#13 92.77 + zod 4.6.7
+#13 92.77 
+#13 92.77 devDependencies:
+#13 92.77 + @playwright/test 1.64.1
+#13 92.77 + @types/node 24.10.1
+#13 92.77 + @types/react 19.2.2
+#13 92.77 + @types/react-dom 19.2.2
+#13 92.77 + tsx 4.23.15
+#13 92.77 + typescript 7.0.2
+#13 92.77 + vite 8.3.5
+#13 92.77 + vitest 5.0.5
+#13 92.77 
+#13 92.78 Done in 1m 32.5s using pnpm v10.12.1
+#13 DONE 93.2s
+
+#14 [build  7/18] COPY engines/pdfjs ./engines/pdfjs
+#14 DONE 0.0s
+
+#15 [build  8/18] RUN pnpm --dir engines/pdfjs install --frozen-lockfile
+#15 0.247 Lockfile is up to date, resolution step is skipped
+#15 0.254 Progress: resolved 1, reused 0, downloaded 0, added 0
+#15 0.258 Packages: +4
+#15 0.258 ++++
+#15 1.256 Progress: resolved 4, reused 0, downloaded 0, added 0
+#15 2.257 Progress: resolved 4, reused 0, downloaded 1, added 1
+#15 ...
+
+#16 [stage-2 2/5] WORKDIR /app
+#16 CACHED
+
+#15 [build  8/18] RUN pnpm --dir engines/pdfjs install --frozen-lockfile
+#15 16.67 Progress: resolved 4, reused 0, downloaded 2, added 1
+#15 17.67 Progress: resolved 4, reused 0, downloaded 2, added 2
+#15 19.43 Progress: resolved 4, reused 0, downloaded 3, added 2
+#15 20.43 Progress: resolved 4, reused 0, downloaded 3, added 3
+#15 21.62 Progress: resolved 4, reused 0, downloaded 4, added 3
+#15 21.63 Progress: resolved 4, reused 0, downloaded 4, added 4, done
+#15 21.66 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#15 21.66 (Use `node --trace-deprecation ...` to show where the warning was created)
+#15 21.75 
+#15 21.75 dependencies:
+#15 21.75 + pdfjs-dist 6.4.299
+#15 21.75 
+#15 21.76 Done in 21.6s using pnpm v10.12.1
+#15 DONE 21.9s
+
+#17 [build  9/18] COPY apps ./apps
+#17 DONE 0.0s
+
+#18 [build 10/18] COPY packages ./packages
+#18 DONE 0.0s
+
+#19 [build 11/18] COPY profiles ./profiles
+#19 DONE 0.0s
+
+#20 [build 12/18] COPY scripts/release-config.ts ./scripts/release-config.ts
+#20 DONE 0.0s
+
+#21 [build 13/18] COPY scripts/core-artifact.ts ./scripts/core-artifact.ts
+#21 DONE 0.0s
+
+#22 [rust-core 7/7] RUN cargo metadata --format-version 1 --locked > /rust-licenses/cargo-metadata.json
+#22 CACHED
+
+#23 [rust-core 4/7] COPY rust-toolchain.toml Cargo.toml Cargo.lock ./
+#23 CACHED
+
+#24 [rust-core 2/7] WORKDIR /core
+#24 CACHED
+
+#25 [rust-core 3/7] RUN rustup target add wasm32-unknown-unknown
+#25 CACHED
+
+#26 [rust-core 5/7] COPY crates ./crates
+#26 CACHED
+
+#27 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#27 CACHED
+
+#28 [build 14/18] COPY --from=rust-core /core/target/wasm32-unknown-unknown/release/policy_compare_core.wasm ./packages/rust-core/generated/core.wasm
+#28 DONE 0.0s
+
+#29 [build 15/18] COPY --from=rust-core /rust-licenses ./packages/rust-core/generated/licenses
+#29 DONE 0.0s
+
+#30 [build 16/18] RUN pnpm exec tsx scripts/core-artifact.ts
+#30 0.393 {
+#30 0.393   abi: 'policy-core-session/1',
+#30 0.393   coreVersion: 'policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4',
+#30 0.393   sha256: '30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898',
+#30 0.393   bytes: 2510123,
+#30 0.393   rust: '1.93.0',
+#30 0.393   target: 'wasm32-unknown-unknown'
+#30 0.393 }
+#30 DONE 0.4s
+
+#31 [build 17/18] RUN test -n "pdfjs" && test -n "r20-a3-pdfjs" && test -n "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d"
+#31 DONE 0.1s
+
+#32 [build 18/18] RUN POLICY_RELEASE_ID=r20-a3-pdfjs POLICY_REVISION=a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d POLICY_CONTACT="" pnpm exec tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs POLICY_RELEASE_ID=r20-a3-pdfjs POLICY_REVISION=a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d POLICY_CONTACT="" pnpm exec vite build
+#32 0.708 vite v8.3.5 building client environment for production...
+#32 0.713 transforming...
+#32 0.818 ✓ 126 modules transformed.
+#32 0.857 rendering chunks...
+#32 0.913 computing gzip size...
+#32 0.935 dist/pdfjs/index.html                          0.72 kB │ gzip:   0.54 kB
+#32 0.935 dist/pdfjs/assets/core.worker-TQFj-iTi.js    111.94 kB
+#32 0.935 dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
+#32 0.935 dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
+#32 0.935 dist/pdfjs/assets/core-BIAYXnLz.wasm       2,510.12 kB │ gzip: 830.78 kB
+#32 0.935 dist/pdfjs/assets/index-D48Dlxkb.css          10.01 kB │ gzip:   3.00 kB
+#32 0.935 dist/pdfjs/assets/index-0-TfUIc4.js            2.57 kB │ gzip:   1.35 kB
+#32 0.935 dist/pdfjs/assets/main-e_IwZBSv.js           852.33 kB │ gzip: 262.28 kB
+#32 0.935 
+#32 0.936 [plugin builtin:vite-reporter] 
+#32 0.936 (!) Some chunks are larger than 500 kB after minification. Consider:
+#32 0.936 - Using dynamic import() to code-split the application
+#32 0.936 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+#32 0.936 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#32 0.936 ✓ built in 227ms
+#32 DONE 1.0s
+
+#33 [stage-2 3/5] COPY --from=build /build/dist/pdfjs ./dist
+#33 DONE 0.0s
+
+#34 [stage-2 4/5] COPY deploy/server.mjs ./server.mjs
+#34 DONE 0.0s
+
+#35 [stage-2 5/5] RUN chmod -R a=rX /app
+#35 DONE 0.2s
+
+#36 exporting to image
+#36 exporting layers 0.0s done
+#36 writing image sha256:adb2429146cee1ad8407cb22cdc3e0f8441b41950a659db9150af32629be1aa3 done
+#36 naming to docker.io/library/policy-compare:r20-a3-pdfjs-pdfjs done
+#36 DONE 0.0s

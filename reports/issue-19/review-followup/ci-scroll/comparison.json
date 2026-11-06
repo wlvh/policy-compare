@@ -1,0 +1,528 @@
+{
+  "scope": "Evidence collection on one runner and bundled Chromium; full preceding container-suite sequence retained; individual failures remain failures",
+  "node": "v24.19.0",
+  "os": "7.0.0-1019-azure",
+  "arch": "x64",
+  "records": [
+    {
+      "label": "baseline",
+      "revision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "exitCode": 0,
+      "stats": {
+        "startTime": "2026-11-06T13:46:27.485Z",
+        "duration": 83156.212,
+        "expected": 34,
+        "skipped": 1,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "title": "three allowlisted samples, source highlight, search, export and private diagnostic",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "missing isolation is actionable and comparison cannot start",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "engine bundle download failure leaves a reload screen",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "failed engine worker initialization can be retried",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "twenty cancellation cycles leave no workers and allow a complete subsequent result",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a cancel click that lands after the task finished changes nothing",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "moved text jumps both sides; identity remains with displayed PDF after next selection",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "corrupt input fails and password is handled locally",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "added text navigates the missing side to reference context only when sync is enabled",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "removed text navigates the missing side to reference context only when sync is enabled",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "different page counts do not force equal physical page numbers",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "an unextractable counterpart uses a labelled page reference, never a claimed text match",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a paired paragraph navigates both direct sources even when only one side has edited characters",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "count-only increases stay out of change cards and preserve all sources",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "count-only decreases stay out of change cards and preserve all sources",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a real page-number text change remains a main card and locates the edited digits",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "optional quantity sources remain visible on a narrow window after explicit navigation",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "unchanged text with an actual move remains a main review item",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "changed repeated header remains a red-green main comparison with accessible occurrences",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F1 two changed deductibles retain visible sections and both real source rows",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F5 visible image gap regions respect nested Form matrices and restored state",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F7 versioned resources escape old immutable cache and fixed paths revalidate",
+          "status": [
+            "skipped"
+          ],
+          "errors": []
+        },
+        {
+          "title": "P1 real PDF amount, search, source quads and JSON export",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "P1 identical, ligature and scan status",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "cancel stops workers, old results cannot replace next task; no document upload",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "repeated occurrences and uncovered image regions are navigable",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "twenty complete tasks replace previous resources without refreshing the tab",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "manual swap updates both file controls and comparison direction",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "synchronized wheel scrolling follows existing text alignment across pages; buttons still work",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "every on-screen page renders when the complete document fits without scrolling",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "height-only resizing loads newly visible pages and retains visible predecessors at the bottom",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "label": "reviewed",
+      "revision": "f49500b41b3f66cad3ec403d9dbcb3cb7e25eb53",
+      "exitCode": 0,
+      "stats": {
+        "startTime": "2026-11-06T13:47:53.366Z",
+        "duration": 85433.739,
+        "expected": 34,
+        "skipped": 1,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "title": "three allowlisted samples, source highlight, search, export and private diagnostic",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "missing isolation is actionable and comparison cannot start",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "engine bundle download failure leaves a reload screen",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "failed engine worker initialization can be retried",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "twenty cancellation cycles leave no workers and allow a complete subsequent result",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a cancel click that lands after the task finished changes nothing",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "moved text jumps both sides; identity remains with displayed PDF after next selection",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "corrupt input fails and password is handled locally",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "added text navigates the missing side to reference context only when sync is enabled",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "removed text navigates the missing side to reference context only when sync is enabled",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "different page counts do not force equal physical page numbers",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "an unextractable counterpart uses a labelled page reference, never a claimed text match",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a paired paragraph navigates both direct sources even when only one side has edited characters",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "count-only increases stay out of change cards and preserve all sources",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "count-only decreases stay out of change cards and preserve all sources",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a real page-number text change remains a main card and locates the edited digits",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "optional quantity sources remain visible on a narrow window after explicit navigation",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "unchanged text with an actual move remains a main review item",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "changed repeated header remains a red-green main comparison with accessible occurrences",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F1 two changed deductibles retain visible sections and both real source rows",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F5 visible image gap regions respect nested Form matrices and restored state",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "F7 versioned resources escape old immutable cache and fixed paths revalidate",
+          "status": [
+            "skipped"
+          ],
+          "errors": []
+        },
+        {
+          "title": "P1 real PDF amount, search, source quads and JSON export",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "P1 identical, ligature and scan status",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "cancel stops workers, old results cannot replace next task; no document upload",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "repeated occurrences and uncovered image regions are navigable",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "twenty complete tasks replace previous resources without refreshing the tab",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "manual swap updates both file controls and comparison direction",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "synchronized wheel scrolling follows existing text alignment across pages; buttons still work",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "every on-screen page renders when the complete document fits without scrolling",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        },
+        {
+          "title": "height-only resizing loads newly visible pages and retains visible predecessors at the bottom",
+          "status": [
+            "passed"
+          ],
+          "errors": []
+        }
+      ]
+    }
+  ]
+}
