@@ -1,0 +1,71 @@
+{
+  "candidateReport": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/local-deploy/r20261104-bc9105e-mupdf/container.json",
+  "candidateReportSha256": "462480f583a6dc33c004d9c1f0e235bd35d680adc1e1ed6577a51eb8851b528a",
+  "releaseId": "r20261104-bc9105e",
+  "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+  "engine": "mupdf",
+  "platform": "linux/arm64",
+  "imageId": "sha256:f4769d0bf32c8bd96a1cb84c479871aa942da2eeabb9374d36800d35ca01b1ae",
+  "manifestSha256": "01b3879db852b418aca6d11be85dee96fd940e903be42182ba6f1d3b070bdaf2",
+  "url": "http://127.0.0.1:8090/",
+  "versionUrl": "http://127.0.0.1:8090/releases/r20261104-bc9105e/",
+  "containerName": "policy-preview-r20261104-bc9105e-mupdf-8090",
+  "scope": "release_image_manual_review_only",
+  "clusterAcceptance": "NOT_EVALUATED",
+  "status": "NOT_EVALUATED",
+  "reviewer": null,
+  "reviewedAt": null,
+  "browser": null,
+  "instructions": "Record PASS, FAIL or NOT_EVALUATED for each check, with observations and evidence. Startup is not manual acceptance. Do not include confidential PDF text in this record.",
+  "checks": [
+    {
+      "id": "P02",
+      "expected": "1315 的 USD 100 → USD 2000 可见；1760 的 USD 1000 未改。",
+      "status": "NOT_EVALUATED",
+      "observations": "",
+      "evidence": []
+    },
+    {
+      "id": "P01",
+      "expected": "相同文件没有内容变化卡，也没有已记录的覆盖缺口或对应未决。",
+      "status": "NOT_EVALUATED",
+      "observations": "",
+      "evidence": []
+    },
+    {
+      "id": "E03",
+      "expected": "扫描图片明确提示文字尚未比较；零张文字卡不被解释为文档无变化。",
+      "status": "NOT_EVALUATED",
+      "observations": "",
+      "evidence": []
+    },
+    {
+      "id": "source_search_export",
+      "expected": "P02 高亮位于实际编辑，搜索 1315 能回到原文，JSON 导出保留本次变化与来源。",
+      "status": "NOT_EVALUATED",
+      "observations": "",
+      "evidence": []
+    },
+    {
+      "id": "swap",
+      "expected": "交换两份文件后，P02 变化方向为 USD 2000 → USD 100。",
+      "status": "NOT_EVALUATED",
+      "observations": "",
+      "evidence": []
+    },
+    {
+      "id": "cancel_restart",
+      "expected": "任务处理中取消后可以重新比较；任务已结束后的点击不计为取消成功。",
+      "status": "NOT_EVALUATED",
+      "observations": "",
+      "evidence": []
+    },
+    {
+      "id": "close_task",
+      "expected": "关闭任务后，文件选择、密码、搜索与文档显示清除，下一组比较可正常进行。",
+      "status": "NOT_EVALUATED",
+      "observations": "",
+      "evidence": []
+    }
+  ]
+}

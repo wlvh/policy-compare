@@ -10,6 +10,11 @@
   background: #f2f4f5;
   font-synthesis: none;
 }
+.welcome { background: white; border: 1px solid #d3dde1; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; }
+.welcome summary { cursor: pointer; font-weight: 600; }
+.welcome p { line-height: 1.65; }
+.welcome [role="alert"] { color: #8b360f; }
+.welcome .actions { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; }
 * {
   box-sizing: border-box;
 }

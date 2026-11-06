@@ -1,0 +1,11 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ✓ tests/local-dev.test.ts (1 test) 732ms
+   ✓ local launcher refuses an occupied port, then starts and stops only its own service 731ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  18:40:00
+   Duration  796ms (tests 98%, transform 1%, import 1%)
+

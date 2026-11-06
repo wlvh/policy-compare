@@ -1,0 +1,163 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.50kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 215B done
+#3 DONE 0.0s
+
+#4 [build  1/14] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#4 DONE 0.0s
+
+#5 [build  2/14] WORKDIR /build
+#5 CACHED
+
+#6 [internal] load build context
+#6 transferring context: 59.92kB done
+#6 DONE 0.0s
+
+#7 [build  3/14] RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
+#7 0.146 Preparing pnpm@10.12.1 for immediate activation...
+#7 DONE 2.7s
+
+#8 [build  4/14] COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.pdfjs.json tsconfig.mupdf.json vite.config.ts ./
+#8 DONE 0.0s
+
+#9 [build  5/14] COPY patches ./patches
+#9 DONE 0.0s
+
+#10 [build  6/14] RUN pnpm install --frozen-lockfile
+#10 0.348 Lockfile is up to date, resolution step is skipped
+#10 0.360 Progress: resolved 1, reused 0, downloaded 0, added 0
+#10 0.438 Packages: +55
+#10 0.438 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#10 1.643 Progress: resolved 55, reused 0, downloaded 0, added 0
+#10 2.637 
+#10 2.637    ╭───────────────────────────────────────────────╮
+#10 2.637    │                                               │
+#10 2.637    │     Update available! 10.12.1 → 12.16.1.      │
+#10 2.637    │     Changelog: https://pnpm.io/v/12.16.1      │
+#10 2.637    │   To update, run: corepack use pnpm@12.16.1   │
+#10 2.637    │                                               │
+#10 2.637    ╰───────────────────────────────────────────────╯
+#10 2.637 
+#10 2.643 Progress: resolved 55, reused 0, downloaded 13, added 13
+#10 3.645 Progress: resolved 55, reused 0, downloaded 21, added 21
+#10 4.646 Progress: resolved 55, reused 0, downloaded 42, added 42
+#10 5.647 Progress: resolved 55, reused 0, downloaded 46, added 46
+#10 6.649 Progress: resolved 55, reused 0, downloaded 48, added 48
+#10 9.635 Progress: resolved 55, reused 0, downloaded 49, added 48
+#10 10.64 Progress: resolved 55, reused 0, downloaded 50, added 50
+#10 11.64 Progress: resolved 55, reused 0, downloaded 51, added 51
+#10 12.64 Progress: resolved 55, reused 0, downloaded 52, added 52
+#10 17.92 Progress: resolved 55, reused 0, downloaded 53, added 52
+#10 18.53 Progress: resolved 55, reused 0, downloaded 55, added 55, done
+#10 18.54 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#10 18.54 (Use `node --trace-deprecation ...` to show where the warning was created)
+#10 18.55 .../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+#10 18.58 .../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+#10 18.64 
+#10 18.64 dependencies:
+#10 18.64 + @noble/hashes 2.0.1
+#10 18.64 + react 19.3.1
+#10 18.64 + react-dom 19.3.1
+#10 18.64 + zod 4.6.7
+#10 18.64 
+#10 18.64 devDependencies:
+#10 18.64 + @playwright/test 1.64.1
+#10 18.64 + @types/node 24.10.1
+#10 18.64 + @types/react 19.2.2
+#10 18.64 + @types/react-dom 19.2.2
+#10 18.64 + tsx 4.23.15
+#10 18.64 + typescript 7.0.2
+#10 18.64 + vite 8.3.5
+#10 18.64 + vitest 5.0.5
+#10 18.64 
+#10 18.67 Done in 18.5s using pnpm v10.12.1
+#10 DONE 19.0s
+
+#11 [build  7/14] COPY engines/pdfjs ./engines/pdfjs
+#11 DONE 0.0s
+
+#12 [build  8/14] RUN pnpm --dir engines/pdfjs install --frozen-lockfile
+#12 0.269 Lockfile is up to date, resolution step is skipped
+#12 0.276 Progress: resolved 1, reused 0, downloaded 0, added 0
+#12 0.280 Packages: +4
+#12 0.280 ++++
+#12 1.279 Progress: resolved 4, reused 0, downloaded 1, added 1
+#12 8.168 Progress: resolved 4, reused 0, downloaded 2, added 1
+#12 9.170 Progress: resolved 4, reused 0, downloaded 2, added 2
+#12 11.17 Progress: resolved 4, reused 0, downloaded 3, added 2
+#12 11.84 Progress: resolved 4, reused 0, downloaded 4, added 4, done
+#12 11.87 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#12 11.87 (Use `node --trace-deprecation ...` to show where the warning was created)
+#12 11.96 
+#12 11.96 dependencies:
+#12 11.96 + pdfjs-dist 6.4.299
+#12 11.96 
+#12 11.96 Done in 11.8s using pnpm v10.12.1
+#12 DONE 12.0s
+
+#13 [build  9/14] COPY apps ./apps
+#13 DONE 0.0s
+
+#14 [build 10/14] COPY packages ./packages
+#14 DONE 0.0s
+
+#15 [build 11/14] COPY profiles ./profiles
+#15 DONE 0.0s
+
+#16 [build 12/14] COPY scripts/release-config.ts ./scripts/release-config.ts
+#16 DONE 0.0s
+
+#17 [build 13/14] RUN test -n "pdfjs" && test -n "r20261104-bc9105e" && test -n "bc9105e44bece8bcb326f5b06cdde733c3618bb4"
+#17 DONE 0.1s
+
+#18 [build 14/14] RUN POLICY_RELEASE_ID=r20261104-bc9105e POLICY_REVISION=bc9105e44bece8bcb326f5b06cdde733c3618bb4 POLICY_CONTACT="" pnpm build:pdfjs
+#18 0.255 
+#18 0.255 > policy-compare@0.1.0 build:pdfjs /build
+#18 0.255 > tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs vite build
+#18 0.255 
+#18 0.483 vite v8.3.5 building client environment for production...
+#18 0.487 transforming...
+#18 0.590 ✓ 126 modules transformed.
+#18 0.632 rendering chunks...
+#18 0.690 computing gzip size...
+#18 0.698 dist/pdfjs/index.html                          0.73 kB │ gzip:   0.55 kB
+#18 0.698 dist/pdfjs/assets/core.worker-CnNIJNdf.js    152.89 kB
+#18 0.698 dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
+#18 0.698 dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
+#18 0.698 dist/pdfjs/assets/index-D48Dlxkb.css          10.01 kB │ gzip:   3.00 kB
+#18 0.698 dist/pdfjs/assets/index-vapLWYhm.js            2.58 kB │ gzip:   1.36 kB
+#18 0.698 dist/pdfjs/assets/main-tNTyh2QA.js           851.31 kB │ gzip: 261.83 kB
+#18 0.698 
+#18 0.699 [plugin builtin:vite-reporter] 
+#18 0.699 (!) Some chunks are larger than 500 kB after minification. Consider:
+#18 0.699 - Using dynamic import() to code-split the application
+#18 0.699 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+#18 0.699 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#18 0.699 ✓ built in 215ms
+#18 DONE 0.7s
+
+#19 [stage-1 2/5] WORKDIR /app
+#19 CACHED
+
+#20 [stage-1 3/5] COPY --from=build /build/dist/pdfjs ./dist
+#20 DONE 0.0s
+
+#21 [stage-1 4/5] COPY deploy/server.mjs ./server.mjs
+#21 DONE 0.0s
+
+#22 [stage-1 5/5] RUN chmod -R a=rX /app
+#22 DONE 0.2s
+
+#23 exporting to image
+#23 exporting layers 0.0s done
+#23 writing image sha256:9cd5638c8f82934a88b0614737067c42e4b4d78da08d6b8484a4334a4b97dfaa done
+#23 naming to docker.io/library/policy-compare:r20261104-bc9105e-pdfjs done
+#23 DONE 0.0s

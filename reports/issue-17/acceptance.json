@@ -1,0 +1,163 @@
+{
+  "issue": "https://github.com/wlvh/policy-compare/issues/17",
+  "recordedDate": "2026-11-04",
+  "productRevision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+  "overall": "INCOMPLETE",
+  "releaseDecision": "LOCAL_CONTROLLED_DEVELOPMENT_ONLY",
+  "engines": {
+    "mupdf": {
+      "localBrowser": {
+        "startTime": "2026-11-04T10:32:01.688Z",
+        "duration": 41586.560999999994,
+        "expected": 36,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "browserRuleStatus": "NOT_EVALUATED",
+      "browserRuleFailures": [],
+      "browserRuleNotEvaluated": [
+        "R16_repagination",
+        "R18_ligature",
+        "R23_table_reorder",
+        "R24_table_cross_page"
+      ],
+      "nodeRules": {
+        "status": "NOT_EVALUATED",
+        "passed": 28,
+        "total": 32,
+        "failed": [],
+        "notEvaluated": [
+          "R16_repagination",
+          "R18_ligature",
+          "R23_table_reorder",
+          "R24_table_cross_page"
+        ],
+        "eventRegression": {
+          "status": "PASS",
+          "passed": 32,
+          "total": 32,
+          "failed": [],
+          "notEvaluated": []
+        }
+      }
+    },
+    "pdfjs": {
+      "localBrowser": {
+        "startTime": "2026-11-04T10:33:20.057Z",
+        "duration": 47486.44,
+        "expected": 35,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "browserRuleStatus": "FAIL",
+      "browserRuleFailures": [
+        "R14_short_paragraph",
+        "R31_punctuation"
+      ],
+      "browserRuleNotEvaluated": [
+        "R16_repagination",
+        "R18_ligature",
+        "R23_table_reorder",
+        "R24_table_cross_page"
+      ],
+      "nodeRules": {
+        "status": "NOT_EVALUATED",
+        "passed": 28,
+        "total": 32,
+        "failed": [],
+        "notEvaluated": [
+          "R16_repagination",
+          "R18_ligature",
+          "R23_table_reorder",
+          "R24_table_cross_page"
+        ],
+        "eventRegression": {
+          "status": "PASS",
+          "passed": 32,
+          "total": 32,
+          "failed": [],
+          "notEvaluated": []
+        }
+      }
+    }
+  },
+  "gates": {
+    "G1": "LOCAL_AUTOMATED_CHECKS_RECORDED; no designated-user signoff",
+    "G2": "NOT_EVALUATED: actual OpenShift and target architecture absent",
+    "G3": "NOT_EVALUATED: organization environment absent"
+  },
+  "knownStrictNotEvaluated": [
+    "R16_repagination",
+    "R18_ligature",
+    "R23_table_reorder",
+    "R24_table_cross_page"
+  ],
+  "platformInformation": "User confirmed unavailable",
+  "businessAcceptance": "NOT_EVALUATED; existing P10/P11 evidence retained",
+  "performance": "NOT_EVALUATED on target office device",
+  "images": [
+    {
+      "engine": "mupdf",
+      "image": "sha256:f4769d0bf32c8bd96a1cb84c479871aa942da2eeabb9374d36800d35ca01b1ae",
+      "releaseId": "r20261104-bc9105e",
+      "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+      "manifestSha256": "01b3879db852b418aca6d11be85dee96fd940e903be42182ba6f1d3b070bdaf2",
+      "status": "PASS",
+      "browserChannel": "bundled",
+      "scope": "Existing actual Linux image, local HTTP container only",
+      "origin": "http://127.0.0.1:57599",
+      "readOnly": true,
+      "user": "12345:12345",
+      "memory": 268435456,
+      "nanoCpus": 1000000000,
+      "mounts": [],
+      "exitCode": 0
+    },
+    {
+      "engine": "pdfjs",
+      "image": "sha256:9cd5638c8f82934a88b0614737067c42e4b4d78da08d6b8484a4334a4b97dfaa",
+      "releaseId": "r20261104-bc9105e",
+      "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+      "manifestSha256": "8588407d553fb9297a35f169f2bdc0b1184982ebd2b48b00a29baed17513a849",
+      "status": "PASS",
+      "browserChannel": "bundled",
+      "scope": "Existing actual Linux image, local HTTP container only",
+      "origin": "http://127.0.0.1:57152",
+      "readOnly": true,
+      "user": "12345:12345",
+      "memory": 268435456,
+      "nanoCpus": 1000000000,
+      "mounts": [],
+      "exitCode": 0
+    }
+  ],
+  "core": {
+    "passed": 378,
+    "total": 378,
+    "evidence": "reports/local-dev/bc9105e/core-tests.json"
+  },
+  "rehearsal": {
+    "status": "PASS",
+    "scope": "Two actual Linux images behind a local HTTP path router; does not prove OpenShift Route or organization environment",
+    "origin": "http://127.0.0.1:57551",
+    "previous": {
+      "image": "policy-compare:r20261104-bc9105e-prev-mupdf",
+      "releaseId": "r20261104-bc9105e-prev",
+      "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4"
+    },
+    "candidate": {
+      "image": "policy-compare:r20261104-bc9105e-mupdf",
+      "releaseId": "r20261104-bc9105e",
+      "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4"
+    },
+    "checks": [
+      "old tab first comparison after promotion",
+      "new root resolves candidate",
+      "root rollback resolves previous",
+      "candidate tab works after rollback"
+    ],
+    "resourceFailures": []
+  }
+}

@@ -1,12 +1,21 @@
 import { defineConfig } from "vite";
 import { resolve,dirname } from "node:path";
 import {createRequire} from 'node:module';
-import { cpSync, existsSync, mkdirSync,readFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync,readFileSync,writeFileSync } from "node:fs";
+import { execFileSync } from 'node:child_process';
+import { releaseBase, resourceManifest } from './scripts/release-config.ts';
 const engine = process.env.POLICY_ENGINE ?? "mupdf";
 const require=createRequire(import.meta.url);
+const releaseId = process.env.POLICY_RELEASE_ID || 'development';
+const base = releaseId === 'development' ? '/' : releaseBase(releaseId);
+const revision = process.env.POLICY_REVISION || (()=>{try{return execFileSync('git', ['rev-parse','HEAD'], {encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim();}catch{return 'source-archive-unversioned';}})();
+if (base !== '/' && revision === 'source-archive-unversioned') throw new Error('Release builds require POLICY_REVISION or a Git checkout');
+const engineVersion = JSON.parse(readFileSync(resolve(`engines/${engine}/package.json`),'utf8')).dependencies[engine === 'pdfjs' ? 'pdfjs-dist' : 'mupdf'];
 if (!["mupdf", "pdfjs"].includes(engine))
   throw new Error("POLICY_ENGINE must explicitly select pdfjs or mupdf");
 export default defineConfig({
+  base,
+  define: {__POLICY_BUILD__: JSON.stringify({releaseId, revision, engine, engineVersion, base, contact: process.env.POLICY_CONTACT || '请联系提供本工具的维护者'})},
   root: "apps/web",
   resolve: {
     alias: {
@@ -24,6 +33,12 @@ export default defineConfig({
     {
       name: "self-host-selected-engine-resources",
       closeBundle() {
+        // Explicit allowlist: never ship validation answers, reports or user PDFs.
+        for (const id of ['P01','P02','E03']) {
+          const target = resolve(`dist/${engine}/samples/${id}`);
+          mkdirSync(target, {recursive:true});
+          for (const file of ['before.pdf','after.pdf']) cpSync(resolve(`apps/web/public/samples/${id}/${file}`), resolve(target,file));
+        }
         if (engine === "pdfjs") {
           const resourceVersion=JSON.parse(readFileSync(resolve('engines/pdfjs/node_modules/pdfjs-dist/package.json'),'utf8')).version;
           for (const name of ["cmaps", "standard_fonts", "wasm"])
@@ -49,6 +64,8 @@ export default defineConfig({
           const target=resolve(`dist/${engine}/licenses/common/${name.replace('/','-')}`);mkdirSync(target,{recursive:true});
           for(const file of ['LICENSE','LICENSE.md','LICENSE.txt','NOTICE'])if(existsSync(source+'/'+file))cpSync(source+'/'+file,target+'/'+file);
         }
+        const root = resolve(`dist/${engine}`);
+        writeFileSync(resolve(root,'build-info.json'), JSON.stringify({releaseId, revision, engine, engineVersion, base, resources: resourceManifest(root)},null,2)+'\n');
       },
     },
   ],

@@ -1,0 +1,29 @@
+{
+  "namespace": "REPLACE_PROJECT",
+  "architecture": "REPLACE_ARCHITECTURE",
+  "host": "REPLACE_HOST",
+  "replicas": 1,
+  "routeLabels": {
+    "REPLACE_ROUTER_LABEL": "REPLACE_ROUTER_VALUE"
+  },
+  "ingressPeers": [
+    {
+      "namespaceSelector": {
+        "matchLabels": {
+          "REPLACE_ROUTER_NAMESPACE_LABEL": "REPLACE_ROUTER_NAMESPACE_VALUE"
+        }
+      },
+      "podSelector": {
+        "matchLabels": {
+          "REPLACE_ROUTER_POD_LABEL": "REPLACE_ROUTER_POD_VALUE"
+        }
+      }
+    }
+  ],
+  "platformVersion": "REPLACE_OPENSHIFT_VERSION",
+  "internalIngressController": "REPLACE_INTERNAL_ROUTER_NAME",
+  "contact": "REPLACE_MAINTAINER_CONTACT",
+  "registryServer": "REPLACE_REGISTRY_HOST",
+  "imageRepository": "REPLACE_REGISTRY_HOST/REPLACE_IMAGE_PROJECT/policy-compare",
+  "baseImage": "REPLACE_APPROVED_NODE24_IMAGE_AT_SHA256_DIGEST"
+}

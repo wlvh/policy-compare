@@ -1,0 +1,114 @@
+
+Case: reuse
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/local-deploy/r20261104-bc9105e-mupdf/container.json 8090
+
+体验地址：http://127.0.0.1:8090/
+发布版本：r20261104-bc9105e
+引擎：mupdf
+记录目录：/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-reuse
+状态：READY_FOR_MANUAL_REVIEW（人工检查未评价）
+停止服务：docker stop policy-preview-r20261104-bc9105e-mupdf-8090
+
+Case: restart
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/local-deploy/r20261104-bc9105e-mupdf/container.json 8090
+
+体验地址：http://127.0.0.1:8090/
+发布版本：r20261104-bc9105e
+引擎：mupdf
+记录目录：/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-restart
+状态：READY_FOR_MANUAL_REVIEW（人工检查未评价）
+停止服务：docker stop policy-preview-r20261104-bc9105e-mupdf-8090
+
+Case: hash-mismatch
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-wrong-hash.json 8090
+
+ ELIFECYCLE  Command failed with exit code 1.
+发布镜像体验入口启动失败：Served artifact differs from the expected candidate
+记录目录：/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-hash-mismatch
+
+Case: revision-mismatch
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-wrong-revision.json 8090
+
+ ELIFECYCLE  Command failed with exit code 1.
+发布镜像体验入口启动失败：Local image differs from the candidate report
+记录目录：/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-revision-mismatch
+
+Case: failed-candidate
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-wrong-status.json 8090
+
+ ELIFECYCLE  Command failed with exit code 1.
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/preview-release.ts:15
+if (candidate.status !== 'PASS') throw new Error('Candidate container check must be PASS; manual preview cannot waive a failed check');
+                                       ^
+
+Error: Candidate container check must be PASS; manual preview cannot waive a failed check
+    at <anonymous> (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/preview-release.ts:15:40)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.22.1
+
+Case: existing-record
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/local-deploy/r20261104-bc9105e-mupdf/container.json 8090
+
+ ELIFECYCLE  Command failed with exit code 1.
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/preview-release.ts:23
+if (existsSync(reportDir)) throw new Error('Preview report directory already exists; use a new directory to retain previous evidence');
+                                 ^
+
+Error: Preview report directory already exists; use a new directory to retain previous evidence
+    at <anonymous> (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/preview-release.ts:23:34)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.22.1
+
+Case: foreign-container
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/local-deploy/r20261104-bc9105e-mupdf/container.json 8092
+
+ ELIFECYCLE  Command failed with exit code 1.
+发布镜像体验入口启动失败：Existing container identity or runtime constraints differ; no container was replaced
+记录目录：/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-foreign-container
+
+Case: new-container-failure
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-wrong-hash.json 8093
+
+ ELIFECYCLE  Command failed with exit code 1.
+发布镜像体验入口启动失败：Served artifact differs from the expected candidate
+记录目录：/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/release-preview-flow-20261105-new-container-failure
+
+Case: pdfjs
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/local-deploy/r20261104-bc9105e-pdfjs-bundled/container.json 8091
+
+ ELIFECYCLE  Command failed with exit code 1.
+/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/preview-release.ts:16
+if (!/^sha256:[a-f0-9]{64}$/.test(candidate.imageId || '') || !/^[a-f0-9]{64}$/.test(candidate.manifestSha256 || '')) throw new Error('Candidate report must include an exact image ID and manifest SHA-256');
+                                                                                                                            ^
+
+Error: Candidate report must include an exact image ID and manifest SHA-256
+    at <anonymous> (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/preview-release.ts:16:125)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.22.1

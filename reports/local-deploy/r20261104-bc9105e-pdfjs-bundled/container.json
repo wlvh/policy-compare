@@ -1,0 +1,17 @@
+{
+  "engine": "pdfjs",
+  "image": "sha256:9cd5638c8f82934a88b0614737067c42e4b4d78da08d6b8484a4334a4b97dfaa",
+  "releaseId": "r20261104-bc9105e",
+  "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+  "manifestSha256": "8588407d553fb9297a35f169f2bdc0b1184982ebd2b48b00a29baed17513a849",
+  "status": "PASS",
+  "browserChannel": "bundled",
+  "scope": "Existing actual Linux image, local HTTP container only",
+  "origin": "http://127.0.0.1:57152",
+  "readOnly": true,
+  "user": "12345:12345",
+  "memory": 268435456,
+  "nanoCpus": 1000000000,
+  "mounts": [],
+  "exitCode": 0
+}

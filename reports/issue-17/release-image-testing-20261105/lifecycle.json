@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-11-05T14:37:18.252972+00:00",
+  "status": "PASS",
+  "checks": {
+    "reuseAndRestartSameContainer": "PASS",
+    "candidateAndRuntimeEvidence": "PASS",
+    "manualStatusRemainsNotEvaluated": "PASS",
+    "manifestAndImageLabelMismatchRejected": "PASS",
+    "runningReusedContainerPreservedAfterFailure": "PASS",
+    "failedCandidateRejected": "PASS",
+    "existingEvidenceNotOverwritten": "PASS",
+    "incompleteLegacyReportRejected": "PASS",
+    "foreignContainerNotReplacedOrStarted": "PASS",
+    "newlyStartedContainerStoppedAfterFailure": "PASS",
+    "user8088ServiceStillRunning": "PASS"
+  },
+  "candidate": "reports/local-deploy/r20261104-bc9105e-mupdf/container.json",
+  "imageId": "sha256:f4769d0bf32c8bd96a1cb84c479871aa942da2eeabb9374d36800d35ca01b1ae",
+  "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+  "releaseId": "r20261104-bc9105e",
+  "manifestSha256": "01b3879db852b418aca6d11be85dee96fd940e903be42182ba6f1d3b070bdaf2",
+  "manualReview": "NOT_EVALUATED",
+  "clusterAcceptance": "NOT_EVALUATED",
+  "observations": [
+    "Initial PDF.js compatibility probe was rejected because the historical recheck report uses image instead of imageId and has no platform field. No historical result was edited and no requirement was relaxed. Positive preview lifecycle checks use the canonical MuPDF candidate report."
+  ],
+  "scope": "Preview helper lifecycle and identity checks on existing local candidate image; no product rebuild, human signoff or OpenShift validation"
+}

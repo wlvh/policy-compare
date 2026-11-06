@@ -1,0 +1,412 @@
+{
+  "assertionResults": [
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build covers every template field, accepts both architectures and preserves exact approved selectors",
+      "status": "passed",
+      "title": "covers every template field, accepts both architectures and preserves exact approved selectors",
+      "duration": 6.003917000000001,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses omitted replicas and unresolved platform placeholders before any Docker operation",
+      "status": "passed",
+      "title": "refuses omitted replicas and unresolved platform placeholders before any Docker operation",
+      "duration": 0.48304100000000005,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed replicas configuration (\"1\")",
+      "status": "passed",
+      "title": "refuses malformed replicas configuration (\"1\")",
+      "duration": 0.11549999999999727,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed replicas configuration (0)",
+      "status": "passed",
+      "title": "refuses malformed replicas configuration (0)",
+      "duration": 0.08204200000000128,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed replicas configuration (21)",
+      "status": "passed",
+      "title": "refuses malformed replicas configuration (21)",
+      "duration": 0.07595799999999997,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed replicas configuration (1.5)",
+      "status": "passed",
+      "title": "refuses malformed replicas configuration (1.5)",
+      "duration": 0.06916599999999562,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed host configuration (\"127.0.0.1\")",
+      "status": "passed",
+      "title": "refuses malformed host configuration (\"127.0.0.1\")",
+      "duration": 0.07099999999999795,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed host configuration (\"https://policy.apps.example.test\")",
+      "status": "passed",
+      "title": "refuses malformed host configuration (\"https://policy.apps.example.test\")",
+      "duration": 0.0739589999999879,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed host configuration (\"policy.apps.example.test:443\")",
+      "status": "passed",
+      "title": "refuses malformed host configuration (\"policy.apps.example.test:443\")",
+      "duration": 0.10820800000000474,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed routeLabels configuration ([\"internal\"])",
+      "status": "passed",
+      "title": "refuses malformed routeLabels configuration ([\"internal\"])",
+      "duration": 0.10920799999999531,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed routeLabels configuration ({})",
+      "status": "passed",
+      "title": "refuses malformed routeLabels configuration ({})",
+      "duration": 0.07554100000000119,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed ingressPeers configuration ([{}])",
+      "status": "passed",
+      "title": "refuses malformed ingressPeers configuration ([{}])",
+      "duration": 0.07154199999999378,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed ingressPeers configuration ([{\"namespaceSelector\":{}}])",
+      "status": "passed",
+      "title": "refuses malformed ingressPeers configuration ([{\"namespaceSelector\":{}}])",
+      "duration": 0.058875000000000455,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed ingressPeers configuration ([{\"service\":\"router\"}])",
+      "status": "passed",
+      "title": "refuses malformed ingressPeers configuration ([{\"service\":\"router\"}])",
+      "duration": 0.05620799999999804,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed ingressPeers configuration ([{\"ipBlock\":{\"cidr\":\"0.0.0.0/0\"}}])",
+      "status": "passed",
+      "title": "refuses malformed ingressPeers configuration ([{\"ipBlock\":{\"cidr\":\"0.0.0.0/0\"}}])",
+      "duration": 0.09225000000000705,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed ingressPeers configuration ([{\"ipBlock\":{\"cidr\":\"10.0.0.0/16\"},\"podSelector\":{\"matchLabels\":{\"app\":\"router\"}}}])",
+      "status": "passed",
+      "title": "refuses malformed ingressPeers configuration ([{\"ipBlock\":{\"cidr\":\"10.0.0.0/16\"},\"podSelector\":{\"matchLabels\":{\"app\":\"router\"}}}])",
+      "duration": 0.05445899999999426,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed platformVersion configuration (\"\")",
+      "status": "passed",
+      "title": "refuses malformed platformVersion configuration (\"\")",
+      "duration": 0.09229200000000048,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed internalIngressController configuration (\"https://internal\")",
+      "status": "passed",
+      "title": "refuses malformed internalIngressController configuration (\"https://internal\")",
+      "duration": 0.07629200000000935,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed contact configuration (\"\")",
+      "status": "passed",
+      "title": "refuses malformed contact configuration (\"\")",
+      "duration": 0.07458300000000406,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed registryServer configuration (\"https://registry.example.test\")",
+      "status": "passed",
+      "title": "refuses malformed registryServer configuration (\"https://registry.example.test\")",
+      "duration": 0.06495800000000429,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed registryServer configuration (\"registry.example.test/team\")",
+      "status": "passed",
+      "title": "refuses malformed registryServer configuration (\"registry.example.test/team\")",
+      "duration": 0.0449169999999981,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed imageRepository configuration (\"other.example.test/team/policy\")",
+      "status": "passed",
+      "title": "refuses malformed imageRepository configuration (\"other.example.test/team/policy\")",
+      "duration": 0.04574999999999818,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed imageRepository configuration (\"registry.example.test:5000/team/policy-compare:latest\")",
+      "status": "passed",
+      "title": "refuses malformed imageRepository configuration (\"registry.example.test:5000/team/policy-compare:latest\")",
+      "duration": 0.04462499999999636,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed baseImage configuration (\"node:24\")",
+      "status": "passed",
+      "title": "refuses malformed baseImage configuration (\"node:24\")",
+      "duration": 0.043000000000006366,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed baseImage configuration (\"https://registry.example.test/node@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\")",
+      "status": "passed",
+      "title": "refuses malformed baseImage configuration (\"https://registry.example.test/node@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\")",
+      "duration": 0.058624999999992156,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses malformed baseImage configuration (\"node@other@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\")",
+      "status": "passed",
+      "title": "refuses malformed baseImage configuration (\"node@other@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\")",
+      "duration": 0.04045899999999847,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build refuses accidentally added generated fields and mismatches with selected platform values",
+      "status": "passed",
+      "title": "refuses accidentally added generated fields and mismatches with selected platform values",
+      "duration": 0.2120829999999927,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build accepts platform-approved expression selectors and bounded IP peers without rewriting their meaning",
+      "status": "passed",
+      "title": "accepts platform-approved expression selectors and bounded IP peers without rewriting their meaning",
+      "duration": 0.12466699999998809,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build runs with Node 24 before dependencies are needed and returns a failure code for a wrong target",
+      "status": "passed",
+      "title": "runs with Node 24 before dependencies are needed and returns a failure code for a wrong target",
+      "duration": 176.801875,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build keeps the complete guide example aligned with all twelve template fields and checks every shell block",
+      "status": "passed",
+      "title": "keeps the complete guide example aligned with all twelve template fields and checks every shell block",
+      "duration": 130.54083300000002,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    },
+    {
+      "ancestorTitles": [
+        "platform configuration before image build"
+      ],
+      "fullName": "platform configuration before image build executes the documented release-parameter step and rejects another architecture, version or repository",
+      "status": "passed",
+      "title": "executes the documented release-parameter step and rejects another architecture, version or repository",
+      "duration": 161.05254200000002,
+      "failureMessages": [],
+      "meta": {},
+      "tags": [],
+      "benchmarks": []
+    }
+  ],
+  "startTime": 1793896602986,
+  "endTime": 1793896603463.0525,
+  "status": "passed",
+  "message": "",
+  "name": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/platform-config.test.ts"
+}

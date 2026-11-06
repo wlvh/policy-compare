@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:56557/releases/r20261104-bc9105e/",
+  "releaseId": "r20261104-bc9105e",
+  "engine": "pdfjs",
+  "manifestSha256": "8588407d553fb9297a35f169f2bdc0b1184982ebd2b48b00a29baed17513a849",
+  "exitCode": 1,
+  "status": "FAIL",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

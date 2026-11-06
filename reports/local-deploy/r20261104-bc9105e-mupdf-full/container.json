@@ -1,0 +1,17 @@
+{
+  "engine": "mupdf",
+  "image": "sha256:f4769d0bf32c8bd96a1cb84c479871aa942da2eeabb9374d36800d35ca01b1ae",
+  "releaseId": "r20261104-bc9105e",
+  "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4",
+  "manifestSha256": "01b3879db852b418aca6d11be85dee96fd940e903be42182ba6f1d3b070bdaf2",
+  "status": "PASS",
+  "browserChannel": "bundled",
+  "scope": "Existing actual Linux image, local HTTP container only",
+  "origin": "http://127.0.0.1:57599",
+  "readOnly": true,
+  "user": "12345:12345",
+  "memory": 268435456,
+  "nanoCpus": 1000000000,
+  "mounts": [],
+  "exitCode": 0
+}

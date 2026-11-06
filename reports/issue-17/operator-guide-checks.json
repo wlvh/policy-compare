@@ -1,0 +1,18 @@
+{
+  "shellBlocks": 39,
+  "shellSyntax": "PASS",
+  "mainOnlyAndNoDevelopmentFlow": "PASS",
+  "unfilledPlatformRejected": "PASS",
+  "filledPlatformAccepted": "PASS",
+  "registryDigestSelectionAndMismatchRejection": "PASS",
+  "documentCommandsRenderCandidateAndRootEntry": "PASS",
+  "firstInstallExistingEntryAndHostConflictBackup": "PASS",
+  "documentSha256": "5b63e322a7002df63700c5abc07f3abf113d7968e353175ee00b0d85c139857f",
+  "scope": "Documentation shell syntax, native configuration validation, full example alignment and fixture-based rendering/promotion guards only; no live cluster, DNS/certificate, authentication, network reachability, registry login/push/pull or user acceptance executed",
+  "allTwelveFieldsAndFullExample": "PASS",
+  "nativeNode24PreDependencyCheck": "PASS",
+  "selectedProjectArchitectureHostAndRouterConsistency": "PASS",
+  "selectorAndRepositoryInputGuards": "PASS",
+  "candidatePromotionVersionArchitectureAndRepositoryGuards": "PASS",
+  "localFileLinks": "PASS"
+}

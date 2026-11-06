@@ -2,7 +2,7 @@ import {test, expect, type Page, type Locator} from '@playwright/test';
 import path from 'node:path';
 
 async function load(page: Page, caseId: string) {
-  await page.goto('/');
+  await page.goto('./');
   for (const [label, name] of [['基准 PDF', 'before'], ['待审 PDF', 'after']])
     await page.getByLabel(label, {exact: true}).setInputFiles(path.resolve('validation/dataset/cases', caseId, name + '.pdf'));
   await page.getByRole('button', {name: '开始比较', exact: true}).click();

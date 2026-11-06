@@ -2,7 +2,7 @@ import {test, expect, type Page} from '@playwright/test';
 import path from 'node:path';
 
 async function load(page: Page, left: string, right: string) {
-  await page.goto('/');
+  await page.goto('./');
   await page.getByLabel('基准 PDF', {exact: true}).setInputFiles(path.resolve(left));
   await page.getByLabel('待审 PDF', {exact: true}).setInputFiles(path.resolve(right));
   await page.getByRole('button', {name: '开始比较', exact: true}).click();

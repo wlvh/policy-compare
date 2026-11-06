@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:54390/releases/r20261104-7e79630/",
+  "releaseId": "r20261104-7e79630",
+  "engine": "mupdf",
+  "revision": "7e7963047a94784a69aab65c93f9614383afa66f",
+  "manifestSha256": "b1970cd0a0ef138b61d0c4be30adde6642b51b6ae9b255d29f64681f0107bcae",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

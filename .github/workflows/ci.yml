@@ -96,8 +96,40 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: 24.19.0}
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
       - name: Build and start the selected Linux image
+        id: candidate
         run: pnpm test:container ${{ matrix.engine }}
+        env:
+          POLICY_BROWSER_CHANNEL: bundled
+      - name: Check the same-image preview entry
+        if: ${{ !cancelled() && steps.candidate.outcome == 'success' }}
+        env:
+          POLICY_PREVIEW_REPORT_DIR: ${{ github.workspace }}/reports/local-deploy/preview-${{ matrix.engine }}
+        run: |
+          candidate="$(node -p "require('./reports/container-${{ matrix.engine }}.json').evidence")"
+          pnpm preview:release "$candidate" 8088
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const dir = process.env.POLICY_PREVIEW_REPORT_DIR;
+          const preview = JSON.parse(fs.readFileSync(`${dir}/preview.json`, 'utf8'));
+          const manual = JSON.parse(fs.readFileSync(`${dir}/manual-review.json`, 'utf8'));
+          if (preview.status !== 'READY_FOR_MANUAL_REVIEW' || preview.manualReview !== 'NOT_EVALUATED' ||
+              manual.status !== 'NOT_EVALUATED' || !manual.checks.length ||
+              manual.checks.some(check => check.status !== 'NOT_EVALUATED')) {
+            throw new Error('Preview startup must not imply human acceptance');
+          }
+          NODE
+      - name: Remove the CI preview container
+        if: always()
+        run: |
+          record="reports/local-deploy/preview-${{ matrix.engine }}/preview.json"
+          if test -f "$record"; then
+            name="$(node -p 'JSON.parse(require("node:fs").readFileSync(process.argv[1],"utf8")).containerName' "$record")"
+            if docker container inspect "$name" >/dev/null 2>&1; then
+              docker rm -f "$name"
+            fi
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -105,3 +137,4 @@ jobs:
           path: |
             reports/container-${{ matrix.engine }}.json
             reports/container-build-${{ matrix.engine }}.log
+            reports/local-deploy/

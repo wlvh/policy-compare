@@ -1,0 +1,12 @@
+[
+  {
+    "engine": "mupdf",
+    "exitCode": 2,
+    "meaning": "exit 2 retains registered NOT_EVALUATED requirements; not full PASS"
+  },
+  {
+    "engine": "pdfjs",
+    "exitCode": 2,
+    "meaning": "exit 2 retains registered NOT_EVALUATED requirements; not full PASS"
+  }
+]
