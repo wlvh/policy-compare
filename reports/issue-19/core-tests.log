@@ -1,0 +1,64 @@
+
+> policy-compare@0.1.0 verify:core /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> pnpm build:core && vitest run
+
+
+> policy-compare@0.1.0 build:core /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/build-rust.ts
+
+   Compiling policy-compare-core v0.1.0 (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/crates/compare-core)
+warning: field `transforms` is never read
+  --> crates/compare-core/src/text.rs:51:9
+   |
+46 | pub struct Mapped {
+   |            ------ field in this struct
+...
+51 |     pub transforms: Vec<V>,
+   |         ^^^^^^^^^^
+   |
+   = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `policy-compare-core` (lib) generated 1 warning
+    Finished `release` profile [optimized] target(s) in 1.95s
+{
+  abi: 'policy-core-session/1',
+  coreVersion: 'policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4',
+  sha256: '528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84',
+  bytes: 2510955,
+  rust: '1.93.0',
+  target: 'wasm32-unknown-unknown'
+}
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ✓ tests/delivery.test.ts (4 tests) 262ms
+ ✓ tests/core.test.ts (8 tests) 173ms
+ ✓ tests/review-core.test.ts (13 tests) 272ms
+ ✓ tests/page-counts.test.ts (7 tests) 283ms
+ ✓ tests/row-identity.test.ts (12 tests) 323ms
+ ✓ tests/server.test.ts (1 test) 72ms
+ ✓ tests/cosmetic-evidence.test.ts (21 tests) 377ms
+ ✓ tests/margin-text.test.ts (17 tests) 420ms
+ ✓ tests/result-format-2.test.ts (25 tests) 425ms
+ ✓ tests/boundary.test.ts (2 tests) 13ms
+ ✓ tests/contracts.test.ts (4 tests) 4ms
+ ✓ tests/alignment.test.ts (4 tests) 66ms
+ ✓ tests/platform-config.test.ts (31 tests) 731ms
+ ✓ tests/page-furniture.test.ts (27 tests) 723ms
+ ✓ tests/row-identity-evidence.test.ts (50 tests) 1053ms
+ ✓ tests/table-scope.test.ts (37 tests) 1254ms
+   ✓ wrapped table cells stay with their row (14)
+     ✓ full-cell wrap uncertainty ignores fragment grouping (3 columns, 2 lines) 379ms
+ ✓ tests/local-dev.test.ts (1 test) 1418ms
+   ✓ local launcher refuses an occupied port, then starts and stops only its own service 1417ms
+ ✓ tests/scorer.test.ts (145 tests) 2895ms
+ ✓ tests/rust-core.test.ts (6 tests) 12614ms
+   ✓ WASM work estimates above 2^32 exhaust the budget rather than wrapping to a small product 12456ms
+
+ Test Files  19 passed (19)
+      Tests  415 passed (415)
+   Start at  14:45:51
+   Duration  12.79s (tests 94%, import 5%, transform 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json

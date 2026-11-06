@@ -1,0 +1,372 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test",
+      "tests/browser/rules.spec.ts",
+      "tests/browser/rust-core.spec.ts"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/browser-mupdf-retry/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/browser-mupdf-retry/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4175/",
+          "channel": "chrome",
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/issue-19/browser-mupdf-retry/browser-tests-mupdf.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "pnpm preview:mupdf --port 4175",
+      "url": "http://127.0.0.1:4175",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "rules.spec.ts",
+      "file": "rules.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13291,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T05:52:05.560Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5947b461d8505a22fe31-c7b64af03508079608d4",
+          "file": "rules.spec.ts",
+          "line": 11,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "rust-core.spec.ts",
+      "file": "rust-core.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "frozen inputs: shipped Worker and formal CLI have identical complete core outputs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16486,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T05:52:19.130Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-139ba56fefaaf6968556",
+          "file": "rust-core.spec.ts",
+          "line": 10,
+          "column": 1
+        },
+        {
+          "title": "WASM initialization cancel then retry, no stale task or duplicate transfer",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 463,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    2 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m      - unexpected value \"false\"\u001b[22m\n\u001b[2m  - Target page, context or browser has been closed\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    2 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m      - unexpected value \"false\"\u001b[22m\n\u001b[2m  - Target page, context or browser has been closed\u001b[22m\n\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:37:59",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                      "column": 59,
+                      "line": 37
+                    },
+                    "snippet": "  35 |  test.setTimeout(45000);const requested:string[]=[];\n  36 |  await page.context().route('**/core-*.wasm',async route=>{requested.push(route.request().url());if(mode==='failure')return route.abort();await new Promise<void>(r=>setTimeout(r,mode==='timeout'?17000:2000));try{await route.continue();}catch{}});\n> 37 |  await page.goto('./');await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');\n     |                                                           ^\n  38 |  await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));\n  39 |  await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));\n  40 |  await page.getByRole('button',{name:'开始比较',exact:true}).click();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                        "column": 59,
+                        "line": 37
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    2 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m      - unexpected value \"false\"\u001b[22m\n\u001b[2m  - Target page, context or browser has been closed\u001b[22m\n\n\n  35 |  test.setTimeout(45000);const requested:string[]=[];\n  36 |  await page.context().route('**/core-*.wasm',async route=>{requested.push(route.request().url());if(mode==='failure')return route.abort();await new Promise<void>(r=>setTimeout(r,mode==='timeout'?17000:2000));try{await route.continue();}catch{}});\n> 37 |  await page.goto('./');await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');\n     |                                                           ^\n  38 |  await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));\n  39 |  await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));\n  40 |  await page.getByRole('button',{name:'开始比较',exact:true}).click();\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:37:59"
+                    },
+                    {
+                      "message": "Error: browserContext.close: Target page, context or browser has been closed"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T05:52:35.621Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/browser-mupdf-retry/test-results/rust-core-WASM-initializat-5007a--task-or-duplicate-transfer/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/browser-mupdf-retry/test-results/rust-core-WASM-initializat-5007a--task-or-duplicate-transfer/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                    "column": 59,
+                    "line": 37
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-0e787c678217fa778374",
+          "file": "rust-core.spec.ts",
+          "line": 34,
+          "column": 59
+        },
+        {
+          "title": "WASM initialization failure then retry, no stale task or duplicate transfer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 776,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T05:52:36.480Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-753de59b270ff8c7c41c",
+          "file": "rust-core.spec.ts",
+          "line": 34,
+          "column": 59
+        },
+        {
+          "title": "WASM initialization timeout then retry, no stale task or duplicate transfer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16057,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T05:52:37.518Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-a7bfe70f503e647ead59",
+          "file": "rust-core.spec.ts",
+          "line": 34,
+          "column": 59
+        },
+        {
+          "title": "network paths, queries, payloads and diagnostics contain no local document or search secrets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 540,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T05:52:53.580Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-398386497640322551fd",
+          "file": "rust-core.spec.ts",
+          "line": 52,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-06T05:52:04.930Z",
+    "duration": 49253.496,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

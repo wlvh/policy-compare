@@ -1,0 +1,372 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test",
+      "tests/browser/rules.spec.ts",
+      "tests/browser/rust-core.spec.ts"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/frozen-browser-pdfjs/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/frozen-browser-pdfjs/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4174/",
+          "channel": "chrome",
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/issue-19/frozen-browser-pdfjs/browser-tests-pdfjs.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "pnpm preview:pdfjs --port 4174",
+      "url": "http://127.0.0.1:4174",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "rules.spec.ts",
+      "file": "rules.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15524,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T06:09:28.657Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5947b461d8505a22fe31-c7b64af03508079608d4",
+          "file": "rules.spec.ts",
+          "line": 11,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "rust-core.spec.ts",
+      "file": "rust-core.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "frozen inputs: shipped Worker and formal CLI have identical complete core outputs",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 15076,
+                  "error": {
+                    "message": "Error: page.evaluate: Target page, context or browser has been closed",
+                    "stack": "Error: page.evaluate: Target page, context or browser has been closed\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:18:28",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                      "column": 28,
+                      "line": 18
+                    },
+                    "snippet": "  16 |   try{if(cliImage){execFileSync('docker',['run','--rm','--network','none','-v',`${path.resolve('tmp/issue19-cli')}:/inputs`,cliImage,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}\n  17 |   const cli=JSON.parse(readFileSync(out,'utf8'));\n> 18 |   const browser=await page.evaluate(async docs=>{\n     |                            ^\n  19 |    const info=await(await fetch(new URL('build-info.json',location.href))).json();\n  20 |    const asset=info.resources.find((x:any)=>/core.worker.*\\.js$/.test(x.path));if(!asset)throw new Error('Core worker absent from manifest');\n  21 |    return await new Promise<any>((resolve,reject)=>{const worker=new Worker(new URL(asset.path,location.href),{type:'module'});const ch=new MessageChannel();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                        "column": 28,
+                        "line": 18
+                      },
+                      "message": "Error: page.evaluate: Target page, context or browser has been closed\n\n  16 |   try{if(cliImage){execFileSync('docker',['run','--rm','--network','none','-v',`${path.resolve('tmp/issue19-cli')}:/inputs`,cliImage,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}\n  17 |   const cli=JSON.parse(readFileSync(out,'utf8'));\n> 18 |   const browser=await page.evaluate(async docs=>{\n     |                            ^\n  19 |    const info=await(await fetch(new URL('build-info.json',location.href))).json();\n  20 |    const asset=info.resources.find((x:any)=>/core.worker.*\\.js$/.test(x.path));if(!asset)throw new Error('Core worker absent from manifest');\n  21 |    return await new Promise<any>((resolve,reject)=>{const worker=new Worker(new URL(asset.path,location.href),{type:'module'});const ch=new MessageChannel();\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:18:28"
+                    },
+                    {
+                      "message": "Error: apiRequestContext._wrapApiCall: Target page, context or browser has been closed"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T06:09:44.468Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/frozen-browser-pdfjs/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/frozen-browser-pdfjs/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                    "column": 28,
+                    "line": 18
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-139ba56fefaaf6968556",
+          "file": "rust-core.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "WASM initialization cancel then retry, no stale task or duplicate transfer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 837,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T06:09:59.757Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-0e787c678217fa778374",
+          "file": "rust-core.spec.ts",
+          "line": 35,
+          "column": 59
+        },
+        {
+          "title": "WASM initialization failure then retry, no stale task or duplicate transfer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 819,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T06:10:00.861Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-753de59b270ff8c7c41c",
+          "file": "rust-core.spec.ts",
+          "line": 35,
+          "column": 59
+        },
+        {
+          "title": "WASM initialization timeout then retry, no stale task or duplicate transfer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 16253,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T06:10:01.686Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-a7bfe70f503e647ead59",
+          "file": "rust-core.spec.ts",
+          "line": 35,
+          "column": 59
+        },
+        {
+          "title": "network paths, queries, payloads and diagnostics contain no local document or search secrets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 603,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T06:10:17.944Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-398386497640322551fd",
+          "file": "rust-core.spec.ts",
+          "line": 53,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-06T06:09:28.017Z",
+    "duration": 50610.542,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

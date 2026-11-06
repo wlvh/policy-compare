@@ -12,3 +12,5 @@ tmp
 
 **/node_modules
 **/.DS_Store
+/target
+/packages/rust-core/generated

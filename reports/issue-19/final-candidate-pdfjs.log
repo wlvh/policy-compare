@@ -1,0 +1,28 @@
+
+> policy-compare@0.1.0 test:container /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/container.ts pdfjs
+
+Building policy-compare:r19-final-pdfjs-pdfjs (linux/arm64); output in reports/issue-19/final/candidate-pdfjs/build.log
+Browser target: http://127.0.0.1:50139/releases/r19-final-pdfjs/
+{
+  "engine": "pdfjs",
+  "revision": "fb3ac122eafce2bf05c22de0138252d1353c2cd2",
+  "releaseId": "r19-final-pdfjs",
+  "platform": "linux/arm64",
+  "status": "PASS",
+  "imageId": "sha256:8acd2d01e6bf6549adba52b9de2d352b76e7dce25d31d368928b8656a1b22aa6",
+  "repoDigests": [],
+  "baseImage": "node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53",
+  "architecture": "arm64",
+  "manifestSha256": "b54c4109bf39f02bf676b39e460018362f9c40a229c12f0bbdc5309638837ad3",
+  "container": {
+    "image": "sha256:8acd2d01e6bf6549adba52b9de2d352b76e7dce25d31d368928b8656a1b22aa6",
+    "readOnly": true,
+    "user": "12345:12345",
+    "memory": 268435456,
+    "nanoCpus": 1000000000,
+    "mounts": []
+  },
+  "origin": "http://127.0.0.1:50139",
+  "scope": "L2-A actual image and browser only; not OpenShift or performance acceptance"
+}

@@ -2,7 +2,7 @@ import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {loadEngine,type EngineName} from '../packages/pdf-adapter/node';
-import {structure} from '../packages/compare-core/structure';
+import {structure} from '../packages/legacy-core/structure';
 import {aviationProfile} from '../profiles/aviation';
 
 const args=process.argv.slice(2);

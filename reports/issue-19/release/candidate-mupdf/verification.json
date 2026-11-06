@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:52243/releases/r19-budget-mupdf/",
+  "releaseId": "r19-budget-mupdf",
+  "engine": "mupdf",
+  "manifestSha256": "f8d3cf6d3651935db2add822fc6bf0d6470bddf1f96bdb8a0635e3d7ad93fa35",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

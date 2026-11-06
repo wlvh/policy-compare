@@ -139,3 +139,18 @@ test('height-only resizing loads newly visible pages and retains visible predece
   expect(visible).toContain(0);
   for (const p of visible) await expect(right.locator(`[data-page-index="${p}"] img`)).toHaveCount(1);
 });
+
+// Failure-only diagnostics: rendered DOM plus the viewport's live scheduling
+// refs. These are investigation evidence, never an acceptance oracle.
+test.afterEach(async({page},info)=>{
+  if(info.status===info.expectedStatus)return;
+  const state=await page.getByRole('region',{name:'待审原文连续浏览'}).evaluate(el=>{
+    const key=Object.keys(el).find(k=>k.startsWith('__reactFiber$'));
+    let fiber=key?(el as any)[key]:null;
+    while(fiber&&typeof fiber.type?.render!=='function')fiber=fiber.return;
+    const hooks:any[]=[];for(let h=fiber?.memoizedState;h;h=h.next)hooks.push(h.memoizedState);
+    const ref=(i:number)=>hooks[i]?.current;
+    return {scrollTop:el.scrollTop,height:el.clientHeight,scrollHeight:el.scrollHeight,active:ref(2),cachePages:ref(4)instanceof Map?[...ref(4).keys()]:null,inFlight:ref(6),renderWindow:ref(7),mounted:ref(10),programmaticTop:ref(11),slots:[...el.querySelectorAll<HTMLElement>('[data-page-index]')].map(slot=>({page:slot.dataset.pageIndex,top:slot.offsetTop,height:slot.offsetHeight,ready:slot.querySelector('[data-ready-page]')?.getAttribute('data-ready-page'),image:slot.querySelector('img')?.getAttribute('src'),error:slot.querySelector('[data-page-error]')?.textContent}))};
+  }).catch(error=>({diagnosticError:String(error)}));
+  await info.attach('viewport-at-failure',{body:JSON.stringify(state,null,2),contentType:'application/json'});
+});

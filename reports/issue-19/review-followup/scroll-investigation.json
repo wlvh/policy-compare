@@ -1,0 +1,153 @@
+{
+  "status": "CONFIRMED_PRE_MIGRATION_SYMPTOM",
+  "historicalRun": "https://github.com/wlvh/policy-compare/actions/runs/41832530229",
+  "historicalJob": "https://github.com/wlvh/policy-compare/actions/runs/41832530229/job/126583036695",
+  "historicalHead": "97d13fd6cd3bd9bd476a9a240a52a92988dd3e78",
+  "executedMergeRevision": "f79e4d3a8793a00ae6d44f902a131c7ed8de1373",
+  "historicalBrowser": "156.0.8078.4",
+  "historicalRunnerImage": "ubuntu26/20261025.179",
+  "reviewedFailureRun": "https://github.com/wlvh/policy-compare/actions/runs/42215113898",
+  "reviewedRunnerImage": "ubuntu26/20261101.186.1",
+  "reviewedBrowser": "156.0.8078.4",
+  "historicalEnvironment": {
+    "commit": "f79e4d3a8793a00ae6d44f902a131c7ed8de1373",
+    "runId": "41832530229",
+    "engine": "pdfjs",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "memoryBytes": 16759443456,
+    "purpose": "functional checks only; not target-device performance acceptance"
+  },
+  "historicalStats": {
+    "startTime": "2026-11-04T12:49:54.023Z",
+    "duration": 125049.876,
+    "expected": 35,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "historicalCase": {
+    "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+    "ok": false,
+    "tags": [],
+    "tests": [
+      {
+        "timeout": 60000,
+        "annotations": [],
+        "expectedStatus": "passed",
+        "projectId": "",
+        "projectName": "",
+        "results": [
+          {
+            "workerIndex": 0,
+            "parallelIndex": 0,
+            "status": "failed",
+            "duration": 7053,
+            "error": {
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]')\u001b[22m\n",
+              "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]')\u001b[22m\n\n    at /home/runner/work/policy-compare/policy-compare/tests/browser/scroll.spec.ts:53:56",
+              "location": {
+                "file": "/home/runner/work/policy-compare/policy-compare/tests/browser/scroll.spec.ts",
+                "column": 56,
+                "line": 53
+              },
+              "snippet": "\u001b[0m \u001b[90m 51 |\u001b[39m   \u001b[36mawait\u001b[39m expect(right\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-ready-page=\"2\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 52 |\u001b[39m   \u001b[36mawait\u001b[39m wheelTo(page\u001b[33m,\u001b[39m right\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 53 |\u001b[39m   \u001b[36mawait\u001b[39m expect(right\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-ready-page=\"0\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 54 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m {name\u001b[33m:\u001b[39m \u001b[32m'\u5f85\u5ba1\u4e0a\u4e00\u9875'\u001b[39m\u001b[33m,\u001b[39m exact\u001b[33m:\u001b[39m \u001b[36mtrue\u001b[39m}))\u001b[33m.\u001b[39mtoBeDisabled()\u001b[33m;\u001b[39m\n \u001b[90m 55 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mmouse\u001b[33m.\u001b[39mwheel(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[33m-\u001b[39m\u001b[35m10000\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 56 |\u001b[39m   \u001b[36mawait\u001b[39m expect(right\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-ready-page=\"0\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
+            },
+            "errors": [
+              {
+                "location": {
+                  "file": "/home/runner/work/policy-compare/policy-compare/tests/browser/scroll.spec.ts",
+                  "column": 56,
+                  "line": 53
+                },
+                "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: '\u5f85\u5ba1\u539f\u6587\u8fde\u7eed\u6d4f\u89c8' }).locator('[data-ready-page=\"0\"]')\u001b[22m\n\n\n  51 |   await expect(right.locator('[data-ready-page=\"2\"]')).toBeVisible();\n  52 |   await wheelTo(page, right, 0, 0);\n> 53 |   await expect(right.locator('[data-ready-page=\"0\"]')).toBeVisible();\n     |                                                        ^\n  54 |   await expect(page.getByRole('button', {name: '\u5f85\u5ba1\u4e0a\u4e00\u9875', exact: true})).toBeDisabled();\n  55 |   await page.mouse.wheel(0, -10000);\n  56 |   await expect(right.locator('[data-ready-page=\"0\"]')).toBeVisible();\n    at /home/runner/work/policy-compare/policy-compare/tests/browser/scroll.spec.ts:53:56"
+              }
+            ],
+            "stdout": [],
+            "stderr": [],
+            "retry": 0,
+            "startTime": "2026-11-04T12:51:44.971Z",
+            "annotations": [],
+            "attachments": [
+              {
+                "name": "error-context",
+                "contentType": "text/markdown",
+                "path": "/home/runner/work/policy-compare/policy-compare/test-results/pdfjs/scroll-wheel-crosses-page--c9603-ndependent-when-sync-is-off/error-context.md"
+              },
+              {
+                "name": "trace",
+                "contentType": "application/zip",
+                "path": "/home/runner/work/policy-compare/policy-compare/test-results/pdfjs/scroll-wheel-crosses-page--c9603-ndependent-when-sync-is-off/trace.zip"
+              }
+            ],
+            "errorLocation": {
+              "file": "/home/runner/work/policy-compare/policy-compare/tests/browser/scroll.spec.ts",
+              "column": 56,
+              "line": 53
+            }
+          }
+        ],
+        "status": "unexpected"
+      }
+    ],
+    "id": "8f7bc8310c9f408a5a85-3314910532efed2854fd",
+    "file": "scroll.spec.ts",
+    "line": 28,
+    "column": 1
+  },
+  "unchangedFiles": [
+    {
+      "path": "apps/web/PdfViewport.tsx",
+      "beforeRustBlob": "a16c06c60dd16e0514460c55170b33f122be2545",
+      "reviewedBlob": "a16c06c60dd16e0514460c55170b33f122be2545",
+      "identical": true
+    },
+    {
+      "path": "apps/web/PageCanvas.tsx",
+      "beforeRustBlob": "4f8482c27339bf474f868f789bc53a92b7f94461",
+      "reviewedBlob": "4f8482c27339bf474f868f789bc53a92b7f94461",
+      "identical": true
+    },
+    {
+      "path": "engines/pdfjs/client.ts",
+      "beforeRustBlob": "837ef3a6d0229a37ecf4d8f9c0c4f428485551d4",
+      "reviewedBlob": "837ef3a6d0229a37ecf4d8f9c0c4f428485551d4",
+      "identical": true
+    },
+    {
+      "path": "engines/pdfjs/adapter.ts",
+      "beforeRustBlob": "e8999fd603d0dd2b6c4c7937897c911bc58242d5",
+      "reviewedBlob": "e8999fd603d0dd2b6c4c7937897c911bc58242d5",
+      "identical": true
+    },
+    {
+      "path": "apps/web/style.css",
+      "beforeRustBlob": "bf196a9c669ef31fd82481aa95d5f605437ab49d",
+      "reviewedBlob": "bf196a9c669ef31fd82481aa95d5f605437ab49d",
+      "identical": true
+    },
+    {
+      "path": "tests/browser/scroll.spec.ts",
+      "beforeRustBlob": "1627e8a33ad69f1f0f736c98f6f80ed4f6481ce3",
+      "reviewedBlob": "1627e8a33ad69f1f0f736c98f6f80ed4f6481ce3",
+      "identical": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "beforeRustBlob": "e6b580ca1b9410f44d739fe5931136e85c10b608",
+      "reviewedBlob": "e6b580ca1b9410f44d739fe5931136e85c10b608",
+      "identical": true
+    },
+    {
+      "path": "engines/pdfjs/pnpm-lock.yaml",
+      "beforeRustBlob": "83d888a20b5142327660eae174d3de2be2acd994",
+      "reviewedBlob": "83d888a20b5142327660eae174d3de2be2acd994",
+      "identical": true
+    }
+  ],
+  "sameRunnerComparisonRun": "https://github.com/wlvh/policy-compare/actions/runs/42228008179",
+  "sameRunnerComparisonEvidence": "ci-scroll/comparison.json",
+  "disposition": "Pre-Rust occurrence is proven. The precise underlying mechanism and whether every occurrence shares it remain unresolved. Retain as an open intermittent scrolling issue; no assertion relaxation, retry, or skip added. Fresh same-runner baseline/reviewed comparison passed; this does not mark the historical failure fixed."
+}

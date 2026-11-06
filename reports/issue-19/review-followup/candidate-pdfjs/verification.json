@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:58653/releases/r20-a3-pdfjs/",
+  "releaseId": "r20-a3-pdfjs",
+  "engine": "pdfjs",
+  "manifestSha256": "c322d3a7c3d0fd49468b0ff838f6b1803e1f484591eee69b0a98f3d2ec8c38c7",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

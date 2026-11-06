@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "bbf29dad272567dbceb9ecc03ec92b45326fccbb5ce4dfd16ec3d72e9d9fd90f",
+    "bytes": 2524567,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4174/",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/index-C157Jh3L.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/index-D48Dlxkb.css",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/main-CPEPViar.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/pdf.worker-CQC3jXZh.mjs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/core.worker-Bh4Jx6Xh.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/core-DCZyLISa.wasm",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:4174/c4f725b0-bc79-4b64-8731-d104f44eae83",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:4174/d6bd74f7-35e0-412a-9d6c-ac1cda1af40c",
+      "method": "GET",
+      "body": null
+    }
+  ]
+}

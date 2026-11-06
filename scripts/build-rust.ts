@@ -1,0 +1,14 @@
+import {execFileSync} from 'node:child_process';
+import {mkdirSync,cpSync} from 'node:fs';
+import os from 'node:os';
+const host = `${os.arch()==='arm64'?'aarch64':'x86_64'}-${os.platform()==='darwin'?'apple-darwin':'unknown-linux-gnu'}`;
+const toolchain = `1.93.0-${host}`;
+const rustup = process.env.POLICY_RUSTUP || (os.platform()==='darwin' ? `${os.homedir()}/.cargo/bin/rustup` : 'rustup');
+const rustc=execFileSync(rustup,['which','--toolchain',toolchain,'rustc'],{encoding:'utf8'}).trim();
+execFileSync(rustup,['run',toolchain,'cargo','build','--locked','--release','--target','wasm32-unknown-unknown'],{stdio:'inherit',env:{...process.env,RUSTC:rustc}});
+const source='target/wasm32-unknown-unknown/release/policy_compare_core.wasm';
+mkdirSync('packages/rust-core/generated',{recursive:true});
+cpSync(source,'packages/rust-core/generated/core.wasm');
+await import('./core-artifact.ts');
+process.env.POLICY_CARGO=execFileSync(rustup,['which','--toolchain',toolchain,'cargo'],{encoding:'utf8'}).trim();
+await import('./rust-licenses.ts');

@@ -3,6 +3,7 @@ import { resolve,dirname } from "node:path";
 import {createRequire} from 'node:module';
 import { cpSync, existsSync, mkdirSync,readFileSync,writeFileSync } from "node:fs";
 import { execFileSync } from 'node:child_process';
+import coreArtifact from './packages/rust-core/generated/core-info.json' with {type:'json'};
 import { releaseBase, resourceManifest } from './scripts/release-config.ts';
 const engine = process.env.POLICY_ENGINE ?? "mupdf";
 const require=createRequire(import.meta.url);
@@ -15,7 +16,7 @@ if (!["mupdf", "pdfjs"].includes(engine))
   throw new Error("POLICY_ENGINE must explicitly select pdfjs or mupdf");
 export default defineConfig({
   base,
-  define: {__POLICY_BUILD__: JSON.stringify({releaseId, revision, engine, engineVersion, base, contact: process.env.POLICY_CONTACT || '请联系提供本工具的维护者'})},
+  define: {__POLICY_BUILD__: JSON.stringify({releaseId, revision, engine, engineVersion, coreArtifact, base, contact: process.env.POLICY_CONTACT || '请联系提供本工具的维护者'})},
   root: "apps/web",
   resolve: {
     alias: {
@@ -64,8 +65,9 @@ export default defineConfig({
           const target=resolve(`dist/${engine}/licenses/common/${name.replace('/','-')}`);mkdirSync(target,{recursive:true});
           for(const file of ['LICENSE','LICENSE.md','LICENSE.txt','NOTICE'])if(existsSync(source+'/'+file))cpSync(source+'/'+file,target+'/'+file);
         }
+        cpSync(resolve('packages/rust-core/generated/licenses'),resolve(`dist/${engine}/licenses/rust`),{recursive:true});
         const root = resolve(`dist/${engine}`);
-        writeFileSync(resolve(root,'build-info.json'), JSON.stringify({releaseId, revision, engine, engineVersion, base, resources: resourceManifest(root)},null,2)+'\n');
+        writeFileSync(resolve(root,'build-info.json'), JSON.stringify({releaseId, revision, engine, engineVersion, coreArtifact, base, resources: resourceManifest(root)},null,2)+'\n');
       },
     },
   ],

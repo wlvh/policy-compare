@@ -1,6 +1,7 @@
+import {structure} from '../packages/legacy-core/structure';
 import { readFileSync } from "node:fs";
 import { extractPdf } from "../packages/pdf-adapter/index";
-import { structure, compare } from "../packages/compare-core/index";
+import { compare } from "../packages/compare-core/index";
 import { aviationProfile } from "../profiles/aviation";
 const dir = process.argv[2] ?? "validation/dataset/cases/R02_amount";
 const left = await extractPdf(readFileSync(dir + "/before.pdf")),

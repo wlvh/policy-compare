@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "bb169c079ee82b7da257009b437772cde4a19ee6754502826f82c809867b3260",
+    "bytes": 2509363,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4175/",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/index-Co6ySe3C.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/index-D48Dlxkb.css",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/main-7_wf90tt.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/pdf.worker-ByyZ9gnE.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/rolldown-runtime-WkwZ5CU-.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/mupdf-wasm-Bvf0xebB.wasm",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/core.worker-BP2Q2cO5.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4175/assets/core-D3HALn3N.wasm",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:4175/4db78897-8d80-44c8-a947-70f6ee0ca328",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:4175/a1c74ac9-37e1-4867-9944-32db1f78e6eb",
+      "method": "GET",
+      "body": null
+    }
+  ]
+}

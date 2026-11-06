@@ -1,0 +1,16 @@
+[WebServer] (node:3318) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:3382) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/rust-core.spec.ts:11:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs (21.1s)
+  ✓  2 tests/browser/rust-core.spec.ts:35:59 › WASM initialization cancel then retry, no stale task or duplicate transfer (837ms)
+  ✓  3 tests/browser/rust-core.spec.ts:35:59 › WASM initialization failure then retry, no stale task or duplicate transfer (768ms)
+  ✓  4 tests/browser/rust-core.spec.ts:35:59 › WASM initialization timeout then retry, no stale task or duplicate transfer (16.1s)
+  ✓  5 tests/browser/rust-core.spec.ts:53:1 › network paths, queries, payloads and diagnostics contain no local document or search secrets (582ms)
+
+  5 passed (40.2s)

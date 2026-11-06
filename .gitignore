@@ -14,3 +14,7 @@ delivery/
 policy-compare-review-*.zip
 policy-compare-handoff-*.zip
 REVIEW_ARTIFACTS.json
+/target/
+/packages/rust-core/generated/*
+
+/reports/issue-19/**/test-results/

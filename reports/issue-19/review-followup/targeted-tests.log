@@ -1,0 +1,12 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ✓ tests/cli-core-artifact.test.ts (1 test) 116ms
+ ✓ tests/cli-core-loading.test.ts (2 tests) 457ms
+
+ Test Files  2 passed (2)
+      Tests  3 passed (3)
+   Start at  22:13:28
+   Duration  525ms (tests 90%, import 8%, transform 1%, worker 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json

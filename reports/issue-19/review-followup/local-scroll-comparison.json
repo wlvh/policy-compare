@@ -1,0 +1,1521 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tmp/review20-scroll.config.ts"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-scroll.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-scroll-results",
+        "repeatEach": 20,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "typescript-6a5f1ef",
+        "name": "typescript-6a5f1ef",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "scroll.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-scroll-results",
+        "repeatEach": 20,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "rust-f49500b-product",
+        "name": "rust-f49500b-product",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "scroll.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-scroll-results",
+        "repeatEach": 20,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "typescript-6a5f1ef",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "scroll.spec.ts",
+        "timeout": 60000,
+        "use": {
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure",
+          "baseURL": "http://127.0.0.1:4180/"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "typescript-6a5f1ef"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-scroll-results",
+        "repeatEach": 20,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "rust-f49500b-product",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "scroll.spec.ts",
+        "timeout": 60000,
+        "use": {
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure",
+          "baseURL": "http://127.0.0.1:4181/"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "rust-f49500b-product"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-scroll-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "scroll.spec.ts",
+      "file": "scroll.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1523,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:30:52.170Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-9acef5458fc1f26d37d1",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1335,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:30:54.062Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-b9f6913171cb16ea5e44",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1355,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:30:55.649Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-d55f180c1ae537d70feb",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1356,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:30:57.258Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-bdfeaa1fbeb14e32e7a7",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1358,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:30:58.864Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-7671756025d07599d172",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1354,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:00.475Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-7d2e42a8dadb524c4778",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1370,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:02.093Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-a33c2af4bdbe5474335a",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1388,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:03.716Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-4ded665306c39556125a",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1405,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:05.357Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-6bcbb3ef53cebc7a02a4",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1387,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:07.016Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-ad43bb3e75c8b4250a11",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 10,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1388,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:08.655Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-a7b394f0ec5fe242dacb",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 11,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1355,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:10.299Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-6465653e8a84ee3adeb5",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 12,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1406,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:11.907Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-16c590521c1fb6a4e99a",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 13,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1388,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:13.565Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-b5d868ca48fda2127fce",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 14,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1353,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:15.211Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-8a51ec866f9c2b8e7127",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 15,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1354,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:16.822Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-b60a0bfc22835af5b3ba",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 16,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1353,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:18.430Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-dea855e1cd657e6c7397",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 17,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1357,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:20.039Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-385b621820ce33997196",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 18,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1404,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:21.652Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-89a1e8cb8a0d95d6288f",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 19,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1370,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:23.320Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-f9fe0fdf18e4655c7618",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 20,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1438,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:24.946Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-1dae8e5e8bb975861937",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 21,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1455,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:26.642Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-1a37a6ba943a390d21b1",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 22,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1438,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:28.353Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-ab2dca708679f9e9be6a",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 23,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1456,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:30.137Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-c4492d8e5891553f2eaa",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 24,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1489,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:31.852Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-27efc5da6d05aa4ff1f4",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 25,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1472,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:33.597Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-153dd76593d15aab9ebf",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 26,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1438,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:35.325Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-993467c721407f7b2623",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 27,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1439,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:37.021Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-ac6cf5c0b181cbb787bb",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 28,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1421,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:38.716Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-2684e1304598cd795762",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 29,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1438,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:40.394Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-b509d4d81397a57ea083",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 30,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:42.088Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-3096c2c9c43ff2e9d7f7",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 31,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1419,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:43.788Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-198ee6abed62590c78e9",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 32,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:45.462Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-208d2920a4acc8db3a36",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 33,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1438,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:47.156Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-bb0d0ec28c01233f5a29",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 34,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1489,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:48.850Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-88cef47273bdfb5af541",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 35,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1503,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:50.592Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-686c1f38bf7b1cec3638",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 36,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:52.350Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-36442b1625495f1e643f",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 37,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1487,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:54.045Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-65c7bdce4b3f9e707a14",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 38,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1436,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:55.791Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-c940cf518d4fde624e2d",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "wheel crosses page boundaries in either direction, panes remain independent when sync is off",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 39,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1438,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:31:57.488Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-0aa31e5fd37cf6419b88",
+          "file": "scroll.spec.ts",
+          "line": 28,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-06T13:30:51.784Z",
+    "duration": 67250.506,
+    "expected": 40,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -44,11 +44,14 @@ jobs:
         run: |
           mkdir -p reports
           node --input-type=module -e 'import fs from "node:fs"; import os from "node:os"; fs.writeFileSync(`reports/ci-environment-${process.env.ENGINE}.json`, JSON.stringify({commit:process.env.GITHUB_SHA,runId:process.env.GITHUB_RUN_ID,engine:process.env.ENGINE,node:process.version,platform:process.platform,arch:process.arch,cpu:os.cpus()[0].model,memoryBytes:os.totalmem(),purpose:"functional checks only; not target-device performance acceptance"},null,2)+"\n")'
+      - run: rustup toolchain install 1.93.0 --profile minimal --target wasm32-unknown-unknown
       - run: pnpm install --frozen-lockfile
       - id: engine
         run: pnpm install:${{ matrix.engine }}
       - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
         run: pnpm verify:core
+      - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
+        run: pnpm exec tsx scripts/issue19-parity.ts
       - id: build
         if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
         run: pnpm build:${{ matrix.engine }}
@@ -73,6 +76,7 @@ jobs:
           path: |
             reports/ci-environment-${{ matrix.engine }}.json
             reports/core-tests.json
+            reports/cross-entry-${{ matrix.engine }}.json
             reports/pdf-checks-${{ matrix.engine }}.json
             reports/rules-${{ matrix.engine }}.json
             reports/review-regressions-${{ matrix.engine }}.json
@@ -138,3 +142,28 @@ jobs:
             reports/container-${{ matrix.engine }}.json
             reports/container-build-${{ matrix.engine }}.log
             reports/local-deploy/
+
+  scroll-baseline-evidence:
+    # Frozen-source investigation for this review, not a gate on future Rust work.
+    if: github.event_name == 'pull_request' && github.event.pull_request.number == 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: pnpm/action-setup@v4
+        with: {version: 10.12.1}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24.19.0}
+      - run: rustup toolchain install 1.93.0 --profile minimal --target wasm32-unknown-unknown
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm install:pdfjs
+      - run: pnpm build:core
+      - run: pnpm exec playwright install --with-deps chromium
+      # Collect both outcomes; an old failing case is not changed to PASS.
+      # The independent functional/container jobs remain product gates.
+      - run: pnpm exec tsx scripts/review20-scroll-comparison.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scroll-baseline-evidence
+          path: reports/issue-19/review-followup/scroll-comparison/

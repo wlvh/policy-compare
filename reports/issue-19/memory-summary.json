@@ -1,0 +1,52 @@
+{
+  "status": "NOT_EVALUATED",
+  "subject": "resource sampling diagnostic rerun with correct initial baselines",
+  "attempts": 36,
+  "groups": [
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "attempts": 9,
+      "idleRssBytes": 435372032,
+      "finiteClosedRssSamples": 9,
+      "allWorkersClosed": true,
+      "peakTotalSampledRssBytes": 1468514304,
+      "peakIncrementalSampledRssBytes": 1033142272,
+      "errors": []
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "attempts": 9,
+      "idleRssBytes": 435355648,
+      "finiteClosedRssSamples": 9,
+      "allWorkersClosed": true,
+      "peakTotalSampledRssBytes": 1811070976,
+      "peakIncrementalSampledRssBytes": 1375715328,
+      "errors": []
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "attempts": 9,
+      "idleRssBytes": 388890624,
+      "finiteClosedRssSamples": 9,
+      "allWorkersClosed": true,
+      "peakTotalSampledRssBytes": 1588379648,
+      "peakIncrementalSampledRssBytes": 1199489024,
+      "errors": []
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "attempts": 9,
+      "idleRssBytes": 383156224,
+      "finiteClosedRssSamples": 9,
+      "allWorkersClosed": true,
+      "peakTotalSampledRssBytes": 1750810624,
+      "peakIncrementalSampledRssBytes": 1367654400,
+      "errors": []
+    }
+  ],
+  "limits": "One run per workload. Total RSS and sampled increments are not full physical peaks. This rerun does not replace the 20-attempt timing and long-sequence raw measurements; no memory goal is declared passed."
+}

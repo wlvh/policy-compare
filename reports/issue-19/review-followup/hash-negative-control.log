@@ -1,0 +1,28 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+[eval]:8
+if(sha256!==info.sha256)throw new Error('CLI WASM bytes do not match its own core-info.json');
+                        ^
+
+Error: CLI WASM bytes do not match its own core-info.json
+    at [eval]:8:31
+    at [eval]:10:4
+    at runScriptInThisContext (node:internal/vm:219:10)
+    at node:internal/process/execution:451:12
+    at [eval]-wrapper:6:24
+    at runScriptInContext (node:internal/process/execution:449:60)
+    at evalFunction (node:internal/process/execution:283:30)
+    at evalTypeScript (node:internal/process/execution:295:3)
+    at node:internal/main/eval_string:71:3
+
+Node.js v24.22.1
+ ✓ tests/cli-core-artifact.test.ts (1 test) 118ms
+ ✓ tests/cli-core-loading.test.ts (2 tests) 456ms
+
+ Test Files  2 passed (2)
+      Tests  3 passed (3)
+   Start at  21:27:46
+   Duration  522ms (tests 89%, import 7%, transform 3%, worker 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json

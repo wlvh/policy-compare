@@ -1,10 +1,10 @@
 import { readFileSync, writeFileSync, statSync } from "node:fs";
 import { loadEngine, LIMITS, type EngineName } from "../pdf-adapter/node";
-import { compare } from "../compare-core/index";
 import { canonical, parseDoc } from "../contracts/index";
 const args = process.argv.slice(2),
   get = (key: string) => args[args.indexOf(key) + 1];
 try {
+  const { compare } = await import("../compare-core/index");
   const engine = (
     args.includes("--engine") ? get("--engine") : "mupdf"
   ) as EngineName;

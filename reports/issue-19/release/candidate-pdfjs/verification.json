@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:52325/releases/r19-budget-pdfjs/",
+  "releaseId": "r19-budget-pdfjs",
+  "engine": "pdfjs",
+  "manifestSha256": "8bd26fc76850632daa4a894734576f09ef5152e20cd16e2ea57347c33e43f8f6",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

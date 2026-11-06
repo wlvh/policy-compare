@@ -1,0 +1,249 @@
+{
+  "evidenceSchemaVersion": "cross-entry-core/2",
+  "status": "PASS",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "bytes": 2510123,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "cliArtifact": {
+    "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "declaredSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "bytes": 2510123,
+    "wasmPath": "/build/packages/rust-core/generated/core.wasm",
+    "infoPath": "/build/packages/rust-core/generated/core-info.json"
+  },
+  "cliImageId": "sha256:6e8d33fd7adbda49cc67c92fea4a3e65909fd337593339e9b69524db71606f55",
+  "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+  "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+  "records": [
+    {
+      "case": "R01_identical",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R02_amount",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R03_currency",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R04_decimal",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R05_negation",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R06_and_or",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R07_shorter_term",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R08_normal_renewal",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R09_header_limit",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R10_address_swap",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R11_label_alias",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R12_exact_move",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R13_move_and_replacement",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R14_short_paragraph",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R15_paragraph_split",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R16_repagination",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R17_font_change",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R18_ligature",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R19_rotated_status",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R20_plus_minus",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R21_checkbox_glyph",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R22_table_value",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R23_table_reorder",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R24_table_cross_page",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R25_duplicate_keys",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R26_key_change",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R27_mixed_scan_page",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R28_inline_scan",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R29_clause_add",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R30_clause_delete",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R31_punctuation",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "case": "R32_combined_changes",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "browserCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+      "cliCoreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:50696/releases/r19-final-pdfjs/",
+  "releaseId": "r19-final-pdfjs",
+  "engine": "pdfjs",
+  "manifestSha256": "b54c4109bf39f02bf676b39e460018362f9c40a229c12f0bbdc5309638837ad3",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

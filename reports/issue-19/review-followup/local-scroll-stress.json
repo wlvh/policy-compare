@@ -1,0 +1,229 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "tmp/review20-stress.config.ts"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "typescript-6a5f1ef",
+        "name": "typescript-6a5f1ef",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "scroll.spec.ts"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "rust-f49500b-product",
+        "name": "rust-f49500b-product",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "scroll.spec.ts"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "typescript-6a5f1ef",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-tests",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-tests",
+        "testIgnore": [],
+        "testMatch": "scroll.spec.ts",
+        "timeout": 240000,
+        "use": {
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure",
+          "baseURL": "http://127.0.0.1:4180/"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "typescript-6a5f1ef"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "rust-f49500b-product",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-tests",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-tests",
+        "testIgnore": [],
+        "testMatch": "scroll.spec.ts",
+        "timeout": 240000,
+        "use": {
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure",
+          "baseURL": "http://127.0.0.1:4181/"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "rust-f49500b-product"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/review20-stress-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "scroll.spec.ts",
+      "file": "scroll.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "stress-wheel repeated eviction and return",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "typescript-6a5f1ef",
+              "projectName": "typescript-6a5f1ef",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 67262,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:58:00.016Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-de0fad1238cc6cc05df8",
+          "file": "scroll.spec.ts",
+          "line": 158,
+          "column": 1
+        },
+        {
+          "title": "stress-wheel repeated eviction and return",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "rust-f49500b-product",
+              "projectName": "rust-f49500b-product",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 67289,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-06T13:59:07.604Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8f7bc8310c9f408a5a85-e8f2cf109bfe1f515285",
+          "file": "scroll.spec.ts",
+          "line": 158,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-06T13:57:59.617Z",
+    "duration": 135439.378,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

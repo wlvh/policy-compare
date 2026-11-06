@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:64010/releases/r19-de1c040-mupdf/",
+  "releaseId": "r19-de1c040-mupdf",
+  "engine": "mupdf",
+  "manifestSha256": "c70f3c9646b0a3614005d41fb65e51224a1ff3afd196822175f26dcae9fdbb87",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

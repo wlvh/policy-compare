@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:52243/releases/r19-budget-mupdf/",
+  "releaseId": "r19-budget-mupdf",
+  "engine": "mupdf",
+  "revision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+  "manifestSha256": "f8d3cf6d3651935db2add822fc6bf0d6470bddf1f96bdb8a0635e3d7ad93fa35",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

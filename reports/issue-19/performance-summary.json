@@ -1,0 +1,2165 @@
+{
+  "status": "NOT_EVALUATED",
+  "subject": "paired local migration measurements and their limits",
+  "attempts": 720,
+  "expectedAttempts": 720,
+  "benchmarkFixtureChecks": "PASS",
+  "localTimeBudgetChecks": "PASS",
+  "officeDevice": "NOT_EVALUATED",
+  "fullPhysicalPeakMemory": "NOT_EVALUATED",
+  "coldLoadP95": "NOT_EVALUATED",
+  "percentiles": "nearest rank ceil(n*p)-1, retaining original comparison-benchmark convention",
+  "measurementLimits": "20 attempts per group include the first document comparison. Each implementation has one fresh-browser load measurement, insufficient for a cold-load P95. 100 ms process-tree RSS samples can miss peaks and double-count shared pages; they do not establish the 1 GiB incremental physical-peak goal. No time or memory target was relaxed.",
+  "protocol": {
+    "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+    "scope": "local paired migration measurement, not office-device performance acceptance",
+    "runsPerWorkload": 20,
+    "workloads": [
+      {
+        "name": "renewal-small",
+        "paths": [
+          "bench/generated/renewal-small/before.pdf",
+          "bench/generated/renewal-small/after.pdf"
+        ],
+        "sha256": [
+          "f7d04d2b76468a26633e01417ddeae72b701f291c0a8c82c4e6d56afdd48d6d0",
+          "131d88af874d19f6346ad75236890562b017b3833dd1926ad2834bcb6ed099bf"
+        ],
+        "budget_ms": 3000
+      },
+      {
+        "name": "renewal-standard",
+        "paths": [
+          "bench/generated/renewal-standard/before.pdf",
+          "bench/generated/renewal-standard/after.pdf"
+        ],
+        "sha256": [
+          "6422a9f30f93a75675f5e2bdd057e1d7b23059c4aec1f36a31c059d9cb135306",
+          "46b1b7753c2112d91d522556988a4384e664b84472d80a008e2282f8d1fd9016"
+        ],
+        "budget_ms": 20000
+      },
+      {
+        "name": "renewal-capacity",
+        "paths": [
+          "bench/generated/renewal-capacity/before.pdf",
+          "bench/generated/renewal-capacity/after.pdf"
+        ],
+        "sha256": [
+          "ef8cb4d96d5fae34207aca7910b0ec543f5f9b6b8a14e82d57b6f12852667662",
+          "5387e59590c4cfedb19651ce54ad5cda4078ed8cd947c286c8c63d5d0889db47"
+        ],
+        "budget_ms": null
+      },
+      {
+        "name": "dense_table-small",
+        "paths": [
+          "bench/generated/dense_table-small/before.pdf",
+          "bench/generated/dense_table-small/after.pdf"
+        ],
+        "sha256": [
+          "831ce8c6432ecfd4d5c44d5258bc07310749fa05724d559056f9d504b13f3dd1",
+          "e30c230d5dd39748ed72d888abdab970cd6848e6a17520079d7c388ad93112e7"
+        ],
+        "budget_ms": 3000
+      },
+      {
+        "name": "dense_table-standard",
+        "paths": [
+          "bench/generated/dense_table-standard/before.pdf",
+          "bench/generated/dense_table-standard/after.pdf"
+        ],
+        "sha256": [
+          "a103303c1557722459123aadff166238acd8f5af17cad5006f818b5aa28f8b3e",
+          "e05f6fd6a9e57ebccf60392af8f825312cf0f8415825dffc5308b98f88c394de"
+        ],
+        "budget_ms": 20000
+      },
+      {
+        "name": "dense_table-capacity",
+        "paths": [
+          "bench/generated/dense_table-capacity/before.pdf",
+          "bench/generated/dense_table-capacity/after.pdf"
+        ],
+        "sha256": [
+          "80366ad4cf6b0a44fb9f02e074ab36139e9c89b67e909b922b37efd2ba38b6f6",
+          "ef6b421abd69a37accdc3b9dba0bf0e1ffbcc1e245dc84bf3a17c3390b77fce2"
+        ],
+        "budget_ms": null
+      },
+      {
+        "name": "template_change-small",
+        "paths": [
+          "bench/generated/template_change-small/before.pdf",
+          "bench/generated/template_change-small/after.pdf"
+        ],
+        "sha256": [
+          "2aa26b1e8c26a883d27f80e532dd8da9407d174a07b412b096ddba5c28825ee1",
+          "c0bb9845f8466f6529035890b99cce0a58e4eb4d909ef1f02109b04708dad275"
+        ],
+        "budget_ms": 3000
+      },
+      {
+        "name": "template_change-standard",
+        "paths": [
+          "bench/generated/template_change-standard/before.pdf",
+          "bench/generated/template_change-standard/after.pdf"
+        ],
+        "sha256": [
+          "601364de32a513ecf915c1cf6c7cd8021175a0b9a65842ad5c5efdf9d78713e8",
+          "0fa678d0a54f9f49f56dd841967757a01a2b33524da3c561f91069174634240a"
+        ],
+        "budget_ms": 20000
+      },
+      {
+        "name": "template_change-capacity",
+        "paths": [
+          "bench/generated/template_change-capacity/before.pdf",
+          "bench/generated/template_change-capacity/after.pdf"
+        ],
+        "sha256": [
+          "ea7fa646790b050ed20a10b225ee6a51e033043f19fb6ba8a162790ac01fa075",
+          "a26dabbbc2f06e4c2c42643f490e4f1ccf0877c584b6afd6d659c750fcad6b90"
+        ],
+        "budget_ms": null
+      }
+    ],
+    "device": {
+      "cpu": "Apple M4 Max",
+      "memoryBytes": 137438953472,
+      "os": "27.2.0"
+    },
+    "unchangedTargets": {
+      "timing": "existing per-workload budget_ms; original formal run count 20 remains required",
+      "memory": "existing standard incremental peak 1 GiB; this RSS sampling alone does not establish full physical peak",
+      "cancellation": "existing max 1000 ms"
+    },
+    "method": "Same bundled Chromium, viewport 1500x1000, selected PDF extractor and inputs for old TS and Rust. Dedicated browser process tree RSS sampled every 100 ms, includes workers, WASM and GPU but can double-count shared pages and miss short-lived peaks. First navigation/load, each task stages (Rust inputAdmission includes page validation/hash before compare; TS validation/snapshot happen after full input, so individual phase columns have different boundaries) and full display completion, sequential tasks, close workers, query/search, and cancel latency recorded. OS release does not imply immediate memory return. No performance target relaxed."
+  },
+  "browserVersion": "156.0.8078.4",
+  "loads": [
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "firstPageEngineLoadMs": 126.89216599999963,
+      "idleRssBytes": 435634176
+    },
+    {
+      "engine": "mupdf",
+      "impl": "rust",
+      "firstPageEngineLoadMs": 96.67487500002608
+    },
+    {
+      "engine": "pdfjs",
+      "impl": "typescript",
+      "firstPageEngineLoadMs": 140.7026659999974
+    },
+    {
+      "engine": "pdfjs",
+      "impl": "rust",
+      "firstPageEngineLoadMs": 114.00500000012107
+    }
+  ],
+  "groups": [
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "renewal-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 482.42500001192093,
+        "p95Ms": 499.1050000190735,
+        "maxMs": 500.3100000023842
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 833765376,
+      "peakIncrementalSampledRssBytes": 398131200,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "renewal-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 465.5499999523163,
+        "p95Ms": 482.3449999690056,
+        "maxMs": 498.5
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 882507776,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "renewal-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2247.7950000166893,
+        "p95Ms": 2264.639999985695,
+        "maxMs": 2266.3799999952316
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1256833024,
+      "peakIncrementalSampledRssBytes": 821198848,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "renewal-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 1815.8500000238419,
+        "p95Ms": 1833.9350000023842,
+        "maxMs": 1846.8849999904633
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1311064064,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "renewal-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 5014.350000023842,
+        "p95Ms": 5033.555000007153,
+        "maxMs": 5081.955000042915
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1661796352,
+      "peakIncrementalSampledRssBytes": 1226162176,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "renewal-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 4150.025000035763,
+        "p95Ms": 4215.460000038147,
+        "maxMs": 4232.754999995232
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1662828544,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "dense_table-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 415.5300000309944,
+        "p95Ms": 416.80500000715256,
+        "maxMs": 430.2950000166893
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1607991296,
+      "peakIncrementalSampledRssBytes": 1172357120,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "dense_table-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 382.25,
+        "p95Ms": 383.6399999856949,
+        "maxMs": 384.25999999046326
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1378959360,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "dense_table-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 1815.6550000309944,
+        "p95Ms": 1832.6800000071526,
+        "maxMs": 1833.054999947548
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1533657088,
+      "peakIncrementalSampledRssBytes": 1098022912,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "dense_table-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 1314.2800000309944,
+        "p95Ms": 1333.2699999809265,
+        "maxMs": 1365.8250000476837
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1512423424,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "dense_table-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 3965.7049999833107,
+        "p95Ms": 3983.375,
+        "maxMs": 4015.574999988079
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1722368000,
+      "peakIncrementalSampledRssBytes": 1286733824,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "dense_table-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2898.935000002384,
+        "p95Ms": 2915.5,
+        "maxMs": 2932.625
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1765130240,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "template_change-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 548.9800000190735,
+        "p95Ms": 550.4800000190735,
+        "maxMs": 550.7249999642372
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1726529536,
+      "peakIncrementalSampledRssBytes": 1290895360,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "template_change-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 648.5950000286102,
+        "p95Ms": 664.1200000047684,
+        "maxMs": 665.8799999952316
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1499873280,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "template_change-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2516.7300000190735,
+        "p95Ms": 2533.0499999523163,
+        "maxMs": 2549.4500000476837
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1860059136,
+      "peakIncrementalSampledRssBytes": 1424424960,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "template_change-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2816.5049999952316,
+        "p95Ms": 2897.3449999690056,
+        "maxMs": 2915.9300000071526
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 2084831232,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "typescript",
+      "workload": "template_change-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 5630.925000011921,
+        "p95Ms": 5650.030000030994,
+        "maxMs": 5667.524999976158
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 2212429824,
+      "peakIncrementalSampledRssBytes": 1776795648,
+      "incrementalRssMeasurement": "SAMPLED_ONLY",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "implementation": "rust",
+      "workload": "template_change-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 6582.435000002384,
+        "p95Ms": 6616.1449999809265,
+        "maxMs": 6631.889999985695
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 2569142272,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "renewal-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 548.9300000071526,
+        "p95Ms": 551.1750000119209,
+        "maxMs": 563.6899999976158
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 865370112,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "renewal-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 615.5700000524521,
+        "p95Ms": 632.4399999976158,
+        "maxMs": 649.839999973774
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 867074048,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "renewal-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2382.449999988079,
+        "p95Ms": 2398.9449999928474,
+        "maxMs": 2398.9900000095367
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1400537088,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "renewal-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2714.6150000095367,
+        "p95Ms": 2765.7699999809265,
+        "maxMs": 2831.2450000047684
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1393213440,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "renewal-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 5215.569999992847,
+        "p95Ms": 5232.865000009537,
+        "maxMs": 5265.7300000190735
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1776812032,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "renewal-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 6267.615000009537,
+        "p95Ms": 6365.509999990463,
+        "maxMs": 6398.969999969006
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1959821312,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "dense_table-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 465.92500001192093,
+        "p95Ms": 466.7549999952316,
+        "maxMs": 467.0900000333786
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1590034432,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "dense_table-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 532.2300000190735,
+        "p95Ms": 534.5849999785423,
+        "maxMs": 548.8149999976158
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1398505472,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "dense_table-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 1915.7699999809265,
+        "p95Ms": 1931.8549999594688,
+        "maxMs": 1933.5050000548363
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1576517632,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "dense_table-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2165.824999988079,
+        "p95Ms": 2232.599999964237,
+        "maxMs": 2265.8799999952316
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1635532800,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "dense_table-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 4250.800000011921,
+        "p95Ms": 4267.009999990463,
+        "maxMs": 4299.185000002384
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 2012692480,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "dense_table-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 4815.860000014305,
+        "p95Ms": 4898.5,
+        "maxMs": 4899.045000016689
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 2063335424,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "template_change-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 615.660000026226,
+        "p95Ms": 617.6549999713898,
+        "maxMs": 631.375
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 1959428096,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "template_change-small",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 798.4000000357628,
+        "p95Ms": 800.2249999642372,
+        "maxMs": 800.2800000309944
+      },
+      "budgetMs": 3000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 1572175872,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "template_change-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 2666.2049999833107,
+        "p95Ms": 2699.4300000071526,
+        "maxMs": 2699.564999997616
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 2093793280,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "template_change-standard",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 3716.0299999713898,
+        "p95Ms": 3781.875,
+        "maxMs": 3782.6949999928474
+      },
+      "budgetMs": 20000,
+      "localTimeBudgetStatus": "PASS",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 2014707712,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "typescript",
+      "workload": "template_change-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 5849.310000002384,
+        "p95Ms": 5883.430000007153,
+        "maxMs": 5900.075000047684
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+      "coreArtifact": null,
+      "peakSampledProcessTreeRssBytes": 2439610368,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    },
+    {
+      "engine": "pdfjs",
+      "implementation": "rust",
+      "workload": "template_change-capacity",
+      "attempts": 20,
+      "fixtureChecks": "PASS",
+      "failures": [],
+      "timing": {
+        "n": 20,
+        "p50Ms": 8599.909999966621,
+        "p95Ms": 8866.100000023842,
+        "maxMs": 8964.524999976158
+      },
+      "budgetMs": null,
+      "localTimeBudgetStatus": "NOT_APPLICABLE",
+      "buildBinding": "PASS",
+      "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "coreArtifact": {
+        "abi": "policy-core-session/1",
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+        "bytes": 2510955,
+        "rust": "1.93.0",
+        "target": "wasm32-unknown-unknown"
+      },
+      "peakSampledProcessTreeRssBytes": 2613051392,
+      "peakIncrementalSampledRssBytes": null,
+      "incrementalRssMeasurement": "NOT_EVALUATED",
+      "maxWorkersAfterClose": 0
+    }
+  ],
+  "comparisons": [
+    {
+      "engine": "mupdf",
+      "workload": "renewal-small",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "renewal-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 482.42500001192093,
+          "p95Ms": 499.1050000190735,
+          "maxMs": 500.3100000023842
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 833765376,
+        "peakIncrementalSampledRssBytes": 398131200,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "renewal-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 465.5499999523163,
+          "p95Ms": 482.3449999690056,
+          "maxMs": 498.5
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 882507776,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": -3.4979530619656196
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "renewal-small",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "renewal-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 548.9300000071526,
+          "p95Ms": 551.1750000119209,
+          "maxMs": 563.6899999976158
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 865370112,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "renewal-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 615.5700000524521,
+          "p95Ms": 632.4399999976158,
+          "maxMs": 649.839999973774
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 867074048,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 12.139981426489932
+    },
+    {
+      "engine": "mupdf",
+      "workload": "renewal-standard",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "renewal-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2247.7950000166893,
+          "p95Ms": 2264.639999985695,
+          "maxMs": 2266.3799999952316
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1256833024,
+        "peakIncrementalSampledRssBytes": 821198848,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "renewal-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 1815.8500000238419,
+          "p95Ms": 1833.9350000023842,
+          "maxMs": 1846.8849999904633
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1311064064,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": -19.216387614957785
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "renewal-standard",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "renewal-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2382.449999988079,
+          "p95Ms": 2398.9449999928474,
+          "maxMs": 2398.9900000095367
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1400537088,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "renewal-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2714.6150000095367,
+          "p95Ms": 2765.7699999809265,
+          "maxMs": 2831.2450000047684
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1393213440,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 13.942160382090684
+    },
+    {
+      "engine": "mupdf",
+      "workload": "renewal-capacity",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "renewal-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 5014.350000023842,
+          "p95Ms": 5033.555000007153,
+          "maxMs": 5081.955000042915
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1661796352,
+        "peakIncrementalSampledRssBytes": 1226162176,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "renewal-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 4150.025000035763,
+          "p95Ms": 4215.460000038147,
+          "maxMs": 4232.754999995232
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1662828544,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": -17.237029724370444
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "renewal-capacity",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "renewal-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 5215.569999992847,
+          "p95Ms": 5232.865000009537,
+          "maxMs": 5265.7300000190735
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1776812032,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "renewal-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 6267.615000009537,
+          "p95Ms": 6365.509999990463,
+          "maxMs": 6398.969999969006
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1959821312,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 20.17123727642678
+    },
+    {
+      "engine": "mupdf",
+      "workload": "dense_table-small",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "dense_table-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 415.5300000309944,
+          "p95Ms": 416.80500000715256,
+          "maxMs": 430.2950000166893
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1607991296,
+        "peakIncrementalSampledRssBytes": 1172357120,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "dense_table-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 382.25,
+          "p95Ms": 383.6399999856949,
+          "maxMs": 384.25999999046326
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1378959360,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": -8.009048691673781
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "dense_table-small",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "dense_table-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 465.92500001192093,
+          "p95Ms": 466.7549999952316,
+          "maxMs": 467.0900000333786
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1590034432,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "dense_table-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 532.2300000190735,
+          "p95Ms": 534.5849999785423,
+          "maxMs": 548.8149999976158
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1398505472,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 14.23083114352226
+    },
+    {
+      "engine": "mupdf",
+      "workload": "dense_table-standard",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "dense_table-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 1815.6550000309944,
+          "p95Ms": 1832.6800000071526,
+          "maxMs": 1833.054999947548
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1533657088,
+        "peakIncrementalSampledRssBytes": 1098022912,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "dense_table-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 1314.2800000309944,
+          "p95Ms": 1333.2699999809265,
+          "maxMs": 1365.8250000476837
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1512423424,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": -27.61400155819477
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "dense_table-standard",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "dense_table-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 1915.7699999809265,
+          "p95Ms": 1931.8549999594688,
+          "maxMs": 1933.5050000548363
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1576517632,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "dense_table-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2165.824999988079,
+          "p95Ms": 2232.599999964237,
+          "maxMs": 2265.8799999952316
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1635532800,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 13.052454105119192
+    },
+    {
+      "engine": "mupdf",
+      "workload": "dense_table-capacity",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "dense_table-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 3965.7049999833107,
+          "p95Ms": 3983.375,
+          "maxMs": 4015.574999988079
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1722368000,
+        "peakIncrementalSampledRssBytes": 1286733824,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "dense_table-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2898.935000002384,
+          "p95Ms": 2915.5,
+          "maxMs": 2932.625
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1765130240,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": -26.89988287039545
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "dense_table-capacity",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "dense_table-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 4250.800000011921,
+          "p95Ms": 4267.009999990463,
+          "maxMs": 4299.185000002384
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 2012692480,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "dense_table-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 4815.860000014305,
+          "p95Ms": 4898.5,
+          "maxMs": 4899.045000016689
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 2063335424,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 13.293027194899775
+    },
+    {
+      "engine": "mupdf",
+      "workload": "template_change-small",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "template_change-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 548.9800000190735,
+          "p95Ms": 550.4800000190735,
+          "maxMs": 550.7249999642372
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1726529536,
+        "peakIncrementalSampledRssBytes": 1290895360,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "template_change-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 648.5950000286102,
+          "p95Ms": 664.1200000047684,
+          "maxMs": 665.8799999952316
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1499873280,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 18.14546978142659
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "template_change-small",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "template_change-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 615.660000026226,
+          "p95Ms": 617.6549999713898,
+          "maxMs": 631.375
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1959428096,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "template_change-small",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 798.4000000357628,
+          "p95Ms": 800.2249999642372,
+          "maxMs": 800.2800000309944
+        },
+        "budgetMs": 3000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 1572175872,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 29.681967319909084
+    },
+    {
+      "engine": "mupdf",
+      "workload": "template_change-standard",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "template_change-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2516.7300000190735,
+          "p95Ms": 2533.0499999523163,
+          "maxMs": 2549.4500000476837
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 1860059136,
+        "peakIncrementalSampledRssBytes": 1424424960,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "template_change-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2816.5049999952316,
+          "p95Ms": 2897.3449999690056,
+          "maxMs": 2915.9300000071526
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 2084831232,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 11.911289648626845
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "template_change-standard",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "template_change-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 2666.2049999833107,
+          "p95Ms": 2699.4300000071526,
+          "maxMs": 2699.564999997616
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 2093793280,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "template_change-standard",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 3716.0299999713898,
+          "p95Ms": 3781.875,
+          "maxMs": 3782.6949999928474
+        },
+        "budgetMs": 20000,
+        "localTimeBudgetStatus": "PASS",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 2014707712,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 39.37525434070712
+    },
+    {
+      "engine": "mupdf",
+      "workload": "template_change-capacity",
+      "legacy": {
+        "engine": "mupdf",
+        "implementation": "typescript",
+        "workload": "template_change-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 5630.925000011921,
+          "p95Ms": 5650.030000030994,
+          "maxMs": 5667.524999976158
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 2212429824,
+        "peakIncrementalSampledRssBytes": 1776795648,
+        "incrementalRssMeasurement": "SAMPLED_ONLY",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "mupdf",
+        "implementation": "rust",
+        "workload": "template_change-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 6582.435000002384,
+          "p95Ms": 6616.1449999809265,
+          "maxMs": 6631.889999985695
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 2569142272,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 16.89793417579615
+    },
+    {
+      "engine": "pdfjs",
+      "workload": "template_change-capacity",
+      "legacy": {
+        "engine": "pdfjs",
+        "implementation": "typescript",
+        "workload": "template_change-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 5849.310000002384,
+          "p95Ms": 5883.430000007153,
+          "maxMs": 5900.075000047684
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+        "coreArtifact": null,
+        "peakSampledProcessTreeRssBytes": 2439610368,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rust": {
+        "engine": "pdfjs",
+        "implementation": "rust",
+        "workload": "template_change-capacity",
+        "attempts": 20,
+        "fixtureChecks": "PASS",
+        "failures": [],
+        "timing": {
+          "n": 20,
+          "p50Ms": 8599.909999966621,
+          "p95Ms": 8866.100000023842,
+          "maxMs": 8964.524999976158
+        },
+        "budgetMs": null,
+        "localTimeBudgetStatus": "NOT_APPLICABLE",
+        "buildBinding": "PASS",
+        "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+          "bytes": 2510955,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "peakSampledProcessTreeRssBytes": 2613051392,
+        "peakIncrementalSampledRssBytes": null,
+        "incrementalRssMeasurement": "NOT_EVALUATED",
+        "maxWorkersAfterClose": 0
+      },
+      "rustP50ChangePercent": 47.02434987995363
+    }
+  ]
+}

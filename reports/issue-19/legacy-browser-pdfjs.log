@@ -1,0 +1,106 @@
+[WebServer] (node:36961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:36975) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (14.5s)
+
+
+  1) tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 67
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "case": "R14_short_paragraph",
+    +     "eventStatus": "FAIL",
+    +     "events": Array [
+    +       Object {
+    +         "attribution": false,
+    +         "branch": "text",
+    +         "completeness": true,
+    +         "discovery": true,
+    +         "eventId": "R14_short_paragraph:E1",
+    +         "falseFacts": Array [],
+    +         "identity": Object {
+    +           "applicability": "not_applicable",
+    +           "claims": Array [],
+    +           "determined": null,
+    +           "outcome": null,
+    +           "pass": null,
+    +           "reason": "clause wording: no company/party or table-record identity to check; text, operation, stated facts, position, visibility and completeness still apply",
+    +         },
+    +         "pass": false,
+    +         "position": false,
+    +         "representation": null,
+    +         "verdict": "FAIL",
+    +         "visibility": false,
+    +       },
+    +     ],
+    +     "faults": Array [
+    +       "Required event failed: R14_short_paragraph:E1",
+    +     ],
+    +     "notEvaluated": Array [],
+    +     "status": "FAIL",
+    +   },
+    +   Object {
+    +     "case": "R31_punctuation",
+    +     "eventStatus": "FAIL",
+    +     "events": Array [
+    +       Object {
+    +         "attribution": false,
+    +         "branch": "text",
+    +         "completeness": true,
+    +         "discovery": true,
+    +         "eventId": "R31_punctuation:E1",
+    +         "falseFacts": Array [],
+    +         "identity": Object {
+    +           "applicability": "not_applicable",
+    +           "claims": Array [],
+    +           "determined": null,
+    +           "outcome": null,
+    +           "pass": null,
+    +           "reason": "clause wording: no company/party or table-record identity to check; text, operation, stated facts, position, visibility and completeness still apply",
+    +         },
+    +         "pass": false,
+    +         "position": false,
+    +         "representation": null,
+    +         "verdict": "FAIL",
+    +         "visibility": false,
+    +       },
+    +     ],
+    +     "faults": Array [
+    +       "Invalid final changed geometry on one or more sides: d-9b21d18bde7c6dc1bad9",
+    +       "Required event failed: R31_punctuation:E1",
+    +     ],
+    +     "notEvaluated": Array [],
+    +     "status": "FAIL",
+    +   },
+    + ]
+
+      112 |         events: r.events,
+      113 |       })),
+    > 114 |   ).toEqual([]);
+          |     ^
+      115 | });
+      116 |
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rules.spec.ts:114:5
+
+    Error Context: tmp/reports/issue-19/legacy-browser-pdfjs/test-results/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    tmp/reports/issue-19/legacy-browser-pdfjs/test-results/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace tmp/reports/issue-19/legacy-browser-pdfjs/test-results/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 

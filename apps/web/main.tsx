@@ -169,7 +169,9 @@ function App() {
     viewportRefs = [useRef<PdfViewportHandle>(null), useRef<PdfViewportHandle>(null)];
   const metrics = useRef<Record<string, unknown>>({ activeWorkers: 0 });
   const cancellation=useRef<Int32Array|null>(null);
+  const taskTimers=useRef<Set<number>>(new Set());
   function release() {
+    for(const timer of taskTimers.current)clearTimeout(timer);taskTimers.current.clear();
     sampleRequest.current?.abort();
     sampleRequest.current = null;
     if(cancellation.current)Atomics.store(cancellation.current,0,1);
@@ -289,28 +291,27 @@ function App() {
           : /invalid|corrupt|format|损坏|解析/i.test(text) ? 'PDF 无法完整读取，可能已损坏或格式不受支持。请用原阅读器检查或重新取得文件。' : text);
         setResult(null);
       }
+      let pdfReady=Boolean(warm),coreReady=false,opened=false;
+      const openOnce=()=>{
+        if(opened||!pdfReady||!coreReady||token!==generation.current)return;
+        opened=true;
+        metrics.current.workerInitialization=performance.now()-start.current-Number(metrics.current.read);
+        pdf.postMessage({type:'open',taskId:token,generation:token,bytes,passwords:selectedPasswords,port:channel.port2},[...bytes,channel.port2]);
+      };
+      const initializationTimeout=window.setTimeout(()=>failure('Rust 引擎加载超过 15 秒，任务已终止，请重试'),15_000);
+      taskTimers.current.add(initializationTimeout);
       const timeout = window.setTimeout(
         () => failure("计算超过 120 秒上限，任务已终止"),
         120_000,
       );
-      const receive = (e: MessageEvent) => {
+      taskTimers.current.add(timeout);
+      const receive = (e: MessageEvent, source:'pdf'|'core') => {
         const m = e.data;
         if (token !== generation.current) return;
-        if (m.type === "ready") {
-          metrics.current.workerInitialization =
-            performance.now() - start.current - Number(metrics.current.read);
-          pdf.postMessage(
-            {
-              type: "open",
-              taskId: token,
-              generation: token,
-              bytes,
-              passwords: selectedPasswords,
-              port: channel.port2,
-            },
-            [...bytes, channel.port2],
-          );
-          return;
+        if(source==='pdf'&&m.type==='ready'){pdfReady=true;openOnce();return;}
+        if(source==='core'&&m.type==='core-ready'&&m.taskId===token&&m.generation===token){
+          clearTimeout(initializationTimeout);taskTimers.current.delete(initializationTimeout);
+          coreReady=true;metrics.current.coreInitialization=m.initialization;metrics.current.coreArtifact=m.coreArtifact;openOnce();return;
         }
         if (m.taskId !== token || m.generation !== token) return;
         if (m.type === "error") {
@@ -332,6 +333,10 @@ function App() {
           metrics.current.extraction = m.ms;
           Object.assign(metrics.current, m.breakdown);
           setMessage("文字提取完成，正在建立对应与计算差异…");
+        }
+        if (m.type === "phase") {
+          const names:Record<string,string>={snapshot:"正在核对输入快照…",structure:"正在恢复文字结构…",matching:"正在建立内容对应…",diff:"正在计算原文变化…",done:"比较计算完成，正在显示…"};
+          setMessage(names[m.name]||"正在比较…");
         }
         if (m.type === "result") {
           clearTimeout(timeout);
@@ -376,8 +381,8 @@ function App() {
         if (m.type === "search" && m.requestId === searchRequest.current)
           setHits(m.hits);
       };
-      pdf.onmessage = receive;
-      core.onmessage = receive;
+      pdf.onmessage = e=>receive(e,'pdf');
+      core.onmessage = e=>receive(e,'core');
       pdf.onerror = () => {
         clearTimeout(timeout);
         failure("PDF Worker 异常终止");
@@ -386,20 +391,7 @@ function App() {
         clearTimeout(timeout);
         failure("比较 Worker 异常终止");
       };
-      if (warm) {
-        metrics.current.workerInitialization = 0;
-        pdf.postMessage(
-          {
-            type: "open",
-            taskId: token,
-            generation: token,
-            bytes,
-            passwords: selectedPasswords,
-            port: channel.port2,
-          },
-          [...bytes, channel.port2],
-        );
-      }
+      openOnce();
     } catch {
       if (token !== generation.current) return;
       release();
@@ -590,6 +582,7 @@ function App() {
           <p>选择基准与待审 PDF（每份最多 100 页、30 MiB），需要时输入密码，再开始比较。点击变化查看两侧原文；黄色提示表示有未比较内容或对应未确定。筛选会隐藏部分变化，核对结束前回到全部变化。JSON 导出含原文，分享前请确认资料授权；关闭任务后释放当前文档资源。</p>
           <p>仅比较可提取文字，不识别扫描图片文字，不判断业务风险。复杂表格归属和部分高亮仍有已知问题，当前供受控开发试用，不能作为完整审单结论。</p>
           <p>发布版本：{buildInfo.releaseId} · 引擎：{buildInfo.engine} {buildInfo.engineVersion} · 源码：{buildInfo.revision.slice(0,12)}</p>
+          <p>比较核心：{buildInfo.coreArtifact.coreVersion} · 产物 SHA-256：<code>{buildInfo.coreArtifact.sha256}</code></p>
           <p>维护联系：{buildInfo.contact}。反馈时可主动下载诊断；其中只有版本、浏览器、阶段和错误代码。</p>
           <button onClick={exportDiagnostic}>下载诊断</button>
         </details>

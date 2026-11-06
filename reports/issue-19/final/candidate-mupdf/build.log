@@ -1,0 +1,202 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.68kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 253B done
+#4 DONE 0.0s
+
+#5 [build  1/18] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#5 DONE 0.0s
+
+#6 [rust-core 1/7] FROM docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#6 DONE 0.0s
+
+#7 [build  2/18] WORKDIR /build
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 29.79kB done
+#8 DONE 0.0s
+
+#9 [rust-core 2/7] WORKDIR /core
+#9 CACHED
+
+#10 [rust-core 3/7] RUN rustup target add wasm32-unknown-unknown
+#10 CACHED
+
+#11 [rust-core 4/7] COPY rust-toolchain.toml Cargo.toml Cargo.lock ./
+#11 CACHED
+
+#12 [rust-core 5/7] COPY crates ./crates
+#12 CACHED
+
+#13 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#13 CACHED
+
+#14 [rust-core 7/7] RUN cargo metadata --format-version 1 --locked > /rust-licenses/cargo-metadata.json
+#14 CACHED
+
+#15 [build  3/18] RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
+#15 0.149 Preparing pnpm@10.12.1 for immediate activation...
+#15 DONE 2.5s
+
+#16 [build  4/18] COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.pdfjs.json tsconfig.mupdf.json vite.config.ts ./
+#16 DONE 0.0s
+
+#17 [build  5/18] COPY patches ./patches
+#17 DONE 0.0s
+
+#18 [build  6/18] RUN pnpm install --frozen-lockfile
+#18 0.319 Lockfile is up to date, resolution step is skipped
+#18 0.332 Progress: resolved 1, reused 0, downloaded 0, added 0
+#18 0.352 Packages: +55
+#18 0.352 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#18 1.333 Progress: resolved 55, reused 0, downloaded 9, added 9
+#18 1.567 
+#18 1.567    ╭───────────────────────────────────────────────╮
+#18 1.567    │                                               │
+#18 1.567    │     Update available! 10.12.1 → 12.18.0.      │
+#18 1.567    │     Changelog: https://pnpm.io/v/12.18.0      │
+#18 1.567    │   To update, run: corepack use pnpm@12.18.0   │
+#18 1.567    │                                               │
+#18 1.567    ╰───────────────────────────────────────────────╯
+#18 1.567 
+#18 2.334 Progress: resolved 55, reused 0, downloaded 34, added 34
+#18 3.336 Progress: resolved 55, reused 0, downloaded 42, added 42
+#18 4.338 Progress: resolved 55, reused 0, downloaded 43, added 43
+#18 5.340 Progress: resolved 55, reused 0, downloaded 45, added 45
+#18 6.341 Progress: resolved 55, reused 0, downloaded 46, added 46
+#18 7.343 Progress: resolved 55, reused 0, downloaded 48, added 48
+#18 11.44 Progress: resolved 55, reused 0, downloaded 49, added 48
+#18 12.44 Progress: resolved 55, reused 0, downloaded 51, added 51
+#18 13.44 Progress: resolved 55, reused 0, downloaded 52, added 52
+#18 18.93 Progress: resolved 55, reused 0, downloaded 53, added 52
+#18 19.93 Progress: resolved 55, reused 0, downloaded 53, added 53
+#18 24.38 Progress: resolved 55, reused 0, downloaded 54, added 53
+#18 24.42 Progress: resolved 55, reused 0, downloaded 55, added 55, done
+#18 24.44 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#18 24.44 (Use `node --trace-deprecation ...` to show where the warning was created)
+#18 24.44 .../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+#18 24.48 .../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+#18 24.51 
+#18 24.51 dependencies:
+#18 24.51 + @noble/hashes 2.0.1
+#18 24.51 + react 19.3.1
+#18 24.51 + react-dom 19.3.1
+#18 24.51 + zod 4.6.7
+#18 24.51 
+#18 24.51 devDependencies:
+#18 24.51 + @playwright/test 1.64.1
+#18 24.51 + @types/node 24.10.1
+#18 24.51 + @types/react 19.2.2
+#18 24.51 + @types/react-dom 19.2.2
+#18 24.51 + tsx 4.23.15
+#18 24.51 + typescript 7.0.2
+#18 24.51 + vite 8.3.5
+#18 24.51 + vitest 5.0.5
+#18 24.51 
+#18 24.52 Done in 24.4s using pnpm v10.12.1
+#18 DONE 25.0s
+
+#19 [build  7/18] COPY engines/mupdf ./engines/mupdf
+#19 DONE 0.0s
+
+#20 [build  8/18] RUN pnpm --dir engines/mupdf install --frozen-lockfile
+#20 0.256 Lockfile is up to date, resolution step is skipped
+#20 0.260 Progress: resolved 1, reused 0, downloaded 0, added 0
+#20 0.263 Packages: +1
+#20 0.263 +
+#20 9.796 Progress: resolved 1, reused 0, downloaded 1, added 0
+#20 9.802 Progress: resolved 1, reused 0, downloaded 1, added 1, done
+#20 9.807 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#20 9.807 (Use `node --trace-deprecation ...` to show where the warning was created)
+#20 9.830 
+#20 9.830 dependencies:
+#20 9.830 + mupdf 1.28.1
+#20 9.830 
+#20 9.834 Done in 9.7s using pnpm v10.12.1
+#20 DONE 10.3s
+
+#21 [build  9/18] COPY apps ./apps
+#21 DONE 0.0s
+
+#22 [build 10/18] COPY packages ./packages
+#22 DONE 0.0s
+
+#23 [build 11/18] COPY profiles ./profiles
+#23 DONE 0.0s
+
+#24 [build 12/18] COPY scripts/release-config.ts ./scripts/release-config.ts
+#24 DONE 0.0s
+
+#25 [build 13/18] COPY scripts/core-artifact.ts ./scripts/core-artifact.ts
+#25 DONE 0.0s
+
+#26 [build 14/18] COPY --from=rust-core /core/target/wasm32-unknown-unknown/release/policy_compare_core.wasm ./packages/rust-core/generated/core.wasm
+#26 DONE 0.0s
+
+#27 [build 15/18] COPY --from=rust-core /rust-licenses ./packages/rust-core/generated/licenses
+#27 DONE 0.0s
+
+#28 [build 16/18] RUN pnpm exec tsx scripts/core-artifact.ts
+#28 0.342 {
+#28 0.342   abi: 'policy-core-session/1',
+#28 0.342   coreVersion: 'policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4',
+#28 0.342   sha256: '56a8bbbd89c2c1ad6ba7e11d69600929c11d3d19ab3dea881444dae4ed4f4a20',
+#28 0.342   bytes: 2508531,
+#28 0.342   rust: '1.93.0',
+#28 0.342   target: 'wasm32-unknown-unknown'
+#28 0.342 }
+#28 DONE 0.4s
+
+#29 [build 17/18] RUN test -n "mupdf" && test -n "r19-final-mupdf" && test -n "fb3ac122eafce2bf05c22de0138252d1353c2cd2"
+#29 DONE 0.1s
+
+#30 [build 18/18] RUN POLICY_RELEASE_ID=r19-final-mupdf POLICY_REVISION=fb3ac122eafce2bf05c22de0138252d1353c2cd2 POLICY_CONTACT="" pnpm exec tsc -p tsconfig.mupdf.json --noEmit && POLICY_ENGINE=mupdf POLICY_RELEASE_ID=r19-final-mupdf POLICY_REVISION=fb3ac122eafce2bf05c22de0138252d1353c2cd2 POLICY_CONTACT="" pnpm exec vite build
+#30 0.646 vite v8.3.5 building client environment for production...
+#30 0.651 transforming...
+#30 0.724 [plugin rolldown:vite-resolve] Module "node:fs" has been externalized for browser compatibility, imported by "/build/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+#30 0.734 [plugin rolldown:vite-resolve] Module "module" has been externalized for browser compatibility, imported by "/build/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf-wasm.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+#30 0.765 ✓ 22 modules transformed.
+#30 0.783 rendering chunks...
+#30 0.805 computing gzip size...
+#30 0.912 dist/mupdf/assets/__vite-browser-external-UfK9GVxM.js       0.11 kB
+#30 0.912 dist/mupdf/assets/rolldown-runtime-WkwZ5CU-.js              0.59 kB
+#30 0.912 dist/mupdf/index.html                                       0.72 kB │ gzip:     0.55 kB
+#30 0.912 dist/mupdf/assets/core.worker-CzG4s_lx.js                 111.94 kB
+#30 0.912 dist/mupdf/assets/pdf.worker-Dw9gx07R.js                  203.07 kB
+#30 0.912 dist/mupdf/assets/core-DJvZenHK.wasm                    2,508.53 kB │ gzip:   830.23 kB
+#30 0.912 dist/mupdf/assets/mupdf-wasm-Bvf0xebB.wasm             10,409.82 kB │ gzip: 4,778.44 kB
+#30 0.912 dist/mupdf/assets/index-D48Dlxkb.css                       10.01 kB │ gzip:     3.00 kB
+#30 0.912 dist/mupdf/assets/index-BUzWRiKC.js                         2.58 kB │ gzip:     1.36 kB
+#30 0.912 dist/mupdf/assets/main-0VC3dPx4.js                        252.88 kB │ gzip:    81.03 kB
+#30 0.912 
+#30 0.912 ✓ built in 265ms
+#30 DONE 0.9s
+
+#31 [stage-2 2/5] WORKDIR /app
+#31 CACHED
+
+#32 [stage-2 3/5] COPY --from=build /build/dist/mupdf ./dist
+#32 DONE 0.0s
+
+#33 [stage-2 4/5] COPY deploy/server.mjs ./server.mjs
+#33 DONE 0.0s
+
+#34 [stage-2 5/5] RUN chmod -R a=rX /app
+#34 DONE 0.1s
+
+#35 exporting to image
+#35 exporting layers 0.0s done
+#35 writing image sha256:da3ed18bcc5129ea005c9dbf17435bc5e49dd5154042c150bbae0c5881f10f8f done
+#35 naming to docker.io/library/policy-compare:r19-final-mupdf-mupdf done
+#35 DONE 0.0s

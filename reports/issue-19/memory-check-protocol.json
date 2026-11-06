@@ -1,0 +1,126 @@
+{
+  "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+  "scope": "local paired migration measurement, not office-device performance acceptance",
+  "runsPerWorkload": 1,
+  "workloads": [
+    {
+      "name": "renewal-small",
+      "paths": [
+        "bench/generated/renewal-small/before.pdf",
+        "bench/generated/renewal-small/after.pdf"
+      ],
+      "sha256": [
+        "f7d04d2b76468a26633e01417ddeae72b701f291c0a8c82c4e6d56afdd48d6d0",
+        "131d88af874d19f6346ad75236890562b017b3833dd1926ad2834bcb6ed099bf"
+      ],
+      "budget_ms": 3000
+    },
+    {
+      "name": "renewal-standard",
+      "paths": [
+        "bench/generated/renewal-standard/before.pdf",
+        "bench/generated/renewal-standard/after.pdf"
+      ],
+      "sha256": [
+        "6422a9f30f93a75675f5e2bdd057e1d7b23059c4aec1f36a31c059d9cb135306",
+        "46b1b7753c2112d91d522556988a4384e664b84472d80a008e2282f8d1fd9016"
+      ],
+      "budget_ms": 20000
+    },
+    {
+      "name": "renewal-capacity",
+      "paths": [
+        "bench/generated/renewal-capacity/before.pdf",
+        "bench/generated/renewal-capacity/after.pdf"
+      ],
+      "sha256": [
+        "ef8cb4d96d5fae34207aca7910b0ec543f5f9b6b8a14e82d57b6f12852667662",
+        "5387e59590c4cfedb19651ce54ad5cda4078ed8cd947c286c8c63d5d0889db47"
+      ],
+      "budget_ms": null
+    },
+    {
+      "name": "dense_table-small",
+      "paths": [
+        "bench/generated/dense_table-small/before.pdf",
+        "bench/generated/dense_table-small/after.pdf"
+      ],
+      "sha256": [
+        "831ce8c6432ecfd4d5c44d5258bc07310749fa05724d559056f9d504b13f3dd1",
+        "e30c230d5dd39748ed72d888abdab970cd6848e6a17520079d7c388ad93112e7"
+      ],
+      "budget_ms": 3000
+    },
+    {
+      "name": "dense_table-standard",
+      "paths": [
+        "bench/generated/dense_table-standard/before.pdf",
+        "bench/generated/dense_table-standard/after.pdf"
+      ],
+      "sha256": [
+        "a103303c1557722459123aadff166238acd8f5af17cad5006f818b5aa28f8b3e",
+        "e05f6fd6a9e57ebccf60392af8f825312cf0f8415825dffc5308b98f88c394de"
+      ],
+      "budget_ms": 20000
+    },
+    {
+      "name": "dense_table-capacity",
+      "paths": [
+        "bench/generated/dense_table-capacity/before.pdf",
+        "bench/generated/dense_table-capacity/after.pdf"
+      ],
+      "sha256": [
+        "80366ad4cf6b0a44fb9f02e074ab36139e9c89b67e909b922b37efd2ba38b6f6",
+        "ef6b421abd69a37accdc3b9dba0bf0e1ffbcc1e245dc84bf3a17c3390b77fce2"
+      ],
+      "budget_ms": null
+    },
+    {
+      "name": "template_change-small",
+      "paths": [
+        "bench/generated/template_change-small/before.pdf",
+        "bench/generated/template_change-small/after.pdf"
+      ],
+      "sha256": [
+        "2aa26b1e8c26a883d27f80e532dd8da9407d174a07b412b096ddba5c28825ee1",
+        "c0bb9845f8466f6529035890b99cce0a58e4eb4d909ef1f02109b04708dad275"
+      ],
+      "budget_ms": 3000
+    },
+    {
+      "name": "template_change-standard",
+      "paths": [
+        "bench/generated/template_change-standard/before.pdf",
+        "bench/generated/template_change-standard/after.pdf"
+      ],
+      "sha256": [
+        "601364de32a513ecf915c1cf6c7cd8021175a0b9a65842ad5c5efdf9d78713e8",
+        "0fa678d0a54f9f49f56dd841967757a01a2b33524da3c561f91069174634240a"
+      ],
+      "budget_ms": 20000
+    },
+    {
+      "name": "template_change-capacity",
+      "paths": [
+        "bench/generated/template_change-capacity/before.pdf",
+        "bench/generated/template_change-capacity/after.pdf"
+      ],
+      "sha256": [
+        "ea7fa646790b050ed20a10b225ee6a51e033043f19fb6ba8a162790ac01fa075",
+        "a26dabbbc2f06e4c2c42643f490e4f1ccf0877c584b6afd6d659c750fcad6b90"
+      ],
+      "budget_ms": null
+    }
+  ],
+  "device": {
+    "cpu": "Apple M4 Max",
+    "memoryBytes": 137438953472,
+    "os": "27.2.0"
+  },
+  "unchangedTargets": {
+    "timing": "existing per-workload budget_ms; original formal run count 20 remains required",
+    "memory": "existing standard incremental peak 1 GiB; this RSS sampling alone does not establish full physical peak",
+    "cancellation": "existing max 1000 ms"
+  },
+  "method": "Same bundled Chromium, viewport 1500x1000, selected PDF extractor and inputs for old TS and Rust. Dedicated browser process tree RSS sampled every 100 ms, includes workers, WASM and GPU but can double-count shared pages and miss short-lived peaks. First navigation/load, each task stages (Rust inputAdmission includes page validation/hash before compare; TS validation/snapshot happen after full input, so individual phase columns have different boundaries) and full display completion, sequential tasks, close workers, query/search, and cancel latency recorded. OS release does not imply immediate memory return. No performance target relaxed."
+}

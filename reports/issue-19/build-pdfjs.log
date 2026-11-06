@@ -1,0 +1,50 @@
+
+> policy-compare@0.1.0 build:pdfjs /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> pnpm build:core && tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs vite build
+
+
+> policy-compare@0.1.0 build:core /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/build-rust.ts
+
+warning: field `transforms` is never read
+  --> crates/compare-core/src/text.rs:51:9
+   |
+46 | pub struct Mapped {
+   |            ------ field in this struct
+...
+51 |     pub transforms: Vec<V>,
+   |         ^^^^^^^^^^
+   |
+   = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `policy-compare-core` (lib) generated 1 warning
+    Finished `release` profile [optimized] target(s) in 0.06s
+{
+  abi: 'policy-core-session/1',
+  coreVersion: 'policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4',
+  sha256: '528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84',
+  bytes: 2510955,
+  rust: '1.93.0',
+  target: 'wasm32-unknown-unknown'
+}
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 126 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/pdfjs/index.html                          0.67 kB │ gzip:   0.52 kB
+dist/pdfjs/assets/core.worker-BJGcK6oS.js    111.92 kB
+dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
+dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
+dist/pdfjs/assets/core-E7o25BYo.wasm       2,510.95 kB │ gzip: 832.05 kB
+dist/pdfjs/assets/index-D48Dlxkb.css          10.01 kB │ gzip:   3.00 kB
+dist/pdfjs/assets/index-ChOPm8qT.js            2.55 kB │ gzip:   1.33 kB
+dist/pdfjs/assets/main-CoPZalhM.js           852.20 kB │ gzip: 262.27 kB
+
+✓ built in 179ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

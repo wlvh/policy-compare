@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:64012/releases/r19-de1c040-pdfjs/",
+  "releaseId": "r19-de1c040-pdfjs",
+  "engine": "pdfjs",
+  "revision": "de1c0406422b957603728ab73113f97417041f85",
+  "manifestSha256": "974bfd3d97011a887c599e827526d018beffcceab2d9505ee342e2825b914960",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

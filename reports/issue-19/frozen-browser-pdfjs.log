@@ -1,0 +1,47 @@
+[WebServer] (node:73439) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:73459) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:73484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (15.5s)
+  ✘  2 tests/browser/rust-core.spec.ts:11:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs (15.1s)
+(node:73609) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/browser/rust-core.spec.ts:35:59 › WASM initialization cancel then retry, no stale task or duplicate transfer (837ms)
+  ✓  4 tests/browser/rust-core.spec.ts:35:59 › WASM initialization failure then retry, no stale task or duplicate transfer (819ms)
+  ✓  5 tests/browser/rust-core.spec.ts:35:59 › WASM initialization timeout then retry, no stale task or duplicate transfer (16.3s)
+  ✓  6 tests/browser/rust-core.spec.ts:53:1 › network paths, queries, payloads and diagnostics contain no local document or search secrets (603ms)
+
+
+  1) tests/browser/rust-core.spec.ts:11:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs 
+
+    Error: page.evaluate: Target page, context or browser has been closed
+
+      16 |   try{if(cliImage){execFileSync('docker',['run','--rm','--network','none','-v',`${path.resolve('tmp/issue19-cli')}:/inputs`,cliImage,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
+      17 |   const cli=JSON.parse(readFileSync(out,'utf8'));
+    > 18 |   const browser=await page.evaluate(async docs=>{
+         |                            ^
+      19 |    const info=await(await fetch(new URL('build-info.json',location.href))).json();
+      20 |    const asset=info.resources.find((x:any)=>/core.worker.*\.js$/.test(x.path));if(!asset)throw new Error('Core worker absent from manifest');
+      21 |    return await new Promise<any>((resolve,reject)=>{const worker=new Worker(new URL(asset.path,location.href),{type:'module'});const ch=new MessageChannel();
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:18:28
+
+    Error: apiRequestContext._wrapApiCall: Target page, context or browser has been closed
+
+    Error Context: reports/issue-19/frozen-browser-pdfjs/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/issue-19/frozen-browser-pdfjs/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/issue-19/frozen-browser-pdfjs/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/rust-core.spec.ts:11:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs 
+  5 passed (50.6s)

@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "scope": "Two actual Linux images behind a local HTTP path router; does not prove OpenShift Route or organization environment",
+  "origin": "http://127.0.0.1:53052",
+  "previous": {
+    "image": "sha256:9cd5638c8f82934a88b0614737067c42e4b4d78da08d6b8484a4334a4b97dfaa",
+    "releaseId": "r20261104-bc9105e",
+    "revision": "bc9105e44bece8bcb326f5b06cdde733c3618bb4"
+  },
+  "candidate": {
+    "image": "sha256:8c67517afc5c4d5b650386d3c77b3c4b5172fd565af571eef6dfe343ece5ce55",
+    "releaseId": "r19-budget-pdfjs",
+    "revision": "e2154a31f43f315618a20760ff1ab034d85add9e"
+  },
+  "checks": [
+    "old tab first comparison after promotion",
+    "new root resolves candidate",
+    "root rollback resolves previous",
+    "candidate tab works after rollback"
+  ],
+  "resourceFailures": []
+}
