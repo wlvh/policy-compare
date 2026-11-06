@@ -761,7 +761,7 @@ fn compare_repeated(
 struct Scoring<'a> {
     budget: &'a V,
     candidates: usize,
-    products: usize,
+    products: u64,
     exhausted: bool,
 }
 impl Scoring<'_> {
@@ -790,13 +790,16 @@ impl Scoring<'_> {
             return None;
         }
         if self.candidates as f64 >= n(&self.budget["candidates"])
-            || (self.products + at.len() * bt.len()) as f64 > n(&self.budget["tokenProducts"])
+            || (self
+                .products
+                .saturating_add(work_product(at.len(), bt.len()))) as f64
+                > n(&self.budget["tokenProducts"])
         {
             self.exhausted = true;
             return None;
         }
         self.candidates += 1;
-        self.products += at.len() * bt.len();
+        self.products += work_product(at.len(), bt.len());
         let v = 2. * lcs_length(&at, &bt) as f64 / denom;
         if v >= threshold { Some(v) } else { None }
     }
@@ -1416,7 +1419,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             })
             .cloned()
             .collect();
-        if aa.is_empty() || bb.is_empty() || aa.len() * bb.len() > 4096 {
+        if aa.is_empty() || bb.is_empty() || work_product(aa.len(), bb.len()) > 4096 {
             continue;
         }
         let matches = joint_align(&aa, &bb, &heads, &mut sc, n(&p["thresholds"]["local"]));

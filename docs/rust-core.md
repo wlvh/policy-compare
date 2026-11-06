@@ -31,6 +31,8 @@ pnpm test:rules:pdfjs
 
 外部输入仍是 `policy-compare/0.1.0`，输出仍是 `policy-compare-result/2`。`page-merkle/1` 输入快照、配置摘要、差异 ID 和文档排序规则保持原约定。Rust 实现使用 ECMAScript 数字格式和 UTF-16 属性名排序生成相同的规范 JSON，再计算 SHA-256；不是直接用 Rust 默认 JSON 数字格式计算指纹。`coreVersion` 显式标记 Rust 实现。发布清单 `coreArtifact` 记录 ABI、实际核心版本、WASM 字节数和 SHA-256；两种网页包必须含相同核心哈希。浏览器显示层后来补充的 `resolvedGeometry` 属于显示测量，跨入口一致性比较在补充前的核心输出上进行。
 
+结构恢复只累积原文与引用，单元完整后统一规范化，避免每追加一行就重新处理整段。工作量乘法使用 64 位整数，超过 32 位范围的输入不能绕过预算；外部字符和 UTF-16 偏移转为内部索引前先检查范围。
+
 配置和预算只从 `profiles/aviation.ts` 传入，Rust 不维护另一份默认配置。预算耗尽、扫描图片覆盖、身份冲突及不完整对应保持原输出语义。语言迁移不等于提高正确性，也不扩大 OCR、文件大小或页数支持。
 
 ## 加载、取消与释放

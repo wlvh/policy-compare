@@ -209,3 +209,9 @@ pub fn monotone<T: Clone>(
     out.reverse();
     out
 }
+
+/// Counts work before allocating or entering a dynamic program. wasm32 usize
+/// multiplication must not wrap a large workload below its configured budget.
+pub fn work_product(a: usize, b: usize) -> u64 {
+    (a as u64) * (b as u64)
+}

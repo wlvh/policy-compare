@@ -193,7 +193,7 @@ pub fn text_ops(
         .filter(|t| !t.text.chars().next().map(ws).unwrap_or(false))
         .map(shift)
         .collect();
-    if (xc.len() * yc.len()) as f64 > n(&budget["diffProducts"]) {
+    if work_product(xc.len(), yc.len()) as f64 > n(&budget["diffProducts"]) {
         unresolved.push(json!({"reason":"word_diff_budget","message":"词级差异工作量超过上限；保留双方完整原文，定位降级","left":a.map(|u|u.loc(l,"left")).unwrap_or_default(),"right":b.map(|u|u.loc(r,"right")).unwrap_or_default(),"defaultVisible":true}));
         script.replaced(0, x.len(), 0, y.len())
     } else {

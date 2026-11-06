@@ -423,21 +423,16 @@ fn add(
         mapped.extend(t.chars().map(|_| r));
     }
     let i = units.len();
-    units.push(Unit{m:normalize(&raw,mapped),id:format!("u{i}"),order:i,role:role.into(),path:json!({"section":section,"entity":entity,"field":field,"table":null,"rowKey":null,"confidence":if identity.is_some(){"reliable"}else{"candidate"}}),identity,primary:None,secondary:None,table_row:None,cells:None,spans:vec![],ambiguous:false,furniture:None,title:title.into(),repeats:None,others:vec![],separate:false,note:String::new()});
+    units.push(Unit{m:Mapped{raw,refs:mapped,..Mapped::default()},id:format!("u{i}"),order:i,role:role.into(),path:json!({"section":section,"entity":entity,"field":field,"table":null,"rowKey":null,"confidence":if identity.is_some(){"reliable"}else{"candidate"}}),identity,primary:None,secondary:None,table_row:None,cells:None,spans:vec![],ambiguous:false,furniture:None,title:title.into(),repeats:None,others:vec![],separate:false,note:String::new()});
     i
 }
 fn append(u: &mut Unit, rs: &[Ref], d: &Doc) {
-    let raw = format!(
-        "{} {}",
-        u.m.raw,
-        rs.iter().map(|r| r.ch(d).text.as_str()).collect::<String>()
-    );
-    let mut refs = u.m.refs.clone();
-    refs.push(None);
+    u.m.raw.push(' ');
+    u.m.refs.push(None);
     for r in rs {
-        refs.extend(r.ch(d).text.chars().map(|_| Some(*r)));
+        u.m.raw.push_str(&r.ch(d).text);
+        u.m.refs.extend(r.ch(d).text.chars().map(|_| Some(*r)));
     }
-    u.m = normalize(&raw, refs);
 }
 pub fn structure(d: &Doc, profile: &V, shared: &[Furniture]) -> Result<Vec<Unit>, String> {
     let mut units: Vec<Unit> = vec![];
@@ -1100,6 +1095,14 @@ pub fn structure(d: &Doc, profile: &V, shared: &[Furniture]) -> Result<Vec<Unit>
     }
     if owners.len() != d.pages.iter().map(|p| p.chars.len()).sum::<usize>() {
         return Err("Character conservation failed".into());
+    }
+    // No matching representation is read during recovery. Normalize the final
+    // raw text and refs once per unit, rather than the growing paragraph after
+    // every appended line; source text and mapping inputs remain identical.
+    for u in &mut units {
+        let raw = std::mem::take(&mut u.m.raw);
+        let refs = std::mem::take(&mut u.m.refs);
+        u.m = normalize(&raw, refs);
     }
     Ok(units)
 }

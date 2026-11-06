@@ -197,13 +197,23 @@ impl Doc {
                 }
                 let a = sr["scalarRange"][0]
                     .as_u64()
-                    .ok_or("Invalid source range")? as usize;
+                    .and_then(|x| usize::try_from(x).ok())
+                    .ok_or("Invalid source range")?;
                 let b = sr["scalarRange"][1]
                     .as_u64()
-                    .ok_or("Invalid source range")? as usize;
+                    .and_then(|x| usize::try_from(x).ok())
+                    .ok_or("Invalid source range")?;
+                let ua = sr["utf16Range"][0]
+                    .as_u64()
+                    .and_then(|x| usize::try_from(x).ok())
+                    .ok_or("Invalid UTF-16 range")?;
+                let ub = sr["utf16Range"][1]
+                    .as_u64()
+                    .and_then(|x| usize::try_from(x).ok())
+                    .ok_or("Invalid UTF-16 range")?;
                 if a > b
-                    || offsets.get(a).copied() != sr["utf16Range"][0].as_u64().map(|x| x as usize)
-                    || offsets.get(b).copied() != sr["utf16Range"][1].as_u64().map(|x| x as usize)
+                    || offsets.get(a).copied() != Some(ua)
+                    || offsets.get(b).copied() != Some(ub)
                     || text.chars().skip(a).take(b - a).collect::<String>() != c.text
                 {
                     return Err("Invalid source item Unicode/UTF-16 mapping".into());

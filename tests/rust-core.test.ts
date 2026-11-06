@@ -9,6 +9,8 @@ it('Rust validates page order, character ownership and UTF-16 source mapping bef
  for(const mutation of [
   (d:any)=>d.pages[0].pageIndex=1,
   (d:any)=>d.pages[0].lines[0].charIds.pop(),
+  (d:any)=>{d.pages[0].chars[0].sourceRef={itemId:'source',scalarRange:[2**32,2**32+1],utf16Range:[0,2]};d.pages[0].textItems=[{id:'source',text:'😀'}]},
+  (d:any)=>{d.pages[0].chars[0].sourceRef={itemId:'source',scalarRange:[0,1],utf16Range:[2**32,2**32+2]};d.pages[0].textItems=[{id:'source',text:'😀'}]},
   (d:any)=>{d.pages[0].chars[0].sourceRef={itemId:'source',scalarRange:[0,1],utf16Range:[0,1]};d.pages[0].textItems=[{id:'source',text:'😀'}]},
  ]){const s=new CoreSession(module);const d=textDoc([{text:'😀 insured'}]);mutation(d);expect(()=>s.document(0,d)).toThrow();s.dispose();}
 });
@@ -37,3 +39,8 @@ it('page-number facts preserve ECMAScript word boundaries and whitespace outside
  expect(compare(line('Page\u00853'),line('Page\u00854')).differences.flatMap(d=>d.facts)).not.toContain('page_number_only');
  expect(compare(line('Page\ufeff3'),line('Page\ufeff4')).differences[0].facts).toEqual(['page_number_only']);
 });
+
+it('WASM work estimates above 2^32 exhaust the budget rather than wrapping to a small product',()=>{
+ const doc=(last:string)=>{const raw='x '.repeat(65536)+last;const lines=[];for(let i=0;i<raw.length;i+=80){const row=i/80;lines.push({text:raw.slice(i,i+80),x:40,y:150+(row%50)*12,page:Math.floor(row/50)});}return textDoc(lines)};
+ const r=compare(doc('left'),doc('right'));expect(r.status).toBe('partial');expect(r.unresolved.some(x=>x.reason==='budget')).toBe(true);expect(r.stats.tokenProducts).toBe(0);expect(r.stats.candidates).toBe(0);
+},120000);
