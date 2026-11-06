@@ -3,7 +3,8 @@ import {test,expect} from '@playwright/test';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import path from 'node:path';
-const coreArtifact=JSON.parse(readFileSync('packages/rust-core/generated/core-info.json','utf8'));
+const coreArtifact=JSON.parse(readFileSync(process.env.POLICY_CORE_INFO||'packages/rust-core/generated/core-info.json','utf8'));
+const cliImage=process.env.POLICY_CLI_IMAGE;
 const engine=process.env.POLICY_ENGINE??'mupdf';
 const reportDir=process.env.POLICY_REPORT_DIR||'reports';
 const fixtures=JSON.parse(readFileSync('reports/issue-19/frozen-baseline.json','utf8')).records.filter((x:any)=>x.engine===engine);
@@ -12,7 +13,7 @@ test('frozen inputs: shipped Worker and formal CLI have identical complete core 
  const records=[];mkdirSync('tmp/issue19-cli',{recursive:true});
  for(const meta of fixtures){const {docs}=JSON.parse(gunzipSync(readFileSync(meta.file)).toString('utf8'));
   const files=['left','right'].map((s,i)=>{const file=`tmp/issue19-cli/${s}.json`;writeFileSync(file,JSON.stringify(docs[i]));return file;});const out='tmp/issue19-cli/result.json';
-  try{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}catch(e:any){if(e.status!==2)throw e;}
+  try{if(cliImage){execFileSync('docker',['run','--rm','--network','none','-v',`${path.resolve('tmp/issue19-cli')}:/inputs`,cliImage,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
   const cli=JSON.parse(readFileSync(out,'utf8'));
   const browser=await page.evaluate(async docs=>{
    const info=await(await fetch(new URL('build-info.json',location.href))).json();

@@ -953,19 +953,21 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     let mut pairs = vec![];
     let (mut ul, mut ur) = (Set::new(), Set::new());
     let mut un = vec![];
-    let mut layout = Set::new();
+    let mut layout = [Set::new(), Set::new()];
     let titled = |u: &&Unit| u.role == "page_heading" || u.role == "heading";
     let tl: Set<_> = la.iter().filter(titled).map(|u| trim(&u.m.raw)).collect();
     let tr: Set<_> = rb.iter().filter(titled).map(|u| trim(&u.m.raw)).collect();
-    for u in la.iter().chain(&rb).filter(titled) {
-        if let Some(m) = re(r"(?i)^(.+?)[\s(,:–-]*\b(?:continued|cont['’]d|cont\.?)\)?\.?$")
-            .captures(trim(&u.m.raw))
-            .ok()
-            .flatten()
-        {
-            let base = trim(m.get(1).unwrap().as_str());
-            if tl.contains(base) && tr.contains(base) {
-                layout.insert(u.m.raw.clone());
+    for (side, us) in [&la, &rb].iter().enumerate() {
+        for u in us.iter().filter(titled) {
+            if let Some(m) = re(r"(?i)^(.+?)[\s(,:–-]*\b(?:continued|cont['’]d|cont\.?)\)?\.?$")
+                .captures(trim(&u.m.raw))
+                .ok()
+                .flatten()
+            {
+                let base = trim(m.get(1).unwrap().as_str());
+                if tl.contains(base) && tr.contains(base) {
+                    layout[side].insert(u.id.clone());
+                }
             }
         }
     }
@@ -1751,7 +1753,7 @@ fn emit(
     l: &Doc,
     r: &Doc,
     budget: &V,
-    layout: &Set<String>,
+    layout: &[Set<String>; 2],
     heads: &[Headings; 2],
     diffs: &mut Vec<V>,
     un: &mut Vec<V>,

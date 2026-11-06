@@ -47,7 +47,7 @@ WASM 加载或哈希校验失败会明确失败，没有旧 TypeScript 回退。
 pnpm exec tsx scripts/issue19-parity.ts
 pnpm test:browser:mupdf
 pnpm test:browser:pdfjs
-pnpm exec tsx scripts/issue19-performance.ts
+pnpm exec tsx scripts/issue19-performance.ts --formal
 ```
 
 冻结输入和旧结果存于 `validation/migration/issue-19/*.json.gz`，对应清单与内容哈希在 `reports/issue-19/frozen-baseline.json`。对照只允许核心版本标识不同，其余比较事实、来源、未决、覆盖、预算和指纹逐字段比较；旧结果只用于迁移对照，不能代替独立真值。正式规则评价器仍从明确输入、预期和来源记录评分。

@@ -10,7 +10,15 @@ pub fn re(pattern: &str) -> Regex {
     static CACHE: OnceLock<Mutex<HashMap<String, Regex>>> = OnceLock::new();
     let mut c = CACHE.get_or_init(Default::default).lock().unwrap();
     c.entry(pattern.into())
-        .or_insert_with(|| Regex::new(&pattern.replace(r"\d", "[0-9]")).unwrap())
+        .or_insert_with(|| {
+            // ECMAScript Unicode regexes still use ASCII digits and word
+            // boundaries; their whitespace also includes BOM and excludes NEL.
+            let pattern = pattern.replace(r"\d", "[0-9]")
+                .replace(r"\s", r"[\x{9}-\x{D}\x{20}\x{A0}\x{1680}\x{2000}-\x{200A}\x{2028}\x{2029}\x{202F}\x{205F}\x{3000}\x{FEFF}]")
+                .replace(r"\S", r"[^\x{9}-\x{D}\x{20}\x{A0}\x{1680}\x{2000}-\x{200A}\x{2028}\x{2029}\x{202F}\x{205F}\x{3000}\x{FEFF}]")
+                .replace(r"\b", r"(?:(?<![A-Za-z0-9_])(?=[A-Za-z0-9_])|(?<=[A-Za-z0-9_])(?![A-Za-z0-9_]))");
+            Regex::new(&pattern).unwrap()
+        })
         .clone()
 }
 pub fn test(p: &str, s: &str) -> bool {

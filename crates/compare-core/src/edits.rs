@@ -292,7 +292,7 @@ fn dates(text: &str) -> Option<Vec<(i32, i32, i32)>> {
     }
     if ds[1] < ds[0] { None } else { Some(ds) }
 }
-pub fn facts(a: Option<&Unit>, b: Option<&Unit>, layout: &Set<String>) -> Vec<&'static str> {
+pub fn facts(a: Option<&Unit>, b: Option<&Unit>, layout: &[Set<String>; 2]) -> Vec<&'static str> {
     let u = b.or(a).unwrap();
     let old = a.map(|u| u.m.raw.as_str()).unwrap_or("");
     let now = b.map(|u| u.m.raw.as_str()).unwrap_or("");
@@ -320,7 +320,7 @@ pub fn facts(a: Option<&Unit>, b: Option<&Unit>, layout: &Set<String>) -> Vec<&'
             return vec!["page_number_only"];
         }
     }
-    if (a.is_none() || b.is_none()) && layout.contains(&u.m.raw) {
+    if (a.is_none() || b.is_none()) && layout[if b.is_some() { 1 } else { 0 }].contains(&u.id) {
         return vec!["continued_heading"];
     }
     if a.is_some() && b.is_some() && u.path["field"] == "policy_period" {
