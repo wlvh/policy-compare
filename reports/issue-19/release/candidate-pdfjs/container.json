@@ -1,0 +1,22 @@
+{
+  "engine": "pdfjs",
+  "revision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+  "releaseId": "r19-budget-pdfjs",
+  "platform": "linux/arm64",
+  "status": "PASS",
+  "imageId": "sha256:8c67517afc5c4d5b650386d3c77b3c4b5172fd565af571eef6dfe343ece5ce55",
+  "repoDigests": [],
+  "baseImage": "node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53",
+  "architecture": "arm64",
+  "manifestSha256": "8bd26fc76850632daa4a894734576f09ef5152e20cd16e2ea57347c33e43f8f6",
+  "container": {
+    "image": "sha256:8c67517afc5c4d5b650386d3c77b3c4b5172fd565af571eef6dfe343ece5ce55",
+    "readOnly": true,
+    "user": "12345:12345",
+    "memory": 268435456,
+    "nanoCpus": 1000000000,
+    "mounts": []
+  },
+  "origin": "http://127.0.0.1:52325",
+  "scope": "L2-A actual image and browser only; not OpenShift or performance acceptance"
+}

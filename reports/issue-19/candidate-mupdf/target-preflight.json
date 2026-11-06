@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:65315/releases/r19-6993524-mupdf/",
+  "releaseId": "r19-6993524-mupdf",
+  "engine": "mupdf",
+  "revision": "69935248ae359dab9dea167139f18133a1497210",
+  "manifestSha256": "74294129b998475288a17f866db925c28f4d7022b198b054e0ebc8af2daafc61",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

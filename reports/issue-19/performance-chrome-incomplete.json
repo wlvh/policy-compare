@@ -1,0 +1,457 @@
+{
+  "protocol": {
+    "scope": "local paired migration measurement, not office-device performance acceptance",
+    "runsPerWorkload": 3,
+    "workloads": [
+      {
+        "name": "renewal-small",
+        "paths": [
+          "bench/generated/renewal-small/before.pdf",
+          "bench/generated/renewal-small/after.pdf"
+        ],
+        "sha256": [
+          "f7d04d2b76468a26633e01417ddeae72b701f291c0a8c82c4e6d56afdd48d6d0",
+          "131d88af874d19f6346ad75236890562b017b3833dd1926ad2834bcb6ed099bf"
+        ],
+        "budget_ms": 3000
+      },
+      {
+        "name": "renewal-standard",
+        "paths": [
+          "bench/generated/renewal-standard/before.pdf",
+          "bench/generated/renewal-standard/after.pdf"
+        ],
+        "sha256": [
+          "6422a9f30f93a75675f5e2bdd057e1d7b23059c4aec1f36a31c059d9cb135306",
+          "46b1b7753c2112d91d522556988a4384e664b84472d80a008e2282f8d1fd9016"
+        ],
+        "budget_ms": 20000
+      },
+      {
+        "name": "renewal-capacity",
+        "paths": [
+          "bench/generated/renewal-capacity/before.pdf",
+          "bench/generated/renewal-capacity/after.pdf"
+        ],
+        "sha256": [
+          "ef8cb4d96d5fae34207aca7910b0ec543f5f9b6b8a14e82d57b6f12852667662",
+          "5387e59590c4cfedb19651ce54ad5cda4078ed8cd947c286c8c63d5d0889db47"
+        ],
+        "budget_ms": null
+      },
+      {
+        "name": "dense_table-small",
+        "paths": [
+          "bench/generated/dense_table-small/before.pdf",
+          "bench/generated/dense_table-small/after.pdf"
+        ],
+        "sha256": [
+          "831ce8c6432ecfd4d5c44d5258bc07310749fa05724d559056f9d504b13f3dd1",
+          "e30c230d5dd39748ed72d888abdab970cd6848e6a17520079d7c388ad93112e7"
+        ],
+        "budget_ms": 3000
+      },
+      {
+        "name": "dense_table-standard",
+        "paths": [
+          "bench/generated/dense_table-standard/before.pdf",
+          "bench/generated/dense_table-standard/after.pdf"
+        ],
+        "sha256": [
+          "a103303c1557722459123aadff166238acd8f5af17cad5006f818b5aa28f8b3e",
+          "e05f6fd6a9e57ebccf60392af8f825312cf0f8415825dffc5308b98f88c394de"
+        ],
+        "budget_ms": 20000
+      },
+      {
+        "name": "dense_table-capacity",
+        "paths": [
+          "bench/generated/dense_table-capacity/before.pdf",
+          "bench/generated/dense_table-capacity/after.pdf"
+        ],
+        "sha256": [
+          "80366ad4cf6b0a44fb9f02e074ab36139e9c89b67e909b922b37efd2ba38b6f6",
+          "ef6b421abd69a37accdc3b9dba0bf0e1ffbcc1e245dc84bf3a17c3390b77fce2"
+        ],
+        "budget_ms": null
+      },
+      {
+        "name": "template_change-small",
+        "paths": [
+          "bench/generated/template_change-small/before.pdf",
+          "bench/generated/template_change-small/after.pdf"
+        ],
+        "sha256": [
+          "2aa26b1e8c26a883d27f80e532dd8da9407d174a07b412b096ddba5c28825ee1",
+          "c0bb9845f8466f6529035890b99cce0a58e4eb4d909ef1f02109b04708dad275"
+        ],
+        "budget_ms": 3000
+      },
+      {
+        "name": "template_change-standard",
+        "paths": [
+          "bench/generated/template_change-standard/before.pdf",
+          "bench/generated/template_change-standard/after.pdf"
+        ],
+        "sha256": [
+          "601364de32a513ecf915c1cf6c7cd8021175a0b9a65842ad5c5efdf9d78713e8",
+          "0fa678d0a54f9f49f56dd841967757a01a2b33524da3c561f91069174634240a"
+        ],
+        "budget_ms": 20000
+      },
+      {
+        "name": "template_change-capacity",
+        "paths": [
+          "bench/generated/template_change-capacity/before.pdf",
+          "bench/generated/template_change-capacity/after.pdf"
+        ],
+        "sha256": [
+          "ea7fa646790b050ed20a10b225ee6a51e033043f19fb6ba8a162790ac01fa075",
+          "a26dabbbc2f06e4c2c42643f490e4f1ccf0877c584b6afd6d659c750fcad6b90"
+        ],
+        "budget_ms": null
+      }
+    ],
+    "device": {
+      "cpu": "Apple M4 Max",
+      "memoryBytes": 137438953472,
+      "os": "27.2.0"
+    },
+    "unchangedTargets": {
+      "timing": "existing per-workload budget_ms; original formal run count 20 remains required",
+      "memory": "existing standard incremental peak 1 GiB; this RSS sampling alone does not establish full physical peak",
+      "cancellation": "existing max 1000 ms"
+    },
+    "method": "Same Chrome, viewport 1500x1000, selected PDF extractor and inputs for old TS and Rust. Dedicated browser process tree RSS sampled every 100 ms, includes workers, WASM and GPU but can double-count shared pages and miss short-lived peaks. First navigation/load, each task stages and full display completion, sequential tasks, close workers, query/search, and cancel latency recorded. OS release does not imply immediate memory return. No performance target relaxed."
+  },
+  "browserVersion": "156.0.8078.81",
+  "loads": [
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "firstPageEngineLoadMs": 108.42170800000076,
+      "idleRssBytes": 1163952128
+    }
+  ],
+  "records": [
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-small",
+      "run": 0,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 170.1850000023842,
+        "read": 32.37999999523163,
+        "cooperativeCancellation": true,
+        "workerInitialization": 0,
+        "extraction": 120.81999999284744,
+        "pdfOpen": 3.9300000071525574,
+        "nativeTextExtraction": 22.150000154972076,
+        "sourceAdaptation": 20.934999883174896,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 2.125,
+        "transferQueueSum": 28.13525390625,
+        "validation": 39.7950000166893,
+        "snapshot": 202.05500000715256,
+        "structure": 20.180000007152557,
+        "matching": 3.274999976158142,
+        "diff": 1.5,
+        "transferLastPage": 0.030029296875,
+        "coreReady": 420.7049999833107,
+        "renderMs": 34.91499996185303,
+        "locationMs": 0.11500000953674316,
+        "total": 497.38499999046326,
+        "firstRender": 76.68000000715256,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 577.3041669999993,
+      "peakRssBytes": 1337753600,
+      "incrementalSampledRssBytes": 173801472,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0,
+      "rssAfterClose": 1272053760
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-small",
+      "run": 1,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 785.2549999952316,
+        "read": 14.504999995231628,
+        "cooperativeCancellation": true,
+        "workerInitialization": 29.275000035762787,
+        "extraction": 121.23500001430511,
+        "pdfOpen": 3.524999976158142,
+        "nativeTextExtraction": 22.435000002384186,
+        "sourceAdaptation": 20.875,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 2.02001953125,
+        "transferQueueSum": 26.9794921875,
+        "validation": 39.155000030994415,
+        "snapshot": 201.5199999809265,
+        "structure": 20.240000009536743,
+        "matching": 3.365000009536743,
+        "diff": 1.4649999737739563,
+        "transferLastPage": 0.034912109375,
+        "coreReady": 431.47500002384186,
+        "renderMs": 46.935000002384186,
+        "locationMs": 0.019999980926513672,
+        "total": 515.375,
+        "firstRender": 83.89999997615814,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 589.2921249999999,
+      "peakRssBytes": 1350303744,
+      "incrementalSampledRssBytes": 186351616,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-small",
+      "run": 2,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 1385.3600000143051,
+        "read": 15.524999976158142,
+        "cooperativeCancellation": true,
+        "workerInitialization": 29.055000007152557,
+        "extraction": 123.35000002384186,
+        "pdfOpen": 3.590000033378601,
+        "nativeTextExtraction": 22.520000100135803,
+        "sourceAdaptation": 21.18499982357025,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 2.01513671875,
+        "transferQueueSum": 27.0556640625,
+        "validation": 38.939999997615814,
+        "snapshot": 201.625,
+        "structure": 20.375,
+        "matching": 3.3600000143051147,
+        "diff": 1.4649999737739563,
+        "transferLastPage": 0.02490234375,
+        "coreReady": 434.29499995708466,
+        "renderMs": 46.624999940395355,
+        "locationMs": 0.029999971389770508,
+        "total": 515.214999973774,
+        "firstRender": 80.9200000166893,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 585.5206669999998,
+      "peakRssBytes": 1358217216,
+      "incrementalSampledRssBytes": 194265088,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0,
+      "rssAfterClose": 1287847936
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-standard",
+      "run": 0,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 2051.8849999904633,
+        "read": 15.780000030994415,
+        "cooperativeCancellation": true,
+        "workerInitialization": 29.294999957084656,
+        "extraction": 746.9700000286102,
+        "pdfOpen": 4.784999966621399,
+        "nativeTextExtraction": 57.414999544620514,
+        "sourceAdaptation": 92.75500029325485,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 3.044921875,
+        "transferQueueSum": 171.71044921875,
+        "validation": 184.99500000476837,
+        "snapshot": 1122.425000011921,
+        "structure": 101.22999995946884,
+        "matching": 57.4200000166893,
+        "diff": 3.5199999809265137,
+        "transferLastPage": 0.050048828125,
+        "coreReady": 2262.585000038147,
+        "renderMs": 47.60000002384186,
+        "locationMs": 0.029999971389770508,
+        "total": 2347.425000011921,
+        "firstRender": 84.83999997377396,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 2395.8579999999993,
+      "peakRssBytes": 1560838144,
+      "incrementalSampledRssBytes": 396886016,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0,
+      "rssAfterClose": 1486094336
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-standard",
+      "run": 1,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 4518.649999976158,
+        "read": 15.575000047683716,
+        "cooperativeCancellation": true,
+        "workerInitialization": 27.889999985694885,
+        "extraction": 749.7950000166893,
+        "pdfOpen": 4.920000076293945,
+        "nativeTextExtraction": 58.769999742507935,
+        "sourceAdaptation": 93.81000012159348,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 2.96484375,
+        "transferQueueSum": 174.10498046875,
+        "validation": 187.1050000190735,
+        "snapshot": 1138.2400000095367,
+        "structure": 103.26999998092651,
+        "matching": 59.5900000333786,
+        "diff": 3.5699999928474426,
+        "transferLastPage": 0.019775390625,
+        "coreReady": 2285.935000002384,
+        "renderMs": 36.87999999523163,
+        "locationMs": 0.02499997615814209,
+        "total": 2365.395000040531,
+        "firstRender": 79.46000003814697,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 2439.1920410000002,
+      "peakRssBytes": 1592934400,
+      "incrementalSampledRssBytes": 428982272,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0,
+      "rssAfterClose": 1496776704
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-standard",
+      "run": 2,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 7001.055000007153,
+        "read": 16.415000021457672,
+        "cooperativeCancellation": true,
+        "workerInitialization": 30.619999945163727,
+        "extraction": 750.6650000214577,
+        "pdfOpen": 4.985000014305115,
+        "nativeTextExtraction": 59.86999988555908,
+        "sourceAdaptation": 94.7150000333786,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 2.994873046875,
+        "transferQueueSum": 175.18701171875,
+        "validation": 188.14999997615814,
+        "snapshot": 1128.3199999928474,
+        "structure": 99.25,
+        "matching": 55.89500004053116,
+        "diff": 3.6699999570846558,
+        "transferLastPage": 0.06005859375,
+        "coreReady": 2273.9449999928474,
+        "renderMs": 36.0900000333786,
+        "locationMs": 0.04000002145767212,
+        "total": 2349.5550000071526,
+        "firstRender": 75.61000001430511,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 2415.5427089999994,
+      "peakRssBytes": 1613791232,
+      "incrementalSampledRssBytes": 449839104,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0,
+      "rssAfterClose": 1517142016
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-capacity",
+      "run": 0,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 9466.40499997139,
+        "read": 16.0100000500679,
+        "cooperativeCancellation": true,
+        "workerInitialization": 28.35499995946884,
+        "extraction": 1658.7950000166893,
+        "pdfOpen": 6.695000052452087,
+        "nativeTextExtraction": 111.15499997138977,
+        "sourceAdaptation": 200.4349998831749,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 3.02001953125,
+        "transferQueueSum": 401.09423828125,
+        "validation": 408.28500002622604,
+        "snapshot": 2550.4099999666214,
+        "structure": 223.3400000333786,
+        "matching": 291.5349999666214,
+        "diff": 5.455000042915344,
+        "transferLastPage": 0.03515625,
+        "coreReady": 5183.4800000190735,
+        "renderMs": 36.61500000953674,
+        "locationMs": 0.019999980926513672,
+        "total": 5267.030000030994,
+        "firstRender": 83.55000001192093,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 5334.148791,
+      "peakRssBytes": 1817526272,
+      "incrementalSampledRssBytes": 653574144,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-capacity",
+      "run": 1,
+      "status": "complete_for_scope",
+      "metrics": {
+        "activeWorkers": 2,
+        "start": 14834.22000002861,
+        "read": 16.2849999666214,
+        "cooperativeCancellation": true,
+        "workerInitialization": 28.19999998807907,
+        "extraction": 1658.5649999976158,
+        "pdfOpen": 6.879999995231628,
+        "nativeTextExtraction": 113.26999944448471,
+        "sourceAdaptation": 201.66000056266785,
+        "coverageAnalysis": 0,
+        "transferQueueMax": 3.2900390625,
+        "transferQueueSum": 403.135986328125,
+        "validation": 414.5799999833107,
+        "snapshot": 2539.6550000309944,
+        "structure": 226.4399999976158,
+        "matching": 281.64999997615814,
+        "diff": 5.574999988079071,
+        "transferLastPage": 0.034912109375,
+        "coreReady": 5172.25,
+        "renderMs": 36.360000014305115,
+        "locationMs": 0.030000030994415283,
+        "total": 5249.40499997139,
+        "firstRender": 77.15499997138977,
+        "status": "complete_for_scope"
+      },
+      "wallMs": 5324.196333,
+      "peakRssBytes": 1876164608,
+      "incrementalSampledRssBytes": 712212480,
+      "expectedValueVisible": true,
+      "workersAfterClose": 0,
+      "rssAfterClose": 1708982272
+    },
+    {
+      "engine": "mupdf",
+      "impl": "typescript",
+      "workload": "renewal-capacity",
+      "run": 2,
+      "error": "Error: page.waitForFunction: Target page, context or browser has been closed"
+    }
+  ],
+  "status": "NOT_EVALUATED",
+  "reason": "Local measurements only; original office-device and full-peak acceptance remains open"
+}

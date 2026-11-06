@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "candidateRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+  "imageId": "sha256:8c67517afc5c4d5b650386d3c77b3c4b5172fd565af571eef6dfe343ece5ce55",
+  "cliBuildImageId": "sha256:5cf65982c2d2c53e1dcc0cef36b6792bcab03e770804a91c82c42fcb9956d057",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "bytes": 2510123,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "evidence": "reports/issue-19/release/candidate-pdfjs/cross-entry/cross-entry-pdfjs.json"
+}

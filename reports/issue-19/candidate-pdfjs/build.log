@@ -1,0 +1,330 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.68kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 253B done
+#4 DONE 0.0s
+
+#5 [rust-core 1/7] FROM docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#5 DONE 0.0s
+
+#6 [build  1/18] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#6 DONE 0.0s
+
+#7 [build  2/18] WORKDIR /build
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 87.58kB done
+#8 DONE 0.0s
+
+#9 [rust-core 2/7] WORKDIR /core
+#9 CACHED
+
+#10 [rust-core 3/7] RUN rustup target add wasm32-unknown-unknown
+#10 CACHED
+
+#11 [rust-core 4/7] COPY rust-toolchain.toml Cargo.toml Cargo.lock ./
+#11 CACHED
+
+#12 [rust-core 5/7] COPY crates ./crates
+#12 DONE 0.0s
+
+#13 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#13 0.153     Updating crates.io index
+#13 ...
+
+#14 [build  3/18] RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
+#14 0.224 Preparing pnpm@10.12.1 for immediate activation...
+#14 DONE 3.7s
+
+#15 [build  4/18] COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.pdfjs.json tsconfig.mupdf.json vite.config.ts ./
+#15 DONE 0.0s
+
+#16 [build  5/18] COPY patches ./patches
+#16 DONE 0.0s
+
+#17 [build  6/18] RUN pnpm install --frozen-lockfile
+#17 0.363 Lockfile is up to date, resolution step is skipped
+#17 0.376 Progress: resolved 1, reused 0, downloaded 0, added 0
+#17 0.396 Packages: +55
+#17 0.396 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#17 1.377 Progress: resolved 55, reused 0, downloaded 0, added 0
+#17 1.802 
+#17 1.802    ╭───────────────────────────────────────────────╮
+#17 1.802    │                                               │
+#17 1.802    │     Update available! 10.12.1 → 12.18.0.      │
+#17 1.802    │     Changelog: https://pnpm.io/v/12.18.0      │
+#17 1.802    │   To update, run: corepack use pnpm@12.18.0   │
+#17 1.802    │                                               │
+#17 1.802    ╰───────────────────────────────────────────────╯
+#17 1.802 
+#17 2.378 Progress: resolved 55, reused 0, downloaded 13, added 13
+#17 3.382 Progress: resolved 55, reused 0, downloaded 21, added 21
+#17 4.384 Progress: resolved 55, reused 0, downloaded 31, added 31
+#17 5.386 Progress: resolved 55, reused 0, downloaded 42, added 42
+#17 6.387 Progress: resolved 55, reused 0, downloaded 44, added 44
+#17 7.389 Progress: resolved 55, reused 0, downloaded 45, added 45
+#17 ...
+
+#13 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#13 4.846  Downloading crates ...
+#13 5.892   Downloaded cpufeatures v0.2.17
+#13 6.306   Downloaded cfg-if v1.0.5
+#13 6.321   Downloaded bit-set v0.8.0
+#13 8.087   Downloaded equivalent v1.0.3
+#13 8.350   Downloaded crypto-common v0.1.7
+#13 8.661   Downloaded version_check v0.9.5
+#13 10.29   Downloaded generic-array v0.14.7
+#13 11.06   Downloaded quote v1.0.47
+#13 11.07   Downloaded block-buffer v0.10.4
+#13 11.35   Downloaded sha2 v0.10.9
+#13 11.43   Downloaded bit-vec v0.8.0
+#13 11.49   Downloaded zmij v1.0.23
+#13 11.50   Downloaded itoa v1.0.18
+#13 12.46   Downloaded digest v0.10.7
+#13 ...
+
+#17 [build  6/18] RUN pnpm install --frozen-lockfile
+#17 9.127 Progress: resolved 55, reused 0, downloaded 46, added 45
+#17 10.13 Progress: resolved 55, reused 0, downloaded 46, added 46
+#17 11.20 Progress: resolved 55, reused 0, downloaded 47, added 46
+#17 12.20 Progress: resolved 55, reused 0, downloaded 47, added 47
+#17 13.20 Progress: resolved 55, reused 0, downloaded 48, added 48
+#17 ...
+
+#13 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#13 12.94   Downloaded unicode-ident v1.0.27
+#13 14.67   Downloaded serde_derive v1.0.228
+#13 14.76   Downloaded serde_core v1.0.228
+#13 14.85   Downloaded proc-macro2 v1.0.107
+#13 15.22   Downloaded tinyvec v1.13.3
+#13 16.10   Downloaded ryu-js v1.0.2
+#13 16.40   Downloaded serde v1.0.228
+#13 17.54   Downloaded fancy-regex v0.16.2
+#13 17.64   Downloaded indexmap v2.13.0
+#13 17.83   Downloaded memchr v2.8.3
+#13 18.01   Downloaded unicode-normalization v0.1.25
+#13 18.02   Downloaded typenum v1.20.1
+#13 18.42   Downloaded hashbrown v0.16.1
+#13 18.78   Downloaded serde_json v1.0.149
+#13 19.94   Downloaded aho-corasick v1.1.5
+#13 ...
+
+#17 [build  6/18] RUN pnpm install --frozen-lockfile
+#17 17.60 Progress: resolved 55, reused 0, downloaded 49, added 48
+#17 18.61 Progress: resolved 55, reused 0, downloaded 51, added 51
+#17 20.36 Progress: resolved 55, reused 0, downloaded 52, added 51
+#17 21.36 Progress: resolved 55, reused 0, downloaded 52, added 52
+#17 ...
+
+#13 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#13 21.76   Downloaded syn v2.0.119
+#13 22.07   Downloaded regex-syntax v0.8.11
+#13 23.61   Downloaded regex-automata v0.4.18
+#13 24.19   Downloaded libc v0.2.191
+#13 24.25    Compiling version_check v0.9.5
+#13 24.25    Compiling proc-macro2 v1.0.107
+#13 24.25    Compiling unicode-ident v1.0.27
+#13 24.25    Compiling quote v1.0.47
+#13 24.25    Compiling typenum v1.20.1
+#13 24.25    Compiling serde_core v1.0.228
+#13 24.25    Compiling memchr v2.8.3
+#13 24.25    Compiling zmij v1.0.23
+#13 24.25    Compiling regex-syntax v0.8.11
+#13 24.25    Compiling serde v1.0.228
+#13 24.25    Compiling bit-vec v0.8.0
+#13 24.25    Compiling serde_json v1.0.149
+#13 24.25    Compiling itoa v1.0.18
+#13 24.25    Compiling hashbrown v0.16.1
+#13 24.25    Compiling equivalent v1.0.3
+#13 24.25    Compiling cfg-if v1.0.5
+#13 24.31    Compiling tinyvec v1.13.3
+#13 24.31    Compiling ryu-js v1.0.2
+#13 24.38    Compiling bit-set v0.8.0
+#13 24.38    Compiling generic-array v0.14.7
+#13 24.43    Compiling aho-corasick v1.1.5
+#13 24.47    Compiling unicode-normalization v0.1.25
+#13 24.53    Compiling indexmap v2.13.0
+#13 24.58    Compiling syn v2.0.119
+#13 24.68    Compiling crypto-common v0.1.7
+#13 24.68    Compiling block-buffer v0.10.4
+#13 24.70    Compiling digest v0.10.7
+#13 24.74    Compiling sha2 v0.10.9
+#13 24.90    Compiling regex-automata v0.4.18
+#13 25.15    Compiling serde_derive v1.0.228
+#13 25.94    Compiling fancy-regex v0.16.2
+#13 26.50    Compiling policy-compare-core v0.1.0 (/core/crates/compare-core)
+#13 26.75 warning: field `transforms` is never read
+#13 26.75   --> crates/compare-core/src/text.rs:51:9
+#13 26.75    |
+#13 26.75 46 | pub struct Mapped {
+#13 26.75    |            ------ field in this struct
+#13 26.75 ...
+#13 26.75 51 |     pub transforms: Vec<V>,
+#13 26.75    |         ^^^^^^^^^^
+#13 26.75    |
+#13 26.75    = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+#13 26.75    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+#13 26.75 
+#13 28.08 warning: `policy-compare-core` (lib) generated 1 warning
+#13 28.08     Finished `release` profile [optimized] target(s) in 27.95s
+#13 DONE 28.2s
+
+#17 [build  6/18] RUN pnpm install --frozen-lockfile
+#17 ...
+
+#18 [rust-core 7/7] RUN cargo metadata --format-version 1 --locked > /rust-licenses/cargo-metadata.json
+#18 DONE 0.1s
+
+#17 [build  6/18] RUN pnpm install --frozen-lockfile
+#17 25.79 Progress: resolved 55, reused 0, downloaded 53, added 52
+#17 26.79 Progress: resolved 55, reused 0, downloaded 53, added 53
+#17 27.99 Progress: resolved 55, reused 0, downloaded 54, added 53
+#17 28.40 Progress: resolved 55, reused 0, downloaded 55, added 55, done
+#17 28.41 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#17 28.41 (Use `node --trace-deprecation ...` to show where the warning was created)
+#17 28.42 .../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+#17 28.45 .../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+#17 28.49 
+#17 28.49 dependencies:
+#17 28.49 + @noble/hashes 2.0.1
+#17 28.49 + react 19.3.1
+#17 28.49 + react-dom 19.3.1
+#17 28.49 + zod 4.6.7
+#17 28.49 
+#17 28.49 devDependencies:
+#17 28.49 + @playwright/test 1.64.1
+#17 28.49 + @types/node 24.10.1
+#17 28.49 + @types/react 19.2.2
+#17 28.49 + @types/react-dom 19.2.2
+#17 28.49 + tsx 4.23.15
+#17 28.49 + typescript 7.0.2
+#17 28.49 + vite 8.3.5
+#17 28.49 + vitest 5.0.5
+#17 28.49 
+#17 28.50 Done in 28.3s using pnpm v10.12.1
+#17 DONE 28.9s
+
+#19 [build  7/18] COPY engines/pdfjs ./engines/pdfjs
+#19 DONE 0.0s
+
+#20 [build  8/18] RUN pnpm --dir engines/pdfjs install --frozen-lockfile
+#20 0.259 Lockfile is up to date, resolution step is skipped
+#20 0.267 Progress: resolved 1, reused 0, downloaded 0, added 0
+#20 0.272 Packages: +4
+#20 0.272 ++++
+#20 1.271 Progress: resolved 4, reused 0, downloaded 1, added 1
+#20 8.073 Progress: resolved 4, reused 0, downloaded 2, added 1
+#20 9.073 Progress: resolved 4, reused 0, downloaded 2, added 2
+#20 11.78 Progress: resolved 4, reused 0, downloaded 3, added 2
+#20 12.78 Progress: resolved 4, reused 0, downloaded 3, added 3
+#20 ...
+
+#21 [stage-2 2/5] WORKDIR /app
+#21 CACHED
+
+#20 [build  8/18] RUN pnpm --dir engines/pdfjs install --frozen-lockfile
+#20 12.85 Progress: resolved 4, reused 0, downloaded 4, added 4, done
+#20 12.87 (node:1) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+#20 12.87 (Use `node --trace-deprecation ...` to show where the warning was created)
+#20 12.98 
+#20 12.98 dependencies:
+#20 12.98 + pdfjs-dist 6.4.299
+#20 12.98 
+#20 12.98 Done in 12.8s using pnpm v10.12.1
+#20 DONE 13.3s
+
+#22 [build  9/18] COPY apps ./apps
+#22 DONE 0.0s
+
+#23 [build 10/18] COPY packages ./packages
+#23 DONE 0.0s
+
+#24 [build 11/18] COPY profiles ./profiles
+#24 DONE 0.0s
+
+#25 [build 12/18] COPY scripts/release-config.ts ./scripts/release-config.ts
+#25 DONE 0.0s
+
+#26 [build 13/18] COPY scripts/core-artifact.ts ./scripts/core-artifact.ts
+#26 DONE 0.0s
+
+#27 [rust-core 7/7] RUN cargo metadata --format-version 1 --locked > /rust-licenses/cargo-metadata.json
+#27 CACHED
+
+#28 [rust-core 4/7] COPY rust-toolchain.toml Cargo.toml Cargo.lock ./
+#28 CACHED
+
+#29 [rust-core 5/7] COPY crates ./crates
+#29 CACHED
+
+#30 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#30 CACHED
+
+#31 [build 14/18] COPY --from=rust-core /core/target/wasm32-unknown-unknown/release/policy_compare_core.wasm ./packages/rust-core/generated/core.wasm
+#31 DONE 0.0s
+
+#32 [build 15/18] COPY --from=rust-core /rust-licenses ./packages/rust-core/generated/licenses
+#32 DONE 0.0s
+
+#33 [build 16/18] RUN pnpm exec tsx scripts/core-artifact.ts
+#33 0.325 {
+#33 0.325   abi: 'policy-core-session/1',
+#33 0.325   coreVersion: 'policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4',
+#33 0.325   sha256: '56a8bbbd89c2c1ad6ba7e11d69600929c11d3d19ab3dea881444dae4ed4f4a20',
+#33 0.325   bytes: 2508531,
+#33 0.325   rust: '1.93.0',
+#33 0.325   target: 'wasm32-unknown-unknown'
+#33 0.325 }
+#33 DONE 0.3s
+
+#34 [build 17/18] RUN test -n "pdfjs" && test -n "r19-6993524-pdfjs" && test -n "69935248ae359dab9dea167139f18133a1497210"
+#34 DONE 0.1s
+
+#35 [build 18/18] RUN POLICY_RELEASE_ID=r19-6993524-pdfjs POLICY_REVISION=69935248ae359dab9dea167139f18133a1497210 POLICY_CONTACT="" pnpm exec tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs POLICY_RELEASE_ID=r19-6993524-pdfjs POLICY_REVISION=69935248ae359dab9dea167139f18133a1497210 POLICY_CONTACT="" pnpm exec vite build
+#35 0.680 vite v8.3.5 building client environment for production...
+#35 0.685 transforming...
+#35 0.786 ✓ 126 modules transformed.
+#35 0.826 rendering chunks...
+#35 0.884 computing gzip size...
+#35 0.907 dist/pdfjs/index.html                          0.73 kB │ gzip:   0.55 kB
+#35 0.907 dist/pdfjs/assets/core.worker-B8foHfpg.js    111.54 kB
+#35 0.907 dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
+#35 0.907 dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
+#35 0.907 dist/pdfjs/assets/core-DJvZenHK.wasm       2,508.53 kB │ gzip: 830.23 kB
+#35 0.907 dist/pdfjs/assets/index-D48Dlxkb.css          10.01 kB │ gzip:   3.00 kB
+#35 0.907 dist/pdfjs/assets/index-BiKJCkOh.js            2.58 kB │ gzip:   1.36 kB
+#35 0.907 dist/pdfjs/assets/main-a0ghadki.js           852.37 kB │ gzip: 262.28 kB
+#35 0.907 
+#35 0.907 [plugin builtin:vite-reporter] 
+#35 0.907 (!) Some chunks are larger than 500 kB after minification. Consider:
+#35 0.907 - Using dynamic import() to code-split the application
+#35 0.907 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+#35 0.907 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#35 0.907 ✓ built in 227ms
+#35 DONE 1.0s
+
+#36 [stage-2 3/5] COPY --from=build /build/dist/pdfjs ./dist
+#36 DONE 0.0s
+
+#37 [stage-2 4/5] COPY deploy/server.mjs ./server.mjs
+#37 DONE 0.0s
+
+#38 [stage-2 5/5] RUN chmod -R a=rX /app
+#38 DONE 0.4s
+
+#39 exporting to image
+#39 exporting layers 0.0s done
+#39 writing image sha256:f509619804e92448fd07ba3818ae38009d646d696fdb549c9de8c44a6b6e75c5 done
+#39 naming to docker.io/library/policy-compare:r19-6993524-pdfjs-pdfjs done
+#39 DONE 0.0s

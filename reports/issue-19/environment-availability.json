@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-06",
+  "scope": "Current local shell only; does not assert that no company environment exists",
+  "ocInPath": false,
+  "crcInPath": false,
+  "kubectlPath": "/usr/local/bin/kubectl",
+  "kubectlCurrentContext": null,
+  "kubectlCurrentContextExitCode": 1,
+  "kubectlCurrentContextOutput": "error: current-context is not set",
+  "companyHttpsAcceptance": "NOT_EVALUATED",
+  "actualOpenShiftAcceptance": "NOT_EVALUATED",
+  "officeDeviceAcceptance": "NOT_EVALUATED"
+}

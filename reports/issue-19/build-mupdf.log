@@ -1,0 +1,49 @@
+
+> policy-compare@0.1.0 build:mupdf /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> pnpm build:core && tsc -p tsconfig.mupdf.json --noEmit && POLICY_ENGINE=mupdf vite build
+
+
+> policy-compare@0.1.0 build:core /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/build-rust.ts
+
+warning: field `transforms` is never read
+  --> crates/compare-core/src/text.rs:51:9
+   |
+46 | pub struct Mapped {
+   |            ------ field in this struct
+...
+51 |     pub transforms: Vec<V>,
+   |         ^^^^^^^^^^
+   |
+   = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `policy-compare-core` (lib) generated 1 warning
+    Finished `release` profile [optimized] target(s) in 0.05s
+{
+  abi: 'policy-core-session/1',
+  coreVersion: 'policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4',
+  sha256: '528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84',
+  bytes: 2510955,
+  rust: '1.93.0',
+  target: 'wasm32-unknown-unknown'
+}
+vite v8.3.5 building client environment for production...
+transforming...
+[plugin rolldown:vite-resolve] Module "node:fs" has been externalized for browser compatibility, imported by "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin rolldown:vite-resolve] Module "module" has been externalized for browser compatibility, imported by "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf-wasm.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/mupdf/assets/__vite-browser-external-UfK9GVxM.js       0.11 kB
+dist/mupdf/assets/rolldown-runtime-WkwZ5CU-.js              0.59 kB
+dist/mupdf/index.html                                       0.67 kB │ gzip:     0.53 kB
+dist/mupdf/assets/core.worker-BJGcK6oS.js                 111.92 kB
+dist/mupdf/assets/pdf.worker-ByyZ9gnE.js                  203.05 kB
+dist/mupdf/assets/core-E7o25BYo.wasm                    2,510.95 kB │ gzip:   832.05 kB
+dist/mupdf/assets/mupdf-wasm-Bvf0xebB.wasm             10,409.82 kB │ gzip: 4,778.44 kB
+dist/mupdf/assets/index-D48Dlxkb.css                       10.01 kB │ gzip:     3.00 kB
+dist/mupdf/assets/index-7FkkRFBL.js                         2.55 kB │ gzip:     1.34 kB
+dist/mupdf/assets/main-D3vRfza4.js                        252.78 kB │ gzip:    81.02 kB
+
+✓ built in 202ms

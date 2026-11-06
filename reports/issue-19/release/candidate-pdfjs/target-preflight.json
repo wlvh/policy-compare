@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:52325/releases/r19-budget-pdfjs/",
+  "releaseId": "r19-budget-pdfjs",
+  "engine": "pdfjs",
+  "revision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+  "manifestSha256": "8bd26fc76850632daa4a894734576f09ef5152e20cd16e2ea57347c33e43f8f6",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

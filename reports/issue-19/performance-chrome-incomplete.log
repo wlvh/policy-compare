@@ -1,0 +1,19 @@
+mupdf typescript renewal-small 0 complete_for_scope 497 1276
+mupdf typescript renewal-small 1 complete_for_scope 515 1288
+mupdf typescript renewal-small 2 complete_for_scope 515 1295
+mupdf typescript renewal-standard 0 complete_for_scope 2347 1509
+mupdf typescript renewal-standard 1 complete_for_scope 2365 1519
+mupdf typescript renewal-standard 2 complete_for_scope 2350 1539
+mupdf typescript renewal-capacity 0 complete_for_scope 5267 1733
+mupdf typescript renewal-capacity 1 complete_for_scope 5249 1789
+mupdf typescript renewal-capacity 2 undefined 0 1812
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.setInputFiles: Target page, context or browser has been closed
+    at async <anonymous> (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/issue19-performance.ts:22:4) {
+  log: []
+}
+
+Node.js v24.22.1

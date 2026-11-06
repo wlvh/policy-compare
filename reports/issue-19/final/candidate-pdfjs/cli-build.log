@@ -1,0 +1,102 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.68kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 253B done
+#4 DONE 0.0s
+
+#5 [rust-core 1/7] FROM docker.io/library/rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57
+#5 DONE 0.0s
+
+#6 [build  1/18] FROM docker.io/library/node:24.22.1-alpine@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 33.21kB done
+#7 DONE 0.0s
+
+#8 [build 17/18] RUN test -n "pdfjs" && test -n "r19-final-pdfjs" && test -n "fb3ac122eafce2bf05c22de0138252d1353c2cd2"
+#8 CACHED
+
+#9 [rust-core 7/7] RUN cargo metadata --format-version 1 --locked > /rust-licenses/cargo-metadata.json
+#9 CACHED
+
+#10 [build  4/18] COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.pdfjs.json tsconfig.mupdf.json vite.config.ts ./
+#10 CACHED
+
+#11 [rust-core 5/7] COPY crates ./crates
+#11 CACHED
+
+#12 [rust-core 6/7] RUN cargo build --locked --release --target wasm32-unknown-unknown && mkdir /rust-licenses &&     for dir in /usr/local/cargo/registry/src/*/*; do       name=$(basename "$dir"); mkdir -p "/rust-licenses/$name";       find "$dir" -maxdepth 1 -type f ( -iname 'license*' -o -iname 'notice*' -o -iname 'copying*' ) -exec cp {} "/rust-licenses/$name/" ;;     done
+#12 CACHED
+
+#13 [build  6/18] RUN pnpm install --frozen-lockfile
+#13 CACHED
+
+#14 [build  9/18] COPY apps ./apps
+#14 CACHED
+
+#15 [rust-core 3/7] RUN rustup target add wasm32-unknown-unknown
+#15 CACHED
+
+#16 [build 13/18] COPY scripts/core-artifact.ts ./scripts/core-artifact.ts
+#16 CACHED
+
+#17 [rust-core 4/7] COPY rust-toolchain.toml Cargo.toml Cargo.lock ./
+#17 CACHED
+
+#18 [build 11/18] COPY profiles ./profiles
+#18 CACHED
+
+#19 [build  8/18] RUN pnpm --dir engines/pdfjs install --frozen-lockfile
+#19 CACHED
+
+#20 [build  3/18] RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
+#20 CACHED
+
+#21 [build 15/18] COPY --from=rust-core /rust-licenses ./packages/rust-core/generated/licenses
+#21 CACHED
+
+#22 [build 14/18] COPY --from=rust-core /core/target/wasm32-unknown-unknown/release/policy_compare_core.wasm ./packages/rust-core/generated/core.wasm
+#22 CACHED
+
+#23 [rust-core 2/7] WORKDIR /core
+#23 CACHED
+
+#24 [build 16/18] RUN pnpm exec tsx scripts/core-artifact.ts
+#24 CACHED
+
+#25 [build  5/18] COPY patches ./patches
+#25 CACHED
+
+#26 [build 10/18] COPY packages ./packages
+#26 CACHED
+
+#27 [build  2/18] WORKDIR /build
+#27 CACHED
+
+#28 [build 12/18] COPY scripts/release-config.ts ./scripts/release-config.ts
+#28 CACHED
+
+#29 [build  7/18] COPY engines/pdfjs ./engines/pdfjs
+#29 CACHED
+
+#30 [build 18/18] RUN POLICY_RELEASE_ID=r19-final-pdfjs POLICY_REVISION=fb3ac122eafce2bf05c22de0138252d1353c2cd2 POLICY_CONTACT="" pnpm exec tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs POLICY_RELEASE_ID=r19-final-pdfjs POLICY_REVISION=fb3ac122eafce2bf05c22de0138252d1353c2cd2 POLICY_CONTACT="" pnpm exec vite build
+#30 CACHED
+
+#31 exporting to image
+#31 exporting layers
+#31 exporting layers 0.3s done
+#31 writing image sha256:8bdf7b3b868617c2a7b96de947ba4af29cba3603ca5bdbd9c4b967805e8ce204 done
+#31 naming to docker.io/library/policy-compare:issue19-cli-pdfjs
+#31 naming to docker.io/library/policy-compare:issue19-cli-pdfjs done
+#31 DONE 0.3s

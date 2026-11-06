@@ -1,0 +1,55 @@
+ WARN  Unsupported engine: wanted: {"node":">=24 <25"} (current: {"node":"v23.10.0","pnpm":"10.12.1"})
+
+> policy-compare@0.1.0 verify:core /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> vitest run
+
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ✓ tests/server.test.ts (1 test) 88ms
+(node:4179) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ tests/row-identity.test.ts (12 tests) 66ms
+ ✓ tests/page-counts.test.ts (7 tests) 73ms
+ ✓ tests/core.test.ts (8 tests) 44ms
+ ✓ tests/delivery.test.ts (4 tests) 157ms
+ ❯ tests/local-dev.test.ts (1 test | 1 failed) 173ms
+   × local launcher refuses an occupied port, then starts and stops only its own service 173ms
+ ✓ tests/review-core.test.ts (13 tests) 96ms
+ ✓ tests/margin-text.test.ts (17 tests) 86ms
+ ✓ tests/cosmetic-evidence.test.ts (21 tests) 95ms
+ ✓ tests/result-format-2.test.ts (25 tests) 124ms
+ ✓ tests/alignment.test.ts (4 tests) 18ms
+ ✓ tests/contracts.test.ts (4 tests) 5ms
+ ✓ tests/boundary.test.ts (2 tests) 6ms
+ ✓ tests/page-furniture.test.ts (27 tests) 197ms
+ ✓ tests/row-identity-evidence.test.ts (50 tests) 199ms
+ ✓ tests/table-scope.test.ts (37 tests) 252ms
+ ✓ tests/platform-config.test.ts (31 tests) 458ms
+ ✓ tests/scorer.test.ts (145 tests) 605ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/local-dev.test.ts > local launcher refuses an occupied port, then starts and stops only its own service
+AssertionError: expected '需要 Node.js 24。请切换版本后重试。\n' to contain '已被占用'
+
+- Expected
++ Received
+
+- 已被占用
++ 需要 Node.js 24。请切换版本后重试。
++
+
+ ❯ tests/local-dev.test.ts:10:160
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 17 passed (18)
+      Tests  1 failed | 408 passed (409)
+   Start at  13:31:13
+   Duration  836ms (tests 67%, import 25%, transform 6%, worker 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json
+ ELIFECYCLE  Command failed with exit code 1.

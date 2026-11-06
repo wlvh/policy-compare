@@ -1,0 +1,137 @@
+{
+  "issue": 19,
+  "issueUrl": "https://github.com/wlvh/policy-compare/issues/19",
+  "date": "2026-11-06",
+  "baselineRevision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+  "productRevision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+  "branch": "feat/issue-19-rust-wasm",
+  "overallStatus": "FAIL",
+  "overallMeaning": "Full issue acceptance has not passed: preserved fine-position failures and required not-evaluated items remain. Implementation is complete for local engineering review.",
+  "issueClosure": "OPEN; no environment acceptance transfer or close performed",
+  "criteria": [
+    {
+      "number": 1,
+      "status": "PASS",
+      "scopeAndReason": "Actual Rust comparison and evidence generation; browser, CLI and formal rules call the compiled core.",
+      "evidence": [
+        "parity.json",
+        "release-cross-entry.log"
+      ]
+    },
+    {
+      "number": 2,
+      "status": "PASS",
+      "scopeAndReason": "64 frozen-input outputs agree across actual Linux candidate browser Worker and formal CLI, with identical core artifact hash.",
+      "evidence": [
+        "release/candidate-mupdf/cross-entry-candidate.json",
+        "release/candidate-pdfjs/cross-entry-candidate.json"
+      ]
+    },
+    {
+      "number": 3,
+      "status": "NOT_EVALUATED",
+      "scopeAndReason": "No actual company HTTPS or ordinary office terminal provided; local browser automatic loading is demonstrated.",
+      "evidence": [
+        "../issue-17/README.md"
+      ]
+    },
+    {
+      "number": 4,
+      "status": "PASS",
+      "scopeAndReason": "Within tested local candidate flows, full request paths/queries/methods/bodies contain no local document, name, password or search secret; no external CDN.",
+      "evidence": [
+        "release/browser-mupdf/privacy-rust-mupdf.json",
+        "release/browser-pdfjs-core/privacy-rust-pdfjs.json"
+      ]
+    },
+    {
+      "number": 5,
+      "status": "FAIL",
+      "scopeAndReason": "Both builds pass ordinary candidate workflows. Existing PDF.js bundled-Chromium R14/R31 fine-position failures remain; the legacy build produces the same result and score.",
+      "evidence": [
+        "legacy-browser-pdfjs/browser-rules-pdfjs.json",
+        "browser-pdfjs/browser-rules-pdfjs.json",
+        "release-browser-pdfjs-chrome.log"
+      ]
+    },
+    {
+      "number": 6,
+      "status": "PASS",
+      "scopeAndReason": "Old/new frozen-input equivalence, separate from independent authored expectations and source scoring.",
+      "evidence": [
+        "parity.json",
+        "rules-mupdf.json",
+        "rules-pdfjs.json"
+      ]
+    },
+    {
+      "number": 7,
+      "status": "NOT_EVALUATED",
+      "scopeAndReason": "415 tests pass including Unicode, source indices and >2^32 work budget. Strict R16/R18/R23/R24 coverage dimensions remain not evaluated; source/position/display/facts are reported separately.",
+      "evidence": [
+        "core-tests.json",
+        "rules-mupdf.json",
+        "rules-pdfjs.json"
+      ]
+    },
+    {
+      "number": 8,
+      "status": "PASS",
+      "scopeAndReason": "Tested local initialization cancellation, failure and timeout retries; repeated tasks and close release Workers; terminal/task messages are isolated.",
+      "evidence": [
+        "release-browser-mupdf.log",
+        "release-browser-pdfjs-core.log"
+      ]
+    },
+    {
+      "number": 9,
+      "status": "NOT_EVALUATED",
+      "scopeAndReason": "720 local paired timing attempts completed with applicable time budgets passed; 36 resource diagnostic attempts have valid initial RSS. Office hardware, full physical peak and cold-load P95 remain unverified. Relative slowdowns are retained.",
+      "evidence": [
+        "performance-summary.json",
+        "memory-summary.json"
+      ]
+    },
+    {
+      "number": 10,
+      "status": "NOT_EVALUATED",
+      "scopeAndReason": "Two actual Linux arm64 images and local old-TS/new-Rust promotion/rollback pass. Real OpenShift, company HTTPS, target architecture and promotion remain unverified.",
+      "evidence": [
+        "release/candidate-mupdf/container.json",
+        "release/candidate-pdfjs/container.json",
+        "release/rollback-mupdf/rehearsal.json",
+        "release/rollback-pdfjs/rehearsal.json"
+      ]
+    },
+    {
+      "number": 11,
+      "status": "PASS",
+      "scopeAndReason": "This record distinguishes passed, failed, not evaluated and not applicable outcomes, and retains the prior gaps. Engineering delivery does not close the issue.",
+      "evidence": [
+        "README.md",
+        "performance-summary.json"
+      ]
+    }
+  ],
+  "localTimeBudgetChecks": "PASS",
+  "browserTimingAttempts": 720,
+  "sourceCorrectnessLimit": "P10/P11 and existing strict invariant gaps are not closed by language migration.",
+  "images": {
+    "mupdf": {
+      "revision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "imageId": "sha256:84fc822a5bad7fcdbd5c03954f8c00ce372757e96dbcd25121334f5e32e4f287",
+      "releaseId": "r19-budget-mupdf",
+      "platform": "linux/arm64",
+      "repoDigests": [],
+      "manifestSha256": "f8d3cf6d3651935db2add822fc6bf0d6470bddf1f96bdb8a0635e3d7ad93fa35"
+    },
+    "pdfjs": {
+      "revision": "e2154a31f43f315618a20760ff1ab034d85add9e",
+      "imageId": "sha256:8c67517afc5c4d5b650386d3c77b3c4b5172fd565af571eef6dfe343ece5ce55",
+      "releaseId": "r19-budget-pdfjs",
+      "platform": "linux/arm64",
+      "repoDigests": [],
+      "manifestSha256": "8bd26fc76850632daa4a894734576f09ef5152e20cd16e2ea57347c33e43f8f6"
+    }
+  }
+}

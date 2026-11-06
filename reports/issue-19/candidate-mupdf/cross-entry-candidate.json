@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "candidateRevision": "69935248ae359dab9dea167139f18133a1497210",
+  "imageId": "sha256:8b67ac2b3d6109791934d6b18afd044c5cc739741fbb48ccec3be27b705e95ed",
+  "cliBuildImageId": "sha256:3b8559181aa00ed76ed46bdb5e2104e4960fa81c63bf651b59918892afa08f1a",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "56a8bbbd89c2c1ad6ba7e11d69600929c11d3d19ab3dea881444dae4ed4f4a20",
+    "bytes": 2508531,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "evidence": "reports/issue-19/candidate-mupdf/cross-entry/cross-entry-mupdf.json"
+}

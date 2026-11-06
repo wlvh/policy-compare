@@ -1,0 +1,30 @@
+(node:3800) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3819) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Compiling policy-compare-core v0.1.0 (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/pdfjs-independent/crates/compare-core)
+warning: field `transforms` is never read
+  --> crates/compare-core/src/text.rs:51:9
+   |
+46 | pub struct Mapped {
+   |            ------ field in this struct
+...
+51 |     pub transforms: Vec<V>,
+   |         ^^^^^^^^^^
+   |
+   = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `policy-compare-core` (lib) generated 1 warning
+    Finished `release` profile [optimized] target(s) in 2.48s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+{
+  status: 'PASS',
+  forbidden: [],
+  installedMupdf: false,
+  artifactCount: 286
+}

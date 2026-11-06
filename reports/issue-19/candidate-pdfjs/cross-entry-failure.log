@@ -1,0 +1,49 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/rust-core.spec.ts --grep 'frozen inputs'
+
+
+Running 1 test using 1 worker
+
+  ✘  1 tests/browser/rust-core.spec.ts:11:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs (2.6s)
+
+
+  1) tests/browser/rust-core.spec.ts:11:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs 
+
+    Error: Command failed: docker run --rm --network none -v /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tmp/issue19-cli:/inputs sha256:3949ee97bb78459b4f317df18add61c42f752c49e19a4fc100bd3af9de17da68 node --import tsx packages/cli/doc.ts /inputs/left.json /inputs/right.json /inputs/result.json
+    /build/packages/rust-core/index.ts:33
+      try{const out=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(this.exports.memory.buffer,this.exports.output_ptr(),this.exports.output_len())));if(out.error)throw new Error(out.error);return out.ok;}finally{this.exports.clear_output();}
+                                                                                                                                                                                                ^
+
+    Error: 两份文档必须由同一引擎、版本及选项提取
+        at CoreSession.invoke (/build/packages/rust-core/index.ts:33:189)
+        at CoreSession.compare (/build/packages/rust-core/index.ts:39:61)
+        at compare (/build/packages/compare-core/index.ts:11:72)
+        at <anonymous> (/build/packages/cli/doc.ts:9:16)
+
+    Node.js v24.22.1
+
+        at CoreSession.invoke (/build/packages/rust-core/index.ts:33:189)
+        at CoreSession.compare (/build/packages/rust-core/index.ts:39:61)
+        at compare (/build/packages/compare-core/index.ts:11:72)
+        at <anonymous> (/build/packages/cli/doc.ts:9:16)
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:16:20
+
+    Error Context: reports/issue-19/candidate-pdfjs/cross-entry/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/issue-19/candidate-pdfjs/cross-entry/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/issue-19/candidate-pdfjs/cross-entry/test-results/rust-core-frozen-inputs-sh-585f7-tical-complete-core-outputs/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/rust-core.spec.ts:11:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs 
+ ELIFECYCLE  Command failed with exit code 1.
+(node:79725) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Error: Command failed: pnpm verify:deployment tests/browser/rust-core.spec.ts --grep frozen inputs
+(node:79725) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
