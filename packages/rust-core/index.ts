@@ -20,6 +20,7 @@ export function loadCore():Promise<WebAssembly.Module>{
 }
 export class CoreSession{
  private exports:Exports;private disposed=false;
+ inputBytes=0;inputCalls=0;maxInputBytes=0;
  constructor(module:WebAssembly.Module,profile:Profile=aviationProfile,budget=profile.budget,phase?:(name:string)=>void,checkpoint?:()=>void){
   this.exports=new WebAssembly.Instance(module,{host:{phase:(n:number)=>phase?.(phases[n]),check:()=>checkpoint?.()}}).exports as unknown as Exports;
   const version=this.invoke('version');if(version.abi!==info.abi||version.coreVersion!==info.coreVersion||version.result!=='policy-compare-result/2')throw new Error('Rust 核心版本或格式不兼容');
@@ -28,6 +29,7 @@ export class CoreSession{
  private invoke(op:string,args:Record<string,unknown>={}):any{
   if(this.disposed)throw new Error('Core session disposed');
   const bytes=new TextEncoder().encode(JSON.stringify({op,...args}));
+  this.inputBytes+=bytes.length;this.inputCalls++;this.maxInputBytes=Math.max(this.maxInputBytes,bytes.length);
   const ptr=this.exports.input_ptr(bytes.length);new Uint8Array(this.exports.memory.buffer,ptr,bytes.length).set(bytes);
   try{this.exports.call();}catch(error){this.disposed=true;throw error;}
   try{const out=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(this.exports.memory.buffer,this.exports.output_ptr(),this.exports.output_len())));if(out.error)throw new Error(out.error);return out.ok;}finally{this.exports.clear_output();}

@@ -10,11 +10,11 @@ const reportDir=process.env.POLICY_REPORT_DIR||'reports';
 const fixtures=JSON.parse(readFileSync('reports/issue-19/frozen-baseline.json','utf8')).records.filter((x:any)=>x.engine===engine);
 test('frozen inputs: shipped Worker and formal CLI have identical complete core outputs',async({page})=>{
  test.setTimeout(120_000);await page.goto('./');
- const records=[];mkdirSync('tmp/issue19-cli',{recursive:true});
- for(const meta of fixtures){const {docs}=JSON.parse(gunzipSync(readFileSync(meta.file)).toString('utf8'));
-  const files=['left','right'].map((s,i)=>{const file=`tmp/issue19-cli/${s}.json`;writeFileSync(file,JSON.stringify(docs[i]));return file;});const out='tmp/issue19-cli/result.json';
-  try{if(cliImage){execFileSync('docker',['run','--rm','--network','none','-v',`${path.resolve('tmp/issue19-cli')}:/inputs`,cliImage,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
-  const cli=JSON.parse(readFileSync(out,'utf8'));
+ const records=[];const cliDir=path.resolve('tmp/issue19-cli',engine,(cliImage||'host').replaceAll(/[:/]/g,'_'));mkdirSync(cliDir,{recursive:true});
+ for(const meta of fixtures){const {docs,result:legacy}=JSON.parse(gunzipSync(readFileSync(meta.file)).toString('utf8'));
+  const files=['left','right'].map((s,i)=>{const file=path.join(cliDir,`${s}.json`);writeFileSync(file,JSON.stringify(docs[i]));return file;});const out=path.join(cliDir,'result.json');
+  try{if(cliImage){execFileSync('docker',['run','--rm','--network','none','-v',`${cliDir}:/inputs`,cliImage,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
+  const cli=JSON.parse(readFileSync(out,'utf8'));expect(cli).toEqual({...legacy,coreVersion:cli.coreVersion});
   const browser=await page.evaluate(async docs=>{
    const info=await(await fetch(new URL('build-info.json',location.href))).json();
    const asset=info.resources.find((x:any)=>/core.worker.*\.js$/.test(x.path));if(!asset)throw new Error('Core worker absent from manifest');

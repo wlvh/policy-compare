@@ -4,7 +4,7 @@ let session:CoreSession|undefined;
 let taskId=0,generation=0,initialized=false;
 let port:MessagePort|undefined;
 const done=[false,false];
-let transferQueueMax=0,transferQueueSum=0;
+let transferQueueMax=0,transferQueueSum=0,inputAdmission=0;
 onmessage=(e)=>{
  const m=e.data;
  if(m.type==='init'){
@@ -19,16 +19,16 @@ onmessage=(e)=>{
    const x=e.data;if(x.taskId!==taskId||x.generation!==generation)return;
    try{
     if(!session)throw new Error('Core not ready');
-    if(x.type==='meta')session.meta(x.side,x.meta);
+    if(x.type==='meta'){const start=performance.now();session.meta(x.side,x.meta);inputAdmission+=performance.now()-start;}
     if(x.type==='page'){
      const lag=Math.max(0,performance.timeOrigin+performance.now()-x.sentAt);transferQueueMax=Math.max(transferQueueMax,lag);transferQueueSum+=lag;
-     session.page(x.side,x.page);
+     const admissionStart=performance.now();session.page(x.side,x.page);inputAdmission+=performance.now()-admissionStart;
     }
     if(x.type==='done'){
-     session.done(x.side);done[x.side]=true;
+     const admissionStart=performance.now();session.done(x.side);inputAdmission+=performance.now()-admissionStart;done[x.side]=true;
      if(done.every(Boolean)){
       const validationStart=performance.now();const result=session.compare();port?.close();
-      postMessage({type:'result',taskId,generation,result,timings:{transferQueueMax,transferQueueSum,validation:marks.snapshot-validationStart,snapshot:marks.structure-marks.snapshot,structure:marks.matching-marks.structure,matching:marks.diff-marks.matching,diff:marks.done-marks.diff,transferLastPage:Math.max(0,performance.timeOrigin+validationStart-x.sentAt),wasmMemoryBytes:session.memoryBytes,coreArtifact}});
+      postMessage({type:'result',taskId,generation,result,timings:{inputAdmission,coreInputBytes:session.inputBytes,coreInputCalls:session.inputCalls,coreMaxInputBytes:session.maxInputBytes,transferQueueMax,transferQueueSum,validation:marks.snapshot-validationStart,snapshot:marks.structure-marks.snapshot,structure:marks.matching-marks.structure,matching:marks.diff-marks.matching,diff:marks.done-marks.diff,transferLastPage:Math.max(0,performance.timeOrigin+validationStart-x.sentAt),wasmMemoryBytes:session.memoryBytes,coreArtifact}});
      }
     }
    }catch{fail()}
