@@ -33,3 +33,10 @@ MuPDF source, build instructions, patches, lockfiles and original notices are
 offered without charge from the adjacent /open-source/ download page.
 Third-party JavaScript package source distributions are also included.
 Do not treat an archive containing only a WASM binary as corresponding source.
+
+Startup-only derivative releases distributed with this notice use the same
+AGPL-3.0-or-later terms. Their build-info.json identifies the exact release and
+application source commit. The 2026-11-08 changes extend finite engine startup
+deadlines, provide loading status and clean up cancelled startup work.
+The comparison algorithm and PDF adapter changes are identified by each
+release source archive and Git history.

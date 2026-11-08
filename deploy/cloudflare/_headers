@@ -7,7 +7,7 @@
   X-Robots-Tag: noindex, nofollow
   Link: </open-source/>; rel="license"
 
-/releases/r20-a3-mupdf/*
+/releases/*
   Cache-Control: public, max-age=31536000, immutable
 
 /
@@ -25,10 +25,10 @@
 /open-source/index.html
   Cache-Control: public, no-transform
 
-/releases/r20-a3-mupdf/
+/releases/:release/
   Cache-Control: no-transform
 
-/releases/r20-a3-mupdf/index.html
+/releases/:release/index.html
   Cache-Control: no-transform
 
 /404.html
@@ -40,5 +40,5 @@
 /healthz.json
   Cache-Control: no-store
 
-/releases/r20-a3-mupdf/assets/*.wasm
+/releases/:release/assets/*.wasm
   Content-Type: application/wasm

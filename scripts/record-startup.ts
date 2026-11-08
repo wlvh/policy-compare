@@ -14,17 +14,19 @@ for (let visit = 0; visit < Number(visitsText); visit++) {
   const requests = new Map<string, any>();
   const elapsed = () => Math.round(performance.now() - started);
   const cdp = await context.newCDPSession(page);
+  if (process.env.POLICY_RECORD_BYTES_PER_SECOND) {
+    await cdp.send('Network.enable');
+    await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 0, downloadThroughput: Number(process.env.POLICY_RECORD_BYTES_PER_SECOND), uploadThroughput: -1 });
+  }
   cdp.on('Target.attachedToTarget', async ({ sessionId, targetInfo }) => {
     if (targetInfo.type !== 'worker') return;
     events.push({ type: 'worker', atMs: elapsed(), url: targetInfo.url });
     await cdp.send('Target.sendMessageToTarget', { sessionId, message: JSON.stringify({ id: 1, method: 'Network.enable' }) });
-    if (process.env.POLICY_RECORD_BYTES_PER_SECOND) {
-      await cdp.send('Target.sendMessageToTarget', { sessionId, message: JSON.stringify({ id: 3, method: 'Network.emulateNetworkConditions', params: { offline: false, latency: 0, downloadThroughput: Number(process.env.POLICY_RECORD_BYTES_PER_SECOND), uploadThroughput: -1 } }) });
-    }
     await cdp.send('Target.sendMessageToTarget', { sessionId, message: JSON.stringify({ id: 2, method: 'Runtime.runIfWaitingForDebugger' }) });
   });
   cdp.on('Target.receivedMessageFromTarget', ({ sessionId, message }) => {
     const event = JSON.parse(message);
+    if (event.error) events.push({ type: 'protocol-error', error: event.error });
     const data = event.params;
     if (!data?.requestId) return;
     const key = sessionId + ':' + data.requestId;
@@ -48,16 +50,20 @@ for (let visit = 0; visit < Number(visitsText); visit++) {
   page.on('requestfailed', request => events.push({ type: 'request-failed', atMs: elapsed(), url: request.url(), failure: request.failure() }));
   let snapshot: unknown;
   const timer = setTimeout(() => { snapshot = { atMs: elapsed(), requests: structuredClone([...requests.values()]) }; }, 15_000);
-  const report: Record<string, unknown> = { workerDownloadBytesPerSecond: Number(process.env.POLICY_RECORD_BYTES_PER_SECOND) || null, visit: visit + 1, cache: visit === 0 ? 'new-browser-context' : 'same-browser-context', browser: browser.version(), url };
+  const report: Record<string, unknown> = { downloadBytesPerSecond: Number(process.env.POLICY_RECORD_BYTES_PER_SECOND) || null, visit: visit + 1, cache: visit === 0 ? 'new-browser-context' : 'same-browser-context', browser: browser.version(), url };
   try {
     await page.goto(url);
     await page.waitForFunction(() => document.querySelector('main')?.getAttribute('data-engine-ready') === 'true' || document.querySelector('[role="alert"]'), undefined, { timeout: 70_000 });
-    report.pdfReadyMs = elapsed();
+    report.pdfReady = await page.locator('main').getAttribute('data-engine-ready') === 'true';
+    report.pdfWaitEndedMs = elapsed();
+    if (report.pdfReady) report.pdfReadyMs = elapsed();
     report.alerts = await page.getByRole('alert').allTextContents();
     if (await page.locator('main').getAttribute('data-engine-ready') === 'true') {
       const compared = performance.now();
+      const comparisonTimer = setTimeout(() => { report.comparisonAt15Seconds = { atMs: elapsed(), requests: structuredClone([...requests.values()]) }; }, 15_000);
       await page.getByRole('button', { name: 'P02 金额变化', exact: true }).click();
       await page.waitForFunction(() => ['complete_for_scope', 'partial', 'failed'].includes(document.querySelector('[data-status]')?.getAttribute('data-status') || ''), undefined, { timeout: 190_000 });
+      clearTimeout(comparisonTimer);
       report.firstComparisonMs = Math.round(performance.now() - compared);
       report.resultStatus = await page.locator('[data-status]').getAttribute('data-status');
       report.coreMetrics = await page.evaluate(() => (window as any).__policyMetrics);
@@ -68,7 +74,7 @@ for (let visit = 0; visit < Number(visitsText); visit++) {
   report.requests = [...requests.values()];
   report.events = events;
   reports.push(report);
-  writeFileSync(output, JSON.stringify({ target: url, routed: process.env.POLICY_RECORD_ROUTE === '1', scope: 'Observed browser loading on this Mac/network. Worker CDP records byte arrival without routing requests. Repeated visits reuse the context cache.', visits: reports }, null, 2) + '\n');
+  writeFileSync(output, JSON.stringify({ recordedAt: new Date().toISOString(), target: url, routed: process.env.POLICY_RECORD_ROUTE === '1', scope: 'Observed browser loading on this Mac/network. Worker CDP records byte arrival without routing requests. Repeated visits reuse the context cache.', visits: reports }, null, 2) + '\n');
   await page.close();
 }
 await browser.close();
