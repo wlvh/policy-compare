@@ -53,6 +53,7 @@ Rust WASM 与原候选哈希相同。本轮产品代码修改集中在 `apps/web
 | --- | --- |
 | `candidate/container.json` | 固定镜像检查通过，34 项通过、1 项跳过 |
 | `final-regressions/verification.json` | 新增 5 项回归全部通过 |
+| `processing-phase-final/verification.json` | 处理阶段确认后推进 120 秒，连续 5 次通过 |
 | `existing-core-verified/verification.json` | 原有 Rust 取消、失败、超时及重试 3 项通过，超时用例按 60 秒边界同步 |
 | `pages-tests/verification.json` | Wrangler 本地 Pages 上原 4 项部署检查全部通过 |
 | `public-deployment-final/verification.json` | 实际公开域名上原 4 项部署检查全部通过 |
@@ -67,6 +68,8 @@ Rust WASM 与原候选哈希相同。本轮产品代码修改集中在 `apps/web
 早期 CI 的两个功能作业还指出原 Rust 超时测试仍将 17 秒等待视为失败。该测试已改为阻塞请求并推进到 60 秒边界，继续核对真实失败、线程退出及重试结果，见 `existing-core-verified`。
 
 本地首次复跑这三项时，误用了主机编译核心的预期清单，三个用例在最后的产物核对处失败。记录保存在 `existing-core-lifecycle`。随后从已固定、已核对的候选构建清单提取 `expected-core-info.json`，通过既有 `POLICY_CORE_INFO` 参数指定该候选的预期产物，`existing-core-verified` 三项通过。断言继续逐项核对实际加载产物。
+
+随后最新 CI 的 MuPDF 作业还发现 120 秒检查可能在初始“正在读取”提示处过早推进时钟，实际先触发了 60 秒准备期限。测试已改为等待“文字提取完成”后再推进，`processing-phase-final` 连续五次通过。
 
 开发中的回归脚本曾因已取消请求上的重复 abort 和受控 Worker 响应缺少原隔离头而失败。已修正脚本并保留早期记录，最终以 `final-regressions` 为本轮回归结果。`package.log` 保留首次 Docker 文件提取遇到只读目录权限的失败，打包改为 Docker tar 流交给本机 tar 提取后，`package-verified.log` 记录成功。
 

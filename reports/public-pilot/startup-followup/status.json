@@ -19,7 +19,8 @@
     "publicHostingAndSourceFiles": "PASS_8_OF_8",
     "normalPublicVisits": "4_OF_4_COMPLETED_P02",
     "controlledSlowPublicVisit": "COMPLETED_P02",
-    "existingRustInitializationLifecycle": "PASS_3_OF_3_WITH_CANDIDATE_CORE_INFO"
+    "existingRustInitializationLifecycle": "PASS_3_OF_3_WITH_CANDIDATE_CORE_INFO",
+    "processingPhaseDeadline": "PASS_5_OF_5_AFTER_EXTRACTION_COMPLETE"
   },
   "timingPolicyMs": {
     "pdfPreparation": 60000,

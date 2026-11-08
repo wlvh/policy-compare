@@ -81,7 +81,7 @@ test('document processing still terminates after its own 120 second deadline', a
   await expect(page.locator('main')).toHaveAttribute('data-engine-ready', 'true');
   await page.clock.install();
   await page.getByRole('button', { name: 'P02 金额变化', exact: true }).click();
-  await expect(page.getByRole('status')).toContainText(/正在读取|正在提取|文字提取完成/);
+  await expect(page.getByRole('status')).toContainText('文字提取完成');
   await page.clock.fastForward(120_001);
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'failed');
   await expect(page.getByRole('status')).toContainText('计算超过 120 秒');

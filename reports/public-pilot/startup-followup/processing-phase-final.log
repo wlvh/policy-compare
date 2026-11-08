@@ -1,0 +1,24 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/startup.spec.ts --grep 'document processing' --repeat-each\=5
+
+
+Running 5 tests using 1 worker
+
+(node:98094) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline (482ms)
+(node:98103) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline (463ms)
+(node:98109) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline (468ms)
+(node:98115) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline (465ms)
+(node:98121) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline (467ms)
+
+  5 passed (3.6s)
