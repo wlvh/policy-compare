@@ -1,0 +1,9 @@
+{
+  "target": "https://compare.huaweidata.com/releases/r20-a3-mupdf/",
+  "releaseId": "r20-a3-mupdf",
+  "engine": "mupdf",
+  "manifestSha256": "766c5704bbeb17a8e6e7ff6e151056219c8316b96b51ce5f3d7e3a3b6c382416",
+  "exitCode": 1,
+  "status": "FAIL",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

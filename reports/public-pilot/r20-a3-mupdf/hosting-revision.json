@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-11-07T15:19:59.206052+00:00",
+  "deploymentId": "3350dadc-9f46-4b85-b0e0-7fd8e33309b2",
+  "status": "PASS",
+  "scope": "Hosting file identities and HTML anti-injection only. Public browser workflow verification remains FAIL.",
+  "files": 117,
+  "servedFiles": 115,
+  "fileManifestSha256": "8947edfb599822b14f4e681f47486eaeeda1f4202e9f315d23309ab33d6aaef0",
+  "headersSha256": "367251ea4ac14a2d6a918ad0768870f3fa31742f542735e535810189646d3606",
+  "originalApplicationResourceCount": 89,
+  "originalBuildManifestSha256": "766c5704bbeb17a8e6e7ff6e151056219c8316b96b51ce5f3d7e3a3b6c382416",
+  "browserHtmlChecks": [
+    {
+      "mode": "normal",
+      "browser": "156.0.8078.4",
+      "actualHtmlSha256": "319cff35d418d7a37acb1876cd08c89614324c1bdc93582b618217859abec02a",
+      "expectedHtmlSha256": "319cff35d418d7a37acb1876cd08c89614324c1bdc93582b618217859abec02a",
+      "htmlEqual": true,
+      "analyticsScriptPresent": false,
+      "cacheControl": "public, max-age=31536000, immutable, no-transform",
+      "engineReady": "false",
+      "alerts": [
+        "引擎资源加载超过 15 秒，请检查网络并重试。重试会重新加载程序，之后请重新选择文件。重试启动"
+      ]
+    },
+    {
+      "mode": "routed",
+      "browser": "156.0.8078.4",
+      "actualHtmlSha256": "319cff35d418d7a37acb1876cd08c89614324c1bdc93582b618217859abec02a",
+      "expectedHtmlSha256": "319cff35d418d7a37acb1876cd08c89614324c1bdc93582b618217859abec02a",
+      "htmlEqual": true,
+      "analyticsScriptPresent": false,
+      "cacheControl": "public, max-age=31536000, immutable, no-transform",
+      "engineReady": "false",
+      "alerts": [
+        "引擎资源加载超过 15 秒，请检查网络并重试。重试会重新加载程序，之后请重新选择文件。重试启动"
+      ]
+    }
+  ]
+}

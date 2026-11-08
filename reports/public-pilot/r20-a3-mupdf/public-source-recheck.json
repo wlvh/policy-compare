@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-11-07T15:23:45.382633+00:00",
+  "status": "PASS",
+  "scope": "Retry only four large source downloads sequentially with a 300-second per-file cap after four parallel 60-second-cap downloads timed out. Does not change the public application initialization deadline or browser verification result.",
+  "initialEvidence": "public-cli-release-http.json",
+  "files": [
+    {
+      "path": "open-source/js-source/mupdf-1.28.1.tgz",
+      "url": "https://compare.huaweidata.com/open-source/js-source/mupdf-1.28.1.tgz",
+      "bytes": 8452361,
+      "sha256": "e6bd485e9bfa4c618f02beea042fdcee0e6397e1a70cc8fb6baa55095b6d7601",
+      "curlExitCode": 0,
+      "httpStatus": "200",
+      "elapsedSeconds": 14.133576,
+      "actualBytes": 8452361,
+      "actualSha256": "e6bd485e9bfa4c618f02beea042fdcee0e6397e1a70cc8fb6baa55095b6d7601",
+      "status": "PASS",
+      "error": ""
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-00",
+      "url": "https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-00",
+      "bytes": 20971520,
+      "sha256": "4ffe46da1ebbd5d42dbacf89eae32a661fc495984d25436b7018f80235ce045e",
+      "curlExitCode": 0,
+      "httpStatus": "200",
+      "elapsedSeconds": 31.638314,
+      "actualBytes": 20971520,
+      "actualSha256": "4ffe46da1ebbd5d42dbacf89eae32a661fc495984d25436b7018f80235ce045e",
+      "status": "PASS",
+      "error": ""
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-01",
+      "url": "https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-01",
+      "bytes": 20971520,
+      "sha256": "3d3ba2a23792765923e1d0cbaf7dab4dfb61788511581b997c95f6cec01f09b3",
+      "curlExitCode": 0,
+      "httpStatus": "200",
+      "elapsedSeconds": 46.491904,
+      "actualBytes": 20971520,
+      "actualSha256": "3d3ba2a23792765923e1d0cbaf7dab4dfb61788511581b997c95f6cec01f09b3",
+      "status": "PASS",
+      "error": ""
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-02",
+      "url": "https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-02",
+      "bytes": 20971520,
+      "sha256": "0f5a2a29f109e11c6a62bc1361ea0c49995e965269f42fb5c7c7de06c01b4652",
+      "curlExitCode": 0,
+      "httpStatus": "200",
+      "elapsedSeconds": 38.570777,
+      "actualBytes": 20971520,
+      "actualSha256": "0f5a2a29f109e11c6a62bc1361ea0c49995e965269f42fb5c7c7de06c01b4652",
+      "status": "PASS",
+      "error": ""
+    }
+  ]
+}

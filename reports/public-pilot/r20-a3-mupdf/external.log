@@ -1,0 +1,56 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/deployment.spec.ts
+
+
+Running 4 tests using 1 worker
+
+(node:77564) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic (6.3s)
+(node:77580) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/browser/deployment.spec.ts:46:1 › missing isolation is actionable and comparison cannot start (5.1s)
+  ✓  3 tests/browser/deployment.spec.ts:60:1 › engine bundle download failure leaves a reload screen (4.4s)
+  ✓  4 tests/browser/deployment.spec.ts:70:1 › failed engine worker initialization can be retried (3.7s)
+
+
+  1) tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('main')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('main') with timeout 5000ms
+      - waiting for locator('main')
+        9 × locator resolved to <main data-engine-ready="false">…</main>
+          - unexpected value "false"
+
+
+      12 |   await page.goto('./');
+      13 |   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);
+    > 14 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+         |                                      ^
+      15 |   await page.getByRole('button',{name:'P02 金额变化',exact:true}).click();
+      16 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);
+      17 |   await expect(page.locator('.cards')).toContainText('USD 2000');
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:14:38
+
+    Error Context: reports/public-pilot/r20-a3-mupdf/external/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/r20-a3-mupdf/external/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/r20-a3-mupdf/external/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic 
+  3 passed (23.3s)
+ ELIFECYCLE  Command failed with exit code 1.

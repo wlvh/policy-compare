@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "url": "https://huaweidata-compare.pages.dev/open-source/DISTRIBUTION-NOTICE.txt",
+  "bytes": 2002,
+  "sha256": "d4f77c7c5fb3cf582ad4c028377e0e0e52eb3efcc8142bb7f2d1bad01c049519",
+  "client": "curl"
+}

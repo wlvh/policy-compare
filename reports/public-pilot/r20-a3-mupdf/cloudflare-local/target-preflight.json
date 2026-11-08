@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:8091/releases/r20-a3-mupdf/",
+  "releaseId": "r20-a3-mupdf",
+  "engine": "mupdf",
+  "revision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+  "manifestSha256": "766c5704bbeb17a8e6e7ff6e151056219c8316b96b51ce5f3d7e3a3b6c382416",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

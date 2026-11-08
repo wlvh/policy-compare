@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "scope": "archive integrity and temporary extraction only; license approval pending, not uploaded",
+  "zip": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/delivery/public-pilot-r20-a3-mupdf/cloudflare-upload-PENDING-LICENSE.zip",
+  "bytes": 90260010,
+  "sha256": "2e96af404d613afd51983924bb5b9d28becf6406ef371d746897d7893f49948d",
+  "files": 116,
+  "releaseResourcesVerified": 89
+}

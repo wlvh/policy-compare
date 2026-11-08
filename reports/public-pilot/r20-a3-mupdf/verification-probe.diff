@@ -1,0 +1,48 @@
+diff --git a/playwright.config.ts b/playwright.config.ts
+index 9f82472..dcc86b8 100644
+--- a/playwright.config.ts
++++ b/playwright.config.ts
+@@ -19,6 +19,9 @@ export default defineConfig({
+   use: {
+     baseURL: external || `http://127.0.0.1:${port}/`,
+     channel: process.env.POLICY_BROWSER_CHANNEL === "bundled" ? undefined : "chrome",
++    proxy: process.env.POLICY_BROWSER_PROXY_SERVER
++      ? { server: process.env.POLICY_BROWSER_PROXY_SERVER }
++      : undefined,
+     headless: true,
+     viewport: { width: 1500, height: 1000 },
+     trace: "retain-on-failure",
+diff --git a/tests/browser/deployment.spec.ts b/tests/browser/deployment.spec.ts
+index c9fcdef..1382c82 100644
+--- a/tests/browser/deployment.spec.ts
++++ b/tests/browser/deployment.spec.ts
+@@ -11,7 +11,9 @@ test('three allowlisted samples, source highlight, search, export and private di
+   });
+   await page.goto('./');
+   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);
+-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
++  // The dynamic app bundle mounts main before its 15-second PDF initialization window.
++  await page.locator('main').waitFor({state:'attached'});
++  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});
+   await page.getByRole('button',{name:'P02 金额变化',exact:true}).click();
+   await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);
+   await expect(page.locator('.cards')).toContainText('USD 2000');
+@@ -64,7 +66,8 @@ test('engine bundle download failure leaves a reload screen',async({page})=>{
+   await expect(page.getByRole('button',{name:'重新加载',exact:true})).toBeVisible();
+   await page.unroute('**/assets/main-*.js');
+   await page.getByRole('button',{name:'重新加载',exact:true}).click();
+-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
++  await page.locator('main').waitFor({state:'attached'});
++  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});
+ });
+ 
+ test('failed engine worker initialization can be retried',async({page})=>{
+@@ -73,6 +76,7 @@ test('failed engine worker initialization can be retried',async({page})=>{
+   await expect(page.getByRole('alert')).toBeVisible({timeout:20_000});
+   await page.unroute('**/assets/pdf.worker-*');
+   await page.getByRole('button',{name:'重试启动',exact:true}).click();
+-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
++  await page.locator('main').waitFor({state:'attached'});
++  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});
+   await expect(page.getByRole('alert')).toHaveCount(0);
+ });

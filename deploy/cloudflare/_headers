@@ -1,0 +1,44 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'
+  X-Robots-Tag: noindex, nofollow
+  Link: </open-source/>; rel="license"
+
+/releases/r20-a3-mupdf/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/
+  Cache-Control: public, no-store, no-transform
+
+/index.html
+  Cache-Control: public, no-store, no-transform
+
+/open-source/*
+  Cache-Control: no-cache
+
+/open-source/
+  Cache-Control: public, no-transform
+
+/open-source/index.html
+  Cache-Control: public, no-transform
+
+/releases/r20-a3-mupdf/
+  Cache-Control: no-transform
+
+/releases/r20-a3-mupdf/index.html
+  Cache-Control: no-transform
+
+/404.html
+  Cache-Control: public, no-transform
+
+/healthz
+  Cache-Control: no-store
+
+/healthz.json
+  Cache-Control: no-store
+
+/releases/r20-a3-mupdf/assets/*.wasm
+  Content-Type: application/wasm

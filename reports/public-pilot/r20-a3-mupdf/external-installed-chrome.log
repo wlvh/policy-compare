@@ -1,0 +1,8 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/deployment.spec.ts
+
+TypeError: fetch failed
+[cause]: ConnectTimeoutError: Connect Timeout Error (attempted addresses: 2606:4700:3035::6815:228b:443, 172.67.161.171:443, timeout: 10000ms)
+
+ ELIFECYCLE  Command failed with exit code 1.

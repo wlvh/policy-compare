@@ -18,3 +18,5 @@ REVIEW_ARTIFACTS.json
 /packages/rust-core/generated/*
 
 /reports/issue-19/**/test-results/
+/.wrangler/
+/reports/public-pilot/**/test-results/

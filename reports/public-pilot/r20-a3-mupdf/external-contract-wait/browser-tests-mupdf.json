@@ -1,0 +1,349 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test",
+      "tests/browser/deployment.spec.ts"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/deployment-preflight.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "https://compare.huaweidata.com/releases/r20-a3-mupdf/",
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/public-pilot/r20-a3-mupdf/external-contract-wait/browser-tests-mupdf.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "deployment.spec.ts",
+      "file": "deployment.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "three allowlisted samples, source highlight, search, export and private diagnostic",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 262823,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts",
+                        "column": 14,
+                        "line": 12
+                      },
+                      "message": "Error: page.goto: net::ERR_ABORTED; maybe frame was detached?\nCall log:\n\u001b[2m  - navigating to \"https://compare.huaweidata.com/releases/r20-a3-mupdf/\", waiting until \"load\"\u001b[22m\n\n\n  10 |     return route.continue();\n  11 |   });\n> 12 |   await page.goto('./');\n     |              ^\n  13 |   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);\n  14 |   // Public downloads share the application's 15-second engine initialization window.\n  15 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:12:14"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-07T14:01:35.884Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-bd24c908bd6be883eaf3",
+          "file": "deployment.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "missing isolation is actionable and comparison cannot start",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7633,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-07T14:05:59.022Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-a04c9ecd325dee0dc5af",
+          "file": "deployment.spec.ts",
+          "line": 47,
+          "column": 1
+        },
+        {
+          "title": "engine bundle download failure leaves a reload screen",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16451,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    29 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"false\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    29 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"false\"\u001b[22m\n\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:68:38",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts",
+                      "column": 38,
+                      "line": 68
+                    },
+                    "snippet": "  66 |   await page.unroute('**/assets/main-*.js');\n  67 |   await page.getByRole('button',{name:'重新加载',exact:true}).click();\n> 68 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});\n     |                                      ^\n  69 | });\n  70 |\n  71 | test('failed engine worker initialization can be retried',async({page})=>{"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts",
+                        "column": 38,
+                        "line": 68
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    29 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"false\"\u001b[22m\n\n\n  66 |   await page.unroute('**/assets/main-*.js');\n  67 |   await page.getByRole('button',{name:'重新加载',exact:true}).click();\n> 68 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});\n     |                                      ^\n  69 | });\n  70 |\n  71 | test('failed engine worker initialization can be retried',async({page})=>{\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:68:38"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-07T14:06:06.840Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts",
+                    "column": 38,
+                    "line": 68
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-3fe0b0bba8eea4c579fd",
+          "file": "deployment.spec.ts",
+          "line": 61,
+          "column": 1
+        },
+        {
+          "title": "failed engine worker initialization can be retried",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 19241,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    34 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"false\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    34 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"false\"\u001b[22m\n\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:77:38",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts",
+                      "column": 38,
+                      "line": 77
+                    },
+                    "snippet": "  75 |   await page.unroute('**/assets/pdf.worker-*');\n  76 |   await page.getByRole('button',{name:'重试启动',exact:true}).click();\n> 77 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});\n     |                                      ^\n  78 |   await expect(page.getByRole('alert')).toHaveCount(0);\n  79 | });\n  80 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts",
+                        "column": 38,
+                        "line": 77
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main')\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  15000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('main') with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('main')\u001b[22m\n\u001b[2m    34 × locator resolved to <main data-engine-ready=\"false\">…</main>\u001b[22m\n\u001b[2m       - unexpected value \"false\"\u001b[22m\n\n\n  75 |   await page.unroute('**/assets/pdf.worker-*');\n  76 |   await page.getByRole('button',{name:'重试启动',exact:true}).click();\n> 77 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});\n     |                                      ^\n  78 |   await expect(page.getByRole('alert')).toHaveCount(0);\n  79 | });\n  80 |\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:77:38"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-07T14:06:23.502Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-failed-engine-w-6a47b-itialization-can-be-retried/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-failed-engine-w-6a47b-itialization-can-be-retried/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts",
+                    "column": 38,
+                    "line": 77
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "f3e554c6199c48d65fc5-7e698a8ce668eb8d0361",
+          "file": "deployment.spec.ts",
+          "line": 71,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-07T14:01:32.484Z",
+    "duration": 310460.109,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}
