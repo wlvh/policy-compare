@@ -1,0 +1,51 @@
+{
+  "candidateReport": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/candidate/container.json",
+  "candidateReportSha256": "6c0eac4d690cc0a62422db02716e8ceb9a8ec5ae66caafa7c2c25095efd2d82f",
+  "releaseId": "r21-startup-a1",
+  "revision": "14a2467d97937c7cca979390d4665d07af65d61c",
+  "engine": "mupdf",
+  "platform": "linux/arm64",
+  "imageId": "sha256:836975195cc57f09a1d9facd72fb82814d55c955b438071db3a1c9157efbdb80",
+  "manifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc",
+  "url": "http://127.0.0.1:8092/",
+  "versionUrl": "http://127.0.0.1:8092/releases/r21-startup-a1/",
+  "containerName": "policy-preview-r21-startup-a1-mupdf-8092",
+  "scope": "release_image_manual_review_only",
+  "clusterAcceptance": "NOT_EVALUATED",
+  "status": "READY_FOR_MANUAL_REVIEW",
+  "checkedAt": "2026-11-08T08:42:59.070Z",
+  "checks": {
+    "imageIdentity": "PASS",
+    "runtimeConstraints": "PASS",
+    "health": "PASS",
+    "manifest": "PASS",
+    "redirect": "PASS",
+    "htmlAndHeaders": "PASS"
+  },
+  "manualReview": "NOT_EVALUATED",
+  "container": {
+    "id": "99991e927d0d9692e3bfef4fe695f011ca2fceb197c884b1004bbed9ad0f4676",
+    "image": "sha256:836975195cc57f09a1d9facd72fb82814d55c955b438071db3a1c9157efbdb80",
+    "user": "12345:12345",
+    "readOnly": true,
+    "memory": 268435456,
+    "nanoCpus": 1000000000,
+    "mounts": [],
+    "portBindings": {
+      "8080/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "8092"
+        }
+      ]
+    },
+    "capDrop": [
+      "ALL"
+    ],
+    "securityOpt": [
+      "no-new-privileges"
+    ]
+  },
+  "stopCommand": "docker stop policy-preview-r21-startup-a1-mupdf-8092",
+  "restartCommand": "docker start policy-preview-r21-startup-a1-mupdf-8092"
+}

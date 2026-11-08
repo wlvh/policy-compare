@@ -1,8 +1,8 @@
 # compare.huaweidata.com 第一轮定向试用
 
-实际网址为 `https://compare.huaweidata.com/`，独立 Pages 项目为 `huaweidata-compare`。已完成 HTTPS 发布，当前公网浏览器检查仍失败，具体状态见 [发布记录](../reports/public-pilot/r20-a3-mupdf/README.md)。主站 `huaweidata` 的内容、数据库和发布链路不属于本轮修改范围。
+实际网址为 `https://compare.huaweidata.com/`，独立 Pages 项目为 `huaweidata-compare`。已完成 HTTPS 发布，2026-11-08 的启动修订候选为 `r21-startup-a1`，本轮加载与发布结果见 [启动修订记录](../reports/public-pilot/startup-followup/README.md)。原候选记录见 [首次发布记录](../reports/public-pilot/r20-a3-mupdf/README.md)。主站 `huaweidata` 的内容、数据库和发布链路不属于本轮修改范围。
 
-本轮复用已检查的固定镜像中的静态文件，不从当前分支重新编译：
+以下保留首次候选身份，启动修订使用独立版本与镜像，身份见上述本轮记录。
 
 - 候选：`r20-a3-mupdf`，源码 `a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d`。
 - 镜像：`sha256:fee53485a33b436a3f48ca17084f2a46e128e7c3bf64655ffd758adbbd5ed998`。

@@ -1,0 +1,15 @@
+{
+  "recordedAt": "2026-11-08T08:42:59.643Z",
+  "node": "v24.22.1",
+  "platform": "darwin",
+  "osRelease": "27.2.0",
+  "architecture": "arm64",
+  "cpu": "Apple M4 Max",
+  "memoryBytes": 137438953472,
+  "browser": "156.0.8078.4",
+  "sourceRevision": "14a2467d97937c7cca979390d4665d07af65d61c",
+  "oc": "UNAVAILABLE",
+  "crc": "UNAVAILABLE",
+  "kubeContext": "UNAVAILABLE",
+  "purpose": "Local functional evidence; not ordinary office device or performance acceptance"
+}

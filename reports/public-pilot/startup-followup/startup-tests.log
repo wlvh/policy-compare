@@ -1,0 +1,128 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/startup.spec.ts
+
+
+Running 4 tests using 1 worker
+
+(node:70551) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/startup.spec.ts:3:1 › PDF and Rust downloads can each exceed the former 15 second deadline (41.0s)
+  ✘  2 tests/browser/startup.spec.ts:18:1 › a stalled PDF startup ends and retry recovers (154ms)
+(node:72437) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/browser/startup.spec.ts:39:1 › a stalled Rust startup ends and a new comparison recovers (718ms)
+(node:72466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/browser/startup.spec.ts:61:1 › cancelling a warming PDF worker releases it and permits another task (233ms)
+
+
+  1) tests/browser/startup.spec.ts:18:1 › a stalled PDF startup ends and retry recovers ────────────
+
+    Error: route.abort: Route is already handled!
+
+      22 |   await page.route('**/assets/pdf.worker-*', async route => {
+      23 |     await held;
+    > 24 |     await route.abort();
+         |                 ^
+      25 |   });
+      26 |   await page.goto('./');
+      27 |   await expect(page.locator('main')).toBeAttached();
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/startup.spec.ts:24:17
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: '重试启动', exact: true })
+        - locator resolved to <button>重试启动</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+
+
+      31 |   releaseDownload();
+      32 |   await page.unroute('**/assets/pdf.worker-*');
+    > 33 |   await page.getByRole('button', { name: '重试启动', exact: true }).click();
+         |                                                                 ^
+      34 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready', 'true', { timeout: 20_000 });
+      35 |   await page.getByRole('button', { name: 'P02 金额变化', exact: true }).click();
+      36 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/startup.spec.ts:33:65
+
+    Error Context: reports/public-pilot/startup-followup/startup-tests/test-results/startup-a-stalled-PDF-startup-ends-and-retry-recovers/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/startup-followup/startup-tests/test-results/startup-a-stalled-PDF-startup-ends-and-retry-recovers/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/startup-followup/startup-tests/test-results/startup-a-stalled-PDF-startup-ends-and-retry-recovers/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/startup.spec.ts:39:1 › a stalled Rust startup ends and a new comparison recovers 
+
+    Error: route.abort: Route is already handled!
+
+      45 |   await page.route('**/assets/core-*.wasm', async route => {
+      46 |     await held;
+    > 47 |     await route.abort();
+         |                 ^
+      48 |   });
+      49 |   await page.getByRole('button', { name: 'P02 金额变化', exact: true }).click();
+      50 |   await expect(page.getByRole('status')).toContainText('正在下载并初始化比较引擎');
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/startup.spec.ts:47:17
+
+    Error Context: reports/public-pilot/startup-followup/startup-tests/test-results/startup-a-stalled-Rust-sta-79b36-d-a-new-comparison-recovers/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/startup-followup/startup-tests/test-results/startup-a-stalled-Rust-sta-79b36-d-a-new-comparison-recovers/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/startup-followup/startup-tests/test-results/startup-a-stalled-Rust-sta-79b36-d-a-new-comparison-recovers/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/startup.spec.ts:61:1 › cancelling a warming PDF worker releases it and permits another task 
+
+    Error: route.abort: Route is already handled!
+
+      64 |   await page.route('**/assets/pdf.worker-*', async route => {
+      65 |     await held;
+    > 66 |     await route.abort();
+         |                 ^
+      67 |   });
+      68 |   await page.goto('./');
+      69 |   await page.getByLabel('基准 PDF', { exact: true }).setInputFiles('apps/web/public/samples/P02/before.pdf');
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/startup.spec.ts:66:17
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('button', { name: 'P02 金额变化', exact: true })
+        - locator resolved to <button title="1315 的 USD 100 → USD 2000；1760 的 USD 1000 未改">P02 金额变化</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+
+
+      76 |   releaseDownload();
+      77 |   await page.unroute('**/assets/pdf.worker-*');
+    > 78 |   await page.getByRole('button', { name: 'P02 金额变化', exact: true }).click();
+         |                                                                     ^
+      79 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
+      80 | });
+      81 |
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/startup.spec.ts:78:69
+
+    Error Context: reports/public-pilot/startup-followup/startup-tests/test-results/startup-cancelling-a-warmi-c4a69-it-and-permits-another-task/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/startup-followup/startup-tests/test-results/startup-cancelling-a-warmi-c4a69-it-and-permits-another-task/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/startup-followup/startup-tests/test-results/startup-cancelling-a-warmi-c4a69-it-and-permits-another-task/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/browser/startup.spec.ts:18:1 › a stalled PDF startup ends and retry recovers ─────────────
+    tests/browser/startup.spec.ts:39:1 › a stalled Rust startup ends and a new comparison recovers ─
+    tests/browser/startup.spec.ts:61:1 › cancelling a warming PDF worker releases it and permits another task 
+  1 passed (43.2s)
+ ELIFECYCLE  Command failed with exit code 1.

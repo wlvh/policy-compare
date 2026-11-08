@@ -1,0 +1,57 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/startup.spec.ts
+
+
+Running 5 tests using 1 worker
+
+(node:72783) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/startup.spec.ts:3:1 › PDF and Rust downloads can each exceed the former 15 second deadline (41.1s)
+  ✓  2 tests/browser/startup.spec.ts:18:1 › a stalled PDF startup ends and retry recovers (522ms)
+  ✓  3 tests/browser/startup.spec.ts:36:1 › a stalled Rust startup ends and a new comparison recovers (663ms)
+  ✓  4 tests/browser/startup.spec.ts:55:1 › cancelling a warming PDF worker releases it and permits another task (403ms)
+  ✘  5 tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline (5.5s)
+
+
+  1) tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected pattern: /正在读取|正在提取|文字提取完成/
+    Received string:  "处理失败比较 Worker 异常终止重新加载程序（需重新选文件）关闭任务"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+        2 × locator resolved to <section role="status" class="status " data-status="idle">…</section>
+          - unexpected value "准备就绪正在从本站加载虚构样例…关闭任务"
+        12 × locator resolved to <section role="status" data-status="failed" class="status attention">…</section>
+           - unexpected value "处理失败比较 Worker 异常终止重新加载程序（需重新选文件）关闭任务"
+
+
+      82 |   await page.clock.install();
+      83 |   await page.getByRole('button', { name: 'P02 金额变化', exact: true }).click();
+    > 84 |   await expect(page.getByRole('status')).toContainText(/正在读取|正在提取|文字提取完成/);
+         |                                          ^
+      85 |   await page.clock.fastForward(120_001);
+      86 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'failed');
+      87 |   await expect(page.getByRole('status')).toContainText('计算超过 120 秒');
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/startup.spec.ts:84:42
+
+    Error Context: reports/public-pilot/startup-followup/startup-tests-final/test-results/startup-document-processin-a9015-its-own-120-second-deadline/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/startup-followup/startup-tests-final/test-results/startup-document-processin-a9015-its-own-120-second-deadline/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/startup-followup/startup-tests-final/test-results/startup-document-processin-a9015-its-own-120-second-deadline/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline 
+  4 passed (48.8s)
+ ELIFECYCLE  Command failed with exit code 1.

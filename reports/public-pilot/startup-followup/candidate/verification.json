@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:62438/releases/r21-startup-a1/",
+  "releaseId": "r21-startup-a1",
+  "engine": "mupdf",
+  "manifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

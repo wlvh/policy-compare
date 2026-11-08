@@ -1,6 +1,6 @@
 {
   "status": "LOCAL_EVALUATION_AND_FIXED_PUBLIC_PILOT_AUTHORIZED",
-  "checkedOn": "2026-11-07",
+  "checkedOn": "2026-11-08",
   "evidence": [
     "2026-10-26 用户本会话明确回复：尚无结论，先用mupdf",
     "2026-10-26 用户 A/B-1 增量明确授权两个版本开发与本地技术比较",
@@ -54,5 +54,13 @@
   "historicalStatus": {
     "status": "LOCAL_EVALUATION_AND_PRIVATE_REVIEW_AUTHORIZED",
     "checkedOn": "2026-10-26"
+  },
+  "startupFollowup": {
+    "releaseId": "r21-startup-a1",
+    "applicationRevision": "14a2467d97937c7cca979390d4665d07af65d61c",
+    "license": "AGPL-3.0-or-later",
+    "basis": "Startup-only derivative of the owner-authorized AGPL public candidate; user requested the revised public release on 2026-11-08",
+    "publicDeployment": "DEPLOYED; see reports/public-pilot/startup-followup",
+    "manifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc"
   }
 }
