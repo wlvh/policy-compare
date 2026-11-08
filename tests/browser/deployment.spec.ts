@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
 test('three allowlisted samples, source highlight, search, export and private diagnostic',async({page,baseURL})=>{
+  test.setTimeout(180_000);
   const outgoing:string[]=[];
   const origin = new URL(baseURL!).origin;
   await page.context().route('**/*',route=>{
@@ -11,7 +12,7 @@ test('three allowlisted samples, source highlight, search, export and private di
   });
   await page.goto('./');
   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);
-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:65_000});
   await page.getByRole('button',{name:'P02 金额变化',exact:true}).click();
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);
   await expect(page.locator('.cards')).toContainText('USD 2000');
@@ -58,21 +59,23 @@ test('missing isolation is actionable and comparison cannot start',async({page})
 });
 
 test('engine bundle download failure leaves a reload screen',async({page})=>{
+  test.setTimeout(90_000);
   await page.route('**/assets/main-*.js',route=>route.abort());
   await page.goto('./');
   await expect(page.getByText('程序资源加载失败。',{exact:false})).toBeVisible();
   await expect(page.getByRole('button',{name:'重新加载',exact:true})).toBeVisible();
   await page.unroute('**/assets/main-*.js');
   await page.getByRole('button',{name:'重新加载',exact:true}).click();
-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:65_000});
 });
 
 test('failed engine worker initialization can be retried',async({page})=>{
+  test.setTimeout(140_000);
   await page.route('**/assets/pdf.worker-*',route=>route.abort());
   await page.goto('./');
-  await expect(page.getByRole('alert')).toBeVisible({timeout:20_000});
+  await expect(page.getByRole('alert')).toBeVisible({timeout:65_000});
   await page.unroute('**/assets/pdf.worker-*');
   await page.getByRole('button',{name:'重试启动',exact:true}).click();
-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:65_000});
   await expect(page.getByRole('alert')).toHaveCount(0);
 });

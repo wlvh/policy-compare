@@ -138,13 +138,14 @@ function App() {
     [activeNames, setActiveNames] = useState(["", ""]),
     [imagesLoaded, setImagesLoaded] = useState([false, false]);
   const [engineReady, setEngineReady] = useState(false);
+  const [preparingPdf, setPreparingPdf] = useState(false);
   const [startupError, setStartupError] = useState('');
   const [sampleLoading, setSampleLoading] = useState(false);
   const sampleRequest = useRef<AbortController | null>(null);
-  const prepared = useRef<{ client: PdfClient; ready: Promise<void> } | null>(
+  const prepared = useRef<{ client: PdfClient; ready: Promise<void>; cancel: () => void } | null>(
       null,
     ),
-    initializing = useRef<PdfClient | null>(null);
+    initializing = useRef<typeof prepared.current>(null);
   const [state, setState] = useState("idle"),
     [message, setMessage] = useState("选择基准版与待审版，开始本地比较。");
   const [result, setResult] = useState<CompareResult | null>(null),
@@ -171,14 +172,15 @@ function App() {
   const cancellation=useRef<Int32Array|null>(null);
   const taskTimers=useRef<Set<number>>(new Set());
   function release() {
+    setPreparingPdf(false);
     for(const timer of taskTimers.current)clearTimeout(timer);taskTimers.current.clear();
     sampleRequest.current?.abort();
     sampleRequest.current = null;
     if(cancellation.current)Atomics.store(cancellation.current,0,1);
     cancellation.current=null;
-    initializing.current?.terminate();
+    initializing.current?.cancel();
     initializing.current = null;
-    prepared.current?.client.terminate();
+    prepared.current?.cancel();
     prepared.current = null;
     setEngineReady(false);
     workers.current?.pdf.terminate();
@@ -189,31 +191,45 @@ function App() {
   }
   function prepareEngine() {
     setStartupError('');
+    setPreparingPdf(true);
     try {
       if (!window.isSecureContext || !window.crossOriginIsolated || typeof SharedArrayBuffer === 'undefined')
         throw new Error('网站安全配置不完整。请从本机地址或受信任的 HTTPS 入口打开；仍失败请联系维护者检查隔离响应头。');
       if (typeof Worker === 'undefined' || typeof WebAssembly === 'undefined')
         throw new Error('此浏览器缺少后台计算能力，请使用组织支持的新版 Chrome 或 Edge。');
       const client = createPdfClient();
+      let cancel = () => {};
       const ready = new Promise<void>((resolve, reject) => {
-      const timeout = window.setTimeout(() => reject(new Error('引擎资源加载超过 15 秒，请检查网络并重试。')), 15_000);
-      client.onmessage = (e) => {
-        if (e.data.type === "ready") {
+        const timeout = window.setTimeout(() => reject(new Error('PDF 引擎下载与初始化超过 60 秒，请检查网络并重试。')), 60_000);
+        cancel = () => {
           clearTimeout(timeout);
-          setEngineReady(true);
-          resolve();
-        }
-      };
-      client.onerror = () => { clearTimeout(timeout); reject(new Error('引擎资源加载失败，请重试；仍失败请联系维护者。')); };
-    });
-    prepared.current = { client, ready };
+          client.onmessage = null;
+          client.onerror = null;
+          client.terminate();
+          reject(new Error('PDF 引擎准备已取消'));
+        };
+        client.onmessage = (e) => {
+          if (e.data.type === "ready") {
+            clearTimeout(timeout);
+            setEngineReady(true);
+            setPreparingPdf(false);
+            resolve();
+          }
+        };
+        client.onerror = () => {
+          clearTimeout(timeout);
+          reject(new Error('PDF 引擎资源加载失败，请重试；仍失败请联系维护者。'));
+        };
+      });
+      prepared.current = { client, ready, cancel };
     void ready.catch(error => {
       if (prepared.current?.client !== client) return;
-      client.terminate();
+      prepared.current.cancel();
       prepared.current = null;
+      setPreparingPdf(false);
       setStartupError(error.message);
     });
-    } catch (error) { setStartupError((error as Error).message); }
+    } catch (error) { setPreparingPdf(false); setStartupError((error as Error).message); }
   }
   useEffect(() => {
     prepareEngine();
@@ -235,7 +251,7 @@ function App() {
     const warm = prepared.current;
     prepared.current = null;
     release();
-    initializing.current = warm?.client ?? null;
+    initializing.current = warm;
     const token = ++generation.current;
     start.current = performance.now();
     ready.current = false;
@@ -264,7 +280,10 @@ function App() {
       const bytes = await Promise.all(files.map((f) => f!.arrayBuffer()));
       if (token !== generation.current) return;
       metrics.current.read = performance.now() - start.current;
-      if (warm) await warm.ready;
+      if (warm) {
+        setMessage("正在下载并初始化 PDF 引擎，最长等待 60 秒…");
+        await warm.ready;
+      }
       if (token !== generation.current) {
         warm?.client.terminate();
         return;
@@ -291,26 +310,30 @@ function App() {
           : /invalid|corrupt|format|损坏|解析/i.test(text) ? 'PDF 无法完整读取，可能已损坏或格式不受支持。请用原阅读器检查或重新取得文件。' : text);
         setResult(null);
       }
+      setMessage("正在下载并初始化比较引擎，最长等待 60 秒…");
+      let timeout: number | undefined;
       let pdfReady=Boolean(warm),coreReady=false,opened=false;
       const openOnce=()=>{
         if(opened||!pdfReady||!coreReady||token!==generation.current)return;
         opened=true;
+        clearTimeout(initializationTimeout);
+        taskTimers.current.delete(initializationTimeout);
+        timeout = window.setTimeout(() => failure("计算超过 120 秒上限，任务已终止"), 120_000);
+        taskTimers.current.add(timeout);
+        setMessage("正在读取与提取 PDF…");
         metrics.current.workerInitialization=performance.now()-start.current-Number(metrics.current.read);
         pdf.postMessage({type:'open',taskId:token,generation:token,bytes,passwords:selectedPasswords,port:channel.port2},[...bytes,channel.port2]);
       };
-      const initializationTimeout=window.setTimeout(()=>failure('Rust 引擎加载超过 15 秒，任务已终止，请重试'),15_000);
-      taskTimers.current.add(initializationTimeout);
-      const timeout = window.setTimeout(
-        () => failure("计算超过 120 秒上限，任务已终止"),
-        120_000,
+      const initializationTimeout = window.setTimeout(
+        () => failure('PDF 或比较引擎下载与初始化超过 60 秒，任务已终止，请重试'),
+        60_000,
       );
-      taskTimers.current.add(timeout);
+      taskTimers.current.add(initializationTimeout);
       const receive = (e: MessageEvent, source:'pdf'|'core') => {
         const m = e.data;
         if (token !== generation.current) return;
         if(source==='pdf'&&m.type==='ready'){pdfReady=true;openOnce();return;}
         if(source==='core'&&m.type==='core-ready'&&m.taskId===token&&m.generation===token){
-          clearTimeout(initializationTimeout);taskTimers.current.delete(initializationTimeout);
           coreReady=true;metrics.current.coreInitialization=m.initialization;metrics.current.coreArtifact=m.coreArtifact;openOnce();return;
         }
         if (m.taskId !== token || m.generation !== token) return;
@@ -593,7 +616,7 @@ function App() {
         </div>
         <p className="subtle">P02：金额修改且能定位；P01：相同文件无内容变化；E03：扫描图片应提示文字未比较。</p>
         {startupError ? <div role="alert"><p>{startupError}</p><p>重试会重新加载程序，之后请重新选择文件。</p><button onClick={()=>location.reload()}>重试启动</button></div>
-          : !engineReady && state === 'idle' && prepared.current && <p>正在准备比较引擎…</p>}
+          : preparingPdf && state === 'idle' && <p>正在下载并初始化 PDF 引擎，首次打开可能需要等待，最长 60 秒…</p>}
       </section>
       <section className="input-panel" aria-label="文档选择">
         {[0, 1].map((side) => (
