@@ -37,23 +37,42 @@ test('frozen inputs: shipped Worker and formal CLI have identical complete core 
  }
  writeFileSync(`${reportDir}/cross-entry-${engine}.json`,JSON.stringify({evidenceSchemaVersion:'cross-entry-core/2',status:'PASS',coreArtifact,cliArtifact,cliImageId:cliImageId??null,browserCoreSha256:coreArtifact.sha256,cliCoreSha256:cliArtifact.sha256,records},null,2)+'\n');
 });
-for(const mode of ['cancel','failure','timeout'] as const)test(`WASM initialization ${mode} then retry, no stale task or duplicate transfer`,async({page})=>{
- test.setTimeout(45000);const requested:string[]=[];
- await page.context().route('**/core-*.wasm',async route=>{requested.push(route.request().url());if(mode==='failure')return route.abort();await new Promise<void>(r=>setTimeout(r,mode==='timeout'?17000:2000));try{await route.continue();}catch{}});
- await page.goto('./');await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
- await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));
- await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));
- await page.getByRole('button',{name:'开始比较',exact:true}).click();
- await expect.poll(()=>requested.length).toBe(1);
- if(mode==='cancel'){await page.getByRole('button',{name:'取消',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','cancelled');}
- else{await expect(page.locator('[data-status]')).toHaveAttribute('data-status','failed',{timeout:18000});}
- await expect.poll(()=>page.workers().length).toBe(0);
- await page.context().unroute('**/core-*.wasm');
- await page.getByRole('button',{name:'开始比较',exact:true}).click();
- await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
- await expect(page.locator('.card')).toContainText('USD 4,000,000');
- expect((await page.evaluate(()=>window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);
- await page.getByRole('button',{name:'关闭任务',exact:true}).click();await expect.poll(()=>page.workers().length).toBe(0);
+for (const mode of ['cancel', 'failure', 'timeout'] as const) test(`WASM initialization ${mode} then retry, no stale task or duplicate transfer`, async ({ page }) => {
+  test.setTimeout(45_000);
+  const requested: string[] = [];
+  let releaseDownload!: () => void;
+  const held = new Promise<void>(resolve => { releaseDownload = resolve; });
+  await page.context().route('**/core-*.wasm', async route => {
+    requested.push(route.request().url());
+    if (mode === 'failure') return route.abort();
+    if (mode === 'timeout') await held;
+    else await new Promise(resolve => setTimeout(resolve, 2_000));
+    try { await route.continue(); } catch { /* The terminated worker has already cancelled this request. */ }
+  });
+  await page.goto('./');
+  await expect(page.locator('main')).toHaveAttribute('data-engine-ready', 'true');
+  if (mode === 'timeout') await page.clock.install();
+  await page.getByLabel('基准 PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));
+  await page.getByLabel('待审 PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));
+  await page.getByRole('button', { name: '开始比较', exact: true }).click();
+  await expect.poll(() => requested.length).toBe(1);
+  if (mode === 'cancel') {
+    await page.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'cancelled');
+  } else {
+    if (mode === 'timeout') await page.clock.fastForward(60_001);
+    await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'failed');
+    if (mode === 'timeout') await expect(page.getByRole('status')).toContainText('超过 60 秒');
+  }
+  await expect.poll(() => page.workers().length).toBe(0);
+  releaseDownload();
+  await page.context().unroute('**/core-*.wasm');
+  await page.getByRole('button', { name: '开始比较', exact: true }).click();
+  await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
+  await expect(page.locator('.card')).toContainText('USD 4,000,000');
+  expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);
+  await page.getByRole('button', { name: '关闭任务', exact: true }).click();
+  await expect.poll(() => page.workers().length).toBe(0);
 });
 test('network paths, queries, payloads and diagnostics contain no local document or search secrets',async({page})=>{
  const requests:{url:string;method:string;body:string|null}[]=[];page.context().on('request',r=>requests.push({url:r.url(),method:r.method(),body:r.postData()}));

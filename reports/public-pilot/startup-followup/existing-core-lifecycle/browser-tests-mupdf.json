@@ -1,0 +1,325 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test",
+      "tests/browser/rust-core.spec.ts",
+      "--grep",
+      "WASM initialization"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/deployment-preflight.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:8092/releases/r21-startup-a1/",
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/public-pilot/startup-followup/existing-core-lifecycle/browser-tests-mupdf.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "rust-core.spec.ts",
+      "file": "rust-core.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "WASM initialization cancel then retry, no stale task or duplicate transfer",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 843,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                      "column": 76,
+                      "line": 73
+                    },
+                    "snippet": "  71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');\n  72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');\n> 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);\n     |                                                                            ^\n  74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();\n  75 |   await expect.poll(() => page.workers().length).toBe(0);\n  76 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                        "column": 76,
+                        "line": 73
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');\n  72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');\n> 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);\n     |                                                                            ^\n  74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();\n  75 |   await expect.poll(() => page.workers().length).toBe(0);\n  76 | });\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-08T09:09:58.827Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-5007a--task-or-duplicate-transfer/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-5007a--task-or-duplicate-transfer/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                    "column": 76,
+                    "line": 73
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-0e787c678217fa778374",
+          "file": "rust-core.spec.ts",
+          "line": 40,
+          "column": 63
+        },
+        {
+          "title": "WASM initialization failure then retry, no stale task or duplicate transfer",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 834,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                      "column": 76,
+                      "line": 73
+                    },
+                    "snippet": "  71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');\n  72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');\n> 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);\n     |                                                                            ^\n  74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();\n  75 |   await expect.poll(() => page.workers().length).toBe(0);\n  76 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                        "column": 76,
+                        "line": 73
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');\n  72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');\n> 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);\n     |                                                                            ^\n  74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();\n  75 |   await expect.poll(() => page.workers().length).toBe(0);\n  76 | });\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-08T09:10:00.145Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-37bd5--task-or-duplicate-transfer/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-37bd5--task-or-duplicate-transfer/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                    "column": 76,
+                    "line": 73
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-753de59b270ff8c7c41c",
+          "file": "rust-core.spec.ts",
+          "line": 40,
+          "column": 63
+        },
+        {
+          "title": "WASM initialization timeout then retry, no stale task or duplicate transfer",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 834,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                      "column": 76,
+                      "line": 73
+                    },
+                    "snippet": "  71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');\n  72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');\n> 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);\n     |                                                                            ^\n  74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();\n  75 |   await expect.poll(() => page.workers().length).toBe(0);\n  76 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                        "column": 76,
+                        "line": 73
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 2\u001b[39m\n\u001b[31m+ Received  + 2\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"abi\": \"policy-core-session/1\",\u001b[22m\n\u001b[32m-   \"bytes\": 2510955,\u001b[39m\n\u001b[31m+   \"bytes\": 2510123,\u001b[39m\n\u001b[2m    \"coreVersion\": \"policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4\",\u001b[22m\n\u001b[2m    \"rust\": \"1.93.0\",\u001b[22m\n\u001b[32m-   \"sha256\": \"528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84\",\u001b[39m\n\u001b[31m+   \"sha256\": \"30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898\",\u001b[39m\n\u001b[2m    \"target\": \"wasm32-unknown-unknown\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');\n  72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');\n> 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);\n     |                                                                            ^\n  74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();\n  75 |   await expect.poll(() => page.workers().length).toBe(0);\n  76 | });\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-08T09:10:01.462Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-a5f4b--task-or-duplicate-transfer/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-a5f4b--task-or-duplicate-transfer/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts",
+                    "column": 76,
+                    "line": 73
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "0b60c533eafff7d182b6-a7bfe70f503e647ead59",
+          "file": "rust-core.spec.ts",
+          "line": 40,
+          "column": 63
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-08T09:09:58.601Z",
+    "duration": 4023.3060000000005,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

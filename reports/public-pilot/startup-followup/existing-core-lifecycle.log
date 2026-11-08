@@ -1,0 +1,134 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/rust-core.spec.ts --grep 'WASM initialization'
+
+
+Running 3 tests using 1 worker
+
+(node:94492) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/rust-core.spec.ts:40:63 › WASM initialization cancel then retry, no stale task or duplicate transfer (843ms)
+(node:94499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/browser/rust-core.spec.ts:40:63 › WASM initialization failure then retry, no stale task or duplicate transfer (834ms)
+(node:94506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/browser/rust-core.spec.ts:40:63 › WASM initialization timeout then retry, no stale task or duplicate transfer (834ms)
+
+
+  1) tests/browser/rust-core.spec.ts:40:63 › WASM initialization cancel then retry, no stale task or duplicate transfer 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Object {
+        "abi": "policy-core-session/1",
+    -   "bytes": 2510955,
+    +   "bytes": 2510123,
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "rust": "1.93.0",
+    -   "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+    +   "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+        "target": "wasm32-unknown-unknown",
+      }
+
+      71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
+      72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');
+    > 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);
+         |                                                                            ^
+      74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();
+      75 |   await expect.poll(() => page.workers().length).toBe(0);
+      76 | });
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76
+
+    Error Context: reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-5007a--task-or-duplicate-transfer/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-5007a--task-or-duplicate-transfer/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-5007a--task-or-duplicate-transfer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/rust-core.spec.ts:40:63 › WASM initialization failure then retry, no stale task or duplicate transfer 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Object {
+        "abi": "policy-core-session/1",
+    -   "bytes": 2510955,
+    +   "bytes": 2510123,
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "rust": "1.93.0",
+    -   "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+    +   "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+        "target": "wasm32-unknown-unknown",
+      }
+
+      71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
+      72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');
+    > 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);
+         |                                                                            ^
+      74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();
+      75 |   await expect.poll(() => page.workers().length).toBe(0);
+      76 | });
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76
+
+    Error Context: reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-37bd5--task-or-duplicate-transfer/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-37bd5--task-or-duplicate-transfer/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-37bd5--task-or-duplicate-transfer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/rust-core.spec.ts:40:63 › WASM initialization timeout then retry, no stale task or duplicate transfer 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Object {
+        "abi": "policy-core-session/1",
+    -   "bytes": 2510955,
+    +   "bytes": 2510123,
+        "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+        "rust": "1.93.0",
+    -   "sha256": "528fbba5e419e8fadf0919b7e57b6e12b73a06a2bdb3e1d9f6efdbec1d5fff84",
+    +   "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+        "target": "wasm32-unknown-unknown",
+      }
+
+      71 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
+      72 |   await expect(page.locator('.card')).toContainText('USD 4,000,000');
+    > 73 |   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);
+         |                                                                            ^
+      74 |   await page.getByRole('button', { name: '关闭任务', exact: true }).click();
+      75 |   await expect.poll(() => page.workers().length).toBe(0);
+      76 | });
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rust-core.spec.ts:73:76
+
+    Error Context: reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-a5f4b--task-or-duplicate-transfer/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-a5f4b--task-or-duplicate-transfer/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/startup-followup/existing-core-lifecycle/test-results/rust-core-WASM-initializat-a5f4b--task-or-duplicate-transfer/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/browser/rust-core.spec.ts:40:63 › WASM initialization cancel then retry, no stale task or duplicate transfer 
+    tests/browser/rust-core.spec.ts:40:63 › WASM initialization failure then retry, no stale task or duplicate transfer 
+    tests/browser/rust-core.spec.ts:40:63 › WASM initialization timeout then retry, no stale task or duplicate transfer 
+ ELIFECYCLE  Command failed with exit code 1.
