@@ -1,0 +1,14 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/rust-core.spec.ts --grep 'WASM initialization'
+
+
+Running 3 tests using 1 worker
+
+(node:94847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/rust-core.spec.ts:40:63 › WASM initialization cancel then retry, no stale task or duplicate transfer (762ms)
+  ✓  2 tests/browser/rust-core.spec.ts:40:63 › WASM initialization failure then retry, no stale task or duplicate transfer (739ms)
+  ✓  3 tests/browser/rust-core.spec.ts:40:63 › WASM initialization timeout then retry, no stale task or duplicate transfer (755ms)
+
+  3 passed (2.5s)

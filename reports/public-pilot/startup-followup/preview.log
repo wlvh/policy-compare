@@ -1,0 +1,10 @@
+
+> policy-compare@0.1.0 preview:release /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/preview-release.ts reports/public-pilot/startup-followup/candidate/container.json 8092
+
+体验地址：http://127.0.0.1:8092/
+发布版本：r21-startup-a1
+引擎：mupdf
+记录目录：/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/public-pilot/startup-followup/candidate/manual-review/2026-11-08T08-42-58-618Z-4b98ba95
+状态：READY_FOR_MANUAL_REVIEW（人工检查未评价）
+停止服务：docker stop policy-preview-r21-startup-a1-mupdf-8092

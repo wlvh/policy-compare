@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-D48Dlxkb.css",
+    "startedDateTime": "2026-11-07T13:25:18.743Z",
+    "time": 301.259,
+    "status": 200,
+    "timings": {
+      "dns": -1,
+      "connect": -1,
+      "ssl": -1,
+      "send": 0,
+      "wait": 270.834,
+      "receive": 30.425
+    },
+    "contentSize": 10015
+  },
+  {
+    "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-ZX_DqIET.js",
+    "startedDateTime": "2026-11-07T13:25:18.743Z",
+    "time": 373.536,
+    "status": 200,
+    "timings": {
+      "dns": -1,
+      "connect": -1,
+      "ssl": -1,
+      "send": 0,
+      "wait": 369.152,
+      "receive": 4.384
+    },
+    "contentSize": -1
+  },
+  {
+    "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/main-DXpiB2L7.js",
+    "startedDateTime": "2026-11-07T13:25:19.118Z",
+    "time": 543.885,
+    "status": 200,
+    "timings": {
+      "dns": -1,
+      "connect": -1,
+      "ssl": -1,
+      "send": 0,
+      "wait": 222.053,
+      "receive": 321.832
+    },
+    "contentSize": -1
+  },
+  {
+    "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/pdf.worker-BxUR5j62.js",
+    "startedDateTime": "2026-11-07T13:25:19.694Z",
+    "time": 302.306,
+    "status": 200,
+    "timings": {
+      "dns": -1,
+      "connect": -1,
+      "ssl": -1,
+      "send": 0,
+      "wait": -1,
+      "receive": 302.306
+    },
+    "contentSize": -1
+  },
+  {
+    "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js",
+    "startedDateTime": "2026-11-07T13:25:19.995Z",
+    "time": 256.256,
+    "status": 200,
+    "timings": {
+      "dns": -1,
+      "connect": -1,
+      "ssl": -1,
+      "send": 0,
+      "wait": 253.713,
+      "receive": 2.543
+    },
+    "contentSize": -1
+  },
+  {
+    "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/mupdf-wasm-Bvf0xebB.wasm",
+    "startedDateTime": "2026-11-07T13:25:20.262Z",
+    "time": 330.12,
+    "status": 200,
+    "timings": {
+      "dns": -1,
+      "connect": -1,
+      "ssl": -1,
+      "send": 0,
+      "wait": 330.12,
+      "receive": -1
+    },
+    "contentSize": -1
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "path": "index.html",
+      "httpStatus": 200,
+      "sha256": "ddef282f0f69623a8984674a3ad6cf166b251340a453ece7ab7ac8667890bc8e",
+      "expectedSha256": "ddef282f0f69623a8984674a3ad6cf166b251340a453ece7ab7ac8667890bc8e",
+      "status": "PASS",
+      "cacheControl": "public, no-store, no-transform"
+    },
+    {
+      "path": "open-source/index.html",
+      "httpStatus": 200,
+      "sha256": "57620555e3ad352552970d3564715636ef288dae43d79f973b1dfa3d7963104a",
+      "expectedSha256": "57620555e3ad352552970d3564715636ef288dae43d79f973b1dfa3d7963104a",
+      "status": "PASS",
+      "cacheControl": "no-cache, public, no-transform"
+    },
+    {
+      "path": "open-source/hosting-headers.txt",
+      "httpStatus": 200,
+      "sha256": "3f44fc205c1d04114e208bd614d852160e8ef0396a9c511e0312b6592ff121a0",
+      "expectedSha256": "3f44fc205c1d04114e208bd614d852160e8ef0396a9c511e0312b6592ff121a0",
+      "status": "PASS",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "open-source/archives.json",
+      "httpStatus": 200,
+      "sha256": "2b300d52c6042df466690e3990ad508c5727ee6b1ea198ad965013df8bcca495",
+      "expectedSha256": "2b300d52c6042df466690e3990ad508c5727ee6b1ea198ad965013df8bcca495",
+      "status": "PASS",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "open-source/SHA256SUMS",
+      "httpStatus": 200,
+      "sha256": "de7215128be7ca81a7fe18eb7feebf95450fdfd75a2009ada55d2fb265b7fa97",
+      "expectedSha256": "de7215128be7ca81a7fe18eb7feebf95450fdfd75a2009ada55d2fb265b7fa97",
+      "status": "PASS",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "open-source/application-source-14a2467.tar.gz",
+      "httpStatus": 200,
+      "sha256": "5e9400295202bf6462dbc381302258df60d67c3fcfc2f75d6328997cb8412479",
+      "expectedSha256": "5e9400295202bf6462dbc381302258df60d67c3fcfc2f75d6328997cb8412479",
+      "status": "PASS",
+      "cacheControl": "max-age=14400"
+    },
+    {
+      "path": "open-source/BUILDING-r21-startup-a1.txt",
+      "httpStatus": 200,
+      "sha256": "296a2648bf735142c73b39f509fa97ae73f558cef1aea2592a0e96a4df382ed1",
+      "expectedSha256": "296a2648bf735142c73b39f509fa97ae73f558cef1aea2592a0e96a4df382ed1",
+      "status": "PASS",
+      "cacheControl": "no-cache"
+    },
+    {
+      "path": "open-source/NOTICE-r21-startup-a1.txt",
+      "httpStatus": 200,
+      "sha256": "ba1d3d67dfd7725bb9fa6834d2041044d3f0c208fe2dbc64829f88a0959def6b",
+      "expectedSha256": "ba1d3d67dfd7725bb9fa6834d2041044d3f0c208fe2dbc64829f88a0959def6b",
+      "status": "PASS",
+      "cacheControl": "no-cache"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-11-08T09:02:20.096888+00:00",
+  "status": "PASS_FOR_EXECUTED_STARTUP_AND_RELEASE_CHECKS",
+  "releaseId": "r21-startup-a1",
+  "applicationRevision": "14a2467d97937c7cca979390d4665d07af65d61c",
+  "hostingRevision": "4daf6486966eeb5f18fb9b2540594c652dfd8b37",
+  "deploymentId": "ca9e77b2-6f7c-44fb-a1c1-5d48db43b2e9",
+  "publicUrl": "https://compare.huaweidata.com/releases/r21-startup-a1/",
+  "originalRelease": "r20-a3-mupdf",
+  "manifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc",
+  "coreSha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+  "checks": {
+    "container": "PASS_34_PASSED_1_SKIPPED",
+    "targetedRegressions": "PASS_5_OF_5",
+    "pagesLocal": "PASS_4_OF_4",
+    "publicDeployment": "PASS_4_OF_4",
+    "newPublicFiles": "PASS_90_OF_90",
+    "originalPublicFiles": "PASS_90_OF_90",
+    "publicHostingAndSourceFiles": "PASS_8_OF_8",
+    "normalPublicVisits": "4_OF_4_COMPLETED_P02",
+    "controlledSlowPublicVisit": "COMPLETED_P02",
+    "existingRustInitializationLifecycle": "PASS_3_OF_3_WITH_CANDIDATE_CORE_INFO",
+    "processingPhaseDeadline": "PASS_5_OF_5_AFTER_EXTRACTION_COMPLETE"
+  },
+  "timingPolicyMs": {
+    "pdfPreparation": 60000,
+    "comparisonPreparation": 60000,
+    "documentProcessingAfterEnginesReady": 120000
+  },
+  "limitations": {
+    "coldVisits": 2,
+    "repeatVisits": 2,
+    "hardware": "Current development Mac; not ordinary-office-device acceptance",
+    "publicP95": "NOT_EVALUATED",
+    "actualProductionRollback": "NOT_EXECUTED",
+    "participants": 0,
+    "businessSamples": 0,
+    "organizationEnvironment": "NOT_EVALUATED",
+    "fullBrowserMemory": "NOT_EVALUATED"
+  },
+  "issue19": "KEEP_OPEN",
+  "existingCoreExpectedInfo": {
+    "file": "expected-core-info.json",
+    "source": "candidate/build-info.json coreArtifact",
+    "sourceManifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc",
+    "firstRun": "existing-core-lifecycle failed because host-compiled core was selected as expected artifact",
+    "verifiedRun": "existing-core-verified"
+  }
+}

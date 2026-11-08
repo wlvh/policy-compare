@@ -1,0 +1,42 @@
+{
+  "status": "FAIL",
+  "files": 115,
+  "failures": [
+    {
+      "path": "open-source/js-source/mupdf-1.28.1.tgz",
+      "bytes": 8452361,
+      "sha256": "e6bd485e9bfa4c618f02beea042fdcee0e6397e1a70cc8fb6baa55095b6d7601",
+      "served": true,
+      "url": "https://compare.huaweidata.com/open-source/js-source/mupdf-1.28.1.tgz",
+      "status": "FAIL",
+      "error": "Command '['curl', '--silent', '--show-error', '--location', '--max-time', '60', '--dump-header', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-fa3yzgl2/headers', '--output', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-fa3yzgl2/body', '--write-out', '%{http_code}\\n%{url_effective}', 'https://compare.huaweidata.com/open-source/js-source/mupdf-1.28.1.tgz']' returned non-zero exit status 28."
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-00",
+      "bytes": 20971520,
+      "sha256": "4ffe46da1ebbd5d42dbacf89eae32a661fc495984d25436b7018f80235ce045e",
+      "served": true,
+      "url": "https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-00",
+      "status": "FAIL",
+      "error": "Command '['curl', '--silent', '--show-error', '--location', '--max-time', '60', '--dump-header', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-1_t2rl9m/headers', '--output', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-1_t2rl9m/body', '--write-out', '%{http_code}\\n%{url_effective}', 'https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-00']' returned non-zero exit status 28."
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-01",
+      "bytes": 20971520,
+      "sha256": "3d3ba2a23792765923e1d0cbaf7dab4dfb61788511581b997c95f6cec01f09b3",
+      "served": true,
+      "url": "https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-01",
+      "status": "FAIL",
+      "error": "Command '['curl', '--silent', '--show-error', '--location', '--max-time', '60', '--dump-header', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-1m59cj8x/headers', '--output', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-1m59cj8x/body', '--write-out', '%{http_code}\\n%{url_effective}', 'https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-01']' returned non-zero exit status 28."
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-02",
+      "bytes": 20971520,
+      "sha256": "0f5a2a29f109e11c6a62bc1361ea0c49995e965269f42fb5c7c7de06c01b4652",
+      "served": true,
+      "url": "https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-02",
+      "status": "FAIL",
+      "error": "Command '['curl', '--silent', '--show-error', '--location', '--max-time', '60', '--dump-header', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-adqeks4n/headers', '--output', '/var/folders/md/_hc45tnd7_l8yzvhmkhm29j40000gn/T/policy-public-http-adqeks4n/body', '--write-out', '%{http_code}\\n%{url_effective}', 'https://compare.huaweidata.com/open-source/mupdf-source.tar.gz.part-02']' returned non-zero exit status 28."
+    }
+  ]
+}

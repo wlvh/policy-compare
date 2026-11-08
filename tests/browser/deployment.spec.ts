@@ -1,7 +1,14 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
+async function expectComparison(page: Page, expected: string | RegExp) {
+  const status = page.locator('[data-status]');
+  await expect(status).toHaveAttribute('data-status', /complete_for_scope|partial|failed/, { timeout: 185_000 });
+  await expect(status).toHaveAttribute('data-status', expected);
+}
+
 test('three allowlisted samples, source highlight, search, export and private diagnostic',async({page,baseURL})=>{
+  test.setTimeout(630_000);
   const outgoing:string[]=[];
   const origin = new URL(baseURL!).origin;
   await page.context().route('**/*',route=>{
@@ -11,9 +18,9 @@ test('three allowlisted samples, source highlight, search, export and private di
   });
   await page.goto('./');
   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);
-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:65_000});
   await page.getByRole('button',{name:'P02 金额变化',exact:true}).click();
-  await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);
+  await expectComparison(page, /complete_for_scope|partial/);
   await expect(page.locator('.cards')).toContainText('USD 2000');
   await page.locator('.card').filter({hasText:'2000'}).first().click();
   await expect(page.locator('polygon').first()).toBeVisible();
@@ -31,10 +38,10 @@ test('three allowlisted samples, source highlight, search, export and private di
   expect(Object.keys(info).sort()).toEqual(['browser','engine','engineVersion','errorCode','phase','releaseId']);
   expect(JSON.stringify(info)).not.toMatch(/1315|USD|before\.pdf|after\.pdf/);
   await page.getByRole('button',{name:'P01 相同文件',exact:true}).click();
-  await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
+  await expectComparison(page, 'complete_for_scope');
   await expect(page.locator('.card')).toHaveCount(0);
   await page.getByRole('button',{name:'E03 扫描图片',exact:true}).click();
-  await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');
+  await expectComparison(page, 'partial');
   await expect(page.locator('.gaps')).toContainText('只有图片');
   await page.getByRole('button',{name:'关闭任务',exact:true}).click();
   await expect.poll(()=>page.workers().length).toBe(0);
@@ -58,21 +65,23 @@ test('missing isolation is actionable and comparison cannot start',async({page})
 });
 
 test('engine bundle download failure leaves a reload screen',async({page})=>{
+  test.setTimeout(90_000);
   await page.route('**/assets/main-*.js',route=>route.abort());
   await page.goto('./');
   await expect(page.getByText('程序资源加载失败。',{exact:false})).toBeVisible();
   await expect(page.getByRole('button',{name:'重新加载',exact:true})).toBeVisible();
   await page.unroute('**/assets/main-*.js');
   await page.getByRole('button',{name:'重新加载',exact:true}).click();
-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:65_000});
 });
 
 test('failed engine worker initialization can be retried',async({page})=>{
+  test.setTimeout(140_000);
   await page.route('**/assets/pdf.worker-*',route=>route.abort());
   await page.goto('./');
-  await expect(page.getByRole('alert')).toBeVisible({timeout:20_000});
+  await expect(page.getByRole('alert')).toBeVisible({timeout:65_000});
   await page.unroute('**/assets/pdf.worker-*');
   await page.getByRole('button',{name:'重试启动',exact:true}).click();
-  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+  await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:65_000});
   await expect(page.getByRole('alert')).toHaveCount(0);
 });

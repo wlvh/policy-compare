@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "policy-compare-result/2",
+  "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+  "extractors": [
+    {
+      "name": "MuPDF.js",
+      "version": "mupdf/1.28.1+scalar-fix.1",
+      "adapterVersion": "mupdf-adapter/3",
+      "options": {
+        "actualText": "engine-default",
+        "clip": true,
+        "diagnostics": "scoped-native-errors-and-read-failures/1",
+        "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip"
+      }
+    },
+    {
+      "name": "MuPDF.js",
+      "version": "mupdf/1.28.1+scalar-fix.1",
+      "adapterVersion": "mupdf-adapter/3",
+      "options": {
+        "actualText": "engine-default",
+        "clip": true,
+        "diagnostics": "scoped-native-errors-and-read-failures/1",
+        "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip"
+      }
+    }
+  ],
+  "tokenizerVersion": "unicode-tokens/1",
+  "profileVersion": "aviation/1.0.0",
+  "snapshotHashVersion": "page-merkle/1",
+  "documentHashes": [
+    "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0",
+    "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0"
+  ],
+  "extractionSnapshotHashes": [
+    "12c478bf12641d3e87f137d245e7ce511b84fc391f4767a0df95a33944d70c71",
+    "12c478bf12641d3e87f137d245e7ce511b84fc391f4767a0df95a33944d70c71"
+  ],
+  "configDigest": "bbe9d09ba974ae54f5ee50c8f1f64d2db7ddb3fb68c2c42fb4cada1327fad0d1",
+  "scope": "extracted_text",
+  "status": "complete_for_scope",
+  "differences": [],
+  "coverage": [],
+  "unresolved": [],
+  "alignment": [
+    {
+      "leftPage": 0,
+      "leftY": 39,
+      "rightPage": 0,
+      "rightY": 39
+    },
+    {
+      "leftPage": 0,
+      "leftY": 63,
+      "rightPage": 0,
+      "rightY": 63
+    },
+    {
+      "leftPage": 0,
+      "leftY": 83,
+      "rightPage": 0,
+      "rightY": 83
+    },
+    {
+      "leftPage": 0,
+      "leftY": 130,
+      "rightPage": 0,
+      "rightY": 130
+    },
+    {
+      "leftPage": 0,
+      "leftY": 159,
+      "rightPage": 0,
+      "rightY": 159
+    },
+    {
+      "leftPage": 0,
+      "leftY": 185,
+      "rightPage": 0,
+      "rightY": 185
+    },
+    {
+      "leftPage": 0,
+      "leftY": 211,
+      "rightPage": 0,
+      "rightY": 211
+    },
+    {
+      "leftPage": 0,
+      "leftY": 753,
+      "rightPage": 0,
+      "rightY": 753
+    }
+  ],
+  "stats": {
+    "leftScalars": 245,
+    "rightScalars": 245,
+    "candidates": 0,
+    "tokenProducts": 0,
+    "differenceCount": 0,
+    "occurrenceCount": 0
+  },
+  "diagnostics": []
+}

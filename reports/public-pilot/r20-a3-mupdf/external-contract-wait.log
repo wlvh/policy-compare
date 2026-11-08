@@ -1,0 +1,123 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/deployment.spec.ts
+
+
+Running 4 tests using 1 worker
+
+(node:82821) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic (4.4m)
+(node:82923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/browser/deployment.spec.ts:47:1 › missing isolation is actionable and comparison cannot start (7.6s)
+  ✘  3 tests/browser/deployment.spec.ts:61:1 › engine bundle download failure leaves a reload screen (16.5s)
+(node:83136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/browser/deployment.spec.ts:71:1 › failed engine worker initialization can be retried (19.2s)
+
+
+  1) tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: page.goto: net::ERR_ABORTED; maybe frame was detached?
+    Call log:
+      - navigating to "https://compare.huaweidata.com/releases/r20-a3-mupdf/", waiting until "load"
+
+
+      10 |     return route.continue();
+      11 |   });
+    > 12 |   await page.goto('./');
+         |              ^
+      13 |   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);
+      14 |   // Public downloads share the application's 15-second engine initialization window.
+      15 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:12:14
+
+    Error Context: reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/deployment.spec.ts:61:1 › engine bundle download failure leaves a reload screen ─
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('main')
+    Expected: "true"
+    Received: "false"
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('main') with timeout 15000ms
+      - waiting for locator('main')
+        29 × locator resolved to <main data-engine-ready="false">…</main>
+           - unexpected value "false"
+
+
+      66 |   await page.unroute('**/assets/main-*.js');
+      67 |   await page.getByRole('button',{name:'重新加载',exact:true}).click();
+    > 68 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});
+         |                                      ^
+      69 | });
+      70 |
+      71 | test('failed engine worker initialization can be retried',async({page})=>{
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:68:38
+
+    Error Context: reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/deployment.spec.ts:71:1 › failed engine worker initialization can be retried ────
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('main')
+    Expected: "true"
+    Received: "false"
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('main') with timeout 15000ms
+      - waiting for locator('main')
+        34 × locator resolved to <main data-engine-ready="false">…</main>
+           - unexpected value "false"
+
+
+      75 |   await page.unroute('**/assets/pdf.worker-*');
+      76 |   await page.getByRole('button',{name:'重试启动',exact:true}).click();
+    > 77 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:15_000});
+         |                                      ^
+      78 |   await expect(page.getByRole('alert')).toHaveCount(0);
+      79 | });
+      80 |
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:77:38
+
+    Error Context: reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-failed-engine-w-6a47b-itialization-can-be-retried/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-failed-engine-w-6a47b-itialization-can-be-retried/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/r20-a3-mupdf/external-contract-wait/test-results/deployment-failed-engine-w-6a47b-itialization-can-be-retried/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic 
+    tests/browser/deployment.spec.ts:61:1 › engine bundle download failure leaves a reload screen ──
+    tests/browser/deployment.spec.ts:71:1 › failed engine worker initialization can be retried ─────
+  1 passed (5.2m)
+ ELIFECYCLE  Command failed with exit code 1.

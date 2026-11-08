@@ -1,0 +1,6 @@
+sampleId,status,authorizationRecord,leftSha256,rightSha256,independentExpectationSavedAt,expectationSha256,resultEvidence,missedChange,displayedButUnnoticed,wrongLocation,coverageUnderstanding
+B01,NOT_STARTED,,,,,,,,,,
+B02,NOT_STARTED,,,,,,,,,,
+B03,NOT_STARTED,,,,,,,,,,
+B04,NOT_STARTED,,,,,,,,,,
+B05,NOT_STARTED,,,,,,,,,,

@@ -1,0 +1,538 @@
+{
+  "recordedAt": "2026-11-08T08:53:39.312Z",
+  "target": "https://compare.huaweidata.com/releases/r21-startup-a1/",
+  "routed": false,
+  "scope": "Observed browser loading on this Mac/network. Worker CDP records byte arrival without routing requests. Repeated visits reuse the context cache.",
+  "visits": [
+    {
+      "downloadBytesPerSecond": null,
+      "visit": 1,
+      "cache": "new-browser-context",
+      "browser": "156.0.8078.4",
+      "url": "https://compare.huaweidata.com/releases/r21-startup-a1/",
+      "pdfReady": true,
+      "pdfWaitEndedMs": 4168,
+      "pdfReadyMs": 4168,
+      "alerts": [],
+      "firstComparisonMs": 985,
+      "resultStatus": "complete_for_scope",
+      "coreMetrics": {
+        "activeWorkers": 2,
+        "start": 4441.040000021458,
+        "read": 0.5949999690055847,
+        "cooperativeCancellation": true,
+        "coreInitialization": 385.6399999856949,
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+          "bytes": 2510123,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "workerInitialization": 645.4700000286102,
+        "extraction": 15.060000002384186,
+        "pdfOpen": 2.759999990463257,
+        "nativeTextExtraction": 9.524999976158142,
+        "sourceAdaptation": 1.4499999284744263,
+        "coverageAnalysis": 0,
+        "inputAdmission": 9.430000066757202,
+        "coreInputBytes": 211758,
+        "coreInputCalls": 9,
+        "coreMaxInputBytes": 105013,
+        "transferQueueMax": 4.110107421875,
+        "transferQueueSum": 4.445068359375,
+        "validation": 1.4300000071525574,
+        "snapshot": 0.16500002145767212,
+        "structure": 15.814999997615814,
+        "matching": 10.839999973773956,
+        "diff": 2.1050000190734863,
+        "transferLastPage": 6.46484375,
+        "wasmMemoryBytes": 4128768,
+        "coreReady": 700.1149999499321
+      },
+      "requests": [
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js",
+          "requestedMs": 1426,
+          "decodedBytes": 599,
+          "encodedBytes": 683,
+          "responseMs": 1572,
+          "status": 200,
+          "timing": {
+            "requestTime": 454599.648623,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.091,
+            "sendEnd": 0.136,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 145.711,
+            "receiveHeadersEnd": 145.794
+          },
+          "firstDataMs": 1573,
+          "lastDataMs": 1573,
+          "completedMs": 1676
+        },
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "requestedMs": 1680,
+          "decodedBytes": 10409826,
+          "encodedBytes": 4569613,
+          "responseMs": 1991,
+          "status": 200,
+          "timing": {
+            "requestTime": 454599.902694,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.094,
+            "sendEnd": 0.144,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 310.627,
+            "receiveHeadersEnd": 310.708
+          },
+          "firstDataMs": 1992,
+          "lastDataMs": 4139,
+          "completedMs": 4156
+        },
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core-BIAYXnLz.wasm",
+          "requestedMs": 4705,
+          "decodedBytes": 2510123,
+          "encodedBytes": 746492,
+          "responseMs": 4940,
+          "status": 200,
+          "timing": {
+            "requestTime": 454602.927986,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.085,
+            "sendEnd": 0.129,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 234.31,
+            "receiveHeadersEnd": 234.396
+          },
+          "firstDataMs": 4944,
+          "lastDataMs": 5054,
+          "completedMs": 5054
+        }
+      ],
+      "events": [
+        {
+          "type": "request-finished",
+          "atMs": 492,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 632,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/index-D48Dlxkb.css"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 737,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/index--B6l0JfR.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 1128,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/main-DDFMbX7C.js"
+        },
+        {
+          "type": "worker",
+          "atMs": 1299,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 1425,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 1676,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 4156,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 4331,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/samples/P02/before.pdf"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 4469,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/samples/P02/after.pdf"
+        },
+        {
+          "type": "worker",
+          "atMs": 4469,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 4474,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 4474,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 4507,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm"
+        },
+        {
+          "type": "worker",
+          "atMs": 4597,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core.worker-C1TCeuvG.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 4700,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core.worker-C1TCeuvG.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 5054,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core-BIAYXnLz.wasm"
+        }
+      ]
+    },
+    {
+      "downloadBytesPerSecond": null,
+      "visit": 2,
+      "cache": "same-browser-context",
+      "browser": "156.0.8078.4",
+      "url": "https://compare.huaweidata.com/releases/r21-startup-a1/",
+      "pdfReady": true,
+      "pdfWaitEndedMs": 119,
+      "pdfReadyMs": 119,
+      "alerts": [],
+      "firstComparisonMs": 190,
+      "resultStatus": "complete_for_scope",
+      "coreMetrics": {
+        "activeWorkers": 2,
+        "start": 179.6050000190735,
+        "read": 0.48500001430511475,
+        "cooperativeCancellation": true,
+        "coreInitialization": 51.625,
+        "coreArtifact": {
+          "abi": "policy-core-session/1",
+          "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+          "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+          "bytes": 2510123,
+          "rust": "1.93.0",
+          "target": "wasm32-unknown-unknown"
+        },
+        "workerInitialization": 60.94999998807907,
+        "extraction": 14.289999961853027,
+        "pdfOpen": 2.7799999713897705,
+        "nativeTextExtraction": 8.894999980926514,
+        "sourceAdaptation": 1.4100000262260437,
+        "coverageAnalysis": 0,
+        "inputAdmission": 9.334999978542328,
+        "coreInputBytes": 211758,
+        "coreInputCalls": 9,
+        "coreMaxInputBytes": 105013,
+        "transferQueueMax": 4.06494140625,
+        "transferQueueSum": 4.35986328125,
+        "validation": 1.399999976158142,
+        "snapshot": 0.18000000715255737,
+        "structure": 15.995000004768372,
+        "matching": 10.655000030994415,
+        "diff": 2.2699999809265137,
+        "transferLastPage": 6.48486328125,
+        "wasmMemoryBytes": 4128768,
+        "coreReady": 114.8299999833107
+      },
+      "requests": [
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js",
+          "requestedMs": 59,
+          "decodedBytes": 599,
+          "encodedBytes": 0,
+          "responseMs": 59,
+          "status": 200,
+          "timing": {
+            "requestTime": 454603.474947,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.021,
+            "sendEnd": 0.021,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 0.035,
+            "receiveHeadersEnd": 0.055
+          },
+          "firstDataMs": 59,
+          "lastDataMs": 59,
+          "completedMs": 59
+        },
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "requestedMs": 63,
+          "decodedBytes": 10409826,
+          "encodedBytes": 0,
+          "responseMs": 63,
+          "status": 200,
+          "timing": {
+            "requestTime": 454603.478952,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.025,
+            "sendEnd": 0.025,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 0.039,
+            "receiveHeadersEnd": 0.062
+          },
+          "firstDataMs": 64,
+          "lastDataMs": 92,
+          "completedMs": 108
+        },
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js",
+          "requestedMs": 187,
+          "decodedBytes": 599,
+          "encodedBytes": 0,
+          "responseMs": 187,
+          "status": 200,
+          "timing": {
+            "requestTime": 454603.602711,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.023,
+            "sendEnd": 0.023,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 0.037,
+            "receiveHeadersEnd": 0.06
+          },
+          "firstDataMs": 187,
+          "lastDataMs": 187,
+          "completedMs": 187
+        },
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "requestedMs": 191,
+          "decodedBytes": 10409826,
+          "encodedBytes": 0,
+          "responseMs": 191,
+          "status": 200,
+          "timing": {
+            "requestTime": 454603.606455,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.02,
+            "sendEnd": 0.02,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 0.032,
+            "receiveHeadersEnd": 0.05
+          },
+          "firstDataMs": 192,
+          "lastDataMs": 225,
+          "completedMs": 241
+        },
+        {
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core-BIAYXnLz.wasm",
+          "requestedMs": 191,
+          "decodedBytes": 2510123,
+          "encodedBytes": 0,
+          "responseMs": 196,
+          "status": 200,
+          "timing": {
+            "requestTime": 454603.611345,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.024,
+            "sendEnd": 0.024,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 0.037,
+            "receiveHeadersEnd": 0.057
+          },
+          "firstDataMs": 196,
+          "lastDataMs": 205,
+          "completedMs": 207
+        }
+      ],
+      "events": [
+        {
+          "type": "request-finished",
+          "atMs": 28,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/index-D48Dlxkb.css"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 28,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 35,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/index--B6l0JfR.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 42,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/main-DDFMbX7C.js"
+        },
+        {
+          "type": "worker",
+          "atMs": 55,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 59,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 59,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 108,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 181,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/samples/P02/before.pdf"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 181,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/samples/P02/after.pdf"
+        },
+        {
+          "type": "worker",
+          "atMs": 183,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "worker",
+          "atMs": 183,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core.worker-C1TCeuvG.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 186,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core.worker-C1TCeuvG.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 187,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 187,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 207,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/core-BIAYXnLz.wasm"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 241,
+          "url": "https://compare.huaweidata.com/releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm"
+        }
+      ]
+    }
+  ]
+}

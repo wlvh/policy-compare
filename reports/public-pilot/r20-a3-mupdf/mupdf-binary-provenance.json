@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "npmPackage": "mupdf@1.28.1",
+  "officialSourceComparison": "mupdf-source-comparison.json",
+  "nativeWasmChecks": [
+    {
+      "path": "package/dist/mupdf-wasm.wasm",
+      "sha256": "5a30ef7b027f541ea8fc54e7c73f16414b0b59940741a12efe5e55f1fd0a99d7",
+      "bytes": 10409826
+    }
+  ],
+  "candidateNativeWasm": {
+    "path": "assets/mupdf-wasm-Bvf0xebB.wasm",
+    "bytes": 10409826,
+    "sha256": "5a30ef7b027f541ea8fc54e7c73f16414b0b59940741a12efe5e55f1fd0a99d7",
+    "status": "PASS"
+  },
+  "scope": "actual native WASM equals integrity-verified npm package bytes; upstream source archive main files match npm gitHead; native rebuild not performed"
+}

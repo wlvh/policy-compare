@@ -1,0 +1,94 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/deployment.spec.ts
+
+
+Running 4 tests using 1 worker
+
+(node:81570) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic (6.0s)
+(node:81581) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/browser/deployment.spec.ts:46:1 › missing isolation is actionable and comparison cannot start (8.4s)
+  ✘  3 tests/browser/deployment.spec.ts:60:1 › engine bundle download failure leaves a reload screen (6.2s)
+(node:81592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 tests/browser/deployment.spec.ts:70:1 › failed engine worker initialization can be retried (7.4s)
+
+
+  1) tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('main')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('main') with timeout 5000ms
+      - waiting for locator('main')
+        9 × locator resolved to <main data-engine-ready="false">…</main>
+          - unexpected value "false"
+
+
+      12 |   await page.goto('./');
+      13 |   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);
+    > 14 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+         |                                      ^
+      15 |   await page.getByRole('button',{name:'P02 金额变化',exact:true}).click();
+      16 |   await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);
+      17 |   await expect(page.locator('.cards')).toContainText('USD 2000');
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:14:38
+
+    Error Context: reports/public-pilot/r20-a3-mupdf/external-serial/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/r20-a3-mupdf/external-serial/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/r20-a3-mupdf/external-serial/test-results/deployment-three-allowlist-10c33-port-and-private-diagnostic/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/deployment.spec.ts:60:1 › engine bundle download failure leaves a reload screen ─
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('main')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('main') with timeout 5000ms
+      - waiting for locator('main')
+        8 × locator resolved to <main data-engine-ready="false">…</main>
+          - unexpected value "false"
+
+
+      65 |   await page.unroute('**/assets/main-*.js');
+      66 |   await page.getByRole('button',{name:'重新加载',exact:true}).click();
+    > 67 |   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
+         |                                      ^
+      68 | });
+      69 |
+      70 | test('failed engine worker initialization can be retried',async({page})=>{
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/deployment.spec.ts:67:38
+
+    Error Context: reports/public-pilot/r20-a3-mupdf/external-serial/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/public-pilot/r20-a3-mupdf/external-serial/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/public-pilot/r20-a3-mupdf/external-serial/test-results/deployment-engine-bundle-d-ed8d5-lure-leaves-a-reload-screen/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic 
+    tests/browser/deployment.spec.ts:60:1 › engine bundle download failure leaves a reload screen ──
+  2 passed (31.8s)
+ ELIFECYCLE  Command failed with exit code 1.

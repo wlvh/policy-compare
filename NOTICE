@@ -1,0 +1,42 @@
+PUBLIC DISTRIBUTION GRANT
+
+Candidate: r20-a3-mupdf
+Application source: a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d
+Copyright (C) 2026 wlvh and policy-compare contributors.
+
+For this public candidate, the copyright holder grants permission for the
+project-owned application source and combined application under the GNU Affero
+General Public License, version 3 or (at your option) any later version.
+The owner confirmed this distribution choice on 2026-11-07 (Asia/Shanghai).
+This grant covers the frozen application commit identified above and the
+accompanying public distribution files. Retain all third-party copyrights and
+their individual license terms, including component-level permissive licenses.
+The application is provided WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+MuPDF 1.28.1: Copyright Artifex Software, Inc. and its contributors.
+License: AGPL-3.0-or-later. Upstream npm gitHead:
+20061bd45183f5a2bff8f43675e4da91e5ac2901.
+The application modifies its JavaScript wrapper to use String.fromCodePoint
+instead of String.fromCharCode for extracted Unicode scalars. The patch was
+recorded in the project on 2026-10-26 and is included in patches/mupdf@1.28.1.patch.
+No native MuPDF WASM modification is claimed.
+
+Packaging date: 2026-11-07 (Asia/Shanghai).
+The static application resources and original build-info.json are copied from
+the exact checked image without recompilation or byte edits. Cloudflare hosting
+configuration, the trial entry page, and source/license access are separate
+deployment files, outside the immutable release directory.
+
+Corresponding application source, Cargo dependency sources, complete upstream
+MuPDF source, build instructions, patches, lockfiles and original notices are
+offered without charge from the adjacent /open-source/ download page.
+Third-party JavaScript package source distributions are also included.
+Do not treat an archive containing only a WASM binary as corresponding source.
+
+Startup-only derivative releases distributed with this notice use the same
+AGPL-3.0-or-later terms. Their build-info.json identifies the exact release and
+application source commit. The 2026-11-08 changes extend finite engine startup
+deadlines, provide loading status and clean up cancelled startup work.
+The comparison algorithm and PDF adapter changes are identified by each
+release source archive and Git history.

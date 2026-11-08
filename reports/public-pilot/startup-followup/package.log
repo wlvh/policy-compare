@@ -1,0 +1,51 @@
+open /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/delivery/public-pilot-r21-startup-a1/site/releases/r21-startup-a1/assets/__vite-browser-external-UfK9GVxM.js: permission denied
+node:internal/errors:986
+  const err = new Error(message);
+              ^
+
+Error: Command failed: docker cp 5b941cc7579a2b62163a45fd23cf703e770ea92751145cdde5aeec5e71597034:/app/dist/. /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/delivery/public-pilot-r21-startup-a1/site/releases/r21-startup-a1/
+open /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/delivery/public-pilot-r21-startup-a1/site/releases/r21-startup-a1/assets/__vite-browser-external-UfK9GVxM.js: permission denied
+
+    at genericNodeError (node:internal/errors:986:15)
+    at wrappedFn (node:internal/errors:540:14)
+    at checkExecSyncError (node:child_process:943:11)
+    at execFileSync (node:child_process:979:15)
+    at <anonymous> (/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/scripts/package-cloudflare.ts:25:3)
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  status: 1,
+  signal: null,
+  output: [
+    null,
+    Buffer(0) [Uint8Array] [],
+    Buffer(196) [Uint8Array] [
+      111, 112, 101, 110,  32,  47,  85, 115, 101, 114, 115,  47,
+      108, 121, 117, 104, 111, 110, 103, 119,  97, 110, 103,  47,
+       68, 111, 119, 110, 108, 111,  97, 100, 115,  47, 112, 111,
+      108, 105,  99, 121,  45,  99, 111, 109, 112,  97, 114, 101,
+       45, 101, 120, 101,  99, 117, 116, 105, 111, 110,  45,  50,
+       48,  50,  54,  49,  48,  50,  54,  47, 100, 101, 108, 105,
+      118, 101, 114, 121,  47, 112, 117,  98, 108, 105,  99,  45,
+      112, 105, 108, 111, 116,  45, 114,  50,  49,  45, 115, 116,
+       97, 114, 116, 117,
+      ... 96 more items
+    ]
+  ],
+  pid: 70531,
+  stdout: Buffer(0) [Uint8Array] [],
+  stderr: Buffer(196) [Uint8Array] [
+    111, 112, 101, 110,  32,  47,  85, 115, 101, 114, 115,  47,
+    108, 121, 117, 104, 111, 110, 103, 119,  97, 110, 103,  47,
+     68, 111, 119, 110, 108, 111,  97, 100, 115,  47, 112, 111,
+    108, 105,  99, 121,  45,  99, 111, 109, 112,  97, 114, 101,
+     45, 101, 120, 101,  99, 117, 116, 105, 111, 110,  45,  50,
+     48,  50,  54,  49,  48,  50,  54,  47, 100, 101, 108, 105,
+    118, 101, 114, 121,  47, 112, 117,  98, 108, 105,  99,  45,
+    112, 105, 108, 111, 116,  45, 114,  50,  49,  45, 115, 116,
+     97, 114, 116, 117,
+    ... 96 more items
+  ]
+}
+
+Node.js v24.22.1

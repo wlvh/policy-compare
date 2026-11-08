@@ -1,0 +1,15 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/deployment.spec.ts
+
+
+Running 4 tests using 1 worker
+
+(node:81036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/deployment.spec.ts:4:1 › three allowlisted samples, source highlight, search, export and private diagnostic (2.0s)
+  ✓  2 tests/browser/deployment.spec.ts:46:1 › missing isolation is actionable and comparison cannot start (115ms)
+  ✓  3 tests/browser/deployment.spec.ts:60:1 › engine bundle download failure leaves a reload screen (444ms)
+  ✓  4 tests/browser/deployment.spec.ts:70:1 › failed engine worker initialization can be retried (487ms)
+
+  4 passed (3.3s)

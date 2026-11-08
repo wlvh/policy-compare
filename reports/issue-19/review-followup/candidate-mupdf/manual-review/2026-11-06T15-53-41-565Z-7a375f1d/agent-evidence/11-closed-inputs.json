@@ -1,0 +1,32 @@
+[
+  {
+    "id": "file-0",
+    "type": "file",
+    "value": ""
+  },
+  {
+    "id": "",
+    "type": "password",
+    "value": ""
+  },
+  {
+    "id": "file-1",
+    "type": "file",
+    "value": ""
+  },
+  {
+    "id": "",
+    "type": "password",
+    "value": ""
+  },
+  {
+    "id": "",
+    "type": "text",
+    "value": ""
+  },
+  {
+    "id": "",
+    "type": "checkbox",
+    "value": "on"
+  }
+]

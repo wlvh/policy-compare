@@ -1,0 +1,188 @@
+{
+  "target": "https://compare.huaweidata.com/releases/r20-a3-mupdf/",
+  "routed": false,
+  "scope": "Observed browser loading on this Mac/network. Worker CDP records byte arrival without routing requests. Repeated visits reuse the context cache.",
+  "visits": [
+    {
+      "workerDownloadBytesPerSecond": 200000,
+      "visit": 1,
+      "cache": "new-browser-context",
+      "browser": "156.0.8078.4",
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/",
+      "pdfReadyMs": 16322,
+      "alerts": [
+        "引擎资源加载超过 15 秒，请检查网络并重试。重试会重新加载程序，之后请重新选择文件。重试启动"
+      ],
+      "snapshotAt15Seconds": {
+        "atMs": 15003,
+        "requests": [
+          {
+            "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js",
+            "requestedMs": 1754,
+            "decodedBytes": 599,
+            "encodedBytes": 655,
+            "responseMs": 1878,
+            "status": 200,
+            "timing": {
+              "requestTime": 453963.96336,
+              "proxyStart": -1,
+              "proxyEnd": -1,
+              "dnsStart": -1,
+              "dnsEnd": -1,
+              "connectStart": -1,
+              "connectEnd": -1,
+              "sslStart": -1,
+              "sslEnd": -1,
+              "workerStart": -1,
+              "workerReady": -1,
+              "workerFetchStart": -1,
+              "workerRespondWithSettled": -1,
+              "sendStart": 0.089,
+              "sendEnd": 0.135,
+              "pushStart": 0,
+              "pushEnd": 0,
+              "receiveHeadersStart": 115.935,
+              "receiveHeadersEnd": 123.044
+            },
+            "firstDataMs": 1878,
+            "lastDataMs": 1878,
+            "completedMs": 1878
+          },
+          {
+            "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/mupdf-wasm-Bvf0xebB.wasm",
+            "requestedMs": 1881,
+            "decodedBytes": 6107663,
+            "encodedBytes": 4563777,
+            "responseMs": 2111,
+            "status": 200,
+            "timing": {
+              "requestTime": 453964.090408,
+              "proxyStart": -1,
+              "proxyEnd": -1,
+              "dnsStart": -1,
+              "dnsEnd": -1,
+              "connectStart": -1,
+              "connectEnd": -1,
+              "sslStart": -1,
+              "sslEnd": -1,
+              "workerStart": -1,
+              "workerReady": -1,
+              "workerFetchStart": -1,
+              "workerRespondWithSettled": -1,
+              "sendStart": 0.081,
+              "sendEnd": 0.13,
+              "pushStart": 0,
+              "pushEnd": 0,
+              "receiveHeadersStart": 221.637,
+              "receiveHeadersEnd": 229.622
+            },
+            "firstDataMs": 2118,
+            "lastDataMs": 14995
+          }
+        ]
+      },
+      "requests": [
+        {
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js",
+          "requestedMs": 1754,
+          "decodedBytes": 599,
+          "encodedBytes": 655,
+          "responseMs": 1878,
+          "status": 200,
+          "timing": {
+            "requestTime": 453963.96336,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.089,
+            "sendEnd": 0.135,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 115.935,
+            "receiveHeadersEnd": 123.044
+          },
+          "firstDataMs": 1878,
+          "lastDataMs": 1878,
+          "completedMs": 1878
+        },
+        {
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/mupdf-wasm-Bvf0xebB.wasm",
+          "requestedMs": 1881,
+          "decodedBytes": 6684812,
+          "encodedBytes": 4563777,
+          "responseMs": 2111,
+          "status": 200,
+          "timing": {
+            "requestTime": 453964.090408,
+            "proxyStart": -1,
+            "proxyEnd": -1,
+            "dnsStart": -1,
+            "dnsEnd": -1,
+            "connectStart": -1,
+            "connectEnd": -1,
+            "sslStart": -1,
+            "sslEnd": -1,
+            "workerStart": -1,
+            "workerReady": -1,
+            "workerFetchStart": -1,
+            "workerRespondWithSettled": -1,
+            "sendStart": 0.081,
+            "sendEnd": 0.13,
+            "pushStart": 0,
+            "pushEnd": 0,
+            "receiveHeadersStart": 221.637,
+            "receiveHeadersEnd": 229.622
+          },
+          "firstDataMs": 2118,
+          "lastDataMs": 16315
+        }
+      ],
+      "events": [
+        {
+          "type": "request-finished",
+          "atMs": 489,
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 634,
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-D48Dlxkb.css"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 732,
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-ZX_DqIET.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 1296,
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/main-DXpiB2L7.js"
+        },
+        {
+          "type": "worker",
+          "atMs": 1467,
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/pdf.worker-BxUR5j62.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 1754,
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/pdf.worker-BxUR5j62.js"
+        },
+        {
+          "type": "request-finished",
+          "atMs": 1878,
+          "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js"
+        }
+      ]
+    }
+  ]
+}

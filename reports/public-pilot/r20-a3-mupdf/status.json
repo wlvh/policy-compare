@@ -1,0 +1,93 @@
+{
+  "checkedAt": "2026-11-07T15:25:01.730425+00:00",
+  "status": "DEPLOYED_WITH_OPEN_VERIFICATION_FAILURES",
+  "target": "https://compare.huaweidata.com/",
+  "provider": "Cloudflare Pages",
+  "accountId": "7bd4a486d159295357a217bd714c1462",
+  "project": "huaweidata-compare",
+  "projectState": "PRODUCTION_DEPLOYED",
+  "candidate": {
+    "releaseId": "r20-a3-mupdf",
+    "revision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+    "imageId": "sha256:fee53485a33b436a3f48ca17084f2a46e128e7c3bf64655ffd758adbbd5ed998",
+    "manifestSha256": "766c5704bbeb17a8e6e7ff6e151056219c8316b96b51ce5f3d7e3a3b6c382416",
+    "platform": "linux/arm64"
+  },
+  "artifactCopy": "PASS: 89/89 resource hashes verified",
+  "cloudflareLocalBrowser": "PASS: 4/4 existing deployment tests",
+  "cloudflareLocalHTTP": "PASS: hashes, isolation, WASM MIME, cache, 404 and POST rejection observed",
+  "licenseOwnerChoice": "AGPL-3.0-or-later CONFIRMED_BY_OWNER_2026-11-07",
+  "publicDeployment": "DEPLOYED_HTTPS_VERIFIED",
+  "publicNetworkColdLoad": {
+    "status": "OBSERVED_TWO_SUCCESSFUL_P02_RUNS_BEFORE_HOSTING_REVISION",
+    "evidence": [
+      "cold-load.json",
+      "cold-load-installed-chrome.json"
+    ],
+    "ordinaryDeviceOrNetworkAcceptance": "NOT_EVALUATED",
+    "latestDiagnostic": "FAIL_BOTH_NORMAL_AND_ROUTED_CONTEXTS_APPLICATION_15_SECOND_TIMEOUT",
+    "latestEvidence": [
+      "normal-load-diagnostic.json",
+      "routed-load-diagnostic.json"
+    ]
+  },
+  "participants": {
+    "plannedMinimum": 5,
+    "plannedMaximum": 10,
+    "started": 0,
+    "finished": 0,
+    "failed": 0,
+    "abandoned": 0
+  },
+  "businessSamples": {
+    "plannedMinimum": 3,
+    "plannedMaximum": 5,
+    "started": 0,
+    "finished": 0
+  },
+  "organizationEnvironment": "NOT_EVALUATED",
+  "issue19": "KEEP_OPEN",
+  "mainSiteChanges": "NONE",
+  "productByteChanges": "NONE",
+  "publicBrowserVerification": {
+    "status": "FAIL",
+    "passed": 1,
+    "failed": 3,
+    "evidence": "external-cli-release/verification.json",
+    "diagnosticTestDiff": "verification-probe.diff",
+    "testSourceRestored": true
+  },
+  "cli": {
+    "version": "4.158.0",
+    "authentication": "USER_COMPLETED_OAUTH_DEVICE_LOGIN",
+    "scopes": [
+      "account:read",
+      "user:read",
+      "pages:write",
+      "zone:read",
+      "offline_access"
+    ]
+  },
+  "deployments": {
+    "initial": "292f37c2-9253-46f6-96e1-24dcd1b4dd75",
+    "current": "3350dadc-9f46-4b85-b0e0-7fd8e33309b2",
+    "currentUrl": "https://3350dadc.huaweidata-compare.pages.dev/",
+    "method": "wrangler pages deploy",
+    "hostingGitBase": "1762516a9e55bdfd701b9a513683283e069fcafb",
+    "hostingChangesCommitted": false
+  },
+  "analytics": {
+    "observed": "Browser HTML contained an injected Cloudflare Web Analytics script blocked by CSP",
+    "source": "Exact injection rule not identified; Pages project analytics disabled",
+    "hostingFix": "HTML-only Cache-Control no-transform",
+    "verification": "PASS_BROWSER_HTML_EQUALS_ORIGINAL_NO_ANALYTICS_SCRIPT",
+    "evidence": "hosting-revision.json"
+  },
+  "publicFileVerification": {
+    "status": "PASS",
+    "files": 115,
+    "initialTimedOut": 4,
+    "retriedSuccessfully": 4,
+    "evidence": "public-file-summary.json"
+  }
+}

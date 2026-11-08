@@ -1,0 +1,303 @@
+{
+  "mode": "routed",
+  "browser": "156.0.8078.4",
+  "status": "FAIL",
+  "html": {
+    "body": "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"referrer\" content=\"no-referrer\"><title>保单比对 · 原文审阅</title>  <script type=\"module\" crossorigin src=\"/releases/r20-a3-mupdf/assets/index-ZX_DqIET.js\"></script>\n  <link rel=\"stylesheet\" crossorigin href=\"/releases/r20-a3-mupdf/assets/index-D48Dlxkb.css\">\n</head><body><div id=\"root\"><p>正在加载保单比对程序…若长时间未完成，请检查网络后重新加载，或联系提供本工具的维护者。</p><a href=\"\">重新加载</a><noscript>此工具需要浏览器允许 JavaScript。请使用组织支持的浏览器。</noscript></div></body></html>\n",
+    "headers": {
+      "access-control-allow-origin": "*",
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "public, max-age=31536000, immutable, no-transform",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a56d49808800db13-NRT",
+      "content-length": "723",
+      "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+      "content-type": "text/html; charset=utf-8",
+      "cross-origin-embedder-policy": "require-corp",
+      "cross-origin-opener-policy": "same-origin",
+      "date": "Sat, 07 Nov 2026 15:14:20 GMT",
+      "etag": "\"c8c471b885a873797a8fa0a7e15fd2f0\"",
+      "link": "</open-source/>; rel=\"license\"",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "referrer-policy": "no-referrer",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=c%2FrKdbFD%2Bdnlim4fYukVVzSjfL%2Bf%2Bo7Ra6MbL1ziJsy7Iw3z2IrmnkFXnA%2BA1clf1mtcPiCJ17xs434WGVhlLSJBhvsJS1wIvKewKFHHw4ej4k35K43LaqUJ3I81uNgoxh06Nw5OfUqB\"}]}",
+      "server": "cloudflare",
+      "server-timing": "cfCacheStatus;desc=\"DYNAMIC\"\ncfEdge;dur=22,cfOrigin;dur=33",
+      "x-content-type-options": "nosniff",
+      "x-robots-tag": "noindex, nofollow"
+    }
+  },
+  "ready": "false",
+  "alerts": [
+    "引擎资源加载超过 15 秒，请检查网络并重试。重试会重新加载程序，之后请重新选择文件。重试启动"
+  ],
+  "elapsedMs": 27531,
+  "events": [
+    {
+      "event": "request",
+      "ms": 34,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/"
+    },
+    {
+      "event": "response",
+      "ms": 10910,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/",
+      "status": 200,
+      "headers": {
+        "access-control-allow-origin": "*",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "cache-control": "public, max-age=31536000, immutable, no-transform",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a56d49808800db13-NRT",
+        "content-length": "723",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+        "content-type": "text/html; charset=utf-8",
+        "cross-origin-embedder-policy": "require-corp",
+        "cross-origin-opener-policy": "same-origin",
+        "date": "Sat, 07 Nov 2026 15:14:20 GMT",
+        "etag": "\"c8c471b885a873797a8fa0a7e15fd2f0\"",
+        "link": "</open-source/>; rel=\"license\"",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "referrer-policy": "no-referrer",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=c%2FrKdbFD%2Bdnlim4fYukVVzSjfL%2Bf%2Bo7Ra6MbL1ziJsy7Iw3z2IrmnkFXnA%2BA1clf1mtcPiCJ17xs434WGVhlLSJBhvsJS1wIvKewKFHHw4ej4k35K43LaqUJ3I81uNgoxh06Nw5OfUqB\"}]}",
+        "server": "cloudflare",
+        "server-timing": "cfCacheStatus;desc=\"DYNAMIC\"\ncfEdge;dur=22,cfOrigin;dur=33",
+        "x-content-type-options": "nosniff",
+        "x-robots-tag": "noindex, nofollow"
+      }
+    },
+    {
+      "event": "request",
+      "ms": 10942,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-ZX_DqIET.js"
+    },
+    {
+      "event": "request",
+      "ms": 10943,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-D48Dlxkb.css"
+    },
+    {
+      "event": "finished",
+      "ms": 10944,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/"
+    },
+    {
+      "event": "response",
+      "ms": 11202,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-ZX_DqIET.js",
+      "status": 200,
+      "headers": {
+        "x-robots-tag": "noindex, nofollow",
+        "content-encoding": "br",
+        "cf-cache-status": "HIT",
+        "etag": "W/\"e30b6c88b56eef29444a04ea0922b8d3\"",
+        "age": "6545",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=36YY0C%2B2dsTjFhvuC0Riyv5haEXDpVKy8iluY%2BWIz2pRW7EI7UdB88diHZ%2BdObcVpc1ySQF9ujzUl9TSwjEbIG90U0V9jCSS%2BnrxSzftMgNWzlU3qfmUw8CzkAE2zHzoPt4Uv5zRhtWh\"}]}",
+        "x-content-type-options": "nosniff",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "date": "Sat, 07 Nov 2026 15:14:24 GMT",
+        "content-type": "text/javascript; charset=utf-8",
+        "vary": "accept-encoding",
+        "link": "</open-source/>; rel=\"license\"",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "cache-control": "public, max-age=31536000, immutable",
+        "cross-origin-opener-policy": "same-origin",
+        "referrer-policy": "no-referrer",
+        "cf-ray": "a56d49989e61db13-NRT",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*",
+        "server": "cloudflare"
+      }
+    },
+    {
+      "event": "finished",
+      "ms": 11202,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-ZX_DqIET.js"
+    },
+    {
+      "event": "response",
+      "ms": 11237,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-D48Dlxkb.css",
+      "status": 200,
+      "headers": {
+        "x-robots-tag": "noindex, nofollow",
+        "content-encoding": "br",
+        "cf-cache-status": "HIT",
+        "etag": "W/\"9f7b5463272d724bd6e3bf9a07ff6e21\"",
+        "age": "6545",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=uSqYarCu5TbHpkwP207CJW%2BPrOIVW8chi0n2nr6x2%2Fa4gqZKLZZO6h0bRWDlfQEjVD5K0phCbu7BFZnNPbQpQx%2BeNh0%2FAFKQuzHZSNRxkbIaD4cTlYChG3XAP1APW%2BKS3NPFZK%2BY379D\"}]}",
+        "x-content-type-options": "nosniff",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "date": "Sat, 07 Nov 2026 15:14:24 GMT",
+        "content-type": "text/css; charset=utf-8",
+        "vary": "accept-encoding",
+        "link": "</open-source/>; rel=\"license\"",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "cache-control": "public, max-age=31536000, immutable",
+        "cross-origin-opener-policy": "same-origin",
+        "referrer-policy": "no-referrer",
+        "cf-ray": "a56d49989e63db13-NRT",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*",
+        "server": "cloudflare"
+      }
+    },
+    {
+      "event": "finished",
+      "ms": 11299,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/index-D48Dlxkb.css"
+    },
+    {
+      "event": "request",
+      "ms": 11304,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/main-DXpiB2L7.js"
+    },
+    {
+      "event": "response",
+      "ms": 12495,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/main-DXpiB2L7.js",
+      "status": 200,
+      "headers": {
+        "x-robots-tag": "noindex, nofollow",
+        "content-encoding": "br",
+        "cf-cache-status": "HIT",
+        "etag": "W/\"a7be8628cfb6327de05e8e88f76d9b5b\"",
+        "age": "6545",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=0yfCByoSMt7wqv5ruUB7fs2VK2blpe3j6CGWJBzRSFGLq1Y1CAtZS4wmqt9NY42ZsdKXkOhcD3aYJ%2FhvHQY4G5QK0xPEvrx4hAxqAzhnW180uFK%2Fp6KACdGHulOhGUCK254EJnh57b1q\"}]}",
+        "x-content-type-options": "nosniff",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "date": "Sat, 07 Nov 2026 15:14:25 GMT",
+        "content-type": "text/javascript; charset=utf-8",
+        "vary": "accept-encoding",
+        "link": "</open-source/>; rel=\"license\"",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "cache-control": "public, max-age=31536000, immutable",
+        "cross-origin-opener-policy": "same-origin",
+        "referrer-policy": "no-referrer",
+        "cf-ray": "a56d499acbf9db13-NRT",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*",
+        "server": "cloudflare"
+      }
+    },
+    {
+      "event": "finished",
+      "ms": 12495,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/main-DXpiB2L7.js"
+    },
+    {
+      "event": "request",
+      "ms": 12521,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/pdf.worker-BxUR5j62.js"
+    },
+    {
+      "event": "response",
+      "ms": 12882,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/pdf.worker-BxUR5j62.js",
+      "status": 200,
+      "headers": {
+        "x-robots-tag": "noindex, nofollow",
+        "content-encoding": "br",
+        "cf-cache-status": "HIT",
+        "etag": "W/\"7f1c1a1e82f6718537cc576bd3a9e6a5\"",
+        "age": "6546",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=FdTLkAvkhTs84zh%2FGwS5BPioYnNhvODqTmoTo3fj1bgr4MIhtlw2sYuUWYyv9gcxYskKO5YcqpK6%2FUFA8onGwLn4r77djES2tdLfawXQPL2n3Qhvb%2BuLqM%2BiVN7lpXlRM%2BAK3TJHBrGd\"}]}",
+        "x-content-type-options": "nosniff",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "date": "Sat, 07 Nov 2026 15:14:26 GMT",
+        "content-type": "text/javascript; charset=utf-8",
+        "vary": "accept-encoding",
+        "link": "</open-source/>; rel=\"license\"",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "cache-control": "public, max-age=31536000, immutable",
+        "cross-origin-opener-policy": "same-origin",
+        "referrer-policy": "no-referrer",
+        "cf-ray": "a56d49a24ef4db13-NRT",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*",
+        "server": "cloudflare"
+      }
+    },
+    {
+      "event": "finished",
+      "ms": 13363,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/pdf.worker-BxUR5j62.js"
+    },
+    {
+      "event": "request",
+      "ms": 13363,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js"
+    },
+    {
+      "event": "response",
+      "ms": 13484,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js",
+      "status": 200,
+      "headers": {
+        "x-robots-tag": "noindex, nofollow",
+        "content-encoding": "br",
+        "cf-cache-status": "HIT",
+        "etag": "W/\"ce9ff09cc809652a97b06bce480403ad\"",
+        "age": "6546",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=2vVQYYNxWXIW47QkVEXN1MsGLMwoQA5jNDC8xpll3M3bZviUPJbKrKycsh3kU2u6ef0vVxOL0o8SF6zaxmjU9ZvXr4OzZ%2BUAPmpgKtpo7bY0hEuuB5NDaK46CZobThbO6FtB%2BBaZt8K7\"}]}",
+        "x-content-type-options": "nosniff",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "date": "Sat, 07 Nov 2026 15:14:27 GMT",
+        "content-type": "text/javascript; charset=utf-8",
+        "vary": "accept-encoding",
+        "link": "</open-source/>; rel=\"license\"",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "cache-control": "public, max-age=31536000, immutable",
+        "cross-origin-opener-policy": "same-origin",
+        "referrer-policy": "no-referrer",
+        "cf-ray": "a56d49a78c54db13-NRT",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*",
+        "server": "cloudflare"
+      }
+    },
+    {
+      "event": "finished",
+      "ms": 13484,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js"
+    },
+    {
+      "event": "request",
+      "ms": 13491,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/mupdf-wasm-Bvf0xebB.wasm"
+    },
+    {
+      "event": "response",
+      "ms": 13999,
+      "url": "https://compare.huaweidata.com/releases/r20-a3-mupdf/assets/mupdf-wasm-Bvf0xebB.wasm",
+      "status": 200,
+      "headers": {
+        "x-robots-tag": "noindex, nofollow",
+        "content-encoding": "br",
+        "cf-cache-status": "DYNAMIC",
+        "etag": "W/\"44d80abc071085ee40e2f8c042891c9d\"",
+        "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=JKP2u%2FprcSJWQq%2FnNDP2nbnWKDyTDXrLhS8kGMqeBphdJW9Xx0bJc%2B8VeTJHeBvwRazJwpEF3EKgcV2LFnjFeruzIryTUoMWMhZeiVobpmqJ%2FTsWg%2FZv9u3rO4LkeLfWmnH0Lt%2FtFwOJ\"}]}",
+        "x-content-type-options": "nosniff",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "date": "Sat, 07 Nov 2026 15:14:27 GMT",
+        "content-type": "application/wasm",
+        "vary": "accept-encoding",
+        "link": "</open-source/>; rel=\"license\"",
+        "content-security-policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self'; img-src 'self' blob: data:; style-src 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'",
+        "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+        "cache-control": "public, max-age=31536000, immutable",
+        "cross-origin-opener-policy": "same-origin",
+        "referrer-policy": "no-referrer",
+        "cf-ray": "a56d49a87eabdb13-NRT",
+        "cross-origin-embedder-policy": "require-corp",
+        "access-control-allow-origin": "*",
+        "server": "cloudflare"
+      }
+    }
+  ]
+}

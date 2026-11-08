@@ -1,0 +1,124 @@
+{
+  "candidateReport": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-19/review-followup/candidate-mupdf/container.json",
+  "candidateReportSha256": "f3fadb4853cb51df0151ed2fc46b5965c9bb99b210ba5d0355aee0cb23403864",
+  "releaseId": "r20-a3-mupdf",
+  "revision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+  "engine": "mupdf",
+  "platform": "linux/arm64",
+  "imageId": "sha256:fee53485a33b436a3f48ca17084f2a46e128e7c3bf64655ffd758adbbd5ed998",
+  "manifestSha256": "766c5704bbeb17a8e6e7ff6e151056219c8316b96b51ce5f3d7e3a3b6c382416",
+  "url": "http://127.0.0.1:8089/",
+  "versionUrl": "http://127.0.0.1:8089/releases/r20-a3-mupdf/",
+  "containerName": "policy-preview-r20-a3-mupdf-mupdf-8089",
+  "scope": "release_image_agent_ui_review_only",
+  "clusterAcceptance": "NOT_EVALUATED",
+  "status": "PASS",
+  "reviewer": "Codex：逐项操作实际发布页面；非指定使用者人工验收",
+  "reviewedAt": "2026-11-06T16:00:27.645372+00:00",
+  "browser": {
+    "name": "Codex in-app browser",
+    "reportedUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+    "fullBuildVersion": "NOT_EVALUATED"
+  },
+  "instructions": "Record PASS, FAIL or NOT_EVALUATED for each check, with observations and evidence. Startup is not manual acceptance. Do not include confidential PDF text in this record.",
+  "checks": [
+    {
+      "id": "P02",
+      "expected": "1315 的 USD 100 → USD 2000 可见；1760 的 USD 1000 未改。",
+      "status": "PASS",
+      "observations": "唯一变化卡为 1315 Alpha Air USD 100 annual → 1315 Alpha Air USD 2000 annual；无 1760 修改卡。实际导出保留对应文字。",
+      "evidence": [
+        "agent-evidence/02-p02-card.jpg",
+        "agent-evidence/p02-result.json",
+        "agent-evidence/12-ready-for-user.ax.txt"
+      ]
+    },
+    {
+      "id": "P01",
+      "expected": "相同文件没有内容变化卡，也没有已记录的覆盖缺口或对应未决。",
+      "status": "PASS",
+      "observations": "页面显示可提取文本中未发现差异；实际导出 differences、coverage、unresolved 均为空。",
+      "evidence": [
+        "agent-evidence/05-p01.jpg",
+        "agent-evidence/p01-result.json"
+      ]
+    },
+    {
+      "id": "E03",
+      "expected": "扫描图片明确提示文字尚未比较；零张文字卡不被解释为文档无变化。",
+      "status": "PASS",
+      "observations": "页面明确列出基准及待审第 1 页图片文字尚未比较；实际导出为 partial，双方各一个 raster_only_content 覆盖缺口。",
+      "evidence": [
+        "agent-evidence/06-e03.jpg",
+        "agent-evidence/e03-result.json"
+      ]
+    },
+    {
+      "id": "source_search_export",
+      "expected": "P02 高亮位于实际编辑，搜索 1315 能回到原文，JSON 导出保留本次变化与来源。",
+      "status": "PASS",
+      "observations": "点击 1315 变化卡显示双方第 1 页修改处高亮；搜索 1315 返回双方 P1 命中，点击待审命中显示原文高亮；通过实际页面下载 JSON，变化字符保留新旧侧页码、字符编号、原文区间及四边形位置。",
+      "evidence": [
+        "agent-evidence/02-p02-card.jpg",
+        "agent-evidence/03-search-1315.jpg",
+        "agent-evidence/04-search-location.jpg",
+        "agent-evidence/p02-result.json"
+      ]
+    },
+    {
+      "id": "swap",
+      "expected": "交换两份文件后，P02 变化方向为 USD 2000 → USD 100。",
+      "status": "PASS",
+      "observations": "点击交换方向后重新开始；页面和实际导出均为 1315 的 USD 2000 → USD 100。",
+      "evidence": [
+        "agent-evidence/07-swap.jpg",
+        "agent-evidence/p02-reversed-result.json"
+      ]
+    },
+    {
+      "id": "cancel_restart",
+      "expected": "任务处理中取消后可以重新比较；任务已结束后的点击不计为取消成功。",
+      "status": "PASS",
+      "observations": "开始任务后立即点击已可用的取消按钮；页面实际进入已取消，变化与原文显示清除。随后同页开始比较完成，1315 反向金额变化可见。此为真实取消，未把任务完成后的点击计为通过。未测取消耗时或 Worker 数。",
+      "evidence": [
+        "agent-evidence/08-cancel.jpg",
+        "agent-evidence/08-cancel.ax.txt",
+        "agent-evidence/09-restart.jpg"
+      ]
+    },
+    {
+      "id": "close_task",
+      "expected": "关闭任务后，文件选择、密码、搜索与文档显示清除，下一组比较可正常进行。",
+      "status": "PASS",
+      "observations": "先填写两侧无秘密的测试密码及搜索 1315，再关闭任务；文件、密码、搜索与双方文档显示清除，开始比较禁用。随后重新加载 P02 成功并显示完整变化及搜索命中。",
+      "evidence": [
+        "agent-evidence/10-before-close.ax.txt",
+        "agent-evidence/11-closed.jpg",
+        "agent-evidence/11-closed-inputs.json",
+        "agent-evidence/12-ready-for-user.jpg",
+        "agent-evidence/12-ready-for-user.ax.txt"
+      ]
+    }
+  ],
+  "humanManualReview": "NOT_EVALUATED",
+  "businessSampleReview": {
+    "status": "NOT_EVALUATED",
+    "reason": "用户明确决定：先完成内置样例，业务文件稍后提供。"
+  },
+  "expectedSource": {
+    "document": "docs/release-image-testing.md",
+    "repositoryCommit": "1762516a9e55bdfd701b9a513683283e069fcafb",
+    "requirements": "用户本轮明确的七项检查及项目已有人工检查标准；未从产品输出生成预期。"
+  },
+  "core": {
+    "version": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+    "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898",
+    "evidence": "agent-evidence/01-version.jpg"
+  },
+  "limits": [
+    "仅 MuPDF 的此镜像、本机浏览器及内置虚构样例。",
+    "代理操作通过不等于指定使用者人工验收或真实业务验收。",
+    "未新增完整内存、普通办公设备性能、HTTPS、OpenShift 或组织浏览器策略验收。",
+    "不会把 Docker 静态服务的 256 MiB 限制解释为浏览器处理 PDF 的内存上限。"
+  ]
+}

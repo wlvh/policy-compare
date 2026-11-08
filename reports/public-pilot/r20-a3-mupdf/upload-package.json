@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "scope": "approved AGPL package integrity and temporary extraction; public deployment checked separately",
+  "zip": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/delivery/public-pilot-r20-a3-mupdf/cloudflare-upload.zip",
+  "bytes": 90265640,
+  "sha256": "b7f91420a4a4f9b5d1f7d6f8b004fea7901fb1af85d73964fa7e3d856906d0b2",
+  "files": 116,
+  "releaseResourcesVerified": 89
+}

@@ -1,0 +1,78 @@
+(node:72784) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+
+ ⛅️ wrangler 4.158.0
+────────────────────
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNo compatibility_date was specified. Using the default compatibility date: 2026-11-04.[0m
+
+  ❯❯ Add one to your Wrangler configuration file: compatibility_date = "2026-11-04", or
+  ❯❯ Pass it in your terminal: wrangler pages dev [<DIRECTORY>] --compatibility-date=2026-11-04
+  
+  See [4mhttps://developers.cloudflare.com/workers/platform/compatibility-dates/[0m for more information.
+
+
+No Functions. Shimming...
+✨ Parsed 1 valid redirect rule.
+✨ Parsed 13 valid header rules.
+Your Worker has access to the following bindings:
+Binding                                                                   Resource                  Mode
+env.CF_PAGES ("1")                                                        Environment Variable      local
+env.CF_PAGES_BRANCH ("release/compare-public-pilot")                      Environment Variable      local
+env.CF_PAGES_COMMIT_SHA ("14a2467d97937c7cca979390d4665d07af65d...")      Environment Variable      local
+env.CF_PAGES_URL ("https://14a2467.huaweidata-compare.pa...")             Environment Variable      local
+
+⎔ Starting local server...
+[wrangler:info] Ready on http://127.0.0.1:8093
+[wrangler:info] GET /releases/r21-startup-a1/build-info.json 200 OK (7ms)
+[wrangler:info] GET /releases/r21-startup-a1/ 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/ 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index--B6l0JfR.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index-D48Dlxkb.css 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/main-DDFMbX7C.js 200 OK (4ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js 200 OK (4ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm 200 OK (23ms)
+[wrangler:info] GET /releases/r21-startup-a1/samples/P02/before.pdf 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/samples/P02/after.pdf 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/core.worker-C1TCeuvG.js 200 OK (5ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/core-BIAYXnLz.wasm 200 OK (7ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm 200 OK (26ms)
+[wrangler:info] GET /releases/r21-startup-a1/samples/P01/before.pdf 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/samples/P01/after.pdf 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/core.worker-C1TCeuvG.js 200 OK (5ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/core-BIAYXnLz.wasm 200 OK (7ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm 200 OK (27ms)
+[wrangler:info] GET /releases/r21-startup-a1/samples/E03/before.pdf 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/samples/E03/after.pdf 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/core.worker-C1TCeuvG.js 200 OK (5ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/core-BIAYXnLz.wasm 200 OK (6ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm 200 OK (23ms)
+[wrangler:info] GET /releases/r21-startup-a1/ 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index--B6l0JfR.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index-D48Dlxkb.css 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/main-DDFMbX7C.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/ 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index--B6l0JfR.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index-D48Dlxkb.css 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/ 304 Not Modified (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/main-DDFMbX7C.js 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js 200 OK (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm 200 OK (20ms)
+[wrangler:info] GET /releases/r21-startup-a1/ 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index--B6l0JfR.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/index-D48Dlxkb.css 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/main-DDFMbX7C.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/ 304 Not Modified (3ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/pdf.worker-DmxTj21B.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/rolldown-runtime-WkwZ5CU-.js 200 OK (2ms)
+[wrangler:info] GET /releases/r21-startup-a1/assets/mupdf-wasm-Bvf0xebB.wasm 200 OK (20ms)

@@ -1,0 +1,12 @@
+Browser tab: 1, Title: "保单比对 · 原文审阅", URL: "http://127.0.0.1:8089/releases/r20-a3-mupdf/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 103, 105
++			105 container
++				106 image 基准原文第 1 页
++				107 image 基准字符高亮
++					108 image 此页只有图片，正文文字尚未比较
++			109 container
++				110 image 待审原文第 1 页
++				111 image 待审字符高亮
++					112 image 此页只有图片，正文文字尚未比较
+The focused UI element is 0 AXWebArea 保单比对 · 原文审阅, URL: 127.0.0.1:8089/releases/r20-a3-mupdf/

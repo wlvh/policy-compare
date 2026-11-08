@@ -1,0 +1,702 @@
+{
+  "checkedAt": "2026-11-07T15:25:01.730425+00:00",
+  "target": "https://compare.huaweidata.com/",
+  "deploymentId": "3350dadc-9f46-4b85-b0e0-7fd8e33309b2",
+  "status": "PASS",
+  "scope": "All 115 downloadable file bytes equal the approved site directory, combining the initial download and the separately recorded four source-file retries. Browser workflow verification remains FAIL.",
+  "initialCompleted": 111,
+  "initialTimedOut": 4,
+  "recheckCompleted": 4,
+  "files": [
+    {
+      "path": "404.html",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "ef93d6e02de60ce14f41686793875a57280d7418deb1ace0ad3bb73592a15f32"
+    },
+    {
+      "path": "AGPL-3.0.txt",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6"
+    },
+    {
+      "path": "DISTRIBUTION-NOTICE.txt",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "d4f77c7c5fb3cf582ad4c028377e0e0e52eb3efcc8142bb7f2d1bad01c049519"
+    },
+    {
+      "path": "healthz.json",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "9b12311f4f07c321f56d9766e7005ac96373430a3b4697fee6ef9898f86b447c"
+    },
+    {
+      "path": "index.html",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "c7dc83f59e3a1043677b0d458981954667d1107ddbc4bd87d7e9cf7a1bf53936"
+    },
+    {
+      "path": "open-source/AGPL-3.0.txt",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6"
+    },
+    {
+      "path": "open-source/BUILDING.txt",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "e457fdba81676467cd5d8a4527590ed85ed070b6271142a7f4f1ecf8bd1240dc"
+    },
+    {
+      "path": "open-source/DISTRIBUTION-NOTICE.txt",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "d4f77c7c5fb3cf582ad4c028377e0e0e52eb3efcc8142bb7f2d1bad01c049519"
+    },
+    {
+      "path": "open-source/SHA256SUMS",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "76505d3dcbdf4f5a3a06a98253f7dd16beafd3c759ac00c9fd8677676bb44fc2"
+    },
+    {
+      "path": "open-source/application-source.tar.gz",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "1c54f65a439117bb1f67240bd66f12f2da9c6a9a7af2ba60a57958ad70561cc1"
+    },
+    {
+      "path": "open-source/archives.json",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "f10af6e12e7a91f2bda846c08796d55a29a5cdc709a1907ca7260914baa65428"
+    },
+    {
+      "path": "open-source/hosting-headers.txt",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "367251ea4ac14a2d6a918ad0768870f3fa31742f542735e535810189646d3606"
+    },
+    {
+      "path": "open-source/index.html",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "c39a22407acd125b43c05a56c1605bf240438e6f22e2b01ba5b6857b0ff154a9"
+    },
+    {
+      "path": "open-source/js-source/manifest.json",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "f76eea2e225b205e1f76c69f4c1ecd54921647421f4870fa824496248d610667"
+    },
+    {
+      "path": "open-source/js-source/mupdf-1.28.1.tgz",
+      "status": "PASS",
+      "evidence": "public-source-recheck.json",
+      "sha256": "e6bd485e9bfa4c618f02beea042fdcee0e6397e1a70cc8fb6baa55095b6d7601"
+    },
+    {
+      "path": "open-source/js-source/noble-hashes-2.0.1.tgz",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "638ffb3053a7e7478c9e54a6e297f3601299ee570a41112e501af7050d086a0a"
+    },
+    {
+      "path": "open-source/js-source/react-19.3.1.tgz",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "56936913918dcf1f7a6fe58784e79df54b18200a88655ce809cf5e9c4ef871aa"
+    },
+    {
+      "path": "open-source/js-source/react-dom-19.3.1.tgz",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "8b49975821eec6311e00d2b3f4b8337923253c876517388a33f9839c61ab262e"
+    },
+    {
+      "path": "open-source/js-source/scheduler-0.28.0.tgz",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "302995d590e3c0a11eeb40d1d0f299c1df1800135d599d85cdd5faeb614f32d6"
+    },
+    {
+      "path": "open-source/js-source/zod-4.6.7.tgz",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "84efd155bed93270286e793fc951be270b536cbd5b0eeb111f0fa3967201d698"
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-00",
+      "status": "PASS",
+      "evidence": "public-source-recheck.json",
+      "sha256": "4ffe46da1ebbd5d42dbacf89eae32a661fc495984d25436b7018f80235ce045e"
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-01",
+      "status": "PASS",
+      "evidence": "public-source-recheck.json",
+      "sha256": "3d3ba2a23792765923e1d0cbaf7dab4dfb61788511581b997c95f6cec01f09b3"
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-02",
+      "status": "PASS",
+      "evidence": "public-source-recheck.json",
+      "sha256": "0f5a2a29f109e11c6a62bc1361ea0c49995e965269f42fb5c7c7de06c01b4652"
+    },
+    {
+      "path": "open-source/mupdf-source.tar.gz.part-03",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "1e5f43fe0471b66a0d10cdb057cc8e76e41b4ca5f66255318f372d195e5bd2e6"
+    },
+    {
+      "path": "pilot.css",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "0b1fc529f68eb0148a1a5e4da88dda6626aada4e48c343b6c465b11492c37756"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/__vite-browser-external-UfK9GVxM.js",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "182b2b054bed5137d2bfd5c76af35d84196dc250e806d60c76233d28b5873598"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/core-BIAYXnLz.wasm",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/core.worker-BNIG3pEo.js",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "bf01f0febe72d0a94c352e4106b1514c7c592d2d0d86b8f850ee81ca0123097e"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/index-D48Dlxkb.css",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "1a73457c5785344b5db0002a018e4432017cd3b9bfe65e7242fde0335d5e966c"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/index-ZX_DqIET.js",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "e4fe3dbe94ca9078eadb52299204b2e5ddcf16740f7abca371c27df2fb892f75"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/main-DXpiB2L7.js",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "46e223d9a7493349af7f23e980d8b9babb09c83fea6bf14464f3c798a914d492"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/mupdf-wasm-Bvf0xebB.wasm",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "5a30ef7b027f541ea8fc54e7c73f16414b0b59940741a12efe5e55f1fd0a99d7"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/pdf.worker-BxUR5j62.js",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "cecf173593a9e14fc6a521b57f3b36039a5139310051e5cf85c5390bca25b625"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/assets/rolldown-runtime-WkwZ5CU-.js",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "2629f2ad3cb75a57d98de697127f5af7d777ef572bbcdfa6e3ce8f438cd4527e"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/build-info.json",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "766c5704bbeb17a8e6e7ff6e151056219c8316b96b51ce5f3d7e3a3b6c382416"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/index.html",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "319cff35d418d7a37acb1876cd08c89614324c1bdc93582b618217859abec02a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/common/@noble-hashes/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/common/react/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/common/react-dom/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/common/scheduler/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/common/zod/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "3f1189b28e3866e0d979968d466b78f813f76827cfdca1fbb124cc0a5c8841f8"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/mupdf-LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/aho-corasick-1.1.5/COPYING",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/aho-corasick-1.1.5/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/bit-set-0.8.0/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "8173d5c29b4f956d532781d2b86e4e30f83e6b7878dce18c919451d6ba707c90"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/bit-set-0.8.0/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "f51ac2c59a222f7476ce507ca879960e2b64ea64bb2786eefdbeb7b0b538d1b7"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/bit-vec-0.8.0/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "8173d5c29b4f956d532781d2b86e4e30f83e6b7878dce18c919451d6ba707c90"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/bit-vec-0.8.0/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "f51ac2c59a222f7476ce507ca879960e2b64ea64bb2786eefdbeb7b0b538d1b7"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/block-buffer-0.10.4/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/block-buffer-0.10.4/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "d5c22aa3118d240e877ad41c5d9fa232f9c77d757d4aac0c2f943afc0a95e0ef"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/cargo-metadata.json",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "0c7d3e702c061eef9c990e133e6ec05f4525cb594ef942809f037811fe7de2a5"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/cfg-if-1.0.5/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/cfg-if-1.0.5/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/cpufeatures-0.2.17/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/cpufeatures-0.2.17/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "ae9baa7beea910273c2f384c2a6b721fb7bd02bda3436074a1072e4ee689f985"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/crypto-common-0.1.7/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/crypto-common-0.1.7/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "3521672491a3479422d5fe1aca6645dd2984090f85da6e5205abfb18fb7a6897"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/digest-0.10.7/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/digest-0.10.7/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "9e0dfd2dd4173a530e238cb6adb37aa78c34c6bc7444e0e10c1ab5d8881f63ba"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/equivalent-1.0.3/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/equivalent-1.0.3/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "7365cc8878a1d7ce155a58c4ca09c3d7a6be413efa5334a80ea842912b669349"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/fancy-regex-0.16.2/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "3bc70e239e91272782006c638fc0452a714d384224f11f0923036b7be07cf9b5"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/generic-array-0.14.7/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "c09aae9d3c77b531f56351a9947bc7446511d6b025b3255312d3e3442a9a7583"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/hashbrown-0.16.1/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/hashbrown-0.16.1/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "ff8f68cb076caf8cefe7a6430d4ac086ce6af2ca8ce2c4e5a2004d4552ef52a2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/indexmap-2.13.0/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/indexmap-2.13.0/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "ecc269ef87fd38a1d98e30bfac9ba964a9dbd9315c3770fed98d4d7cb5882055"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/itoa-1.0.18/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/itoa-1.0.18/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/libc-0.2.191/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/libc-0.2.191/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "123a331b5dbf04c30097fa43b8f858bc85df671fe776de498d01f3d6b7c1f69e"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/memchr-2.8.3/COPYING",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/memchr-2.8.3/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/proc-macro2-1.0.107/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/proc-macro2-1.0.107/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/quote-1.0.47/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/quote-1.0.47/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/regex-automata-0.4.18/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/regex-automata-0.4.18/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/regex-syntax-0.8.11/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/regex-syntax-0.8.11/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/ryu-js-1.0.2/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/ryu-js-1.0.2/LICENSE-BOOST",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde-1.0.228/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde-1.0.228/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde_core-1.0.228/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde_core-1.0.228/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde_derive-1.0.228/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde_derive-1.0.228/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde_json-1.0.149/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/serde_json-1.0.149/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/sha2-0.10.9/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/sha2-0.10.9/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "b4eb00df6e2a4d22518fcaa6a2b4646f249b3a3c9814509b22bd2091f1392ff1"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/syn-2.0.119/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/syn-2.0.119/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/tinyvec-1.13.3/LICENSE-APACHE.md",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/tinyvec-1.13.3/LICENSE-MIT.md",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "fd80a26fbb3f644af1fa994134446702932968519797227e07a1368dea80f0bc"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/tinyvec-1.13.3/LICENSE-ZLIB.md",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "84b34dd7608f7fb9b17bd588a6bf392bf7de504e2716f024a77d89f1b145a151"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/typenum-1.20.1/LICENSE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "db11fec9946737df39ca3898d9cd8c10ec6f6c3a884a6802b0ad0b81b4e8f23a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/typenum-1.20.1/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "516b24e051bf5630880ebbd55c40a25ce9552ebaf8970a53e8976eb70e522406"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/typenum-1.20.1/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a825bd853ab71619a4923d7b4311221427848070ff44d990da39b0b274c1683f"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/unicode-ident-1.0.27/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/unicode-ident-1.0.27/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/unicode-ident-1.0.27/LICENSE-UNICODE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "f7db81051789b729fea528a63ec4c938fdcb93d9d61d97dc8cc2e9df6d47f2a1"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/unicode-normalization-0.1.25/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/unicode-normalization-0.1.25/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "7b63ecd5f1902af1b63729947373683c32745c16a10e8e6292e2e2dcd7e90ae0"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/version_check-0.9.5/LICENSE-APACHE",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/version_check-0.9.5/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "b7e650f3fce5c53249d1cdc608b54df156a97edd636cf9d23498d0cfe7aec63e"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/licenses/rust/zmij-1.0.23/LICENSE-MIT",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/samples/E03/after.pdf",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "a0405599332d7f971dc4d7a6b3c2cdd030cd5d41b509158f04b7101202411a8a"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/samples/E03/before.pdf",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "bcd232bf25c42324a4ea0008ebc28c408b5f71ce6f655de93bbb63b40a975eb7"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/samples/P01/after.pdf",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/samples/P01/before.pdf",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "be3c9b4e015ac5d5ae91220146f31aeaf2c7fb1b6c171c18eb0997599ef5c1f0"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/samples/P02/after.pdf",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963"
+    },
+    {
+      "path": "releases/r20-a3-mupdf/samples/P02/before.pdf",
+      "status": "PASS",
+      "evidence": "public-cli-release-http.json",
+      "sha256": "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2"
+    }
+  ]
+}

@@ -1,16 +1,18 @@
 {
-  "status": "LOCAL_EVALUATION_AND_PRIVATE_REVIEW_AUTHORIZED",
-  "checkedOn": "2026-10-26",
+  "status": "LOCAL_EVALUATION_AND_FIXED_PUBLIC_PILOT_AUTHORIZED",
+  "checkedOn": "2026-11-08",
   "evidence": [
     "2026-10-26 用户本会话明确回复：尚无结论，先用mupdf",
     "2026-10-26 用户 A/B-1 增量明确授权两个版本开发与本地技术比较",
-    "2026-10-26 用户要求创建 GitHub 仓库并上传审核者所需全部材料；按私有审核范围执行"
+    "2026-10-26 用户要求创建 GitHub 仓库并上传审核者所需全部材料；按私有审核范围执行",
+    "2026-11-07 用户明确回复：采用 AGPL 开源发布本轮固定候选"
   ],
   "allowedScopes": [
     "local_development",
     "synthetic_testing",
     "local_preview",
-    "private_repository_technical_review"
+    "private_repository_technical_review",
+    "fixed_r20_a3_mupdf_public_pilot"
   ],
   "reason": "本地评估已获明确授权；没有发现真实组织禁止条件。正式分发/共享服务/生产按各自实际条件另行核实，不把未购买商业许可当作本地开发阻塞。",
   "requiredScopes": [
@@ -22,8 +24,8 @@
   ],
   "scopes": {
     "local_evaluation": "AUTHORIZED",
-    "distribution": "NOT_ASSESSED_FOR_ACTUAL_DISTRIBUTION",
-    "shared_deployment": "NOT_AUTHORIZED_OR_DEPLOYED",
+    "distribution": "AGPL-3.0-or-later for fixed r20-a3-mupdf and accompanying hosting files; see NOTICE",
+    "shared_deployment": "FIXED_PUBLIC_PILOT_DEPLOYED; public verification failures remain",
     "production": "NOT_AUTHORIZED_OR_DEPLOYED",
     "commercial_purchase": "NO_EVIDENCE",
     "private_repository_review": "AUTHORIZED_BY_USER; not an assertion of commercial or production license approval"
@@ -39,5 +41,26 @@
       "packageLicense": "AGPL-3.0-or-later",
       "patch": "Unicode code point correction"
     }
+  },
+  "publicPilot": {
+    "releaseId": "r20-a3-mupdf",
+    "applicationRevision": "a3ad1646f4ea3eb95ec94ae493e0d5d1a593013d",
+    "license": "AGPL-3.0-or-later",
+    "ownerAuthorization": "2026-11-07 用户明确回复：采用 AGPL 开源发布本轮固定候选",
+    "sourceMaterials": "Served at https://compare.huaweidata.com/open-source/ with application source, Rust dependency sources, complete MuPDF source, patch, runtime JS package distributions, notices and build instructions",
+    "publicDeployment": "DEPLOYED_HTTPS_VERIFIED; browser verification currently FAIL",
+    "deploymentId": "3350dadc-9f46-4b85-b0e0-7fd8e33309b2"
+  },
+  "historicalStatus": {
+    "status": "LOCAL_EVALUATION_AND_PRIVATE_REVIEW_AUTHORIZED",
+    "checkedOn": "2026-10-26"
+  },
+  "startupFollowup": {
+    "releaseId": "r21-startup-a1",
+    "applicationRevision": "14a2467d97937c7cca979390d4665d07af65d61c",
+    "license": "AGPL-3.0-or-later",
+    "basis": "Startup-only derivative of the owner-authorized AGPL public candidate; user requested the revised public release on 2026-11-08",
+    "publicDeployment": "DEPLOYED; see reports/public-pilot/startup-followup",
+    "manifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc"
   }
 }

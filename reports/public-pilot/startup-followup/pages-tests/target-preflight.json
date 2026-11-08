@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:8093/releases/r21-startup-a1/",
+  "releaseId": "r21-startup-a1",
+  "engine": "mupdf",
+  "revision": "14a2467d97937c7cca979390d4665d07af65d61c",
+  "manifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}
