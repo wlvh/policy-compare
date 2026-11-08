@@ -18,7 +18,8 @@
     "originalPublicFiles": "PASS_90_OF_90",
     "publicHostingAndSourceFiles": "PASS_8_OF_8",
     "normalPublicVisits": "4_OF_4_COMPLETED_P02",
-    "controlledSlowPublicVisit": "COMPLETED_P02"
+    "controlledSlowPublicVisit": "COMPLETED_P02",
+    "existingRustInitializationLifecycle": "PASS_3_OF_3_WITH_CANDIDATE_CORE_INFO"
   },
   "timingPolicyMs": {
     "pdfPreparation": 60000,
@@ -36,5 +37,12 @@
     "organizationEnvironment": "NOT_EVALUATED",
     "fullBrowserMemory": "NOT_EVALUATED"
   },
-  "issue19": "KEEP_OPEN"
+  "issue19": "KEEP_OPEN",
+  "existingCoreExpectedInfo": {
+    "file": "expected-core-info.json",
+    "source": "candidate/build-info.json coreArtifact",
+    "sourceManifestSha256": "d067d85742eb9597d46ea879cceeaa5d6c627fab796b377954835fda913d04cc",
+    "firstRun": "existing-core-lifecycle failed because host-compiled core was selected as expected artifact",
+    "verifiedRun": "existing-core-verified"
+  }
 }

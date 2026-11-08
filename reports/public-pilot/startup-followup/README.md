@@ -53,7 +53,7 @@ Rust WASM 与原候选哈希相同。本轮产品代码修改集中在 `apps/web
 | --- | --- |
 | `candidate/container.json` | 固定镜像检查通过，34 项通过、1 项跳过 |
 | `final-regressions/verification.json` | 新增 5 项回归全部通过 |
-| `existing-core-lifecycle/verification.json` | 原有 Rust 取消、失败、超时及重试 3 项通过，超时用例按 60 秒边界同步 |
+| `existing-core-verified/verification.json` | 原有 Rust 取消、失败、超时及重试 3 项通过，超时用例按 60 秒边界同步 |
 | `pages-tests/verification.json` | Wrangler 本地 Pages 上原 4 项部署检查全部通过 |
 | `public-deployment-final/verification.json` | 实际公开域名上原 4 项部署检查全部通过 |
 | `public-files.json` | 新版本 90 个文件全部核对一致 |
@@ -64,7 +64,9 @@ Rust WASM 与原候选哈希相同。本轮产品代码修改集中在 `apps/web
 
 新增回归通过真实延迟 20 秒的 PDF Worker 和 Rust WASM 请求验证旧期限之后仍可启动并完成比较。无响应、取消与处理期限使用浏览器时钟推进，核对实际失败状态、线程退出和重试恢复。处理期限检查使用保留原响应头的受控 Worker 响应，使文档处理保持未完成，再检查 120 秒终止。
 
-早期 CI 的两个功能作业还指出原 Rust 超时测试仍将 17 秒等待视为失败。该测试已改为阻塞请求并推进到 60 秒边界，继续核对真实失败、线程退出及重试结果，见 `existing-core-lifecycle`。
+早期 CI 的两个功能作业还指出原 Rust 超时测试仍将 17 秒等待视为失败。该测试已改为阻塞请求并推进到 60 秒边界，继续核对真实失败、线程退出及重试结果，见 `existing-core-verified`。
+
+本地首次复跑这三项时，误用了主机编译核心的预期清单，三个用例在最后的产物核对处失败。记录保存在 `existing-core-lifecycle`。随后从已固定、已核对的候选构建清单提取 `expected-core-info.json`，通过既有 `POLICY_CORE_INFO` 参数指定该候选的预期产物，`existing-core-verified` 三项通过。断言继续逐项核对实际加载产物。
 
 开发中的回归脚本曾因已取消请求上的重复 abort 和受控 Worker 响应缺少原隔离头而失败。已修正脚本并保留早期记录，最终以 `final-regressions` 为本轮回归结果。`package.log` 保留首次 Docker 文件提取遇到只读目录权限的失败，打包改为 Docker tar 流交给本机 tar 提取后，`package-verified.log` 记录成功。
 
