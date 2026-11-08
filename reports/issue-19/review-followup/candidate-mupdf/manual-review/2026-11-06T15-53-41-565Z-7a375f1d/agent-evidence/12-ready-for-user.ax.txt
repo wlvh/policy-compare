@@ -1,0 +1,107 @@
+Browser tab: 1, Title: "保单比对 · 原文审阅", URL: "http://127.0.0.1:8089/releases/r20-a3-mupdf/".
+0 AXWebArea 保单比对 · 原文审阅, URL: 127.0.0.1:8089/releases/r20-a3-mupdf/
+	1 container
+		2 container
+			3 text POLICY COMPARE / 本地审阅 ·  mupdf
+		4 heading 让每处变化，都有原文依据。, Value: 1
+			5 text 让每处变化，都有原文依据。
+		6 text 基准 → 待审 · PDF 在此浏览器内处理
+		7 text 本地处理 不上传文档 · 无 OCR
+		8 container 首次使用
+			76 container
+				77 button (expanded) 使用说明与版本信息, Secondary Actions: Collapse
+					78 text 使用说明与版本信息
+				79 text 选择基准与待审 PDF（每份最多 100 页、30 MiB），需要时输入密码，再开始比较。点击变化查看两侧原文；黄色提示表示有未比较内容或对应未确定。筛选会隐藏部分变化，核对结束前回到全部变化。JSON 导出含原文，分享前请确认资料授权；关闭任务后释放当前文档资源。 仅比较可提取文字，不识别扫描图片文字，不判断业务风险。复杂表格归属和部分高亮仍有已知问题，当前供受控开发试用，不能作为完整审单结论。 发布版本： r20-a3-mupdf  · 引擎： mupdf 1.28.1  · 源码： a3ad1646f4ea 比较核心： policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4  · 产物 SHA-256：
+				80 text 30d737bc7bcf0e7d555811aeae19834e6311c6117fc9b355d572da8f44002898
+				81 text 维护联系： 请联系提供本工具的维护者 。反馈时可主动下载诊断；其中只有版本、浏览器、阶段和错误代码。
+				82 button 下载诊断
+			11 text 一键试用虚构样例（自动开始比较）：
+			12 button P02 金额变化, Help: 1315 的 USD 100 → USD 2000；1760 的 USD 1000 未改
+				13 text P02
+				83 text 金额变化
+			15 button P01 相同文件, Help: 没有内容变化卡
+				16 text P01
+				84 text 相同文件
+			18 button E03 扫描图片, Help: 必须提示图片文字尚未比较，不能理解为无变化
+				19 text E03
+				85 text 扫描图片
+			21 text P02：金额修改且能定位；P01：相同文件无内容变化；E03：扫描图片应提示文字未比较。
+		22 container 文档选择
+			23 text 01 基准版
+			24 button Description: 基准 PDF, ID: file-0
+			25 text P02-before.pdf
+			26 text field (settable) 基准 PDF 密码
+			27 text 02 待审版
+			28 button Description: 待审 PDF, ID: file-1
+			29 text P02-after.pdf
+			30 text field (settable) 待审 PDF 密码
+			31 button 开始比较
+			32 button 交换方向
+			33 button (disabled) 取消
+		34 text 本次处理结束
+		35 text 没有记录到覆盖缺口或未决；内容与位置变化默认展示，重复次数变化另列数量摘要。这不表示不存在未知遗漏。
+		86 button 导出 JSON
+		36 button 关闭任务
+		37 heading 变化清单 1, Value: 2
+			38 text 变化清单  1
+		39 pop up button (collapsed, settable) Description: 按变化方式筛选, Value: 全部变化, Secondary Actions: Expand
+			40 menu
+				41 (selected) 全部变化
+				42 两侧对应、位置未变
+				43 位置移动
+				44 基准侧未找到对应
+				45 待审侧未找到对应
+		46 container
+			47 text 文字与位置变化 · 当前筛选隐藏 0  项
+		48 text field (settable) Description: 搜索原文, Value: 1315
+		49 pop up button (collapsed, settable) Description: 搜索范围, Value: 两侧, Secondary Actions: Expand
+			50 menu
+				51 (selected) 两侧
+				52 基准
+				53 待审
+		54 button 搜索
+		103 container
+			104 button 基准 P1 · 1315
+				105 text 基准
+				106 text  P
+				107 text 1
+				108 text  · 
+				109 text 1315
+			110 button 待审 P1 · 1315
+				111 text 待审
+				112 text  P
+				113 text 1
+				114 text  · 
+				115 text 1315
+		87 button 文字变化 按表格行身份对应 1315 1315 Alpha Air USD 100 annual 1315 Alpha Air USD 2000 annual
+			88 text 文字变化
+			89 text 按表格行身份对应
+			90 heading 1315, Value: 3
+				91 text 1315
+			92 text 1315 Alpha Air USD 100 annual
+			93 text 1315 Alpha Air USD 2000 annual
+		57 text 原文定位 · 滚轮连续浏览
+		58 checkbox (settable, integer) Description: 同步滚动, Value: 1
+		59 text 基准版
+		60 text P02-before.pdf
+		61 container
+			62 button (disabled) 基准上一页
+			63 text 1  / 1
+			64 button (disabled) 基准下一页
+		94 container 基准原文连续浏览
+			97 container
+				98 image 基准原文第 1 页
+				99 image 基准字符高亮
+		67 text 待审版
+		68 text P02-after.pdf
+		69 container
+			70 button (disabled) 待审上一页
+			71 text 1  / 1
+			72 button (disabled) 待审下一页
+		96 container 待审原文连续浏览
+			100 container
+				101 image 待审原文第 1 页
+				102 image 待审字符高亮
+		75 text 处理范围仅限可提取文本。文字与位置变化默认展示，重复次数变化另列数量摘要；程序不判断变化是否重要，不输出法律解释。 开发验证版 · 正式许可与业务留出验收尚未完成
+
+The focused UI element is 54 button 搜索

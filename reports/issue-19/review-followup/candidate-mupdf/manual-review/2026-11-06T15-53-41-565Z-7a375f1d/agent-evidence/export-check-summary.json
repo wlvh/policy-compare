@@ -1,0 +1,253 @@
+[
+  {
+    "file": "agent-evidence/p02-result.json",
+    "status": "complete_for_scope",
+    "coverage": [],
+    "unresolved": [],
+    "differences": [
+      {
+        "id": "d-f5eec22b6cc2f414c929",
+        "oldText": "1315 Alpha Air USD 100 annual",
+        "newText": "1315 Alpha Air USD 2000 annual",
+        "changedOps": [
+          {
+            "kind": "delete",
+            "text": "1",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u5",
+                "rawRange": [
+                  191,
+                  192
+                ],
+                "charIds": [
+                  "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:c191"
+                ],
+                "text": "1",
+                "quads": [
+                  [
+                    343.89,
+                    148.25,
+                    349.45,
+                    148.25,
+                    343.89,
+                    161.99,
+                    349.45,
+                    161.99
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "glyph",
+                "sourceRanges": [],
+                "geometryMethod": "native_glyph"
+              }
+            ],
+            "right": []
+          },
+          {
+            "kind": "insert",
+            "text": "20",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u5",
+                "rawRange": [
+                  191,
+                  193
+                ],
+                "charIds": [
+                  "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:c191",
+                  "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:c192"
+                ],
+                "text": "20",
+                "quads": [
+                  [
+                    343.89,
+                    148.25,
+                    349.45,
+                    148.25,
+                    343.89,
+                    161.99,
+                    349.45,
+                    161.99
+                  ],
+                  [
+                    349.45,
+                    148.25,
+                    355.01,
+                    148.25,
+                    349.45,
+                    161.99,
+                    355.01,
+                    161.99
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "glyph",
+                "sourceRanges": [],
+                "geometryMethod": "native_glyph"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "agent-evidence/p01-result.json",
+    "status": "complete_for_scope",
+    "coverage": [],
+    "unresolved": [],
+    "differences": []
+  },
+  {
+    "file": "agent-evidence/e03-result.json",
+    "status": "partial",
+    "coverage": [
+      {
+        "side": "left",
+        "pageIndex": 0,
+        "region": [
+          0,
+          0,
+          612,
+          792
+        ],
+        "reason": "raster_only_content",
+        "evidence": "MuPDF StructuredText image block",
+        "message": "此页只有图片，正文文字尚未比较",
+        "defaultVisible": true
+      },
+      {
+        "side": "right",
+        "pageIndex": 0,
+        "region": [
+          0,
+          0,
+          612,
+          792
+        ],
+        "reason": "raster_only_content",
+        "evidence": "MuPDF StructuredText image block",
+        "message": "此页只有图片，正文文字尚未比较",
+        "defaultVisible": true
+      }
+    ],
+    "unresolved": [],
+    "differences": []
+  },
+  {
+    "file": "agent-evidence/p02-reversed-result.json",
+    "status": "complete_for_scope",
+    "coverage": [],
+    "unresolved": [],
+    "differences": [
+      {
+        "id": "d-93437c5305db7eb5b31d",
+        "oldText": "1315 Alpha Air USD 2000 annual",
+        "newText": "1315 Alpha Air USD 100 annual",
+        "changedOps": [
+          {
+            "kind": "delete",
+            "text": "20",
+            "left": [
+              {
+                "side": "left",
+                "pageIndex": 0,
+                "unitId": "u5",
+                "rawRange": [
+                  191,
+                  193
+                ],
+                "charIds": [
+                  "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:c191",
+                  "1ffe8e5ea3be543d3f1e00c7b42956e6b9416e98de6e400a12ae43f20299d963:p0:c192"
+                ],
+                "text": "20",
+                "quads": [
+                  [
+                    343.89,
+                    148.25,
+                    349.45,
+                    148.25,
+                    343.89,
+                    161.99,
+                    349.45,
+                    161.99
+                  ],
+                  [
+                    349.45,
+                    148.25,
+                    355.01,
+                    148.25,
+                    349.45,
+                    161.99,
+                    355.01,
+                    161.99
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "glyph",
+                "sourceRanges": [],
+                "geometryMethod": "native_glyph"
+              }
+            ],
+            "right": []
+          },
+          {
+            "kind": "insert",
+            "text": "1",
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "pageIndex": 0,
+                "unitId": "u5",
+                "rawRange": [
+                  191,
+                  192
+                ],
+                "charIds": [
+                  "9b668ab924179ba26cf9e7505894107251d7c04c251db04b84533e5b44c59fc2:p0:c191"
+                ],
+                "text": "1",
+                "quads": [
+                  [
+                    343.89,
+                    148.25,
+                    349.45,
+                    148.25,
+                    343.89,
+                    161.99,
+                    349.45,
+                    161.99
+                  ]
+                ],
+                "direction": [
+                  1,
+                  0
+                ],
+                "precision": "glyph",
+                "sourceRanges": [],
+                "geometryMethod": "native_glyph"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
