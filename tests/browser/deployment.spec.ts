@@ -1,8 +1,14 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
+async function expectComparison(page: Page, expected: string | RegExp) {
+  const status = page.locator('[data-status]');
+  await expect(status).toHaveAttribute('data-status', /complete_for_scope|partial|failed/, { timeout: 185_000 });
+  await expect(status).toHaveAttribute('data-status', expected);
+}
+
 test('three allowlisted samples, source highlight, search, export and private diagnostic',async({page,baseURL})=>{
-  test.setTimeout(180_000);
+  test.setTimeout(630_000);
   const outgoing:string[]=[];
   const origin = new URL(baseURL!).origin;
   await page.context().route('**/*',route=>{
@@ -14,7 +20,7 @@ test('three allowlisted samples, source highlight, search, export and private di
   expect(await page.evaluate(()=>crossOriginIsolated)).toBe(true);
   await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:65_000});
   await page.getByRole('button',{name:'P02 金额变化',exact:true}).click();
-  await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);
+  await expectComparison(page, /complete_for_scope|partial/);
   await expect(page.locator('.cards')).toContainText('USD 2000');
   await page.locator('.card').filter({hasText:'2000'}).first().click();
   await expect(page.locator('polygon').first()).toBeVisible();
@@ -32,10 +38,10 @@ test('three allowlisted samples, source highlight, search, export and private di
   expect(Object.keys(info).sort()).toEqual(['browser','engine','engineVersion','errorCode','phase','releaseId']);
   expect(JSON.stringify(info)).not.toMatch(/1315|USD|before\.pdf|after\.pdf/);
   await page.getByRole('button',{name:'P01 相同文件',exact:true}).click();
-  await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
+  await expectComparison(page, 'complete_for_scope');
   await expect(page.locator('.card')).toHaveCount(0);
   await page.getByRole('button',{name:'E03 扫描图片',exact:true}).click();
-  await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');
+  await expectComparison(page, 'partial');
   await expect(page.locator('.gaps')).toContainText('只有图片');
   await page.getByRole('button',{name:'关闭任务',exact:true}).click();
   await expect.poll(()=>page.workers().length).toBe(0);

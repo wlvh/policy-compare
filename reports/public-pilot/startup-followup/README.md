@@ -54,10 +54,12 @@ Rust WASM 与原候选哈希相同。本轮产品代码修改集中在 `apps/web
 | `candidate/container.json` | 固定镜像检查通过，34 项通过、1 项跳过 |
 | `final-regressions/verification.json` | 新增 5 项回归全部通过 |
 | `pages-tests/verification.json` | Wrangler 本地 Pages 上原 4 项部署检查全部通过 |
-| `public-deployment/verification.json` | 实际公开域名上原 4 项部署检查全部通过 |
+| `public-deployment-final/verification.json` | 实际公开域名上原 4 项部署检查全部通过 |
 | `public-files.json` | 新版本 90 个文件全部核对一致 |
 | `original-public-files.json` | 当前同站旧版本 90 个文件全部核对一致 |
 | `public-hosting-files.json` | 当前入口、源码归档、构建说明及许可等 8 个文件全部核对一致 |
+
+原部署用例的就绪等待覆盖 60 秒初始化，比较等待覆盖初始化与处理的有限期限。用例先等待实际结束状态，再核对预期结果，应用报错会立即进入结果断言。
 
 新增回归通过真实延迟 20 秒的 PDF Worker 和 Rust WASM 请求验证旧期限之后仍可启动并完成比较。无响应、取消与处理期限使用浏览器时钟推进，核对实际失败状态、线程退出和重试恢复。处理期限检查使用保留原响应头的受控 Worker 响应，使文档处理保持未完成，再检查 120 秒终止。
 
