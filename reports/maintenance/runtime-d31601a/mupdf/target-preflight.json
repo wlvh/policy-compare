@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:18082/releases/r20261110-local-d31601a/",
+  "releaseId": "r20261110-local-d31601a",
+  "engine": "mupdf",
+  "revision": "d31601a7037b4a2ec1ba1aa894865c937fbf4808",
+  "manifestSha256": "81c1557d368e1ecb08e0244b53006ef02296160a217695d06806303f3d21e8db",
+  "status": "PASS",
+  "scope": "artifact identity and HTTP headers only; browser flows reported separately"
+}

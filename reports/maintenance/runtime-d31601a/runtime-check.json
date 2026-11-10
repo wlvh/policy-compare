@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "scope": "Actual extracted packages on this machine; organization and target-device acceptance remain separate",
+  "productRevision": "d31601a7037b4a2ec1ba1aa894865c937fbf4808",
+  "records": [
+    {
+      "engine": "pdfjs",
+      "status": "PASS",
+      "archiveSha256": "e3ed0a1aaa922a33725ec41e3508bbf083d544e9920604f9974a150063250499",
+      "staticFiles": 286,
+      "checks": [
+        "archive/extraction",
+        "every static file hash",
+        "no upload endpoint",
+        "four deployment browser cases",
+        "bundled before/after PDFs through file inputs"
+      ]
+    },
+    {
+      "engine": "mupdf",
+      "status": "PASS",
+      "archiveSha256": "13ac8e8837373640c65c1e39443cb391b2eb738bb5f694ad1802ef9ebf6451f0",
+      "staticFiles": 90,
+      "checks": [
+        "archive/extraction",
+        "every static file hash",
+        "no upload endpoint",
+        "four deployment browser cases",
+        "bundled before/after PDFs through file inputs"
+      ]
+    }
+  ]
+}

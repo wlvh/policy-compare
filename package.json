@@ -44,7 +44,9 @@
     "verify:deployment": "tsx scripts/verify-deployment.ts",
     "deploy:render": "tsx scripts/render-openshift.ts",
     "preview:release": "tsx scripts/preview-release.ts",
-    "build:core": "tsx scripts/build-rust.ts"
+    "build:core": "tsx scripts/build-rust.ts",
+    "package:runtime": ".venv/bin/python scripts/package-delivery.py --current",
+    "verify:runtime": "tsx scripts/check-runtime.ts"
   },
   "dependencies": {
     "@noble/hashes": "2.0.1",

@@ -1,0 +1,9 @@
+{
+  "target": "http://127.0.0.1:18081/releases/r20261110-local-d31601a/",
+  "releaseId": "r20261110-local-d31601a",
+  "engine": "pdfjs",
+  "manifestSha256": "4efe17e09a2bff50013ddaf81a7978322462b21b6241786a2657e3815d7a8572",
+  "exitCode": 0,
+  "status": "PASS",
+  "scope": "Selected browser cases on supplied target only; does not establish cluster admission, ingress exclusivity, architecture promotion, target-device performance or business acceptance"
+}

@@ -1,0 +1,13 @@
+
+> policy-compare@0.1.0 verify:deployment /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/verify-deployment.ts tests/browser/deployment.spec.ts
+
+
+Running 4 tests using 1 worker
+
+  ✓  1 tests/browser/deployment.spec.ts:10:1 › three allowlisted samples, source highlight, search, export and private diagnostic (1.1s)
+  ✓  2 tests/browser/deployment.spec.ts:53:1 › missing isolation is actionable and comparison cannot start (179ms)
+  ✓  3 tests/browser/deployment.spec.ts:67:1 › engine bundle download failure leaves a reload screen (367ms)
+  ✓  4 tests/browser/deployment.spec.ts:78:1 › failed engine worker initialization can be retried (369ms)
+
+  4 passed (2.4s)

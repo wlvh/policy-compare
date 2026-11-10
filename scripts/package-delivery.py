@@ -1,7 +1,115 @@
 """Package only the selected static runtime; never include validation answers in products."""
 from pathlib import Path
-import hashlib,json,tarfile,io
+import hashlib,json,tarfile,io,argparse,subprocess,re
 ROOT=Path(__file__).resolve().parents[1]
+
+
+def package_current(selected, output):
+    engines = ['pdfjs', 'mupdf'] if selected == 'both' else [selected]
+    builds = []
+    for engine in engines:
+        base = ROOT / 'dist' / engine
+        info = json.loads((base / 'build-info.json').read_text())
+        revision, release = info['revision'], info['releaseId']
+        assert re.fullmatch(r'[a-f0-9]{40}', revision), 'Build must identify a source commit'
+        assert release != 'development' and info['base'] == f'/releases/{release}/', 'Build a versioned release first'
+        assert info['engine'] == engine
+        product_paths = [
+            'apps', 'packages', 'engines', 'profiles', 'patches', 'deploy/server.mjs',
+            'vite.config.ts', 'pnpm-lock.yaml', 'crates', 'Cargo.toml', 'Cargo.lock',
+            'rust-toolchain.toml',
+        ]
+        changed = subprocess.check_output(['git', 'diff', revision, '--', *product_paths], cwd=ROOT)
+        assert not changed, 'Runtime sources differ from the identified build commit'
+        for item in info['resources']:
+            file = base / item['path']
+            assert file.resolve().is_relative_to(base.resolve())
+            assert file.stat().st_size == item['bytes'] and hashlib.sha256(file.read_bytes()).hexdigest() == item['sha256'], file
+        actual = {str(file.relative_to(base)) for file in base.rglob('*') if file.is_file()}
+        assert actual == {item['path'] for item in info['resources']} | {'build-info.json'}
+        builds.append((engine, base, info))
+    revisions = {info['revision'] for _, _, info in builds}
+    assert len(revisions) == 1, 'Selected engines must identify the same source commit'
+    output = output or ROOT / 'delivery' / f"runtime-{builds[0][2]['releaseId']}"
+    assert not output.exists(), 'Choose a new output directory to preserve previous packages'
+    output.mkdir(parents=True)
+    manifest = {'format': 'policy-runtime/2', 'product_revision': next(iter(revisions)), 'artifacts': []}
+    for engine, base, info in builds:
+        package = output / f"policy-compare-{engine}-{info['releaseId']}.tar.gz"
+        prefix = f'policy-compare-{engine}'
+        readme = f"""# {engine} 本地运行包
+
+安装 Node.js 24 LTS。在解压目录运行 `node server.mjs`，打开 http://127.0.0.1:8080/。
+可用 `PORT=8082 node server.mjs` 调整端口，按 Ctrl+C 停止。
+页面保留 P01、P02、E03 三组一键样例，也可以选择包内 samples/before.pdf 和 after.pdf。
+两份 PDF 的解析、比较、搜索与页面显示在当前浏览器中处理。
+产品源码提交为 {info['revision']}，发布版本为 {info['releaseId']}。
+BUILD.json、dist/build-info.json 和交付清单记录实际文件身份。
+源码与构建步骤见 SOURCE.txt，许可见 LICENSE、NOTICE 及 dist/licenses。
+该运行包的检查范围和结果以配套 manifest.json 及解压验证记录为准。
+"""
+        source = (
+            f"Source commit: https://github.com/wlvh/policy-compare/tree/{info['revision']}\n"
+            "Build: Node 24 LTS, pnpm 10.12.1, Rust 1.93.0 wasm32-unknown-unknown.\n"
+            f"pnpm install --frozen-lockfile && pnpm install:{engine}\n"
+            f"POLICY_RELEASE_ID={info['releaseId']} POLICY_REVISION={info['revision']} pnpm build:{engine}\n"
+            "MuPDF 1.28.1 complete upstream source: https://github.com/ArtifexSoftware/mupdf-downloads/releases/download/1.28.1/mupdf-1.28.1-source.tar.gz\n"
+            "Project patches and all dependency lockfiles are supplied at the identified source commit.\n"
+        )
+        build = {
+            'engine': engine,
+            'product_revision': info['revision'],
+            'releaseId': info['releaseId'],
+            'files': {
+                str(file.relative_to(base)): hashlib.sha256(file.read_bytes()).hexdigest()
+                for file in base.rglob('*') if file.is_file()
+            },
+        }
+        with tarfile.open(package, 'w:gz') as tar:
+            for file in sorted(base.rglob('*')):
+                if file.is_file():
+                    tar.add(file, arcname=f'{prefix}/dist/{file.relative_to(base)}')
+            tar.add(ROOT / 'deploy/server.mjs', arcname=f'{prefix}/server.mjs')
+            for name in ['LICENSE', 'NOTICE']:
+                tar.add(ROOT / name, arcname=f'{prefix}/{name}')
+            for name in ['before', 'after']:
+                tar.add(ROOT / f'validation/dataset/cases/R32_combined_changes/{name}.pdf', arcname=f'{prefix}/samples/{name}.pdf')
+            tar.add(ROOT / 'validation/assets/DejaVu-font-license.txt', arcname=f'{prefix}/samples/DejaVu-font-license.txt')
+            patch = 'mupdf@1.28.1.patch' if engine == 'mupdf' else 'pdfjs-dist@6.4.299.patch'
+            tar.add(ROOT / 'patches' / patch, arcname=f'{prefix}/{patch}')
+            for name, text in [('RUN.zh-CN.md', readme), ('SOURCE.txt', source), ('BUILD.json', json.dumps(build, indent=2)+'\n')]:
+                data = text.encode()
+                entry = tarfile.TarInfo(f'{prefix}/{name}')
+                entry.size = len(data)
+                entry.mode = 0o644
+                tar.addfile(entry, io.BytesIO(data))
+        with tarfile.open(package) as tar:
+            names = tar.getnames()
+            assert all(not any(part in name.split('/') for part in ['reports', 'tests', 'validation', 'node_modules', 'target', '.git']) for name in names)
+        manifest['artifacts'].append({
+            'engine': engine,
+            'releaseId': info['releaseId'],
+            'file': package.name,
+            'bytes': package.stat().st_size,
+            'sha256': hashlib.sha256(package.read_bytes()).hexdigest(),
+            'manifestSha256': hashlib.sha256((base / 'build-info.json').read_bytes()).hexdigest(),
+            'entries': len(names),
+        })
+    (output / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n')
+    print(json.dumps(manifest, ensure_ascii=False, indent=2))
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--current', action='store_true', help='Package versioned dist builds independently of historical performance acceptance')
+parser.add_argument('--engine', choices=['mupdf', 'pdfjs', 'both'])
+parser.add_argument('--out', type=Path)
+args = parser.parse_args()
+if args.current:
+    package_current(args.engine or 'mupdf', args.out)
+    raise SystemExit(0)
+if args.engine is not None or args.out is not None:
+    parser.error('--engine and --out require --current')
+
 ab=json.loads((ROOT/'reports/engine-ab.json').read_text())
 OUT=ROOT/'delivery';OUT.mkdir(exist_ok=True)
 manifest={'product_revision':ab['commit'],'scope':'local technical evaluation; not a production approval','artifacts':[]}
