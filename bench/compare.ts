@@ -1,8 +1,10 @@
 import { chromium } from "@playwright/test";
-import { readFileSync, writeFileSync, readdirSync, mkdirSync } from "node:fs";
+import { readFileSync, readdirSync, mkdirSync } from "node:fs";
 import { execFile, execFileSync } from "node:child_process";
 import { promisify } from "node:util";
 import os from "node:os";
+import { randomUUID } from "node:crypto";
+import { saveBenchmarkReport, type BenchmarkResultFile } from "./report";
 import path from "node:path";
 import {
   digest,
@@ -115,38 +117,35 @@ function summary() {
     }),
   );
 }
-function save() {
-  writeFileSync(
+function save(resultFile?: BenchmarkResultFile) {
+  saveBenchmarkReport(
     output,
-    JSON.stringify(
-      {
-        subject: "balanced_two_complete_browser_paths",
-        commit,
-        builds,
-        profile: aviationProfile,
-        configDigest: digest(aviationProfile),
-        environment,
-        browserVersion,
-        runsPerWorkload: runs,
-        smoke,
-        runType:smoke?'development_precheck':'formal',
-        coldRuns,
-        quantile: "nearest-rank; n=20 uses sorted item 19 for p95",
-        hotDefinition:
-          "New dedicated browser for each attempt; navigate and initialize selected engine before timer; then reread, open, extract, compare and locate both PDFs; no document/result reuse. One engine active at a time.",
-        memoryMethod:
-          "macOS footprint: fixed about:blank baseline before app/engine; sum of per-process lifetime physical peaks at completion minus baseline, including app/worker/WASM/native/GPU. Also sampled process-tree RSS. Export is performed only after memory capture. Per-process peaks can occur at different times, so their sum is conservative.",
-        referenceDeviceStatus: "BLOCKED",
-        fullMemoryAcceptance:'BLOCKED',
-        memoryCoverageLimit:'Short-lived helpers can exit before physical peak collection; full-memory acceptance is not claimed.',
-        order,
-        cold,
-        summary: summary(),
-        attempts,
-      },
-      null,
-      2,
-    ) + "\n",
+    {
+      subject: "balanced_two_complete_browser_paths",
+      commit,
+      builds,
+      profile: aviationProfile,
+      configDigest: digest(aviationProfile),
+      environment,
+      browserVersion,
+      runsPerWorkload: runs,
+      smoke,
+      runType:smoke?'development_precheck':'formal',
+      coldRuns,
+      quantile: "nearest-rank; n=20 uses sorted item 19 for p95",
+      hotDefinition:
+        "New dedicated browser for each attempt; navigate and initialize selected engine before timer; then reread, open, extract, compare and locate both PDFs; no document/result reuse. One engine active at a time.",
+      memoryMethod:
+        "macOS footprint: fixed about:blank baseline before app/engine; sum of per-process lifetime physical peaks at completion minus baseline, including app/worker/WASM/native/GPU. Also sampled process-tree RSS. Export is performed only after memory capture. Per-process peaks can occur at different times, so their sum is conservative.",
+      referenceDeviceStatus: "BLOCKED",
+      fullMemoryAcceptance:'BLOCKED',
+      memoryCoverageLimit:'Short-lived helpers can exit before physical peak collection; full-memory acceptance is not claimed.',
+      order,
+      cold,
+      summary: summary(),
+      attempts,
+    },
+    resultFile,
   );
 }
 async function execute(engine: Engine, w: any | null, iteration: number) {
@@ -229,6 +228,7 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
       .then((s) => requests.push({ url: new URL(req.url()).pathname, ...s }))
       .catch(() => {});
   });
+  let resultFile: BenchmarkResultFile | undefined;
   let interval: ReturnType<typeof setInterval> | undefined;
   const rss: { elapsed: number; bytes: number }[] = [];
   let sampling = false;
@@ -303,7 +303,9 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
     if (taskStatus !== "failed") {
       const pending = page.waitForEvent("download");
       await page.getByRole("button", { name: "导出 JSON" }).click();
-      const download=await pending,downloadPath=`tmp/result-${root}.json`;await download.saveAs(downloadPath);
+      const downloadPath = `tmp/result-${root}-${randomUUID()}.json`;
+      resultFile = { path: downloadPath, status: "FAIL" };
+      await (await pending).saveAs(downloadPath);
       result = JSON.parse(
         readFileSync(downloadPath, "utf8"),
       );
@@ -394,6 +396,7 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
       },
       requests,
       networkViolations: violations,
+      retainedResult: correct ? undefined : resultFile?.path,
     });
     console.log(
       engine,
@@ -403,11 +406,13 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
       metrics.total,
       Math.round((physical.peak - baseline.current) / 2 ** 20) + " MiB",
     );
+    if (resultFile) resultFile.status = correct ? "PASS" : "FAIL";
   } catch (e) {
     (w ? attempts : cold).push({
       ...base,
       status: "FAIL",
       error: String(e),
+      retainedResult: resultFile?.path,
       rss,
       networkViolations: violations,
     });
@@ -416,7 +421,7 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
     if (interval) clearInterval(interval);
     await browser.close();
     await server.close();
-    save();
+    save(resultFile);
   }
 }
 for (let i = 0; i < coldRuns; i++)

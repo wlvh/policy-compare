@@ -1,0 +1,27 @@
+{
+  "directory": "delivery/runtime-r20261110-local-d31601a",
+  "manifest": {
+    "format": "policy-runtime/2",
+    "product_revision": "d31601a7037b4a2ec1ba1aa894865c937fbf4808",
+    "artifacts": [
+      {
+        "engine": "pdfjs",
+        "releaseId": "r20261110-local-d31601a",
+        "file": "policy-compare-pdfjs-r20261110-local-d31601a.tar.gz",
+        "bytes": 3900928,
+        "sha256": "e3ed0a1aaa922a33725ec41e3508bbf083d544e9920604f9974a150063250499",
+        "manifestSha256": "4efe17e09a2bff50013ddaf81a7978322462b21b6241786a2657e3815d7a8572",
+        "entries": 296
+      },
+      {
+        "engine": "mupdf",
+        "releaseId": "r20261110-local-d31601a",
+        "file": "policy-compare-mupdf-r20261110-local-d31601a.tar.gz",
+        "bytes": 5830240,
+        "sha256": "13ac8e8837373640c65c1e39443cb391b2eb738bb5f694ad1802ef9ebf6451f0",
+        "manifestSha256": "81c1557d368e1ecb08e0244b53006ef02296160a217695d06806303f3d21e8db",
+        "entries": 100
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "startedAt": "2026-11-10T14:11:36.942652+00:00",
+  "revision": "d31601a7037b4a2ec1ba1aa894865c937fbf4808",
+  "beforeAllocatedBytes": 44582301696,
+  "removed": [
+    {
+      "kind": "completed_benchmark_exports",
+      "files": 1453,
+      "bytes": 40347681287
+    },
+    {
+      "kind": "merged_worktree",
+      "path": "tmp/count-card-source",
+      "allocatedBytes": 551600128
+    },
+    {
+      "kind": "merged_worktree",
+      "path": "tmp/visible-location-marker",
+      "allocatedBytes": 551788544
+    },
+    {
+      "kind": "intermediate_release_copy",
+      "path": "delivery/public-pilot-r21-startup-a1/site",
+      "allocatedBytes": 118308864
+    },
+    {
+      "kind": "intermediate_release_copy",
+      "path": "delivery/public-pilot-r21-startup-a1/site-final-initial",
+      "allocatedBytes": 118308864
+    },
+    {
+      "kind": "intermediate_release_copy",
+      "path": "delivery/public-pilot-r21-startup-a1/site-failed-docker-cp",
+      "allocatedBytes": 99352576
+    }
+  ],
+  "retained": [
+    {
+      "file": "delivery/local-cleanup-20261110/result-55317.json",
+      "bytes": 128400,
+      "reason": "No unambiguous saved PASS record"
+    }
+  ],
+  "formalReportHashes": {
+    "reports/baseline-ab-7a676c6/engine-ab.json": "566418b3af48196ff4b073f793a7cefe19e900861ee0b7551850686cde76b38a",
+    "reports/baseline-fixes-6850bb5/engine-ab.json": "9097da26537a1768861048a2d1e56f19b356d50f38bb38c0af7065354b24ec9d",
+    "reports/baseline-review-2847b56/engine-ab.json": "fbb7e79004c86352f5b633ac763b1ca7919760f691c6304789039edfaac45419",
+    "reports/baseline-single-engine/mupdf-before-page-hash.json": "51d6134dc3792e5887e37077392a2b00330bc4125dff67d4c90318d338f2fe73",
+    "reports/browser-benchmark-smoke.json": "abbd244b5daaf685601fa7958d160103d535900a1165949e75a70eb48906454c",
+    "reports/browser-benchmark.json": "51d6134dc3792e5887e37077392a2b00330bc4125dff67d4c90318d338f2fe73",
+    "reports/engine-ab-smoke.json": "bd8b831cfb891a7d68b3c4e88cd2d2c68fa0a409251a81bc197baab2b14652a4",
+    "reports/engine-ab.json": "6003ab8088fa9eee4bc6bdd9244c7516ffa2e105d00b28fa66325605b5342356",
+    "reports/failures/engine-ab-preflight-mime-and-download.json": "d29d755e65e6b1f301dac7006e58209de8b414660aa2b8b48a3b4eb886f8d90d"
+  },
+  "preservedFinalSiteFilesVerified": 210,
+  "afterAllocatedBytes": 2789326848,
+  "finishedAt": "2026-11-10T14:11:41.998830+00:00"
+}
