@@ -33,3 +33,8 @@ REVIEW_ARTIFACTS.json
 /reports/issue-24/unit-first.log
 /reports/issue-24/review-regressions-*.json
 /reports/issue-24/accepted-*/browser-review-regressions-*.json
+/reports/issue-24/pr25-review/browser-*/
+/reports/issue-24/pr25-review/browser-*.log
+/reports/issue-24/pr25-review/final-browser-*/three-pdfs-*-actual.json
+/reports/issue-24/pr25-review/final-browser-*/browser-review-regressions-*.json
+/reports/issue-24/pr25-review/strengthened-before/controlled.json

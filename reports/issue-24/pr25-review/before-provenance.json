@@ -1,0 +1,22 @@
+{
+  "revision": "65e23d5d80d9474d91d6d5478a478b028e57da1a",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+    "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+    "bytes": 2064593,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "actualWasmSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+  "attachments": [
+    {
+      "name": "pr25-review-regressions.test.ts",
+      "sha256": "df56430cf834c479182ebf33ada7b035e52d4f26dab13f7acea5bd13309f9a3d"
+    },
+    {
+      "name": "policy-compare-pr25-review.zip",
+      "sha256": "5ce2941adee37412a3e57032318e1f80adc197b40ea83974ee36efd5557e2d4d"
+    }
+  ]
+}

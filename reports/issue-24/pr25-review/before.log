@@ -1,0 +1,65 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ❯ tests/pr25-review-regressions.test.ts (4 tests | 3 failed) 117ms
+   × does not erase changed local relations across two tables with identical headings 23ms
+   ✓ whole-column reordering must not invent value edits with headings First / Second 7ms
+   × whole-column reordering must not invent value edits with headings 2024 / 2025 6ms
+   × the generic grader rejects a fabricated movement in an unchanged document 81ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/pr25-review-regressions.test.ts > does not erase changed local relations across two tables with identical headings
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/pr25-review-regressions.test.ts:34:26
+     32|   const result = compare(left, right);
+     33|   const changes = result.differences.filter(d => d.defaultVisible && (…
+     34|   expect(changes.length).toBeGreaterThan(0);
+       |                          ^
+     35|   // Either local replacements or explicitly sourced cross-block movem…
+     36|   // explain the relation change. Do not require a business key or car…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/pr25-review-regressions.test.ts > whole-column reordering must not invent value edits with headings 2024 / 2025
+AssertionError: expected [ { …(15) } ] to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/pr25-review-regressions.test.ts:61:61
+     59|     const result = compare(make(false), make(true));
+     60|     // Movement cards are allowed. Each value still belongs to the sam…
+     61|     expect(result.differences.filter(d => d.hasTextChange)).toHaveLeng…
+       |                                                             ^
+     62|   },
+     63| );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/pr25-review-regressions.test.ts > the generic grader rejects a fabricated movement in an unchanged document
+AssertionError: expected 'PASS' to be 'FAIL' // Object.is equality
+
+Expected: "FAIL"
+Received: "PASS"
+
+ ❯ tests/pr25-review-regressions.test.ts:104:63
+    102|   };
+    103|   result.differences.push(fake);
+    104|   expect(gradeGeneric(result, expected, layout, docs).status).toBe('FA…
+       |                                                               ^
+    105| });
+    106|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 1 passed (4)
+   Start at  21:04:06
+   Duration  256ms (tests 61%, import 29%, transform 10%, worker 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-24/pr25-review/before-vitest.json

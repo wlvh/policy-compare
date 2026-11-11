@@ -1,5 +1,5 @@
 {
-  "status": "PASS",
+  "status": "SUPERSEDED",
   "scope": "Issue #24 fixed local development acceptance only",
   "candidate": "4569c3ab13af56e11885345cde2ff0319b98c10c",
   "coreArtifact": {
@@ -75,5 +75,8 @@
     "real office device performance"
   ],
   "unchangedExpectedSourcesVerified": true,
-  "productionSourceMatchesCandidate": true
+  "productionSourceMatchesCandidate": true,
+  "originalRecordedStatus": "PASS",
+  "supersededBy": "pr25-review/acceptance.json",
+  "reviewNote": "The 65e23d5 source-scope conclusion omitted independent movement controls; see the directly reproduced findings and corrected before/after classification."
 }
