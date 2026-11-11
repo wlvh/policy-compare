@@ -50,6 +50,15 @@ const change = (d: Difference) =>
         ? "Text changed"
         : countOnly(d) ? "Text unchanged, occurrence count changed" : "Text unchanged";
 const bases: Record<string, string> = {
+  "exact-source-text": "Identical source text",
+  "exact-text-reflow": "Same text across different blocks",
+  "literal-label-and-local-context": "Same label and nearby text",
+  "source-cells-and-column-text": "Matching cell text and columns",
+  "source-column-text": "Corresponding source columns",
+  "literal-column-heading-position": "Same column heading, changed position",
+  "neighboring-source-anchors": "Between matching nearby passages",
+  "local-source-token-correspondence": "Similar source wording",
+  "occurrence-count-only": "Counts changed; individual matches unresolved",
   "declared-table-key": "Matched by table key",
   "reliable-field-identity": "Matched by field identity",
   "row-identity": "Matched by row identity",
@@ -600,7 +609,7 @@ function App() {
           <p>Baseline → Revised · PDFs processed in this browser</p>
         </div>
         <div className="privacy">
-          Local processing<span>No document uploads · No OCR</span>
+          Local processing<span>English only · No document uploads · No OCR</span>
         </div>
       </header>
       <section className="welcome" aria-label="Getting started">
@@ -978,7 +987,7 @@ function App() {
         </section>
       </div>
       <footer>
-        The comparison covers extractable text only. Text and position changes are shown by default; repeated text count changes are summarized separately. The tool does not assess the importance of changes or provide legal interpretations.
+        The comparison covers extractable English text only. Text and position changes are shown by default; repeated text count changes are summarized separately. The tool does not assess the importance of changes or provide legal interpretations.
         <span>Local evaluation build · Review license terms before redistribution; business acceptance is not complete</span>
       </footer>
     </main>
