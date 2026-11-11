@@ -1,0 +1,22 @@
+
+> policy-compare@0.1.0 test:browser:mupdf /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> POLICY_ENGINE=mupdf playwright test tests/browser/rules.spec.ts tests/browser/rust-core.spec.ts tests/browser/issue24.spec.ts
+
+[WebServer] (node:82826) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:82847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:82873) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/issue24.spec.ts:5:1 › three frozen English PDF pairs: visible edits, source rows and actual fine highlights (1.3s)
+  ✓  2 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (13.5s)
+  ✓  3 tests/browser/rust-core.spec.ts:14:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs (18.4s)
+  ✓  4 tests/browser/rust-core.spec.ts:46:63 › WASM initialization cancel then retry, no stale task or duplicate transfer (753ms)
+  ✓  5 tests/browser/rust-core.spec.ts:46:63 › WASM initialization failure then retry, no stale task or duplicate transfer (672ms)
+  ✓  6 tests/browser/rust-core.spec.ts:46:63 › WASM initialization timeout then retry, no stale task or duplicate transfer (685ms)
+  ✓  7 tests/browser/rust-core.spec.ts:83:1 › network paths, queries, payloads and diagnostics contain no local document or search secrets (520ms)
+
+  7 passed (36.7s)

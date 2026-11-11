@@ -1,0 +1,63 @@
+
+> policy-compare@0.1.0 build:pdfjs /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> pnpm build:core && tsc -p tsconfig.pdfjs.json --noEmit && POLICY_ENGINE=pdfjs vite build
+
+
+> policy-compare@0.1.0 build:core /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/build-rust.ts
+
+warning: function `replace` is never used
+  --> crates/compare-core/src/text.rs:27:8
+   |
+27 | pub fn replace(p: &str, s: &str, t: &str) -> String {
+   |        ^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `trim` is never used
+  --> crates/compare-core/src/text.rs:36:8
+   |
+36 | pub fn trim(s: &str) -> &str {
+   |        ^^^^
+
+warning: field `transforms` is never read
+  --> crates/compare-core/src/text.rs:51:9
+   |
+46 | pub struct Mapped {
+   |            ------ field in this struct
+...
+51 |     pub transforms: Vec<V>,
+   |         ^^^^^^^^^^
+   |
+   = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: `policy-compare-core` (lib) generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 0.06s
+{
+  abi: 'policy-core-session/1',
+  coreVersion: 'policy-compare-rust/0.2.0+english-generic.1',
+  sha256: '16885e880c2afd1df5357a5ce41b9623abbc28dfb4ab6a6c940584f0f5dcabb1',
+  bytes: 2070543,
+  rust: '1.93.0',
+  target: 'wasm32-unknown-unknown'
+}
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 127 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/pdfjs/index.html                          0.67 kB │ gzip:   0.43 kB
+dist/pdfjs/assets/core.worker-Dt0BF_Ao.js    111.31 kB
+dist/pdfjs/assets/pdf-BAaRT5Ak.mjs           860.81 kB
+dist/pdfjs/assets/core-B97xWxnM.wasm       2,070.54 kB │ gzip: 722.11 kB
+dist/pdfjs/assets/pdf.worker-CQC3jXZh.mjs  2,229.82 kB
+dist/pdfjs/assets/index-BCa-yYWQ.css          10.14 kB │ gzip:   3.02 kB
+dist/pdfjs/assets/index-q9mCY_Ss.js            2.59 kB │ gzip:   1.26 kB
+dist/pdfjs/assets/main-U94ZSbmV.js           855.30 kB │ gzip: 261.97 kB
+
+✓ built in 217ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
