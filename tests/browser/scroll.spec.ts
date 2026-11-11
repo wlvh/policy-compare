@@ -56,7 +56,6 @@ test('wheel crosses page boundaries in either direction, panes remain independen
   await expect(right.locator('[data-ready-page="0"]')).toBeVisible();
   // A source jump still selects the requested PDF page after scrolling.
   const quantities = page.getByRole('region', {name: 'Repeated text counts'});
-  await quantities.locator('details > summary').first().click();
   const repeated = quantities.locator('.repeat-count-item').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'});
   await repeated.locator('.occurrence-details > summary').click();
   await repeated.getByRole('button', {name: 'Revised source 3', exact: true}).click();

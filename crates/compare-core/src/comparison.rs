@@ -86,6 +86,68 @@ fn emit(
     };
     diffs.push(json!({"id":id,"kind":kind,"structurePath":a.or(b).unwrap().path,"left":left,"right":right,"oldText":old,"newText":now,"textOps":ops,"hasTextChange":old!=now,"facts":facts,"repeat":null,"defaultVisible":true,"matchEvidence":{"method":method,"score":score,"details":["Engineering correspondence from source text and local context; no business identity or probability is asserted",method]},"reviewReasons":[],"occurrences":[]}));
 }
+fn bind_local_intervals(
+    a: &[Unit],
+    b: &[Unit],
+    pairs: &mut Vec<Pair>,
+    ul: &mut Set<usize>,
+    ur: &mut Set<usize>,
+) {
+    let anchors = monotone(
+        pairs,
+        |p| p.a.order as f64,
+        |p| p.b.order as f64,
+        |p| p.a.m.raw.len() as f64,
+    );
+    let mut bounds = vec![(-1isize, -1isize)];
+    bounds.extend(
+        anchors
+            .iter()
+            .map(|p| (p.a.order as isize, p.b.order as isize)),
+    );
+    bounds.push((a.len() as isize, b.len() as isize));
+    for w in bounds.windows(2) {
+        let aa: Vec<_> = (0..a.len())
+            .filter(|i| !ul.contains(i) && (*i as isize) > w[0].0 && (*i as isize) < w[1].0)
+            .collect();
+        let bb: Vec<_> = (0..b.len())
+            .filter(|j| !ur.contains(j) && (*j as isize) > w[0].1 && (*j as isize) < w[1].1)
+            .collect();
+        if aa.len() == 1 && bb.len() == 1 {
+            let i = aa[0];
+            let j = bb[0];
+            let repeated = a.iter().filter(|u| u.m.text == a[i].m.text).count() > 1
+                || b.iter().filter(|u| u.m.text == b[j].m.text).count() > 1;
+            // Repeated page lines can use explicit adjacent anchors on each page;
+            // a repeated data row without such context remains local ambiguity.
+            let bounded = w[0].0 >= 0
+                && w[1].0 < a.len() as isize
+                && w[0].1 >= 0
+                && w[1].1 < b.len() as isize;
+            let ctx = context(a, i);
+            let anchored_context = ctx == context(b, j)
+                && !ctx.is_empty()
+                && a.iter().filter(|u| u.m.text == ctx).count() == 1
+                && b.iter().filter(|u| u.m.text == ctx).count() == 1;
+            if !repeated
+                || anchored_context
+                || bounded && a[i].cells.len() == 1 && label(&a[i]).is_some()
+            {
+                bind(
+                    pairs,
+                    ul,
+                    ur,
+                    a,
+                    b,
+                    i,
+                    j,
+                    "neighboring-source-anchors",
+                    None,
+                );
+            }
+        }
+    }
+}
 pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     if l.meta["extractor"] != r.meta["extractor"] {
         return Err("Both documents must use the same engine, version and options".into());
@@ -201,6 +263,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             !ur.contains(&j)
                 && a[i].m.text == b[j].m.text
                 && ((label(&a[i]).is_none()
+                    && !test(r"\p{N}", &a[i].m.text)
                     && a.iter().filter(|u| u.m.text == a[i].m.text).count() == 1
                     && b.iter().filter(|u| u.m.text == b[j].m.text).count() == 1)
                     || context(&a, i) == context(&b, j))
@@ -346,60 +409,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     // Unique remaining units between stable source anchors support arbitrary
     // local replacements, including words with no shared tokens. Repeated
     // source rows do not gain an invented identity from their order.
-    let anchors = monotone(
-        &pairs,
-        |p| p.a.order as f64,
-        |p| p.b.order as f64,
-        |p| p.a.m.raw.len() as f64,
-    );
-    let mut bounds = vec![(-1isize, -1isize)];
-    bounds.extend(
-        anchors
-            .iter()
-            .map(|p| (p.a.order as isize, p.b.order as isize)),
-    );
-    bounds.push((a.len() as isize, b.len() as isize));
-    for w in bounds.windows(2) {
-        let aa: Vec<_> = (0..a.len())
-            .filter(|i| !ul.contains(i) && (*i as isize) > w[0].0 && (*i as isize) < w[1].0)
-            .collect();
-        let bb: Vec<_> = (0..b.len())
-            .filter(|j| !ur.contains(j) && (*j as isize) > w[0].1 && (*j as isize) < w[1].1)
-            .collect();
-        if aa.len() == 1 && bb.len() == 1 {
-            let i = aa[0];
-            let j = bb[0];
-            let repeated = a.iter().filter(|u| u.m.text == a[i].m.text).count() > 1
-                || b.iter().filter(|u| u.m.text == b[j].m.text).count() > 1;
-            // Repeated page lines can use explicit adjacent anchors on each page;
-            // a repeated data row without such context remains local ambiguity.
-            let bounded = w[0].0 >= 0
-                && w[1].0 < a.len() as isize
-                && w[0].1 >= 0
-                && w[1].1 < b.len() as isize;
-            let ctx = context(&a, i);
-            let anchored_context = ctx == context(&b, j)
-                && !ctx.is_empty()
-                && a.iter().filter(|u| u.m.text == ctx).count() == 1
-                && b.iter().filter(|u| u.m.text == ctx).count() == 1;
-            if !repeated
-                || anchored_context
-                || bounded && a[i].cells.len() == 1 && label(&a[i]).is_some()
-            {
-                bind(
-                    &mut pairs,
-                    &mut ul,
-                    &mut ur,
-                    &a,
-                    &b,
-                    i,
-                    j,
-                    "neighboring-source-anchors",
-                    None,
-                );
-            }
-        }
-    }
+    bind_local_intervals(&a, &b, &mut pairs, &mut ul, &mut ur);
     let mut scored = vec![];
     for i in 0..a.len() {
         if ul.contains(&i) {
@@ -462,6 +472,9 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                 Some(score),
             );
         }
+    }
+    if !exhausted {
+        bind_local_intervals(&a, &b, &mut pairs, &mut ul, &mut ur);
     }
     let al: Vec<_> = a
         .iter()

@@ -11,6 +11,11 @@ export function gradeGeneric(result:CompareResultV2,expected:Expected,layout:Lay
   for(const side of ['left','right'] as const){const ops=d.textOps.filter(o=>o.kind!==(side==='left'?'insert':'delete'));if(ops.map(o=>o.text).join('')!==(side==='left'?d.oldText:d.newText))faults.push(`ops do not reconstruct ${side} ${d.id}`);for(const o of ops)if(clean(o.text).replaceAll(' ','')!==clean(o[side].map(l=>l.text).join('')).replaceAll(' ',''))faults.push(`operation without its own source ${d.id}`);}
   if(!d.defaultVisible||d.hasTextChange!==(d.oldText!==d.newText))faults.push(`false display ${d.id}`);
  }
+ // An expected edit cannot excuse a second edit on an unrelated source run.
+ for(const d of result.differences)for(const o of d.textOps.filter(o=>o.kind!=='equal'&&o.text.trim()))for(const side of ['left','right'] as const){
+  const s=side==='left'?'before':'after';const refs=[...Object.values(expected.evidence_locations).flatMap(e=>e[s]),...(expected.repeated_text_requirements??[]).flatMap(req=>req.occurrences[s])];
+  for(const loc of o[side])if(!located([loc],refs,layout[s].pages,side))faults.push(`undeclared edit outside source events ${d.id}`);
+ }
  const events=expected.events.map(e=>{
   if(e.detection_requirement==='coverage_warning_required')return {id:e.event_id,pass:expected.coverage_requirements.every(req=>(req.side==='both'?['left','right']:[req.side]).every(side=>result.coverage.some(c=>c.side===side&&c.pageIndex===req.page_index&&c.reason===req.reason))),cards:[]};
   const refs=expected.evidence_locations[e.event_id];
@@ -44,7 +49,7 @@ export function gradeGeneric(result:CompareResultV2,expected:Expected,layout:Lay
    const compact=(t:string)=>t.replace(/\s/gu,'');
    const locs=[...d[side],...d.occurrences.flatMap(o=>o[side])];
    if(!compact(locs.map(l=>l.text).join('')).includes(compact(ref.text)))return false;
-   return locs.some(loc=>loc.charIds.some(id=>{const c=docs[side==='left'?0:1].pages[loc.pageIndex].chars.find(c=>c.id===id)!;return located([{...loc,text:c.text,charIds:[c.id],rawRange:c.rawRange,quads:[c.quad],precision:c.precision}], [ref],layout[s].pages,side);}));
+   return locs.some(loc=>loc.charIds.some(id=>{const c=docs[side==='left'?0:1].pages[loc.pageIndex].chars.find(c=>c.id===id)!;return located([{...loc,text:c.text,charIds:[c.id],rawRange:c.rawRange,quads:[c.quad],precision:c.precision,resolvedGeometry:undefined}], [ref],layout[s].pages,side);}));
   })).length;};
   if(count('right')-count('left')!==req.counts.after-req.counts.before)faults.push(`missing repeated-text occurrence delta ${req.requirement_id}`);
  }

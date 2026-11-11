@@ -20,3 +20,5 @@ REVIEW_ARTIFACTS.json
 /reports/issue-19/**/test-results/
 /.wrangler/
 /reports/public-pilot/**/test-results/
+
+/reports/issue-24/**/test-results/
