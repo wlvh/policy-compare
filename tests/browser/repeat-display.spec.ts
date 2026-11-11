@@ -27,13 +27,16 @@ for (const reverse of [false, true]) test('count-only ' + (reverse ? 'decreases'
   const wording = page.locator('.card').filter({has: page.getByText('POLICY WORDING', {exact: true})});
   await wording.click();
   await expect(page.locator(reverse ? 'polygon.highlight-old' : 'polygon.highlight-new').first()).toBeVisible();
-  const pagesBefore = await page.locator('[data-ready-page]').evaluateAll(es => es.map(e => e.getAttribute('data-ready-page')));
+  // Prefetching may make another page ready without navigating either pane.
+  const currentPages = page.locator('.document-head nav > span');
+  await expect(currentPages).toHaveCount(2);
+  const pagesBefore = await currentPages.allTextContents();
   await expect(row).toContainText(reverse ? '3 occurrences → 2 occurrences' : '2 occurrences → 3 occurrences');
   await expect(row).toContainText(reverse ? '1 fewer occurrence' : '1 more occurrence');
   await expect(summary).toContainText('The specific locations added or removed are unresolved');
   // Reading the quantities, including clicking the unchanged text, does not locate it.
   await row.getByText(text, {exact: true}).click();
-  expect(await page.locator('[data-ready-page]').evaluateAll(es => es.map(e => e.getAttribute('data-ready-page')))).toEqual(pagesBefore);
+  expect(await currentPages.allTextContents()).toEqual(pagesBefore);
   await expect(page.locator('polygon.highlight-location')).toHaveCount(0);
   await expect(row.getByRole('button', {name: 'Baseline source 1', exact: true})).not.toBeVisible();
   await row.locator('.occurrence-details > summary').click();

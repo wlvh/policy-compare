@@ -10,6 +10,8 @@ export function gradeGeneric(result:CompareResultV2,expected:Expected,layout:Lay
   for(const loc of [...d.left,...d.right,...d.textOps.flatMap(o=>[...o.left,...o.right]),...d.occurrences.flatMap(o=>[...o.left,...o.right])])if(!resolveLocation(loc,docs))faults.push(`invalid source ${d.id}`);
   for(const side of ['left','right'] as const){const ops=d.textOps.filter(o=>o.kind!==(side==='left'?'insert':'delete'));if(ops.map(o=>o.text).join('')!==(side==='left'?d.oldText:d.newText))faults.push(`ops do not reconstruct ${side} ${d.id}`);for(const o of ops)if(clean(o.text).replaceAll(' ','')!==clean(o[side].map(l=>l.text).join('')).replaceAll(' ',''))faults.push(`operation without its own source ${d.id}`);}
   if(!d.defaultVisible||d.hasTextChange!==(d.oldText!==d.newText))faults.push(`false display ${d.id}`);
+  const positions=(side:'left'|'right')=>JSON.stringify(d[side].map(l=>[l.pageIndex,l.direction,l.quads]));
+  if(d.kind==='Moved'&&positions('left')===positions('right'))faults.push(`movement has identical source positions ${d.id}`);
  }
  // An expected edit cannot excuse a second edit on an unrelated source run.
  for(const d of result.differences)for(const o of d.textOps.filter(o=>o.kind!=='equal'&&o.text.trim()))for(const side of ['left','right'] as const){
@@ -42,7 +44,7 @@ export function gradeGeneric(result:CompareResultV2,expected:Expected,layout:Lay
  });
  // Enforce anti-mispairing by source run ownership, not product rowKey. A paired
  // changed card may not borrow old/new records with different declared paths.
- for(const d of expanded.filter(d=>d.hasTextChange&&d.left.length&&d.right.length)){
+ for(const d of expanded.filter(d=>d.left.length&&d.right.length&&!(d.repeat&&d.kind==='Replaced'&&d.oldText===d.newText))){
   const owners=(side:'left'|'right')=>{const s=side==='left'?'before':'after';return new Set(layout[s].pages.flatMap((p,page_index)=>p.text_runs.filter(run=>run.logical_path&&located(d[side],[{page_index,run_id:run.run_id}],layout[s].pages,side)).map(run=>run.logical_path!.replace(/\.[^.]+$/,''))));};
   const a=owners('left'),b=owners('right');
   if(a.size&&b.size&&[...a].some(x=>!b.has(x)))faults.push(`cross-record pairing ${d.id}: ${[...a]} -> ${[...b]}`);
@@ -58,10 +60,23 @@ export function gradeGeneric(result:CompareResultV2,expected:Expected,layout:Lay
   })).length;};
   if(count('right')-count('left')!==req.counts.after-req.counts.before)faults.push(`missing repeated-text occurrence delta ${req.requirement_id}`);
  }
+ // Execute the source/movement controls from the independent expectations.
+ // Business-label assertions are not substituted for these controls.
+ const tableSources=(s:'before'|'after')=>layout[s].pages.flatMap((p,page_index)=>p.text_runs.filter(run=>run.logical_path?.startsWith('aircraft_schedule.')&&!run.logical_path.includes('.header')).map(run=>({page_index,run_id:run.run_id})));
+ const tableRows={left:tableSources('before'),right:tableSources('after')};
+ const sourceControls:Record<string,()=>boolean>={
+  no_content_differences:()=>result.differences.length===0,
+  no_false_clause_moves:()=>!result.differences.some(d=>d.kind==='Moved'),
+  no_false_text_added_or_removed:()=>!result.differences.some(d=>d.oldText!==d.newText),
+  moved_clause_has_no_internal_word_edits:()=>!result.differences.some(d=>d.kind==='Moved'&&d.oldText!==d.newText),
+  no_false_row_additions_or_deletions:()=>!result.differences.some(d=>d.oldText!==d.newText&&d.textOps.some(o=>o.kind!=='equal'&&(['left','right']as const).some(side=>located(o[side],tableRows[side],layout[side==='left'?'before':'after'].pages,side)))),
+ };
+ const invariants=expected.invariants.filter(name=>name in sourceControls).map(name=>({name,status:sourceControls[name]()?'PASS':'FAIL'}));
+ for(const i of invariants)if(i.status==='FAIL')faults.push(`source invariant ${i.name} failed`);
  if(expected.events.length===0&&result.differences.some(d=>d.hasTextChange&&!d.facts.includes('whitespace_only')))faults.push('false text edit in unchanged control');
  if(expected.case_id!=='R25_duplicate_keys'&&result.unresolved.length)faults.push('unnecessary unresolved correspondence');
  if(expected.coverage_requirements.length&&result.status==='complete_for_scope')faults.push('coverage gap called complete');
- return {caseId:expected.case_id,status:faults.length?'FAIL':'PASS',eventStatus:events.every(e=>e.pass)?'PASS':'FAIL',events,faults,notEvaluated:[] as {kind:string;reason:string;eventId?:string;invariant?:string}[],evaluationScope:'source events, anti-mispairing, repeats, raw operations and display; no aviation business labels'};
+ return {caseId:expected.case_id,status:faults.length?'FAIL':'PASS',eventStatus:events.every(e=>e.pass)?'PASS':'FAIL',events,faults,invariants,historicalInvariantsNotReplayed:expected.invariants.filter(name=>!(name in sourceControls)),fullHistoricalInvariantStatus:expected.invariants.some(name=>!(name in sourceControls))?'NOT_EVALUATED':'PASS',notEvaluated:[] as {kind:string;reason:string;eventId?:string;invariant?:string}[],evaluationScope:'source events, anti-mispairing, repeats, raw operations, display and the listed source/movement controls; remaining historical invariants are not claimed as evaluated'};
 }
 
 export function summarize(records:{caseId:string;status:string;eventStatus?:string}[]){const failed=records.filter(r=>r.status!=='PASS').map(r=>r.caseId);return {status:failed.length?'FAIL':'PASS',total:records.length,passed:records.length-failed.length,failed,notEvaluated:[] as string[],eventRegression:{status:failed.length?'FAIL':'PASS',total:records.length,passed:records.length-failed.length}};}

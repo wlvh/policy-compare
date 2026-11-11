@@ -16,10 +16,52 @@ fn label(u: &Unit) -> Option<String> {
         .filter(|(a, _)| !a.is_empty() && a.len() < 100)
         .map(|(a, _)| a.into())
 }
+// A table instance is a contiguous rectangle, bounded by surrounding prose,
+// a page boundary or a different cell count. Label/value lines keep their
+// existing literal-label context. Header spelling is never an admission gate.
+fn table_row(u: &Unit) -> bool {
+    u.cells.len() > 1
+}
+fn table_start(us: &[Unit], i: usize) -> usize {
+    let mut start = i;
+    while start > 0 {
+        let a = &us[start - 1];
+        let b = &us[start];
+        if !table_row(a) || !table_row(b) || a.page() != b.page() || a.cells.len() != b.cells.len()
+        {
+            break;
+        }
+        start -= 1;
+    }
+    start
+}
+fn headers(us: &[Unit], i: usize) -> Option<usize> {
+    let first = table_start(us, i);
+    (table_row(&us[i]) && first < i).then_some(first)
+}
+// Distinct surrounding passages that survive on both sides bound the table
+// correspondence. This describes source neighbourhood, not business identity.
+fn compatible_table_scope(a: &[Unit], b: &[Unit], i: usize, j: usize) -> bool {
+    if !table_row(&a[i]) || !table_row(&b[j]) || label(&a[i]).is_some() || label(&b[j]).is_some() {
+        return true;
+    }
+    let left = context(a, i);
+    let right = context(b, j);
+    left == right
+        || left.is_empty()
+        || right.is_empty()
+        || !a.iter().any(|u| u.m.text == right)
+        || !b.iter().any(|u| u.m.text == left)
+}
 fn context(us: &[Unit], i: usize) -> String {
     // Local source text is evidence, never a business owner. A stable preceding
     // block separates identical labels and equal amounts in different places.
-    us[..i]
+    let start = if table_row(&us[i]) && label(&us[i]).is_none() {
+        table_start(us, i)
+    } else {
+        i
+    };
+    us[..start]
         .iter()
         .rev()
         .find(|u| label(&us[i]).is_none() || label(u) != label(&us[i]))
@@ -60,6 +102,17 @@ fn emit(
 ) {
     let old = a.map(|u| u.m.raw.as_str()).unwrap_or("");
     let now = b.map(|u| u.m.raw.as_str()).unwrap_or("");
+    if old == now && !moved {
+        return;
+    }
+    let positions = |u: &Unit, d: &Doc| {
+        u.m.refs
+            .iter()
+            .flatten()
+            .map(|r| (r.p, r.ch(d).quad, r.line(d).direction))
+            .collect::<Vec<_>>()
+    };
+    let moved = moved && !matches!((a,b),(Some(a),Some(b)) if positions(a,l)==positions(b,r));
     if old == now && !moved {
         return;
     }
@@ -113,7 +166,7 @@ fn bind_local_intervals(
         let bb: Vec<_> = (0..b.len())
             .filter(|j| !ur.contains(j) && (*j as isize) > w[0].1 && (*j as isize) < w[1].1)
             .collect();
-        if aa.len() == 1 && bb.len() == 1 {
+        if aa.len() == 1 && bb.len() == 1 && compatible_table_scope(a, b, aa[0], bb[0]) {
             let i = aa[0];
             let j = bb[0];
             let repeated = a.iter().filter(|u| u.m.text == a[i].m.text).count() > 1
@@ -261,6 +314,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         }
         let eligible = |j: usize| {
             !ur.contains(&j)
+                && compatible_table_scope(&a, &b, i, j)
                 && a[i].m.text == b[j].m.text
                 && ((label(&a[i]).is_none()
                     && !test(r"\p{N}", &a[i].m.text)
@@ -320,13 +374,6 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     }
     // Match tables using cell content and header text at the cells' columns.
     // Column names are source text; their spelling has no privileged meaning.
-    let headers = |us: &[Unit], i: usize| -> Option<usize> {
-        (0..i).rev().find(|k| {
-            us[*k].cells.len() == us[i].cells.len()
-                && us[*k].cells.len() > 1
-                && us[*k].cells.iter().all(|c| !test(r"\p{N}", c))
-        })
-    };
     let slots = |us: &[Unit], i: usize| -> Vec<(String, String)> {
         let h = headers(us, i);
         us[i]
@@ -334,16 +381,11 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             .iter()
             .enumerate()
             .map(|(k, c)| {
+                // In a simple rectangle each row has the same number of
+                // cells in left-to-right order. Text alignment inside a column
+                // does not change its header (left/right/centred all work).
                 let name = h
-                    .and_then(|h| {
-                        us[h]
-                            .spans
-                            .iter()
-                            .position(|sp| {
-                                sp[0] <= us[i].spans[k][0] + 3. && sp[1] >= us[i].spans[k][0] - 3.
-                            })
-                            .map(|j| us[h].cells[j].clone())
-                    })
+                    .map(|h| us[h].cells[k].clone())
                     .unwrap_or_else(|| format!("column-{k}"));
                 (name, c.clone())
             })
@@ -356,7 +398,10 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         let sa = slots(&a, i);
         let mut candidates = vec![];
         for j in 0..b.len() {
-            if ur.contains(&j) || b[j].cells.len() != a[i].cells.len() {
+            if ur.contains(&j)
+                || b[j].cells.len() != a[i].cells.len()
+                || !compatible_table_scope(&a, &b, i, j)
+            {
                 continue;
             }
             let sb = slots(&b, j);
@@ -368,7 +413,11 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         candidates.sort_by_key(|x| std::cmp::Reverse(x.1));
         if let Some(&(j, n)) = candidates.first() {
             let reverse = (0..a.len())
-                .filter(|k| !ul.contains(k) && a[*k].cells.len() == b[j].cells.len())
+                .filter(|k| {
+                    !ul.contains(k)
+                        && a[*k].cells.len() == b[j].cells.len()
+                        && compatible_table_scope(&a, &b, *k, j)
+                })
                 .map(|k| {
                     slots(&a, k)
                         .iter()
@@ -383,6 +432,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                     .filter(|k| {
                         !ul.contains(k)
                             && a[*k].cells.len() == b[j].cells.len()
+                            && compatible_table_scope(&a, &b, *k, j)
                             && slots(&a, *k)
                                 .iter()
                                 .filter(|x| slots(&b, j).contains(x))
@@ -416,7 +466,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             continue;
         }
         for j in 0..b.len() {
-            if ur.contains(&j) {
+            if ur.contains(&j) || !compatible_table_scope(&a, &b, i, j) {
                 continue;
             }
             crate::checkpoint();
@@ -527,6 +577,9 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     .collect();
     let mut alignment = vec![];
     for (i, pair) in pairs.iter().enumerate() {
+        let row_moved = !stable.contains(&i)
+            || (pair.a.order != pair.b.order
+                && context(&a, pair.a.order) != context(&b, pair.b.order));
         if stable.contains(&i) {
             let aa = pair.a.m.refs.iter().flatten().next().unwrap();
             let bb = pair.b.m.refs.iter().flatten().next().unwrap();
@@ -549,7 +602,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                         Some(&bb),
                         "source-column-text",
                         None,
-                        false,
+                        row_moved,
                         l,
                         r,
                         budget,
@@ -584,7 +637,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                     Some(&bb),
                     "literal-column-heading-position",
                     None,
-                    k != j,
+                    row_moved || k != j,
                     l,
                     r,
                     budget,
