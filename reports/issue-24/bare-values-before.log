@@ -1,0 +1,54 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ❯ tests/issue24.test.ts (25 tests | 1 failed | 24 skipped) 26ms
+   ↓ same-row label MSN has no privilege
+   ↓ same-row label Reference has no privilege
+   ↓ same-row label Unfamiliar label has no privilege
+   ↓ 2 columns and a different key position preserve the edited row
+   ↓ 5 columns and a different key position preserve the edited row
+   ↓ splitting one sentence into three blocks and crossing the old margin at 30 does not invent edits
+   ↓ splitting one sentence into three blocks and crossing the old margin at 160 does not invent edits
+   ↓ reflow over consecutive lines has no text deletion and retains a real word edit
+   ↓ repeated title twice to once retains the deleted occurrence
+   ↓ local A/B values swapping is different from whole rows moving
+   ↓ repeated same-label values retain their surrounding local text
+   ↓ rotation, indentation and a new heading do not invent business ownership
+   ↓ ambiguity is local and shows actual changed text as well as both source groups
+   ↓ non-English body cannot be complete: 这是中文正文，保险金额发生变化。
+   ↓ non-English body cannot be complete: English body. 这是中文正文。
+   ↓ non-English body cannot be complete: Le contrat couvre les dommages et les pertes pendant une période de douze mois.
+   ↓ non-English body cannot be complete: Der Vertrag schützt sämtliche versicherten Sachen gegen Schäden während einer vereinbarten jährlichen Laufzeit.
+   ↓ Latin accents, combining marks, ligatures and symbols remain supported and searchable
+   ↓ presentation folds only after comparison and preserves each original occurrence and edit
+   ↓ equal value collections do not erase changes between columns of one row
+   ↓ headerless 2-column rows compare with a key away from the first column
+   ↓ headerless 5-column rows compare with a key away from the first column
+   ↓ a wrapped table line gets a local scope hint without hiding a clear value edit
+   ↓ cross-line label values remain ordinary source text, with no invented field binding
+   × stable A/B blocks keep bare amounts local even when their global values are unique 25ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/issue24.test.ts > stable A/B blocks keep bare amounts local even when their global values are unique
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ edit tests/issue24.test.ts:7:228
+
+ ❯ tests/issue24.test.ts:24:298
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 skipped (25)
+   Start at  18:35:44
+   Duration  133ms (import 46%, tests 32%, transform 20%, worker 2%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json

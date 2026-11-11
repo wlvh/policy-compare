@@ -1,0 +1,503 @@
+{
+  "evidenceSchemaVersion": "cross-entry-core/3",
+  "status": "PASS",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+    "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+    "bytes": 2064593,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "cliArtifact": {
+    "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+    "declaredSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+    "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+    "bytes": 2064593,
+    "wasmPath": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/packages/rust-core/generated/core.wasm",
+    "infoPath": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/packages/rust-core/generated/core-info.json"
+  },
+  "cliImageId": null,
+  "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+  "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+  "frozenBaselineAllowances": [
+    "coreVersion",
+    "Only the explicitly approved generated-message translations recorded per case"
+  ],
+  "records": [
+    {
+      "case": "R01_identical",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "d8a22339f07fcd6a29132b3647d98f1fc43046bd025f46adf4526732d8ccae4d",
+      "translations": []
+    },
+    {
+      "case": "R02_amount",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "e91d00b1d5770f2280923146d8b30a22d75dcbebbed8ef563058b630e5d5de46",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R03_currency",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "9823dca4af76a1c45a0f91cd3e00e8aa0e18048ae803d7d20e27e197ade7b51f",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R04_decimal",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "6f92879fdb76a8074ca70f7aee431240b16d1a951896843c1b8fceb820378e1b",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R05_negation",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "cca752d02a7fd253b1f987ab97b2f16645110ba2d1d6d2734fa2943f43febf22",
+      "translations": []
+    },
+    {
+      "case": "R06_and_or",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "34e0838d85b9388213af7ebe2f90bbf9f8a689c5c06e7a0dfc97b775e580e505",
+      "translations": []
+    },
+    {
+      "case": "R07_shorter_term",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "fdfc35992c6767a0c02539344adab753c2f3abc87aa5574fa4f35c738dcf433c",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R08_normal_renewal",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "fd60983e9591a8d23dff3369bfb5899d3d63e124f0bc4b433ff584bccd7266fb",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R09_header_limit",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "b5ed8a994e0fabd8300c050973fb671aad58541cf7440f0f62a2b8f167a440be",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 2 次；文档页数：2 页 → 2 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 2; document pages: 2 → 2; see occurrence locations for each source"
+        }
+      ]
+    },
+    {
+      "case": "R10_address_swap",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "c790a86d66791637ecd649ef33133df64cde74bfe67bc464e29bbcb0a0a002fc",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        },
+        {
+          "path": "/differences/1/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R11_label_alias",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "cbcf71d89abdb7ba4348a0373d85d3b03ace829192e60e7bea9462c5ba3da37a",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R12_exact_move",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "edf073c6902c4f273a9a086f6246585533f3bf8ce0d8dec2e3f7443844d3c9bc",
+      "translations": []
+    },
+    {
+      "case": "R13_move_and_replacement",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "53cf79bebe2460e216d273a869dfa98dd6efc381660ab7c771d6f577ab754e11",
+      "translations": []
+    },
+    {
+      "case": "R14_short_paragraph",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "137d4d863165f7edf0b1412b12bb03964a3d2a45dcc06aad19c29622eb05d2da",
+      "translations": []
+    },
+    {
+      "case": "R15_paragraph_split",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "3f0c97797d04fee7c7d7796cdf537def652335452034c476ce3b237510e1f6b4",
+      "translations": []
+    },
+    {
+      "case": "R16_repagination",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "9583720c4a2d1c572d87dcaf9063c9788ed523685c69e563ae93330616f08234",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/1/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/2/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/3/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        }
+      ]
+    },
+    {
+      "case": "R17_font_change",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "a6a7c62d2e32d80a3773585083eea7c5f8780566306b05e7f9b700587c7ba3b4",
+      "translations": []
+    },
+    {
+      "case": "R18_ligature",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "b267ddabd1de2d5f4d318d3f005b86de2e8ad692216909f3ac96b855b0eb9200",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R19_rotated_status",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "42f5ab14954808e6eed7cd34034fbb9fb06d70ba443d0901ae51433de33e22bb",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R20_plus_minus",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "c5990bb62c3b83104e007eedd5b0aeb862640ea2c5f504b0a885fcdf4f52b956",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R21_checkbox_glyph",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "281023191b03c105c79562418112ec62db0346fd06583f46881c25e8a49a4c9b",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    },
+    {
+      "case": "R22_table_value",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "0883c8ccf6ab11749e7c4eafcf827c76e926e52de9e1f82c425a0b6c9bd2631b",
+      "translations": []
+    },
+    {
+      "case": "R23_table_reorder",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "d2e10bb9fccbdd3fbcf29cdeafb76613c50d66f9233fadfba2b12035dd7def4d",
+      "translations": []
+    },
+    {
+      "case": "R24_table_cross_page",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "d7431ae65a8baa027f6e7325c31956e3c2589b057f822ac678efb6eb34f544f0",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/1/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/2/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/3/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/4/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/5/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/6/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/7/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/8/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        }
+      ]
+    },
+    {
+      "case": "R25_duplicate_keys",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "1b9422f08f7412203e00e03bdb42af0f57a7e39dacd11230be1c1d46b1948a54",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "无法确定唯一表格行身份",
+          "after": "A unique table row identity could not be established"
+        },
+        {
+          "path": "/unresolved/0/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/1/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/2/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/3/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/4/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        }
+      ]
+    },
+    {
+      "case": "R26_key_change",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "cae8e4bd5661a8f27b2ef9354410bbdd75d31db3de17909f75eca52268fce7d0",
+      "translations": []
+    },
+    {
+      "case": "R27_mixed_scan_page",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "61be988fe20f3e316c26f89b935a900ef0e8556d35f3b089c2a1f31716310c40",
+      "translations": []
+    },
+    {
+      "case": "R28_inline_scan",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "0c4e5c603e914e4ffba042be5fac5ba429b9bd61e953e368d9e039bc2d49b7ed",
+      "translations": []
+    },
+    {
+      "case": "R29_clause_add",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "e98855be02d2d03e2b3a54f5ec2028ac028d5e2bc8adf740d11ec63fc2711dc3",
+      "translations": []
+    },
+    {
+      "case": "R30_clause_delete",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "e598b46ab9918f4d46ce5cecd932d40fd95e12dd625b37e7adc868c7354958a8",
+      "translations": []
+    },
+    {
+      "case": "R31_punctuation",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "50e3227519fca963d210dfad3e0ccf2b1f583b0d7329a22d79b6d9a522411d19",
+      "translations": []
+    },
+    {
+      "case": "R32_combined_changes",
+      "status": "PASS",
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "browserCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "cliCoreSha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+      "frozenInputAndLegacyResultSha256": "4f3c0800243cdf0dcc23c77abc8e2b8aeaa68d2238e1e01e3a07efecdc66fd27",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        },
+        {
+          "path": "/differences/1/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ]
+    }
+  ]
+}

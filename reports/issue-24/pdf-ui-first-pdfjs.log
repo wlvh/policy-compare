@@ -1,0 +1,186 @@
+
+> policy-compare@0.1.0 test:browser:pdfjs /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> POLICY_ENGINE=pdfjs playwright test
+
+[WebServer] (node:47196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:47217) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 47 tests using 1 worker
+
+(node:47245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/browser/deployment.spec.ts:10:1 › three allowlisted samples, source highlight, search, export and private diagnostic (1.3s)
+  ✓   2 tests/browser/deployment.spec.ts:53:1 › missing isolation is actionable and comparison cannot start (185ms)
+  ✓   3 tests/browser/deployment.spec.ts:67:1 › engine bundle download failure leaves a reload screen (348ms)
+  ✓   4 tests/browser/deployment.spec.ts:78:1 › failed engine worker initialization can be retried (425ms)
+  ✘   5 tests/browser/issue24.spec.ts:5:1 › three frozen English PDF pairs: visible edits, source rows and actual fine highlights (531ms)
+(node:47313) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/browser/lifecycle.spec.ts:4:1 › twenty cancellation cycles leave no workers and allow a complete subsequent result (3.9s)
+  ✓   7 tests/browser/lifecycle.spec.ts:64:1 › a cancel click that lands after the task finished changes nothing (580ms)
+  ✓   8 tests/browser/lifecycle.spec.ts:87:1 › moved text jumps both sides; identity remains with displayed PDF after next selection (629ms)
+  ✓   9 tests/browser/lifecycle.spec.ts:116:1 › corrupt input fails and password is handled locally (801ms)
+  ✓  10 tests/browser/lifecycle.spec.ts:147:1 › non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit (598ms)
+  ✓  11 tests/browser/one-sided-navigation.spec.ts:14:38 › added text navigates the missing side to reference context only when sync is enabled (769ms)
+  ✓  12 tests/browser/one-sided-navigation.spec.ts:14:38 › removed text navigates the missing side to reference context only when sync is enabled (753ms)
+  ✓  13 tests/browser/one-sided-navigation.spec.ts:43:1 › different page counts do not force equal physical page numbers (607ms)
+  ✓  14 tests/browser/one-sided-navigation.spec.ts:56:1 › an unextractable counterpart uses a labelled page reference, never a claimed text match (488ms)
+  ✓  15 tests/browser/one-sided-navigation.spec.ts:72:1 › a paired paragraph navigates both direct sources even when only one side has edited characters (653ms)
+  ✓  16 tests/browser/repeat-display.spec.ts:14:38 › count-only increases stay out of change cards and preserve all sources (852ms)
+  ✓  17 tests/browser/repeat-display.spec.ts:14:38 › count-only decreases stay out of change cards and preserve all sources (871ms)
+  ✓  18 tests/browser/repeat-display.spec.ts:71:1 › a real page-number text change remains a main card and locates the edited digits (505ms)
+  ✓  19 tests/browser/repeat-display.spec.ts:85:1 › optional quantity sources remain visible on a narrow window after explicit navigation (746ms)
+  ✓  20 tests/browser/repeat-display.spec.ts:102:1 › unchanged text with an actual move remains a main review item (648ms)
+  ✓  21 tests/browser/repeat-display.spec.ts:111:1 › changed repeated header remains a red-green main comparison with accessible occurrences (624ms)
+  ✓  22 tests/browser/review-regressions.spec.ts:13:1 › F1 two changed deductibles retain visible sections and both real source rows (2.1s)
+  ✓  23 tests/browser/review-regressions.spec.ts:31:1 › F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful (1.2s)
+  ✓  24 tests/browser/review-regressions.spec.ts:55:1 › F5 visible image gap regions respect nested Form matrices and restored state (623ms)
+  ✓  25 tests/browser/review-regressions.spec.ts:63:1 › F7 versioned resources escape old immutable cache and fixed paths revalidate (170ms)
+  ✓  26 tests/browser/review.spec.ts:26:1 › P1 real PDF amount, search, source quads and JSON export (764ms)
+  ✓  27 tests/browser/review.spec.ts:45:1 › P1 identical, ligature and scan status (1.2s)
+  ✓  28 tests/browser/review.spec.ts:61:1 › cancel stops workers, old results cannot replace next task; no document upload (672ms)
+  ✓  29 tests/browser/review.spec.ts:96:1 › repeated occurrences and uncovered image regions are navigable (969ms)
+  ✓  30 tests/browser/review.spec.ts:100:1 › twenty complete tasks replace previous resources without refreshing the tab (7.0s)
+  ✓  31 tests/browser/review.spec.ts:105:1 › manual swap updates both file controls and comparison direction (923ms)
+  ✘  32 tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated (16.5s)
+(node:47534) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  33 tests/browser/rust-core.spec.ts:14:1 › frozen inputs: shipped Worker and formal CLI have identical complete core outputs (24.0s)
+  ✓  34 tests/browser/rust-core.spec.ts:46:63 › WASM initialization cancel then retry, no stale task or duplicate transfer (860ms)
+  ✓  35 tests/browser/rust-core.spec.ts:46:63 › WASM initialization failure then retry, no stale task or duplicate transfer (786ms)
+  ✓  36 tests/browser/rust-core.spec.ts:46:63 › WASM initialization timeout then retry, no stale task or duplicate transfer (802ms)
+  ✓  37 tests/browser/rust-core.spec.ts:83:1 › network paths, queries, payloads and diagnostics contain no local document or search secrets (584ms)
+  ✘  38 tests/browser/scroll.spec.ts:28:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off (1.0m)
+(node:47875) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  39 tests/browser/scroll.spec.ts:71:1 › synchronized wheel scrolling follows existing text alignment across pages; buttons still work (775ms)
+  ✓  40 tests/browser/scroll.spec.ts:91:1 › a page shorter than the viewport still reaches the final page; rapid scrolling keeps the latest view (816ms)
+  ✓  41 tests/browser/scroll.spec.ts:109:1 › every on-screen page renders when the complete document fits without scrolling (691ms)
+  ✓  42 tests/browser/scroll.spec.ts:124:1 › height-only resizing loads newly visible pages and retains visible predecessors at the bottom (743ms)
+  ✓  43 tests/browser/startup.spec.ts:3:1 › PDF and Rust downloads can each exceed the former 15 second deadline (41.2s)
+  ✓  44 tests/browser/startup.spec.ts:18:1 › a stalled PDF startup ends and retry recovers (594ms)
+  ✓  45 tests/browser/startup.spec.ts:36:1 › a stalled Rust startup ends and a new comparison recovers (725ms)
+  ✓  46 tests/browser/startup.spec.ts:55:1 › cancelling a warming PDF worker releases it and permits another task (539ms)
+  ✓  47 tests/browser/startup.spec.ts:73:1 › document processing still terminates after its own 120 second deadline (530ms)
+
+
+  1) tests/browser/issue24.spec.ts:5:1 › three frozen English PDF pairs: visible edits, source rows and actual fine highlights 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      13 |   const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Export JSON',exact:true}).click();const result=JSON.parse(readFileSync((await(await pending).path())!,'utf8'));expect(result.profileVersion).toBe('english-generic/1');
+      14 |   const context=pair.id==='prose'?'supplier':pair.id==='two-column'?'Archive':'North';
+    > 15 |   for(const d of result.differences){for(const loc of [...d.left,...d.right,...d.textOps.flatMap((o:any)=>[...o.left,...o.right])])expect(resolveLocation(loc,docs)).toBe(true);
+         |                                                                                                                                                                      ^
+      16 |    for(const o of d.textOps.filter((o:any)=>o.kind!=='equal'))for(const loc of [...o.left,...o.right]){const doc=docs[loc.side==='left'?0:1];const row=doc.pages[0].lines.find((line:any)=>line.charIds.map((id:string)=>doc.pages[0].chars.find((c:any)=>c.id===id).text).join('').includes(context));expect(row).toBeTruthy();if(loc.precision==='run')expect(loc.resolvedGeometry?.method).toBe('text_layer_range');const quads=loc.resolvedGeometry?.quads??loc.quads;expect(quads.length).toBeGreaterThan(0);for(const q of quads){expect(Math.abs(Math.max(q[1],q[3],q[5],q[7])-row.baseline[1])).toBeLessThan(25);expect(Math.max(q[0],q[2],q[4],q[6])-Math.min(q[0],q[2],q[4],q[6])).toBeLessThan(80);}}
+      17 |   }
+      18 |   records.push({id:pair.id,status:'PASS',result});if(pair.id==='multi-column')await page.screenshot({path:`${report}/three-pdfs.png`,fullPage:true});
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/issue24.spec.ts:15:166
+
+    Error Context: reports/issue-24/browser-pdfjs-final/test-results/issue24-three-frozen-Engli-979fd--and-actual-fine-highlights/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/issue-24/browser-pdfjs-final/test-results/issue24-three-frozen-Engli-979fd--and-actual-fine-highlights/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/issue-24/browser-pdfjs-final/test-results/issue24-three-frozen-Engli-979fd--and-actual-fine-highlights/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 45
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "case": "R16_repagination",
+    +     "eventStatus": "PASS",
+    +     "events": Array [
+    +       Object {
+    +         "cards": Array [
+    +           "d-e8682fc1c2b420515cbb",
+    +         ],
+    +         "id": "R16_repagination:E1",
+    +         "pass": true,
+    +       },
+    +     ],
+    +     "faults": Array [
+    +       "missing repeated-text occurrence delta R16_repagination:T1",
+    +       "missing repeated-text occurrence delta R16_repagination:T2",
+    +     ],
+    +     "notEvaluated": Array [],
+    +     "status": "FAIL",
+    +   },
+    +   Object {
+    +     "case": "R24_table_cross_page",
+    +     "eventStatus": "PASS",
+    +     "events": Array [
+    +       Object {
+    +         "cards": Array [
+    +           "d-d762124d75b2606304f6",
+    +         ],
+    +         "id": "R24_table_cross_page:E1",
+    +         "pass": true,
+    +       },
+    +     ],
+    +     "faults": Array [
+    +       "missing repeated-text occurrence delta R24_table_cross_page:T1",
+    +       "missing repeated-text occurrence delta R24_table_cross_page:T2",
+    +       "missing repeated-text occurrence delta R24_table_cross_page:T4",
+    +       "missing repeated-text occurrence delta R24_table_cross_page:T5",
+    +       "missing repeated-text occurrence delta R24_table_cross_page:T6",
+    +       "missing repeated-text occurrence delta R24_table_cross_page:T7",
+    +       "missing repeated-text occurrence delta R24_table_cross_page:T8",
+    +     ],
+    +     "notEvaluated": Array [],
+    +     "status": "FAIL",
+    +   },
+    + ]
+
+      112 |         events: r.events,
+      113 |       })),
+    > 114 |   ).toEqual([]);
+          |     ^
+      115 | });
+      116 |
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/rules.spec.ts:114:5
+
+    Error Context: reports/issue-24/browser-pdfjs-final/test-results/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/issue-24/browser-pdfjs-final/test-results/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/issue-24/browser-pdfjs-final/test-results/rules-all-32-pairs-no-fail-d596d-erage-gaps-left-unevaluated/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/scroll.spec.ts:28:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off 
+
+    Test timeout of 60000ms exceeded.
+
+    Error Context: reports/issue-24/browser-pdfjs-final/test-results/scroll-wheel-crosses-page--c9603-ndependent-when-sync-is-off/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/issue-24/browser-pdfjs-final/test-results/scroll-wheel-crosses-page--c9603-ndependent-when-sync-is-off/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/issue-24/browser-pdfjs-final/test-results/scroll-wheel-crosses-page--c9603-ndependent-when-sync-is-off/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/browser/issue24.spec.ts:5:1 › three frozen English PDF pairs: visible edits, source rows and actual fine highlights 
+    tests/browser/rules.spec.ts:11:1 › all 32 pairs: no failure with browser fine location, only registered coverage gaps left unevaluated 
+    tests/browser/scroll.spec.ts:28:1 › wheel crosses page boundaries in either direction, panes remain independent when sync is off 
+  44 passed (3.1m)
+ ELIFECYCLE  Command failed with exit code 1.

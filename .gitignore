@@ -22,3 +22,14 @@ REVIEW_ARTIFACTS.json
 /reports/public-pilot/**/test-results/
 
 /reports/issue-24/**/test-results/
+/reports/issue-24/browser-*/
+/reports/issue-24/browser-*.log
+/reports/issue-24/final-view-*/
+/reports/issue-24/final-view-*.log
+/reports/issue-24/scorer-confirmation-*/
+/reports/issue-24/scorer-confirmation-*.log
+/reports/issue-24/production-files-*.txt
+/reports/issue-24/**/three-pdfs-*-actual.json
+/reports/issue-24/unit-first.log
+/reports/issue-24/review-regressions-*.json
+/reports/issue-24/accepted-*/browser-review-regressions-*.json

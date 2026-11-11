@@ -2,7 +2,7 @@
 
 Compare a baseline PDF with a revised PDF, inspect text, amount and clause changes, and follow each change back to its source. PDFs are processed in your browser and are not uploaded. The tool does not recognize text in scanned images. **This is an evaluation tool that requires human review; its output is not a complete policy-review conclusion.**
 
-The interface and generated review messages are in English. Document text is preserved in its original language. Historical reports and some developer documentation remain in Chinese.
+The formal comparison path supports English documents and uses one generic Rust core, with no document profile or aviation field dictionary. Detected non-English or unconfirmed language ranges retain their original text and receive explicit coverage warnings; those results are partial. This is a lightweight scope check, not general language identification. See the [Issue #24 implementation and acceptance report](reports/issue-24/README.md). Historical reports and some developer documentation remain in Chinese.
 
 ## Get and run the current version
 

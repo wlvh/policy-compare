@@ -1,0 +1,50 @@
+{
+  "mupdf": {
+    "status": "PASS",
+    "forbiddenProductionModules": [],
+    "files": [
+      "packages/contracts/index.ts",
+      "packages/pdf-adapter/api.ts",
+      "apps/web/PageCanvas.tsx",
+      "apps/web/PdfViewport.tsx",
+      "apps/web/fold-occurrences.ts",
+      "apps/web/build-info.ts",
+      "apps/web/main.tsx",
+      "apps/web/boot.ts",
+      "packages/rust-core/generated/core-info.json",
+      "packages/compare-core/options.ts",
+      "packages/rust-core/index.ts",
+      "apps/web/core.worker.ts",
+      "apps/web/engines.d.ts",
+      "apps/web/pdf.worker.ts",
+      "engines/mupdf/adapter.ts",
+      "engines/mupdf/client.ts",
+      "engines/mupdf/view.ts",
+      "packages/compare-core/index.ts"
+    ]
+  },
+  "pdfjs": {
+    "status": "PASS",
+    "forbiddenProductionModules": [],
+    "files": [
+      "packages/contracts/index.ts",
+      "packages/pdf-adapter/api.ts",
+      "apps/web/PageCanvas.tsx",
+      "apps/web/PdfViewport.tsx",
+      "apps/web/fold-occurrences.ts",
+      "apps/web/build-info.ts",
+      "apps/web/main.tsx",
+      "apps/web/boot.ts",
+      "packages/rust-core/generated/core-info.json",
+      "packages/compare-core/options.ts",
+      "packages/rust-core/index.ts",
+      "apps/web/core.worker.ts",
+      "apps/web/engines.d.ts",
+      "apps/web/pdf.worker.ts",
+      "engines/pdfjs/adapter.ts",
+      "engines/pdfjs/client.ts",
+      "engines/pdfjs/view.ts",
+      "packages/compare-core/index.ts"
+    ]
+  }
+}

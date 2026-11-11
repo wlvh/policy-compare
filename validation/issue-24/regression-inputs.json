@@ -1,0 +1,10 @@
+{
+  "candidate": "4569c3ab13af56e11885345cde2ff0319b98c10c",
+  "reason": "Finite additional regressions and source-verifier corrections; these are not unseen validation inputs",
+  "sha256": {
+    "tests/issue24.test.ts": "00a56a4669829e2025e370ee0c2075f72e80ae52f46e9b6f0cb0a86e3204c441",
+    "tests/generic-scorer.test.ts": "9f38afbd1285f8e0108aa9324ea5607c4bccbdb7ae398a4b4332edb186a814ab",
+    "tests/evaluation/generic.ts": "34f3cc5b1d44858dc8ffd659820d91d7ea390e9daa731bcfbd566a1c25554823",
+    "tests/browser/issue24.spec.ts": "81a203f36adc2c1cd00702fe33b3c27eb5c16fcc39dd284c39b333bbd8c36c03"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "mode": "regression",
+  "meaning": "Development regression, not unseen validation",
+  "candidate": "4569c3ab13af56e11885345cde2ff0319b98c10c",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+    "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+    "bytes": 2064593,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "records": [
+    {
+      "id": "prose",
+      "engine": "mupdf",
+      "generator": "ReportLab 4 canvas",
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/prose-before.pdf",
+          "sha256": "49875bd40a6009ec0e055d0f0df71af88eb964cbe53a59a381479a491cb6a9e9"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/prose-after.pdf",
+          "sha256": "3427f04bf124ac3deba9d05d8ed50e253d89e98f9d5f150f2cb9d7f1bc816e9f"
+        }
+      },
+      "status": "PASS",
+      "faults": []
+    },
+    {
+      "id": "two-column",
+      "engine": "mupdf",
+      "generator": "ReportLab 4 canvas",
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/two-column-before.pdf",
+          "sha256": "606cd80d3fb0f742ee0d8c73a25c9fb6ec241a95f5a2d81d8278d8200008d650"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/two-column-after.pdf",
+          "sha256": "8a1a2a2545e0c860a9588e72f1cf0b4dd0a69ec76d3142a3bfac629eae5351a8"
+        }
+      },
+      "status": "PASS",
+      "faults": []
+    },
+    {
+      "id": "multi-column",
+      "engine": "mupdf",
+      "generator": "Chromium print-to-PDF",
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/multi-column-before.pdf",
+          "sha256": "26ace4bc4d95e160c28061f387f4861985cc720ffc71b15121a148ea5cbe2b8f"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/multi-column-after.pdf",
+          "sha256": "d47be9a6dcfbf1b581874a6e877b63203c4a8b3aa35c7389e7d9590c2c2515f3"
+        }
+      },
+      "status": "PASS",
+      "faults": []
+    },
+    {
+      "id": "prose",
+      "engine": "pdfjs",
+      "generator": "ReportLab 4 canvas",
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/prose-before.pdf",
+          "sha256": "49875bd40a6009ec0e055d0f0df71af88eb964cbe53a59a381479a491cb6a9e9"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/prose-after.pdf",
+          "sha256": "3427f04bf124ac3deba9d05d8ed50e253d89e98f9d5f150f2cb9d7f1bc816e9f"
+        }
+      },
+      "status": "PASS",
+      "faults": []
+    },
+    {
+      "id": "two-column",
+      "engine": "pdfjs",
+      "generator": "ReportLab 4 canvas",
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/two-column-before.pdf",
+          "sha256": "606cd80d3fb0f742ee0d8c73a25c9fb6ec241a95f5a2d81d8278d8200008d650"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/two-column-after.pdf",
+          "sha256": "8a1a2a2545e0c860a9588e72f1cf0b4dd0a69ec76d3142a3bfac629eae5351a8"
+        }
+      },
+      "status": "PASS",
+      "faults": []
+    },
+    {
+      "id": "multi-column",
+      "engine": "pdfjs",
+      "generator": "Chromium print-to-PDF",
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/multi-column-before.pdf",
+          "sha256": "26ace4bc4d95e160c28061f387f4861985cc720ffc71b15121a148ea5cbe2b8f"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/multi-column-after.pdf",
+          "sha256": "d47be9a6dcfbf1b581874a6e877b63203c4a8b3aa35c7389e7d9590c2c2515f3"
+        }
+      },
+      "status": "PASS",
+      "faults": []
+    }
+  ]
+}

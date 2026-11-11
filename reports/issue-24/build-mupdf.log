@@ -1,0 +1,62 @@
+
+> policy-compare@0.1.0 build:mupdf /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> pnpm build:core && tsc -p tsconfig.mupdf.json --noEmit && POLICY_ENGINE=mupdf vite build
+
+
+> policy-compare@0.1.0 build:core /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+> tsx scripts/build-rust.ts
+
+warning: function `replace` is never used
+  --> crates/compare-core/src/text.rs:27:8
+   |
+27 | pub fn replace(p: &str, s: &str, t: &str) -> String {
+   |        ^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `trim` is never used
+  --> crates/compare-core/src/text.rs:36:8
+   |
+36 | pub fn trim(s: &str) -> &str {
+   |        ^^^^
+
+warning: field `transforms` is never read
+  --> crates/compare-core/src/text.rs:51:9
+   |
+46 | pub struct Mapped {
+   |            ------ field in this struct
+...
+51 |     pub transforms: Vec<V>,
+   |         ^^^^^^^^^^
+   |
+   = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: `policy-compare-core` (lib) generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 0.05s
+{
+  abi: 'policy-core-session/1',
+  coreVersion: 'policy-compare-rust/0.2.0+english-generic.1',
+  sha256: 'f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b',
+  bytes: 2064593,
+  rust: '1.93.0',
+  target: 'wasm32-unknown-unknown'
+}
+vite v8.3.5 building client environment for production...
+transforming...
+[plugin rolldown:vite-resolve] Module "node:fs" has been externalized for browser compatibility, imported by "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin rolldown:vite-resolve] Module "module" has been externalized for browser compatibility, imported by "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/engines/mupdf/node_modules/.pnpm/mupdf@1.28.1_patch_hash=851323c0ad4b1d3d2401b048529bc995ccc8088eb624bd5a7da117dd0b0f09de/node_modules/mupdf/dist/mupdf-wasm.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+✓ 23 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/mupdf/assets/__vite-browser-external-UfK9GVxM.js       0.11 kB
+dist/mupdf/assets/rolldown-runtime-WkwZ5CU-.js              0.59 kB
+dist/mupdf/index.html                                       0.67 kB │ gzip:     0.43 kB
+dist/mupdf/assets/core.worker-CDoNoecP.js                 111.31 kB
+dist/mupdf/assets/pdf.worker-Df5KJ2hb.js                  203.27 kB
+dist/mupdf/assets/core-BZDjYOxk.wasm                    2,064.59 kB │ gzip:   720.53 kB
+dist/mupdf/assets/mupdf-wasm-Bvf0xebB.wasm             10,409.82 kB │ gzip: 4,778.44 kB
+dist/mupdf/assets/index-BCa-yYWQ.css                       10.14 kB │ gzip:     3.02 kB
+dist/mupdf/assets/index-C0uThMGi.js                         2.59 kB │ gzip:     1.26 kB
+dist/mupdf/assets/main-DyplIwyB.js                        255.56 kB │ gzip:    80.71 kB
+
+✓ built in 234ms
