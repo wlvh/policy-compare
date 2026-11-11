@@ -62,6 +62,11 @@ jobs:
         run: pnpm test:rules:${{ matrix.engine }} || test $? -eq 2
       - if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: pnpm exec tsx scripts/review-check.ts ${{ matrix.engine }}
+      - name: Use reachable signed Ubuntu archive mirror
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: |
+          test -f /etc/apt/apt-mirrors.txt
+          printf '%s\n' 'https://mirrors.edge.kernel.org/ubuntu/' | sudo tee /etc/apt/apt-mirrors.txt
       - id: browsers
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: pnpm exec playwright install --with-deps chromium
@@ -101,6 +106,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: 24.19.0}
       - run: pnpm install --frozen-lockfile
+      - name: Use reachable signed Ubuntu archive mirror
+        run: |
+          test -f /etc/apt/apt-mirrors.txt
+          printf '%s\n' 'https://mirrors.edge.kernel.org/ubuntu/' | sudo tee /etc/apt/apt-mirrors.txt
       - run: pnpm exec playwright install --with-deps chromium
       - name: Build and start the selected Linux image
         id: candidate
