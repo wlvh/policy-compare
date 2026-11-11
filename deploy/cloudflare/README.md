@@ -1,75 +1,77 @@
-# Cloudflare Pages 发布
+# Cloudflare Pages deployment
 
-本轮独立项目为 `huaweidata-compare`，公开入口为 `https://compare.huaweidata.com/`。本目录保存托管模板，`scripts/package-cloudflare.ts` 从已检查的镜像生成可发布目录。当前启动修订候选为 `r21-startup-a1`，应用源码为 `14a2467d97937c7cca979390d4665d07af65d61c`。
+The independent project is `huaweidata-compare`, with the public entry at `https://compare.huaweidata.com/`. This directory contains hosting templates. `scripts/package-cloudflare.ts` generates a deployable directory from a checked image. The recorded startup-revision candidate is `r21-startup-a1`, built from application source `14a2467d97937c7cca979390d4665d07af65d61c`. English templates in the repository do not change an existing deployment until a new package is published.
 
-原候选 `r20-a3-mupdf` 的固定资源及原始失败记录已保存。首次部署及 CLI 托管修订分别为 `292f37c2-9253-46f6-96e1-24dcd1b4dd75` 和 `3350dadc-9f46-4b85-b0e0-7fd8e33309b2`。历史证据见 [原发布记录](../../reports/public-pilot/r20-a3-mupdf/README.md)，启动修订见 [本轮记录](../../reports/public-pilot/startup-followup/README.md)。
+The original `r20-a3-mupdf` resources and failure records are retained. The first deployment and subsequent CLI hosting revision were `292f37c2-9253-46f6-96e1-24dcd1b4dd75` and `3350dadc-9f46-4b85-b0e0-7fd8e33309b2`. See the [original publication record](../../reports/public-pilot/r20-a3-mupdf/README.md) and [startup revision record](../../reports/public-pilot/startup-followup/README.md).
 
-## 生成发布目录
+## Generate the deployment directory
 
-使用 Node 24 LTS、pnpm 10.12.1 和已启动的 Docker。候选镜像及其 `container.json` 必须来自同一冻结源码，并通过现有容器检查。
+Use Node.js 24 LTS, pnpm 10.12.1 and a running Docker service. The candidate image and its `container.json` must identify the same frozen source and pass the existing container checks. The commands below use the illustrative new English release ID `r-english-example`; choose an unused release ID and fresh output/report directories for the actual candidate.
 
 ```sh
-POLICY_RELEASE_ID=r21-startup-a1 \
-POLICY_REPORT_DIR=reports/public-pilot/startup-followup/candidate \
+POLICY_RELEASE_ID=r-english-example \
+POLICY_REPORT_DIR=reports/public-pilot/r-english-example/candidate \
 POLICY_BROWSER_CHANNEL=bundled \
-bash scripts/pnpm-local.sh test:container mupdf
+pnpm test:container mupdf
 ```
 
-上述命令用于从候选源码提交构建。在本次实际构建中，该提交为 `14a2467`，随后增加的发布记录与打包步骤由 PR #21 保存。重新构建时以实际检出的提交生成对应候选记录，核对文件清单。现有候选使用保留的镜像编号，不重用标签替换其身份。
+Build the new candidate from the actual checked-out English source commit and verify its resource manifest. Preserve existing candidate image IDs instead of replacing their identity with a reused tag. Historical Chinese candidates require the matching source and test revision when rerunning their browser checks; current tests expect English controls.
 
-本轮打包脚本以前一轮已核对目录为输入，同时保留其源码材料与旧版本路径。输出目录必须尚不存在。
+The packaging script takes the previously verified site as input and retains its source materials and original version path. The output directory must not already exist.
 
 ```sh
-bash scripts/pnpm-local.sh exec tsx scripts/package-cloudflare.ts \
-  reports/public-pilot/startup-followup/candidate/container.json \
+pnpm exec tsx scripts/package-cloudflare.ts \
+  reports/public-pilot/r-english-example/candidate/container.json \
   delivery/public-pilot-r20-a3-mupdf/site \
-  delivery/public-pilot-r21-startup-a1/site-final
+  delivery/public-pilot-r-english-example/site
 ```
 
-脚本核对前一目录全部 117 个文件，从候选的固定镜像提取新资源，再检查每个资源与候选清单的一致性。它加入托管模板、当前入口、对应项目源码、相同 Cargo.lock 的 Rust 依赖源码、修改说明和构建方法。完整上游 MuPDF 源码和 JavaScript 依赖材料沿用已核对文件。输出旁的 `package.json` 保存全站文件哈希。
+The script checks all 117 files in the previous directory, extracts the new resources from the fixed candidate image, then verifies each resource against the candidate manifest. It adds hosting templates, the current entry page, corresponding project source, Rust dependency source with the same Cargo.lock, notices and build instructions. Complete upstream MuPDF and JavaScript dependency sources are reused from the verified materials. The `package.json` beside the output records every site file's hash.
 
-本机没有前一轮目录时，可将第二个参数换成其保留的固定部署地址。脚本按已提交清单下载并核对文件。
+The source-download page is generated in English from the archive manifest. This changes the page and its current site hash; it does not rewrite source archives or the original release resources.
+
+If the previous directory is unavailable locally, use its retained fixed deployment URL as the second argument. The script downloads and checks files against the committed manifest.
 
 ```sh
-NODE_USE_ENV_PROXY=1 bash scripts/pnpm-local.sh exec tsx scripts/package-cloudflare.ts \
-  reports/public-pilot/startup-followup/candidate/container.json \
+NODE_USE_ENV_PROXY=1 pnpm exec tsx scripts/package-cloudflare.ts \
+  reports/public-pilot/r-english-example/candidate/container.json \
   https://3350dadc.huaweidata-compare.pages.dev/ \
-  delivery/public-pilot-r21-startup-a1/site-final
+  delivery/public-pilot-r-english-example/site
 ```
 
-固定部署地址中的大型源码分卷需要按需下载。脚本每文件最多等待 300 秒，输出完成后才写入全站清单。该期限用于打包恢复，与浏览器应用的初始化期限分别定义。
+The fixed deployment includes large source archive parts. The script allows up to 300 seconds per file and writes the site manifest only after packaging completes. This recovery timeout is separate from the application's engine-startup deadline.
 
-## 检查与发布
+## Check and publish
 
 ```sh
-WRANGLER_SEND_METRICS=false bash scripts/pnpm-local.sh dlx wrangler@4.158.0 pages dev \
-  delivery/public-pilot-r21-startup-a1/site-final --port 8093 --ip 127.0.0.1
+WRANGLER_SEND_METRICS=false pnpm dlx wrangler@4.158.0 pages dev \
+  delivery/public-pilot-r-english-example/site --port 8093 --ip 127.0.0.1
 ```
 
-在本地预览上执行 `verify:deployment`，设置候选清单中实际的版本与 SHA-256，并为每次检查指定独立报告目录。示例命令保存在本轮记录中。
+Run `pnpm verify:deployment tests/browser/deployment.spec.ts` against the local preview. Set `POLICY_BASE_URL` to the new version path under `http://127.0.0.1:8093/`, use the actual release ID and verified manifest SHA-256, and choose a fresh report directory. The [pilot task guide](../../docs/public-pilot.md#before-publication) shows the equivalent public check with explicit candidate binding.
 
-本机 Wrangler 已通过用户完成的官方设备登录获得 Pages 发布和必要读取权限。使用独立项目的生产分支发布生成的目录。
+The recorded publication used Wrangler's official device login for the required Pages permissions. Authenticate for the current environment as needed, then publish the generated directory to the independent project's production branch.
 
 ```sh
 WRANGLER_SEND_METRICS=false \
 CLOUDFLARE_ACCOUNT_ID=7bd4a486d159295357a217bd714c1462 \
-bash scripts/pnpm-local.sh dlx wrangler@4.158.0 pages deploy \
-  delivery/public-pilot-r21-startup-a1/site-final \
+pnpm dlx wrangler@4.158.0 pages deploy \
+  delivery/public-pilot-r-english-example/site \
   --project-name huaweidata-compare --branch main
 ```
 
-发布后保存部署编号，并分别核对固定部署地址和自定义域名。执行原四项部署检查、首次加载与首次比较记录，并检查新旧两个版本的构建清单、实际文件哈希和隔离响应头。主站项目 `huaweidata` 的发布链路独立维护。
+Record the deployment ID and check both the fixed deployment URL and the custom domain. Run the four deployment checks from the matching English source revision and record first load and first comparison. Check build manifests, actual file hashes and isolation headers for both the new and retained versions. The main `huaweidata` site's deployment is maintained separately.
 
-## 恢复
+## Restore a previous deployment
 
-旧版本路径 `/releases/r20-a3-mupdf/` 在新站点中保留，可直接访问作对照。需要恢复整个站点时，在 Pages 项目 Deployments 中选择固定旧部署 `3350dadc-9f46-4b85-b0e0-7fd8e33309b2`，执行 Rollback，再重新核对自定义域名和旧候选清单。
+The old `/releases/r20-a3-mupdf/` path is retained for direct comparison. To restore the entire recorded site, choose deployment `3350dadc-9f46-4b85-b0e0-7fd8e33309b2` in the Pages project's Deployments list and use Rollback. Recheck the custom domain and the original candidate manifest afterward.
 
-也可以按上面的固定部署地址和已提交清单恢复前一目录，再由 Wrangler 上传该目录。旧 `_headers` 的原文来自该部署的 `open-source/hosting-headers.txt`，`_redirects` 使用原有健康检查映射。
+Alternatively, restore the previous directory from its fixed deployment URL and committed manifest, then upload that directory with Wrangler. The original `_headers` content is retained as `open-source/hosting-headers.txt`; `_redirects` uses the original health-check mapping.
 
-## 响应头与源码材料
+## Response headers and source materials
 
-`_headers` 提供 CSP、COOP、COEP、nosniff、Referrer-Policy 和版本资源缓存。HTML 使用 `no-transform`，阻止 Cloudflare 自动改写页面加入统计脚本。WASM 继续按原设置传输压缩。实际配置原文随站提供为 `open-source/hosting-headers.txt`。
+`_headers` configures CSP, COOP, COEP, nosniff, Referrer-Policy and version-resource caching. HTML uses `no-transform` to prevent Cloudflare from rewriting it to inject analytics. WASM retains its configured transfer compression. The actual hosting headers are served as `open-source/hosting-headers.txt`.
 
-项目自有代码沿用已授权的 AGPL v3 或更高版本发布路径。`LICENSE`、`NOTICE` 和 `DISTRIBUTION-NOTICE.txt` 提供许可、修改与分发说明。每个候选的构建清单和源码归档标明具体提交。上游 MuPDF 完整归档分卷保留，原生 WASM 与官方 npm 包的字节核对记录沿用原候选证据。
+The recorded public releases use the authorized AGPL version 3 or later distribution terms. `LICENSE`, `NOTICE` and `DISTRIBUTION-NOTICE.txt` identify the license, modifications and grant scope. Each candidate's manifest and source archive identify its exact commit. Retain the full upstream MuPDF archive parts. The original candidate's evidence records the byte comparison of the native WASM against the official npm package.
 
-试用任务见 [定向试用安排](../../docs/public-pilot-r20.zh-CN.md)。真实受邀者、业务样本、普通设备性能、完整内存与组织环境各自记录。Issue #19 保持开放。
+See the [pilot task guide](../../docs/public-pilot.md). Actual participants, business samples, ordinary-device performance, complete memory requirements and organizational environments are recorded separately. Issue #19 remains open unless its acceptance requirements are explicitly resolved.

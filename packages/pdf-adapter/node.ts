@@ -4,7 +4,7 @@ export type { EngineName } from "./api";
 export { LIMITS } from "./api";
 export async function loadEngine(name: EngineName) {
   if (!["mupdf", "pdfjs"].includes(name))
-    throw new Error("明确选择 pdfjs 或 mupdf；不自动回退");
+    throw new Error("Select pdfjs or mupdf explicitly; there is no automatic fallback");
   const module = await import(
     new URL(`../../engines/${name}/adapter.ts`, import.meta.url).href
   );

@@ -76,6 +76,7 @@ jobs:
           path: |
             reports/ci-environment-${{ matrix.engine }}.json
             reports/core-tests.json
+            reports/english-ui/parity.json
             reports/cross-entry-${{ matrix.engine }}.json
             reports/pdf-checks-${{ matrix.engine }}.json
             reports/rules-${{ matrix.engine }}.json

@@ -4,7 +4,7 @@ import { parseDoc, canonical } from "../contracts/index";
 const [a, b, out] = process.argv.slice(2);
 if (!a || !b || !out)
   throw new Error(
-    "开发专用：pnpm compare:doc left.doc.json right.doc.json out.json（不计 PDF 验收）",
+    "Development only: pnpm compare:doc left.doc.json right.doc.json out.json (does not count as PDF acceptance testing)",
   );
 const result = compare(
   parseDoc(JSON.parse(readFileSync(a, "utf8"))),

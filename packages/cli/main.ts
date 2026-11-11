@@ -20,13 +20,13 @@ const child = spawn(
 );
 process.on("SIGINT", () => {
   child.kill("SIGKILL");
-  console.error("cancelled：已终止 PDF 与比较进程");
+  console.error("cancelled: PDF and comparison processes terminated");
   process.exit(130);
 });
 child.on("exit", (code) => {
   process.exitCode = code ?? 3;
 });
 child.on("error", () => {
-  console.error("failed：无法启动本地比较进程");
+  console.error("failed: Unable to start the local comparison process");
   process.exitCode = 3;
 });

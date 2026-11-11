@@ -460,9 +460,9 @@ fn table_pairs(
             un.push(unresolved(
                 "ambiguous_identity",
                 if duplicate {
-                    "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体"
+                    "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
                 } else {
-                    "表格主次键冲突或缺少可靠对应"
+                    "Conflicting table keys or no reliable match"
                 },
                 &[x.clone()],
                 &[y.clone()],
@@ -582,7 +582,7 @@ fn row_identity(
         let y = aggregate(&bb, format!("row-conflict-right-{}", bb[0].id), true);
         mark(ul, &aa);
         mark(ur, &bb);
-        un.push(unresolved("ambiguous_identity","表格行的身份证据互相冲突（例如两个身份列指向不同行，或同一身份列的值不同）；未自动配对，组内原文变化仍展示",&[x.clone()],&[y.clone()],l,r));
+        un.push(unresolved("ambiguous_identity","Table row identity evidence conflicts (for example, two identity columns point to different rows, or the same identity column has different values); rows were not automatically matched, and source changes within the group remain visible",&[x.clone()],&[y.clone()],l,r));
         bind(pairs, ul, ur, x, y, "unresolved-row-identity", None);
     }
 }
@@ -596,7 +596,7 @@ fn page_list(us: &[Unit]) -> String {
     us.iter()
         .map(|u| (u.page() + 1).to_string())
         .collect::<Vec<_>>()
-        .join("、")
+        .join(", ")
 }
 fn compare_repeated(
     as_: &[Unit],
@@ -639,7 +639,7 @@ fn compare_repeated(
             "“{}”{}",
             trim(&us[0].m.raw),
             if us.iter().map(|u| trim(&u.m.raw)).collect::<Set<_>>().len() > 1 {
-                "等（页码随所在页）"
+                " and other variants (page numbers vary by page)"
             } else {
                 ""
             }
@@ -647,9 +647,9 @@ fn compare_repeated(
     };
     for (own, other, is_right) in [(&r, &l, true), (&l, &r, false)] {
         let (name, other_name) = if is_right {
-            ("待审版", "基准版")
+            ("Revised", "Baseline")
         } else {
-            ("基准版", "待审版")
+            ("Baseline", "Revised")
         };
         let unchanged: Vec<_> = own
             .iter()
@@ -669,20 +669,20 @@ fn compare_repeated(
                 continue;
             }
             let mut note = format!(
-                "本版组内文字不一致：{name}第 {} 页为{}文字",
+                "Text varies within this group: {name} pages {} show {} text",
                 page_list(us),
-                if is_right { "新" } else { "旧" }
+                if is_right { "revised" } else { "baseline" }
             );
             if let Some(kept) = kept {
                 if !unchanged.is_empty() {
                     note += &format!(
-                        "；{name}第 {} 页仍为{other_name}文字{}",
+                        "; {name} pages {} retain {other_name} text {}",
                         page_list(&unchanged),
                         quote(kept)
                     );
                 }
             } else {
-                note += &format!("，{other_name}没有相同文字")
+                note += &format!("; {other_name} has no identical text")
             };
             let mut card = repeated(
                 us,
@@ -737,14 +737,14 @@ fn compare_repeated(
         };
         let lo = others(&l);
         let ro = others(&r);
-        let mut note = "同一行的其他写法只作上下文，不计入本写法的次数".to_string();
+        let mut note = "Other variants of the same line are context only and are excluded from the count for this variant".to_string();
         if !lo.is_empty() {
-            note += &format!("：基准版第 {} 页", page_list(&lo))
+            note += &format!(": Baseline pages {}", page_list(&lo))
         }
         if !ro.is_empty() {
             note += &format!(
-                "{}待审版第 {} 页",
-                if lo.is_empty() { "：" } else { "；" },
+                "{}Revised pages {}",
+                if lo.is_empty() { ": " } else { "; " },
                 page_list(&ro)
             )
         }
@@ -929,7 +929,7 @@ fn joint_align(
 }
 pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     if digest(&l.meta["extractor"]) != digest(&r.meta["extractor"]) {
-        return Err("两份文档必须由同一引擎、版本及选项提取".into());
+        return Err("Both documents must be extracted with the same engine, version and options".into());
     }
     crate::notify(0);
     let snapshots = [l.snapshot(), r.snapshot()];
@@ -985,7 +985,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             } else {
                 ur.insert(u.id.clone());
             }
-            un.push(unresolved("ambiguous_identity","这些完整基线可能是多条记录，也可能是每格折行的一条记录；局部结构与身份未确定，原文分别保留",if side==0{std::slice::from_ref(u)}else{&[]},if side==1{std::slice::from_ref(u)}else{&[]},l,r));
+            un.push(unresolved("ambiguous_identity","These complete text lines may represent multiple records or one record with wrapped cells; local structure and identity remain unresolved, and the source text is retained separately",if side==0{std::slice::from_ref(u)}else{&[]},if side==1{std::slice::from_ref(u)}else{&[]},l,r));
         }
     }
     table_pairs(&la, &rb, &mut pairs, &mut ul, &mut ur, &mut un, l, r);
@@ -1067,7 +1067,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                 if a.role == "field" {
                     un.push(unresolved(
                         "ambiguous_identity",
-                        "同名字段缺少唯一归属；组内原文变化仍展示，不按金额相同跨位置配对",
+                        "Fields with the same name have no unique owner; source changes within the group remain visible, and equal amounts are not used to match fields across positions",
                         &[a.clone()],
                         &[b.clone()],
                         l,
@@ -1532,7 +1532,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     if sc.exhausted {
         un.push(unresolved(
             "budget",
-            "对应工作量预算耗尽；以下范围未完成，不能宣称无变化",
+            "Matching work budget exhausted; the following regions were not completed and cannot be reported as unchanged",
             &unmatched_l,
             &unmatched_r,
             l,
@@ -1556,7 +1556,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                 mark(&mut ar, bb);
                 un.push(unresolved(
                     "ambiguous_match",
-                    "这组重复原文的身份不唯一；其他明确变化继续展示",
+                    "Identity is not unique for this repeated source text; other unambiguous changes remain visible",
                     &aa,
                     bb,
                     l,
@@ -1769,7 +1769,7 @@ fn emit(
             if a.cells.is_some() && b.cells.is_some() && heads[0].slots(a) != heads[1].slots(b) {
                 un.push(unresolved(
                     "ambiguous_match",
-                    "两版本这一表格行的原文相同，但各格的划分不同；哪个值在哪一列未能确定",
+                    "This table row has identical source text in both versions, but the cell boundaries differ; column ownership of the values is unresolved",
                     &[a.clone()],
                     &[b.clone()],
                     l,
@@ -1826,19 +1826,19 @@ fn emit(
     };
     let reasons = if u.path["confidence"] == "unresolved" {
         vec![if u.path["table"].is_string() {
-            "无法确定唯一表格行身份".to_string()
+            "A unique table row identity could not be established".to_string()
         } else {
-            "无法确定同名字段的唯一归属".into()
+            "A unique owner could not be established for fields with the same name".into()
         }]
     } else if ar.is_some() || br.is_some() {
         let notes = a
             .into_iter()
             .chain(b)
             .filter(|u| !u.note.is_empty())
-            .map(|u| format!("；{}", u.note))
+            .map(|u| format!("; {}", u.note))
             .collect::<String>();
         vec![format!(
-            "这段文字出现次数：{} 次 → {} 次；文档页数：{} 页 → {} 页{}；逐处来源见出现位置",
+            "Text occurrences: {} → {}; document pages: {} → {}{}; see occurrence locations for each source",
             ar.map(Vec::len).unwrap_or(0),
             br.map(Vec::len).unwrap_or(0),
             l.pages.len(),
@@ -1854,5 +1854,5 @@ fn emit(
             &json!({"kind":kind,"old":old,"new":now,"left":left.iter().map(|x|x["charIds"].clone()).collect::<Vec<_>>(),"right":right.iter().map(|x|x["charIds"].clone()).collect::<Vec<_>>()})
         )[..20]
     );
-    diffs.push(json!({"id":id,"kind":kind,"structurePath":u.path,"left":left,"right":right,"oldText":old,"newText":now,"textOps":ops,"hasTextChange":old!=now,"facts":facts(a,b,layout),"repeat":repeat,"defaultVisible":true,"matchEvidence":{"method":method,"score":score,"details":[if method=="reliable-field-identity"{"主体与字段身份一致"}else{method}]},"reviewReasons":reasons,"occurrences":occ}));
+    diffs.push(json!({"id":id,"kind":kind,"structurePath":u.path,"left":left,"right":right,"oldText":old,"newText":now,"textOps":ops,"hasTextChange":old!=now,"facts":facts(a,b,layout),"repeat":repeat,"defaultVisible":true,"matchEvidence":{"method":method,"score":score,"details":[if method=="reliable-field-identity"{"Entity and field identities match"}else{method}]},"reviewReasons":reasons,"occurrences":occ}));
 }

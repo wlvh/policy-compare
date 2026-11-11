@@ -6,7 +6,7 @@ mod text;
 use model::*;
 use serde_json::json;
 use std::cell::RefCell;
-pub const CORE_VERSION: &str = "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4";
+pub const CORE_VERSION: &str = "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1";
 #[cfg(target_arch = "wasm32")]
 #[link(wasm_import_module = "host")]
 unsafe extern "C" {

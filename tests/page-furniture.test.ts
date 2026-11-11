@@ -55,7 +55,7 @@ describe("page furniture is compared once, with every occurrence", () => {
     expect(draft.occurrences).toHaveLength(10);
     expect(new Set(draft.occurrences.flatMap((o) => o.right.map((l) => l.pageIndex))).size).toBe(5);
     expect(draft.repeat).toEqual({ left: 0, right: 10, leftPages: 5, rightPages: 5 });
-    expect(draft.reviewReasons.join("")).toContain("这段文字出现次数：0 次 → 10 次；文档页数：5 页 → 5 页");
+    expect(draft.reviewReasons.join("")).toContain("Text occurrences: 0 → 10; document pages: 5 → 5");
   });
   it("a repeated header carrying a limit is one card", () => {
     const doc = (limit: string) =>
@@ -168,7 +168,7 @@ describe("variants inside a repeated line stay visible", () => {
     const right = d.occurrences.flatMap((o) => o.right);
     expect(right.filter((l) => l.text === "UMR B1234AV2025").map((l) => l.pageIndex)).toEqual([0, 1, 3]);
     // ... while the page that kept the old text is named and reachable.
-    expect(d.reviewReasons.join("")).toMatch(/待审版第 3 页仍为基准版文字“UMR B1234AV2024”/);
+    expect(d.reviewReasons.join("")).toMatch(/Revised pages 3 retain Baseline text “UMR B1234AV2024”/);
     expect(right.filter((l) => l.text === "UMR B1234AV2024").map((l) => l.pageIndex)).toEqual([2]);
     expect(d.occurrences.flatMap((o) => o.left).map((l) => l.pageIndex)).toEqual([0, 1, 2, 3]);
   });

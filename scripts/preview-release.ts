@@ -35,13 +35,13 @@ const manual = {
   ...context, status: 'NOT_EVALUATED', reviewer: null, reviewedAt: null, browser: null,
   instructions: 'Record PASS, FAIL or NOT_EVALUATED for each check, with observations and evidence. Startup is not manual acceptance. Do not include confidential PDF text in this record.',
   checks: [
-    ['P02', '1315 的 USD 100 → USD 2000 可见；1760 的 USD 1000 未改。'],
-    ['P01', '相同文件没有内容变化卡，也没有已记录的覆盖缺口或对应未决。'],
-    ['E03', '扫描图片明确提示文字尚未比较；零张文字卡不被解释为文档无变化。'],
-    ['source_search_export', 'P02 高亮位于实际编辑，搜索 1315 能回到原文，JSON 导出保留本次变化与来源。'],
-    ['swap', '交换两份文件后，P02 变化方向为 USD 2000 → USD 100。'],
-    ['cancel_restart', '任务处理中取消后可以重新比较；任务已结束后的点击不计为取消成功。'],
-    ['close_task', '关闭任务后，文件选择、密码、搜索与文档显示清除，下一组比较可正常进行。'],
+    ['P02', '1315 shows USD 100 → USD 2000; the USD 1000 value for 1760 is unchanged.'],
+    ['P01', 'Identical files show no content change cards, recorded coverage gaps or unresolved matches.'],
+    ['E03', 'Scanned images explicitly state that text has not been compared; zero text change cards do not imply unchanged documents.'],
+    ['source_search_export', 'P02 highlights the actual edit, searching for 1315 locates its source, and the JSON export preserves the change and its sources.'],
+    ['swap', 'After swapping the files, P02 shows the change from USD 2000 to USD 100.'],
+    ['cancel_restart', 'Cancel a running task, then compare again successfully; clicking after completion does not count as successful cancellation.'],
+    ['close_task', 'Closing the task clears file selections, passwords, search and document views; the next comparison works normally.'],
   ].map(([id, expected]) => ({ id, expected, status: 'NOT_EVALUATED', observations: '', evidence: [] })),
 };
 writeFileSync(`${reportDir}/manual-review.json`, JSON.stringify(manual, null, 2) + '\n');
@@ -116,12 +116,12 @@ try {
       capDrop: runtime.HostConfig.CapDrop, securityOpt: runtime.HostConfig.SecurityOpt },
     stopCommand: `docker stop ${name}`, restartCommand: `docker start ${name}`,
   }, null, 2) + '\n');
-  console.log(`体验地址：${origin}/\n发布版本：${candidate.releaseId}\n引擎：${candidate.engine}\n记录目录：${reportDir}\n状态：READY_FOR_MANUAL_REVIEW（人工检查未评价）\n停止服务：docker stop ${name}`);
+  console.log(`Preview URL: ${origin}/\nRelease: ${candidate.releaseId}\nEngine: ${candidate.engine}\nEvidence directory: ${reportDir}\nStatus: READY_FOR_MANUAL_REVIEW (manual review not evaluated)\nStop service: docker stop ${name}`);
 } catch (error) {
   const message = (error as Error).message;
   if (startedByThisRun) await docker(['stop', name]).catch(() => {});
   writeFileSync(`${reportDir}/preview.json`, JSON.stringify({ ...context, status: 'START_FAILED', error: message,
     manualReview: 'NOT_EVALUATED', checkedAt: new Date().toISOString() }, null, 2) + '\n');
-  console.error(`发布镜像体验入口启动失败：${message}\n记录目录：${reportDir}`);
+  console.error(`Release image preview failed to start: ${message}\nEvidence directory: ${reportDir}`);
   process.exitCode = 1;
 }

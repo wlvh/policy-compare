@@ -87,7 +87,7 @@ onmessage = async (e) => {
         type: "error",
         taskId,
         generation,
-        message: error instanceof Error ? error.message : "PDF 提取失败",
+        message: error instanceof Error ? error.message : "PDF text extraction failed.",
       });
     }
   }
@@ -120,7 +120,7 @@ onmessage = async (e) => {
         side: m.side,
         pageIndex: m.pageIndex,
         requestId: m.requestId,
-        message: "页面渲染失败",
+        message: "Page rendering failed.",
       });
     }
   }

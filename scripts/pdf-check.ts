@@ -113,7 +113,7 @@ await check(
     const s = await openSession(readFileSync(dir + "/unicode.pdf"));
     await s.destroy();
     await s.destroy();
-    await assert.rejects(async () => s.extractPage(0), /关闭/);
+    await assert.rejects(async () => s.extractPage(0), /closed/);
   },
 );
 const report = {

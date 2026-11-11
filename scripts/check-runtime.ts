@@ -57,9 +57,9 @@ try {
       const page = await browser.newPage();
       await page.goto(origin);
       await expect(page.locator('main')).toHaveAttribute('data-engine-ready', 'true', { timeout: 65_000 });
-      await page.getByLabel('基准 PDF', { exact: true }).setInputFiles(join(folder, 'samples/before.pdf'));
-      await page.getByLabel('待审 PDF', { exact: true }).setInputFiles(join(folder, 'samples/after.pdf'));
-      await page.getByRole('button', { name: '开始比较', exact: true }).click();
+      await page.getByLabel('Baseline PDF', { exact: true }).setInputFiles(join(folder, 'samples/before.pdf'));
+      await page.getByLabel('Revised PDF', { exact: true }).setInputFiles(join(folder, 'samples/after.pdf'));
+      await page.getByRole('button', { name: 'Compare', exact: true }).click();
       await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope', { timeout: 185_000 });
       await expect(page.locator('.cards')).toContainText('USD 2,500,000');
       await expect(page.locator('.cards')).toContainText('31 March 2026');

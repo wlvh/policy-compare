@@ -87,8 +87,15 @@ try {
   });
   writeFileSync(archivesPath, JSON.stringify(archives, null, 2) + '\n');
   writeFileSync(join(sourceDirectory, 'SHA256SUMS'), archives.files.map((file: any) => `${file.sha256}  ${file.path}\n`).join(''));
-  const sourceIndex = join(sourceDirectory, 'index.html');
-  writeFileSync(sourceIndex, readFileSync(sourceIndex, 'utf8').replace('<ul>', `<p>启动修订 ${candidate.releaseId} 对应源码为 <a href="${sourceName}">${sourceName}</a>，构建方法见 <a href="${buildName}">${buildName}</a>。原候选源码继续保留。</p><ul>`));
+  const escapeHtml = (value: string) => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  const sourceFiles = archives.files.map((file: { path: string; bytes: number }) =>
+    `<li><a href="${escapeHtml(file.path)}">${escapeHtml(file.path)}</a> — ${file.bytes.toLocaleString('en-US')} bytes</li>`).join('\n');
+  const sourceIndex = readFileSync('deploy/cloudflare/open-source.html', 'utf8')
+    .replaceAll('__RELEASE_ID__', candidate.releaseId)
+    .replaceAll('__SOURCE_NAME__', sourceName)
+    .replaceAll('__BUILD_NAME__', buildName)
+    .replace('__SOURCE_FILES__', sourceFiles);
+  writeFileSync(join(sourceDirectory, 'index.html'), sourceIndex);
   // Keep every original release byte, including its manifest, for comparison and rollback.
   for (const item of [...original.resources, { path: 'build-info.json' }]) {
     const relative = join('releases/r20-a3-mupdf', item.path);

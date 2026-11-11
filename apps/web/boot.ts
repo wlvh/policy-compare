@@ -5,9 +5,9 @@ void import('./main').catch(() => {
   const root = document.getElementById('root')!;
   root.replaceChildren();
   const message = document.createElement('p');
-  message.textContent = '程序资源加载失败。请检查网络连接；若仍失败，请联系提供本工具的维护者。';
+  message.textContent = 'Application resources could not be loaded. Check your network connection. If the problem persists, contact the maintainer who provided this tool.';
   const retry = document.createElement('button');
-  retry.textContent = '重新加载';
+  retry.textContent = 'Reload';
   retry.onclick = () => location.reload();
   root.append(message, retry);
 });

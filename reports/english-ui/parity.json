@@ -1,0 +1,2150 @@
+{
+  "schemaVersion": "english-message-parity/1",
+  "status": "PASS",
+  "runId": "2026-11-11T04-00-19-784Z",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+    "sha256": "cbcdb0b413729b9c32d4bf69c23b53985b71fa2631e858730bc924dcc3ba3620",
+    "bytes": 2520807,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "frozenBaseline": {
+    "file": "reports/issue-19/frozen-baseline.json",
+    "sha256": "5f267636d686f232c24c1586aea769a92407eddb125662ae9afa54bd98ee72d1",
+    "revision": "6a5f1ef7e3f6997e58a1bf303774419c16cb994b",
+    "cases": 64
+  },
+  "allowedDifferences": [
+    "coreVersion identifies the implementation and the English message migration",
+    "Only the explicitly translated differences[].reviewReasons[], differences[].matchEvidence.details[] and unresolved[].message values recorded per case"
+  ],
+  "preserved": "Frozen documents, coverage messages copied from those documents, source text, facts, locations, counts, IDs, hashes and every other result field are compared without modification. The original Issue #19 reports are not overwritten.",
+  "checks": [
+    "Current Rust equals the translated frozen baseline",
+    "Current Rust equals current legacy (except coreVersion)"
+  ],
+  "records": [
+    {
+      "engine": "mupdf",
+      "case": "R01_identical",
+      "file": "validation/migration/issue-19/mupdf-R01_identical.json.gz",
+      "coreMs": 24.242541999999986,
+      "stages": {
+        "snapshot": 0.6911670000000072,
+        "structure": 14.30249999999998,
+        "matching": 20.670917000000003,
+        "diff": 21.857916999999986,
+        "done": 22.100374999999985
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "d8a22339f07fcd6a29132b3647d98f1fc43046bd025f46adf4526732d8ccae4d",
+      "verifiedInputAndLegacyResultSha256": "d8a22339f07fcd6a29132b3647d98f1fc43046bd025f46adf4526732d8ccae4d",
+      "frozenDocumentPayloadSha256": "041bf41987c3409548fa1305656eaf649bb5222cd22e2139147d5254fd8fe12d",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 50.65796,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 127.32382100000001,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R02_amount",
+      "file": "validation/migration/issue-19/mupdf-R02_amount.json.gz",
+      "coreMs": 20.141250000000014,
+      "stages": {
+        "snapshot": 0.03741700000000492,
+        "structure": 12.01600000000002,
+        "matching": 15.417167000000006,
+        "diff": 15.797875000000005,
+        "done": 16.721542
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "e91d00b1d5770f2280923146d8b30a22d75dcbebbed8ef563058b630e5d5de46",
+      "verifiedInputAndLegacyResultSha256": "e91d00b1d5770f2280923146d8b30a22d75dcbebbed8ef563058b630e5d5de46",
+      "frozenDocumentPayloadSha256": "825e8842a0472ab7c74578809f1af34a155bb02ccb39f9a1b2ea804794e3aa3a",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 42.749454000000014,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 98.19926400000008,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R03_currency",
+      "file": "validation/migration/issue-19/mupdf-R03_currency.json.gz",
+      "coreMs": 19.361041,
+      "stages": {
+        "snapshot": 0.03129099999998175,
+        "structure": 12.33141599999999,
+        "matching": 15.579332999999991,
+        "diff": 15.931040999999993,
+        "done": 16.108874999999983
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "9823dca4af76a1c45a0f91cd3e00e8aa0e18048ae803d7d20e27e197ade7b51f",
+      "verifiedInputAndLegacyResultSha256": "9823dca4af76a1c45a0f91cd3e00e8aa0e18048ae803d7d20e27e197ade7b51f",
+      "frozenDocumentPayloadSha256": "d3f7fa84c54104e48be969089cad39cae453cf01e36a62629354960c4f9b77e9",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 46.38206200000002,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 59.46853799999997,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R04_decimal",
+      "file": "validation/migration/issue-19/mupdf-R04_decimal.json.gz",
+      "coreMs": 19.28795800000003,
+      "stages": {
+        "snapshot": 0.033125000000012506,
+        "structure": 12.024916999999988,
+        "matching": 15.444917000000004,
+        "diff": 15.761875000000003,
+        "done": 15.986500000000007
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "6f92879fdb76a8074ca70f7aee431240b16d1a951896843c1b8fceb820378e1b",
+      "verifiedInputAndLegacyResultSha256": "6f92879fdb76a8074ca70f7aee431240b16d1a951896843c1b8fceb820378e1b",
+      "frozenDocumentPayloadSha256": "95d0796cea4b92a7bfead67966813c351d8ac1848e96c516b287408d2ee0560e",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 71.95606600000008,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 53.26891300000011,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R05_negation",
+      "file": "validation/migration/issue-19/mupdf-R05_negation.json.gz",
+      "coreMs": 20.494583000000034,
+      "stages": {
+        "snapshot": 0.032500000000027285,
+        "structure": 13.36141600000002,
+        "matching": 16.236166000000026,
+        "diff": 17.724125000000015,
+        "done": 18.19387499999999
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "cca752d02a7fd253b1f987ab97b2f16645110ba2d1d6d2734fa2943f43febf22",
+      "verifiedInputAndLegacyResultSha256": "cca752d02a7fd253b1f987ab97b2f16645110ba2d1d6d2734fa2943f43febf22",
+      "frozenDocumentPayloadSha256": "54ee1bdffe3767aa453053b01490c8344cfab644040a9adbe5c1fe91e158d24b",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 51.53721799999994,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 57.27674000000002,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R06_and_or",
+      "file": "validation/migration/issue-19/mupdf-R06_and_or.json.gz",
+      "coreMs": 18.97191700000002,
+      "stages": {
+        "snapshot": 0.03279200000002902,
+        "structure": 13.215874999999983,
+        "matching": 16.187792,
+        "diff": 16.62349999999998,
+        "done": 16.898292000000026
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "34e0838d85b9388213af7ebe2f90bbf9f8a689c5c06e7a0dfc97b775e580e505",
+      "verifiedInputAndLegacyResultSha256": "34e0838d85b9388213af7ebe2f90bbf9f8a689c5c06e7a0dfc97b775e580e505",
+      "frozenDocumentPayloadSha256": "c8975bbe53779830a7300fa54051254d2bcdccad4597ef16776dc110f8de461b",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 29.45614999999998,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 54.50732099999982,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R07_shorter_term",
+      "file": "validation/migration/issue-19/mupdf-R07_shorter_term.json.gz",
+      "coreMs": 20.088166,
+      "stages": {
+        "snapshot": 0.03370799999999008,
+        "structure": 13.426375000000007,
+        "matching": 15.934750000000008,
+        "diff": 16.237124999999992,
+        "done": 16.661166000000037
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "fdfc35992c6767a0c02539344adab753c2f3abc87aa5574fa4f35c738dcf433c",
+      "verifiedInputAndLegacyResultSha256": "fdfc35992c6767a0c02539344adab753c2f3abc87aa5574fa4f35c738dcf433c",
+      "frozenDocumentPayloadSha256": "16d0be21dd795f1950cafb3f7e9ba7346412b3ecab5d5efb8028b7c02fa8f82d",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 44.646020000000135,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 61.45899099999997,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R08_normal_renewal",
+      "file": "validation/migration/issue-19/mupdf-R08_normal_renewal.json.gz",
+      "coreMs": 18.698082999999997,
+      "stages": {
+        "snapshot": 0.02504199999998491,
+        "structure": 12.192042000000015,
+        "matching": 14.65033299999999,
+        "diff": 14.948125000000005,
+        "done": 15.241499999999974
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "fd60983e9591a8d23dff3369bfb5899d3d63e124f0bc4b433ff584bccd7266fb",
+      "verifiedInputAndLegacyResultSha256": "fd60983e9591a8d23dff3369bfb5899d3d63e124f0bc4b433ff584bccd7266fb",
+      "frozenDocumentPayloadSha256": "6a568752d4c320659b26594ca46b786e53dcef3e51fc44edbbb7f289e45c5a6c",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 34.41801200000009,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 55.257687999999916,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R09_header_limit",
+      "file": "validation/migration/issue-19/mupdf-R09_header_limit.json.gz",
+      "coreMs": 19.086833000000013,
+      "stages": {
+        "snapshot": 0.030500000000017735,
+        "structure": 12.069583000000023,
+        "matching": 14.901792,
+        "diff": 15.256583000000035,
+        "done": 15.441374999999994
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "b5ed8a994e0fabd8300c050973fb671aad58541cf7440f0f62a2b8f167a440be",
+      "verifiedInputAndLegacyResultSha256": "b5ed8a994e0fabd8300c050973fb671aad58541cf7440f0f62a2b8f167a440be",
+      "frozenDocumentPayloadSha256": "467edc5bca12d427fdafc70f017adb8a74ce2711f7e21956b0f448a240a67ed5",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 2 次；文档页数：2 页 → 2 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 2; document pages: 2 → 2; see occurrence locations for each source"
+        }
+      ],
+      "currentLegacyCoreMs": 34.65220799999997,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 55.23798899999997,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R10_address_swap",
+      "file": "validation/migration/issue-19/mupdf-R10_address_swap.json.gz",
+      "coreMs": 19.990542000000005,
+      "stages": {
+        "snapshot": 0.030041999999980362,
+        "structure": 12.035000000000025,
+        "matching": 15.599625000000003,
+        "diff": 15.903250000000014,
+        "done": 16.293999999999983
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "c790a86d66791637ecd649ef33133df64cde74bfe67bc464e29bbcb0a0a002fc",
+      "verifiedInputAndLegacyResultSha256": "c790a86d66791637ecd649ef33133df64cde74bfe67bc464e29bbcb0a0a002fc",
+      "frozenDocumentPayloadSha256": "3acf12dd202b39d0bd3782f31d222f03f96182725e162c0751ffefdd067f0bc8",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        },
+        {
+          "path": "/differences/1/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 35.019955999999866,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 58.894632,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R11_label_alias",
+      "file": "validation/migration/issue-19/mupdf-R11_label_alias.json.gz",
+      "coreMs": 19.092458000000022,
+      "stages": {
+        "snapshot": 0.030542000000025382,
+        "structure": 11.562457999999992,
+        "matching": 15.312707999999986,
+        "diff": 15.598124999999982,
+        "done": 15.712041999999997
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "cbcf71d89abdb7ba4348a0373d85d3b03ace829192e60e7bea9462c5ba3da37a",
+      "verifiedInputAndLegacyResultSha256": "cbcf71d89abdb7ba4348a0373d85d3b03ace829192e60e7bea9462c5ba3da37a",
+      "frozenDocumentPayloadSha256": "8e428c5769a8eb0014fe5ef7c9845518a2896ca2b6c3ac0958f1b1942ef4defb",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 35.5728230000002,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 56.163712999999916,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R12_exact_move",
+      "file": "validation/migration/issue-19/mupdf-R12_exact_move.json.gz",
+      "coreMs": 17.95829199999997,
+      "stages": {
+        "snapshot": 0.03412500000001728,
+        "structure": 11.643957999999998,
+        "matching": 15.193041999999991,
+        "diff": 15.447457999999983,
+        "done": 15.79420799999997
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "edf073c6902c4f273a9a086f6246585533f3bf8ce0d8dec2e3f7443844d3c9bc",
+      "verifiedInputAndLegacyResultSha256": "edf073c6902c4f273a9a086f6246585533f3bf8ce0d8dec2e3f7443844d3c9bc",
+      "frozenDocumentPayloadSha256": "9fefbd535ddd465e23dcd0cbd35ab3fdae76e5c47ada4f2d473f63fa04853957",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 28.28078800000003,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 56.20383300000003,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R13_move_and_replacement",
+      "file": "validation/migration/issue-19/mupdf-R13_move_and_replacement.json.gz",
+      "coreMs": 19.55637500000006,
+      "stages": {
+        "snapshot": 0.030333000000041466,
+        "structure": 12.422375000000045,
+        "matching": 15.843042000000025,
+        "diff": 16.169083,
+        "done": 17.21495800000008
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "53cf79bebe2460e216d273a869dfa98dd6efc381660ab7c771d6f577ab754e11",
+      "verifiedInputAndLegacyResultSha256": "53cf79bebe2460e216d273a869dfa98dd6efc381660ab7c771d6f577ab754e11",
+      "frozenDocumentPayloadSha256": "e2fb5dbc77846cbd858c4839510484114843b115410e49e58ad5b1b63b8bf54a",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 32.92605000000003,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 61.391118000000006,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R14_short_paragraph",
+      "file": "validation/migration/issue-19/mupdf-R14_short_paragraph.json.gz",
+      "coreMs": 16.854291999999987,
+      "stages": {
+        "snapshot": 0.024416999999971267,
+        "structure": 11.464875000000006,
+        "matching": 14.338624999999979,
+        "diff": 14.651707999999985,
+        "done": 14.842624999999998
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "137d4d863165f7edf0b1412b12bb03964a3d2a45dcc06aad19c29622eb05d2da",
+      "verifiedInputAndLegacyResultSha256": "137d4d863165f7edf0b1412b12bb03964a3d2a45dcc06aad19c29622eb05d2da",
+      "frozenDocumentPayloadSha256": "d7d649a1db06e786f92d4001aa4e4ef832f13da3d64e3e44749a70f00ff75e5a",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 28.270402000000104,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 56.40399699999989,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R15_paragraph_split",
+      "file": "validation/migration/issue-19/mupdf-R15_paragraph_split.json.gz",
+      "coreMs": 23.05966699999999,
+      "stages": {
+        "snapshot": 0.023874999999975444,
+        "structure": 15.467583999999988,
+        "matching": 20.464999999999918,
+        "diff": 20.933166999999912,
+        "done": 20.99716699999999
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "3f0c97797d04fee7c7d7796cdf537def652335452034c476ce3b237510e1f6b4",
+      "verifiedInputAndLegacyResultSha256": "3f0c97797d04fee7c7d7796cdf537def652335452034c476ce3b237510e1f6b4",
+      "frozenDocumentPayloadSha256": "d4b8de845fddbd1076d63493ca71873ed992308dffc66d8cd2682e17239168e4",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 33.894558999999845,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 51.4562549999996,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R16_repagination",
+      "file": "validation/migration/issue-19/mupdf-R16_repagination.json.gz",
+      "coreMs": 22.095042000000035,
+      "stages": {
+        "snapshot": 0.04166699999996126,
+        "structure": 12.324666999999977,
+        "matching": 16.844542000000047,
+        "diff": 17.307708000000048,
+        "done": 18.077957999999967
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "9583720c4a2d1c572d87dcaf9063c9788ed523685c69e563ae93330616f08234",
+      "verifiedInputAndLegacyResultSha256": "9583720c4a2d1c572d87dcaf9063c9788ed523685c69e563ae93330616f08234",
+      "frozenDocumentPayloadSha256": "e35ac9b157876d43ab97e0f42c5659234757f72cbe1f16d4133377247ac0fbad",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/1/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/2/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/3/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        }
+      ],
+      "currentLegacyCoreMs": 52.28096599999981,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 78.0549030000002,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R17_font_change",
+      "file": "validation/migration/issue-19/mupdf-R17_font_change.json.gz",
+      "coreMs": 17.954291999999896,
+      "stages": {
+        "snapshot": 0.017208999999979824,
+        "structure": 11.954499999999939,
+        "matching": 15.43158399999993,
+        "diff": 15.734583999999927,
+        "done": 15.802666999999929
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "a6a7c62d2e32d80a3773585083eea7c5f8780566306b05e7f9b700587c7ba3b4",
+      "verifiedInputAndLegacyResultSha256": "a6a7c62d2e32d80a3773585083eea7c5f8780566306b05e7f9b700587c7ba3b4",
+      "frozenDocumentPayloadSha256": "7260cb3c02fd795ddf195dcccde96b0b4120f41d65cf1cd0a73aa9ad97f44480",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 38.79566999999997,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 49.5780179999997,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R18_ligature",
+      "file": "validation/migration/issue-19/mupdf-R18_ligature.json.gz",
+      "coreMs": 19.267165999999975,
+      "stages": {
+        "snapshot": 0.03137499999991178,
+        "structure": 11.980707999999936,
+        "matching": 15.10191599999996,
+        "diff": 15.400582999999983,
+        "done": 15.732749999999896
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "b267ddabd1de2d5f4d318d3f005b86de2e8ad692216909f3ac96b855b0eb9200",
+      "verifiedInputAndLegacyResultSha256": "b267ddabd1de2d5f4d318d3f005b86de2e8ad692216909f3ac96b855b0eb9200",
+      "frozenDocumentPayloadSha256": "ed71dc9150821bf5f4c634ab4b5b92e03cf0accd622aa657bce913ea19ba2cca",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 57.464784999999665,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 59.42689900000005,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R19_rotated_status",
+      "file": "validation/migration/issue-19/mupdf-R19_rotated_status.json.gz",
+      "coreMs": 19.132833000000005,
+      "stages": {
+        "snapshot": 0.03229200000009769,
+        "structure": 12.019375000000082,
+        "matching": 15.310500000000047,
+        "diff": 15.594375000000014,
+        "done": 15.693042000000105
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "42f5ab14954808e6eed7cd34034fbb9fb06d70ba443d0901ae51433de33e22bb",
+      "verifiedInputAndLegacyResultSha256": "42f5ab14954808e6eed7cd34034fbb9fb06d70ba443d0901ae51433de33e22bb",
+      "frozenDocumentPayloadSha256": "f1b5390c2f69252846809a1e14466fdbb7627dccf42871e5c0a28285223a2efc",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 27.941393000000062,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 54.34855999999991,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R20_plus_minus",
+      "file": "validation/migration/issue-19/mupdf-R20_plus_minus.json.gz",
+      "coreMs": 21.252917000000025,
+      "stages": {
+        "snapshot": 0.041084000000068954,
+        "structure": 11.558875000000057,
+        "matching": 14.530500000000075,
+        "diff": 14.81554200000005,
+        "done": 14.966792000000055
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "c5990bb62c3b83104e007eedd5b0aeb862640ea2c5f504b0a885fcdf4f52b956",
+      "verifiedInputAndLegacyResultSha256": "c5990bb62c3b83104e007eedd5b0aeb862640ea2c5f504b0a885fcdf4f52b956",
+      "frozenDocumentPayloadSha256": "9f4663ee60a68f7b6f6aa66d54bd0059b97d7cf67b507c092566db9f512e3506",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 26.664326999999957,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 50.612145000000055,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R21_checkbox_glyph",
+      "file": "validation/migration/issue-19/mupdf-R21_checkbox_glyph.json.gz",
+      "coreMs": 20.100791999999956,
+      "stages": {
+        "snapshot": 0.03129200000000765,
+        "structure": 12.343041999999969,
+        "matching": 15.461584000000016,
+        "diff": 15.735708999999929,
+        "done": 15.956249999999955
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "281023191b03c105c79562418112ec62db0346fd06583f46881c25e8a49a4c9b",
+      "verifiedInputAndLegacyResultSha256": "281023191b03c105c79562418112ec62db0346fd06583f46881c25e8a49a4c9b",
+      "frozenDocumentPayloadSha256": "440edb7c7e01cbdb5742469e3e1e7980cde6ad9cc5450e26bd40c9dc738a1376",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 33.13021000000026,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 54.28960099999995,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R22_table_value",
+      "file": "validation/migration/issue-19/mupdf-R22_table_value.json.gz",
+      "coreMs": 17.011250000000018,
+      "stages": {
+        "snapshot": 0.030166000000008353,
+        "structure": 11.450541000000044,
+        "matching": 14.43991600000004,
+        "diff": 14.741083000000003,
+        "done": 14.861999999999966
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "0883c8ccf6ab11749e7c4eafcf827c76e926e52de9e1f82c425a0b6c9bd2631b",
+      "verifiedInputAndLegacyResultSha256": "0883c8ccf6ab11749e7c4eafcf827c76e926e52de9e1f82c425a0b6c9bd2631b",
+      "frozenDocumentPayloadSha256": "e077b26bad2105cc699ece7d5622fe329ca771999fad364c0e2d3ba2191fc31d",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 34.27917200000002,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 55.069352999999865,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R23_table_reorder",
+      "file": "validation/migration/issue-19/mupdf-R23_table_reorder.json.gz",
+      "coreMs": 19.19008400000007,
+      "stages": {
+        "snapshot": 0.030834000000027117,
+        "structure": 12.365292000000068,
+        "matching": 16.089166999999975,
+        "diff": 16.400792000000024,
+        "done": 16.47383400000001
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "d2e10bb9fccbdd3fbcf29cdeafb76613c50d66f9233fadfba2b12035dd7def4d",
+      "verifiedInputAndLegacyResultSha256": "d2e10bb9fccbdd3fbcf29cdeafb76613c50d66f9233fadfba2b12035dd7def4d",
+      "frozenDocumentPayloadSha256": "5da26190786758037c0c4dc91d0cde31b7592a90f0a8a5a63f79c4fba810c7b1",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 28.696488000000045,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 64.28874099999985,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R24_table_cross_page",
+      "file": "validation/migration/issue-19/mupdf-R24_table_cross_page.json.gz",
+      "coreMs": 20.75758399999995,
+      "stages": {
+        "snapshot": 0.032874999999989996,
+        "structure": 12.369459000000006,
+        "matching": 15.46266700000001,
+        "diff": 15.873124999999959,
+        "done": 16.448750000000018
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "d7431ae65a8baa027f6e7325c31956e3c2589b057f822ac678efb6eb34f544f0",
+      "verifiedInputAndLegacyResultSha256": "d7431ae65a8baa027f6e7325c31956e3c2589b057f822ac678efb6eb34f544f0",
+      "frozenDocumentPayloadSha256": "de04505f4e34dcfa7d00e502ced2767c384b7d223e1af6753294dda4b323f710",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/1/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/2/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/3/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/4/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/5/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/6/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/7/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/8/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        }
+      ],
+      "currentLegacyCoreMs": 33.35870700000032,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 70.46153900000036,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R25_duplicate_keys",
+      "file": "validation/migration/issue-19/mupdf-R25_duplicate_keys.json.gz",
+      "coreMs": 19.45220800000004,
+      "stages": {
+        "snapshot": 0.026625000000080945,
+        "structure": 11.799833000000035,
+        "matching": 15.002583000000072,
+        "diff": 15.52475000000004,
+        "done": 15.666917000000012
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "1b9422f08f7412203e00e03bdb42af0f57a7e39dacd11230be1c1d46b1948a54",
+      "verifiedInputAndLegacyResultSha256": "1b9422f08f7412203e00e03bdb42af0f57a7e39dacd11230be1c1d46b1948a54",
+      "frozenDocumentPayloadSha256": "b3eea97d7904bb65e48e09eb06ec1b2a76c19848e5036e0991ce7010f14fca0d",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "无法确定唯一表格行身份",
+          "after": "A unique table row identity could not be established"
+        },
+        {
+          "path": "/unresolved/0/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/1/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/2/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/3/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/4/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        }
+      ],
+      "currentLegacyCoreMs": 28.516254000000117,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 52.97936400000026,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R26_key_change",
+      "file": "validation/migration/issue-19/mupdf-R26_key_change.json.gz",
+      "coreMs": 17.066708000000062,
+      "stages": {
+        "snapshot": 0.03291699999999764,
+        "structure": 11.638042000000041,
+        "matching": 14.590874999999983,
+        "diff": 14.90020800000002,
+        "done": 15.017917000000011
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "cae8e4bd5661a8f27b2ef9354410bbdd75d31db3de17909f75eca52268fce7d0",
+      "verifiedInputAndLegacyResultSha256": "cae8e4bd5661a8f27b2ef9354410bbdd75d31db3de17909f75eca52268fce7d0",
+      "frozenDocumentPayloadSha256": "9ea5c20e7f99b7e27f8511ce37c82e87280f5bde28b7023aea8b19daacda7850",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 28.169208000000253,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 52.143622999999934,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R27_mixed_scan_page",
+      "file": "validation/migration/issue-19/mupdf-R27_mixed_scan_page.json.gz",
+      "coreMs": 13.069500000000062,
+      "stages": {
+        "snapshot": 0.01920800000004874,
+        "structure": 8.341541000000007,
+        "matching": 10.375250000000051,
+        "diff": 10.48070800000005,
+        "done": 10.506250000000023
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "61be988fe20f3e316c26f89b935a900ef0e8556d35f3b089c2a1f31716310c40",
+      "verifiedInputAndLegacyResultSha256": "61be988fe20f3e316c26f89b935a900ef0e8556d35f3b089c2a1f31716310c40",
+      "frozenDocumentPayloadSha256": "fee4bbb818cfba95347d562d474c57b5560966be932865c9f767dc2e48cde43f",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 22.315322999999808,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 38.58454000000074,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R28_inline_scan",
+      "file": "validation/migration/issue-19/mupdf-R28_inline_scan.json.gz",
+      "coreMs": 19.7549590000001,
+      "stages": {
+        "snapshot": 0.0244590000000926,
+        "structure": 12.205542000000037,
+        "matching": 15.65416700000003,
+        "diff": 15.90462500000001,
+        "done": 15.951917000000094
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "0c4e5c603e914e4ffba042be5fac5ba429b9bd61e953e368d9e039bc2d49b7ed",
+      "verifiedInputAndLegacyResultSha256": "0c4e5c603e914e4ffba042be5fac5ba429b9bd61e953e368d9e039bc2d49b7ed",
+      "frozenDocumentPayloadSha256": "22eda066f35f66f97338cea39682ec3988c3d4545c87c26b6e1c7e484a98af03",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 28.38400399999955,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 66.4310000000005,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R29_clause_add",
+      "file": "validation/migration/issue-19/mupdf-R29_clause_add.json.gz",
+      "coreMs": 17.848666999999978,
+      "stages": {
+        "snapshot": 0.021333999999910702,
+        "structure": 12.069499999999948,
+        "matching": 15.187874999999963,
+        "diff": 15.481249999999932,
+        "done": 15.668333999999959
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "e98855be02d2d03e2b3a54f5ec2028ac028d5e2bc8adf740d11ec63fc2711dc3",
+      "verifiedInputAndLegacyResultSha256": "e98855be02d2d03e2b3a54f5ec2028ac028d5e2bc8adf740d11ec63fc2711dc3",
+      "frozenDocumentPayloadSha256": "c90eed6020f8caa8112102e8414e1f81ebb19583d40352a4f663872578ab1ef7",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 37.277257999999165,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 137.38511600000038,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R30_clause_delete",
+      "file": "validation/migration/issue-19/mupdf-R30_clause_delete.json.gz",
+      "coreMs": 19.10424999999998,
+      "stages": {
+        "snapshot": 0.03899999999998727,
+        "structure": 11.614833999999973,
+        "matching": 15.242042000000083,
+        "diff": 15.594584000000054,
+        "done": 17.04316700000004
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "e598b46ab9918f4d46ce5cecd932d40fd95e12dd625b37e7adc868c7354958a8",
+      "verifiedInputAndLegacyResultSha256": "e598b46ab9918f4d46ce5cecd932d40fd95e12dd625b37e7adc868c7354958a8",
+      "frozenDocumentPayloadSha256": "4557f62b055f3217894d0e4a38f77e0614dc8a783496b82cf207f9cccfb910f5",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 51.662521999999626,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 59.34811999999965,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R31_punctuation",
+      "file": "validation/migration/issue-19/mupdf-R31_punctuation.json.gz",
+      "coreMs": 18.676625000000058,
+      "stages": {
+        "snapshot": 0.03662500000007185,
+        "structure": 12.111958000000072,
+        "matching": 15.584625000000074,
+        "diff": 15.926333,
+        "done": 16.153833000000077
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "50e3227519fca963d210dfad3e0ccf2b1f583b0d7329a22d79b6d9a522411d19",
+      "verifiedInputAndLegacyResultSha256": "50e3227519fca963d210dfad3e0ccf2b1f583b0d7329a22d79b6d9a522411d19",
+      "frozenDocumentPayloadSha256": "74e173460d7bebbc79419fa126e51c0377e8d2a9378b88d0cc4e77c8976b5b53",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 53.63746700000047,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 60.3527839999997,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "mupdf",
+      "case": "R32_combined_changes",
+      "file": "validation/migration/issue-19/mupdf-R32_combined_changes.json.gz",
+      "coreMs": 19.529416000000083,
+      "stages": {
+        "snapshot": 0.03345799999999599,
+        "structure": 12.163874999999962,
+        "matching": 15.341083000000026,
+        "diff": 15.613749999999982,
+        "done": 15.939249999999902
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "4f3c0800243cdf0dcc23c77abc8e2b8aeaa68d2238e1e01e3a07efecdc66fd27",
+      "verifiedInputAndLegacyResultSha256": "4f3c0800243cdf0dcc23c77abc8e2b8aeaa68d2238e1e01e3a07efecdc66fd27",
+      "frozenDocumentPayloadSha256": "dfde7dc44c1be888f456bfe1870ffd64b1d2843fb554a95c110a3f75c3f58df5",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        },
+        {
+          "path": "/differences/1/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 35.08074800000031,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 127.45681299999978,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R01_identical",
+      "file": "validation/migration/issue-19/pdfjs-R01_identical.json.gz",
+      "coreMs": 26.109666999999945,
+      "stages": {
+        "snapshot": 0.047667000000046755,
+        "structure": 19.741792000000032,
+        "matching": 23.18491700000004,
+        "diff": 23.574333000000024,
+        "done": 23.656582999999955
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "a2fb2ad677e32b2a4bf5a619088c69cfa7618e4008eed6457d8bb49da56d6560",
+      "verifiedInputAndLegacyResultSha256": "a2fb2ad677e32b2a4bf5a619088c69cfa7618e4008eed6457d8bb49da56d6560",
+      "frozenDocumentPayloadSha256": "4206a9876f54ee1ac5c9fb0c017afdbc5d36cd0fa24238814aa4eed64705698d",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 43.62592300000051,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 80.01131899999928,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R02_amount",
+      "file": "validation/migration/issue-19/pdfjs-R02_amount.json.gz",
+      "coreMs": 27.166791999999987,
+      "stages": {
+        "snapshot": 0.030250000000023647,
+        "structure": 17.466333000000077,
+        "matching": 20.17766699999993,
+        "diff": 20.500125000000025,
+        "done": 20.773208000000068
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "a2dcf711ece5fba57eb942db32decb054a48dc02810a3653c05f901f8d18ea0e",
+      "verifiedInputAndLegacyResultSha256": "a2dcf711ece5fba57eb942db32decb054a48dc02810a3653c05f901f8d18ea0e",
+      "frozenDocumentPayloadSha256": "1c0c80402832841864735081202a201d4606e91affcedae51a43b622b25e50a1",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 37.12757099999999,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 89.32556000000022,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R03_currency",
+      "file": "validation/migration/issue-19/pdfjs-R03_currency.json.gz",
+      "coreMs": 26.531625000000076,
+      "stages": {
+        "snapshot": 0.03099999999994907,
+        "structure": 16.082540999999992,
+        "matching": 20.167958,
+        "diff": 20.45962499999996,
+        "done": 20.601208000000042
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "f180569d38ab5204c4ab8e0d90a775c8cc5a61e8caae7f95b216845ef3227cc2",
+      "verifiedInputAndLegacyResultSha256": "f180569d38ab5204c4ab8e0d90a775c8cc5a61e8caae7f95b216845ef3227cc2",
+      "frozenDocumentPayloadSha256": "a156d332ba19074e8b77788f1a8e045712d41a1ae8d13f85d8d6a0a8b9bed956",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 37.88431800000035,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 91.23032899999998,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R04_decimal",
+      "file": "validation/migration/issue-19/pdfjs-R04_decimal.json.gz",
+      "coreMs": 26.038708000000042,
+      "stages": {
+        "snapshot": 0.024916000000075655,
+        "structure": 16.175583000000188,
+        "matching": 19.02562499999999,
+        "diff": 19.347750000000133,
+        "done": 19.552291000000196
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "88f6143c99222c40268f7209d1395e4542f6c435702156330d2e0873bd0d3de7",
+      "verifiedInputAndLegacyResultSha256": "88f6143c99222c40268f7209d1395e4542f6c435702156330d2e0873bd0d3de7",
+      "frozenDocumentPayloadSha256": "3654a37a9fd989e16f26c8bc61f4a9563b9932c3b334b69deee564a52f781ef9",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 45.138026000000536,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 80.83450599999924,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R05_negation",
+      "file": "validation/migration/issue-19/pdfjs-R05_negation.json.gz",
+      "coreMs": 24.02237500000001,
+      "stages": {
+        "snapshot": 0.02208399999994981,
+        "structure": 16.287583999999924,
+        "matching": 18.96845899999994,
+        "diff": 19.354708999999957,
+        "done": 19.747667000000092
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "2362a450c8c153f3f502fcb808f46d135a0b5f5d5386387b317347d5d93ab73e",
+      "verifiedInputAndLegacyResultSha256": "2362a450c8c153f3f502fcb808f46d135a0b5f5d5386387b317347d5d93ab73e",
+      "frozenDocumentPayloadSha256": "1d2b8d7b34059189760d0ebdf3d650c00a798031069532e3a5fcb04eb5810057",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 45.85207799999989,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 98.23542799999996,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R06_and_or",
+      "file": "validation/migration/issue-19/pdfjs-R06_and_or.json.gz",
+      "coreMs": 23.36441600000012,
+      "stages": {
+        "snapshot": 0.02591600000005201,
+        "structure": 15.85487500000022,
+        "matching": 18.542666000000054,
+        "diff": 18.848083000000088,
+        "done": 19.162708000000066
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "d4c9f489523b225b3922bc66899c6519b4fd5e7d8a25b9f13733af8f451fb746",
+      "verifiedInputAndLegacyResultSha256": "d4c9f489523b225b3922bc66899c6519b4fd5e7d8a25b9f13733af8f451fb746",
+      "frozenDocumentPayloadSha256": "c5229371f0aeebe4b2a93cb50a0f54e3367f1810f1278845c70d316d24628da2",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 43.32915199999934,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 89.64113799999996,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R07_shorter_term",
+      "file": "validation/migration/issue-19/pdfjs-R07_shorter_term.json.gz",
+      "coreMs": 25.91775000000007,
+      "stages": {
+        "snapshot": 0.01929199999995035,
+        "structure": 16.222792000000027,
+        "matching": 18.842292000000043,
+        "diff": 19.109750000000076,
+        "done": 19.425625000000082
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "45cdfec88bcf412c4aa616ceae38fe98d49ae603ce1294b030d29ce000a8470e",
+      "verifiedInputAndLegacyResultSha256": "45cdfec88bcf412c4aa616ceae38fe98d49ae603ce1294b030d29ce000a8470e",
+      "frozenDocumentPayloadSha256": "25380165b2340e7b03d66ceb45cd541740cdf0a49878d962415b2d4971b4f9f9",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 45.69848000000002,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 89.18926499999998,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R08_normal_renewal",
+      "file": "validation/migration/issue-19/pdfjs-R08_normal_renewal.json.gz",
+      "coreMs": 25.613790999999992,
+      "stages": {
+        "snapshot": 0.026333000000022366,
+        "structure": 16.077749999999924,
+        "matching": 18.646124999999984,
+        "diff": 18.923041000000012,
+        "done": 19.23350000000005
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "a79af92786ef767faaeccb29fd2f39f946611e7faac74fd2b97dc428f079f66d",
+      "verifiedInputAndLegacyResultSha256": "a79af92786ef767faaeccb29fd2f39f946611e7faac74fd2b97dc428f079f66d",
+      "frozenDocumentPayloadSha256": "3836c072381b6868e24f1fd4d8ee86d1ed0912b4a69c47dfcef210d1bfe04f84",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 44.53532399999949,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 102.23090500000035,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R09_header_limit",
+      "file": "validation/migration/issue-19/pdfjs-R09_header_limit.json.gz",
+      "coreMs": 25.321916999999985,
+      "stages": {
+        "snapshot": 0.02295800000001691,
+        "structure": 15.93116699999996,
+        "matching": 18.477374999999938,
+        "diff": 18.750958000000082,
+        "done": 18.94662500000004
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "319e1a4efdf9bae59cb96dc5cff02a843bc10cb18fe3edc0e7fa9772b8054bd9",
+      "verifiedInputAndLegacyResultSha256": "319e1a4efdf9bae59cb96dc5cff02a843bc10cb18fe3edc0e7fa9772b8054bd9",
+      "frozenDocumentPayloadSha256": "0ed420d47cc5816db54ed5dd888faaab6eb2c212dc63fb626ebc6210a5819c37",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 2 次；文档页数：2 页 → 2 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 2; document pages: 2 → 2; see occurrence locations for each source"
+        }
+      ],
+      "currentLegacyCoreMs": 40.79116500000055,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 80.53348899999946,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R10_address_swap",
+      "file": "validation/migration/issue-19/pdfjs-R10_address_swap.json.gz",
+      "coreMs": 26.194916999999805,
+      "stages": {
+        "snapshot": 0.020541999999977634,
+        "structure": 16.237041999999974,
+        "matching": 18.978624999999965,
+        "diff": 19.294541999999865,
+        "done": 19.79291699999999
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "8bcd7481f8284bd7d833fb08551755a420d38cb96aa8c6d649fb7b9a405002d1",
+      "verifiedInputAndLegacyResultSha256": "8bcd7481f8284bd7d833fb08551755a420d38cb96aa8c6d649fb7b9a405002d1",
+      "frozenDocumentPayloadSha256": "1a7718cc2b9b36bd4e2ae5dd76cfd7d76506a15fdeff0b98c14904627399187e",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        },
+        {
+          "path": "/differences/1/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 80.22652000000016,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 216.0051480000002,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R11_label_alias",
+      "file": "validation/migration/issue-19/pdfjs-R11_label_alias.json.gz",
+      "coreMs": 25.318040999999994,
+      "stages": {
+        "snapshot": 0.02062500000010914,
+        "structure": 16.072666000000027,
+        "matching": 18.605375000000095,
+        "diff": 18.85808300000008,
+        "done": 18.98633300000006
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "7ccd8ebe3e2db315e46bf69f2c6c9abbefb44d822f51cd406239e8d52ac0301e",
+      "verifiedInputAndLegacyResultSha256": "7ccd8ebe3e2db315e46bf69f2c6c9abbefb44d822f51cd406239e8d52ac0301e",
+      "frozenDocumentPayloadSha256": "0c96da92c702cbc68937f475fb9ea9f87500d5bda578046e11b3acef9429b1a2",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 72.91679100000056,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 82.49935199999982,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R12_exact_move",
+      "file": "validation/migration/issue-19/pdfjs-R12_exact_move.json.gz",
+      "coreMs": 23.723042000000078,
+      "stages": {
+        "snapshot": 0.019583000000011452,
+        "structure": 16.317792000000054,
+        "matching": 18.767707999999857,
+        "diff": 19.016832999999906,
+        "done": 19.497499999999945
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "0a0a1a1e65322d786ad62e68ba47dee2c4b2f4c99a799b93c4eef851ff7a71e0",
+      "verifiedInputAndLegacyResultSha256": "0a0a1a1e65322d786ad62e68ba47dee2c4b2f4c99a799b93c4eef851ff7a71e0",
+      "frozenDocumentPayloadSha256": "d9d6e3871092609ff275978b47610f905456e996ce82deed9f6d0a2d7a278df4",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 43.830307999999604,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 84.38838200000009,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R13_move_and_replacement",
+      "file": "validation/migration/issue-19/pdfjs-R13_move_and_replacement.json.gz",
+      "coreMs": 26.07054100000005,
+      "stages": {
+        "snapshot": 0.016249999999899956,
+        "structure": 17.12912499999993,
+        "matching": 20.89370800000006,
+        "diff": 21.149832999999944,
+        "done": 21.825582999999824
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "e1cb8f54251e129583c65aec44cd4ebf67c506cd5cd72a10c2bf772c01dd6b8b",
+      "verifiedInputAndLegacyResultSha256": "e1cb8f54251e129583c65aec44cd4ebf67c506cd5cd72a10c2bf772c01dd6b8b",
+      "frozenDocumentPayloadSha256": "72dc712768bbcc9d443df130f4c9cd0db1f51244d99fd709d4b87294e6d5a2cc",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 49.7333779999999,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 89.39672100000007,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R14_short_paragraph",
+      "file": "validation/migration/issue-19/pdfjs-R14_short_paragraph.json.gz",
+      "coreMs": 22.3263750000001,
+      "stages": {
+        "snapshot": 0.017500000000381988,
+        "structure": 15.118167000000085,
+        "matching": 17.595875000000433,
+        "diff": 17.881958000000395,
+        "done": 18.185125000000426
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "ae20a75eb6958ca1f8489e5d0c81fc48824bf3c6bd87dc3cf4f96cb5a3b8d235",
+      "verifiedInputAndLegacyResultSha256": "ae20a75eb6958ca1f8489e5d0c81fc48824bf3c6bd87dc3cf4f96cb5a3b8d235",
+      "frozenDocumentPayloadSha256": "caf32567a2b176b47ee106241fc2732b06867ba4db2960c29c6e03d0d836d23c",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 41.84558199999992,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 87.93851600000016,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R15_paragraph_split",
+      "file": "validation/migration/issue-19/pdfjs-R15_paragraph_split.json.gz",
+      "coreMs": 21.99770899999976,
+      "stages": {
+        "snapshot": 0.01937499999985448,
+        "structure": 16.438959000000068,
+        "matching": 19.229667000000063,
+        "diff": 19.501459000000068,
+        "done": 19.550208999999995
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "80dc0f56f0ce45c6f21e465b3bb7d7697e987d40d9a391d9baf66e3b23329829",
+      "verifiedInputAndLegacyResultSha256": "80dc0f56f0ce45c6f21e465b3bb7d7697e987d40d9a391d9baf66e3b23329829",
+      "frozenDocumentPayloadSha256": "b17b3689ee41d556575e27847758d56841ffeffc3828cd87ea60537d21189543",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 41.62846399999944,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 76.99498900000071,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R16_repagination",
+      "file": "validation/migration/issue-19/pdfjs-R16_repagination.json.gz",
+      "coreMs": 29.343916999999692,
+      "stages": {
+        "snapshot": 0.018874999999752617,
+        "structure": 17.66687499999989,
+        "matching": 21.06870899999967,
+        "diff": 21.532916999999998,
+        "done": 22.331874999999854
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "1ea38e2624ed1e012941edfc798bd47c7cdaa56281372c9a68896bec17d7da74",
+      "verifiedInputAndLegacyResultSha256": "1ea38e2624ed1e012941edfc798bd47c7cdaa56281372c9a68896bec17d7da74",
+      "frozenDocumentPayloadSha256": "fa31b11ee2151ce2405095e597708ec51dabff47fbaa8dac52fc9ea2af3944a0",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/1/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/2/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/3/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/4/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/5/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        }
+      ],
+      "currentLegacyCoreMs": 52.30768100000023,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 101.73445600000014,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R17_font_change",
+      "file": "validation/migration/issue-19/pdfjs-R17_font_change.json.gz",
+      "coreMs": 22.84754200000043,
+      "stages": {
+        "snapshot": 0.021292000000357802,
+        "structure": 17.12012500000037,
+        "matching": 20.02804200000037,
+        "diff": 20.28237500000023,
+        "done": 20.34637500000008
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "04e94cd34eaf6279e9319b862d477c768eae6aa157910a1be481ded49a5606f2",
+      "verifiedInputAndLegacyResultSha256": "04e94cd34eaf6279e9319b862d477c768eae6aa157910a1be481ded49a5606f2",
+      "frozenDocumentPayloadSha256": "41f5bc7b47d6b4776f98765782de39a0b06c0681b4f40f0fb698d677bf451015",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 44.53503400000045,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 98.39743100000123,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R18_ligature",
+      "file": "validation/migration/issue-19/pdfjs-R18_ligature.json.gz",
+      "coreMs": 28.247917000000143,
+      "stages": {
+        "snapshot": 0.024459000000206288,
+        "structure": 17.022542000000158,
+        "matching": 20.0829590000003,
+        "diff": 20.334375000000364,
+        "done": 20.594375000000127
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "9b5753b1c6271f8d9f8ee311f2b30cc03729afbbb9cb29aeeefc0c8027c8418c",
+      "verifiedInputAndLegacyResultSha256": "9b5753b1c6271f8d9f8ee311f2b30cc03729afbbb9cb29aeeefc0c8027c8418c",
+      "frozenDocumentPayloadSha256": "ed6081f11f7a5712c425a2da6f898addac3a80c0f531a4967fa86fab11e6024e",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 45.65270899999996,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 109.95914699999958,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R19_rotated_status",
+      "file": "validation/migration/issue-19/pdfjs-R19_rotated_status.json.gz",
+      "coreMs": 27.252874999999676,
+      "stages": {
+        "snapshot": 0.02304199999980483,
+        "structure": 17.090333999999984,
+        "matching": 19.986041999999998,
+        "diff": 20.23645899999974,
+        "done": 20.355958999999984
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "73752144798509e9918b47d8d074d73ee6ee7512dd1bbfedc1662df0d3e746c4",
+      "verifiedInputAndLegacyResultSha256": "73752144798509e9918b47d8d074d73ee6ee7512dd1bbfedc1662df0d3e746c4",
+      "frozenDocumentPayloadSha256": "d96194fe6654444eee6840d4e45dcedcdca973bdc074a8f073a65e26e1a729b1",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 43.761279000000286,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 81.24789000000055,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R20_plus_minus",
+      "file": "validation/migration/issue-19/pdfjs-R20_plus_minus.json.gz",
+      "coreMs": 25.346042000000125,
+      "stages": {
+        "snapshot": 0.026250000000345608,
+        "structure": 15.795583999999963,
+        "matching": 18.510541999999987,
+        "diff": 18.76287500000035,
+        "done": 18.932542000000012
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "0e56673ca2ce1b80e7ca22de23537d06f425d2da109b0bfdd0342aa955fe6711",
+      "verifiedInputAndLegacyResultSha256": "0e56673ca2ce1b80e7ca22de23537d06f425d2da109b0bfdd0342aa955fe6711",
+      "frozenDocumentPayloadSha256": "baedc6bcf1dab81636b22b27d51acee284893ba10c51c839fa88a9a42dcdba3b",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 112.0702999999994,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 83.30474999999933,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R21_checkbox_glyph",
+      "file": "validation/migration/issue-19/pdfjs-R21_checkbox_glyph.json.gz",
+      "coreMs": 27.64087500000005,
+      "stages": {
+        "snapshot": 0.026833000000351603,
+        "structure": 17.263666000000285,
+        "matching": 19.9015830000003,
+        "diff": 20.173791000000165,
+        "done": 20.370916000000307
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "9de7d529a1d98b4d069f954b5144d99f4cc5a19fc52fa49b3f8eea1b3443933b",
+      "verifiedInputAndLegacyResultSha256": "9de7d529a1d98b4d069f954b5144d99f4cc5a19fc52fa49b3f8eea1b3443933b",
+      "frozenDocumentPayloadSha256": "795f1dad10196842c80839086e198f900df63393304f424143ff37f05c9f4345",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 48.65705100000014,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 81.66781499999888,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R22_table_value",
+      "file": "validation/migration/issue-19/pdfjs-R22_table_value.json.gz",
+      "coreMs": 24.312667000000147,
+      "stages": {
+        "snapshot": 0.01633399999991525,
+        "structure": 16.180709000000206,
+        "matching": 19.870625000000018,
+        "diff": 20.12145899999996,
+        "done": 20.250417000000198
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "6276c3c1e3f6f978316bbedb2891e3e7bf69bd7076099daee668c2fcb849bf51",
+      "verifiedInputAndLegacyResultSha256": "6276c3c1e3f6f978316bbedb2891e3e7bf69bd7076099daee668c2fcb849bf51",
+      "frozenDocumentPayloadSha256": "e5046caf16e95aead4208cd16bc9c6439ba05368afe0ed8f39295f66c50a877e",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 44.85935900000004,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 80.91006899999957,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R23_table_reorder",
+      "file": "validation/migration/issue-19/pdfjs-R23_table_reorder.json.gz",
+      "coreMs": 21.024333000000297,
+      "stages": {
+        "snapshot": 0.015707999999904132,
+        "structure": 15.709333000000242,
+        "matching": 18.30554200000006,
+        "diff": 18.552416999999878,
+        "done": 18.599167000000307
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "742ff29e9f515cce0e01ce0fee4070f593faa3b1e79b083ec60e2170d350aadc",
+      "verifiedInputAndLegacyResultSha256": "742ff29e9f515cce0e01ce0fee4070f593faa3b1e79b083ec60e2170d350aadc",
+      "frozenDocumentPayloadSha256": "d0cbf7091b2874d60156360295d3362764f44fb54f2d72301b8f2a9b7f701bcb",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 41.47926800000096,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 81.89907400000084,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R24_table_cross_page",
+      "file": "validation/migration/issue-19/pdfjs-R24_table_cross_page.json.gz",
+      "coreMs": 29.1528330000001,
+      "stages": {
+        "snapshot": 0.026374999999916326,
+        "structure": 17.17599999999993,
+        "matching": 20.30383299999994,
+        "diff": 20.763790999999856,
+        "done": 21.72674999999981
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "3a92fe11a1ba0ac09c35481c552f8229e5c394ba0330b25c0f356767bec898b0",
+      "verifiedInputAndLegacyResultSha256": "3a92fe11a1ba0ac09c35481c552f8229e5c394ba0330b25c0f356767bec898b0",
+      "frozenDocumentPayloadSha256": "04957e75e744cf0ac2fd700400c2b3b4310deaad76bd99ef03db81af1f9549c6",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/1/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/2/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/3/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/4/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/5/reviewReasons/0",
+          "before": "这段文字出现次数：2 次 → 3 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 2 → 3; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/6/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/7/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/8/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/9/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        },
+        {
+          "path": "/differences/10/reviewReasons/0",
+          "before": "这段文字出现次数：1 次 → 2 次；文档页数：2 页 → 3 页；逐处来源见出现位置",
+          "after": "Text occurrences: 1 → 2; document pages: 2 → 3; see occurrence locations for each source"
+        }
+      ],
+      "currentLegacyCoreMs": 47.808868000000075,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 98.91582500000004,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R25_duplicate_keys",
+      "file": "validation/migration/issue-19/pdfjs-R25_duplicate_keys.json.gz",
+      "coreMs": 26.790083000000322,
+      "stages": {
+        "snapshot": 0.024333000000297034,
+        "structure": 16.676750000000084,
+        "matching": 19.59925000000021,
+        "diff": 20.041583000000173,
+        "done": 20.198083000000224
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "109e4f879dc15cd6db5bc37e9fb07c9622386aa9a7bdb219a080e4b0b1d068b0",
+      "verifiedInputAndLegacyResultSha256": "109e4f879dc15cd6db5bc37e9fb07c9622386aa9a7bdb219a080e4b0b1d068b0",
+      "frozenDocumentPayloadSha256": "b5764d4e14e8aaf6a8ba4ffe0932eb6bc9903a116c2e85cc9f38dc1de7af7739",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/reviewReasons/0",
+          "before": "无法确定唯一表格行身份",
+          "after": "A unique table row identity could not be established"
+        },
+        {
+          "path": "/unresolved/0/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/1/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/2/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/3/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        },
+        {
+          "path": "/unresolved/4/message",
+          "before": "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体",
+          "after": "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+        }
+      ],
+      "currentLegacyCoreMs": 41.86972799999967,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 90.32724899999994,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R26_key_change",
+      "file": "validation/migration/issue-19/pdfjs-R26_key_change.json.gz",
+      "coreMs": 25.472207999999682,
+      "stages": {
+        "snapshot": 0.028291000000081112,
+        "structure": 17.35041599999977,
+        "matching": 20.39104099999986,
+        "diff": 20.674290999999812,
+        "done": 20.827832999999828
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "b1898d2b9d13a704e6b508ea0be1736be4416fc73774c39fe04a23c58b68eaf8",
+      "verifiedInputAndLegacyResultSha256": "b1898d2b9d13a704e6b508ea0be1736be4416fc73774c39fe04a23c58b68eaf8",
+      "frozenDocumentPayloadSha256": "135fffca59fd52ad56cd60e06800012ec3226f02776d5a01d1d167b3c6a044cf",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 44.51589000000058,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 80.72584000000097,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R27_mixed_scan_page",
+      "file": "validation/migration/issue-19/pdfjs-R27_mixed_scan_page.json.gz",
+      "coreMs": 17.759042000000136,
+      "stages": {
+        "snapshot": 0.025208000000020547,
+        "structure": 12.288208000000395,
+        "matching": 14.2631250000004,
+        "diff": 14.375167000000147,
+        "done": 14.40612500000043
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "897bf9e6a4aad453852efcb56b5626b923761f1de60200d017bb40f990a53df3",
+      "verifiedInputAndLegacyResultSha256": "897bf9e6a4aad453852efcb56b5626b923761f1de60200d017bb40f990a53df3",
+      "frozenDocumentPayloadSha256": "03cd52a82dad49e4bb5fb602665c16b28d3e8471c0f3ab9139d31de1a6b6ed33",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 30.28273900000022,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 57.38312600000063,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R28_inline_scan",
+      "file": "validation/migration/issue-19/pdfjs-R28_inline_scan.json.gz",
+      "coreMs": 26.677874999999858,
+      "stages": {
+        "snapshot": 0.022457999999915046,
+        "structure": 19.143165999999837,
+        "matching": 21.699540999999954,
+        "diff": 21.98333300000013,
+        "done": 22.03362500000003
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "262bb46c2cb33007a854786ac1ee12d1b3417fb0a63e80e9c927b571bee93d58",
+      "verifiedInputAndLegacyResultSha256": "262bb46c2cb33007a854786ac1ee12d1b3417fb0a63e80e9c927b571bee93d58",
+      "frozenDocumentPayloadSha256": "2614fa8e489f838a1c1f379c8851a35dff28110ef41351fe8515b4584caa7dc2",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 42.81357500000013,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 81.74939900000027,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R29_clause_add",
+      "file": "validation/migration/issue-19/pdfjs-R29_clause_add.json.gz",
+      "coreMs": 25.36104099999966,
+      "stages": {
+        "snapshot": 0.017457999999805907,
+        "structure": 17.12762500000008,
+        "matching": 20.865457999999762,
+        "diff": 21.107250000000022,
+        "done": 21.332790999999816
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "3930f1ebf744ffa1f8db92d7cb1274547fd24e4ec84634abe000e8e79d51ef27",
+      "verifiedInputAndLegacyResultSha256": "3930f1ebf744ffa1f8db92d7cb1274547fd24e4ec84634abe000e8e79d51ef27",
+      "frozenDocumentPayloadSha256": "e6999a384456b309502057369b7242dc5f1b6e0d4e6df260a3c0478238b7f099",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 42.48029200000019,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 88.49639000000025,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R30_clause_delete",
+      "file": "validation/migration/issue-19/pdfjs-R30_clause_delete.json.gz",
+      "coreMs": 22.59704200000033,
+      "stages": {
+        "snapshot": 0.02070800000001327,
+        "structure": 15.478375000000142,
+        "matching": 18.050500000000284,
+        "diff": 18.296208000000206,
+        "done": 18.525750000000244
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "db3e25baba93138dbb14658c761fa95ef185eb39b66be56a97275f69df09b83d",
+      "verifiedInputAndLegacyResultSha256": "db3e25baba93138dbb14658c761fa95ef185eb39b66be56a97275f69df09b83d",
+      "frozenDocumentPayloadSha256": "f04935627f62f609fbb95e1a7bc6440ff8fb78bc7cc634e7ced1c841d1231d8f",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 42.87121300000035,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 79.36753700000008,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R31_punctuation",
+      "file": "validation/migration/issue-19/pdfjs-R31_punctuation.json.gz",
+      "coreMs": 23.465375000000222,
+      "stages": {
+        "snapshot": 0.017792000000099506,
+        "structure": 15.957750000000033,
+        "matching": 18.638374999999996,
+        "diff": 18.905666999999994,
+        "done": 19.149917000000187
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "d3b2d264946a540d20e901ca680a1a33a7a2678b1ac1aecf0ae58d6901e0c2a9",
+      "verifiedInputAndLegacyResultSha256": "d3b2d264946a540d20e901ca680a1a33a7a2678b1ac1aecf0ae58d6901e0c2a9",
+      "frozenDocumentPayloadSha256": "00f3e74fac5637c9884af5fa96cd9bdb63b052064fa1f7488202c3ae3e89334c",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [],
+      "currentLegacyCoreMs": 46.69554599999901,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 86.89390699999967,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    },
+    {
+      "engine": "pdfjs",
+      "case": "R32_combined_changes",
+      "file": "validation/migration/issue-19/pdfjs-R32_combined_changes.json.gz",
+      "coreMs": 25.741833000000042,
+      "stages": {
+        "snapshot": 0.01733299999978044,
+        "structure": 16.021374999999807,
+        "matching": 18.77020799999991,
+        "diff": 19.013416999999663,
+        "done": 19.36691699999983
+      },
+      "status": "PASS",
+      "inputAndLegacyResultSha256": "05f3fff4caf57113d035baea932bc146b47e372d740c83c1cdc445cb849c293a",
+      "verifiedInputAndLegacyResultSha256": "05f3fff4caf57113d035baea932bc146b47e372d740c83c1cdc445cb849c293a",
+      "frozenDocumentPayloadSha256": "354fcd2efed035ed7dc53e9f93eb7c2310dcda1479c1603020c8393df61be906",
+      "frozenCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4",
+      "translations": [
+        {
+          "path": "/differences/0/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        },
+        {
+          "path": "/differences/1/matchEvidence/details/0",
+          "before": "主体与字段身份一致",
+          "after": "Entity and field identities match"
+        }
+      ],
+      "currentLegacyCoreMs": 41.12047600000005,
+      "currentLegacyCoreVersion": "policy-compare/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "rustCoreMs": 82.247757000001,
+      "rustCoreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+      "frozenBaselineStatus": "PASS",
+      "currentLegacyStatus": "PASS",
+      "frozenBaselineMismatch": [],
+      "currentLegacyMismatch": []
+    }
+  ]
+}

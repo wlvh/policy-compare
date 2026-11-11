@@ -1,4 +1,6 @@
 import {inspectCliCoreArtifact,assertSameCoreArtifact} from '../../scripts/cli-core-artifact';
+import {translateFrozenMessages} from '../../scripts/english-frozen-messages';
+import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {test,expect} from '@playwright/test';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
@@ -10,16 +12,20 @@ const engine=process.env.POLICY_ENGINE??'mupdf';
 const reportDir=process.env.POLICY_REPORT_DIR||'reports';
 const fixtures=JSON.parse(readFileSync('reports/issue-19/frozen-baseline.json','utf8')).records.filter((x:any)=>x.engine===engine);
 test('frozen inputs: shipped Worker and formal CLI have identical complete core outputs',async({page})=>{
- test.setTimeout(120_000);await page.goto('./');
+ test.setTimeout(120_000);expect(fixtures).toHaveLength(32);await page.goto('./');
  const records=[];
  const cliImageId=cliImage?execFileSync('docker',['image','inspect','--format','{{.Id}}',cliImage],{encoding:'utf8'}).trim():undefined;
  const cliArtifact=inspectCliCoreArtifact(cliImageId);
  const cliDir=path.resolve('tmp/issue19-cli',engine,(cliImageId||'host').replaceAll(/[:/]/g,'_'));mkdirSync(cliDir,{recursive:true});
  assertSameCoreArtifact(coreArtifact.sha256,cliArtifact);
- for(const meta of fixtures){const {docs,result:legacy}=JSON.parse(gunzipSync(readFileSync(meta.file)).toString('utf8'));
+ for(const meta of fixtures){
+  const raw=gunzipSync(readFileSync(meta.file));
+  expect(createHash('sha256').update(raw).digest('hex')).toBe(meta.inputAndLegacyResultSha256);
+  const {docs,result:legacy}=JSON.parse(raw.toString('utf8'));
+  const {expected,translations}=translateFrozenMessages(legacy);
   const files=['left','right'].map((s,i)=>{const file=path.join(cliDir,`${s}.json`);writeFileSync(file,JSON.stringify(docs[i]));return file;});const out=path.join(cliDir,'result.json');
   try{if(cliImageId){execFileSync('docker',['run','--rm','--network','none','-v',`${cliDir}:/inputs`,cliImageId,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
-  const cli=JSON.parse(readFileSync(out,'utf8'));expect(cli).toEqual({...legacy,coreVersion:cli.coreVersion});
+  const cli=JSON.parse(readFileSync(out,'utf8'));expect(cli).toEqual({...expected,coreVersion:cli.coreVersion});
   const browser=await page.evaluate(async docs=>{
    const info=await(await fetch(new URL('build-info.json',location.href))).json();
    const asset=info.resources.find((x:any)=>/core.worker.*\.js$/.test(x.path));if(!asset)throw new Error('Core worker absent from manifest');
@@ -33,9 +39,9 @@ test('frozen inputs: shipped Worker and formal CLI have identical complete core 
    });
   },docs);
   expect(browser.artifact.sha256).toBe(coreArtifact.sha256);assertSameCoreArtifact(browser.artifact.sha256,cliArtifact);expect(browser.result).toEqual(cli);
-  records.push({case:meta.case,status:'PASS',coreVersion:cli.coreVersion,browserCoreSha256:browser.artifact.sha256,cliCoreSha256:cliArtifact.sha256});
+  records.push({case:meta.case,status:'PASS',coreVersion:cli.coreVersion,browserCoreSha256:browser.artifact.sha256,cliCoreSha256:cliArtifact.sha256,frozenInputAndLegacyResultSha256:meta.inputAndLegacyResultSha256,translations});
  }
- writeFileSync(`${reportDir}/cross-entry-${engine}.json`,JSON.stringify({evidenceSchemaVersion:'cross-entry-core/2',status:'PASS',coreArtifact,cliArtifact,cliImageId:cliImageId??null,browserCoreSha256:coreArtifact.sha256,cliCoreSha256:cliArtifact.sha256,records},null,2)+'\n');
+ writeFileSync(`${reportDir}/cross-entry-${engine}.json`,JSON.stringify({evidenceSchemaVersion:'cross-entry-core/3',status:'PASS',coreArtifact,cliArtifact,cliImageId:cliImageId??null,browserCoreSha256:coreArtifact.sha256,cliCoreSha256:cliArtifact.sha256,frozenBaselineAllowances:['coreVersion','Only the explicitly approved generated-message translations recorded per case'],records},null,2)+'\n');
 });
 for (const mode of ['cancel', 'failure', 'timeout'] as const) test(`WASM initialization ${mode} then retry, no stale task or duplicate transfer`, async ({ page }) => {
   test.setTimeout(45_000);
@@ -52,34 +58,34 @@ for (const mode of ['cancel', 'failure', 'timeout'] as const) test(`WASM initial
   await page.goto('./');
   await expect(page.locator('main')).toHaveAttribute('data-engine-ready', 'true');
   if (mode === 'timeout') await page.clock.install();
-  await page.getByLabel('基准 PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));
-  await page.getByLabel('待审 PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));
-  await page.getByRole('button', { name: '开始比较', exact: true }).click();
+  await page.getByLabel('Baseline PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));
+  await page.getByLabel('Revised PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));
+  await page.getByRole('button', { name: 'Compare', exact: true }).click();
   await expect.poll(() => requested.length).toBe(1);
   if (mode === 'cancel') {
-    await page.getByRole('button', { name: '取消', exact: true }).click();
+    await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'cancelled');
   } else {
     if (mode === 'timeout') await page.clock.fastForward(60_001);
     await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'failed');
-    if (mode === 'timeout') await expect(page.getByRole('status')).toContainText('超过 60 秒');
+    if (mode === 'timeout') await expect(page.getByRole('status')).toContainText('exceeded 60 seconds');
   }
   await expect.poll(() => page.workers().length).toBe(0);
   releaseDownload();
   await page.context().unroute('**/core-*.wasm');
-  await page.getByRole('button', { name: '开始比较', exact: true }).click();
+  await page.getByRole('button', { name: 'Compare', exact: true }).click();
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
   await expect(page.locator('.card')).toContainText('USD 4,000,000');
   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);
-  await page.getByRole('button', { name: '关闭任务', exact: true }).click();
+  await page.getByRole('button', { name: 'Close task', exact: true }).click();
   await expect.poll(() => page.workers().length).toBe(0);
 });
 test('network paths, queries, payloads and diagnostics contain no local document or search secrets',async({page})=>{
  const requests:{url:string;method:string;body:string|null}[]=[];page.context().on('request',r=>requests.push({url:r.url(),method:r.method(),body:r.postData()}));
  await page.goto('./');await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
- const secret='PRIVATE_19_秘密_1315';for(const side of ['基准','待审'])await page.getByLabel(`${side} PDF`,{exact:true}).setInputFiles({name:secret+'.pdf',mimeType:'application/pdf',buffer:readFileSync('apps/web/public/samples/P02/before.pdf')});
- await page.getByLabel('基准 PDF 密码',{exact:true}).fill(secret);await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
- await page.getByLabel('搜索原文').fill(secret);await page.getByRole('button',{name:'搜索',exact:true}).click();
+ const secret='PRIVATE_19_秘密_1315';for(const side of ['Baseline','Revised'])await page.getByLabel(`${side} PDF`,{exact:true}).setInputFiles({name:secret+'.pdf',mimeType:'application/pdf',buffer:readFileSync('apps/web/public/samples/P02/before.pdf')});
+ await page.getByLabel('Baseline PDF password',{exact:true}).fill(secret);await page.getByRole('button',{name:'Compare',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
+ await page.getByLabel('Search source text').fill(secret);await page.getByRole('button',{name:'Search',exact:true}).click();
  for(const req of requests){expect(['GET','HEAD']).toContain(req.method);expect(new URL(req.url).origin).toBe(new URL(page.url()).origin);expect(req.body).toBeNull();expect(decodeURIComponent(req.url)).not.toContain(secret);expect(new URL(req.url).search).toBe('');}
  writeFileSync(`${reportDir}/privacy-rust-${engine}.json`,JSON.stringify({status:'PASS',coreArtifact,requests},null,2)+'\n');
 });

@@ -37,16 +37,17 @@ def package_current(selected, output):
     for engine, base, info in builds:
         package = output / f"policy-compare-{engine}-{info['releaseId']}.tar.gz"
         prefix = f'policy-compare-{engine}'
-        readme = f"""# {engine} 本地运行包
+        readme = f"""# {engine} local runtime package
 
-安装 Node.js 24 LTS。在解压目录运行 `node server.mjs`，打开 http://127.0.0.1:8080/。
-可用 `PORT=8082 node server.mjs` 调整端口，按 Ctrl+C 停止。
-页面保留 P01、P02、E03 三组一键样例，也可以选择包内 samples/before.pdf 和 after.pdf。
-两份 PDF 的解析、比较、搜索与页面显示在当前浏览器中处理。
-产品源码提交为 {info['revision']}，发布版本为 {info['releaseId']}。
-BUILD.json、dist/build-info.json 和交付清单记录实际文件身份。
-源码与构建步骤见 SOURCE.txt，许可见 LICENSE、NOTICE 及 dist/licenses。
-该运行包的检查范围和结果以配套 manifest.json 及解压验证记录为准。
+Install Node.js 24 LTS. In the extracted directory, run `node server.mjs`, then open http://127.0.0.1:8080/.
+To use a different port on macOS/Linux, run `PORT=8082 node server.mjs`. Press Ctrl+C to stop.
+The page includes P01, P02 and E03 sample buttons. You can also select samples/before.pdf and samples/after.pdf from this package.
+Both PDFs are parsed, compared, searched and displayed in your browser.
+Source commit: {info['revision']}
+Release: {info['releaseId']}
+BUILD.json, dist/build-info.json and the delivery manifest identify the packaged files.
+See SOURCE.txt for source and build instructions; see LICENSE, NOTICE and dist/licenses for license terms.
+The accompanying manifest.json and extracted-package verification record describe the checks performed and their results.
 """
         source = (
             f"Source commit: https://github.com/wlvh/policy-compare/tree/{info['revision']}\n"
@@ -77,7 +78,7 @@ BUILD.json、dist/build-info.json 和交付清单记录实际文件身份。
             tar.add(ROOT / 'validation/assets/DejaVu-font-license.txt', arcname=f'{prefix}/samples/DejaVu-font-license.txt')
             patch = 'mupdf@1.28.1.patch' if engine == 'mupdf' else 'pdfjs-dist@6.4.299.patch'
             tar.add(ROOT / 'patches' / patch, arcname=f'{prefix}/{patch}')
-            for name, text in [('RUN.zh-CN.md', readme), ('SOURCE.txt', source), ('BUILD.json', json.dumps(build, indent=2)+'\n')]:
+            for name, text in [('RUN.md', readme), ('SOURCE.txt', source), ('BUILD.json', json.dumps(build, indent=2)+'\n')]:
                 data = text.encode()
                 entry = tarfile.TarInfo(f'{prefix}/{name}')
                 entry.size = len(data)
@@ -123,22 +124,22 @@ for engine in ['pdfjs','mupdf']:
  dependencies={'common_browser_runtime':[x for x in compact(json.loads((ROOT/'reports/dependency-licenses.json').read_text())) if x['name'] in common_names],
   'engine_installation':compact(json.loads((ROOT/f'reports/licenses-{engine}.json').read_text())),
   'note':'@napi-rs/canvas and platform packages, when listed, are Node-only optional dependencies; not shipped in this browser archive. Actual browser component licenses are preserved in dist.'}
- readme=f'''# {engine} 本地运行包
+ readme=f'''# {engine} local runtime package
 
-需要 Node 24 LTS。在此目录执行 `node server.mjs`，打开 http://127.0.0.1:8080。
-无需 pnpm 或下载另一引擎。PDF 仅在浏览器处理，服务器不接收上传。
-首次试用可选择 samples/before.pdf 与 samples/after.pdf，均为明确标注的虚构样本，含金额和续期变化。
-默认已配置 Worker/WASM/MJS MIME 与 COOP/COEP，长任务取消使用本地共享标记。
+Requires Node.js 24 LTS. Run `node server.mjs` in this directory, then open http://127.0.0.1:8080/.
+You do not need pnpm or the other PDF engine. PDFs are processed only in the browser; the server does not accept uploads.
+For an initial trial, choose samples/before.pdf and samples/after.pdf. Both are labeled fictional samples with amount and renewal-date changes.
+Worker/WASM/MJS content types and COOP/COEP headers are configured. Long-running tasks use a local shared cancellation flag.
 
-Linux: `docker build -t policy-compare:{engine} .`，然后
-`docker run --rm --read-only --user 12345:12345 -p 8080:8080 policy-compare:{engine}`。
-本机 Docker 服务仍不可用；对应产品的 GitHub Linux CI 实际构建与启动结果见配套项目 reports/ci-review-fixes.json。本运行包的本地解压检查不能替代该 CI 证据。
+Linux: run `docker build -t policy-compare:{engine} .`, then
+`docker run --rm --read-only --user 12345:12345 -p 8080:8080 policy-compare:{engine}`.
+For this historical candidate, the local Docker service was unavailable. Actual GitHub Linux CI build and startup results are recorded in reports/ci-review-fixes.json in the accompanying project. Local archive extraction checks do not replace that CI evidence.
 
-产品冻结提交：{ab['commit']}。BUILD.json 包含所有静态文件 SHA-256。
-依赖版本与许可清单在 DEPENDENCIES.json；许可在 dist/licenses，PDF.js 的字体/解码器许可亦在各资源目录。
-本引擎的实际改动补丁随运行包附带；完整对应应用源代码和依赖锁文件在配套项目中。本包只供本次本地评估，不能单独据此认定已满足对外分发条件。
-本地双引擎评估已授权；对外分发、共享部署和生产范围须按实际许可条件落实。
-公共源代码、CLI、锁文件与全部测试在配套项目中。
+Frozen product commit: {ab['commit']}. BUILD.json contains the SHA-256 of every static file.
+Dependency versions and licenses are listed in DEPENDENCIES.json. Licenses are preserved in dist/licenses; PDF.js font and decoder licenses also remain in their resource directories.
+The engine patch is included. Complete corresponding application source and dependency lockfiles are in the accompanying project. This package is for the recorded local evaluation; it does not by itself establish that public distribution requirements have been met.
+Local evaluation of both engines was authorized. Public distribution, shared deployments and production use must satisfy the applicable license terms.
+Shared source, the CLI, lockfiles and all tests are in the accompanying project.
 '''
  docker='''FROM node:24.22.1-alpine
 WORKDIR /app
@@ -158,7 +159,7 @@ CMD ["node", "server.mjs"]
   tar.add(ROOT/'validation/assets/DejaVu-font-license.txt',arcname=f'policy-compare-{engine}/samples/DejaVu-font-license.txt')
   patch='mupdf@1.28.1.patch' if engine=='mupdf' else 'pdfjs-dist@6.4.299.patch'
   tar.add(ROOT/'patches'/patch,arcname=f'policy-compare-{engine}/{patch}')
-  for name,content in [('RUN.zh-CN.md',readme),('Dockerfile',docker),('BUILD.json',json.dumps(build,indent=2)+'\n'),('DEPENDENCIES.json',json.dumps(dependencies,indent=2)+'\n')]:
+  for name,content in [('RUN.md',readme),('Dockerfile',docker),('BUILD.json',json.dumps(build,indent=2)+'\n'),('DEPENDENCIES.json',json.dumps(dependencies,indent=2)+'\n')]:
    data=content.encode();info=tarfile.TarInfo(f'policy-compare-{engine}/{name}');info.size=len(data);info.mode=0o644;tar.addfile(info,io.BytesIO(data))
  with tarfile.open(package) as tar:
   names=tar.getnames();assert len(names)==len(files)+9

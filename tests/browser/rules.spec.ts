@@ -18,12 +18,12 @@ test("all 32 pairs: no failure with browser fine location, only registered cover
   for (const meta of manifest.cases) {
     const dir = path.resolve("validation/dataset/cases", meta.case_id);
     await page
-      .getByLabel("基准 PDF", { exact: true })
+      .getByLabel("Baseline PDF", { exact: true })
       .setInputFiles(dir + "/before.pdf");
     await page
-      .getByLabel("待审 PDF", { exact: true })
+      .getByLabel("Revised PDF", { exact: true })
       .setInputFiles(dir + "/after.pdf");
-    await page.getByRole("button", { name: "开始比较", exact: true }).click();
+    await page.getByRole("button", { name: "Compare", exact: true }).click();
     await expect(page.locator("[data-status]")).toHaveAttribute(
       "data-status",
       /complete_for_scope|partial/,
@@ -37,18 +37,18 @@ test("all 32 pairs: no failure with browser fine location, only registered cover
           while (
             await doc
               .getByRole("button", {
-                name: (side ? "待审" : "基准") + "上一页",
+                name: (side ? "Revised" : "Baseline") + " previous page",
               })
               .isEnabled()
           )
             await doc
               .getByRole("button", {
-                name: (side ? "待审" : "基准") + "上一页",
+                name: (side ? "Revised" : "Baseline") + " previous page",
               })
               .click();
         } else
           await doc
-            .getByRole("button", { name: (side ? "待审" : "基准") + "下一页" })
+            .getByRole("button", { name: (side ? "Revised" : "Baseline") + " next page" })
             .click();
         await expect(doc.locator(`[data-ready-page="${p}"]`)).toBeVisible({
           timeout: 20_000,
@@ -56,7 +56,7 @@ test("all 32 pairs: no failure with browser fine location, only registered cover
       }
     }
     const pending = page.waitForEvent("download");
-    await page.getByRole("button", { name: "导出 JSON" }).click();
+    await page.getByRole("button", { name: "Export JSON" }).click();
     const download = await pending;
     const result = JSON.parse(readFileSync((await download.path())!, "utf8"));
     const docs = (await Promise.all(

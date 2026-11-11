@@ -6,17 +6,17 @@ test("twenty cancellation cycles leave no workers and allow a complete subsequen
 }) => {
   await page.goto("./");
   await page
-    .getByLabel("基准 PDF", { exact: true })
+    .getByLabel("Baseline PDF", { exact: true })
     .setInputFiles(
       path.resolve("validation/dataset/cases/R02_amount/before.pdf"),
     );
   await page
-    .getByLabel("待审 PDF", { exact: true })
+    .getByLabel("Revised PDF", { exact: true })
     .setInputFiles(
       path.resolve("validation/dataset/cases/R02_amount/after.pdf"),
     );
   const timings = [];
-  // A small task can finish between Playwright's check that "取消" is enabled
+  // A small task can finish between Playwright's check that "Cancel" is enabled
   // and the click itself, which then lands on the disabled button. That
   // attempt cancelled nothing: the finished task keeps its two workers for
   // rendering and search, as any completed task does. It is recorded and not
@@ -25,9 +25,9 @@ test("twenty cancellation cycles leave no workers and allow a complete subsequen
   const status = page.locator("[data-status]");
   while (timings.length < 20) {
     expect(timings.length + finishedBeforeCancel).toBeLessThan(40);
-    await page.getByRole("button", { name: "开始比较", exact: true }).click();
+    await page.getByRole("button", { name: "Compare", exact: true }).click();
     const start = performance.now();
-    await page.getByRole("button", { name: "取消", exact: true }).click();
+    await page.getByRole("button", { name: "Cancel", exact: true }).click();
     await expect(status).toHaveAttribute("data-status", /^(cancelled|complete_for_scope)$/);
     if ((await status.getAttribute("data-status")) === "complete_for_scope") {
       finishedBeforeCancel++;
@@ -38,7 +38,7 @@ test("twenty cancellation cycles leave no workers and allow a complete subsequen
     timings.push(performance.now() - start);
     await expect(status).toHaveAttribute("data-status", "cancelled");
   }
-  await page.getByRole("button", { name: "开始比较", exact: true }).click();
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
   await expect(page.locator("[data-status]")).toHaveAttribute(
     "data-status",
     "complete_for_scope",
@@ -66,20 +66,20 @@ test("a cancel click that lands after the task finished changes nothing", async 
 }) => {
   await page.goto("./");
   await page
-    .getByLabel("基准 PDF", { exact: true })
+    .getByLabel("Baseline PDF", { exact: true })
     .setInputFiles(
       path.resolve("validation/dataset/cases/R02_amount/before.pdf"),
     );
   await page
-    .getByLabel("待审 PDF", { exact: true })
+    .getByLabel("Revised PDF", { exact: true })
     .setInputFiles(
       path.resolve("validation/dataset/cases/R02_amount/after.pdf"),
     );
   const status = page.locator("[data-status]");
-  await page.getByRole("button", { name: "开始比较", exact: true }).click();
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
   await expect(status).toHaveAttribute("data-status", "complete_for_scope");
   // As when Playwright validated the button just before the task finished.
-  await page.getByRole("button", { name: "取消", exact: true }).click({ force: true });
+  await page.getByRole("button", { name: "Cancel", exact: true }).click({ force: true });
   await expect(status).toHaveAttribute("data-status", "complete_for_scope");
   await expect(page.locator(".card")).toContainText("USD 4,000,000");
   expect(page.workers().length).toBe(2);
@@ -89,25 +89,25 @@ test("moved text jumps both sides; identity remains with displayed PDF after nex
 }) => {
   await page.goto("./");
   await page
-    .getByLabel("基准 PDF", { exact: true })
+    .getByLabel("Baseline PDF", { exact: true })
     .setInputFiles(
       path.resolve("validation/dataset/cases/R12_exact_move/before.pdf"),
     );
   await page
-    .getByLabel("待审 PDF", { exact: true })
+    .getByLabel("Revised PDF", { exact: true })
     .setInputFiles(
       path.resolve("validation/dataset/cases/R12_exact_move/after.pdf"),
     );
-  await page.getByRole("button", { name: "开始比较", exact: true }).click();
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
   await expect(page.locator("[data-status]")).toHaveAttribute(
     "data-status",
     "complete_for_scope",
   );
-  await page.locator(".card").filter({ hasText: "移动" }).first().click();
-  await expect(page.getByAltText("基准原文第 1 页")).toBeVisible();
-  await expect(page.getByAltText("待审原文第 2 页")).toBeVisible();
+  await page.locator(".card").filter({ hasText: "Moved" }).first().click();
+  await expect(page.getByAltText("Baseline source page 1")).toBeVisible();
+  await expect(page.getByAltText("Revised source page 2")).toBeVisible();
   await page
-    .getByLabel("待审 PDF", { exact: true })
+    .getByLabel("Revised PDF", { exact: true })
     .setInputFiles(path.resolve("tests/fixtures/mechanisms/unicode.pdf"));
   await expect(page.locator(".document-head").nth(1)).toContainText(
     "after.pdf",
@@ -118,26 +118,26 @@ test("corrupt input fails and password is handled locally", async ({
 }) => {
   await page.goto("./");
   await page
-    .getByLabel("基准 PDF", { exact: true })
+    .getByLabel("Baseline PDF", { exact: true })
     .setInputFiles(path.resolve("tests/fixtures/mechanisms/corrupt.pdf"));
   await page
-    .getByLabel("待审 PDF", { exact: true })
+    .getByLabel("Revised PDF", { exact: true })
     .setInputFiles(path.resolve("tests/fixtures/mechanisms/unicode.pdf"));
-  await page.getByRole("button", { name: "开始比较", exact: true }).click();
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
   await expect(page.locator("[data-status]")).toHaveAttribute(
     "data-status",
     "failed",
   );
   await expect(page.locator(".card")).toHaveCount(0);
   await page
-    .getByLabel("基准 PDF", { exact: true })
+    .getByLabel("Baseline PDF", { exact: true })
     .setInputFiles(path.resolve("tests/fixtures/mechanisms/encrypted.pdf"));
-  await page.getByRole("button", { name: "开始比较", exact: true }).click();
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("PASSWORD_REQUIRED");
   await page
-    .getByLabel("基准 PDF 密码", { exact: true })
+    .getByLabel("Baseline PDF password", { exact: true })
     .fill("fixture-secret");
-  await page.getByRole("button", { name: "开始比较", exact: true }).click();
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
   await expect(page.locator("[data-status]")).toHaveAttribute(
     "data-status",
     "complete_for_scope",
@@ -151,16 +151,16 @@ test("non-BMP scalar maps to its visible rotated glyph with CropBox and UserUnit
   const file = path.resolve(
     "tests/fixtures/mechanisms/crop-rotate-userunit.pdf",
   );
-  await page.getByLabel("基准 PDF", { exact: true }).setInputFiles(file);
-  await page.getByLabel("待审 PDF", { exact: true }).setInputFiles(file);
-  await page.getByRole("button", { name: "开始比较", exact: true }).click();
+  await page.getByLabel("Baseline PDF", { exact: true }).setInputFiles(file);
+  await page.getByLabel("Revised PDF", { exact: true }).setInputFiles(file);
+  await page.getByRole("button", { name: "Compare", exact: true }).click();
   await expect(page.locator("[data-status]")).toHaveAttribute(
     "data-status",
     "complete_for_scope",
   );
   await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);
-  await page.getByLabel("搜索原文").fill("😀");
-  await page.getByRole("button", { name: "搜索", exact: true }).click();
+  await page.getByLabel("Search source text").fill("😀");
+  await page.getByRole("button", { name: "Search", exact: true }).click();
   await page.locator(".hits button").first().click();
   await expect(page.locator("polygon").first()).toBeVisible();
   const points = await page.locator("polygon").first().getAttribute("points");

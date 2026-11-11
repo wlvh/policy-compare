@@ -33,14 +33,14 @@ describe("a change in occurrences is reported, not offset by the page count", ()
     expect([d.oldText, d.newText, d.hasTextChange, d.facts]).toEqual(["War risks excluded", "War risks excluded", false, []]);
     expect(d.repeat).toEqual({ left: 4, right: 3, leftPages: 4, rightPages: 5 });
     expect([pagesOf(d, "left"), pagesOf(d, "right")]).toEqual([[0, 1, 2, 3], [0, 1, 2]]);
-    expect(d.reviewReasons.join("")).toContain("这段文字出现次数：4 次 → 3 次；文档页数：4 页 → 5 页");
+    expect(d.reviewReasons.join("")).toContain("Text occurrences: 4 → 3; document pages: 4 → 5");
   });
   it("a repaginated line, 4 of 4 -> 5 of 5 pages, states its counts without a page mapping", () => {
     const r = run(doc(4, () => "War risks excluded"), doc(5, () => "War risks excluded"));
     const cards = header(r, "War risks excluded");
     expect(cards.map((d) => [d.hasTextChange, d.repeat])).toEqual([[false, { left: 4, right: 5, leftPages: 4, rightPages: 5 }]]);
     expect([pagesOf(cards[0], "left"), pagesOf(cards[0], "right")]).toEqual([[0, 1, 2, 3], [0, 1, 2, 3, 4]]);
-    expect(cards[0].reviewReasons.join("")).toContain("这段文字出现次数：4 次 → 5 次；文档页数：4 页 → 5 页");
+    expect(cards[0].reviewReasons.join("")).toContain("Text occurrences: 4 → 5; document pages: 4 → 5");
   });
   it("the same count on both sides gives no card", () => {
     const r = run(doc(4, () => "War risks excluded"), doc(4, () => "War risks excluded"));

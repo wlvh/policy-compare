@@ -24,7 +24,7 @@ export function createPdfClient(): PdfClient {
               generation,
               ...(m.type === "render" ? {side: m.side, pageIndex: m.pageIndex, requestId: m.requestId} : {}),
               message:
-                error instanceof Error ? error.message : "PDF.js 处理失败",
+                error instanceof Error ? error.message : "PDF.js processing failed",
             },
           } as MessageEvent);
       });

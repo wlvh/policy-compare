@@ -255,10 +255,10 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
       return;
     }
     await page
-      .getByLabel("基准 PDF", { exact: true })
+      .getByLabel("Baseline PDF", { exact: true })
       .setInputFiles(path.resolve(w.paths[0]));
     await page
-      .getByLabel("待审 PDF", { exact: true })
+      .getByLabel("Revised PDF", { exact: true })
       .setInputFiles(path.resolve(w.paths[1]));
     const start = performance.now();
     interval = setInterval(() => {
@@ -272,11 +272,11 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
           sampling = false;
         });
     }, 100);
-    await page.getByRole("button", { name: "开始比较", exact: true }).click();
+    await page.getByRole("button", { name: "Compare", exact: true }).click();
     const interactionMs: number[] = [];
     for (const option of ["Replaced", "all"]) {
       const t = performance.now();
-      await page.getByLabel("按变化方式筛选").selectOption(option);
+      await page.getByLabel("Filter by change type").selectOption(option);
       interactionMs.push(performance.now() - t);
     }
     await page.waitForFunction(
@@ -302,7 +302,7 @@ async function execute(engine: Engine, w: any | null, iteration: number) {
     let result: CompareResult | undefined;
     if (taskStatus !== "failed") {
       const pending = page.waitForEvent("download");
-      await page.getByRole("button", { name: "导出 JSON" }).click();
+      await page.getByRole("button", { name: "Export JSON" }).click();
       const downloadPath = `tmp/result-${root}-${randomUUID()}.json`;
       resultFile = { path: downloadPath, status: "FAIL" };
       await (await pending).saveAs(downloadPath);

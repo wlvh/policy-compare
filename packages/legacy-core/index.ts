@@ -139,8 +139,8 @@ function tablePairs(
       result.unresolved.push({
         reason: "ambiguous_identity",
         message: duplicate
-          ? "表格主键或次级键重复；金额变化仍展示，无法确定唯一实体"
-          : "表格主次键冲突或缺少可靠对应",
+          ? "Duplicate primary or secondary table keys; amount changes remain visible, but a unique entity cannot be identified"
+          : "Conflicting table keys or no reliable match",
         left: locations(x, "left"),
         right: locations(y, "right"),
         defaultVisible: true,
@@ -467,7 +467,7 @@ function rowIdentity(
     result.unresolved.push({
       reason: "ambiguous_identity",
       message:
-        "表格行的身份证据互相冲突（例如两个身份列指向不同行，或同一身份列的值不同）；未自动配对，组内原文变化仍展示",
+        "Table row identity evidence conflicts (for example, two identity columns point to different rows, or the same identity column has different values); rows were not automatically matched, and source changes within the group remain visible",
       left: locations(x, "left"),
       right: locations(y, "right"),
       defaultVisible: true,
@@ -666,7 +666,7 @@ function textOps(
     if (!over)
       result.unresolved.push({
         reason: "word_diff_budget",
-        message: "词级差异工作量超过上限；保留双方完整原文，定位降级",
+        message: "Word-level comparison exceeds the work limit; full source text is retained on both sides, with less precise highlighting",
         left: locations(a, "left"),
         right: locations(b, "right"),
         defaultVisible: true,
@@ -760,11 +760,11 @@ export function compare(
   checkpoint?:()=>void,
 ): CompareResult {
   if (digest(left.extractor) !== digest(right.extractor))
-    throw new Error("两份文档必须由同一引擎、版本及选项提取");
+    throw new Error("Both documents must be extracted with the same engine, version and options");
   phase?.("snapshot");
   const result: CompareResult = {
     schemaVersion: RESULT_VERSION,
-    coreVersion: VERSION + "+row-identity.36+facts.6+repeat.9+ops.4",
+    coreVersion: VERSION + "+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
     extractors: [left.extractor, right.extractor],
     snapshotHashVersion: "page-merkle/1",
     tokenizerVersion: "unicode-tokens/1",
@@ -849,7 +849,7 @@ export function compare(
   for (const [us, side, used] of [[uncertainL, "left", usedL], [uncertainR, "right", usedR]] as const)
     for (const u of us) {
       used.add(u);
-      result.unresolved.push({ reason: "ambiguous_identity", message: "这些完整基线可能是多条记录，也可能是每格折行的一条记录；局部结构与身份未确定，原文分别保留", left: side === "left" ? locations(u, side) : [], right: side === "right" ? locations(u, side) : [], defaultVisible: true });
+      result.unresolved.push({ reason: "ambiguous_identity", message: "These complete text lines may represent multiple records or one record with wrapped cells; local structure and identity remain unresolved, and the source text is retained separately", left: side === "left" ? locations(u, side) : [], right: side === "right" ? locations(u, side) : [], defaultVisible: true });
     }
   tablePairs(la, rb, pairs, usedL, usedR, result);
   const map = (
@@ -909,7 +909,7 @@ export function compare(
       if(remainingL.length&&remainingR.length){
         const a=aggregate(remainingL,'uncertain-field-left-'+key,true),b=aggregate(remainingR,'uncertain-field-right-'+key,true);
         bind(a,b,'unresolved-field-group');remainingL.forEach(u=>usedL.add(u));remainingR.forEach(u=>usedR.add(u));
-        if(a.role==='field')result.unresolved.push({reason:'ambiguous_identity',message:'同名字段缺少唯一归属；组内原文变化仍展示，不按金额相同跨位置配对',left:locations(a,'left'),right:locations(b,'right'),defaultVisible:true});
+        if(a.role==='field')result.unresolved.push({reason:'ambiguous_identity',message:'Fields with the same name have no unique owner; source changes within the group remain visible, and equal amounts are not used to match fields across positions',left:locations(a,'left'),right:locations(b,'right'),defaultVisible:true});
       }
     }
   }
@@ -934,7 +934,7 @@ export function compare(
     return down <= 12 && across <= 12 ? down + across : Infinity;
   };
   const pageList = (us: Unit[]) =>
-    us.map((u) => u.refs.find(Boolean)!.page.pageIndex + 1).join("、");
+    us.map((u) => u.refs.find(Boolean)!.page.pageIndex + 1).join(", ");
   // One repeated line of both versions. Occurrences of the same variant (the
   // same text once a page counter is read against its own page) form one group
   // per version; a variant is unchanged only when both versions have it the
@@ -963,12 +963,12 @@ export function compare(
       return;
     }
     const quote = (us: Unit[]) =>
-      `“${us[0].rawText.trim()}”` + (new Set(us.map((u) => u.rawText.trim())).size > 1 ? "等（页码随所在页）" : "");
+      `“${us[0].rawText.trim()}”` + (new Set(us.map((u) => u.rawText.trim())).size > 1 ? " and other variants (page numbers vary by page)" : "");
     for (const [own, other, isRight] of [
       [R, L, true],
       [L, R, false],
     ] as const) {
-      const [name, otherName] = isRight ? ["待审版", "基准版"] : ["基准版", "待审版"];
+      const [name, otherName] = isRight ? ["Revised", "Baseline"] : ["Baseline", "Revised"];
       const unchanged = [...own].filter(([t]) => other.has(t)).flatMap(([, us]) => us);
       for (const [text, us] of own) {
         if (other.has(text)) continue;
@@ -977,12 +977,12 @@ export function compare(
         // version's variants, on their cards.
         if (!kept && own.size === 1) continue;
         const note =
-          `本版组内文字不一致：${name}第 ${pageList(us)} 页为${isRight ? "新" : "旧"}文字` +
+          `Text varies within this group: ${name} pages ${pageList(us)} show ${isRight ? "revised" : "baseline"} text` +
           (kept
             ? unchanged.length
-              ? `；${name}第 ${pageList(unchanged)} 页仍为${otherName}文字${quote(kept)}`
+              ? `; ${name} pages ${pageList(unchanged)} retain ${otherName} text ${quote(kept)}`
               : ""
-            : `，${otherName}没有相同文字`);
+            : `; ${otherName} has no identical text`);
         const card = repeated(us, `${prefix}-${isRight ? "right" : "left"}-${us[0].id}`, {
           others: unchanged,
           separate: true,
@@ -1008,9 +1008,9 @@ export function compare(
       const others = (m: Map<string, Unit[]>) => [...m].filter(([t]) => t !== text).flatMap(([, us]) => us);
       const [lo, ro] = [others(L), others(R)];
       const note =
-        "同一行的其他写法只作上下文，不计入本写法的次数" +
-        (lo.length ? `：基准版第 ${pageList(lo)} 页` : "") +
-        (ro.length ? `${lo.length ? "；" : "："}待审版第 ${pageList(ro)} 页` : "");
+        "Other variants of the same line are context only and are excluded from the count for this variant" +
+        (lo.length ? `: Baseline pages ${pageList(lo)}` : "") +
+        (ro.length ? `${lo.length ? "; " : ": "}Revised pages ${pageList(ro)}` : "");
       bind(
         repeated(ls, `${prefix}-left-` + ls[0].id, { others: lo, separate: true, note }),
         repeated(rs, `${prefix}-right-` + rs[0].id, { others: ro, separate: true }),
@@ -1359,7 +1359,7 @@ export function compare(
   if (exhausted) {
     result.unresolved.push({
       reason: "budget",
-      message: "对应工作量预算耗尽；以下范围未完成，不能宣称无变化",
+      message: "Matching work budget exhausted; the following regions were not completed and cannot be reported as unchanged",
       left: unmatchedL.flatMap((u) => locations(u, "left")),
       right: unmatchedR.flatMap((u) => locations(u, "right")),
       defaultVisible: true,
@@ -1374,7 +1374,7 @@ export function compare(
     for(const [key,left] of leftGroups){
       const right=rightGroups.get(key);if(!right)continue;
       left.forEach(u=>ambiguousL.add(u));right.forEach(u=>ambiguousR.add(u));
-      result.unresolved.push({reason:'ambiguous_match',message:'这组重复原文的身份不唯一；其他明确变化继续展示',left:left.flatMap(u=>locations(u,'left')),right:right.flatMap(u=>locations(u,'right')),defaultVisible:true});
+      result.unresolved.push({reason:'ambiguous_match',message:'Identity is not unique for this repeated source text; other unambiguous changes remain visible',left:left.flatMap(u=>locations(u,'left')),right:right.flatMap(u=>locations(u,'right')),defaultVisible:true});
     }
   }
   phase?.("diff");
@@ -1410,7 +1410,7 @@ export function compare(
       if (a.rowCells && b.rowCells && slots(a) !== slots(b))
         result.unresolved.push({
           reason: "ambiguous_match",
-          message: "两版本这一表格行的原文相同，但各格的划分不同；哪个值在哪一列未能确定",
+          message: "This table row has identical source text in both versions, but the cell boundaries differ; column ownership of the values is unresolved",
           left: locations(a, "left"),
           right: locations(b, "right"),
           defaultVisible: true,
@@ -1449,17 +1449,17 @@ export function compare(
         method,
         score,
         details: [
-          method === "reliable-field-identity" ? "主体与字段身份一致" : method,
+          method === "reliable-field-identity" ? "Entity and field identities match" : method,
         ],
       },
       reviewReasons:
         (a ?? b!).path.confidence === "unresolved"
-          ? [(a??b!).path.table?"无法确定唯一表格行身份":"无法确定同名字段的唯一归属"]
+          ? [(a??b!).path.table?"A unique table row identity could not be established":"A unique owner could not be established for fields with the same name"]
           : ar || br
             ? [
-                `这段文字出现次数：${ar?.length ?? 0} 次 → ${br?.length ?? 0} 次；文档页数：${left.pages.length} 页 → ${right.pages.length} 页` +
-                  [ra?.note, rb2?.note].filter(Boolean).map((n) => "；" + n).join("") +
-                  "；逐处来源见出现位置",
+                `Text occurrences: ${ar?.length ?? 0} → ${br?.length ?? 0}; document pages: ${left.pages.length} → ${right.pages.length}` +
+                  [ra?.note, rb2?.note].filter(Boolean).map((n) => "; " + n).join("") +
+                  "; see occurrence locations for each source",
               ]
             : [],
       occurrences: [],

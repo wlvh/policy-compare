@@ -174,7 +174,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
   }, []);
 
   return <div className="page-scroll" ref={pane} role="region"
-    aria-label={`${props.side ? "待审" : "基准"}原文连续浏览`} tabIndex={0}
+    aria-label={`${props.side ? "Revised" : "Baseline"} source document`} tabIndex={0}
     onScroll={() => {
       if (programmaticTop.current !== null && Math.abs(pane.current!.scrollTop - programmaticTop.current) < 0.5) {
         programmaticTop.current = null;
@@ -202,8 +202,8 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
           onError={message => callbacks.current.onError(message)}
         /> : <div className="page-placeholder" data-page-error={pageErrors.has(p) ? p : undefined}>
           {pageErrors.has(p)
-            ? <div role="note">第 {p + 1} 页原文无法显示<br />{pageErrors.get(p)}<br />请在 PDF 阅读器中核对该页；其他页面仍可浏览。</div>
-            : `第 ${p + 1} 页`}
+            ? <div role="note">Source page {p + 1} could not be displayed<br />{pageErrors.get(p)}<br />Check this page in a PDF reader. You can still browse the other pages.</div>
+            : `Page ${p + 1}`}
         </div>}
       </div>;
     })}
