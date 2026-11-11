@@ -1,1 +1,11 @@
-{"extends":"./tsconfig.json","include":["apps","packages/contracts","packages/compare-core","packages/pdf-adapter/api.ts","profiles","engines/pdfjs"]}
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "apps",
+    "packages/contracts",
+    "packages/pdf-adapter/api.ts",
+    "engines/pdfjs",
+    "packages/compare-core/index.ts",
+    "packages/compare-core/options.ts"
+  ]
+}

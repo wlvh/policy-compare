@@ -59,19 +59,7 @@ const bases: Record<string, string> = {
   "neighboring-source-anchors": "Between matching nearby passages",
   "local-source-token-correspondence": "Similar source wording",
   "occurrence-count-only": "Counts changed; individual matches unresolved",
-  "declared-table-key": "Matched by table key",
-  "reliable-field-identity": "Matched by field identity",
-  "row-identity": "Matched by row identity",
-  "unique-exact": "Matched by identical source text",
-  "exact-context": "Matched by identical source text",
-  "repeat-role": "Matched by identical source text",
-  "adjacent-split": "Matched by identical text across adjacent paragraphs",
-  "adjacent-merge": "Matched by identical text across adjacent paragraphs",
-  "repeated-header": "Repeated text",
-  "repeated-table-header": "Repeated table header",
-  "page-furniture": "Repeated header/footer",
-  "joint-local-alignment": "Matched by similar text",
-  "contextual-token-lcs": "Matched by similar text",
+
 };
 const basis = (d: Difference) =>
   d.structurePath?.confidence === "unresolved"
@@ -859,7 +847,7 @@ function App() {
                 )}
                 <h3>
                   {[
-                    d.structurePath?.section==='page_furniture'?'Header/footer':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
+                    d.structurePath?.section && d.structurePath.section !== 'document' ? d.structurePath.section : null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,
