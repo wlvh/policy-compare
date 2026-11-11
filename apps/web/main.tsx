@@ -56,6 +56,7 @@ const bases: Record<string, string> = {
   "source-cells-and-column-text": "Matching cell text and columns",
   "source-column-text": "Corresponding source columns",
   "literal-column-heading-position": "Same column heading, changed position",
+  "literal-cell-position": "Same cell text, changed position",
   "neighboring-source-anchors": "Between matching nearby passages",
   "local-source-token-correspondence": "Similar source wording",
   "occurrence-count-only": "Counts changed; individual matches unresolved",

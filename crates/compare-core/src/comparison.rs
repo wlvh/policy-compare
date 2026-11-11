@@ -35,9 +35,60 @@ fn table_start(us: &[Unit], i: usize) -> usize {
     }
     start
 }
-fn headers(us: &[Unit], i: usize) -> Option<usize> {
+fn header_candidate(us: &[Unit], i: usize) -> Option<usize> {
     let first = table_start(us, i);
     (table_row(&us[i]) && first < i).then_some(first)
+}
+// A rectangle's first row only proposes column labels. A non-identity
+// permutation needs a witness in the following rows and may not turn a value
+// which stayed in its original column into a definite edit. This is evidence
+// for a shared column transformation, not a declaration of header semantics.
+fn column_mapping(a: &[Unit], b: &[Unit], ha: usize, hb: usize) -> Option<Vec<usize>> {
+    let ca = &a[ha].cells;
+    let cb = &b[hb].cells;
+    if ca.len() != cb.len()
+        || !ca
+            .iter()
+            .all(|c| ca.iter().filter(|x| *x == c).count() == 1 && cb.contains(c))
+    {
+        return None;
+    }
+    let map: Vec<_> = ca
+        .iter()
+        .map(|c| cb.iter().position(|x| x == c).unwrap())
+        .collect();
+    if map.iter().enumerate().all(|(k, j)| k == *j) {
+        return Some(map);
+    }
+    let end = |us: &[Unit], h: usize| {
+        let mut k = h + 1;
+        while k < us.len()
+            && table_row(&us[k])
+            && us[k].page() == us[h].page()
+            && us[k].cells.len() == us[h].cells.len()
+        {
+            k += 1
+        }
+        k
+    };
+    let na = end(a, ha) - ha - 1;
+    let nb = end(b, hb) - hb - 1;
+    if na == 0 || na != nb {
+        return None;
+    }
+    let mut witnessed = false;
+    for offset in 1..=na {
+        for (k, j) in map.iter().enumerate().filter(|(k, j)| *k != **j) {
+            let old = &a[ha + offset].cells[k];
+            let same = &b[hb + offset].cells[k];
+            let mapped = &b[hb + offset].cells[*j];
+            if old == same && old != mapped {
+                return None;
+            }
+            witnessed |= old == mapped && old != same;
+        }
+    }
+    witnessed.then_some(map)
 }
 // Distinct surrounding passages that survive on both sides bound the table
 // correspondence. This describes source neighbourhood, not business identity.
@@ -374,28 +425,25 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     }
     // Match tables using cell content and header text at the cells' columns.
     // Column names are source text; their spelling has no privileged meaning.
-    let slots = |us: &[Unit], i: usize| -> Vec<(String, String)> {
-        let h = headers(us, i);
-        us[i]
-            .cells
+    let mut mappings: Map<(usize, usize), Option<Vec<usize>>> = Map::new();
+    let mut shared_cells = |i: usize, j: usize| {
+        let map = match (header_candidate(&a, i), header_candidate(&b, j)) {
+            (Some(ha), Some(hb)) => mappings
+                .entry((ha, hb))
+                .or_insert_with(|| column_mapping(&a, &b, ha, hb))
+                .as_ref(),
+            _ => None,
+        };
+        a[i].cells
             .iter()
             .enumerate()
-            .map(|(k, c)| {
-                // In a simple rectangle each row has the same number of
-                // cells in left-to-right order. Text alignment inside a column
-                // does not change its header (left/right/centred all work).
-                let name = h
-                    .map(|h| us[h].cells[k].clone())
-                    .unwrap_or_else(|| format!("column-{k}"));
-                (name, c.clone())
-            })
-            .collect()
+            .filter(|(k, c)| b[j].cells.get(map.map(|m| m[*k]).unwrap_or(*k)) == Some(*c))
+            .count()
     };
     for i in 0..a.len() {
         if ul.contains(&i) || a[i].cells.len() < 2 {
             continue;
         }
-        let sa = slots(&a, i);
         let mut candidates = vec![];
         for j in 0..b.len() {
             if ur.contains(&j)
@@ -404,8 +452,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             {
                 continue;
             }
-            let sb = slots(&b, j);
-            let same = sa.iter().filter(|x| sb.contains(x)).count();
+            let same = shared_cells(i, j);
             if same > 0 {
                 candidates.push((j, same));
             }
@@ -418,12 +465,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                         && a[*k].cells.len() == b[j].cells.len()
                         && compatible_table_scope(&a, &b, *k, j)
                 })
-                .map(|k| {
-                    slots(&a, k)
-                        .iter()
-                        .filter(|x| slots(&b, j).contains(x))
-                        .count()
-                })
+                .map(|k| shared_cells(k, j))
                 .max()
                 .unwrap_or(0);
             if candidates.iter().filter(|x| x.1 == n).count() == 1
@@ -433,11 +475,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                         !ul.contains(k)
                             && a[*k].cells.len() == b[j].cells.len()
                             && compatible_table_scope(&a, &b, *k, j)
-                            && slots(&a, *k)
-                                .iter()
-                                .filter(|x| slots(&b, j).contains(x))
-                                .count()
-                                == n
+                            && shared_cells(*k, j) == n
                     })
                     .count()
                     == 1
@@ -585,24 +623,23 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             let bb = pair.b.m.refs.iter().flatten().next().unwrap();
             alignment.push(json!({"leftPage":aa.p,"leftY":aa.ch(l).origin[1],"rightPage":bb.p,"rightY":bb.ch(r).origin[1]}));
         }
-        if let (Some(ha), Some(hb)) = (headers(&a, pair.a.order), headers(&b, pair.b.order)) {
-            let ca = &a[ha].cells;
-            let cb = &b[hb].cells;
-            let same_columns = ca.len() == cb.len()
-                && ca
-                    .iter()
-                    .all(|c| ca.iter().filter(|x| *x == c).count() == 1 && cb.contains(c));
-            if same_columns && pair.a.cells.len() == ca.len() && pair.b.cells.len() == cb.len() {
-                for (k, name) in ca.iter().enumerate() {
-                    let j = cb.iter().position(|c| c == name).unwrap();
+        if let (Some(ha), Some(hb)) = (
+            header_candidate(&a, pair.a.order),
+            header_candidate(&b, pair.b.order),
+        ) {
+            let map = mappings
+                .entry((ha, hb))
+                .or_insert_with(|| column_mapping(&a, &b, ha, hb));
+            if let Some(map) = map {
+                for (k, j) in map.iter().enumerate() {
                     let aa = cell_unit(&pair.a, k, l);
-                    let bb = cell_unit(&pair.b, j, r);
+                    let bb = cell_unit(&pair.b, *j, r);
                     emit(
                         Some(&aa),
                         Some(&bb),
                         "source-column-text",
                         None,
-                        row_moved,
+                        row_moved || k != *j,
                         l,
                         r,
                         budget,
@@ -613,11 +650,10 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                 continue;
             }
         }
-        // A header's own cells can move between columns. Match each literal
-        // header separately and report its position; a multiset of row values
-        // never proves that the row-to-column relationships are unchanged.
-        if headers(&a, pair.a.order).is_none()
-            && headers(&b, pair.b.order).is_none()
+        // A row's literal cells can change position without establishing that
+        // this row is a header. Do not propagate this permutation by itself.
+        if header_candidate(&a, pair.a.order).is_none()
+            && header_candidate(&b, pair.b.order).is_none()
             && pair.a.cells.len() > 1
             && pair.a.cells.len() == pair.b.cells.len()
             && a.get(pair.a.order + 1)
@@ -635,7 +671,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                 emit(
                     Some(&aa),
                     Some(&bb),
-                    "literal-column-heading-position",
+                    "literal-cell-position",
                     None,
                     row_moved || k != j,
                     l,
