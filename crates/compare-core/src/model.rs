@@ -257,6 +257,8 @@ impl Doc {
                     "page_failed",
                     "body_missing",
                     "unsupported_objects",
+                    "unsupported_language",
+                    "unsupported_structure",
                 ]
                 .contains(&s(&i["reason"]))
             {
