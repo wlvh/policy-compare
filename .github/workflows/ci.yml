@@ -51,7 +51,7 @@ jobs:
       - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
         run: pnpm verify:core
       - if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
-        run: pnpm exec tsx scripts/issue19-parity.ts
+        run: pnpm exec tsx scripts/issue24-compare.ts
       - id: build
         if: ${{ !cancelled() && steps.engine.outcome == 'success' }}
         run: pnpm build:${{ matrix.engine }}

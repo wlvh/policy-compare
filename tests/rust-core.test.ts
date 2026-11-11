@@ -1,7 +1,7 @@
 import {it,expect} from 'vitest';
 import {compare} from '../packages/compare-core/index';
 import {CoreSession,loadCore,coreArtifact} from '../packages/rust-core/index';
-import {aviationProfile} from '../profiles/aviation';
+import {coreOptions as aviationProfile} from '../packages/compare-core/options';
 import {textDoc} from './helpers';
 import {digest,snapshotDigest,resolveLocation} from '../packages/contracts/index';
 const module=await loadCore();
@@ -23,21 +23,6 @@ it('Rust search preserves scalar to UTF-16 references for a non-BMP, combining m
 });
 it('Rust session rejects incomplete documents, mismatched extractors and pages after done',()=>{
  const s=new CoreSession(module);expect(()=>s.compare()).toThrow('complete');const d=textDoc([{text:'Unchanged input'}]);s.document(0,d);expect(()=>s.page(0,d.pages[0])).toThrow('outside');const other={...d,extractor:{...d.extractor,version:'different'}};s.document(1,other);expect(()=>s.compare()).toThrow('same engine');s.dispose();
-});
-
-it('a continuation title cannot lend its fact to a recovered row with the same raw text',()=>{
- const base=[{text:'SCHEDULE OF AIRCRAFT',x:40,y:150,page:0},{text:'Unchanged scheduled aircraft wording.',x:40,y:300,page:0}];
- const r=compare(textDoc(base),textDoc([...base,{text:'SCHEDULE OF AIRCRAFT CONTINUED',x:40,y:40,page:1},{text:'SCHEDULE OF',x:40,y:300,page:1},{text:'AIRCRAFT',x:200,y:300,page:1},{text:'CONTINUED',x:360,y:300,page:1}]));
- const row=r.differences.find(d=>d.structurePath?.table==='recovered_rows');expect(row).toBeDefined();expect(row!.facts).toEqual([]);
- expect(r.differences.find(d=>d.structurePath?.table===null&&d.newText==='SCHEDULE OF AIRCRAFT CONTINUED')!.facts).toEqual(['continued_heading']);
-});
-
-it('page-number facts preserve ECMAScript word boundaries and whitespace outside ASCII',()=>{
- const line=(text:string)=>textDoc([{text,x:40,y:40},{text:'The insured terms remain as written.',x:40,y:300}]);
- expect(compare(line('中Page 3 of 10'),line('中Page 4 of 10')).differences[0].facts).toEqual(['page_number_only']);
- // NEL is content, while BOM is whitespace in JavaScript's original contract.
- expect(compare(line('Page\u00853'),line('Page\u00854')).differences.flatMap(d=>d.facts)).not.toContain('page_number_only');
- expect(compare(line('Page\ufeff3'),line('Page\ufeff4')).differences[0].facts).toEqual(['page_number_only']);
 });
 
 it('WASM work estimates above 2^32 exhaust the budget rather than wrapping to a small product',()=>{

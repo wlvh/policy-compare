@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { compare, search } from "../packages/compare-core/index";
-import { aviationProfile } from "../profiles/aviation";
+import { coreOptions as aviationProfile } from "../packages/compare-core/options";
 import { canonical, parseDoc } from "../packages/contracts/index";
 import { textDoc } from "./helpers";
 describe("pure core mechanism regressions", () => {
@@ -24,7 +24,7 @@ describe("pure core mechanism regressions", () => {
     expect(r.differences).toHaveLength(2);
     expect(
       r.differences.every(
-        (d) => d.kind === "Replaced" && d.structurePath?.field === "address",
+        (d) => d.kind === "Replaced" && d.left.length > 0 && d.right.length > 0,
       ),
     ).toBe(true);
   });

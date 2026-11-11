@@ -113,7 +113,7 @@ test('every on-screen page renders when the complete document fits without scrol
   expect(await right.evaluate(el => el.scrollHeight <= el.clientHeight)).toBe(true);
   await expect(right.locator('.sheet img')).toHaveCount(3);
   await expect(right.locator('.page-placeholder')).toHaveCount(0);
-  await expect.poll(() => right.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
+  await expect.poll(() => right.locator('img').evaluateAll(images => images.every(image => image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0))).toBe(true);
   // Navigation must not evict another source page that is still on screen.
   await page.getByRole('button', {name: 'Revised next page', exact: true}).click();
   await page.getByRole('button', {name: 'Revised next page', exact: true}).click();

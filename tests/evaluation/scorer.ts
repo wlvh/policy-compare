@@ -1416,7 +1416,7 @@ function readingOrder(doc: DocInput) {
     loc.charIds.flatMap((id) => Array.from(text.get(id) ?? "").flatMap((s, k) => (/\s/u.test(s) ? [] : [`${id}#${k}`])));
   return { next, prev, keys, continuesNumber };
 }
-function located(
+export function located(
   locs: SourceLocation[],
   refs: Evidence[],
   layout: LayoutPage[],

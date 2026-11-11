@@ -1,3 +1,4 @@
+import {foldOccurrences} from './fold-occurrences';
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type {
@@ -117,7 +118,7 @@ function RepeatCountSummary({ differences, onLocate }: {
 }) {
   if (!differences.length) return null;
   return <section className="repeat-summary" aria-label="Repeated text counts">
-    <details>
+    <details open>
       <summary>Repeated text count changes · {differences.length} {differences.length === 1 ? "item" : "items"}</summary>
       <div className="repeat-summary-body">
         <p>The text is identical; only its occurrence count changed. These items appear separately from the main changes list. The specific locations added or removed are unresolved.</p>
@@ -581,7 +582,8 @@ function App() {
     const target = alignedOffset(side, pageIndex, y);
     if (target !== null) viewportRefs[1 - side].current?.scrollToOffset(target);
   }
-  const reviewDifferences = result?.differences.filter(d => !canSummarizeCount(d)) ?? [];
+  const displayedDifferences = result ? foldOccurrences(result.differences, [pageInfos[0].length, pageInfos[1].length]) : [];
+  const reviewDifferences = displayedDifferences.filter(d => !canSummarizeCount(d));
   const repeatCounts = result?.differences.filter(canSummarizeCount) ?? [];
   const visible =
     reviewDifferences.filter(
@@ -854,7 +856,7 @@ function App() {
                     d.structurePath?.field,
                   ]
                     .filter(Boolean)
-                    .join(" / ") || "Clause text"}
+                    .join(" / ") || "Source text"}
                 </h3>
                 {!d.hasTextChange && d.oldText === d.newText ? <div className="same-text">{d.oldText}</div> : <>
                   <div className="old">{d.oldText || "(none)"}</div>
@@ -867,7 +869,9 @@ function App() {
                 {d.occurrences.length > 0 && (
                   <Occurrences difference={d} onLocate={locs=>{
                     setSelectedId(d.id);
-                    locate(locs, !d.hasTextChange);
+                    const original=result?.differences.find(record=>[...record.left,...record.right].some(source=>locs.some(loc=>loc.side===source.side&&loc.pageIndex===source.pageIndex&&loc.charIds[0]===source.charIds[0])));
+                    const edits=original?.textOps.filter(o=>o.kind!=='equal').flatMap(o=>[...o.left,...o.right])??[];
+                    locate(edits.length?edits:locs, !d.hasTextChange, "", original?[...original.left,...original.right]:locs);
                   }} />
                 )}
               </div>

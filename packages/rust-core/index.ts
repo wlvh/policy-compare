@@ -1,6 +1,6 @@
 import {hashBytes,ResultSchemaV2,type DocInput,type Page,type CompareResultV2,type SourceLocation} from '../contracts/index';
 import info from './generated/core-info.json' with {type:'json'};
-import {aviationProfile,type Profile} from '../../profiles/aviation';
+import {coreOptions,type CoreOptions} from '../compare-core/options';
 export const coreArtifact = info;
 const phases=['snapshot','structure','matching','diff','done'];
 type Exports={memory:WebAssembly.Memory;input_ptr(n:number):number;call():void;output_ptr():number;output_len():number;clear_output():void};
@@ -21,7 +21,7 @@ export function loadCore():Promise<WebAssembly.Module>{
 export class CoreSession{
  private exports:Exports;private disposed=false;
  inputBytes=0;inputCalls=0;maxInputBytes=0;
- constructor(module:WebAssembly.Module,profile:Profile=aviationProfile,budget=profile.budget,phase?:(name:string)=>void,checkpoint?:()=>void){
+ constructor(module:WebAssembly.Module,profile:CoreOptions=coreOptions,budget=profile.budget,phase?:(name:string)=>void,checkpoint?:()=>void){
   this.exports=new WebAssembly.Instance(module,{host:{phase:(n:number)=>phase?.(phases[n]),check:()=>checkpoint?.()}}).exports as unknown as Exports;
   const version=this.invoke('version');if(version.abi!==info.abi||version.coreVersion!==info.coreVersion||version.result!=='policy-compare-result/2')throw new Error('Incompatible Rust core version or format');
   this.invoke('reset',{profile,budget});

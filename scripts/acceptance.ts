@@ -5,7 +5,7 @@ const engine: EngineName = process.argv[2] === "pdfjs" ? "pdfjs" : "mupdf";
 const { extractPdf } = await loadEngine(engine);
 import { compare,coreArtifact } from "../packages/compare-core/index";
 import { parseDoc, digest, ResultSchemaV2 } from "../packages/contracts/index";
-import { grade, summarize, exitCode } from "../tests/evaluation/scorer";
+import { gradeGeneric as grade, summarize, exitCode } from "../tests/evaluation/generic";
 const manifest = JSON.parse(
   readFileSync("validation/dataset/manifest.json", "utf8"),
 );

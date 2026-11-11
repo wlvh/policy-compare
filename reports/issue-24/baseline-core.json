@@ -1,0 +1,8 @@
+{
+  "abi": "policy-core-session/1",
+  "coreVersion": "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1",
+  "sha256": "cbdfc8a9f6e200c51bc844580d6be9c8e7d111cc2a751277590442952641c5c0",
+  "bytes": 2511132,
+  "rust": "1.93.0",
+  "target": "wasm32-unknown-unknown"
+}
