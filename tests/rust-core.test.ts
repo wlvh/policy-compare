@@ -22,7 +22,7 @@ it('Rust search preserves scalar to UTF-16 references for a non-BMP, combining m
  s.dispose();expect(()=>s.search('insured')).toThrow('disposed');
 });
 it('Rust session rejects incomplete documents, mismatched extractors and pages after done',()=>{
- const s=new CoreSession(module);expect(()=>s.compare()).toThrow('complete');const d=textDoc([{text:'Unchanged input'}]);s.document(0,d);expect(()=>s.page(0,d.pages[0])).toThrow('outside');const other={...d,extractor:{...d.extractor,version:'different'}};s.document(1,other);expect(()=>s.compare()).toThrow('同一引擎');s.dispose();
+ const s=new CoreSession(module);expect(()=>s.compare()).toThrow('complete');const d=textDoc([{text:'Unchanged input'}]);s.document(0,d);expect(()=>s.page(0,d.pages[0])).toThrow('outside');const other={...d,extractor:{...d.extractor,version:'different'}};s.document(1,other);expect(()=>s.compare()).toThrow('same engine');s.dispose();
 });
 
 it('a continuation title cannot lend its fact to a recovered row with the same raw text',()=>{

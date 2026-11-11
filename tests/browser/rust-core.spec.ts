@@ -52,34 +52,34 @@ for (const mode of ['cancel', 'failure', 'timeout'] as const) test(`WASM initial
   await page.goto('./');
   await expect(page.locator('main')).toHaveAttribute('data-engine-ready', 'true');
   if (mode === 'timeout') await page.clock.install();
-  await page.getByLabel('基准 PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));
-  await page.getByLabel('待审 PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));
-  await page.getByRole('button', { name: '开始比较', exact: true }).click();
+  await page.getByLabel('Baseline PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/before.pdf'));
+  await page.getByLabel('Revised PDF', { exact: true }).setInputFiles(path.resolve('validation/dataset/cases/R02_amount/after.pdf'));
+  await page.getByRole('button', { name: 'Compare', exact: true }).click();
   await expect.poll(() => requested.length).toBe(1);
   if (mode === 'cancel') {
-    await page.getByRole('button', { name: '取消', exact: true }).click();
+    await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'cancelled');
   } else {
     if (mode === 'timeout') await page.clock.fastForward(60_001);
     await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'failed');
-    if (mode === 'timeout') await expect(page.getByRole('status')).toContainText('超过 60 秒');
+    if (mode === 'timeout') await expect(page.getByRole('status')).toContainText('exceeded 60 seconds');
   }
   await expect.poll(() => page.workers().length).toBe(0);
   releaseDownload();
   await page.context().unroute('**/core-*.wasm');
-  await page.getByRole('button', { name: '开始比较', exact: true }).click();
+  await page.getByRole('button', { name: 'Compare', exact: true }).click();
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'complete_for_scope');
   await expect(page.locator('.card')).toContainText('USD 4,000,000');
   expect((await page.evaluate(() => window.__policyMetrics)).coreArtifact).toEqual(coreArtifact);
-  await page.getByRole('button', { name: '关闭任务', exact: true }).click();
+  await page.getByRole('button', { name: 'Close task', exact: true }).click();
   await expect.poll(() => page.workers().length).toBe(0);
 });
 test('network paths, queries, payloads and diagnostics contain no local document or search secrets',async({page})=>{
  const requests:{url:string;method:string;body:string|null}[]=[];page.context().on('request',r=>requests.push({url:r.url(),method:r.method(),body:r.postData()}));
  await page.goto('./');await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true');
- const secret='PRIVATE_19_秘密_1315';for(const side of ['基准','待审'])await page.getByLabel(`${side} PDF`,{exact:true}).setInputFiles({name:secret+'.pdf',mimeType:'application/pdf',buffer:readFileSync('apps/web/public/samples/P02/before.pdf')});
- await page.getByLabel('基准 PDF 密码',{exact:true}).fill(secret);await page.getByRole('button',{name:'开始比较',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
- await page.getByLabel('搜索原文').fill(secret);await page.getByRole('button',{name:'搜索',exact:true}).click();
+ const secret='PRIVATE_19_秘密_1315';for(const side of ['Baseline','Revised'])await page.getByLabel(`${side} PDF`,{exact:true}).setInputFiles({name:secret+'.pdf',mimeType:'application/pdf',buffer:readFileSync('apps/web/public/samples/P02/before.pdf')});
+ await page.getByLabel('Baseline PDF password',{exact:true}).fill(secret);await page.getByRole('button',{name:'Compare',exact:true}).click();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');
+ await page.getByLabel('Search source text').fill(secret);await page.getByRole('button',{name:'Search',exact:true}).click();
  for(const req of requests){expect(['GET','HEAD']).toContain(req.method);expect(new URL(req.url).origin).toBe(new URL(page.url()).origin);expect(req.body).toBeNull();expect(decodeURIComponent(req.url)).not.toContain(secret);expect(new URL(req.url).search).toBe('');}
  writeFileSync(`${reportDir}/privacy-rust-${engine}.json`,JSON.stringify({status:'PASS',coreArtifact,requests},null,2)+'\n');
 });

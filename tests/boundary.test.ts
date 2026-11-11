@@ -22,5 +22,5 @@ it("mixed extraction engines are rejected by the shared core", () => {
   const a = textDoc([{ text: "USD 100" }]),
     b = textDoc([{ text: "USD 200" }]);
   b.extractor.name = "other-engine";
-  expect(() => compare(a, b)).toThrow("同一引擎");
+  expect(() => compare(a, b)).toThrow("same engine");
 });

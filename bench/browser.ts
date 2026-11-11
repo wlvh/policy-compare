@@ -161,10 +161,10 @@ for (const workload of manifest) {
     await page.goto("http://127.0.0.1:4173");
     const baseline = await footprint();
     await page
-      .getByLabel("基准 PDF", { exact: true })
+      .getByLabel("Baseline PDF", { exact: true })
       .setInputFiles(path.resolve(workload.paths[0]));
     await page
-      .getByLabel("待审 PDF", { exact: true })
+      .getByLabel("Revised PDF", { exact: true })
       .setInputFiles(path.resolve(workload.paths[1]));
     for (let i = 0; i <= runs; i++) {
       peak = 0;
@@ -177,11 +177,11 @@ for (const workload of manifest) {
       };
       try {
         await page
-          .getByRole("button", { name: "开始比较", exact: true })
+          .getByRole("button", { name: "Compare", exact: true })
           .click();
         const interactionStart = performance.now();
-        await page.getByLabel("按变化方式筛选").selectOption("Replaced");
-        await page.getByLabel("按变化方式筛选").selectOption("all");
+        await page.getByLabel("Filter by change type").selectOption("Replaced");
+        await page.getByLabel("Filter by change type").selectOption("all");
         record.interactionMs = (performance.now() - interactionStart) / 2;
         await page.waitForFunction(
           () => {
@@ -263,7 +263,7 @@ for (const workload of manifest) {
         (await page.locator("[data-status]").getAttribute("data-status")) ===
         "running"
       )
-        await page.getByRole("button", { name: "取消", exact: true }).click();
+        await page.getByRole("button", { name: "Cancel", exact: true }).click();
       // Each subsequent run reopens PDFs in new workers; no DocInput/CompareResult cache.
     }
     const hot = groupRecords.filter((r) => r.kind === "hot"),

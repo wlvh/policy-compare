@@ -3,9 +3,9 @@ import path from 'node:path';
 
 async function load(page: Page, left: string, right: string) {
   await page.goto('./');
-  await page.getByLabel('基准 PDF', {exact: true}).setInputFiles(path.resolve(left));
-  await page.getByLabel('待审 PDF', {exact: true}).setInputFiles(path.resolve(right));
-  await page.getByRole('button', {name: '开始比较', exact: true}).click();
+  await page.getByLabel('Baseline PDF', {exact: true}).setInputFiles(path.resolve(left));
+  await page.getByLabel('Revised PDF', {exact: true}).setInputFiles(path.resolve(right));
+  await page.getByRole('button', {name: 'Compare', exact: true}).click();
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', /complete_for_scope|partial/);
   await expect(page.locator('[data-ready-page]')).toHaveCount(2);
 }
@@ -18,26 +18,26 @@ for (const reverse of [false, true]) test((reverse ? 'removed' : 'added') + ' te
   await load(page, dir + (reverse ? 'after.pdf' : 'before.pdf'), dir + (reverse ? 'before.pdf' : 'after.pdf'));
   const card = page.locator('.cards .card').filter({hasText: 'Losses arising from unapproved night operations are excluded.'});
   await expect(card).toHaveCount(1);
-  await expect(card.locator(reverse ? '.new' : '.old')).toHaveText('（无）');
+  await expect(card.locator(reverse ? '.new' : '.old')).toHaveText('(none)');
   const sourceSide = reverse ? 0 : 1, peerSide = 1 - sourceSide;
-  const peerName = reverse ? '待审' : '基准';
+  const peerName = reverse ? 'Revised' : 'Baseline';
   const peer = page.locator('.document').nth(peerSide);
-  await page.getByRole('button', {name: peerName + '下一页', exact: true}).click();
+  await page.getByRole('button', {name: peerName + ' next page', exact: true}).click();
   await expect(peer.locator('[data-ready-page="1"]')).toBeVisible();
   await card.click();
   await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);
-  await expect(peer.locator('.reference-badge')).toHaveText('参考位置');
+  await expect(peer.locator('.reference-badge')).toHaveText('Reference position');
   await expect(peer.locator('polygon')).toHaveCount(0);
   await expect(page.locator('.document').nth(sourceSide).locator(reverse ? 'polygon.highlight-old' : 'polygon.highlight-new').first()).toBeVisible();
-  await expect(page.locator('.location-hint')).toContainText('无直接来源');
-  await expect(page.locator('.location-hint')).toContainText('已有文字对应');
-  await page.getByRole('checkbox', {name: '同步滚动'}).uncheck();
-  await page.getByRole('button', {name: peerName + '下一页', exact: true}).click();
+  await expect(page.locator('.location-hint')).toContainText('no direct source');
+  await expect(page.locator('.location-hint')).toContainText('existing text matches');
+  await page.getByRole('checkbox', {name: 'Synchronized scrolling'}).uncheck();
+  await page.getByRole('button', {name: peerName + ' next page', exact: true}).click();
   await expect(peer.locator('[data-ready-page="1"]')).toBeVisible();
   await card.click();
   await expect(peer.locator('[data-ready-page="1"]')).toBeVisible();
   await expect(page.locator('.document').nth(sourceSide).locator('[data-ready-page="0"]')).toBeVisible();
-  await expect(page.locator('.location-hint')).toContainText('同步滚动已关闭');
+  await expect(page.locator('.location-hint')).toContainText('Synchronized scrolling is off');
 });
 
 test('different page counts do not force equal physical page numbers', async ({page}) => {
@@ -62,8 +62,8 @@ test('an unextractable counterpart uses a labelled page reference, never a claim
   await expect(card).toHaveCount(1);
   await card.click();
   await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);
-  await expect(page.locator('.location-hint')).toContainText('本页没有文字对应');
-  await expect(page.locator('.location-hint')).toContainText('页码参考，不表示内容对应');
+  await expect(page.locator('.location-hint')).toContainText('no text match for this page');
+  await expect(page.locator('.location-hint')).toContainText('page-number reference only, not a content match');
   await expect(page.locator('.document').nth(0).locator('polygon')).toHaveCount(0);
   await expect(page.locator('.document').nth(0).locator('.reference-badge')).toBeVisible();
   await expect(page.locator('.gaps')).toBeVisible();
@@ -74,7 +74,7 @@ test('a paired paragraph navigates both direct sources even when only one side h
   await load(page, dir + 'before.pdf', dir + 'after.pdf');
   const card = page.locator('.cards .card').filter({hasText: 'Cover includes liability for fire, theft and flood.'});
   await expect(card).toHaveCount(1);
-  await page.getByRole('button', {name: '待审下一页', exact: true}).click();
+  await page.getByRole('button', {name: 'Revised next page', exact: true}).click();
   await expect(page.locator('.document').nth(1).locator('[data-ready-page="1"]')).toBeVisible();
   await card.click();
   await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);

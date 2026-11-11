@@ -16,7 +16,7 @@ if (!["mupdf", "pdfjs"].includes(engine))
   throw new Error("POLICY_ENGINE must explicitly select pdfjs or mupdf");
 export default defineConfig({
   base,
-  define: {__POLICY_BUILD__: JSON.stringify({releaseId, revision, engine, engineVersion, coreArtifact, base, contact: process.env.POLICY_CONTACT || '请联系提供本工具的维护者'})},
+  define: {__POLICY_BUILD__: JSON.stringify({releaseId, revision, engine, engineVersion, coreArtifact, base, contact: process.env.POLICY_CONTACT || 'Contact the maintainer who provided this tool'})},
   root: "apps/web",
   resolve: {
     alias: {

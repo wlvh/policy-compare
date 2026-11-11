@@ -94,13 +94,13 @@ export function PageCanvas({
     <div className="sheet" ref={sheet} data-ready-page={active && resolvedPage === pageIndex ? pageIndex : undefined}>
       <img
         onLoad={() => setLoaded(true)}
-        alt={(side ? "待审" : "基准") + "原文第 " + (pageIndex + 1) + " 页"}
+        alt={(side ? "Revised" : "Baseline") + " source page " + (pageIndex + 1)}
         src={url}
       />
       <div ref={layer} />
       <svg
         viewBox={`0 0 ${info.width} ${info.height}`}
-        aria-label={(side ? "待审" : "基准") + "字符高亮"}
+        aria-label={(side ? "Revised" : "Baseline") + " character highlights"}
       >
         {coverage.map((c,i)=><rect key={'coverage'+i} data-coverage="true" x={c.region[0]} y={c.region[1]} width={c.region[2]-c.region[0]} height={c.region[3]-c.region[1]} fill="#d99a1720" stroke="#b57a09" strokeWidth="1.2" strokeDasharray="5 3"><title>{c.message}</title></rect>)}
         {quads.map((q, i) => (
@@ -114,7 +114,7 @@ export function PageCanvas({
       {focus && <div className="location-marker" data-location-focus="true" aria-hidden="true"
         style={{left: `${focus.x0 / info.width * 100}%`, top: `${focus.y0 / info.height * 100}%`,
           width: `${(focus.x1 - focus.x0) / info.width * 100}%`, height: `${(focus.y1 - focus.y0) / info.height * 100}%`}}>
-        <span className={"location-marker-label" + (focus.y0 * width / info.width < 28 ? " below" : "") + (focus.x0 > info.width * 0.7 ? " right" : "")}>文字示例</span>
+        <span className={"location-marker-label" + (focus.y0 * width / info.width < 28 ? " below" : "") + (focus.x0 > info.width * 0.7 ? " right" : "")}>Text example</span>
       </div>}
     </div>
   );

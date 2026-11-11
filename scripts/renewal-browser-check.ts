@@ -53,15 +53,15 @@ try{
   try{
    await page.goto(origin);await expect(page.locator('main')).toHaveAttribute('data-engine-ready','true',{timeout:30000});
    const dir=path.join(inputs,'testdata/renewal',pair);
-   await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(path.join(dir,'left.pdf'));
-   await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(path.join(dir,'right.pdf'));
-   await page.getByRole('button',{name:'开始比较',exact:true}).click();
+   await page.getByLabel('Baseline PDF',{exact:true}).setInputFiles(path.join(dir,'left.pdf'));
+   await page.getByLabel('Revised PDF',{exact:true}).setInputFiles(path.join(dir,'right.pdf'));
+   await page.getByRole('button',{name:'Compare',exact:true}).click();
    await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial|failed/,{timeout:120000});
    record.status=await page.locator('[data-status]').getAttribute('data-status');record.message=await page.getByRole('status').textContent();
    if(record.status==='failed')throw new Error('Comparison failed');
    await expect.poll(()=>page.evaluate(()=>Number((window as any).__policyMetrics.total??0)),{timeout:30000}).toBeGreaterThan(0);
    record.metrics=await page.evaluate(()=>(window as any).__policyMetrics);
-   const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON',exact:true}).click();
+   const download=page.waitForEvent('download');await page.getByRole('button',{name:'Export JSON',exact:true}).click();
    const exported=await download,file=path.join(out,`${pair}-${engine}-browser.json`);await exported.saveAs(file);
    const result=JSON.parse(readFileSync(file,'utf8'));
    Object.assign(record,{resultFile:path.basename(file),coreVersion:result.coreVersion,extractors:result.extractors,documentHashes:result.documentHashes,configDigest:result.configDigest,differenceCount:result.differences.length,unresolvedCount:result.unresolved.length,coverageCount:result.coverage.length});
@@ -78,7 +78,7 @@ try{
     record.amountLocations[side]={reference:refs[side],actual:await get(),status:'PASS'};
    }
    record.selectedCardText=await card.textContent();await page.screenshot({path:path.join(out,`${pair}-${engine}-deductible.png`),fullPage:true});
-   await page.getByRole('button',{name:'关闭任务',exact:true}).click();await expect.poll(()=>page.workers().length).toBe(0);record.workersAfterClose=page.workers().length;
+   await page.getByRole('button',{name:'Close task',exact:true}).click();await expect.poll(()=>page.workers().length).toBe(0);record.workersAfterClose=page.workers().length;
    expect(record.requestsOutsideSelectedApp).toEqual([]);record.workflow='PASS';
   }catch(error){record.workflow='FAIL';record.error=String(error);await page.screenshot({path:path.join(out,`${pair}-${engine}-failed.png`),fullPage:true}).catch(()=>{});}
   finally{

@@ -11,7 +11,7 @@ onmessage=(e)=>{
   if(initialized)return;initialized=true;taskId=m.taskId;generation=m.generation;
   const abort=m.abortBuffer?new Int32Array(m.abortBuffer):null;
   const checkpoint=()=>{if(abort&&Atomics.load(abort,0))throw new Error('CANCELLED')};
-  const fail=()=>{port?.close();session?.dispose();session=undefined;postMessage({type:'error',taskId,generation,message:'Rust 核心初始化、输入契约或比较失败，请重新开始'});};
+  const fail=()=>{port?.close();session?.dispose();session=undefined;postMessage({type:'error',taskId,generation,message:'Rust core initialization, input validation, or comparison failed. Please start again.'});};
   const marks:Record<string,number>={};
   const loading=performance.now();
   // Handler is installed synchronously. PDF transmission starts only after core-ready.
@@ -39,6 +39,6 @@ onmessage=(e)=>{
   }).catch(fail);
  }
  if(m.type==='search'&&m.taskId===taskId&&m.generation===generation&&session){
-  try{postMessage({type:'search',taskId,generation,requestId:m.requestId,hits:session.search(m.query,m.side)});}catch{postMessage({type:'error',taskId,generation,message:'原文搜索失败，请重新开始'});}
+  try{postMessage({type:'search',taskId,generation,requestId:m.requestId,hits:session.search(m.query,m.side)});}catch{postMessage({type:'error',taskId,generation,message:'Source text search failed. Please start again.'});}
  }
 };

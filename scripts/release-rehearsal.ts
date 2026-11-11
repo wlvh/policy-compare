@@ -39,16 +39,16 @@ try {
  current=candidate;
  // Start the first PDF task only after switching: worker/font/WASM requests
  // from the old tab must still use its old, retained release service.
- await retained.getByRole('button',{name:'P02 金额变化',exact:true}).click();
+ await retained.getByRole('button',{name:/^(?:P02 Amount change|P02 金额变化)$/,exact:true}).click();
  await expect(retained.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial/);
  await expect(retained.locator('.cards')).toContainText('USD 2000');
  await expect(retained.locator('polygon').first()).toBeVisible();
  const fresh=await context.newPage();await fresh.goto(origin);expect(new URL(fresh.url()).pathname).toBe(candidate.info.base);
- await fresh.getByRole('button',{name:'E03 扫描图片',exact:true}).click();await expect(fresh.locator('.gaps')).toContainText('只有图片');
+ await fresh.getByRole('button',{name:/^(?:E03 Scanned images|E03 扫描图片)$/,exact:true}).click();await expect(fresh.locator('.gaps')).toContainText(/contains only images|只有图片/);
  current=old;
  const rollback=await context.newPage();await rollback.goto(origin);expect(new URL(rollback.url()).pathname).toBe(old.info.base);
- await rollback.getByRole('button',{name:'P01 相同文件',exact:true}).click();await expect(rollback.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');await expect(rollback.locator('.card')).toHaveCount(0);
- await fresh.getByRole('button',{name:'P02 金额变化',exact:true}).click();await expect(fresh.locator('.cards')).toContainText('USD 2000');
+ await rollback.getByRole('button',{name:/^(?:P01 Identical files|P01 相同文件)$/,exact:true}).click();await expect(rollback.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');await expect(rollback.locator('.card')).toHaveCount(0);
+ await fresh.getByRole('button',{name:/^(?:P02 Amount change|P02 金额变化)$/,exact:true}).click();await expect(fresh.locator('.cards')).toContainText('USD 2000');
  expect(failures).toEqual([]);
  await retained.screenshot({path:`${dir}/retained-tab.png`,fullPage:true});
  report={...report,status:'PASS',origin,previous:{image:old.image,releaseId:old.info.releaseId,revision:old.info.revision},candidate:{image:candidate.image,releaseId:candidate.info.releaseId,revision:candidate.info.revision},checks:['old tab first comparison after promotion','new root resolves candidate','root rollback resolves previous','candidate tab works after rollback'],resourceFailures:failures};

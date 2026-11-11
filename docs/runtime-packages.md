@@ -1,21 +1,21 @@
-# 当前版本的精简运行包
+# Current runtime packages
 
-运行包适合把已经构建的程序复制到另一台机器试用。接收机器需要 Node.js 24 LTS 和支持当前应用的浏览器。包内包含所选 PDF 引擎、Rust 比较核心、网页资源、本地静态服务、许可证及样例 PDF。
+A runtime package lets you copy a built application to another computer. That computer needs Node.js 24 LTS and a browser supported by the application. The package includes the selected PDF engine, Rust comparison core, web resources, local static server, licenses and sample PDFs.
 
-开发报告、测试答案、测试集、依赖安装目录和编译缓存保留在开发仓库。网页的 P01、P02、E03 按钮及运行包的 `samples/before.pdf`、`samples/after.pdf` 均保留。
+Development reports, expected test answers, datasets, installed dependencies and build caches stay in the development repository. The P01, P02 and E03 sample buttons and the package's `samples/before.pdf` and `samples/after.pdf` remain available.
 
-## 使用已经生成的包
+## Use a prepared package
 
-1. 将所选引擎的 `.tar.gz` 文件和配套 `manifest.json` 复制到接收机器，按清单核对文件 SHA-256 后解压。
-2. 在解压后的 `policy-compare-mupdf` 或 `policy-compare-pdfjs` 目录打开终端，运行 `node server.mjs`。
-3. 打开 `http://127.0.0.1:8080/`。可以点击网页样例，也可以选择包内两份 PDF 或自己的文件。
-4. 结束后在终端按 Ctrl+C。完整操作说明见包内 `RUN.zh-CN.md`。
+1. Copy the selected engine's `.tar.gz` file and accompanying `manifest.json` to the receiving computer. Check the archive's SHA-256 against the manifest, then extract it.
+2. Open a terminal in the extracted `policy-compare-mupdf` or `policy-compare-pdfjs` directory and run `node server.mjs`.
+3. Open `http://127.0.0.1:8080/`. Use a sample button or select the package's PDFs or your own files.
+4. Press Ctrl+C in the terminal when finished. The package's `RUN.md` contains startup instructions. Older packages may instead contain `RUN.zh-CN.md`.
 
-上述方式用于接收机器本地访问。通过另一台设备的内网地址访问时，需要配置 HTTPS 并保留应用所需的安全响应头，具体步骤见[部署指南](deployment.md)。
+These steps serve the application to the receiving computer itself. To access it from another device over a network, configure HTTPS and retain the required security response headers. See the [deployment guide](deployment.md).
 
-## 从源码生成
+## Build from source
 
-在仓库根目录准备既有的 Node、pnpm、Rust 工具链和 Python 虚拟环境，并安装选定引擎。使用新的发布编号构建后打包。
+Prepare the project's Node, pnpm and Rust toolchains and Python virtual environment in the repository root. Install the selected engine, then build with a new release ID before packaging.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -24,13 +24,13 @@ POLICY_RELEASE_ID=r-local-example POLICY_REVISION="$(git rev-parse HEAD)" pnpm b
 pnpm package:runtime --engine mupdf
 ```
 
-PDF.js 对应使用 `install:pdfjs`、`build:pdfjs` 和 `--engine pdfjs`。两种引擎分别完成构建后可用 `--engine both` 打包。
+For PDF.js, use `install:pdfjs`, `build:pdfjs` and `--engine pdfjs`. After building both engines, use `--engine both` to package both.
 
-输出默认保存在 `delivery/runtime-<发布编号>/`。已有目录会拒绝覆盖，可用 `--out <新目录>` 指定位置。清单中的归档文件名以清单所在目录为基准，因此可以将整个目录一起复制。
+Output defaults to `delivery/runtime-<release-id>/`. Existing directories are not overwritten; use `--out <new-directory>` to choose a different location. Archive paths in the manifest are relative to its directory, so the directory can be copied as a unit.
 
-打包前会核对版本路径、引擎、源码提交和每份静态文件的大小及哈希。所选引擎须绑定同一源码提交。此入口独立保存当前包的身份和验证结果，历史运行包与历史性能报告仍保持各自原有的版本关系。
+Before packaging, the script checks the version path, engine, source commit and each static resource's size and hash. All selected engines must identify the same source commit. This packaging entry records the current artifacts independently of historical runtime and performance evidence.
 
-## 验证实际解压内容
+## Verify the extracted package
 
 ```sh
 POLICY_BROWSER_CHANNEL=bundled \
@@ -38,7 +38,6 @@ POLICY_REPORT_DIR=reports/maintenance/runtime-example \
 pnpm verify:runtime delivery/runtime-r-local-example/manifest.json
 ```
 
-验证入口需要开发依赖和已安装的 Playwright Chromium。它会在临时目录解压包，检查文件身份，启动包内服务，复用现有四项部署浏览器检查，再通过文件选择入口比较包内的 `before.pdf` 和 `after.pdf`，核对金额、日期和原文高亮。完成后会停止本次启动的服务并删除解压临时目录。
+Use the verifier from the same source/test revision as the packaged application. Current browser assertions expect English controls; historical Chinese packages require their matching historical tests. The verifier requires development dependencies and Playwright Chromium. It extracts the package into a temporary directory, verifies file identities, starts the packaged server and runs the four existing deployment browser checks. It then selects the packaged `before.pdf` and `after.pdf` through the file inputs and checks amounts, dates and source highlights. It stops that server and removes the extracted temporary directory when finished.
 
-这份结果记录自动操作检查。真实用户试用、业务样本、普通办公设备、完整内存与公司环境要求继续使用各自的验收记录。
-
+The result records automated checks. Actual user trials, business samples, ordinary office computers, complete memory requirements and company-environment acceptance retain their own records.

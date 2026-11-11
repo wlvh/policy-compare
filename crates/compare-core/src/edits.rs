@@ -194,7 +194,7 @@ pub fn text_ops(
         .map(shift)
         .collect();
     if work_product(xc.len(), yc.len()) as f64 > n(&budget["diffProducts"]) {
-        unresolved.push(json!({"reason":"word_diff_budget","message":"词级差异工作量超过上限；保留双方完整原文，定位降级","left":a.map(|u|u.loc(l,"left")).unwrap_or_default(),"right":b.map(|u|u.loc(r,"right")).unwrap_or_default(),"defaultVisible":true}));
+        unresolved.push(json!({"reason":"word_diff_budget","message":"Word-level comparison exceeds the work limit; full source text is retained on both sides, with less precise highlighting","left":a.map(|u|u.loc(l,"left")).unwrap_or_default(),"right":b.map(|u|u.loc(r,"right")).unwrap_or_default(),"defaultVisible":true}));
         script.replaced(0, x.len(), 0, y.len())
     } else {
         let (mut ta, mut tb, mut ci, mut cj) = (0, 0, 0, 0);

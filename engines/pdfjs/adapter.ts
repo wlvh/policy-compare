@@ -49,7 +49,7 @@ export class PdfJsSession implements PdfSessionApi {
     signal?: AbortSignal,
     worker?: pdfjs.PDFWorker,
   ) {
-    if (bytes.length > LIMITS.bytes) throw new Error("文件超过 30 MiB 上限");
+    if (bytes.length > LIMITS.bytes) throw new Error("File exceeds the 30 MiB limit");
     const hash = hashBytes(bytes);
     const resource = node
       ? decodeURIComponent(
@@ -85,13 +85,13 @@ export class PdfJsSession implements PdfSessionApi {
       const doc = await task.promise;
       if (!doc.numPages || doc.numPages > LIMITS.pages) {
         await task.destroy();
-        throw new Error("PDF 页数必须在 1–100 页以内");
+        throw new Error("PDF must contain between 1 and 100 pages");
       }
       return new PdfJsSession(doc, hash, task);
     } catch (e) {
       await task.destroy();
       if (e instanceof Error && e.name === "PasswordException")
-        throw new Error("PASSWORD_REQUIRED：请输入本地 PDF 密码");
+        throw new Error("PASSWORD_REQUIRED: Enter the PDF password for local processing");
       throw e;
     }
   }
@@ -117,7 +117,7 @@ export class PdfJsSession implements PdfSessionApi {
     };
   }
   async extractPage(pageIndex: number): Promise<Page> {
-    if (this.closed) throw new Error("文档已关闭");
+    if (this.closed) throw new Error("Document is closed");
     const page = await this.doc.getPage(pageIndex + 1),
       viewport = page.getViewport({ scale: 1 });
     this.bounds.set(pageIndex,{width:quantize(viewport.width),height:quantize(viewport.height)});
@@ -249,8 +249,8 @@ export class PdfJsSession implements PdfSessionApi {
             : "raster_only_content",
           evidence: "PDF.js image paint operator with graphics-state transform",
           message: out.chars.length
-            ? "图片区域未做文字比较（没有 OCR）"
-            : "此页只有图片，正文文字尚未比较",
+            ? "Text in image regions has not been compared (OCR is not available)"
+            : "This page contains only images; its body text has not been compared",
           defaultVisible: true,
         });
       }
@@ -261,7 +261,7 @@ export class PdfJsSession implements PdfSessionApi {
         region: [0, 0, out.width, out.height],
         reason: "unsupported_objects",
         evidence: "PDF.js annotation objects",
-        message: "批注及交互表单对象未作完整比较",
+        message: "Annotations and interactive form objects have not been fully compared",
         defaultVisible: true,
       });
     if (out.chars.some((c) => c.text === "�"))
@@ -270,7 +270,7 @@ export class PdfJsSession implements PdfSessionApi {
         region: [0, 0, out.width, out.height],
         reason: "encoding_unknown",
         evidence: "replacement character",
-        message: "存在无法可靠解码的字符",
+        message: "Some characters could not be reliably decoded",
         defaultVisible: true,
       });
     this.timings.coverageAnalysis += performance.now() - coverageStart;
@@ -312,14 +312,14 @@ export class PdfJsSession implements PdfSessionApi {
               region: [0, 0, bounds.width, bounds.height],
               reason: "page_failed",
               evidence: "PDF.js strict page extraction: "+(error instanceof Error?error.message:String(error)),
-              message: "页面内容解析失败；已读取片段不能证明正文完整",
+              message: "Page content parsing failed; the extracted fragments do not establish that the body text is complete",
               defaultVisible: true,
             },
           ],
         };
       }
       scalars += p.chars.length;
-      if (scalars > LIMITS.scalars) throw new Error("文档超过 500,000 标量");
+      if (scalars > LIMITS.scalars) throw new Error("Document exceeds the limit of 500,000 Unicode scalar values");
       if (retainPages) pages.push(p);
       onPage?.(p);
       await new Promise((r) => setTimeout(r, 0));
@@ -327,10 +327,10 @@ export class PdfJsSession implements PdfSessionApi {
     return { ...this.metadata(), pages };
   }
   async render(pageIndex: number, scale = 1.35): Promise<RenderedPage> {
-    if (this.closed) throw new Error("文档已关闭");
+    if (this.closed) throw new Error("Document is closed");
     if (node)
       throw new Error(
-        "PDF.js 精细显示定位需要浏览器文字层，CLI 输出提取项区间与 run 精度",
+        "Precise PDF.js display locations require the browser text layer; CLI output provides extracted item ranges and run-level precision",
       );
     const page = await this.doc.getPage(pageIndex + 1),
       unit = page.getViewport({ scale: 1 });

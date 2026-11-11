@@ -20,10 +20,10 @@ type PageInfo = { width: number; height: number };
 // A card states what was found, never how much it matters: the change, what
 // paired its two sides, and facts the texts themselves prove.
 const kinds = {
-  Replaced: "两侧对应、位置未变",
-  Moved: "位置移动",
-  Added: "基准侧未找到对应",
-  Removed: "待审侧未找到对应",
+  Replaced: "Matched, same position",
+  Moved: "Moved",
+  Added: "No counterpart in baseline",
+  Removed: "No counterpart in revised",
 };
 // A count change preserves the same text and all its sources; it is not a
 // deletion/replacement of that text, nor proof that pagination explains it.
@@ -33,38 +33,39 @@ const countOnly = (d: Difference) =>
 // Preserve unresolved ownership as a review item, even when its text is equal.
 const canSummarizeCount = (d: Difference) =>
   countOnly(d) && d.structurePath?.confidence !== "unresolved";
+const occurrenceCount = (count: number) => `${count} occurrence${count === 1 ? "" : "s"}`;
 const countDelta = (d: Difference) => {
   const delta = d.repeat!.right - d.repeat!.left;
-  return `${delta > 0 ? "多" : "少"}出现 ${Math.abs(delta)} 次`;
+  return `${Math.abs(delta)} ${delta > 0 ? "more" : "fewer"} occurrence${Math.abs(delta) === 1 ? "" : "s"}`;
 };
 const change = (d: Difference) =>
   d.kind === "Added" || d.kind === "Removed"
     ? kinds[d.kind]
     : d.kind === "Moved"
       ? d.hasTextChange
-        ? "位置移动，文字也有变化"
-        : "位置移动，文字未变"
+        ? "Moved with text changes"
+        : "Moved, text unchanged"
       : d.hasTextChange
-        ? "文字变化"
-        : countOnly(d) ? "文字未变，次数变化" : "文字未变";
+        ? "Text changed"
+        : countOnly(d) ? "Text unchanged, occurrence count changed" : "Text unchanged";
 const bases: Record<string, string> = {
-  "declared-table-key": "按表格键对应",
-  "reliable-field-identity": "按字段身份对应",
-  "row-identity": "按表格行身份对应",
-  "unique-exact": "按相同原文对应",
-  "exact-context": "按相同原文对应",
-  "repeat-role": "按相同原文对应",
-  "adjacent-split": "按相邻段落拼合后的相同原文对应",
-  "adjacent-merge": "按相邻段落拼合后的相同原文对应",
-  "repeated-header": "重复文字",
-  "repeated-table-header": "重复表头",
-  "page-furniture": "重复页眉/页脚",
-  "joint-local-alignment": "按相似文字对应",
-  "contextual-token-lcs": "按相似文字对应",
+  "declared-table-key": "Matched by table key",
+  "reliable-field-identity": "Matched by field identity",
+  "row-identity": "Matched by row identity",
+  "unique-exact": "Matched by identical source text",
+  "exact-context": "Matched by identical source text",
+  "repeat-role": "Matched by identical source text",
+  "adjacent-split": "Matched by identical text across adjacent paragraphs",
+  "adjacent-merge": "Matched by identical text across adjacent paragraphs",
+  "repeated-header": "Repeated text",
+  "repeated-table-header": "Repeated table header",
+  "page-furniture": "Repeated header/footer",
+  "joint-local-alignment": "Matched by similar text",
+  "contextual-token-lcs": "Matched by similar text",
 };
 const basis = (d: Difference) =>
   d.structurePath?.confidence === "unresolved"
-    ? "对应未确定"
+    ? "Match unresolved"
     : d.left.length && d.right.length
       ? (bases[d.matchEvidence.method] ?? d.matchEvidence.method)
       : "";
@@ -72,40 +73,40 @@ const basis = (d: Difference) =>
 // numbers of "Page n" expressions), not a claim that the printed number is the
 // PDF page.
 const facts: Record<Fact, string> = {
-  whitespace_only: "仅空白字符变化",
-  page_number_only: "仅分页表达（Page n）中的数字变化",
-  dates_rolled_forward_one_year: "期间两端日期各顺延一年",
-  continued_heading: "两版都有的标题加续页字样",
+  whitespace_only: "Only whitespace changed",
+  page_number_only: "Only numbers in “Page n” expressions changed",
+  dates_rolled_forward_one_year: "Both period dates moved forward by one year",
+  continued_heading: "Continuation label on a heading present in both versions",
 };
 function Occurrences({ difference: d, onLocate }: {
   difference: Difference;
   onLocate: (locs: SourceLocation[]) => void;
 }) {
   if (countOnly(d)) return <details className="occurrence-details" onClick={e=>e.stopPropagation()}>
-    <summary>查看全部来源</summary>
-    <small>{d.reviewReasons.join("；")}</small>
-    <small>以下是两版的全部来源，不表示哪一处新增或减少，也不表示两版页面一一对应。</small>
+    <summary>View all sources</summary>
+    <small>{d.reviewReasons.join("; ")}</small>
+    <small>These are all source locations in both versions. They do not identify which occurrence was added or removed, or imply a one-to-one correspondence between pages.</small>
     <div className="occurrences">
       {(["left", "right"] as const).map(side => {
-        const label = side === "left" ? "基准" : "待审";
+        const label = side === "left" ? "Baseline" : "Revised";
         const sources = d.occurrences.filter(o => o[side].length);
         return <div key={side}>
-          <p>{label}版来源：</p>
+          <p>{label} sources:</p>
           {sources.map((o, i) => <button key={i}
-            aria-label={`${label}来源 ${i + 1}`}
+            aria-label={`${label} source ${i + 1}`}
             title={o[side].map(l=>l.text).join("")}
             onClick={e=>{e.stopPropagation();onLocate(o[side]);}}
-          >{label} P{o[side][0].pageIndex + 1}{o.context ? " · 上下文" : ""}</button>)}
+          >{label} P{o[side][0].pageIndex + 1}{o.context ? " · Context" : ""}</button>)}
         </div>;
       })}
     </div>
   </details>;
   const content = <div className="occurrences">
-    {d.occurrences.length} 处出现位置（逐处核对{d.occurrences.some(o=>o.context)?`；其中 ${d.occurrences.filter(o=>o.context).length} 处是同一行的其他写法，只作上下文，不计入次数`:''}）：
+    {d.occurrences.length} source locations to check individually{d.occurrences.some(o=>o.context)?`; ${d.occurrences.filter(o=>o.context).length} are alternative text from the same row, shown as context only and excluded from the count`:''}:
     {d.occurrences.map((o,i)=>{
-      const where=[o.left[0]&&`基准 P${o.left[0].pageIndex+1}`,o.right[0]&&`待审 P${o.right[0].pageIndex+1}`,o.context&&'上下文'].filter(Boolean).join(' · ');
-      const text=(locs:SourceLocation[])=>locs.map(l=>l.text).join('')||'（无）';
-      return <button key={i} aria-label={`出现位置 ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();onLocate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
+      const where=[o.left[0]&&`Baseline P${o.left[0].pageIndex+1}`,o.right[0]&&`Revised P${o.right[0].pageIndex+1}`,o.context&&'Context'].filter(Boolean).join(' · ');
+      const text=(locs:SourceLocation[])=>locs.map(l=>l.text).join('')||'(none)';
+      return <button key={i} aria-label={`Source location ${i+1}`} title={`${text(o.left)} → ${text(o.right)}`} onClick={e=>{e.stopPropagation();onLocate([...o.left,...o.right]);}}>{i+1} · {where}</button>;
     })}
   </div>;
   return content;
@@ -115,15 +116,15 @@ function RepeatCountSummary({ differences, onLocate }: {
   onLocate: (locs: SourceLocation[]) => void;
 }) {
   if (!differences.length) return null;
-  return <section className="repeat-summary" aria-label="重复文字次数摘要">
+  return <section className="repeat-summary" aria-label="Repeated text counts">
     <details>
-      <summary>重复文字次数变化 · {differences.length} 项</summary>
+      <summary>Repeated text count changes · {differences.length} {differences.length === 1 ? "item" : "items"}</summary>
       <div className="repeat-summary-body">
-        <p>以下文字相同，仅出现次数变化，不计入主变化清单。具体新增或减少位置未确定。</p>
+        <p>The text is identical; only its occurrence count changed. These items appear separately from the main changes list. The specific locations added or removed are unresolved.</p>
         <ul>{differences.map(d => <li key={d.id} className="repeat-count-item">
           <div className="repeat-count-head">
             <span>{d.oldText}</span>
-            <strong>{d.repeat!.left} 次 → {d.repeat!.right} 次</strong>
+            <strong>{occurrenceCount(d.repeat!.left)} → {occurrenceCount(d.repeat!.right)}</strong>
           </div>
           <small>{countDelta(d)}</small>
           <Occurrences difference={d} onLocate={onLocate} />
@@ -147,7 +148,7 @@ function App() {
     ),
     initializing = useRef<typeof prepared.current>(null);
   const [state, setState] = useState("idle"),
-    [message, setMessage] = useState("选择基准版与待审版，开始本地比较。");
+    [message, setMessage] = useState("Choose the baseline and revised PDFs to compare them locally.");
   const [result, setResult] = useState<CompareResult | null>(null),
     [filter, setFilter] = useState("all"),
     [query, setQuery] = useState(""),
@@ -194,19 +195,19 @@ function App() {
     setPreparingPdf(true);
     try {
       if (!window.isSecureContext || !window.crossOriginIsolated || typeof SharedArrayBuffer === 'undefined')
-        throw new Error('网站安全配置不完整。请从本机地址或受信任的 HTTPS 入口打开；仍失败请联系维护者检查隔离响应头。');
+        throw new Error('The site security configuration is incomplete. Open the tool on localhost or through a trusted HTTPS address. If the problem persists, ask the maintainer to check the isolation response headers.');
       if (typeof Worker === 'undefined' || typeof WebAssembly === 'undefined')
-        throw new Error('此浏览器缺少后台计算能力，请使用组织支持的新版 Chrome 或 Edge。');
+        throw new Error('This browser does not support the required background processing. Use a recent version of Chrome or Edge supported by your organization.');
       const client = createPdfClient();
       let cancel = () => {};
       const ready = new Promise<void>((resolve, reject) => {
-        const timeout = window.setTimeout(() => reject(new Error('PDF 引擎下载与初始化超过 60 秒，请检查网络并重试。')), 60_000);
+        const timeout = window.setTimeout(() => reject(new Error('PDF engine download and initialization exceeded 60 seconds. Check your connection and try again.')), 60_000);
         cancel = () => {
           clearTimeout(timeout);
           client.onmessage = null;
           client.onerror = null;
           client.terminate();
-          reject(new Error('PDF 引擎准备已取消'));
+          reject(new Error('PDF engine preparation cancelled'));
         };
         client.onmessage = (e) => {
           if (e.data.type === "ready") {
@@ -218,7 +219,7 @@ function App() {
         };
         client.onerror = () => {
           clearTimeout(timeout);
-          reject(new Error('PDF 引擎资源加载失败，请重试；仍失败请联系维护者。'));
+          reject(new Error('The PDF engine could not be loaded. Try again; if the problem persists, contact the maintainer.'));
         };
       });
       prepared.current = { client, ready, cancel };
@@ -239,7 +240,7 @@ function App() {
     generation.current++;
     release();
     setState("cancelled");
-    setMessage("本次任务已取消。");
+    setMessage("This task was cancelled.");
     setResult(null);
     setHits([]);
     metrics.current.cancelledAt = performance.now();
@@ -269,10 +270,10 @@ function App() {
     setPages([0, 0]);
     setFilter("all");
     setState("running");
-    setMessage("正在读取与提取 PDF…");
+    setMessage("Reading PDFs and extracting text…");
     if (files.some((f) => f!.size > 30 * 1024 * 1024)) {
       setState("failed");
-      setMessage("文件超过每份 30 MiB 上限");
+      setMessage("A file exceeds the 30 MiB limit per PDF.");
       release();
       return;
     }
@@ -281,7 +282,7 @@ function App() {
       if (token !== generation.current) return;
       metrics.current.read = performance.now() - start.current;
       if (warm) {
-        setMessage("正在下载并初始化 PDF 引擎，最长等待 60 秒…");
+        setMessage("Downloading and initializing the PDF engine (up to 60 seconds)…");
         await warm.ready;
       }
       if (token !== generation.current) {
@@ -306,11 +307,11 @@ function App() {
         generation.current++;
         release();
         setState("failed");
-        setMessage(text.includes('PASSWORD') ? `PDF 需要正确密码，请在对应文件下输入后重试（${text.includes('PASSWORD_REQUIRED') ? 'PASSWORD_REQUIRED' : 'PASSWORD_ERROR'}）。`
-          : /invalid|corrupt|format|损坏|解析/i.test(text) ? 'PDF 无法完整读取，可能已损坏或格式不受支持。请用原阅读器检查或重新取得文件。' : text);
+        setMessage(text.includes('PASSWORD') ? `This PDF requires the correct password. Enter it below the corresponding file and try again (${text.includes('PASSWORD_REQUIRED') ? 'PASSWORD_REQUIRED' : 'PASSWORD_ERROR'}).`
+          : /invalid|corrupt|format|pars(?:e|ing)|损坏|解析/i.test(text) ? 'The PDF could not be read completely. It may be damaged or use an unsupported format. Check it in your usual PDF reader or obtain a new copy.' : text);
         setResult(null);
       }
-      setMessage("正在下载并初始化比较引擎，最长等待 60 秒…");
+      setMessage("Downloading and initializing the comparison engine (up to 60 seconds)…");
       let timeout: number | undefined;
       let pdfReady=Boolean(warm),coreReady=false,opened=false;
       const openOnce=()=>{
@@ -318,14 +319,14 @@ function App() {
         opened=true;
         clearTimeout(initializationTimeout);
         taskTimers.current.delete(initializationTimeout);
-        timeout = window.setTimeout(() => failure("计算超过 120 秒上限，任务已终止"), 120_000);
+        timeout = window.setTimeout(() => failure("Computation exceeded the 120-second limit. The task was stopped."), 120_000);
         taskTimers.current.add(timeout);
-        setMessage("正在读取与提取 PDF…");
+        setMessage("Reading PDFs and extracting text…");
         metrics.current.workerInitialization=performance.now()-start.current-Number(metrics.current.read);
         pdf.postMessage({type:'open',taskId:token,generation:token,bytes,passwords:selectedPasswords,port:channel.port2},[...bytes,channel.port2]);
       };
       const initializationTimeout = window.setTimeout(
-        () => failure('PDF 或比较引擎下载与初始化超过 60 秒，任务已终止，请重试'),
+        () => failure('PDF or comparison engine download and initialization exceeded 60 seconds. The task was stopped. Please try again.'),
         60_000,
       );
       taskTimers.current.add(initializationTimeout);
@@ -349,17 +350,17 @@ function App() {
             return next;
           });
           setMessage(
-            `正在提取${m.side ? "待审" : "基准"}版：${m.pageIndex + 1} / ${m.pageCount} 页`,
+            `Extracting ${m.side ? "revised" : "baseline"} PDF: page ${m.pageIndex + 1} / ${m.pageCount}`,
           );
         }
         if (m.type === "extracted") {
           metrics.current.extraction = m.ms;
           Object.assign(metrics.current, m.breakdown);
-          setMessage("文字提取完成，正在建立对应与计算差异…");
+          setMessage("Text extraction complete. Matching content and computing differences…");
         }
         if (m.type === "phase") {
-          const names:Record<string,string>={snapshot:"正在核对输入快照…",structure:"正在恢复文字结构…",matching:"正在建立内容对应…",diff:"正在计算原文变化…",done:"比较计算完成，正在显示…"};
-          setMessage(names[m.name]||"正在比较…");
+          const names:Record<string,string>={snapshot:"Checking the input snapshot…",structure:"Recovering text structure…",matching:"Matching content…",diff:"Computing source text changes…",done:"Comparison complete. Displaying results…"};
+          setMessage(names[m.name]||"Comparing…");
         }
         if (m.type === "result") {
           clearTimeout(timeout);
@@ -389,10 +390,10 @@ function App() {
           setState(m.result.status);
           setMessage(
             m.result.status === "partial"
-              ? `已记录覆盖缺口 ${m.result.coverage.length} 处、对应未决 ${m.result.unresolved.length} 组，见下方列表；内容与位置变化默认展示，重复次数变化另列数量摘要。`
+              ? `Recorded ${m.result.coverage.length} coverage gaps and ${m.result.unresolved.length} unresolved matches; see the list below. Text and position changes are shown by default. Repeated text count changes are summarized separately.`
               : m.result.differences.length
-                ? "没有记录到覆盖缺口或未决；内容与位置变化默认展示，重复次数变化另列数量摘要。这不表示不存在未知遗漏。"
-                : "可提取文本中未发现差异；没有记录到覆盖缺口或未决。",
+                ? "No coverage gaps or unresolved matches were recorded. Text and position changes are shown by default; repeated text count changes are summarized separately. Unknown omissions may still exist."
+                : "No differences found in extractable text. No coverage gaps or unresolved matches were recorded.",
           );
         }
         if (m.type === "render") {
@@ -408,18 +409,18 @@ function App() {
       core.onmessage = e=>receive(e,'core');
       pdf.onerror = () => {
         clearTimeout(timeout);
-        failure("PDF Worker 异常终止");
+        failure("The PDF worker stopped unexpectedly.");
       };
       core.onerror = () => {
         clearTimeout(timeout);
-        failure("比较 Worker 异常终止");
+        failure("The comparison worker stopped unexpectedly.");
       };
       openOnce();
     } catch {
       if (token !== generation.current) return;
       release();
       setState("failed");
-      setMessage("文件读取或任务启动失败");
+      setMessage("The files could not be read or the task could not be started.");
     }
   }
   async function trySample(id: string) {
@@ -431,7 +432,7 @@ function App() {
     setSampleLoading(true);
     setResult(null);
     setState('idle');
-    setMessage('正在从本站加载虚构样例…');
+    setMessage('Loading a fictional example from this site…');
     try {
       const sampleFiles = await Promise.all(['before.pdf','after.pdf'].map(async name => {
         const response = await fetch(`${import.meta.env.BASE_URL}samples/${id}/${name}`, {signal:controller.signal});
@@ -444,7 +445,7 @@ function App() {
       sampleFiles.forEach((file, side) => { const transfer = new DataTransfer(); transfer.items.add(file); (document.getElementById(`file-${side}`) as HTMLInputElement).files = transfer.files; });
       await run(sampleFiles, ['', '']);
     } catch {
-      if (token === generation.current) { setState('failed'); setMessage('样例加载失败，请检查连接后重试。'); }
+      if (token === generation.current) { setState('failed'); setMessage('The example could not be loaded. Check your connection and try again.'); }
     } finally { setSampleLoading(false); }
   }
   function exportDiagnostic() {
@@ -511,21 +512,21 @@ function App() {
     if (hasLeft === hasRight) return;
     const sourceSide = hasLeft ? 0 : 1, peerSide = 1 - sourceSide;
     const source = locs.find(l => l.side === (hasLeft ? "left" : "right")) ?? references[0];
-    const peerName = peerSide ? "待审" : "基准";
+    const peerName = peerSide ? "Revised" : "Baseline";
     setReferenceSide(peerSide);
     let note: string;
-    if (!sync) note = `${peerName}侧无直接来源；同步滚动已关闭，保留其当前页。`;
+    if (!sync) note = `There is no direct source on the ${peerName} side. Synchronized scrolling is off, so its current page is unchanged.`;
     else {
       const offset = alignedOffset(sourceSide, source.pageIndex, source.quads[0][1]);
       if (offset !== null) {
         viewportRefs[peerSide].current?.scrollToOffset(offset - 90);
-        note = `${peerName}侧无直接来源；已按已有文字对应显示参考位置，不表示找到该项原文。`;
+        note = `There is no direct source on the ${peerName} side. A reference position is shown using existing text matches; this does not locate the source for this item.`;
       } else {
         const p = Math.min(source.pageIndex, pageInfos[peerSide].length - 1);
         if (p >= 0) showPage(peerSide, p);
         note = p >= 0
-          ? `${peerName}侧无直接来源，且本页没有文字对应；仅显示${peerName} PDF 第 ${p + 1} 页作页码参考，不表示内容对应。`
-          : `${peerName}侧无直接来源，也没有可显示的参考页。`;
+          ? `There is no direct source on the ${peerName} side, and no text match for this page. ${peerName} PDF page ${p + 1} is shown as a page-number reference only, not a content match.`
+          : `There is no direct source on the ${peerName} side and no reference page to display.`;
       }
     }
     setLocationHint(hint ? hint + " " + note : note);
@@ -591,42 +592,42 @@ function App() {
       <header>
         <div>
           <div className="eyebrow">
-            POLICY COMPARE / 本地审阅 · {ENGINE_NAME}
+            POLICY COMPARE / LOCAL REVIEW · {ENGINE_NAME}
           </div>
-          <h1>让每处变化，都有原文依据。</h1>
-          <p>基准 → 待审 · PDF 在此浏览器内处理</p>
+          <h1>Review every change with its source.</h1>
+          <p>Baseline → Revised · PDFs processed in this browser</p>
         </div>
         <div className="privacy">
-          本地处理<span>不上传文档 · 无 OCR</span>
+          Local processing<span>No document uploads · No OCR</span>
         </div>
       </header>
-      <section className="welcome" aria-label="首次使用">
-        <details><summary>使用说明与版本信息</summary>
-          <p>选择基准与待审 PDF（每份最多 100 页、30 MiB），需要时输入密码，再开始比较。点击变化查看两侧原文；黄色提示表示有未比较内容或对应未确定。筛选会隐藏部分变化，核对结束前回到全部变化。JSON 导出含原文，分享前请确认资料授权；关闭任务后释放当前文档资源。</p>
-          <p>仅比较可提取文字，不识别扫描图片文字，不判断业务风险。复杂表格归属和部分高亮仍有已知问题，当前供受控开发试用，不能作为完整审单结论。</p>
-          <p>发布版本：{buildInfo.releaseId} · 引擎：{buildInfo.engine} {buildInfo.engineVersion} · 源码：{buildInfo.revision.slice(0,12)}</p>
-          <p>比较核心：{buildInfo.coreArtifact.coreVersion} · 产物 SHA-256：<code>{buildInfo.coreArtifact.sha256}</code></p>
-          <p>维护联系：{buildInfo.contact}。反馈时可主动下载诊断；其中只有版本、浏览器、阶段和错误代码。</p>
-          <button onClick={exportDiagnostic}>下载诊断</button>
+      <section className="welcome" aria-label="Getting started">
+        <details><summary>Instructions and version information</summary>
+          <p>Choose the baseline and revised PDFs (up to 100 pages and 30 MiB each), enter passwords if needed, and start the comparison. Select a change to view its source in both documents. Yellow notices flag content that was not compared or matches that remain unresolved. Filters hide some changes; return to All changes before finishing your review. JSON exports contain source text, so check that you have permission before sharing them. Closing the task releases the current document resources.</p>
+          <p>Only extractable text is compared. Text in scanned images is not recognized, and business risk is not assessed. Known limitations remain in complex table attribution and some highlights. This development version is for controlled trials and does not provide a complete policy review conclusion.</p>
+          <p>Release: {buildInfo.releaseId} · Engine: {buildInfo.engine} {buildInfo.engineVersion} · Source: {buildInfo.revision.slice(0,12)}</p>
+          <p>Comparison core: {buildInfo.coreArtifact.coreVersion} · Artifact SHA-256: <code>{buildInfo.coreArtifact.sha256}</code></p>
+          <p>Maintainer: {buildInfo.contact}. You can download diagnostics when reporting a problem. They contain only the version, browser, processing stage, and error code.</p>
+          <button onClick={exportDiagnostic}>Download diagnostics</button>
         </details>
-        <p>一键试用虚构样例（自动开始比较）：</p>
+        <p>Try a fictional example (starts the comparison automatically):</p>
         <div className="actions">
-          {([['P02','金额变化','1315 的 USD 100 → USD 2000；1760 的 USD 1000 未改'],['P01','相同文件','没有内容变化卡'],['E03','扫描图片','必须提示图片文字尚未比较，不能理解为无变化']] as const).map(([id,label,note]) =>
+          {([['P02','Amount change','1315: USD 100 → USD 2000; 1760: USD 1000 is unchanged'],['P01','Identical files','No content change cards'],['E03','Scanned images','Text in images must be marked as not compared; this does not mean there are no changes']] as const).map(([id,label,note]) =>
             <button key={id} disabled={state === 'running' || sampleLoading || !!startupError} onClick={()=>void trySample(id)} title={note}>{id} {label}</button>)}
         </div>
-        <p className="subtle">P02：金额修改且能定位；P01：相同文件无内容变化；E03：扫描图片应提示文字未比较。</p>
-        {startupError ? <div role="alert"><p>{startupError}</p><p>重试会重新加载程序，之后请重新选择文件。</p><button onClick={()=>location.reload()}>重试启动</button></div>
-          : preparingPdf && state === 'idle' && <p>正在下载并初始化 PDF 引擎，首次打开可能需要等待，最长 60 秒…</p>}
+        <p className="subtle">P02: locate an amount change. P01: identical files with no content changes. E03: scanned text must be marked as not compared.</p>
+        {startupError ? <div role="alert"><p>{startupError}</p><p>Retrying reloads the application. You will need to select your files again.</p><button onClick={()=>location.reload()}>Retry startup</button></div>
+          : preparingPdf && state === 'idle' && <p>Downloading and initializing the PDF engine. The first visit may take up to 60 seconds…</p>}
       </section>
-      <section className="input-panel" aria-label="文档选择">
+      <section className="input-panel" aria-label="Document selection">
         {[0, 1].map((side) => (
           <div className="file-field" key={side}>
             <label htmlFor={"file-" + side}>
-              {side ? "02 待审版" : "01 基准版"}
+              {side ? "02 Revised" : "01 Baseline"}
             </label>
             <input
               id={"file-" + side}
-              aria-label={side ? "待审 PDF" : "基准 PDF"}
+              aria-label={side ? "Revised PDF" : "Baseline PDF"}
               type="file"
               accept="application/pdf"
               onChange={(e) => {
@@ -635,12 +636,12 @@ function App() {
               }}
             />
             <small>
-              {files[side]?.name ?? "选择本地 PDF，每份最多 100 页 / 30 MiB"}
+              {files[side]?.name ?? "Choose a local PDF, up to 100 pages / 30 MiB each"}
             </small>
             <input
               type="password"
-              aria-label={side ? "待审 PDF 密码" : "基准 PDF 密码"}
-              placeholder="受保护文件密码（可选）"
+              aria-label={side ? "Revised PDF password" : "Baseline PDF password"}
+              placeholder="PDF password (if required)"
               value={passwords[side]}
               onChange={(e) =>
                 setPasswords((old) =>
@@ -656,7 +657,7 @@ function App() {
             onClick={()=>void run()}
             disabled={!files.every(Boolean) || !!startupError || sampleLoading}
           >
-            开始比较
+            Compare
           </button>
           <button
             onClick={() => {
@@ -665,10 +666,10 @@ function App() {
               setPasswords([passwords[1], passwords[0]]);
             }}
           >
-            交换方向
+            Swap files
           </button>
           <button onClick={cancel} disabled={state !== "running"}>
-            取消
+            Cancel
           </button>
         </div>
       </section>
@@ -682,27 +683,27 @@ function App() {
       >
         <strong>
           {state === "running"
-            ? "处理中"
+            ? "Processing"
             : state === "partial"
-              ? "本次处理结束 · 有已记录的缺口或未决"
+              ? "Processing complete · Gaps or unresolved matches recorded"
               : state === "complete_for_scope"
-                ? "本次处理结束"
+                ? "Processing complete"
                 : state === "cancelled"
-                  ? "已取消"
+                  ? "Cancelled"
                   : state === "failed"
-                    ? "处理失败"
-                    : "准备就绪"}
+                    ? "Processing failed"
+                    : "Ready"}
         </strong>
         <span>{message}</span>
-        {state === 'failed' && <button onClick={()=>location.reload()}>重新加载程序（需重新选文件）</button>}
-        {result && <button onClick={exportJson}>导出 JSON</button>}
+        {state === 'failed' && <button onClick={()=>location.reload()}>Reload application (select files again)</button>}
+        {result && <button onClick={exportJson}>Export JSON</button>}
         <button
           onClick={() => {
             generation.current++;
             release();
             setResult(null);
             setState("idle");
-            setMessage("任务已关闭，文档资源已释放。");
+            setMessage("Task closed. Document resources released.");
             setPageInfos([[], []]);
             setHits([]);
             setPasswords(["", ""]);
@@ -714,20 +715,19 @@ function App() {
             setReferenceSide(null);
           }}
         >
-          关闭任务
+          Close task
         </button>
       </section>
       {result &&
         (result.coverage.length > 0 || result.unresolved.length > 0) && (
           <section className="gaps">
-            <h2>需要核验的范围</h2>
+            <h2>Areas to review</h2>
             {result.coverage.map((c, i) => (
               <button
                 key={"c" + i}
                 onClick={() => showPage(c.side === "left" ? 0 : 1, c.pageIndex)}
               >
-                {c.side === "left" ? "基准" : "待审"} · 第 {c.pageIndex + 1}{" "}
-                页：{c.message}
+                {c.side === "left" ? "Baseline" : "Revised"} · Page {c.pageIndex + 1}: {c.message}
               </button>
             ))}
             {result.unresolved.map((u, i) => (
@@ -744,14 +744,14 @@ function App() {
         <aside>
           <div className="list-head">
             <h2>
-              变化清单 <span>{reviewDifferences.length}</span>
+              Changes <span>{reviewDifferences.length}</span>
             </h2>
             <select
-              aria-label="按变化方式筛选"
+              aria-label="Filter by change type"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             >
-              <option value="all">全部变化</option>
+              <option value="all">All changes</option>
               {Object.entries(kinds).map(([k, v]) => (
                 <option key={k} value={k}>
                   {v}
@@ -760,20 +760,20 @@ function App() {
             </select>
           </div>
           <p className="subtle">
-            文字与位置变化 · 当前筛选隐藏{" "}
-            {reviewDifferences.length - visible.length} 项
+            Text and position changes · Hidden by this filter:{" "}
+            {reviewDifferences.length - visible.length} {reviewDifferences.length - visible.length === 1 ? "item" : "items"}
           </p>
           <RepeatCountSummary differences={repeatCounts} onLocate={locs => {
             setSelectedId("");
             const source = locs[0];
             locate(locs, true, source
-              ? `数量摘要来源 · ${source.side === "right" ? "待审" : "基准"} PDF 第 ${source.pageIndex + 1} 页；不代表该处新增或减少。`
-              : "该数量项没有可定位来源。");
+              ? `Count summary source · ${source.side === "right" ? "Revised" : "Baseline"} PDF page ${source.pageIndex + 1}. This does not identify this location as added or removed.`
+              : "This count item has no source location to display.");
           }} />
           <div className="search">
             <input
-              aria-label="搜索原文"
-              placeholder="搜索词语或短语"
+              aria-label="Search source text"
+              placeholder="Word or phrase"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
@@ -781,23 +781,23 @@ function App() {
               }}
             />
             <select
-              aria-label="搜索范围"
+              aria-label="Search scope"
               value={searchSide}
               onChange={(e) => setSearchSide(e.target.value)}
             >
-              <option value="both">两侧</option>
-              <option value="left">基准</option>
-              <option value="right">待审</option>
+              <option value="both">Both sides</option>
+              <option value="left">Baseline</option>
+              <option value="right">Revised</option>
             </select>
             <button onClick={doSearch} disabled={!result}>
-              搜索
+              Search
             </button>
           </div>
           {hits.length > 0 && (
             <div className="hits">
               {hits.map((h, i) => (
                 <button key={i} onClick={() => locate(h)}>
-                  {h[0]?.side === "left" ? "基准" : "待审"} P
+                  {h[0]?.side === "left" ? "Baseline" : "Revised"} P
                   {(h[0]?.pageIndex ?? 0) + 1} · {h.map((x) => x.text).join("")}
                 </button>
               ))}
@@ -806,20 +806,20 @@ function App() {
           <div className="cards">
             {!result && (
               <div className="empty">
-                两份 PDF，一份有据可查的变化清单。
+                Two PDFs. A list of changes you can verify.
                 <p>
-                  金额、日期、标签和标点变化均保留。图片中的文字会明确列为未覆盖。
+                  Changes to amounts, dates, labels, and punctuation are retained. Text in images is explicitly marked as not covered.
                 </p>
               </div>
             )}
             {result && !visible.length && <div className="empty">
               {reviewDifferences.length
-                ? "当前筛选下没有变化卡。"
+                ? "No changes match the current filter."
                 : result.coverage.length || result.unresolved.length
-                  ? "当前没有可展示的变化卡，请核对上方的缺口或未决说明。"
+                  ? "No change cards to display. Review the coverage gaps or unresolved matches above."
                   : repeatCounts.length
-                    ? "未发现文字或位置变化；另有重复次数变化，见数量摘要。"
-                    : "可提取文本中未发现差异。"}
+                    ? "No text or position changes found. Repeated text count changes are listed in the count summary."
+                    : "No differences found in extractable text."}
             </div>}
             {visible.map((d) => (
               <div role="button" tabIndex={0} onKeyDown={e=>{if(e.target===e.currentTarget&&['Enter',' '].includes(e.key)){e.preventDefault();e.currentTarget.click();}}}
@@ -841,28 +841,28 @@ function App() {
                   <div className="facts">
                     {d.facts.map((f) => (
                       <span key={f}>
-                        {f === "page_number_only" && !(d.oldText && d.newText) ? "仅分页表达（Page n）" : facts[f]}
+                        {f === "page_number_only" && !(d.oldText && d.newText) ? "Only “Page n” expressions" : facts[f]}
                       </span>
                     ))}
                   </div>
                 )}
                 <h3>
                   {[
-                    d.structurePath?.section==='page_furniture'?'页眉/页脚':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
+                    d.structurePath?.section==='page_furniture'?'Header/footer':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,
                   ]
                     .filter(Boolean)
-                    .join(" / ") || "条款文字"}
+                    .join(" / ") || "Clause text"}
                 </h3>
                 {!d.hasTextChange && d.oldText === d.newText ? <div className="same-text">{d.oldText}</div> : <>
-                  <div className="old">{d.oldText || "（无）"}</div>
-                  <div className="new">{d.newText || "（无）"}</div>
+                  <div className="old">{d.oldText || "(none)"}</div>
+                  <div className="new">{d.newText || "(none)"}</div>
                 </>}
-                {countOnly(d) && <small>出现次数：{d.repeat!.left} 次 → {d.repeat!.right} 次；对应未确定，请核对归属。</small>}
+                {countOnly(d) && <small>Occurrences: {d.repeat!.left} → {d.repeat!.right}; match unresolved. Please check attribution.</small>}
                 {d.reviewReasons.length > 0 && (
-                  <small>{d.reviewReasons.join("；")}</small>
+                  <small>{d.reviewReasons.join("; ")}</small>
                 )}
                 {d.occurrences.length > 0 && (
                   <Occurrences difference={d} onLocate={locs=>{
@@ -877,7 +877,7 @@ function App() {
         <section className="documents">
           <div className="viewer-toolbar">
             <span>
-              原文定位 · 滚轮连续浏览
+              Source locations · Scroll through pages
             </span>
             <label>
               <input
@@ -885,7 +885,7 @@ function App() {
                 checked={sync}
                 onChange={(e) => setSync(e.target.checked)}
               />{" "}
-              同步滚动
+              Synchronized scrolling
             </label>
           </div>
           {locationHint && <div className="location-hint" aria-live="polite">{locationHint}</div>}
@@ -893,14 +893,14 @@ function App() {
             {[0, 1].map((side) => (
               <div className="document" key={side}>
                 <div className="document-head">
-                  <strong>{side ? "待审版" : "基准版"}</strong>
-                  {referenceSide === side && <small className="reference-badge" title="本项在该侧没有直接来源，画面内容仅供参考。">参考位置</small>}
+                  <strong>{side ? "Revised" : "Baseline"}</strong>
+                  {referenceSide === side && <small className="reference-badge" title="This item has no direct source on this side. The displayed content is for reference only.">Reference position</small>}
                   <span title={activeNames[side]}>
-                    {activeNames[side] || "尚未选择"}
+                    {activeNames[side] || "No file selected"}
                   </span>
                   <nav>
                     <button
-                      aria-label={(side ? "待审" : "基准") + "上一页"}
+                      aria-label={(side ? "Revised" : "Baseline") + " previous page"}
                       disabled={!pages[side]}
                       onClick={() => showPage(side, pages[side] - 1)}
                     >
@@ -911,7 +911,7 @@ function App() {
                       {pageInfos[side].length}
                     </span>
                     <button
-                      aria-label={(side ? "待审" : "基准") + "下一页"}
+                      aria-label={(side ? "Revised" : "Baseline") + " next page"}
                       disabled={pages[side] + 1 >= pageInfos[side].length}
                       onClick={() => showPage(side, pages[side] + 1)}
                     >
@@ -956,16 +956,16 @@ function App() {
                       }}
                       onRenderError={(pageIndex) => {
                         setState("partial");
-                        setMessage(`比较结果已保留；${side ? "待审" : "基准"} PDF 第 ${pageIndex + 1} 页原文无法显示，详情见该页提示。请同时核对已有的缺口或未决。`);
+                        setMessage(`Comparison results are retained. ${side ? "Revised" : "Baseline"} PDF page ${pageIndex + 1} could not be displayed; see the notice on that page. Also review the recorded coverage gaps or unresolved matches.`);
                       }}
                       onError={(error) => {
                         setState("failed");
-                        setMessage("定位失败：" + error);
+                        setMessage("Source navigation failed: " + error);
                       }}
                     /> : (
                     <div className="page-scroll"><div className="page-empty">
-                      {side ? "待审原文" : "基准原文"}
-                      <span>比较后显示可定位的 PDF 页面</span>
+                      {side ? "Revised source" : "Baseline source"}
+                      <span>PDF pages with source navigation appear after comparison</span>
                     </div></div>
                   )}
               </div>
@@ -974,8 +974,8 @@ function App() {
         </section>
       </div>
       <footer>
-        处理范围仅限可提取文本。文字与位置变化默认展示，重复次数变化另列数量摘要；程序不判断变化是否重要，不输出法律解释。
-        <span>开发验证版 · 正式许可与业务留出验收尚未完成</span>
+        The comparison covers extractable text only. Text and position changes are shown by default; repeated text count changes are summarized separately. The tool does not assess the importance of changes or provide legal interpretations.
+        <span>Local evaluation build · Review license terms before redistribution; business acceptance is not complete</span>
       </footer>
     </main>
   );

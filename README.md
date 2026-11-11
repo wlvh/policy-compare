@@ -1,16 +1,18 @@
-# 保单 PDF 比较工具：使用说明
+# Policy Compare: user guide
 
-选择旧版和新版 PDF，查看文字、金额和条款变化，并点击变化回到原文核对。PDF 在使用者自己的浏览器内处理，不上传；目前不识别扫描图片中的文字。**当前是需要人工核对的开发试用工具，不能直接作为完整审单结论。**
+Compare a baseline PDF with a revised PDF, inspect text, amount and clause changes, and follow each change back to its source. PDFs are processed in your browser and are not uploaded. The tool does not recognize text in scanned images. **This is an evaluation tool that requires human review; its output is not a complete policy-review conclusion.**
 
-## 获取并启动当前版本
+The interface and generated review messages are in English. Document text is preserved in its original language. Historical reports and some developer documentation remain in Chinese.
 
-需要将已构建程序复制到另一台机器时，可使用[当前版本精简运行包](docs/runtime-packages.md)。运行包保留网页及包内样例 PDF，接收机器可直接启动包内服务。
+## Get and run the current version
 
-体验当前版本请使用 **`main` 源码**。下方的历史运行包仍对应 `1ce93d4`，没有包含后来合并的修复与独立试用结果；合并源码不会自动更新下载包或部署网站。
+To copy a built application to another computer, use a [current runtime package](docs/runtime-packages.md). Each package includes the web application, a local server and sample PDFs. The receiving computer does not need the source-build tools.
 
-以下源码启动步骤适用于 **macOS/Linux**，浏览器建议使用 Chrome。Windows 原生启动尚未验证，现有源码脚本使用 macOS/Linux 的命令格式。
+To build the latest code, use **the `main` source**. The historical downloads linked below identify commit `1ce93d4` and do not include subsequent changes. Merging source does not automatically update downloadable packages or the public website.
 
-1. 准备 **Node.js 24** 和 **pnpm 10.12.1**。在 [Node.js 下载页](https://nodejs.org/en/download)选择 **24.x**，安装后重新打开终端。检查版本；若尚无指定版本的 pnpm，可通过 npm 安装：
+The source-build commands below are for **macOS/Linux**. Native Windows source builds have not been verified; the current scripts use macOS/Linux command syntax. Use a supported browser such as Chrome.
+
+1. Install **Node.js 24**, **pnpm 10.12.1** and **Rust 1.93.0** with the `wasm32-unknown-unknown` target. Select **24.x** from the [Node.js downloads](https://nodejs.org/en/download), then reopen your terminal. Check the versions; if the specified pnpm version is missing, install it using npm:
 
    ```sh
    node --version
@@ -18,11 +20,15 @@
    pnpm --version
    ```
 
-   第一条应显示 `v24.x.x`，最后一条应显示 `10.12.1`；已有正确版本无需重新安装。不要直接使用下载页默认的其他 Node 主版本。pnpm 安装问题可查看[官方安装说明](https://pnpm.io/installation)。
+   The first command should print `v24.x.x`, and the last should print `10.12.1`. If you already have those versions, you do not need to reinstall them. See the [pnpm installation instructions](https://pnpm.io/installation) if needed. With [rustup](https://rustup.rs/) installed, prepare the toolchain pinned in [rust-toolchain.toml](rust-toolchain.toml):
 
-2. 下载 [main 源码 ZIP](https://github.com/wlvh/policy-compare/archive/refs/heads/main.zip)并解压。当前仓库公开，下载源码不需要登录 GitHub。请使用此处明确指向 `main` 的链接，避免从其他分支下载旧版源码。
-3. 在解压后的 **`policy-compare-main` 文件夹**打开终端，该目录内应能看到 `package.json`。例如，macOS 解压到默认下载目录后，可执行 `cd "$HOME/Downloads/policy-compare-main"`；其他保存位置请相应调整。通过 Git 获取源码的使用者也在仓库根目录执行后续命令。
-4. 依次安装依赖、构建并启动 PDF.js 版；任何一步报错时先处理报错，再继续下一步：
+   ```sh
+   rustup toolchain install 1.93.0 --profile minimal --target wasm32-unknown-unknown
+   ```
+
+2. Download and extract the [main source ZIP](https://github.com/wlvh/policy-compare/archive/refs/heads/main.zip). Use this link to select `main` explicitly. The public repository does not require a GitHub login to download its source.
+3. Open a terminal in the extracted **`policy-compare-main` directory**, which contains `package.json`. For example, after extracting to Downloads on macOS, run `cd "$HOME/Downloads/policy-compare-main"`. Adjust the path to your location. If you obtained the source with Git, use the repository root.
+4. Install dependencies, build and start the PDF.js version in order. Resolve any error before continuing:
 
    ```sh
    pnpm install --frozen-lockfile
@@ -31,13 +37,13 @@
    pnpm preview:pdfjs --port 8080 --strictPort
    ```
 
-5. 终端出现本地地址后，在浏览器打开 **http://127.0.0.1:8080/**，页面顶部应显示 `pdfjs`。使用期间保持终端开启；关闭浏览器不会停止服务，在启动服务的终端按 **Ctrl+C** 才会停止。不要直接双击 `index.html`。
+5. Once the terminal prints the local address, open **http://127.0.0.1:8080/**. The page header should identify `pdfjs`. Keep the terminal open while using the tool. Press **Ctrl+C** in that terminal to stop the server; closing the browser does not stop it. Do not open `index.html` directly.
 
-首次需要下载源码依赖。之后只需在同一目录运行最后一条启动命令；更新源码后，应停止旧服务，重新执行安装、构建和启动步骤，并重新载入两份 PDF。
+The first setup downloads dependencies. On later visits, run only the final preview command from the same directory. After updating source, stop the old server, repeat installation and build, restart it, and load both PDFs again.
 
-### 需要对照 MuPDF 版时
+### Compare with the MuPDF version
 
-两版界面与比较核心相同，区别在于读取 PDF 的方法。完成上面的根目录依赖安装后，在同一源码目录另开终端执行：
+Both versions use the same interface and comparison core; they read PDFs with different engines. After installing root dependencies, open another terminal in the same source directory and run:
 
 ```sh
 pnpm install:mupdf
@@ -45,85 +51,86 @@ pnpm build:mupdf
 pnpm preview:mupdf --port 8082 --strictPort
 ```
 
-打开 **http://127.0.0.1:8082/**，顶部应显示 `mupdf`。可以用同一对文件观察差异；另一引擎的输出也需要原文核对。
+Open **http://127.0.0.1:8082/** and check that the header identifies `mupdf`. Use the same pair of files to compare results. Results from either engine still need source review.
 
-## 新增本地体验入口与内网部署准备
+## Local trial and deployment
 
-安装对应引擎依赖后，开发者可运行 `pnpm start:local mupdf 8080`（或 `pdfjs 8082`），启动入口检查工具和端口并自动打开浏览器。首屏提供 P02 金额变化、P01 相同文件、E03 扫描图片的一键虚构样例，以及使用说明、版本信息、加载失败恢复和主动诊断下载。
+After installing the selected engine, developers can run `pnpm start:local mupdf 8080` or `pnpm start:local pdfjs 8082`. The launcher checks tools and the port, then opens the browser. The first screen provides fictional P02 amount-change, P01 identical-file and E03 scanned-image samples, instructions, version information, loading recovery and an explicit diagnostics download.
 
-Issue #17 的版本路径、真实候选容器浏览器检查、OpenShift 共用模板及发布回滚步骤见[部署指南](docs/deployment.md)。这不是已经提供的公司内网服务；真实 OpenShift、正式入口和指定使用者验收状态见本次报告。
+The public pilot is documented at [compare.huaweidata.com](https://compare.huaweidata.com/). Check the release shown on the page: the deployed candidate may differ from `main`. See the [pilot task guide](docs/public-pilot.md) and [Cloudflare deployment guide](deploy/cloudflare/README.md).
 
-发布前增加[同一候选发布镜像测试流程](docs/release-image-testing.md)：自动容器检查通过后，运行 `pnpm preview:release <container.json路径> 8088`，在本机 Docker 中复用已验镜像完成浏览器试用并记录结果。无需 Red Hat 账号；该流程单独保存人工检查状态，后续仍需实际 OpenShift 验证。
+For Issue #17 version paths, browser checks against actual candidate containers, OpenShift templates, publication and rollback, see the [deployment guide](docs/deployment.md). Public hosting does not establish that the application has passed company-network, OpenShift or designated-user acceptance.
 
-## 完成一次比较
+The [release-image trial procedure](docs/release-image-testing.md) reuses a checked image. After the automated container checks pass, run `pnpm preview:release <path-to-container.json> 8088` to try that exact image locally with Docker and record observations. A Red Hat account is not required. Manual review and actual OpenShift verification are recorded separately.
 
-1. 在「01 基准版」选择旧 PDF，在「02 待审版」选择新 PDF；有密码就在对应输入框填写。每份最多 **100 页、30 MiB**。
-2. 点「开始比较」。左侧显示变化清单，右侧显示两份原文。
-3. 先查看处理状态。有黄色「需要核验的范围」时，点击条目查看未比较或对应未确定的位置；一组可能涉及多个位置，跨页内容还要翻页检查。
-4. 点击变化卡片，核对两边高亮：红色为旧侧删除或替换的文字，绿色为新侧增加或替换的文字。尤其确认金额属于哪条记录、哪一列。可以开关「同步滚动」分别查看两侧。一侧显示「（无）」时，该侧没有这项内容的直接来源；开启同步会按已有文字对应显示「参考位置」，两版重新分页后页码可能不同。参考侧不画改动高亮；没有文字对应时会明确提示仅作页码参考。关闭同步后，该侧保留当前页。
-5. 搜索框用于找原文，分类下拉框用于筛选变化。检查结束前回到「全部变化」，避免遗漏被筛选隐藏的卡片。
-6. 要保留结果，点「导出 JSON」，并保留原始两份 PDF；结束本次比较点「关闭任务」。更换文件后再次点「开始比较」。
+## Complete a comparison
 
-### 首次体验的三个样例
+1. Select the older PDF under **01 Baseline** and the newer PDF under **02 Revised**. Enter each password in its corresponding field if needed. Each file may contain up to **100 pages** and be up to **30 MiB**.
+2. Click **Compare**. Changes appear on the left, with both source documents on the right.
+3. Read the processing status first. If **Areas to review** appears in yellow, open its entries to inspect content that was not compared or whose correspondence is unresolved. One entry can cover several locations; review additional pages when needed.
+4. Select a change and inspect both highlights. Red marks baseline text that was deleted or replaced; green marks revised text that was inserted or replaced. Check which record and column an amount belongs to. Toggle **Synchronized scrolling** to inspect each side independently. **(none)** means that side has no direct source for the change. With synchronization enabled, **Reference position** follows an available text match; pagination can differ between versions. The reference side has no change highlight. If no text match exists, the tool explicitly identifies a page-number reference. With synchronization disabled, that side stays on its current page.
+5. Use **Search source text** to find original wording and the filter to select change types. Return to **All changes** before finishing so that filtered cards are not overlooked.
+6. Click **Export JSON** to save the result, and keep both original PDFs. Click **Close task** when done. After replacing files, click **Compare** again.
 
-源码已包含下面的虚构 PDF，不需要准备业务文件。每个目录中 **`before.pdf` 放基准侧，`after.pdf` 放待审侧**。先用 P02 完成点击、搜索和导出，再查看另外两种状态：
+### Three samples for your first trial
 
-| 样例目录 | 要观察的结果 |
+These fictional PDFs are included in the source. Place **`before.pdf` on the baseline side and `after.pdf` on the revised side**. Start with P02 to try navigation, search and export, then examine the other two outcomes.
+
+| Sample directory | What to check |
 |---|---|
-| [P02：金额变化](validation/synthetic-review-20261030/cases/P02) | 1315 的 `USD 100 → USD 2000` 可见并能定位；1760 的 `USD 1000` 未改。点击核对金额所在行，搜索 `1315`，最后导出 JSON。 |
-| [P01：无变化对照](validation/synthetic-review-20261030/cases/P01) | 两份文件逐字节相同，应没有内容变化卡。 |
-| [E03：纯扫描图片](validation/synthetic-review-20261030/cases/E03) | 图片可见金额修改，但没有文字层；应明确提示「此页只有图片，正文文字尚未比较」。0 张文字卡不能理解为文档无变化。 |
+| [P02: amount change](validation/synthetic-review-20261030/cases/P02) | The `USD 100 → USD 2000` change for 1315 is visible and locatable. The `USD 1000` amount for 1760 is unchanged. Inspect the highlighted row, search for `1315`, then export JSON. |
+| [P01: identical files](validation/synthetic-review-20261030/cases/P01) | The files are byte-identical, so there should be no content-change cards. |
+| [E03: scanned images](validation/synthetic-review-20261030/cases/E03) | An amount change is visible in the images, but there is no text layer. The tool must state that the page's body text has not been compared. Zero text-change cards does not mean the documents are unchanged. |
 
-这三个样例用于熟悉操作和覆盖提示，不代表全部能力验收。[17 对样本说明](validation/synthetic-review-20261030/README.md)及[首轮实际结果](reports/synthetic-review-20261030-run1/README.md)另行保存。
+These samples introduce the controls and coverage messages; they do not establish full acceptance. See the [17-pair sample description](validation/synthetic-review-20261030/README.md) and [first-run results](reports/synthetic-review-20261030-run1/README.md) for their recorded scope.
 
-较复杂的两对虚构续保样本在 [测试文件目录](https://github.com/jiehuan/falcon-mini/tree/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal)。下载同一子目录的 `left.pdf`（旧）和 `right.pdf`（新）；`changes.md` 是作者记录的答案。这些样本存在拆卡和未评价范围，需要人工核对，也不等同真实业务试用。
+Two more complex fictional renewal pairs are in the [renewal test-file directory](https://github.com/jiehuan/falcon-mini/tree/0eef67dd6cbe477ab625885220686c674640fb88/testdata/renewal). Download `left.pdf` (baseline) and `right.pdf` (revised) from the same subdirectory; `changes.md` records the author's expected changes. These cases have split cards and unevaluated areas. They require manual review and do not replace a trial with real business documents.
 
-## 结果怎么看、目前有哪些限制
+## Interpret results and limitations
 
-| 提示 | 含义 |
+| Status | Meaning |
 |---|---|
-| 本次处理结束 | 没有记录到覆盖缺口或未决，仍需核对变化是否正确；不保证不存在未知遗漏。 |
-| 有已记录的缺口或未决（黄色） | 有内容没读完整，或旧、新文字没有可靠对应；要补看「需要核验的范围」，不能只看变化清单。 |
-| 处理失败 | 本次未正常完成，查看错误信息并检查文件。 |
+| Processing complete | No coverage gaps or unresolved matches were recorded. Review the changes for correctness; unknown omissions may still exist. |
+| Processing complete · Gaps or unresolved matches recorded | Some content was not fully read or reliable correspondence was not established. Inspect **Areas to review** as well as the change list. |
+| Processing failed | Processing did not finish normally. Read the error and check the files. |
 
-**卡片数量不代表业务重要性；没有卡片不一定代表没有变化；绿色处理状态也不证明每处高亮或归属正确。** 程序不输出业务或法律结论。
+**Card count does not indicate business importance. No cards does not always mean no changes. A green processing status does not establish that every highlight or record association is correct.** The tool makes no business or legal conclusions.
 
-截至 2026-10-30，已知限制包括：
+The review recorded on 2026-10-30 identified the following limitations. The linked evidence retains its original version and scope:
 
-- **部分表格会拆散记录。** 例如 P10 的金额与记录号分散在多张卡，自动归属证据不足；需要结合原文行列核对。
-- **存在已确认的错误高亮。** P11 中未改变的 789 行 `USD 3000` 的 `USD` 前缀被标成删除，两引擎均可复现；真实修改仍保留。见[具体来源及截图](reports/synthetic-review-20261030-run1/README.md)。
-- **页码事实标签仍可能误标。** 例如 `Policy wording - Page # → Policy wording - Page 4`，不能据标签就认定只有页码数字改变或忽略该变化。
-- **跨页、整行重排与复杂续保对应仍有未评价范围；扫描图片文字未比较。** 一处黄色提示可能需要核对多个位置，不能只看跳转到的第一处。
+- **Some tables split records across cards.** For example, P10 separates an amount from its record number. Automatic ownership evidence is insufficient; inspect the original rows and columns.
+- **Incorrect highlights were confirmed.** In P11, the unchanged `USD` prefix in row 789's `USD 3000` was marked as deleted with both engines, while the actual change remained visible. See the [source details and screenshots](reports/synthetic-review-20261030-run1/README.md).
+- **Page-number fact labels can be incorrect.** For example, `Policy wording - Page # → Policy wording - Page 4` must not be dismissed solely because a label suggests a page-number-only change.
+- **Cross-page content, whole-row reordering and complex renewal correspondence have unevaluated areas. Scanned-image text is not compared.** A single yellow entry may require inspecting more than its first linked location.
 
-已完成的工程集成及[验收证据](reports/issue-2-amount-binding/README.md)保留原范围；它们不等于所有严格要求通过，也不代替真实业务签收或指定设备性能验收。
+Completed engineering work and [acceptance evidence](reports/issue-2-amount-binding/README.md) retain their recorded scope. They do not establish that every strict requirement passed, and do not replace business acceptance or performance checks on designated devices.
 
-## 常见启动问题
+## Troubleshoot startup
 
-| 现象 | 处理方法 |
+| Symptom | Action |
 |---|---|
-| `node` / `pnpm` 找不到，或版本不符 | 安装上方指定版本，重新打开终端，再检查 `node --version`、`pnpm --version`。 |
-| 提示找不到 `package.json` | 当前目录不对；进入解压后的源码根目录，再执行命令。 |
-| 浏览器打不开本地地址 | 确认终端中的启动命令仍在运行，且打开的地址、端口与终端输出一致。 |
-| 8080 端口被占用 | 如已有本工具服务，可直接使用；也可改成 `pnpm preview:pdfjs --port 8083 --strictPort`，随后打开 http://127.0.0.1:8083/。 |
-| 提示构建目录不存在 | 先完成 `pnpm install --frozen-lockfile`、对应引擎的安装和 `pnpm build:pdfjs`（或 `pnpm build:mupdf`）。 |
-| 下载源码或运行包返回 404 / 无权限 | 确认使用了上方的源码或历史发布链接；仍无法访问时，向维护者确认链接及仓库访问状态。 |
+| `node` or `pnpm` is missing or has the wrong version | Install the versions above, reopen the terminal, then check `node --version` and `pnpm --version`. |
+| Rust or the WASM target is missing | Install the pinned Rust toolchain and target using the `rustup` command above, then rebuild. |
+| `package.json` cannot be found | Open the terminal in the extracted source root before running commands. |
+| The browser cannot open the local address | Check that the server is still running and that the address and port match the terminal output. |
+| Port 8080 is in use | Use the existing instance if it is this application, or run `pnpm preview:pdfjs --port 8083 --strictPort` and open http://127.0.0.1:8083/. |
+| The build directory is missing | Complete root dependency installation, selected-engine installation and `pnpm build:pdfjs` or `pnpm build:mupdf`. |
+| A source or runtime download returns 404 or access denied | Check the source or historical download link above. If it still fails, ask the maintainer to confirm the link and repository access. |
 
-## 给其他人使用与反馈
+## Share the tool and give feedback
 
-以上是**每位使用者在自己的电脑上运行**的方式。`127.0.0.1` 指访问者自己的电脑；把你的本地地址发给别人，对方不会连到你的服务。当前没有在此交付统一的共享服务网址。
+The local setup runs **on each user's own computer**. `127.0.0.1` refers to the visitor's computer; sending someone your local URL does not give them access to your server. To use a shared address, open the public pilot or have a maintainer configure and verify a separate HTTPS deployment with the required response headers. Comparison still runs in each visitor's browser.
 
-需要统一网址时，由维护者按[部署说明](docs/deployment.md)配置并验证 HTTPS 访问入口及浏览器所需的服务器响应头，再提供实际网址。比较仍在访问者浏览器内进行；仅合并 `main` 不会自动完成部署。
+Submit feedback through [GitHub Issues](https://github.com/wlvh/policy-compare/issues/new), or give it to the maintainer who supplied the tool. Include:
 
-有仓库权限可在 [GitHub Issues](https://github.com/wlvh/policy-compare/issues/new)提交反馈；没有权限可将记录交给提供工具的维护者。请附上：
+- The engine (`pdfjs` or `mupdf` in the header), source or runtime download location and date. For a Git checkout, include `git rev-parse HEAD`.
+- File names or sample ID, page numbers on both sides, the relevant record and column, the expected change and what the application showed.
+- Screenshots and exported JSON that you are permitted to share. JSON contains source text and core/extraction-engine versions. Apply the same document-sharing permissions to the original PDFs.
 
-- 使用的引擎（页面顶部 `pdfjs` / `mupdf`）、源码或运行包的下载来源和日期；通过 Git 获取源码时，附 `git rev-parse HEAD` 输出。
-- 文件名或样例编号、双方页码、所属记录和列、你认为正确的变化与程序实际显示。
-- 截图和获准分享的导出 JSON；JSON 包含原文片段，也带有核心及提取引擎版本。原 PDF 按同一资料授权范围处理。
+## Historical runtime packages
 
-## 历史运行包（复核旧版用）
+The [review-20261026-fixes release](https://github.com/wlvh/policy-compare/releases/tag/review-20261026-fixes) provides [PDF.js](https://github.com/wlvh/policy-compare/releases/download/review-20261026-fixes/policy-compare-pdfjs.tar.gz) and [MuPDF](https://github.com/wlvh/policy-compare/releases/download/review-20261026-fixes/policy-compare-mupdf.tar.gz) packages for `1ce93d4`. Versions and hashes are in the [delivery manifest](DELIVERY_MANIFEST.json). These are retained for historical review and do not represent current `main`.
 
-[review-20261026-fixes 下载页](https://github.com/wlvh/policy-compare/releases/tag/review-20261026-fixes)中的 [PDF.js 包](https://github.com/wlvh/policy-compare/releases/download/review-20261026-fixes/policy-compare-pdfjs.tar.gz)和 [MuPDF 包](https://github.com/wlvh/policy-compare/releases/download/review-20261026-fixes/policy-compare-mupdf.tar.gz)对应 `1ce93d4`；版本与文件哈希见[交付清单](DELIVERY_MANIFEST.json)。它们不代表当前 `main`，此处保留链接供复核历史版本。
+They require Node.js 24 but not pnpm or source dependencies. Extract a package, run `node server.mjs` from the directory containing that file, and open http://127.0.0.1:8080/. Use its `samples/before.pdf` and `samples/after.pdf` to try the historical version.
 
-历史包需要 Node.js 24，但无需 pnpm 或源码依赖。解压后在包含 `server.mjs` 的目录执行 `node server.mjs`，打开 http://127.0.0.1:8080/；包内 `samples/before.pdf` / `after.pdf` 可用于旧版试用。
-
-The production comparison and raw-text search run in the Rust WASM core. See [Rust core build and verification](docs/rust-core.md) and [Issue #19 evidence](reports/issue-19/README.md).
+Production comparison and source-text search run in the Rust WASM core. See [Rust core build and verification](docs/rust-core.md) and [Issue #19 evidence](reports/issue-19/README.md).

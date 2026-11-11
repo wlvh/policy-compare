@@ -61,7 +61,7 @@ for (let visit = 0; visit < Number(visitsText); visit++) {
     if (await page.locator('main').getAttribute('data-engine-ready') === 'true') {
       const compared = performance.now();
       const comparisonTimer = setTimeout(() => { report.comparisonAt15Seconds = { atMs: elapsed(), requests: structuredClone([...requests.values()]) }; }, 15_000);
-      await page.getByRole('button', { name: 'P02 金额变化', exact: true }).click();
+      await page.getByRole('button', { name: /^(?:P02 Amount change|P02 金额变化)$/, exact: true }).click();
       await page.waitForFunction(() => ['complete_for_scope', 'partial', 'failed'].includes(document.querySelector('[data-status]')?.getAttribute('data-status') || ''), undefined, { timeout: 190_000 });
       clearTimeout(comparisonTimer);
       report.firstComparisonMs = Math.round(performance.now() - compared);

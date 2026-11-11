@@ -5,10 +5,10 @@ import {createServer as createHttpServer} from 'node:http';
 const engine=process.env.POLICY_ENGINE??'mupdf',root=path.resolve('tests/fixtures/review');
 const records:any[]=[];
 async function load(page:Page,left:string,right:string){
- await page.getByLabel('基准 PDF',{exact:true}).setInputFiles(left);await page.getByLabel('待审 PDF',{exact:true}).setInputFiles(right);await page.getByRole('button',{name:'开始比较',exact:true}).click();
+ await page.getByLabel('Baseline PDF',{exact:true}).setInputFiles(left);await page.getByLabel('Revised PDF',{exact:true}).setInputFiles(right);await page.getByRole('button',{name:'Compare',exact:true}).click();
  await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/complete_for_scope|partial|failed/);
 }
-async function exported(page:Page){const pending=page.waitForEvent('download');await page.getByRole('button',{name:'导出 JSON',exact:true}).click();return JSON.parse(readFileSync((await(await pending).path())!,'utf8'));}
+async function exported(page:Page){const pending=page.waitForEvent('download');await page.getByRole('button',{name:'Export JSON',exact:true}).click();return JSON.parse(readFileSync((await(await pending).path())!,'utf8'));}
 test.afterAll(()=>writeFileSync(`${process.env.POLICY_REPORT_DIR || 'reports'}/browser-review-regressions-${engine}.json`,JSON.stringify({engine,status:records.length===(process.env.POLICY_BASE_URL?9:10)&&records.every(r=>r.status==='PASS')?'PASS':'FAIL',expectedRecords:process.env.POLICY_BASE_URL?9:10,records,excluded:process.env.POLICY_BASE_URL?['F7 independent temporary server; not a target Route test']:[],fullTestEvidence:`${process.env.POLICY_REPORT_DIR || 'reports'}/browser-tests-${engine}.json`},null,2)+'\n'));
 test('F1 two changed deductibles retain visible sections and both real source rows',async({page})=>{
  await page.goto('./');
@@ -26,24 +26,24 @@ test('F1 two changed deductibles retain visible sections and both real source ro
   }
   const result=await exported(page);expect(result.differences.map((d:any)=>d.structurePath.section).sort()).toEqual(sections);records.push({case:'F1',variant,status:'PASS',result});
  }
- await load(page,`${root}/f1-unclassified-body-before.pdf`,`${root}/f1-unclassified-body-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('1,000');await expect(page.locator('.card')).toContainText('2,000');await expect(page.locator('.gaps')).toContainText('同名字段');await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);const result=await exported(page);expect(result.differences[0].hasTextChange).toBe(true);expect(result.differences[0].structurePath.confidence).toBe('unresolved');records.push({case:'F1 unclassified ownership',status:'PASS',result});
+ await load(page,`${root}/f1-unclassified-body-before.pdf`,`${root}/f1-unclassified-body-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('1,000');await expect(page.locator('.card')).toContainText('2,000');await expect(page.locator('.gaps')).toContainText('Fields with the same name');await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);const result=await exported(page);expect(result.differences[0].hasTextChange).toBe(true);expect(result.differences[0].structurePath.confidence).toBe('unresolved');records.push({case:'F1 unclassified ownership',status:'PASS',result});
 });
 test('F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful',async({page})=>{
  await page.goto('./');const logs:string[]=[];page.on('console',m=>{if(['error','warning'].includes(m.type()))logs.push(m.text());});
  await load(page,`${root}/f2-before.pdf`,`${root}/f2-after.pdf`);
- await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/partial|failed/);await expect(page.getByRole('status')).not.toContainText('可提取文本中未发现差异');
+ await expect(page.locator('[data-status]')).toHaveAttribute('data-status',/partial|failed/);await expect(page.getByRole('status')).not.toContainText('No differences found in extractable text');
  records.push({case:'F2 damaged',status:'PASS',uiState:await page.locator('[data-status]').getAttribute('data-status'),message:await page.getByRole('status').textContent(),logs});
  await load(page,`${root}/f2-clean.pdf`,`${root}/f2-clean.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');await expect(page.locator('.card')).toHaveCount(0);
- await load(page,`${root}/f2-mixed-before.pdf`,`${root}/f2-mixed-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('[data-ready-page="1"]')).toHaveCount(2);await expect(page.locator('.gaps')).toContainText('解析');
+ await load(page,`${root}/f2-mixed-before.pdf`,`${root}/f2-mixed-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('[data-ready-page="1"]')).toHaveCount(2);await expect(page.locator('.gaps')).toContainText('parsing');
  const result=await exported(page);expect(result.coverage.length).toBeGreaterThanOrEqual(2);expect(result.coverage.every((c:any)=>c.pageIndex===0)).toBe(true);expect(result.differences[0].oldText).toContain('1,000');expect(result.differences[0].newText).toContain('2,000');records.push({case:'F2 mixed and clean controls',status:'PASS',result});
  if(engine==='pdfjs'){
   // The damaged first page is now prefetched beside the useful second page.
   // Its preview failure must stay local, explicit, and leave navigation alive.
   await expect(page.locator('[data-page-error="0"]')).toHaveCount(2);
-  await page.getByRole('button',{name:'基准上一页',exact:true}).click();
+  await page.getByRole('button',{name:'Baseline previous page',exact:true}).click();
   await expect(page.locator('.document').nth(0).locator('[data-page-error="0"]')).toBeInViewport();
-  await expect(page.locator('.document').nth(0)).toContainText('第 1 页原文无法显示');
-  await page.getByRole('button',{name:'基准下一页',exact:true}).click();
+  await expect(page.locator('.document').nth(0)).toContainText('Source page 1 could not be displayed');
+  await page.getByRole('button',{name:'Baseline next page',exact:true}).click();
   await expect(page.locator('[data-ready-page="1"]')).toHaveCount(2);
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');
   await expect(page.locator('.card')).toHaveCount(1);

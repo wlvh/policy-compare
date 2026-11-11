@@ -40,22 +40,22 @@ export class PdfSession {
   };
   constructor(bytes: Uint8Array, password = "") {
     if (bytes.byteLength > LIMITS.bytes)
-      throw new Error("文件超过 30 MiB 上限");
+      throw new Error("File exceeds the 30 MiB limit");
     this.hash = hashBytes(bytes);
     const opened=collectNative(()=>mupdf.Document.openDocument(bytes, "application/pdf"));
     this.document = opened.value;
     try {
-      if(opened.messages.length)throw new Error('MuPDF 文档解析错误：'+[...new Set(opened.messages)].join('; '));
+      if(opened.messages.length)throw new Error('MuPDF document parsing error: '+[...new Set(opened.messages)].join('; '));
       if (
         this.document.needsPassword() &&
         !this.document.authenticatePassword(password)
       )
-        throw new Error("PASSWORD_REQUIRED：请输入本地 PDF 密码");
+        throw new Error("PASSWORD_REQUIRED: Enter the PDF password for local processing");
       const counted=collectNative(()=>this.document.countPages());
-      if(counted.messages.length)throw new Error('MuPDF 页树解析错误：'+[...new Set(counted.messages)].join('; '));
+      if(counted.messages.length)throw new Error('MuPDF page tree parsing error: '+[...new Set(counted.messages)].join('; '));
       this.pageCount = counted.value;
       if (!this.pageCount || this.pageCount > LIMITS.pages)
-        throw new Error("PDF 页数必须在 1–100 页以内");
+        throw new Error("PDF must contain between 1 and 100 pages");
     } catch (e) {
       this.document.destroy();
       throw e;
@@ -64,13 +64,13 @@ export class PdfSession {
   extractPage(pageIndex: number): Page {
     const {value:page,messages}=collectNative(()=>this.readPage(pageIndex));
     if(messages.length){
-      page.issues.push({pageIndex,region:[0,0,page.width,page.height],reason:'page_failed',evidence:'MuPDF native page diagnostics: '+[...new Set(messages)].join('; '),message:'页面存在内容解析错误；已读取片段不能证明正文完整',defaultVisible:true});
+      page.issues.push({pageIndex,region:[0,0,page.width,page.height],reason:'page_failed',evidence:'MuPDF native page diagnostics: '+[...new Set(messages)].join('; '),message:'Page content has parsing errors; the extracted fragments do not establish that the body text is complete',defaultVisible:true});
       page.coverageState='suspect';
     }
     return page;
   }
   private readPage(pageIndex:number):Page {
-    if (this.disposed) throw new Error("文档已关闭");
+    if (this.disposed) throw new Error("Document is closed");
     const page = this.document.loadPage(pageIndex);
     let text: mupdf.StructuredText | undefined;
     try {
@@ -142,7 +142,7 @@ export class PdfSession {
               ) as [number, number, number, number],
               reason: "unverified_image_text_region",
               evidence: "MuPDF StructuredText image block",
-              message: "图片区域未做文字比较（没有 OCR）",
+              message: "Text in image regions has not been compared (OCR is not available)",
               defaultVisible: true,
             });
           } finally {
@@ -153,7 +153,7 @@ export class PdfSession {
       if (!out.chars.length && out.issues.length)
         for (const issue of out.issues) {
           issue.reason = "raster_only_content";
-          issue.message = "此页只有图片，正文文字尚未比较";
+          issue.message = "This page contains only images; its body text has not been compared";
         }
       if (
         out.chars.some(
@@ -165,7 +165,7 @@ export class PdfSession {
           region: [0, 0, out.width, out.height],
           reason: "encoding_unknown",
           evidence: "replacement or isolated surrogate character",
-          message: "存在无法可靠解码的字符",
+          message: "Some characters could not be reliably decoded",
           defaultVisible: true,
         });
       if (page instanceof mupdf.PDFPage) {
@@ -177,7 +177,7 @@ export class PdfSession {
             region: [0, 0, out.width, out.height],
             reason: "unsupported_objects",
             evidence: `${annotations.length} annotation objects; ${widgets.length} widgets`,
-            message: "批注及交互表单对象未作完整比较",
+            message: "Annotations and interactive form objects have not been fully compared",
             defaultVisible: true,
           });
         annotations.forEach((a) => a.destroy());
@@ -258,7 +258,7 @@ export class PdfSession {
               region: [0, 0, 595, 842],
               reason: "page_failed",
               evidence: "MuPDF page extraction exception; bounds unavailable",
-              message: "页面解析失败，未完成文字比较",
+              message: "Page parsing failed; text comparison is incomplete",
               defaultVisible: true,
             },
           ],
@@ -269,7 +269,7 @@ export class PdfSession {
         0,
       );
       if (total > LIMITS.scalars)
-        throw new Error("文档超过 500,000 个 Unicode 标量上限");
+        throw new Error("Document exceeds the limit of 500,000 Unicode scalar values");
       if (retainPages) pages.push(page);
       onPage?.(page);
       await new Promise((resolve) => setTimeout(resolve, 0));
@@ -280,7 +280,7 @@ export class PdfSession {
     pageIndex: number,
     scale = 1.25,
   ): { png: Uint8Array; width: number; height: number } {
-    if (this.disposed) throw new Error("文档已关闭");
+    if (this.disposed) throw new Error("Document is closed");
     const page = this.document.loadPage(pageIndex);
     let pix: mupdf.Pixmap | undefined;
     try {

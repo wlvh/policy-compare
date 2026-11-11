@@ -50,7 +50,7 @@ export async function createTextLayer(
       if(measured>0&&item.width>0)div.style.setProperty('--scale-x',String(item.width*scale*data.userUnit*minFontSize/measured));
       divs.set(id, div);
     }
-    else throw new Error("文字层与提取项不一致，不能复用偏移");
+    else throw new Error("The text layer does not match the extracted items; offsets cannot be reused");
   }
   return {
     resolve(locations) {
@@ -61,7 +61,7 @@ export async function createTextLayer(
         for (const source of location.sourceRanges ?? []) {
           const div = divs.get(source.itemId);
           if (!div || !div.firstChild || div.textContent !== source.itemText)
-            throw new Error("无法解析提取项来源");
+            throw new Error("Unable to resolve the source of an extracted item");
           const range = document.createRange();
           range.setStart(div.firstChild, source.utf16Range[0]);
           range.setEnd(div.firstChild, source.utf16Range[1]);
