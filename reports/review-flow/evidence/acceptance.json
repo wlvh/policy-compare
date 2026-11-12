@@ -1,0 +1,46 @@
+{
+  "status": "PASS_FOR_LISTED_LOCAL_SCOPE",
+  "basePR": 26,
+  "baseline": "200f0a0c589effe75e47cc3d1ca53a1b4cd24818",
+  "sourceRevision": "29aa860a865a846fa111d869e3315bb14ada3229",
+  "before": {
+    "failed": 3,
+    "passed": 1
+  },
+  "unitTests": 479,
+  "browsers": {
+    "mupdf": {
+      "passed": 19,
+      "failed": 0
+    },
+    "pdfjs": {
+      "passed": 19,
+      "failed": 0
+    }
+  },
+  "actualShortViewport": [
+    1280,
+    800
+  ],
+  "minimumVisibleSourceAreaPerSide": {
+    "widthGreaterThan": 200,
+    "heightGreaterThan": 250
+  },
+  "minimumChangeListHeight": 150,
+  "authoredNoticeCounts": [
+    4,
+    48
+  ],
+  "windowSizeAssertion": "Actual operation pages explicitly set and assert innerWidth and innerHeight",
+  "pdfSourceLocations": "Checked against independent ReportLab-authored regions for both edits and both source panes",
+  "newTests": {
+    "unit": 5,
+    "browser": 4
+  },
+  "originalResultFields": "Status, coverage, unresolved and operation text retained; browser text-layer resolvedGeometry remains derived metadata as before",
+  "coreOrProductionBudgetChanged": false,
+  "PR26Changed": false,
+  "allSmallScreenLayouts": "NOT_EVALUATED",
+  "realBusinessDocumentAcceptance": "NOT_EVALUATED",
+  "ci": "See PR Checks; local evidence only"
+}

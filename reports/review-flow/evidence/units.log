@@ -1,0 +1,87 @@
+
+> policy-compare@0.1.0 verify:core /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112
+> pnpm build:core && vitest run
+
+
+> policy-compare@0.1.0 build:core /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112
+> tsx scripts/build-rust.ts
+
+warning: function `replace` is never used
+  --> crates/compare-core/src/text.rs:27:8
+   |
+27 | pub fn replace(p: &str, s: &str, t: &str) -> String {
+   |        ^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `trim` is never used
+  --> crates/compare-core/src/text.rs:36:8
+   |
+36 | pub fn trim(s: &str) -> &str {
+   |        ^^^^
+
+warning: field `transforms` is never read
+  --> crates/compare-core/src/text.rs:51:9
+   |
+46 | pub struct Mapped {
+   |            ------ field in this struct
+...
+51 |     pub transforms: Vec<V>,
+   |         ^^^^^^^^^^
+   |
+   = note: `Mapped` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: `policy-compare-core` (lib) generated 3 warnings
+    Finished `release` profile [optimized] target(s) in 0.05s
+{
+  abi: 'policy-core-session/1',
+  coreVersion: 'policy-compare-rust/0.2.0+english-generic.1',
+  sha256: 'a18d848b37457fb838b4d649a30d34d31bee7377b8f5d272f77a4aad344e057e',
+  bytes: 2070728,
+  rust: '1.93.0',
+  target: 'wasm32-unknown-unknown'
+}
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112
+
+ ✓ tests/cli-core-artifact.test.ts (1 test) 169ms
+ ✓ tests/delivery.test.ts (4 tests) 197ms
+ ✓ tests/pr25-review-regressions.test.ts (4 tests) 216ms
+ ✓ tests/row-identity-evidence.test.ts (50 tests) 240ms
+ ✓ tests/page-furniture.test.ts (27 tests) 242ms
+ ✓ tests/issue24.test.ts (26 tests) 304ms
+ ✓ tests/server.test.ts (1 test) 77ms
+ ✓ tests/core.test.ts (8 tests) 93ms
+ ✓ tests/table-scope.test.ts (37 tests) 436ms
+ ✓ tests/change-excerpts.test.ts (5 tests) 439ms
+ ✓ tests/pr25-review-controls.test.ts (4 tests) 434ms
+ ✓ tests/cosmetic-evidence.test.ts (21 tests) 101ms
+ ✓ tests/alignment.test.ts (4 tests) 109ms
+ ✓ tests/result-format-2.test.ts (25 tests) 115ms
+ ✓ tests/row-identity.test.ts (12 tests) 52ms
+ ✓ tests/margin-text.test.ts (17 tests) 65ms
+ ✓ tests/benchmark-report.test.ts (5 tests) 9ms
+ ✓ tests/english-frozen-messages.test.ts (6 tests) 38ms
+ ✓ tests/boundary.test.ts (2 tests) 17ms
+ ✓ tests/review-notices.test.ts (4 tests) 64ms
+ ✓ tests/contracts.test.ts (4 tests) 14ms
+ ✓ tests/review-core.test.ts (13 tests) 72ms
+ ✓ tests/cli-core-loading.test.ts (2 tests) 708ms
+   ✓ formal CLI reports missing WASM as failed exit 3 without an uncaught stack 365ms
+   ✓ formal CLI reports hash-mismatch WASM as failed exit 3 without an uncaught stack 342ms
+ ✓ tests/page-counts.test.ts (7 tests) 66ms
+ ✓ tests/pr25-headerless-regressions.test.ts (3 tests) 38ms
+ ✓ tests/platform-config.test.ts (31 tests) 738ms
+ ✓ tests/generic-scorer.test.ts (6 tests) 817ms
+ ✓ tests/scorer.test.ts (145 tests) 876ms
+ ✓ tests/local-dev.test.ts (1 test) 1311ms
+   ✓ local launcher refuses an occupied port, then starts and stops only its own service 1310ms
+ ✓ tests/rust-core.test.ts (4 tests) 14320ms
+   ✓ WASM work estimates above 2^32 exhaust the budget rather than wrapping to a small product 14261ms
+
+ Test Files  30 passed (30)
+      Tests  479 passed (479)
+   Start at  13:35:46
+   Duration  14.48s (tests 93%, import 6%, transform 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/core-tests.json

@@ -1,0 +1,116 @@
+
+Running 4 tests using 1 worker
+
+(node:88741) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/review-flow.spec.ts:61:58 › word_diff_budget states its actual unfinished step and preserves the original result (6.4s)
+(node:88798) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/browser/review-flow.spec.ts:61:58 › budget states its actual unfinished step and preserves the original result (1.3s)
+  ✘  3 tests/browser/review-flow.spec.ts:82:1 › long clauses highlight all edit groups, preserve complete context and locate both real PDF sources (6.3s)
+(node:88815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 tests/browser/review-flow.spec.ts:108:1 › ordinary and numerous notices allow a short-window review, source visit, return and next change (1.0m)
+
+
+  1) tests/browser/review-flow.spec.ts:61:58 › word_diff_budget states its actual unfinished step and preserves the original result 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'Word-level comparison detail', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'Word-level comparison detail', exact: true }) with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Word-level comparison detail', exact: true })
+
+
+      63 |   if(mode==='word_diff_budget'){
+      64 |     const note=page.getByRole('region',{name:'Word-level comparison detail',exact:true});
+    > 65 |     await expect(note).toBeVisible();await expect(note).toContainText('Both full source texts are retained');
+         |                        ^
+      66 |     await expect(page.getByRole('region',{name:'Comparison coverage',exact:true})).toHaveCount(0);
+      67 |     await expect(page.locator('.coarse-detail')).toContainText('highlighting is coarse');
+      68 |     const card=page.locator('.card').filter({hasText:'USD 1,000,000'});
+        at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:65:24
+
+    Error Context: reports/review-flow/before-pr26-confirmed/test-results/review-flow-word-diff-budg-ac995-eserves-the-original-result/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/review-flow/before-pr26-confirmed/test-results/review-flow-word-diff-budg-ac995-eserves-the-original-result/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/review-flow/before-pr26-confirmed/test-results/review-flow-word-diff-budg-ac995-eserves-the-original-result/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/review-flow.spec.ts:82:1 › long clauses highlight all edit groups, preserve complete context and locate both real PDF sources 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')
+    Expected: 2
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt') with timeout 5000ms
+      - waiting for locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      83 |   await load(page);
+      84 |   const card=page.locator('.card').filter({hasText:'USD 1,000,000'});
+    > 85 |   await expect(card.locator('.change-excerpt')).toHaveCount(2);
+         |                                                 ^
+      86 |   await expect(card.locator('.old').first()).toContainText('shall not exceed USD 1,000,000');
+      87 |   await expect(card.locator('.new').first()).toContainText('provided the written notice has been received');
+      88 |   await expect(card.locator('.old mark').first()).toBeVisible();await expect(card.locator('.new mark').first()).toBeVisible();
+        at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:85:49
+
+    Error Context: reports/review-flow/before-pr26-confirmed/test-results/review-flow-long-clauses-h-3da9c-ocate-both-real-PDF-sources/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/review-flow/before-pr26-confirmed/test-results/review-flow-long-clauses-h-3da9c-ocate-both-real-PDF-sources/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/review-flow/before-pr26-confirmed/test-results/review-flow-long-clauses-h-3da9c-ocate-both-real-PDF-sources/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/review-flow.spec.ts:108:1 › ordinary and numerous notices allow a short-window review, source visit, return and next change 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Review changes', exact: true })
+
+
+      113 |     const current=await page.context().newPage();await load(current,{notices:count});
+      114 |     const card=current.locator('.card').filter({hasText:'USD 1,000,000'});
+    > 115 |     await current.getByRole('button',{name:'Review changes',exact:true}).click();
+          |                                                                          ^
+      116 |     await readingSpace(current);
+      117 |     burdens.push((await current.locator('.gaps').boundingBox())!.height);
+      118 |     await card.locator('.change-excerpt').first().getByRole('button',{name:'View both sources',exact:true}).click();
+        at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:115:74
+
+    Error Context: reports/review-flow/before-pr26-confirmed/test-results/review-flow-ordinary-and-n-06ad5-isit-return-and-next-change/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/review-flow/before-pr26-confirmed/test-results/review-flow-ordinary-and-n-06ad5-isit-return-and-next-change/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/review-flow/before-pr26-confirmed/test-results/review-flow-ordinary-and-n-06ad5-isit-return-and-next-change/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/browser/review-flow.spec.ts:61:58 › word_diff_budget states its actual unfinished step and preserves the original result 
+    tests/browser/review-flow.spec.ts:82:1 › long clauses highlight all edit groups, preserve complete context and locate both real PDF sources 
+    tests/browser/review-flow.spec.ts:108:1 › ordinary and numerous notices allow a short-window review, source visit, return and next change 
+  1 passed (1.3m)
