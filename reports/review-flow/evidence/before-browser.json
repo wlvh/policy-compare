@@ -1,0 +1,349 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/node_modules/@playwright/test/cli.js",
+      "test",
+      "tests/browser/review-flow.spec.ts"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/playwright.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/scripts/deployment-preflight.ts",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4177/",
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/review-flow/before-pr26-confirmed/browser-tests-mupdf.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "review-flow.spec.ts",
+      "file": "review-flow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "word_diff_budget states its actual unfinished step and preserves the original result",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6380,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'Word-level comparison detail', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'Word-level comparison detail', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'Word-level comparison detail', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'Word-level comparison detail', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'Word-level comparison detail', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'Word-level comparison detail', exact: true })\u001b[22m\n\n    at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:65:24",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts",
+                      "column": 24,
+                      "line": 65
+                    },
+                    "snippet": "  63 |   if(mode==='word_diff_budget'){\n  64 |     const note=page.getByRole('region',{name:'Word-level comparison detail',exact:true});\n> 65 |     await expect(note).toBeVisible();await expect(note).toContainText('Both full source texts are retained');\n     |                        ^\n  66 |     await expect(page.getByRole('region',{name:'Comparison coverage',exact:true})).toHaveCount(0);\n  67 |     await expect(page.locator('.coarse-detail')).toContainText('highlighting is coarse');\n  68 |     const card=page.locator('.card').filter({hasText:'USD 1,000,000'});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts",
+                        "column": 24,
+                        "line": 65
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'Word-level comparison detail', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'Word-level comparison detail', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'Word-level comparison detail', exact: true })\u001b[22m\n\n\n  63 |   if(mode==='word_diff_budget'){\n  64 |     const note=page.getByRole('region',{name:'Word-level comparison detail',exact:true});\n> 65 |     await expect(note).toBeVisible();await expect(note).toContainText('Both full source texts are retained');\n     |                        ^\n  66 |     await expect(page.getByRole('region',{name:'Comparison coverage',exact:true})).toHaveCount(0);\n  67 |     await expect(page.locator('.coarse-detail')).toContainText('highlighting is coarse');\n  68 |     const card=page.locator('.card').filter({hasText:'USD 1,000,000'});\n    at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:65:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-12T05:08:23.553Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results/review-flow-word-diff-budg-ac995-eserves-the-original-result/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results/review-flow-word-diff-budg-ac995-eserves-the-original-result/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts",
+                    "column": 24,
+                    "line": 65
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7f100836436adde7129c-8f704166b1e4ff1ca6d3",
+          "file": "review-flow.spec.ts",
+          "line": 61,
+          "column": 58
+        },
+        {
+          "title": "budget states its actual unfinished step and preserves the original result",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1267,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-12T05:08:30.481Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7f100836436adde7129c-47a9cc144f8131bde79c",
+          "file": "review-flow.spec.ts",
+          "line": 61,
+          "column": 58
+        },
+        {
+          "title": "long clauses highlight all edit groups, preserve complete context and locate both real PDF sources",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6346,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')\u001b[22m\n\u001b[2m    14 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')\u001b[22m\n\u001b[2m    14 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n    at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:85:49",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts",
+                      "column": 49,
+                      "line": 85
+                    },
+                    "snippet": "  83 |   await load(page);\n  84 |   const card=page.locator('.card').filter({hasText:'USD 1,000,000'});\n> 85 |   await expect(card.locator('.change-excerpt')).toHaveCount(2);\n     |                                                 ^\n  86 |   await expect(card.locator('.old').first()).toContainText('shall not exceed USD 1,000,000');\n  87 |   await expect(card.locator('.new').first()).toContainText('provided the written notice has been received');\n  88 |   await expect(card.locator('.old mark').first()).toBeVisible();await expect(card.locator('.new mark').first()).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts",
+                        "column": 49,
+                        "line": 85
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m0\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.card').filter({ hasText: 'USD 1,000,000' }).locator('.change-excerpt')\u001b[22m\n\u001b[2m    14 × locator resolved to 0 elements\u001b[22m\n\u001b[2m       - unexpected value \"0\"\u001b[22m\n\n\n  83 |   await load(page);\n  84 |   const card=page.locator('.card').filter({hasText:'USD 1,000,000'});\n> 85 |   await expect(card.locator('.change-excerpt')).toHaveCount(2);\n     |                                                 ^\n  86 |   await expect(card.locator('.old').first()).toContainText('shall not exceed USD 1,000,000');\n  87 |   await expect(card.locator('.new').first()).toContainText('provided the written notice has been received');\n  88 |   await expect(card.locator('.old mark').first()).toBeVisible();await expect(card.locator('.new mark').first()).toBeVisible();\n    at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:85:49"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-12T05:08:31.831Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results/review-flow-long-clauses-h-3da9c-ocate-both-real-PDF-sources/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results/review-flow-long-clauses-h-3da9c-ocate-both-real-PDF-sources/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts",
+                    "column": 49,
+                    "line": 85
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7f100836436adde7129c-d7a37e5d12638cc01a8b",
+          "file": "review-flow.spec.ts",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "ordinary and numerous notices allow a short-window review, source visit, return and next change",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60276,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts",
+                        "column": 74,
+                        "line": 115
+                      },
+                      "message": "Error: locator.click: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Review changes', exact: true })\u001b[22m\n\n\n  113 |     const current=await page.context().newPage();await load(current,{notices:count});\n  114 |     const card=current.locator('.card').filter({hasText:'USD 1,000,000'});\n> 115 |     await current.getByRole('button',{name:'Review changes',exact:true}).click();\n      |                                                                          ^\n  116 |     await readingSpace(current);\n  117 |     burdens.push((await current.locator('.gaps').boundingBox())!.height);\n  118 |     await card.locator('.change-excerpt').first().getByRole('button',{name:'View both sources',exact:true}).click();\n    at /Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/tests/browser/review-flow.spec.ts:115:74"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-12T05:08:38.599Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results/review-flow-ordinary-and-n-06ad5-isit-return-and-next-change/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-review-flow-20261112/reports/review-flow/before-pr26-confirmed/test-results/review-flow-ordinary-and-n-06ad5-isit-return-and-next-change/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7f100836436adde7129c-49f41fce03b5d972753a",
+          "file": "review-flow.spec.ts",
+          "line": 108,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-12T05:08:23.332Z",
+    "duration": 75888.60900000001,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

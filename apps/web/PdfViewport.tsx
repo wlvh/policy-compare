@@ -122,7 +122,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
       const bounds = el.getBoundingClientRect();
       // On narrow screens the viewer is below the cards. Scrolling inside a
       // hidden PDF pane alone cannot show the user the selected source.
-      if (bounds.top < 0 || bounds.top + Math.min(bounds.height, 240) > window.innerHeight)
+      if (bounds.top < 0 || bounds.bottom > window.innerHeight)
         el.closest('.documents')?.scrollIntoView({block: 'start', inline: 'nearest'});
     });
   }

@@ -1,3 +1,5 @@
 # Preserve command output verbatim, including intentional trailing spaces.
 reports/issue-24/**/*.log -whitespace
 reports/review-notices/*.log -whitespace
+reports/review-flow/evidence/*.log -whitespace
+tests/fixtures/review-flow/*.pdf binary

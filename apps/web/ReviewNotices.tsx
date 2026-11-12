@@ -43,7 +43,7 @@ function Sources({entries}: {entries: Entry[]}) {
 export function ReviewNotices({result, onCoverage, onLocate}: {
   result: CompareResultV2;
   onCoverage: (issue: CoverageIssue) => void;
-  onLocate: (sources: SourceLocation[]) => void;
+  onLocate: (sources: SourceLocation[], hint: string) => void;
 }) {
   const n = reviewNotices(result);
   const coverageCount = n.coverage.length + n.incomplete.length;
@@ -57,7 +57,10 @@ export function ReviewNotices({result, onCoverage, onLocate}: {
   }));
   const unresolvedEntries = (u: CompareResultV2['unresolved'][number]): Entry[] => [...u.left,...u.right].map(l => ({
     side:l.side,pageIndex:l.pageIndex,text:l.text,description:u.message,
-    onLocate:() => onLocate([l]),
+    onLocate:() => onLocate([l],u.reason==='word_diff_budget'
+      ? 'Word-level detail incomplete. This is the full source range; highlighting is coarse.'
+      : u.reason==='budget' ? 'Matching and comparison are unfinished for this source range.'
+        : 'Unresolved correspondence source. This location is not a confirmed match.'),
   }));
   return <section className="gaps" aria-label="Review notices">
     {(n.coverage.length > 0 || n.incomplete.length > 0) && <section className="coverage-alerts" aria-label="Comparison coverage">
@@ -83,6 +86,13 @@ export function ReviewNotices({result, onCoverage, onLocate}: {
           {n.incomplete.map((u,i) => <div key={i}><p>{u.message}</p><Sources entries={unresolvedEntries(u)} /></div>)}
         </div></details>
       </div>}
+    </section>}
+    {n.wordDetail.length > 0 && <section className="word-detail-notices" aria-label="Word-level comparison detail">
+      <h2>Word-level detail incomplete · {n.wordDetail.length} {n.wordDetail.length === 1 ? 'range' : 'ranges'}</h2>
+      <p>Both full source texts are retained. Highlighting is coarse; check the complete passages.</p>
+      <details><summary>View affected source passages</summary><div className="notice-body">
+        {n.wordDetail.map((u,i) => <div key={i}><p>{u.message}</p><Sources entries={unresolvedEntries(u)} /></div>)}
+      </div></details>
     </section>}
     {n.uncertain.length > 0 && <details className="match-notices">
       <summary>Correspondence to review · {n.uncertain.length} {n.uncertain.length === 1 ? 'group' : 'groups'}</summary>

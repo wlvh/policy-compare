@@ -294,9 +294,26 @@ h2 {
 }
 .cards {
   overflow: auto;
+  min-height: 150px;
   margin-top: 13px;
   flex: 1;
 }
+.review-tools { min-height: 0; max-height: 42%; flex: 0 1 auto; overflow: auto; overscroll-behavior: contain; }
+.change-text .old, .change-text .new, .coarse-text .old, .coarse-text .new { background: transparent; border-left: 2px solid #dce2e6; white-space: pre-wrap; }
+.change-text .old { border-color: #c96542; }
+.change-text .new { border-color: #228260; }
+.change-text mark { color: inherit; border-radius: 2px; }
+.edit-delete { background: #f08e6840; text-decoration: line-through; text-decoration-color: #a94c2a; }
+.edit-insert { background: #45bc8750; font-weight: 600; }
+.change-excerpt + .change-excerpt { border-top: 1px dashed #c6d2d8; padding-top: 8px; margin-top: 9px; }
+.change-text .excerpt-note, .coarse-detail { font-size: 11px; color: #586c77; line-height: 1.6; margin: 7px 0; }
+.source-action { font-size: 11px; padding: 3px 7px; margin-top: 4px; }
+.complete-text { margin-top: 8px; font-size: 11px; }
+.complete-text summary { cursor: pointer; font-weight: 600; }
+.full-old, .full-new { white-space: pre-wrap; padding: 7px 0; }
+.word-detail-notices { border-left: 3px solid #9b8548; padding: 7px 10px; margin-bottom: 8px; background: #fff9ed; }
+.word-detail-notices p { font-size: 11px; line-height: 1.6; margin: 5px 0; }
+.return-change { font-size: 11px; padding: 4px 8px; margin-left: 8px; }
 .card {
   display: block;
   width: 100%;
