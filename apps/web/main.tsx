@@ -1,6 +1,7 @@
 import {foldOccurrences} from './fold-occurrences';
 import {ReviewNotices} from './ReviewNotices';
-import {noticeStatus, relatedUncertainty} from './review-notices';
+import {noticeStatus, relatedUncertainty, relatedWordDetail} from './review-notices';
+import {DifferenceText} from './DifferenceText';
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type {
@@ -21,6 +22,7 @@ declare global {
   }
 }
 type PageInfo = { width: number; height: number };
+type ReviewAnchor = {id:string;sources:SourceLocation[];references:SourceLocation[];neutral:boolean;hint:string};
 // A card states what was found, never how much it matters: the change, what
 // paired its two sides, and facts the texts themselves prove.
 const kinds = {
@@ -157,7 +159,10 @@ function App() {
     [searchSide, setSearchSide] = useState("both"),
     [hits, setHits] = useState<SourceLocation[][]>([]);
   const [coverageFocus, setCoverageFocus] = useState<CoverageIssue | null>(null);
-  useEffect(() => setCoverageFocus(null), [result]);
+  const reviewAnchor = useRef<ReviewAnchor | null>(null);
+  const [reviewReturn, setReviewReturn] = useState<{anchor:ReviewAnchor;scrollTop:number;filter:string} | null>(null);
+  const cardsRef = useRef<HTMLDivElement>(null), workspaceRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {setCoverageFocus(null);setReviewReturn(null);}, [result]);
   const [pages, setPages] = useState([0, 0]),
     [pageInfos, setPageInfos] = useState<PageInfo[][]>([[], []]);
   const [selection, setSelection] = useState<SourceLocation[]>([]),
@@ -373,14 +378,17 @@ function App() {
             coreReady: performance.now() - start.current,
           });
           const first = m.result.differences.find((d: Difference) => !canSummarizeCount(d));
-          setNeutralSelection(first ? !first.hasTextChange : false);
+          const firstCoarse = first && relatedWordDetail(first,m.result.unresolved).length>0;
+          const firstHint = firstCoarse ? 'Word-level detail incomplete. This is the complete source range; highlighting is coarse.' : '';
+          setNeutralSelection(first ? !first.hasTextChange || firstCoarse : false);
+          setLocationHint(firstHint);
           const firstLocated = first;
           const leftPage = firstLocated?.left[0]?.pageIndex ?? 0,
             rightPage = firstLocated?.right[0]?.pageIndex ?? 0;
           setPages([leftPage, rightPage]);
           setSelection(
             firstLocated
-              ? firstLocated.textOps
+              ? firstCoarse ? [...firstLocated.left,...firstLocated.right] : firstLocated.textOps
                   .filter((o: { kind: string }) => o.kind !== "equal")
                   .flatMap(
                     (o: {
@@ -391,6 +399,7 @@ function App() {
               : [],
           );
           setSelectedId(first?.id ?? "");
+          reviewAnchor.current = first ? {id:first.id,sources:firstCoarse?[...first.left,...first.right]:first.textOps.filter((o:Difference['textOps'][number])=>o.kind!=='equal').flatMap((o:Difference['textOps'][number])=>[...o.left,...o.right]),references:[...first.left,...first.right],neutral:!first.hasTextChange || firstCoarse,hint:firstHint} : null;
           setState(m.result.status);
           setMessage(
             m.result.status === "partial"
@@ -537,6 +546,7 @@ function App() {
     setLocationHint(hint ? hint + " " + note : note);
   }
   function locateCoverage(issue: CoverageIssue) {
+    rememberChange();
     setSelectedId('');
     setSelection([]);
     setNeutralSelection(false);
@@ -544,6 +554,38 @@ function App() {
     setCoverageFocus(issue);
     setLocationHint(`${issue.side === 'left' ? 'Baseline' : 'Revised'} PDF page ${issue.pageIndex + 1} · Review area. ${issue.message}`);
     showPage(issue.side === 'left' ? 0 : 1, issue.pageIndex, issue.region[1], 90, true);
+  }
+  function rememberChange() {
+    const anchor=reviewAnchor.current;
+    if(selectedId && anchor?.id===selectedId)setReviewReturn({anchor,scrollTop:cardsRef.current?.scrollTop ?? 0,filter});
+  }
+  function selectDifference(d: Difference, operations = d.textOps.filter(o=>o.kind!=='equal')) {
+    setSelectedId(d.id);
+    setReviewReturn(null);
+    const coarse = relatedWordDetail(d,result?.unresolved ?? []).length > 0;
+    const sources = operations.flatMap(o=>[...o.left,...o.right]);
+    const neutral=coarse || !d.hasTextChange || !sources.length;
+    const hint=coarse ? 'Word-level detail incomplete. This is the complete source range; highlighting is coarse.'
+      : !sources.length && d.hasTextChange ? 'Full source range. Exact edit positions are unavailable.' : '';
+    const targetSources=coarse || !sources.length ? [...d.left,...d.right] : sources;
+    reviewAnchor.current={id:d.id,sources:targetSources,references:[...d.left,...d.right],neutral,hint};
+    locate(targetSources,neutral,hint,[...d.left,...d.right]);
+  }
+  function returnToChange() {
+    if (!reviewReturn) return;
+    const saved = reviewReturn, d = reviewDifferences.find(d=>d.id===saved.anchor.id);
+    if (!d) return;
+    setFilter(saved.filter);
+    const anchor=saved.anchor,sources=anchor.sources;
+    setSelectedId(d.id);setReviewReturn(null);reviewAnchor.current=anchor;
+    locate(sources.length?sources:anchor.references,anchor.neutral,anchor.hint,anchor.references);
+    requestAnimationFrame(() => {
+      if (cardsRef.current) {
+        cardsRef.current.scrollTop = saved.scrollTop;
+        cardsRef.current.querySelector<HTMLElement>(`[data-change-id="${d.id}"]`)?.focus({preventScroll:true});
+      }
+      workspaceRef.current?.scrollIntoView({block:'start'});
+    });
   }
   function doSearch() {
     setHits([]);
@@ -712,6 +754,7 @@ function App() {
         <span>{message}</span>
         {state === 'failed' && <button onClick={()=>location.reload()}>Reload application (select files again)</button>}
         {result && <button onClick={exportJson}>Export JSON</button>}
+        {result && <button onClick={()=>workspaceRef.current?.scrollIntoView({block:'start'})}>Review changes</button>}
         <button
           onClick={() => {
             generation.current++;
@@ -734,8 +777,8 @@ function App() {
         </button>
       </section>
       {result && <ReviewNotices result={result} onCoverage={locateCoverage}
-        onLocate={sources => locate(sources, true, 'Unresolved correspondence source. This location is not a confirmed match.')} />}
-      <div className="workspace">
+        onLocate={(sources,hint) => {rememberChange();setSelectedId('');locate(sources,true,hint);}} />}
+      <div className="workspace" ref={workspaceRef}>
         <aside>
           <div className="list-head">
             <h2>
@@ -758,7 +801,9 @@ function App() {
             Text and position changes · Hidden by this filter:{" "}
             {reviewDifferences.length - visible.length} {reviewDifferences.length - visible.length === 1 ? "item" : "items"}
           </p>
+          <div className="review-tools" role="region" aria-label="Review tools">
           <RepeatCountSummary differences={repeatCounts} onLocate={locs => {
+            rememberChange();
             setSelectedId("");
             const source = locs[0];
             locate(locs, true, source
@@ -798,7 +843,8 @@ function App() {
               ))}
             </div>
           )}
-          <div className="cards">
+          </div>
+          <div className="cards" ref={cardsRef}>
             {!result && (
               <div className="empty">
                 Two PDFs. A list of changes you can verify.
@@ -819,14 +865,9 @@ function App() {
             {visible.map((d) => (
               <div role="button" tabIndex={0} onKeyDown={e=>{if(e.target===e.currentTarget&&['Enter',' '].includes(e.key)){e.preventDefault();e.currentTarget.click();}}}
                 className={"card " + (selectedId === d.id ? "selected" : "")}
+                data-change-id={d.id}
                 key={d.id}
-                onClick={() => {
-                  setSelectedId(d.id);
-                  const ops = d.textOps
-                    .filter((x) => x.kind !== "equal")
-                    .flatMap((x) => [...x.left, ...x.right]);
-                  locate(ops.length ? ops : [...d.left, ...d.right], !d.hasTextChange, "", [...d.left, ...d.right]);
-                }}
+                onClick={() => selectDifference(d)}
               >
                 <div>
                   <span className="badge">{change(d)}</span>
@@ -834,7 +875,7 @@ function App() {
                 </div>
                 {relatedUncertainty(d, result?.unresolved ?? []).map((u,i) => <button
                   key={i} className="match-notice" title={u.message}
-                  onClick={e => {e.stopPropagation();locate([...u.left,...u.right],true,u.message);}}
+                  onClick={e => {e.stopPropagation();rememberChange();setSelectedId('');locate([...u.left,...u.right],true,u.message);}}
                 >Correspondence to review</button>)}
                 {d.facts.length > 0 && (
                   <div className="facts">
@@ -855,20 +896,22 @@ function App() {
                     .filter(Boolean)
                     .join(" / ") || "Source text"}
                 </h3>
-                {!d.hasTextChange && d.oldText === d.newText ? <div className="same-text">{d.oldText}</div> : <>
-                  <div className="old">{d.oldText || "(none)"}</div>
-                  <div className="new">{d.newText || "(none)"}</div>
-                </>}
+                <DifferenceText difference={d} coarse={relatedWordDetail(d,result?.unresolved ?? []).length>0}
+                  onLocate={operations=>selectDifference(d,operations)} />
                 {countOnly(d) && <small>Occurrences: {d.repeat!.left} → {d.repeat!.right}; match unresolved. Please check attribution.</small>}
                 {d.reviewReasons.length > 0 && (
                   <small>{d.reviewReasons.join("; ")}</small>
                 )}
                 {d.occurrences.length > 0 && (
                   <Occurrences difference={d} onLocate={locs=>{
+                    setReviewReturn(null);
                     setSelectedId(d.id);
                     const original=result?.differences.find(record=>[...record.left,...record.right].some(source=>locs.some(loc=>loc.side===source.side&&loc.pageIndex===source.pageIndex&&loc.charIds[0]===source.charIds[0])));
                     const edits=original?.textOps.filter(o=>o.kind!=='equal').flatMap(o=>[...o.left,...o.right])??[];
-                    locate(edits.length?edits:locs, !d.hasTextChange, "", original?[...original.left,...original.right]:locs);
+                    const coarse=!!original && relatedWordDetail(original,result?.unresolved??[]).length>0;
+                    const hint=coarse ? 'Word-level detail incomplete. This is the complete source range; highlighting is coarse.' : '';
+                    reviewAnchor.current={id:d.id,sources:coarse?locs:edits.length?edits:locs,references:original?[...original.left,...original.right]:locs,neutral:coarse || !d.hasTextChange,hint};
+                    locate(coarse?locs:edits.length?edits:locs, coarse || !d.hasTextChange, hint, original?[...original.left,...original.right]:locs);
                   }} />
                 )}
               </div>
@@ -889,7 +932,10 @@ function App() {
               Synchronized scrolling
             </label>
           </div>
-          {locationHint && <div className="location-hint" aria-live="polite">{locationHint}</div>}
+          {(locationHint || reviewReturn) && <div className="location-hint" aria-live="polite">
+            {locationHint}
+            {reviewReturn && <button className="return-change" onClick={returnToChange}>Return to selected change</button>}
+          </div>}
           <div className="dual">
             {[0, 1].map((side) => (
               <div className="document" key={side}>

@@ -21,7 +21,8 @@ export function reviewNotices(result: Pick<CompareResultV2, 'coverage' | 'unreso
   return {
     layout: entries.filter(e => isLayoutObservation(e.issue)),
     coverage: entries.filter(e => !isLayoutObservation(e.issue)),
-    incomplete: result.unresolved.filter(u => u.reason === 'budget' || u.reason === 'word_diff_budget'),
+    incomplete: result.unresolved.filter(u => u.reason === 'budget'),
+    wordDetail: result.unresolved.filter(u => u.reason === 'word_diff_budget'),
     uncertain: result.unresolved.filter(u => u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity'),
   };
 }
@@ -31,6 +32,7 @@ export function noticeStatus(result: CompareResultV2) {
   return [
     n.coverage.length ? `${n.coverage.length} coverage ${n.coverage.length === 1 ? 'notice' : 'notices'}` : '',
     n.incomplete.length ? `${n.incomplete.length} unfinished ${n.incomplete.length === 1 ? 'comparison' : 'comparisons'}` : '',
+    n.wordDetail.length ? `${n.wordDetail.length} ${n.wordDetail.length === 1 ? 'range has' : 'ranges have'} coarse highlighting; both full texts are retained` : '',
     n.uncertain.length ? `${n.uncertain.length} unresolved ${n.uncertain.length === 1 ? 'correspondence' : 'correspondences'}` : '',
     n.layout.length ? `${n.layout.length} table-layout ${n.layout.length === 1 ? 'notice' : 'notices'} (local text comparison continued)` : '',
   ].filter(Boolean).join('; ') + '. Open review details for sources. Text and position changes remain in the changes list.';
@@ -38,9 +40,13 @@ export function noticeStatus(result: CompareResultV2) {
 
 // Link a correspondence notice only where its own source characters overlap.
 // Being on the same page is not enough to attach it to an unrelated change.
-export function relatedUncertainty(difference: DifferenceV2, unresolved: CompareResultV2['unresolved']) {
+function relatedSources(difference: DifferenceV2, unresolved: CompareResultV2['unresolved']) {
+  if(!unresolved.length)return [];
   const ids = new Set([...difference.left, ...difference.right].flatMap(l =>
     l.charIds.map(id => `${l.side}:${l.pageIndex}:${id}`)));
-  return unresolved.filter(u => (u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity') &&
-    [...u.left, ...u.right].some(l => l.charIds.some(id => ids.has(`${l.side}:${l.pageIndex}:${id}`))));
+  return unresolved.filter(u => [...u.left, ...u.right].some(l => l.charIds.some(id => ids.has(`${l.side}:${l.pageIndex}:${id}`))));
 }
+export const relatedUncertainty = (d: DifferenceV2, unresolved: CompareResultV2['unresolved']) =>
+  relatedSources(d, unresolved.filter(u => u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity'));
+export const relatedWordDetail = (d: DifferenceV2, unresolved: CompareResultV2['unresolved']) =>
+  relatedSources(d, unresolved.filter(u => u.reason === 'word_diff_budget'));

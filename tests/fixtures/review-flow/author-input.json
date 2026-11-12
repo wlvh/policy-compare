@@ -1,0 +1,79 @@
+{
+  "purpose": "Synthetic long-clause and review-navigation regression, not business acceptance",
+  "expectedEdits": [
+    {
+      "old": "USD 1,000,000",
+      "new": "USD 1,500,000"
+    },
+    {
+      "old": "30 days",
+      "new": "45 days"
+    },
+    {
+      "old": "USD 100",
+      "new": "USD 150"
+    }
+  ],
+  "repeatedNoticeCounts": {
+    "before": 2,
+    "after": 3
+  },
+  "files": {
+    "before": {
+      "sha256": "38766acbb83467a3e73bd885ce31cd0fc543a20a6e4a07196b252ad99a0dffc7",
+      "pages": 2,
+      "paragraph": "The general condition 1 remains in force during the policy period for approved operations. The general condition 2 remains in force during the policy period for approved operations. The general condition 3 remains in force during the policy period for approved operations. The general condition 4 remains in force during the policy period for approved operations. The general condition 5 remains in force during the policy period for approved operations. The general condition 6 remains in force during the policy period for approved operations. The general condition 7 remains in force during the policy period for approved operations. The general condition 8 remains in force during the policy period for approved operations. The general condition 9 remains in force during the policy period for approved operations. The limit shall not exceed USD 1,000,000 for any claim, provided the written notice has been received. The written condition 1 remains in force during the policy period for approved operations. The written condition 2 remains in force during the policy period for approved operations. The written condition 3 remains in force during the policy period for approved operations. The written condition 4 remains in force during the policy period for approved operations. The written condition 5 remains in force during the policy period for approved operations. The written condition 6 remains in force during the policy period for approved operations. The written condition 7 remains in force during the policy period for approved operations. The written condition 8 remains in force during the policy period for approved operations. The office must receive the report within 30 days after the event. The final condition 1 remains in force during the policy period for approved operations. The final condition 2 remains in force during the policy period for approved operations. The final condition 3 remains in force during the policy period for approved operations. The final condition 4 remains in force during the policy period for approved operations. The final condition 5 remains in force during the policy period for approved operations. The final condition 6 remains in force during the policy period for approved operations. ",
+      "charge": "100",
+      "fragments": {
+        "amount": {
+          "pageIndex": 0,
+          "text": "USD 1,000,000",
+          "region": [
+            299.34000000000003,
+            160,
+            367.71000000000004,
+            176
+          ]
+        },
+        "days": {
+          "pageIndex": 0,
+          "text": "30 days",
+          "region": [
+            513.31,
+            258,
+            548.3299999999999,
+            274
+          ]
+        }
+      }
+    },
+    "after": {
+      "sha256": "f3bbff055fd01a863f5f81322da0847f0c1a1374867efcc4f28f91024e15998d",
+      "pages": 3,
+      "paragraph": "The general condition 1 remains in force during the policy period for approved operations. The general condition 2 remains in force during the policy period for approved operations. The general condition 3 remains in force during the policy period for approved operations. The general condition 4 remains in force during the policy period for approved operations. The general condition 5 remains in force during the policy period for approved operations. The general condition 6 remains in force during the policy period for approved operations. The general condition 7 remains in force during the policy period for approved operations. The general condition 8 remains in force during the policy period for approved operations. The general condition 9 remains in force during the policy period for approved operations. The limit shall not exceed USD 1,500,000 for any claim, provided the written notice has been received. The written condition 1 remains in force during the policy period for approved operations. The written condition 2 remains in force during the policy period for approved operations. The written condition 3 remains in force during the policy period for approved operations. The written condition 4 remains in force during the policy period for approved operations. The written condition 5 remains in force during the policy period for approved operations. The written condition 6 remains in force during the policy period for approved operations. The written condition 7 remains in force during the policy period for approved operations. The written condition 8 remains in force during the policy period for approved operations. The office must receive the report within 45 days after the event. The final condition 1 remains in force during the policy period for approved operations. The final condition 2 remains in force during the policy period for approved operations. The final condition 3 remains in force during the policy period for approved operations. The final condition 4 remains in force during the policy period for approved operations. The final condition 5 remains in force during the policy period for approved operations. The final condition 6 remains in force during the policy period for approved operations. ",
+      "charge": "150",
+      "fragments": {
+        "amount": {
+          "pageIndex": 0,
+          "text": "USD 1,500,000",
+          "region": [
+            299.34000000000003,
+            160,
+            367.71000000000004,
+            176
+          ]
+        },
+        "days": {
+          "pageIndex": 0,
+          "text": "45 days",
+          "region": [
+            513.31,
+            258,
+            548.3299999999999,
+            274
+          ]
+        }
+      }
+    }
+  }
+}
