@@ -179,8 +179,8 @@ header p {
   color: #926500;
 }
 .gaps {
-  padding: 8px 14px 14px;
-  background: #fff9e9;
+  padding: 10px 14px;
+  background: #fafbfc;
   margin-bottom: 12px;
   border: 1px solid #e7d9b4;
   border-radius: 9px;
@@ -194,6 +194,30 @@ header p {
   font-size: 11px;
   background: #fffaf0;
 }
+.gaps summary { cursor: pointer; font-size: 12px; font-weight: 600; line-height: 1.7; }
+.gaps details + details { margin-top: 8px; }
+.notice-summary-note { display: block; color: #61717a; font-size: 11px; font-weight: 400; }
+.notice-body { max-height: 320px; overflow: auto; overscroll-behavior: contain; padding: 8px 4px 2px; }
+.notice-group + .notice-group { border-top: 1px solid #dce2e6; padding-top: 10px; margin-top: 10px; }
+.notice-group h3, .notice-side h4 { font-size: 12px; margin: 5px 0; }
+.notice-body p { font-size: 11px; line-height: 1.6; margin: 5px 0 8px; }
+.notice-sources { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.notice-page { margin: 8px 0; font-size: 11px; }
+.notice-page > div { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.gaps .notice-location { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px; max-width: 100%; margin: 0; text-align: left; }
+.notice-source-message { flex-basis: 100%; font-size: 10px; line-height: 1.5; color: #715d33; }
+.notice-location span { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.notice-location strong { white-space: nowrap; }
+.coverage-alerts { background: #fff5df; border-left: 3px solid #b57a09; padding: 8px 10px; margin-bottom: 8px; }
+.coverage-alerts h2 { margin: 0 0 6px; }
+.coverage-group + .coverage-group { margin-top: 7px; border-top: 1px solid #e7d9b4; padding-top: 7px; }
+.coverage-overview { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; font-size: 12px; }
+.coverage-overview span { color: #715d33; font-size: 11px; }
+.coverage-overview button { margin: 0; padding: 3px 8px; }
+.coverage-group > details > summary { font-size: 11px; font-weight: 400; }
+.card .match-notice { background: #fff5df; color: #715116; font-size: 11px; margin-top: 6px; padding: 4px 7px; }
+.review-marker { border-color: #926500; }
+.review-marker .location-marker-label { background: #926500; }
 .workspace {
   display: grid;
   grid-template-columns: 330px minmax(0, 1fr);
@@ -637,6 +661,8 @@ footer {
   }
 }
 @media (max-width: 740px) {
+  .notice-sources { grid-template-columns: 1fr; }
+  .notice-body { max-height: 260px; }
   h1 {
     font-size: 22px;
   }

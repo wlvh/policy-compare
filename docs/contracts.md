@@ -14,6 +14,8 @@ CompareResult 区分 `coreVersion`、`extractors[2]`、profile、tokenizer、sch
 
 任务结果 complete_for_scope / partial / failed / cancelled 与测试 PASS / FAIL / BLOCKED / NOT_RUN 不混用。图片、未知编码、页面失败和不支持对象列具体覆盖问题；预算耗尽列 unresolved。完成仅表示已声明的可提取文本范围。
 
+`unsupported_structure` 可以带可选的 `layoutHint`：`repeated_tabular_text` 只说明多列文字在另一页重复，`varying_cell_boundaries` 只说明邻近行的单元格数量不同；两者不证明续表或合并格存在，也不证明文字漏比。界面将这两类已标明的观察按原因、文档侧、页和区域汇总，默认收起；选择来源后按原始区域定位。其他覆盖问题及预算中止仍有醒目摘要，来源细节和原始导出完整保留。展示分组不改变 `partial` 或原文比较结果。
+
 取消：外层通过共享取消标记通知核心，在页级快照、结构单元及 LCS 行等边界检查并抛出取消，主线程同时终止 Worker。完整结果的算法和确定性不依赖该标记；取消不返回假完整结果。正式运行须使用附带服务器的 COOP/COEP 头以及 localhost/HTTPS；自建静态主机缺这些条件时仍有硬终止，但不承诺已验证的取消时限。
 
 审核修复：显式章节先于页眉位置启发式处理；重复字段键本身不再代表唯一身份。唯一且稳定的标题上下文先绑定，其他冲突字段仅在本组内展示原文变化并标为待复核。正文重复造成的歧义也只限制该组，不压制独立增删。年度顺延仅适用于非日期原文完全不变的情况。

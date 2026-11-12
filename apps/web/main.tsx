@@ -1,4 +1,6 @@
 import {foldOccurrences} from './fold-occurrences';
+import {ReviewNotices} from './ReviewNotices';
+import {noticeStatus, relatedUncertainty} from './review-notices';
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type {
@@ -6,6 +8,7 @@ import type {
   DifferenceV2 as Difference,
   Fact,
   SourceLocation,
+  CoverageIssue,
 } from "../../packages/contracts/index";
 import "./style.css";
 import { createPdfClient, ENGINE_NAME } from "@policy/pdf-client";
@@ -153,6 +156,8 @@ function App() {
     [query, setQuery] = useState(""),
     [searchSide, setSearchSide] = useState("both"),
     [hits, setHits] = useState<SourceLocation[][]>([]);
+  const [coverageFocus, setCoverageFocus] = useState<CoverageIssue | null>(null);
+  useEffect(() => setCoverageFocus(null), [result]);
   const [pages, setPages] = useState([0, 0]),
     [pageInfos, setPageInfos] = useState<PageInfo[][]>([[], []]);
   const [selection, setSelection] = useState<SourceLocation[]>([]),
@@ -389,7 +394,7 @@ function App() {
           setState(m.result.status);
           setMessage(
             m.result.status === "partial"
-              ? `Recorded ${m.result.coverage.length} coverage gaps and ${m.result.unresolved.length} unresolved matches; see the list below. Text and position changes are shown by default. Repeated text count changes are summarized separately.`
+              ? noticeStatus(m.result)
               : m.result.differences.length
                 ? "No coverage gaps or unresolved matches were recorded. Text and position changes are shown by default; repeated text count changes are summarized separately. Unknown omissions may still exist."
                 : "No differences found in extractable text. No coverage gaps or unresolved matches were recorded.",
@@ -490,6 +495,7 @@ function App() {
     return requestId;
   }
   function locate(locs: SourceLocation[], neutral = false, hint = "", references?: SourceLocation[]) {
+    setCoverageFocus(null);
     setSelection(locs);
     setNeutralSelection(neutral);
     setLocationHint(hint);
@@ -529,6 +535,15 @@ function App() {
       }
     }
     setLocationHint(hint ? hint + " " + note : note);
+  }
+  function locateCoverage(issue: CoverageIssue) {
+    setSelectedId('');
+    setSelection([]);
+    setNeutralSelection(false);
+    setReferenceSide(null);
+    setCoverageFocus(issue);
+    setLocationHint(`${issue.side === 'left' ? 'Baseline' : 'Revised'} PDF page ${issue.pageIndex + 1} · Review area. ${issue.message}`);
+    showPage(issue.side === 'left' ? 0 : 1, issue.pageIndex, issue.region[1], 90, true);
   }
   function doSearch() {
     setHits([]);
@@ -603,7 +618,7 @@ function App() {
       </header>
       <section className="welcome" aria-label="Getting started">
         <details><summary>Instructions and version information</summary>
-          <p>Choose the baseline and revised PDFs (up to 100 pages and 30 MiB each), enter passwords if needed, and start the comparison. Select a change to view its source in both documents. Yellow notices flag content that was not compared or matches that remain unresolved. Filters hide some changes; return to All changes before finishing your review. JSON exports contain source text, so check that you have permission before sharing them. Closing the task releases the current document resources.</p>
+          <p>Choose the baseline and revised PDFs (up to 100 pages and 30 MiB each), enter passwords if needed, and start the comparison. Select a change to view its source in both documents. Review notices distinguish coverage limitations, unresolved correspondences and unverified table relationships. Open their details to locate each source area. Filters hide some changes; return to All changes before finishing your review. JSON exports contain source text, so check that you have permission before sharing them. Closing the task releases the current document resources.</p>
           <p>Only extractable text is compared. Text in scanned images is not recognized, and business risk is not assessed. Known limitations remain in complex table attribution and some highlights. This development version is for controlled trials and does not provide a complete policy review conclusion.</p>
           <p>Release: {buildInfo.releaseId} · Engine: {buildInfo.engine} {buildInfo.engineVersion} · Source: {buildInfo.revision.slice(0,12)}</p>
           <p>Comparison core: {buildInfo.coreArtifact.coreVersion} · Artifact SHA-256: <code>{buildInfo.coreArtifact.sha256}</code></p>
@@ -685,7 +700,7 @@ function App() {
           {state === "running"
             ? "Processing"
             : state === "partial"
-              ? "Processing complete · Gaps or unresolved matches recorded"
+              ? "Processing complete · Review notices recorded"
               : state === "complete_for_scope"
                 ? "Processing complete"
                 : state === "cancelled"
@@ -718,28 +733,8 @@ function App() {
           Close task
         </button>
       </section>
-      {result &&
-        (result.coverage.length > 0 || result.unresolved.length > 0) && (
-          <section className="gaps">
-            <h2>Areas to review</h2>
-            {result.coverage.map((c, i) => (
-              <button
-                key={"c" + i}
-                onClick={() => showPage(c.side === "left" ? 0 : 1, c.pageIndex)}
-              >
-                {c.side === "left" ? "Baseline" : "Revised"} · Page {c.pageIndex + 1}: {c.message}
-              </button>
-            ))}
-            {result.unresolved.map((u, i) => (
-              <button
-                key={"u" + i}
-                onClick={() => locate([...u.left, ...u.right])}
-              >
-                {u.message}
-              </button>
-            ))}
-          </section>
-        )}
+      {result && <ReviewNotices result={result} onCoverage={locateCoverage}
+        onLocate={sources => locate(sources, true, 'Unresolved correspondence source. This location is not a confirmed match.')} />}
       <div className="workspace">
         <aside>
           <div className="list-head">
@@ -816,7 +811,7 @@ function App() {
               {reviewDifferences.length
                 ? "No changes match the current filter."
                 : result.coverage.length || result.unresolved.length
-                  ? "No change cards to display. Review the coverage gaps or unresolved matches above."
+                  ? "No change cards to display. Open the review notices above for source details."
                   : repeatCounts.length
                     ? "No text or position changes found. Repeated text count changes are listed in the count summary."
                     : "No differences found in extractable text."}
@@ -837,6 +832,10 @@ function App() {
                   <span className="badge">{change(d)}</span>
                   <b>{basis(d)}</b>
                 </div>
+                {relatedUncertainty(d, result?.unresolved ?? []).map((u,i) => <button
+                  key={i} className="match-notice" title={u.message}
+                  onClick={e => {e.stopPropagation();locate([...u.left,...u.right],true,u.message);}}
+                >Correspondence to review</button>)}
                 {d.facts.length > 0 && (
                   <div className="facts">
                     {d.facts.map((f) => (
@@ -932,6 +931,7 @@ function App() {
                       onPageChange={pageIndex => setPages(old => old.map((p, i) => i === side ? pageIndex : p))}
                       onScroll={(pageIndex, y) => onScroll(side, pageIndex, y)}
                       coverage={result.coverage.filter(c=>c.side===(side?'right':'left'))}
+                      coverageFocus={coverageFocus?.side === (side ? 'right' : 'left') ? coverageFocus : null}
                       selection={selection.filter(
                         l => l.side === (side ? "right" : "left"),
                       )}
