@@ -42,5 +42,11 @@
   "PR26Changed": false,
   "allSmallScreenLayouts": "NOT_EVALUATED",
   "realBusinessDocumentAcceptance": "NOT_EVALUATED",
-  "ci": "See PR Checks; local evidence only"
+  "ci": "See PR Checks; local evidence only",
+  "lifecycleCleanup": {
+    "afterEvidenceCommit": "273d439",
+    "change": "Clear saved source anchor on task release",
+    "browserPassed": 10,
+    "browserFailed": 0
+  }
 }

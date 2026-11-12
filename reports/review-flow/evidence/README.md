@@ -26,3 +26,5 @@
 [局部编辑](compact.png) · [完整文字与来源](complete.png) · [较矮窗口组合流程](short-review.png) · [检查清单](acceptance.json)
 
 PR #26 仍是独立前置改动。后续 PR 合入前应先完成 #26，再将后续 PR 基线转到 main，不能将后续功能合回 #26 分支而扩大它的范围。当前未合并或上线。远程结果见后续 PR Checks。
+
+收尾补修：任务关闭或替换时清除新增的返回来源引用，避免保留上一次任务的来源。该清理后另跑 10/10 界面与生命周期检查通过，见 lifecycle-browser.json、lifecycle.log；最终提交仍由 PR Checks 独立验证。

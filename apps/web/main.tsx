@@ -182,6 +182,7 @@ function App() {
   const cancellation=useRef<Int32Array|null>(null);
   const taskTimers=useRef<Set<number>>(new Set());
   function release() {
+    reviewAnchor.current = null;
     setPreparingPdf(false);
     for(const timer of taskTimers.current)clearTimeout(timer);taskTimers.current.clear();
     sampleRequest.current?.abort();
