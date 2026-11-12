@@ -24,6 +24,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
   neutralSelection: boolean;
   evidence: SourceLocation[];
   coverage: CoverageIssue[];
+  coverageFocus?: CoverageIssue | null;
   request: (pageIndex: number) => number;
   onPageChange: (pageIndex: number) => void;
   onScroll: (pageIndex: number, y: number) => void;
@@ -198,6 +199,7 @@ export const PdfViewport = forwardRef<PdfViewportHandle, {
           selection={props.selection.filter(l => l.pageIndex === p)}
           evidence={props.evidence.filter(l => l.pageIndex === p)}
           coverage={props.coverage.filter(c => c.pageIndex === p)}
+          coverageFocus={props.coverageFocus?.pageIndex === p ? props.coverageFocus : null}
           onReady={ms => { if (p === active.current) callbacks.current.onReady(ms); }}
           onError={message => callbacks.current.onError(message)}
         /> : <div className="page-placeholder" data-page-error={pageErrors.has(p) ? p : undefined}>

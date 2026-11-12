@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createTextLayer } from "@policy/pdf-view";
 import type { TextLayerView } from "../../packages/pdf-adapter/api";
 import type { SourceLocation, Quad,CoverageIssue } from "../../packages/contracts/index";
+import {isLayoutObservation} from './review-notices';
 export function PageCanvas({
   url,
   pageIndex,
@@ -10,6 +11,7 @@ export function PageCanvas({
   info,
   textLayer,
   coverage=[],
+  coverageFocus,
   selection,
   neutralSelection = false,
   evidence,
@@ -23,6 +25,7 @@ export function PageCanvas({
   info: { width: number; height: number };
   textLayer?: unknown;
   coverage?:CoverageIssue[];
+  coverageFocus?:CoverageIssue | null;
   selection: SourceLocation[];
   neutralSelection?: boolean;
   evidence: SourceLocation[];
@@ -102,7 +105,10 @@ export function PageCanvas({
         viewBox={`0 0 ${info.width} ${info.height}`}
         aria-label={(side ? "Revised" : "Baseline") + " character highlights"}
       >
-        {coverage.map((c,i)=><rect key={'coverage'+i} data-coverage="true" x={c.region[0]} y={c.region[1]} width={c.region[2]-c.region[0]} height={c.region[3]-c.region[1]} fill="#d99a1720" stroke="#b57a09" strokeWidth="1.2" strokeDasharray="5 3"><title>{c.message}</title></rect>)}
+        {coverage.filter(c => !isLayoutObservation(c)).map((c,i)=><rect key={'coverage'+i} data-coverage="true" x={c.region[0]} y={c.region[1]} width={c.region[2]-c.region[0]} height={c.region[3]-c.region[1]} fill="#d99a1720" stroke="#b57a09" strokeWidth="1.2" strokeDasharray="5 3"><title>{c.message}</title></rect>)}
+        {coverageFocus && <rect data-review-focus="true" x={coverageFocus.region[0]} y={coverageFocus.region[1]}
+          width={coverageFocus.region[2]-coverageFocus.region[0]} height={coverageFocus.region[3]-coverageFocus.region[1]}
+          fill="#d99a1720" stroke="#926500" strokeWidth="2.5" vectorEffect="non-scaling-stroke" />}
         {quads.map((q, i) => (
           <polygon
             key={i}
@@ -111,6 +117,12 @@ export function PageCanvas({
           />
         ))}
       </svg>
+      {coverageFocus && <div className="location-marker review-marker" aria-hidden="true"
+        style={{left:`${coverageFocus.region[0]/info.width*100}%`,top:`${coverageFocus.region[1]/info.height*100}%`,
+          width:`${(coverageFocus.region[2]-coverageFocus.region[0])/info.width*100}%`,
+          height:`${(coverageFocus.region[3]-coverageFocus.region[1])/info.height*100}%`}}>
+        <span data-review-focus-label="true" className={'location-marker-label' + (coverageFocus.region[1]*width/info.width < 28 ? ' below' : '')}>Review area</span>
+      </div>}
       {focus && <div className="location-marker" data-location-focus="true" aria-hidden="true"
         style={{left: `${focus.x0 / info.width * 100}%`, top: `${focus.y0 / info.height * 100}%`,
           width: `${(focus.x1 - focus.x0) / info.width * 100}%`, height: `${(focus.y1 - focus.y0) / info.height * 100}%`}}>

@@ -250,8 +250,8 @@ pub fn language_gaps(d: &Doc, side: &str) -> Vec<V> {
     out
 }
 
-// These hints describe a concrete layout outside single-page single-line cells.
-// They do not suppress text comparison or waive event/source checks.
+// These are observations, not proof of a continued table or merged cells.
+// Keep the range and partial status; local text comparison still runs.
 pub fn structure_gaps(us: &[Unit], d: &Doc, side: &str) -> Vec<V> {
     let mut gaps = vec![];
     for (i, u) in us.iter().enumerate() {
@@ -269,7 +269,7 @@ pub fn structure_gaps(us: &[Unit], d: &Doc, side: &str) -> Vec<V> {
         });
         if cross || wrap {
             let rs: Vec<_> = u.m.refs.iter().flatten().copied().collect();
-            gaps.push(json!({"side":side,"pageIndex":u.page(),"region":bounds(&rs,d),"reason":"unsupported_structure","evidence":u.m.raw,"message":if cross{"Tabular text repeats on another page. Cross-page row continuity is not established; original text is still compared locally."}else{"Adjacent tabular lines have different cell boundaries. Wrapped or merged-cell structure is not recovered; original text is still compared locally."},"defaultVisible":true}));
+            gaps.push(json!({"side":side,"pageIndex":u.page(),"region":bounds(&rs,d),"reason":"unsupported_structure","layoutHint":if cross{"repeated_tabular_text"}else{"varying_cell_boundaries"},"evidence":u.m.raw,"message":if cross{"Tabular text also occurs on another page. This alone does not establish a continued table; cross-page relationships are unverified. Original text is still compared locally."}else{"Nearby lines have different cell counts. This alone does not establish wrapped or merged cells; cell structure is unverified. Original text is still compared locally."},"defaultVisible":true}));
         }
     }
     gaps

@@ -65,6 +65,8 @@ export const CoverageSchema = z.object({
   ]),
   evidence: z.string().min(1),
   message: z.string().min(1),
+  // A known layout observation, not proof of missing text or a merged cell.
+  layoutHint: z.enum(['repeated_tabular_text', 'varying_cell_boundaries']).optional(),
   defaultVisible: z.literal(true),
 });
 export const PageSchema = z.object({
