@@ -53,6 +53,19 @@ pnpm test:browser:mupdf
 pnpm test:browser:pdfjs
 ```
 
+### 外部审阅测试纳入长期回归
+
+用户转交的 GPT 或其他审阅者测试文件，在核对输入、预期和项目支持范围后，应纳入版本控制中的测试目录，接入默认测试命令及 CI；不能只留在附件、下载目录、临时脚本或报告中，修复完成后继续保留执行。必要的路径或 API 适配应说明原因，保留原始反例及预期依据，不通过删除断言、跳过测试或改写预期迎合当前输出。测试依赖的输入也须在仓库中有固定来源，不能依赖开发者本机的下载目录。
+
+当前已纳入的 PR #25 外部测试：
+
+| 文件 | 检查内容 |
+| --- | --- |
+| [pr25-review-regressions.test.ts](../tests/pr25-review-regressions.test.ts) | 同表头小表的局部关系、文字及数字表头整列换序、评分器拒绝虚假移动，共 4 项 |
+| [pr25-headerless-regressions.test.ts](../tests/pr25-headerless-regressions.test.ts) | 无表头首行变化不误报后续行、普通局部数值修改、数字文字表头整列换序，共 3 项 |
+
+`pnpm verify:core` 先重建实际 Rust/WASM，再由 Vitest 自动发现 `tests/**/*.test.ts`；上述两份文件不需要另行指定。`pnpm verify`、`pnpm verify:mupdf`、`pnpm verify:pdfjs` 及 GitHub Actions 的双引擎功能任务均调用这一入口。后续同类 Vitest 文件放入该目录并使用 `.test.ts` 后缀，即随默认回归执行；涉及 PDF 提取、定位或网页行为的反例还应接入相应现有检查，不能用核心单测代替该层验证。
+
 Issue #19 的冻结提取输入保留在 `validation/migration/issue-19/*.json.gz`，来源清单在 `reports/issue-19/frozen-baseline.json`。Issue #24 用固定提交 `30c8931` 的实际 WASM 重放旧算法，按未修改的原文事件、来源位置和反错配要求评价旧新结果，不要求新版复现航空类别、行键或 JSON。历史 `issue19-parity.ts` 的全字段相等要求仅用于追溯旧迁移，不能作为当前通用算法的正式验收。
 
 `rust-core.spec.ts` 在真实网页包中启动发布 Worker，将同一冻结输入送给 Worker 和正式 `compare:doc` 命令，比较完整核心结果；另外验证初始化取消、失败、超时后重试、网络请求路径和查询参数中没有本地文件名、密码和搜索词。原有浏览器回归继续验证提取、高亮、搜索、导出、连续任务和关闭清理。
