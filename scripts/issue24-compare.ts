@@ -1,0 +1,16 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {gunzipSync,gzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+import {compare,coreArtifact} from '../packages/compare-core/index';
+import {gradeGeneric} from '../tests/evaluation/generic';
+import {aviationProfile} from '../profiles/aviation';
+const sourceRoot='reports/issue-24';const root=process.env.POLICY_ISSUE24_REPORT_DIR??sourceRoot;mkdirSync(root,{recursive:true});
+const oldBytes=readFileSync('validation/issue-24/baseline.wasm');
+const oldInfo=JSON.parse(readFileSync(`${sourceRoot}/baseline-core.json`,'utf8'));
+if(createHash('sha256').update(oldBytes).digest('hex')!==oldInfo.sha256)throw Error('Baseline WASM bytes changed');
+const oldModule=await WebAssembly.compile(oldBytes);
+// Frozen ABI replay, independent of production CoreSession/version checks.
+function oldCompare(docs:any[]){const ex=new WebAssembly.Instance(oldModule,{host:{phase:()=>{},check:()=>{}}}).exports as any;function call(op:string,args:any={}){const bytes=new TextEncoder().encode(JSON.stringify({op,...args}));const ptr=ex.input_ptr(bytes.length);new Uint8Array(ex.memory.buffer,ptr,bytes.length).set(bytes);ex.call();const out=JSON.parse(new TextDecoder().decode(new Uint8Array(ex.memory.buffer,ex.output_ptr(),ex.output_len())));ex.clear_output();if(out.error)throw Error(out.error);return out.ok;}call('reset',{profile:aviationProfile,budget:aviationProfile.budget});docs.forEach(({pages,...meta},side)=>{call('meta',{side,meta});pages.forEach((page:any)=>call('page',{side,page}));call('done',{side});});return call('compare');}
+const baseline=JSON.parse(readFileSync('reports/issue-19/frozen-baseline.json','utf8'));const records=[];
+for(const meta of baseline.records){const raw=gunzipSync(readFileSync(meta.file));if(createHash('sha256').update(raw).digest('hex')!==meta.inputAndLegacyResultSha256)throw Error('frozen archive hash mismatch');const {docs}=JSON.parse(raw.toString());const dir=`validation/dataset/cases/${meta.case}`;const expected=JSON.parse(readFileSync(dir+'/expected.json','utf8'));const layout=JSON.parse(readFileSync(dir+'/layout.json','utf8'));const old=oldCompare(docs);const current=compare(docs[0],docs[1]);const oldGrade=gradeGeneric(old,expected,layout,docs);const nextGrade=gradeGeneric(current,expected,layout,docs);const category=nextGrade.status==='PASS'?(oldGrade.status==='PASS'?'display_difference':'new_fix'):(oldGrade.status==='PASS'?'real_regression':'not_decidable');const record={engine:meta.engine,case:meta.case,category,oldGrade,nextGrade,oldStatus:old.status,newStatus:current.status,oldCount:old.differences.length,newCount:current.differences.length};records.push(record);writeFileSync(`${root}/${meta.engine}-${meta.case}.json.gz`,gzipSync(JSON.stringify({record,old,current})));console.log(meta.engine,meta.case,category,nextGrade.faults.join('; '));}
+writeFileSync(`${root}/controlled.json`,JSON.stringify({classificationScope:'Source events, attribution, repeats and the explicit source/movement controls listed in each grade; remaining historical invariants are NOT_EVALUATED, not counted as passes',coreArtifact,baseline:JSON.parse(readFileSync(`${sourceRoot}/baseline-core.json`,'utf8')),records},null,2)+'\n');process.exitCode=records.some(r=>r.nextGrade.status!=='PASS')?1:0;

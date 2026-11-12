@@ -1,0 +1,546 @@
+{
+  "engine": "pdfjs",
+  "subject": "all_rules_with_real_browser_geometry",
+  "status": "PASS",
+  "total": 32,
+  "passed": 32,
+  "failed": [],
+  "notEvaluated": [],
+  "eventRegression": {
+    "status": "PASS",
+    "total": 32,
+    "passed": 32
+  },
+  "records": [
+    {
+      "caseId": "R01_identical",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R02_amount",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R02_amount:E1",
+          "pass": true,
+          "cards": [
+            "d-d3a0d3d8694db203f021"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R03_currency",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R03_currency:E1",
+          "pass": true,
+          "cards": [
+            "d-99bfeb3e5e9d8b11c25f"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R04_decimal",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R04_decimal:E1",
+          "pass": true,
+          "cards": [
+            "d-bf3f42a236772f80c66b"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R05_negation",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R05_negation:E1",
+          "pass": true,
+          "cards": [
+            "d-cc2cda479c117070ae82"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R06_and_or",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R06_and_or:E1",
+          "pass": true,
+          "cards": [
+            "d-febcf53d12e8e43c757f"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R07_shorter_term",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R07_shorter_term:E1",
+          "pass": true,
+          "cards": [
+            "d-fa439357de55b8938cee"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R08_normal_renewal",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R08_normal_renewal:E1",
+          "pass": true,
+          "cards": [
+            "d-5d92e42937956783193b"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R09_header_limit",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R09_header_limit:E1",
+          "pass": true,
+          "cards": [
+            "d-ecb864a9091a481ce98d",
+            "d-d306b008dba257cd5939"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R10_address_swap",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R10_address_swap:E1",
+          "pass": true,
+          "cards": [
+            "d-51a27b823e853014daa5"
+          ]
+        },
+        {
+          "id": "R10_address_swap:E2",
+          "pass": true,
+          "cards": [
+            "d-935e1f37541b5419085b"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R11_label_alias",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R11_label_alias:E1",
+          "pass": true,
+          "cards": [
+            "d-69ac0e121e12435e7ff4"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R12_exact_move",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R12_exact_move:E1",
+          "pass": true,
+          "cards": [
+            "d-9075ad7f757b29bcbab0"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R13_move_and_replacement",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R13_move_and_replacement:E1",
+          "pass": true,
+          "cards": [
+            "d-954e7883e78329c96b73"
+          ]
+        },
+        {
+          "id": "R13_move_and_replacement:E2",
+          "pass": true,
+          "cards": [
+            "d-052dba5f01ac385dd3d5"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R14_short_paragraph",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R14_short_paragraph:E1",
+          "pass": true,
+          "cards": [
+            "d-ef22aa8cf8f918719375"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R15_paragraph_split",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R16_repagination",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R16_repagination:E1",
+          "pass": true,
+          "cards": [
+            "d-e8682fc1c2b420515cbb"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R17_font_change",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R18_ligature",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R18_ligature:E1",
+          "pass": true,
+          "cards": [
+            "d-b24aadf9c5b68e217cac"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R19_rotated_status",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R19_rotated_status:E1",
+          "pass": true,
+          "cards": [
+            "d-15e088f0725289fb2e20"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R20_plus_minus",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R20_plus_minus:E1",
+          "pass": true,
+          "cards": [
+            "d-e139bd51cd31886b4ebc"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R21_checkbox_glyph",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R21_checkbox_glyph:E1",
+          "pass": true,
+          "cards": [
+            "d-56d3511ad7324735b369"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R22_table_value",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R22_table_value:E1",
+          "pass": true,
+          "cards": [
+            "d-c704cd918db86119f8dc"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R23_table_reorder",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R24_table_cross_page",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R24_table_cross_page:E1",
+          "pass": true,
+          "cards": [
+            "d-d762124d75b2606304f6"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R25_duplicate_keys",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R25_duplicate_keys:E1",
+          "pass": true,
+          "cards": [
+            "d-7cdb8b267c3211d9922f"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R26_key_change",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R26_key_change:E1",
+          "pass": true,
+          "cards": [
+            "d-cf99b3082041b4849dd7"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R27_mixed_scan_page",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R27_mixed_scan_page:E1",
+          "pass": true,
+          "cards": []
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R28_inline_scan",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R28_inline_scan:E1",
+          "pass": true,
+          "cards": []
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R29_clause_add",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R29_clause_add:E1",
+          "pass": true,
+          "cards": [
+            "d-bb9e8ec8cc65aa79a7be"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R30_clause_delete",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R30_clause_delete:E1",
+          "pass": true,
+          "cards": [
+            "d-635dfe11b01447928261"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R31_punctuation",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R31_punctuation:E1",
+          "pass": true,
+          "cards": [
+            "d-741a9a4c7ee88b889cd1"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    },
+    {
+      "caseId": "R32_combined_changes",
+      "status": "PASS",
+      "eventStatus": "PASS",
+      "events": [
+        {
+          "id": "R32_combined_changes:E1",
+          "pass": true,
+          "cards": [
+            "d-cf45bf3551cccb56caf5"
+          ]
+        },
+        {
+          "id": "R32_combined_changes:E2",
+          "pass": true,
+          "cards": [
+            "d-10339e391770a0c438cd"
+          ]
+        }
+      ],
+      "faults": [],
+      "notEvaluated": [],
+      "evaluationScope": "source events, anti-mispairing, repeats, raw operations and display; no aviation business labels"
+    }
+  ]
+}

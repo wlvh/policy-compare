@@ -1,0 +1,98 @@
+[
+  {
+    "id": "prose",
+    "generator": "ReportLab 4 canvas",
+    "old": "seven",
+    "new": "nine",
+    "before": [
+      "Service agreement",
+      "The supplier will retain logs for seven calendar days.",
+      "All notices must be delivered in writing."
+    ],
+    "after": [
+      "Service agreement",
+      "The supplier will retain logs for nine calendar days.",
+      "All notices must be delivered in writing."
+    ]
+  },
+  {
+    "id": "two-column",
+    "generator": "ReportLab 4 canvas",
+    "old": "240",
+    "new": "360",
+    "before": [
+      [
+        "Item",
+        "Charge"
+      ],
+      [
+        "Archive",
+        "USD 240"
+      ],
+      [
+        "Support",
+        "USD 90"
+      ]
+    ],
+    "after": [
+      [
+        "Item",
+        "Charge"
+      ],
+      [
+        "Archive",
+        "USD 360"
+      ],
+      [
+        "Support",
+        "USD 90"
+      ]
+    ]
+  },
+  {
+    "id": "multi-column",
+    "generator": "Chromium print-to-PDF",
+    "old": "18",
+    "new": "27",
+    "before": [
+      [
+        "Region",
+        "Units",
+        "Reference",
+        "Term"
+      ],
+      [
+        "North",
+        "18",
+        "K-714",
+        "annual"
+      ],
+      [
+        "South",
+        "42",
+        "Q-206",
+        "monthly"
+      ]
+    ],
+    "after": [
+      [
+        "Region",
+        "Units",
+        "Reference",
+        "Term"
+      ],
+      [
+        "North",
+        "27",
+        "K-714",
+        "annual"
+      ],
+      [
+        "South",
+        "42",
+        "Q-206",
+        "monthly"
+      ]
+    ]
+  }
+]

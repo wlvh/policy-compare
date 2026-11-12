@@ -6,7 +6,7 @@ mod text;
 use model::*;
 use serde_json::json;
 use std::cell::RefCell;
-pub const CORE_VERSION: &str = "policy-compare-rust/0.1.0+row-identity.36+facts.6+repeat.9+ops.4+messages.en.1";
+pub const CORE_VERSION: &str = "policy-compare-rust/0.2.0+english-generic.1";
 #[cfg(target_arch = "wasm32")]
 #[link(wasm_import_module = "host")]
 unsafe extern "C" {
@@ -66,7 +66,7 @@ fn execute(v: V) -> Result<V, String> {
                     if s(&v["side"]) == if side == 0 {"right"} else {"left"} { continue; }
                     let doc = &x.docs[side];
                     if !doc.done { continue; }
-                    for u in structure::structure(doc, &x.profile, &[])? {
+                    for u in structure::structure(doc) {
                         let hay: Vec<_> = u.m.text.chars().collect();
                         for i in 0..=hay.len().saturating_sub(needle.len()) {
                             if hay.get(i..i+needle.len()) == Some(needle.as_slice()) {
@@ -91,48 +91,16 @@ fn validate_configuration(profile: &V, budget: &V) -> Result<(), String> {
                 .as_f64()
                 .is_some_and(|n| n.is_finite() && n >= 0. && n.fract() == 0.)
         });
-    let valid_thresholds = ["local", "global"].iter().all(|k| {
-        profile["thresholds"][k]
-            .as_f64()
-            .is_some_and(|n| (0.0..=1.0).contains(&n))
-    });
     if !valid_budget
-        || !valid_thresholds
-        || !profile["version"].is_string()
-        || !profile["fields"].is_object()
-        || !profile["subjects"].is_object()
-        || !profile["subjectFields"].is_array()
-        || !profile["table"]["headers"].is_array()
-        || !profile["table"]["columns"].is_array()
-        || !profile["table"]["name"].is_string()
-        || profile["table"]["headers"].as_array().unwrap().len()
-            != profile["table"]["columns"].as_array().unwrap().len()
-    {
-        return Err("Invalid core configuration or budget".into());
-    }
-    if profile["table"]["headers"].as_array().unwrap().is_empty()
-        || ["headers", "columns"].iter().any(|k| {
-            profile["table"][k]
-                .as_array()
-                .unwrap()
-                .iter()
-                .any(|x| !x.is_string())
+        || profile["version"] != "english-generic/1"
+        || profile.as_object().is_none_or(|o| {
+            o.keys()
+                .any(|k| !["version", "budget"].contains(&k.as_str()))
         })
-        || ["fields", "subjects"].iter().any(|k| {
-            profile[k]
-                .as_object()
-                .unwrap()
-                .values()
-                .any(|x| !x.is_string())
-        })
-        || profile["subjectFields"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .any(|x| !x.is_string())
-        || profile["thresholds"]["globalMinTokens"].as_u64().is_none()
     {
-        return Err("Invalid core profile values".into());
+        return Err(
+            "Invalid core options: only the single English generic algorithm is supported".into(),
+        );
     }
     Ok(())
 }

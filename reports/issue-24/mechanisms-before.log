@@ -1,0 +1,129 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ❯ tests/issue24.test.ts (16 tests | 9 failed) 140ms
+   × same-row label MSN has no privilege 36ms
+   ✓ same-row label Reference has no privilege 10ms
+   ✓ same-row label Unfamiliar label has no privilege 8ms
+   × 2 columns and a different key position preserve the edited row 9ms
+   × 5 columns and a different key position preserve the edited row 12ms
+   × splitting one sentence into three blocks and crossing the old margin at 30 does not invent edits 9ms
+   × splitting one sentence into three blocks and crossing the old margin at 160 does not invent edits 5ms
+   ✓ reflow over consecutive lines has no text deletion and retains a real word edit 7ms
+   ✓ repeated title twice to once retains the deleted occurrence 5ms
+   ✓ local A/B values swapping is different from whole rows moving 8ms
+   × repeated same-label values retain their surrounding local text 4ms
+   × rotation, indentation and a new heading do not invent business ownership 7ms
+   ✓ ambiguity is local and shows actual changed text as well as both source groups 6ms
+   × non-English body cannot be complete: 这是中文正文，保险金额发生变化。 5ms
+   × non-English body cannot be complete: English body. 这是中文正文。 5ms
+   ✓ Latin accents, combining marks, ligatures and symbols remain supported and searchable 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/issue24.test.ts > same-row label MSN has no privilege
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ edit tests/issue24.test.ts:7:228
+
+ ❯ tests/issue24.test.ts:8:196
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/issue24.test.ts > 2 columns and a different key position preserve the edited row
+ FAIL  tests/issue24.test.ts > 5 columns and a different key position preserve the edited row
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ edit tests/issue24.test.ts:7:228
+
+ ❯ tests/issue24.test.ts:9:389
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/issue24.test.ts > splitting one sentence into three blocks and crossing the old margin at 30 does not invent edits
+AssertionError: expected [ { …(15) }, { …(15) }, …(2) ] to have a length of +0 but got 4
+
+- Expected
++ Received
+
+- 0
++ 4
+
+ ❯ tests/issue24.test.ts:10:368
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/issue24.test.ts > splitting one sentence into three blocks and crossing the old margin at 160 does not invent edits
+AssertionError: expected [ { …(15) } ] to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/issue24.test.ts:10:368
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/issue24.test.ts > repeated same-label values retain their surrounding local text
+AssertionError: expected [] to have a length of 2 but got +0
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/issue24.test.ts:14:305
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/issue24.test.ts > rotation, indentation and a new heading do not invent business ownership
+AssertionError: expected 'status' to be null
+
+- Expected:
+null
+
++ Received:
+"status"
+
+ ❯ tests/issue24.test.ts:15:433
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/issue24.test.ts > non-English body cannot be complete: 这是中文正文，保险金额发生变化。
+ FAIL  tests/issue24.test.ts > non-English body cannot be complete: English body. 这是中文正文。
+AssertionError: expected 'complete_for_scope' to be 'partial' // Object.is equality
+
+Expected: "partial"
+Received: "complete_for_scope"
+
+ ❯ tests/issue24.test.ts:17:187
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 7 passed (16)
+   Start at  17:53:02
+   Duration  277ms (tests 65%, import 24%, transform 10%, worker 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json

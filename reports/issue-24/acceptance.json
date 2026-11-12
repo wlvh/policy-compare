@@ -1,0 +1,82 @@
+{
+  "status": "SUPERSEDED",
+  "scope": "Issue #24 fixed local development acceptance only",
+  "candidate": "4569c3ab13af56e11885345cde2ff0319b98c10c",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+    "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+    "bytes": 2064593,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "buildArtifacts": {
+    "mupdf": {
+      "revision": "4569c3ab13af56e11885345cde2ff0319b98c10c",
+      "wasm": {
+        "path": "assets/core-BZDjYOxk.wasm",
+        "bytes": 2064593,
+        "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b"
+      }
+    },
+    "pdfjs": {
+      "revision": "4569c3ab13af56e11885345cde2ff0319b98c10c",
+      "wasm": {
+        "path": "assets/core-BZDjYOxk.wasm",
+        "bytes": 2064593,
+        "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b"
+      }
+    }
+  },
+  "unitTests": {
+    "passed": 459,
+    "evidence": "core-tests.json",
+    "includesRetiredAviationContractTests": true
+  },
+  "genericMechanisms": 26,
+  "scorerCounterexampleTests": 6,
+  "controlled": {
+    "pairs": 32,
+    "engines": 2,
+    "runs": 64,
+    "categories": {
+      "display_difference": 64
+    }
+  },
+  "browserAffected": {
+    "mupdf": 22,
+    "pdfjs": 22,
+    "evidence": [
+      "accepted-mupdf/browser-tests-mupdf.json",
+      "accepted-pdfjs/browser-tests-pdfjs.json"
+    ]
+  },
+  "firstPdfCore": {
+    "candidate": "3dc497163a8958d557a44a20832ab7db13ab6e74",
+    "passed": 6,
+    "file": "pdf-first.json"
+  },
+  "pdfRegression": {
+    "candidate": "4569c3ab13af56e11885345cde2ff0319b98c10c",
+    "passed": 6,
+    "file": "pdf-regression.json",
+    "unseenValidationClaim": false
+  },
+  "finalBrowserSourceGeometry": {
+    "mupdf": 3,
+    "pdfjs": 3,
+    "actualPreRustInputCaptured": true,
+    "sourceSnapshotHashesVerified": true
+  },
+  "notRun": [
+    "remote CI",
+    "container image rebuild",
+    "deployment",
+    "real office device performance"
+  ],
+  "unchangedExpectedSourcesVerified": true,
+  "productionSourceMatchesCandidate": true,
+  "originalRecordedStatus": "PASS",
+  "supersededBy": "pr25-review/acceptance.json",
+  "reviewNote": "The 65e23d5 source-scope conclusion omitted independent movement controls; see the directly reproduced findings and corrected before/after classification."
+}

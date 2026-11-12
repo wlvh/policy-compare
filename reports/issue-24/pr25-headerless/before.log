@@ -1,0 +1,36 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ❯ tests/pr25-headerless-regressions.test.ts (3 tests | 1 failed) 34ms
+   × an edit in the first headerless data row must not invent edits in an unchanged second row 25ms
+   ✓ ordinary headerless numeric edits remain local 5ms
+   ✓ explicit numeric-word headers can still accompany a whole-column reorder without numeric edits 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/pr25-headerless-regressions.test.ts > an edit in the first headerless data row must not invent edits in an unchanged second row
+AssertionError: expected [ { kind: 'delete', …(3) }, …(3) ] to have a length of +0 but got 4
+
+- Expected
++ Received
+
+- 0
++ 4
+
+ ❯ tests/pr25-headerless-regressions.test.ts:37:31
+     35|     ),
+     36|   );
+     37|   expect(editsInUntouchedRow).toHaveLength(0);
+       |                               ^
+     38|   // A blank result or a scope/ambiguity warning alone cannot replace …
+     39|   const changed = {left: idsAt(left, 180), right: idsAt(right, 180)};
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  23:13:52
+   Duration  166ms (import 50%, tests 33%, transform 16%, worker 2%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/issue-24/pr25-headerless/before.json

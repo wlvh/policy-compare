@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { loadEngine, type EngineName } from "../../packages/pdf-adapter/node";
-import { grade, summarize } from "../evaluation/scorer";
+import { gradeGeneric as grade, summarize } from "../evaluation/generic";
 import { parseDoc, type DocInput } from "../../packages/contracts/index";
 const engine = (process.env.POLICY_ENGINE ?? "mupdf") as EngineName;
 const manifest = JSON.parse(

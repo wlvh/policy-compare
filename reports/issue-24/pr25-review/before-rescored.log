@@ -1,0 +1,18 @@
+[
+  [
+    'mupdf',
+    'R16_repagination',
+    [
+      'movement has identical source positions d-48df9aca6d9e7c385cf1',
+      'source invariant no_false_clause_moves failed'
+    ]
+  ],
+  [
+    'pdfjs',
+    'R16_repagination',
+    [
+      'movement has identical source positions d-af6f9ccfb6943f2590c5',
+      'source invariant no_false_clause_moves failed'
+    ]
+  ]
+]

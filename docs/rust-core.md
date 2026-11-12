@@ -1,4 +1,4 @@
-# Rust 比较核心（Issue #19）
+# Rust 比较核心（Issue #19 基础设施、Issue #24 通用算法）
 
 本地提取、比较、搜索和展示仍在浏览器运行。网页从同一站点自动取得 Rust 编译的 WebAssembly 文件，在比较 Worker 中计算；服务器只提供静态资源。用户不需要安装编译器、Node、Python、插件或本地服务。Rust 开发工具只属于开发和镜像构建环境。PDF.js 与 MuPDF 仍各自独立提取和渲染，两份 PDF 必须使用相同提取器、版本和选项。
 
@@ -33,7 +33,9 @@ pnpm test:rules:pdfjs
 
 结构恢复只累积原文与引用，单元完整后统一规范化，避免每追加一行就重新处理整段。工作量乘法使用 64 位整数，超过 32 位范围的输入不能绕过预算；外部字符和 UTF-16 偏移转为内部索引前先检查范围。
 
-配置和预算只从 `profiles/aviation.ts` 传入，Rust 不维护另一份默认配置。预算耗尽、扫描图片覆盖、身份冲突及不完整对应保持原输出语义。语言迁移不等于提高正确性，也不扩大 OCR、文件大小或页数支持。
+当前正式配置来自 `packages/compare-core/options.ts`：只有固定的 `english-generic/1` 算法版本和工作预算，没有模板、字段或身份词表。Rust 拒绝旧航空配置，不提供旧算法回退。既有 ABI 中的 `profileVersion` / `configDigest.profile` 字段名为格式兼容而保留，不是可选择的文档 profile。正式 TypeScript 构建不包含 `profiles/` 或 `legacy-core/`，镜像构建不再复制航空配置。
+
+当前支持英文普通段落、同行标签值及简单矩形表格。对应依据是原文、邻近文字和行列关系，不自动生成业务身份。重复内容先逐次对应，再折叠展示；计数无法确定具体增删实例时，展示全部来源及位置不确定性。语言或结构范围提示不会取消原文事件检查。预算耗尽和提取覆盖缺口保持明确的 `partial` 状态。本轮不扩大 OCR、文件大小、页数或目标设备性能支持；详见 [Issue #24 交付说明](../reports/issue-24/README.md)。
 
 ## 加载、取消与释放
 
@@ -46,16 +48,28 @@ WASM 加载或哈希校验失败会明确失败，没有旧 TypeScript 回退。
 ## 验证与证据
 
 ```sh
-pnpm exec tsx scripts/issue19-parity.ts
+pnpm exec tsx scripts/issue24-compare.ts
 pnpm test:browser:mupdf
 pnpm test:browser:pdfjs
-pnpm exec tsx scripts/issue19-performance.ts --formal
 ```
 
-冻结输入和旧结果存于 `validation/migration/issue-19/*.json.gz`，对应清单与内容哈希在 `reports/issue-19/frozen-baseline.json`。对照只允许核心版本标识不同，其余比较事实、来源、未决、覆盖、预算和指纹逐字段比较；旧结果只用于迁移对照，不能代替独立真值。正式规则评价器仍从明确输入、预期和来源记录评分。
+### 外部审阅测试纳入长期回归
+
+用户转交的 GPT 或其他审阅者测试文件，在核对输入、预期和项目支持范围后，应纳入版本控制中的测试目录，接入默认测试命令及 CI；不能只留在附件、下载目录、临时脚本或报告中，修复完成后继续保留执行。必要的路径或 API 适配应说明原因，保留原始反例及预期依据，不通过删除断言、跳过测试或改写预期迎合当前输出。测试依赖的输入也须在仓库中有固定来源，不能依赖开发者本机的下载目录。
+
+当前已纳入的 PR #25 外部测试：
+
+| 文件 | 检查内容 |
+| --- | --- |
+| [pr25-review-regressions.test.ts](../tests/pr25-review-regressions.test.ts) | 同表头小表的局部关系、文字及数字表头整列换序、评分器拒绝虚假移动，共 4 项 |
+| [pr25-headerless-regressions.test.ts](../tests/pr25-headerless-regressions.test.ts) | 无表头首行变化不误报后续行、普通局部数值修改、数字文字表头整列换序，共 3 项 |
+
+`pnpm verify:core` 先重建实际 Rust/WASM，再由 Vitest 自动发现 `tests/**/*.test.ts`；上述两份文件不需要另行指定。`pnpm verify`、`pnpm verify:mupdf`、`pnpm verify:pdfjs` 及 GitHub Actions 的双引擎功能任务均调用这一入口。后续同类 Vitest 文件放入该目录并使用 `.test.ts` 后缀，即随默认回归执行；涉及 PDF 提取、定位或网页行为的反例还应接入相应现有检查，不能用核心单测代替该层验证。
+
+Issue #19 的冻结提取输入保留在 `validation/migration/issue-19/*.json.gz`，来源清单在 `reports/issue-19/frozen-baseline.json`。Issue #24 用固定提交 `30c8931` 的实际 WASM 重放旧算法，按未修改的原文事件、来源位置和反错配要求评价旧新结果，不要求新版复现航空类别、行键或 JSON。历史 `issue19-parity.ts` 的全字段相等要求仅用于追溯旧迁移，不能作为当前通用算法的正式验收。
 
 `rust-core.spec.ts` 在真实网页包中启动发布 Worker，将同一冻结输入送给 Worker 和正式 `compare:doc` 命令，比较完整核心结果；另外验证初始化取消、失败、超时后重试、网络请求路径和查询参数中没有本地文件名、密码和搜索词。原有浏览器回归继续验证提取、高亮、搜索、导出、连续任务和关闭清理。
 
 Rust 按页接收时已经解析、校验并计算页快照；`inputAdmission` 累计这一接收成本，`snapshot` 阶段只计算根快照。旧 TypeScript 在全部接收后校验和计算页快照，因此两者单个阶段的名称不代表相同计时边界，不能直接逐列比较得出提速结论；端到端比较使用相同的任务开始至首屏可审阅起止。另记录核心输入总字节、最大单次输入字节及调用次数，WASM 线性内存字节数只是该实例的诊断值，不代表浏览器总峰值。
 
-本地功能、迁移一致性、工程性能测量、真实公司 HTTPS、目标办公电脑、OpenShift 和发布回滚分别报告。规则命令退出 2 表示存在已登记未评价项，不能说严格验收全通过。详见 `reports/issue-19/README.md`；Issue #19 依其关闭条件保持开放，直到剩余环境验收有证据或明确移交 #17。
+当前规则入口评价 Issue #24 的原文事件、来源、重复变化及反错配要求，详细边界和未重做的历史维度见 `reports/issue-24/README.md`。历史 Issue #19 的工程性能、真实公司 HTTPS、目标办公电脑、OpenShift 和发布回滚仍分别报告，不能由本轮功能验收代替；相关测量脚本须按历史固定提交使用，不能直接将旧配置摘要用于新算法。Issue #19 的剩余关闭条件仍见 `reports/issue-19/README.md`。

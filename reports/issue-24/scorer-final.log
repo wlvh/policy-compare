@@ -1,0 +1,11 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ✓ tests/generic-scorer.test.ts (6 tests) 493ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  18:46:39
+   Duration  601ms (tests 90%, import 7%, transform 3%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json

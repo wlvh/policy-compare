@@ -60,6 +60,8 @@ export const CoverageSchema = z.object({
     "page_failed",
     "body_missing",
     "unsupported_objects",
+  "unsupported_language",
+  "unsupported_structure",
   ]),
   evidence: z.string().min(1),
   message: z.string().min(1),

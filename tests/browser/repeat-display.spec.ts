@@ -20,21 +20,23 @@ for (const reverse of [false, true]) test('count-only ' + (reverse ? 'decreases'
   const row = summary.locator('.repeat-count-item').filter({hasText: text});
   await expect(page.locator('.cards .card').filter({hasText: text})).toHaveCount(0);
   await expect(summary).toBeVisible();
-  await expect(summary.locator('details').first()).not.toHaveAttribute('open');
-  await expect(row).not.toBeVisible();
+  await expect(summary.locator('details').first()).toHaveAttribute('open');
+  await expect(row).toBeVisible();
   const mainCount = await page.locator('.cards .card').count();
   await expect(page.locator('.list-head h2 span')).toHaveText(String(mainCount));
   const wording = page.locator('.card').filter({has: page.getByText('POLICY WORDING', {exact: true})});
   await wording.click();
   await expect(page.locator(reverse ? 'polygon.highlight-old' : 'polygon.highlight-new').first()).toBeVisible();
-  const pagesBefore = await page.locator('[data-ready-page]').evaluateAll(es => es.map(e => e.getAttribute('data-ready-page')));
-  await summary.locator('details > summary').first().click();
+  // Prefetching may make another page ready without navigating either pane.
+  const currentPages = page.locator('.document-head nav > span');
+  await expect(currentPages).toHaveCount(2);
+  const pagesBefore = await currentPages.allTextContents();
   await expect(row).toContainText(reverse ? '3 occurrences → 2 occurrences' : '2 occurrences → 3 occurrences');
   await expect(row).toContainText(reverse ? '1 fewer occurrence' : '1 more occurrence');
   await expect(summary).toContainText('The specific locations added or removed are unresolved');
   // Reading the quantities, including clicking the unchanged text, does not locate it.
   await row.getByText(text, {exact: true}).click();
-  expect(await page.locator('[data-ready-page]').evaluateAll(es => es.map(e => e.getAttribute('data-ready-page')))).toEqual(pagesBefore);
+  expect(await currentPages.allTextContents()).toEqual(pagesBefore);
   await expect(page.locator('polygon.highlight-location')).toHaveCount(0);
   await expect(row.getByRole('button', {name: 'Baseline source 1', exact: true})).not.toBeVisible();
   await row.locator('.occurrence-details > summary').click();
@@ -87,7 +89,6 @@ test('optional quantity sources remain visible on a narrow window after explicit
   await page.setViewportSize({width: 650, height: 700});
   await load(page, 'R16_repagination');
   const summary = page.getByRole('region', {name: 'Repeated text counts'});
-  await summary.locator('details > summary').first().click();
   const row = summary.locator('.repeat-count-item').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'});
   await row.locator('.occurrence-details > summary').click();
   await row.getByRole('button', {name: 'Revised source 1', exact: true}).click();

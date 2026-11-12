@@ -1,0 +1,1 @@
+{"revision":"30c8931d3c3fcefcf26f1ffffc957eb612ac7fe4","wasm":"validation/issue-24/baseline.wasm","artifact":"reports/issue-24/baseline-core.json","purpose":"Executable old Rust/WASM comparison only; old results do not provide the new algorithm's answers. The original source can be reproduced from the fixed Git revision without copying historical source trees."}

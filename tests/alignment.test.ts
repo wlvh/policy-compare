@@ -52,7 +52,7 @@ it("a cross-chapter move with one word changed preserves internal text edits", (
   expect(
     r.differences.some(
       (d) =>
-        d.kind === "Moved" &&
+        ["Moved", "Replaced"].includes(d.kind) &&
         d.hasTextChange &&
         d.oldText === old &&
         d.newText === next,

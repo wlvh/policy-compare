@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "coreArtifact": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+    "sha256": "f9df25b2760d06137a7c9545735e9b71db3930a20a694f9c400d92d21d4ee96b",
+    "bytes": 2064593,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "requests": [
+    {
+      "url": "http://127.0.0.1:4174/",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/index-B_cCqjoQ.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/index-BCa-yYWQ.css",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/main-CttYTqBH.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/pdf.worker-CQC3jXZh.mjs",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/core.worker-CDoNoecP.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:4174/assets/core-BZDjYOxk.wasm",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:4174/d3cb93ce-f2d6-4d1b-a5d4-608e7d971429",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "blob:http://127.0.0.1:4174/d9bdd740-43d0-4269-aa63-66f373bfe98d",
+      "method": "GET",
+      "body": null
+    }
+  ]
+}

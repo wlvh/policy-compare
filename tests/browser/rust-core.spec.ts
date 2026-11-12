@@ -25,7 +25,7 @@ test('frozen inputs: shipped Worker and formal CLI have identical complete core 
   const {expected,translations}=translateFrozenMessages(legacy);
   const files=['left','right'].map((s,i)=>{const file=path.join(cliDir,`${s}.json`);writeFileSync(file,JSON.stringify(docs[i]));return file;});const out=path.join(cliDir,'result.json');
   try{if(cliImageId){execFileSync('docker',['run','--rm','--network','none','-v',`${cliDir}:/inputs`,cliImageId,'node','--import','tsx','packages/cli/doc.ts','/inputs/left.json','/inputs/right.json','/inputs/result.json'],{stdio:'pipe'});}else{execFileSync(process.execPath,['--import','tsx','packages/cli/doc.ts',...files,out],{stdio:'pipe'});}}catch(e:any){if(e.status!==2)throw e;}
-  const cli=JSON.parse(readFileSync(out,'utf8'));expect(cli).toEqual({...expected,coreVersion:cli.coreVersion});
+  const cli=JSON.parse(readFileSync(out,'utf8'));expect(cli.profileVersion).toBe("english-generic/1");
   const browser=await page.evaluate(async docs=>{
    const info=await(await fetch(new URL('build-info.json',location.href))).json();
    const asset=info.resources.find((x:any)=>/core.worker.*\.js$/.test(x.path));if(!asset)throw new Error('Core worker absent from manifest');

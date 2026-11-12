@@ -25,7 +25,6 @@ COPY engines/${ENGINE} ./engines/${ENGINE}
 RUN pnpm --dir engines/${ENGINE} install --frozen-lockfile
 COPY apps ./apps
 COPY packages ./packages
-COPY profiles ./profiles
 COPY scripts/release-config.ts ./scripts/release-config.ts
 COPY scripts/core-artifact.ts ./scripts/core-artifact.ts
 COPY --from=rust-core /core/target/wasm32-unknown-unknown/release/policy_compare_core.wasm ./packages/rust-core/generated/core.wasm

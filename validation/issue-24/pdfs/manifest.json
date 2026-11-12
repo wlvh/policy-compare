@@ -1,0 +1,132 @@
+{
+  "frozenAt": "2026-11-11T09:56:55.773Z",
+  "purpose": "First-run English PDF validation; no comparator has been invoked on these files",
+  "pairs": [
+    {
+      "id": "prose",
+      "generator": "ReportLab 4 canvas",
+      "old": "seven",
+      "new": "nine",
+      "before": [
+        "Service agreement",
+        "The supplier will retain logs for seven calendar days.",
+        "All notices must be delivered in writing."
+      ],
+      "after": [
+        "Service agreement",
+        "The supplier will retain logs for nine calendar days.",
+        "All notices must be delivered in writing."
+      ],
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/prose-before.pdf",
+          "sha256": "49875bd40a6009ec0e055d0f0df71af88eb964cbe53a59a381479a491cb6a9e9"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/prose-after.pdf",
+          "sha256": "3427f04bf124ac3deba9d05d8ed50e253d89e98f9d5f150f2cb9d7f1bc816e9f"
+        }
+      }
+    },
+    {
+      "id": "two-column",
+      "generator": "ReportLab 4 canvas",
+      "old": "240",
+      "new": "360",
+      "before": [
+        [
+          "Item",
+          "Charge"
+        ],
+        [
+          "Archive",
+          "USD 240"
+        ],
+        [
+          "Support",
+          "USD 90"
+        ]
+      ],
+      "after": [
+        [
+          "Item",
+          "Charge"
+        ],
+        [
+          "Archive",
+          "USD 360"
+        ],
+        [
+          "Support",
+          "USD 90"
+        ]
+      ],
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/two-column-before.pdf",
+          "sha256": "606cd80d3fb0f742ee0d8c73a25c9fb6ec241a95f5a2d81d8278d8200008d650"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/two-column-after.pdf",
+          "sha256": "8a1a2a2545e0c860a9588e72f1cf0b4dd0a69ec76d3142a3bfac629eae5351a8"
+        }
+      }
+    },
+    {
+      "id": "multi-column",
+      "generator": "Chromium print-to-PDF",
+      "old": "18",
+      "new": "27",
+      "before": [
+        [
+          "Region",
+          "Units",
+          "Reference",
+          "Term"
+        ],
+        [
+          "North",
+          "18",
+          "K-714",
+          "annual"
+        ],
+        [
+          "South",
+          "42",
+          "Q-206",
+          "monthly"
+        ]
+      ],
+      "after": [
+        [
+          "Region",
+          "Units",
+          "Reference",
+          "Term"
+        ],
+        [
+          "North",
+          "27",
+          "K-714",
+          "annual"
+        ],
+        [
+          "South",
+          "42",
+          "Q-206",
+          "monthly"
+        ]
+      ],
+      "files": {
+        "before": {
+          "file": "validation/issue-24/pdfs/multi-column-before.pdf",
+          "sha256": "26ace4bc4d95e160c28061f387f4861985cc720ffc71b15121a148ea5cbe2b8f"
+        },
+        "after": {
+          "file": "validation/issue-24/pdfs/multi-column-after.pdf",
+          "sha256": "d47be9a6dcfbf1b581874a6e877b63203c4a8b3aa35c7389e7d9590c2c2515f3"
+        }
+      }
+    }
+  ]
+}

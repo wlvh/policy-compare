@@ -1,0 +1,15 @@
+[
+  {
+    kind: 'Moved',
+    old: '100',
+    new: '100',
+    method: 'literal-cell-position'
+  },
+  {
+    kind: 'Moved',
+    old: '200',
+    new: '200',
+    method: 'literal-cell-position'
+  }
+]
+{ coverage: 0, unresolved: 0 }

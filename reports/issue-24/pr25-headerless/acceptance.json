@@ -1,0 +1,32 @@
+{
+  "status": "PASS_FOR_LISTED_REVIEW_SCOPE",
+  "candidate": "4f9a127efb63ad066365e7aff256b227c72a72d5",
+  "behaviorCandidate": "0a0612cc74cd2d5569ac53b583bb53ee166b942c",
+  "baseline": "e1eb30d2dbadb8bdc0cb3ec8ab18e86bc646474b",
+  "before": {
+    "passed": 2,
+    "failed": 1
+  },
+  "afterUserRegressions": {
+    "passed": 3,
+    "failed": 0
+  },
+  "afterCore": {
+    "abi": "policy-core-session/1",
+    "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+    "sha256": "16885e880c2afd1df5357a5ce41b9623abbc28dfb4ab6a6c940584f0f5dcabb1",
+    "bytes": 2070543,
+    "rust": "1.93.0",
+    "target": "wasm32-unknown-unknown"
+  },
+  "allUnits": 470,
+  "affectedBrowserTests": {
+    "mupdf": 7,
+    "pdfjs": 7
+  },
+  "controlledRuns": 64,
+  "fullHistoricalInvariantStatus": "NOT_EVALUATED",
+  "newPdfPairs": 0,
+  "expectedFilesModified": false,
+  "ciEnvironmentChange": "Ubuntu archive mirror only; signature checking, dependency installation and complete test commands preserved"
+}

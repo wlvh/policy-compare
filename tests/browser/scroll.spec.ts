@@ -56,7 +56,6 @@ test('wheel crosses page boundaries in either direction, panes remain independen
   await expect(right.locator('[data-ready-page="0"]')).toBeVisible();
   // A source jump still selects the requested PDF page after scrolling.
   const quantities = page.getByRole('region', {name: 'Repeated text counts'});
-  await quantities.locator('details > summary').first().click();
   const repeated = quantities.locator('.repeat-count-item').filter({hasText: 'SYNTHETIC TEST - NOT A REAL POLICY'});
   await repeated.locator('.occurrence-details > summary').click();
   await repeated.getByRole('button', {name: 'Revised source 3', exact: true}).click();
@@ -113,7 +112,7 @@ test('every on-screen page renders when the complete document fits without scrol
   expect(await right.evaluate(el => el.scrollHeight <= el.clientHeight)).toBe(true);
   await expect(right.locator('.sheet img')).toHaveCount(3);
   await expect(right.locator('.page-placeholder')).toHaveCount(0);
-  await expect.poll(() => right.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0))).toBe(true);
+  await expect.poll(() => right.locator('img').evaluateAll(images => images.every(image => image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0))).toBe(true);
   // Navigation must not evict another source page that is still on screen.
   await page.getByRole('button', {name: 'Revised next page', exact: true}).click();
   await page.getByRole('button', {name: 'Revised next page', exact: true}).click();

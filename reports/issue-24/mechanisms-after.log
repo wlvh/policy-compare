@@ -1,0 +1,14 @@
+
+ RUN  v5.0.5 /Users/lyuhongwang/Downloads/policy-compare-execution-20261026
+
+ ✓ tests/alignment.test.ts (4 tests) 49ms
+ ✓ tests/core.test.ts (8 tests) 66ms
+ ✓ tests/issue24.test.ts (25 tests) 170ms
+ ✓ tests/generic-scorer.test.ts (5 tests) 438ms
+
+ Test Files  4 passed (4)
+      Tests  42 passed (42)
+   Start at  18:38:02
+   Duration  561ms (tests 75%, import 20%, transform 5%, worker 1%)
+
+JSON report written to /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/core-tests.json

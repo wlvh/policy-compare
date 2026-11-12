@@ -1,5 +1,5 @@
 import {CoreSession,loadCore,coreArtifact} from '../../packages/rust-core/index';
-import {aviationProfile} from '../../profiles/aviation';
+import {coreOptions} from '../../packages/compare-core/options';
 let session:CoreSession|undefined;
 let taskId=0,generation=0,initialized=false;
 let port:MessagePort|undefined;
@@ -34,7 +34,7 @@ onmessage=(e)=>{
    }catch{fail()}
   };port!.start();
   void loadCore().then(module=>{
-   checkpoint();session=new CoreSession(module,aviationProfile,aviationProfile.budget,name=>{checkpoint();marks[name]=performance.now();postMessage({type:'phase',taskId,generation,name});},checkpoint);
+   checkpoint();session=new CoreSession(module,coreOptions,coreOptions.budget,name=>{checkpoint();marks[name]=performance.now();postMessage({type:'phase',taskId,generation,name});},checkpoint);
    postMessage({type:'core-ready',taskId,generation,coreArtifact,initialization:performance.now()-loading});
   }).catch(fail);
  }

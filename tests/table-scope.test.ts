@@ -1,5 +1,6 @@
+// Retired aviation contract only. Production acceptance: issue24.test.ts and issue24-compare.ts.
 import { describe, it, expect } from "vitest";
-import { compare } from "../packages/compare-core/index";
+import { compare } from "../packages/legacy-core/index";
 import { ResultSchemaV2 as ResultSchema, type CompareResultV2 as CompareResult } from "../packages/contracts/index";
 import { textDoc } from "./helpers";
 

@@ -1,3 +1,4 @@
+import {foldOccurrences} from './fold-occurrences';
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import type {
@@ -49,19 +50,17 @@ const change = (d: Difference) =>
         ? "Text changed"
         : countOnly(d) ? "Text unchanged, occurrence count changed" : "Text unchanged";
 const bases: Record<string, string> = {
-  "declared-table-key": "Matched by table key",
-  "reliable-field-identity": "Matched by field identity",
-  "row-identity": "Matched by row identity",
-  "unique-exact": "Matched by identical source text",
-  "exact-context": "Matched by identical source text",
-  "repeat-role": "Matched by identical source text",
-  "adjacent-split": "Matched by identical text across adjacent paragraphs",
-  "adjacent-merge": "Matched by identical text across adjacent paragraphs",
-  "repeated-header": "Repeated text",
-  "repeated-table-header": "Repeated table header",
-  "page-furniture": "Repeated header/footer",
-  "joint-local-alignment": "Matched by similar text",
-  "contextual-token-lcs": "Matched by similar text",
+  "exact-source-text": "Identical source text",
+  "exact-text-reflow": "Same text across different blocks",
+  "literal-label-and-local-context": "Same label and nearby text",
+  "source-cells-and-column-text": "Matching cell text and columns",
+  "source-column-text": "Corresponding source columns",
+  "literal-column-heading-position": "Same column heading, changed position",
+  "literal-cell-position": "Same cell text, changed position",
+  "neighboring-source-anchors": "Between matching nearby passages",
+  "local-source-token-correspondence": "Similar source wording",
+  "occurrence-count-only": "Counts changed; individual matches unresolved",
+
 };
 const basis = (d: Difference) =>
   d.structurePath?.confidence === "unresolved"
@@ -117,7 +116,7 @@ function RepeatCountSummary({ differences, onLocate }: {
 }) {
   if (!differences.length) return null;
   return <section className="repeat-summary" aria-label="Repeated text counts">
-    <details>
+    <details open>
       <summary>Repeated text count changes · {differences.length} {differences.length === 1 ? "item" : "items"}</summary>
       <div className="repeat-summary-body">
         <p>The text is identical; only its occurrence count changed. These items appear separately from the main changes list. The specific locations added or removed are unresolved.</p>
@@ -581,7 +580,8 @@ function App() {
     const target = alignedOffset(side, pageIndex, y);
     if (target !== null) viewportRefs[1 - side].current?.scrollToOffset(target);
   }
-  const reviewDifferences = result?.differences.filter(d => !canSummarizeCount(d)) ?? [];
+  const displayedDifferences = result ? foldOccurrences(result.differences, [pageInfos[0].length, pageInfos[1].length]) : [];
+  const reviewDifferences = displayedDifferences.filter(d => !canSummarizeCount(d));
   const repeatCounts = result?.differences.filter(canSummarizeCount) ?? [];
   const visible =
     reviewDifferences.filter(
@@ -598,7 +598,7 @@ function App() {
           <p>Baseline → Revised · PDFs processed in this browser</p>
         </div>
         <div className="privacy">
-          Local processing<span>No document uploads · No OCR</span>
+          Local processing<span>English only · No document uploads · No OCR</span>
         </div>
       </header>
       <section className="welcome" aria-label="Getting started">
@@ -848,13 +848,13 @@ function App() {
                 )}
                 <h3>
                   {[
-                    d.structurePath?.section==='page_furniture'?'Header/footer':!['risk_details','repeated_header','clauses','aircraft_schedule','after_aircraft_schedule','document'].includes(d.structurePath?.section??'')?d.structurePath?.section:null,
+                    d.structurePath?.section && d.structurePath.section !== 'document' ? d.structurePath.section : null,
                     d.structurePath?.entity,
                     d.structurePath?.rowKey,
                     d.structurePath?.field,
                   ]
                     .filter(Boolean)
-                    .join(" / ") || "Clause text"}
+                    .join(" / ") || "Source text"}
                 </h3>
                 {!d.hasTextChange && d.oldText === d.newText ? <div className="same-text">{d.oldText}</div> : <>
                   <div className="old">{d.oldText || "(none)"}</div>
@@ -867,7 +867,9 @@ function App() {
                 {d.occurrences.length > 0 && (
                   <Occurrences difference={d} onLocate={locs=>{
                     setSelectedId(d.id);
-                    locate(locs, !d.hasTextChange);
+                    const original=result?.differences.find(record=>[...record.left,...record.right].some(source=>locs.some(loc=>loc.side===source.side&&loc.pageIndex===source.pageIndex&&loc.charIds[0]===source.charIds[0])));
+                    const edits=original?.textOps.filter(o=>o.kind!=='equal').flatMap(o=>[...o.left,...o.right])??[];
+                    locate(edits.length?edits:locs, !d.hasTextChange, "", original?[...original.left,...original.right]:locs);
                   }} />
                 )}
               </div>
@@ -974,7 +976,7 @@ function App() {
         </section>
       </div>
       <footer>
-        The comparison covers extractable text only. Text and position changes are shown by default; repeated text count changes are summarized separately. The tool does not assess the importance of changes or provide legal interpretations.
+        The comparison covers extractable English text only. Text and position changes are shown by default; repeated text count changes are summarized separately. The tool does not assess the importance of changes or provide legal interpretations.
         <span>Local evaluation build · Review license terms before redistribution; business acceptance is not complete</span>
       </footer>
     </main>

@@ -16,7 +16,7 @@ test('F1 two changed deductibles retain visible sections and both real source ro
   await load(page,`${root}/f1-${variant}-before.pdf`,`${root}/f1-${variant}-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');await expect(page.locator('.card')).toHaveCount(2);await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);
   const sections=variant==='headings-body'?['HULL','LIABILITY']:['SECTION HULL','SECTION LIABILITY'];
   for(const [section,y] of [[sections[0],variant==='short-top'?60:190],[sections[1],variant==='short-top'?100:230]] as const){
-   await page.locator('.card').filter({hasText:section}).click();
+   await page.locator('.card').nth(sections.indexOf(section)).click();
    for(const side of [0,1]){
     const polygons=page.locator('.document').nth(side).locator('polygon');await expect(polygons.first()).toBeVisible();
     // React applies the newly selected locations after the click event. Wait
@@ -24,9 +24,9 @@ test('F1 two changed deductibles retain visible sections and both real source ro
     await expect.poll(async()=>{const points=await polygons.evaluateAll(els=>els.map(el=>el.getAttribute('points')!.split(/\s+/).flatMap(p=>p.split(',').map(Number))));return points.length>0&&points.every(q=>Math.min(...q.filter((_,i)=>i%2===1))>y-16&&Math.max(...q.filter((_,i)=>i%2===1))<y+16);}).toBe(true);
    }
   }
-  const result=await exported(page);expect(result.differences.map((d:any)=>d.structurePath.section).sort()).toEqual(sections);records.push({case:'F1',variant,status:'PASS',result});
+  const result=await exported(page);expect(result.differences.every((d:any)=>d.structurePath.entity===null)).toBe(true);records.push({case:'F1',variant,status:'PASS',result});
  }
- await load(page,`${root}/f1-unclassified-body-before.pdf`,`${root}/f1-unclassified-body-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','partial');await expect(page.locator('.card')).toHaveCount(1);await expect(page.locator('.card')).toContainText('1,000');await expect(page.locator('.card')).toContainText('2,000');await expect(page.locator('.gaps')).toContainText('Fields with the same name');await expect(page.locator('[data-ready-page="0"]')).toHaveCount(2);const result=await exported(page);expect(result.differences[0].hasTextChange).toBe(true);expect(result.differences[0].structurePath.confidence).toBe('unresolved');records.push({case:'F1 unclassified ownership',status:'PASS',result});
+ await load(page,`${root}/f1-unclassified-body-before.pdf`,`${root}/f1-unclassified-body-after.pdf`);await expect(page.locator('[data-status]')).toHaveAttribute('data-status','complete_for_scope');await expect(page.locator('.card')).toHaveCount(2);const result=await exported(page);for(const d of result.differences){expect(d.hasTextChange).toBe(true);expect(d.structurePath.entity).toBeNull();expect(d.left.length&&d.right.length).toBeTruthy();expect(Math.abs(d.left[0].quads[0][1]-d.right[0].quads[0][1])).toBeLessThan(2);}records.push({case:'F1 local source correspondence without a business owner',status:'PASS',result});
 });
 test('F2 damaged body produces explicit partial or failed state and clean/mixed controls remain useful',async({page})=>{
  await page.goto('./');const logs:string[]=[];page.on('console',m=>{if(['error','warning'].includes(m.type()))logs.push(m.text());});
