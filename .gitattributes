@@ -1,2 +1,3 @@
 # Preserve command output verbatim, including intentional trailing spaces.
 reports/issue-24/**/*.log -whitespace
+reports/review-notices/*.log -whitespace

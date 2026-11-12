@@ -1,0 +1,319 @@
+{
+  "config": {
+    "argv": [
+      "/Users/lyuhongwang/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/node_modules/@playwright/test/cli.js",
+      "test",
+      "tests/browser/review-notices.spec.ts"
+    ],
+    "configFile": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/playwright.config.ts",
+    "rootDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "snapshotDir": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4175/",
+          "headless": true,
+          "viewport": {
+            "width": 1500,
+            "height": 1000
+          },
+          "trace": "retain-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/review-notices/before-confirmed/browser-tests-mupdf.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "pnpm preview:mupdf --port 4175",
+      "url": "http://127.0.0.1:4175",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "review-notices.spec.ts",
+      "file": "review-notices.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "dozens of layout notices leave the changes and source workspace visible by default",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5933,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.structure-notices').locator('summary')\nExpected substring: \u001b[32m\"48\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.structure-notices').locator('summary') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.structure-notices').locator('summary')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.structure-notices').locator('summary')\nExpected substring: \u001b[32m\"48\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.structure-notices').locator('summary') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.structure-notices').locator('summary')\u001b[22m\n\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:70:42",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts",
+                      "column": 42,
+                      "line": 70
+                    },
+                    "snippet": "  68 |   await page.screenshot({path:test.info().outputPath('notices-default.png'),fullPage:true});\n  69 |   const panel = page.locator('.structure-notices');\n> 70 |   await expect(panel.locator('summary')).toContainText('48');\n     |                                          ^\n  71 |   await expect(panel).not.toHaveAttribute('open');\n  72 |   await expect(panel.locator('.notice-location').first()).not.toBeVisible();\n  73 |   await expect(page.locator('.cards .card').first()).toBeInViewport();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts",
+                        "column": 42,
+                        "line": 70
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.structure-notices').locator('summary')\nExpected substring: \u001b[32m\"48\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.structure-notices').locator('summary') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.structure-notices').locator('summary')\u001b[22m\n\n\n  68 |   await page.screenshot({path:test.info().outputPath('notices-default.png'),fullPage:true});\n  69 |   const panel = page.locator('.structure-notices');\n> 70 |   await expect(panel.locator('summary')).toContainText('48');\n     |                                          ^\n  71 |   await expect(panel).not.toHaveAttribute('open');\n  72 |   await expect(panel.locator('.notice-location').first()).not.toBeVisible();\n  73 |   await expect(page.locator('.cards .card').first()).toBeInViewport();\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:70:42"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-12T03:54:37.913Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results/review-notices-dozens-of-l-f73ee-orkspace-visible-by-default/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results/review-notices-dozens-of-l-f73ee-orkspace-visible-by-default/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts",
+                    "column": 42,
+                    "line": 70
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b05ceefc700be1ca1691-269cff40656c64213df7",
+          "file": "review-notices.spec.ts",
+          "line": 66,
+          "column": 1
+        },
+        {
+          "title": "expanded groups keep every side, page and area, navigate to the actual region, and preserve exports",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 60265,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts",
+                        "column": 34,
+                        "line": 85
+                      },
+                      "message": "Error: locator.click: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.structure-notices').locator('summary')\u001b[22m\n\n\n  83 |   await load(page);\n  84 |   const panel = page.locator('.structure-notices');\n> 85 |   await panel.locator('summary').click();\n     |                                  ^\n  86 |   await expect(panel.locator('.notice-group')).toHaveCount(2);\n  87 |   await expect(panel.locator('.notice-location')).toHaveCount(48);\n  88 |   for (const side of ['left','right']) for (const pageIndex of [0,1]) {\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:85:34"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-12T03:54:44.360Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results/review-notices-expanded-gr-ca703-region-and-preserve-exports/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results/review-notices-expanded-gr-ca703-region-and-preserve-exports/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b05ceefc700be1ca1691-d746a47ac514ae7c168d",
+          "file": "review-notices.spec.ts",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "page failure and unfinished comparison stay prominent among layout notices, with ambiguity beside its change",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5800,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'Comparison coverage', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'Comparison coverage', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'Comparison coverage', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'Comparison coverage', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'Comparison coverage', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'Comparison coverage', exact: true })\u001b[22m\n\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:109:26",
+                    "location": {
+                      "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts",
+                      "column": 26,
+                      "line": 109
+                    },
+                    "snippet": "  107 |   await load(page, true);\n  108 |   const coverage = page.getByRole('region', {name:'Comparison coverage',exact:true});\n> 109 |   await expect(coverage).toBeVisible();\n      |                          ^\n  110 |   await expect(coverage.getByText('Page could not be read', {exact:true})).toBeVisible();\n  111 |   await expect(coverage.getByRole('button', {name:'Baseline · Page 2',exact:true})).toBeVisible();\n  112 |   await expect(coverage.getByText('Comparison unfinished', {exact:true})).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts",
+                        "column": 26,
+                        "line": 109
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('region', { name: 'Comparison coverage', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('region', { name: 'Comparison coverage', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('region', { name: 'Comparison coverage', exact: true })\u001b[22m\n\n\n  107 |   await load(page, true);\n  108 |   const coverage = page.getByRole('region', {name:'Comparison coverage',exact:true});\n> 109 |   await expect(coverage).toBeVisible();\n      |                          ^\n  110 |   await expect(coverage.getByText('Page could not be read', {exact:true})).toBeVisible();\n  111 |   await expect(coverage.getByRole('button', {name:'Baseline · Page 2',exact:true})).toBeVisible();\n  112 |   await expect(coverage.getByText('Comparison unfinished', {exact:true})).toBeVisible();\n    at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:109:26"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-12T03:55:45.135Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results/review-notices-page-failur-1ade2-ambiguity-beside-its-change/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/reports/review-notices/before-confirmed/test-results/review-notices-page-failur-1ade2-ambiguity-beside-its-change/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts",
+                    "column": 26,
+                    "line": 109
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b05ceefc700be1ca1691-685ba24106980208473d",
+          "file": "review-notices.spec.ts",
+          "line": 106,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-12T03:54:37.331Z",
+    "duration": 73971.36300000001,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

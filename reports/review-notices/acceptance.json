@@ -1,0 +1,40 @@
+{
+  "status": "PASS_FOR_LISTED_LOCAL_SCOPE",
+  "baseline": "3bcee2663b8e3c8f6a4a7ebe301838b26f6bbe96",
+  "beforeBrowser": {
+    "failed": 3
+  },
+  "unitTests": 474,
+  "browser": {
+    "mupdf": {
+      "passed": 18,
+      "failed": 0
+    },
+    "pdfjs": {
+      "passed": 18,
+      "failed": 0
+    }
+  },
+  "productScope": "Grouped notices, source-region navigation and qualified layout observations; matching, detection conditions, partial status and original records retained.",
+  "presentationFixture": "48 authored layout records on existing two-page PDFs; UI-only delivery override, not evidence of those PDFs having 48 extraction problems.",
+  "originalScreenshotPdf": "NOT_AVAILABLE_NOT_ADJUDICATED",
+  "newRegressions": {
+    "unit": 4,
+    "browser": 3,
+    "defaultCI": true,
+    "containerEntry": true
+  },
+  "originalExternalTestsModified": false,
+  "originalDatasetExpectationsModified": false,
+  "typeCheck": "PASS",
+  "productionDeployment": "NOT_DEPLOYED",
+  "ci": "Reported by PR Checks; this file records local validation",
+  "sourceRevision": "abb63db8c5205c25488f38aad1f5657cf23277a9",
+  "actualWasmSha256": "a18d848b37457fb838b4d649a30d34d31bee7377b8f5d272f77a4aad344e057e",
+  "testFilesSHA256": {
+    "tests/browser/review-notices.spec.ts": "2a3a8f59ec94027540772d7aea10eb2701bc06581b3d1bd75b9371a06a573103",
+    "tests/review-notices.test.ts": "6edf43cf4b4ae34e819468e0afcd62059fcfd3e362085e7bd2b96bb1cb5396e0",
+    "tests/pr25-review-regressions.test.ts": "df56430cf834c479182ebf33ada7b035e52d4f26dab13f7acea5bd13309f9a3d",
+    "tests/pr25-headerless-regressions.test.ts": "ccaa39cc73f4752d16787553c8cf288ee6a7b8fb9ecc2918a6d689b5c82c69b9"
+  }
+}

@@ -1,0 +1,116 @@
+[WebServer] (node:74347) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:74367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:74392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/browser/review-notices.spec.ts:66:1 › dozens of layout notices leave the changes and source workspace visible by default (5.9s)
+(node:74423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/browser/review-notices.spec.ts:82:1 › expanded groups keep every side, page and area, navigate to the actual region, and preserve exports (1.0m)
+(node:74467) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/browser/review-notices.spec.ts:106:1 › page failure and unfinished comparison stay prominent among layout notices, with ambiguity beside its change (5.8s)
+
+
+  1) tests/browser/review-notices.spec.ts:66:1 › dozens of layout notices leave the changes and source workspace visible by default 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.structure-notices').locator('summary')
+    Expected substring: "48"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" locator('.structure-notices').locator('summary') with timeout 5000ms
+      - waiting for locator('.structure-notices').locator('summary')
+
+
+      68 |   await page.screenshot({path:test.info().outputPath('notices-default.png'),fullPage:true});
+      69 |   const panel = page.locator('.structure-notices');
+    > 70 |   await expect(panel.locator('summary')).toContainText('48');
+         |                                          ^
+      71 |   await expect(panel).not.toHaveAttribute('open');
+      72 |   await expect(panel.locator('.notice-location').first()).not.toBeVisible();
+      73 |   await expect(page.locator('.cards .card').first()).toBeInViewport();
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:70:42
+
+    Error Context: reports/review-notices/before-confirmed/test-results/review-notices-dozens-of-l-f73ee-orkspace-visible-by-default/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/review-notices/before-confirmed/test-results/review-notices-dozens-of-l-f73ee-orkspace-visible-by-default/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/review-notices/before-confirmed/test-results/review-notices-dozens-of-l-f73ee-orkspace-visible-by-default/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/browser/review-notices.spec.ts:82:1 › expanded groups keep every side, page and area, navigate to the actual region, and preserve exports 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('.structure-notices').locator('summary')
+
+
+      83 |   await load(page);
+      84 |   const panel = page.locator('.structure-notices');
+    > 85 |   await panel.locator('summary').click();
+         |                                  ^
+      86 |   await expect(panel.locator('.notice-group')).toHaveCount(2);
+      87 |   await expect(panel.locator('.notice-location')).toHaveCount(48);
+      88 |   for (const side of ['left','right']) for (const pageIndex of [0,1]) {
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:85:34
+
+    Error Context: reports/review-notices/before-confirmed/test-results/review-notices-expanded-gr-ca703-region-and-preserve-exports/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/review-notices/before-confirmed/test-results/review-notices-expanded-gr-ca703-region-and-preserve-exports/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/review-notices/before-confirmed/test-results/review-notices-expanded-gr-ca703-region-and-preserve-exports/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/browser/review-notices.spec.ts:106:1 › page failure and unfinished comparison stay prominent among layout notices, with ambiguity beside its change 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'Comparison coverage', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'Comparison coverage', exact: true }) with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Comparison coverage', exact: true })
+
+
+      107 |   await load(page, true);
+      108 |   const coverage = page.getByRole('region', {name:'Comparison coverage',exact:true});
+    > 109 |   await expect(coverage).toBeVisible();
+          |                          ^
+      110 |   await expect(coverage.getByText('Page could not be read', {exact:true})).toBeVisible();
+      111 |   await expect(coverage.getByRole('button', {name:'Baseline · Page 2',exact:true})).toBeVisible();
+      112 |   await expect(coverage.getByText('Comparison unfinished', {exact:true})).toBeVisible();
+        at /Users/lyuhongwang/Downloads/policy-compare-execution-20261026/tests/browser/review-notices.spec.ts:109:26
+
+    Error Context: reports/review-notices/before-confirmed/test-results/review-notices-page-failur-1ade2-ambiguity-beside-its-change/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/review-notices/before-confirmed/test-results/review-notices-page-failur-1ade2-ambiguity-beside-its-change/trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace reports/review-notices/before-confirmed/test-results/review-notices-page-failur-1ade2-ambiguity-beside-its-change/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/browser/review-notices.spec.ts:66:1 › dozens of layout notices leave the changes and source workspace visible by default 
+    tests/browser/review-notices.spec.ts:82:1 › expanded groups keep every side, page and area, navigate to the actual region, and preserve exports 
+    tests/browser/review-notices.spec.ts:106:1 › page failure and unfinished comparison stay prominent among layout notices, with ambiguity beside its change 
