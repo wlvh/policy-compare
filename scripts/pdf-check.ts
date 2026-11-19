@@ -116,6 +116,12 @@ await check(
     await assert.rejects(async () => s.extractPage(0), /closed/);
   },
 );
+if (engine === "mupdf") {
+  const { checkLongDocument, longDocumentFixtures } = await import("../tests/long-document/mupdf-regression");
+  for (const fixture of longDocumentFixtures) {
+    await check("source-located long document: " + fixture, () => checkLongDocument(fixture));
+  }
+}
 const report = {
   subject: "real_pdf_adapter_mechanisms",
   engine,

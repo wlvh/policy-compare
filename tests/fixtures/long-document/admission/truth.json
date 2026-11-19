@@ -1,0 +1,23 @@
+{
+  "family": "admission",
+  "pages_per_file": 30,
+  "sha256": {
+    "baseline.pdf": "658512388001945bc4bf331d1fc9903eb535cb9d98043ccc15c268e849f88a84",
+    "revised.pdf": "0513380058fa305be4c596209e97863ecc179206e26ea5090d6b590d8163c317"
+  },
+  "exact_difference_count": 1,
+  "cases": [
+    {
+      "id": "year",
+      "kind": "replacement",
+      "baseline": {
+        "page": 1,
+        "text": "Policy year: 2022"
+      },
+      "revised": {
+        "page": 1,
+        "text": "Policy year: 2023"
+      }
+    }
+  ]
+}
