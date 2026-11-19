@@ -25,7 +25,32 @@ it('Rust session rejects incomplete documents, mismatched extractors and pages a
  const s=new CoreSession(module);expect(()=>s.compare()).toThrow('complete');const d=textDoc([{text:'Unchanged input'}]);s.document(0,d);expect(()=>s.page(0,d.pages[0])).toThrow('outside');const other={...d,extractor:{...d.extractor,version:'different'}};s.document(1,other);expect(()=>s.compare()).toThrow('same engine');s.dispose();
 });
 
-it('WASM work estimates above 2^32 exhaust the budget rather than wrapping to a small product',()=>{
- const doc=(last:string)=>{const raw='x '.repeat(65536)+last;const lines=[];for(let i=0;i<raw.length;i+=80){const row=i/80;lines.push({text:raw.slice(i,i+80),x:40,y:150+(row%50)*12,page:Math.floor(row/50)});}return textDoc(lines)};
- const r=compare(doc('left'),doc('right'));expect(r.status).toBe('partial');expect(r.unresolved.some(x=>x.reason==='budget')).toBe(true);expect(r.stats.tokenProducts).toBe(0);expect(r.stats.candidates).toBe(0);
-},120000);
+it('WASM rejects an actual scoring pair above 2^32 operations before starting its LCS', () => {
+  const make = (marker: string) => {
+    // A multi-scalar run avoids constructing 130k test glyph objects per side.
+    const doc = textDoc([{ text: marker, y: 100 }, { text: marker, y: 200 }]);
+    const [longRun, tail] = doc.pages[0].chars;
+    longRun.text = 'x '.repeat(65_536) + marker;
+    longRun.precision = 'run';
+    longRun.rawRange = [0, longRun.text.length];
+    tail.rawRange = [longRun.text.length, longRun.text.length + 1];
+    return doc;
+  };
+  const result = compare(make('A'), make('B'));
+  expect(result.status).toBe('partial');
+  expect(result.unresolved.some(issue => issue.reason === 'budget')).toBe(true);
+  expect(result.stats.tokenProducts).toBe(0);
+  expect(result.stats.candidates).toBe(0);
+}, 120000);
+
+it('unexamined competitors stay unresolved when scoring runs out of work', () => {
+  const doc = (values: string[]) => textDoc(values.map(text => ({ text })));
+  const left = doc(['The blue covered item.', 'The blue replacement item.']);
+  const right = doc(['The blue covered asset.', 'The blue covered record.']);
+  const result = compare(left, right, aviationProfile, { ...aviationProfile.budget, candidates: 1 });
+  expect(result.stats.candidates).toBe(1);
+  expect(result.differences).toHaveLength(0);
+  const unfinished = result.unresolved.find(issue => issue.reason === 'budget');
+  expect(unfinished?.left).toHaveLength(2);
+  expect(unfinished?.right).toHaveLength(2);
+});

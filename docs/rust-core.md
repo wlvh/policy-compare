@@ -53,6 +53,23 @@ pnpm test:browser:mupdf
 pnpm test:browser:pdfjs
 ```
 
+### 长 PDF 匹配与复现
+
+旧版用两份文档的总词数相乘，结果超过预算就跳过整段匹配。长文档即使只有一个年份不同，也可能返回零项变化。当前核心先按原文和相邻条款查找对应位置，支持一段文字在另一侧拆成最多八段或反向合并。剩余文字需要按词比较时，先用共同词的数量计算相似度上限，仅对有可能达到原评分门槛的组合计算词序得分。同一文字出现多次时保留每次出现的位置，跨页移动也参与匹配。
+
+`stats.candidates` 计入命中的拆段或合段候选与实际执行的词序评分，`stats.tokenProducts` 记录后者的词数乘积。预算耗尽时，返回未完成区域的原文位置。网页的 120 秒期限独立生效。图片文字和表格关系的覆盖提示仍按提取结果报告。
+
+MuPDF 回归包含两组固定的 30 页合成 PDF。第一组只改一个年份。第二组检查 11 处变化以及 4 个容易误报的位置，按原文页码、文字和表格行的位置核对。生成器可增加每页行数或总页数，扩大样本后仍可用同一组检查验证导出结果。在安装仓库依赖、MuPDF、Playwright Chromium 和仓库固定的 ReportLab 后，可运行以下命令。
+
+```sh
+pnpm build:core
+pnpm exec tsx tests/long-document/mupdf-regression.ts
+python tests/fixtures/long-document/generate.py --pages 100 --density 52 --family table --out tmp/long-document-100
+pnpm exec tsx tests/long-document/mupdf-regression.ts tmp/long-document-100
+pnpm build:mupdf
+POLICY_LONG_DOCUMENT_FIXTURE=tmp/long-document-100 POLICY_ENGINE=mupdf POLICY_BROWSER_CHANNEL=bundled pnpm exec playwright test tests/browser/long-document.spec.ts
+```
+
 ### 界面审阅验收
 
 证据完整保留与默认展示分别验证。新增提示、列表或详情应覆盖发现变化、理解影响、定位两侧来源、查看辅助信息并返回原变化的完整动作。正常量与大量记录都要保留全部导出；较矮桌面窗口需检查正文可用面积，而不是只检查标题进入视口。组合风险随实际改动验证，不另建评测平台，也不据一组输入宣称所有布局已验收。

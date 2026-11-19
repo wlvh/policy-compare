@@ -1,4 +1,5 @@
 use crate::{edits::*, model::*, structure::*, text::*};
+use crate::match_index::{label, token_score, ReflowIndex, SourceIndex, TokenIndex, WindowText, MIN_SCORE};
 use serde_json::json;
 #[derive(Clone)]
 struct Pair {
@@ -9,35 +10,6 @@ struct Pair {
 }
 fn issue(reason: &str, message: &str, a: &[Unit], b: &[Unit], l: &Doc, r: &Doc) -> V {
     json!({"reason":reason,"message":message,"left":a.iter().flat_map(|u|u.loc(l,"left")).collect::<Vec<_>>(),"right":b.iter().flat_map(|u|u.loc(r,"right")).collect::<Vec<_>>(),"defaultVisible":true})
-}
-fn label(u: &Unit) -> Option<String> {
-    u.m.text
-        .split_once(':')
-        .filter(|(a, _)| !a.is_empty() && a.len() < 100)
-        .map(|(a, _)| a.into())
-}
-// A table instance is a contiguous rectangle, bounded by surrounding prose,
-// a page boundary or a different cell count. Label/value lines keep their
-// existing literal-label context. Header spelling is never an admission gate.
-fn table_row(u: &Unit) -> bool {
-    u.cells.len() > 1
-}
-fn table_start(us: &[Unit], i: usize) -> usize {
-    let mut start = i;
-    while start > 0 {
-        let a = &us[start - 1];
-        let b = &us[start];
-        if !table_row(a) || !table_row(b) || a.page() != b.page() || a.cells.len() != b.cells.len()
-        {
-            break;
-        }
-        start -= 1;
-    }
-    start
-}
-fn header_candidate(us: &[Unit], i: usize) -> Option<usize> {
-    let first = table_start(us, i);
-    (table_row(&us[i]) && first < i).then_some(first)
 }
 // A rectangle's first row only proposes column labels. A non-identity
 // permutation needs a witness in the following rows and may not turn a value
@@ -63,7 +35,7 @@ fn column_mapping(a: &[Unit], b: &[Unit], ha: usize, hb: usize) -> Option<Vec<us
     let end = |us: &[Unit], h: usize| {
         let mut k = h + 1;
         while k < us.len()
-            && table_row(&us[k])
+            && us[k].cells.len() > 1
             && us[k].page() == us[h].page()
             && us[k].cells.len() == us[h].cells.len()
         {
@@ -89,35 +61,6 @@ fn column_mapping(a: &[Unit], b: &[Unit], ha: usize, hb: usize) -> Option<Vec<us
         }
     }
     witnessed.then_some(map)
-}
-// Distinct surrounding passages that survive on both sides bound the table
-// correspondence. This describes source neighbourhood, not business identity.
-fn compatible_table_scope(a: &[Unit], b: &[Unit], i: usize, j: usize) -> bool {
-    if !table_row(&a[i]) || !table_row(&b[j]) || label(&a[i]).is_some() || label(&b[j]).is_some() {
-        return true;
-    }
-    let left = context(a, i);
-    let right = context(b, j);
-    left == right
-        || left.is_empty()
-        || right.is_empty()
-        || !a.iter().any(|u| u.m.text == right)
-        || !b.iter().any(|u| u.m.text == left)
-}
-fn context(us: &[Unit], i: usize) -> String {
-    // Local source text is evidence, never a business owner. A stable preceding
-    // block separates identical labels and equal amounts in different places.
-    let start = if table_row(&us[i]) && label(&us[i]).is_none() {
-        table_start(us, i)
-    } else {
-        i
-    };
-    us[..start]
-        .iter()
-        .rev()
-        .find(|u| label(&us[i]).is_none() || label(u) != label(&us[i]))
-        .map(|u| u.m.text.clone())
-        .unwrap_or_default()
 }
 fn bind(
     pairs: &mut Vec<Pair>,
@@ -191,48 +134,47 @@ fn emit(
     diffs.push(json!({"id":id,"kind":kind,"structurePath":a.or(b).unwrap().path,"left":left,"right":right,"oldText":old,"newText":now,"textOps":ops,"hasTextChange":old!=now,"facts":facts,"repeat":null,"defaultVisible":true,"matchEvidence":{"method":method,"score":score,"details":["Engineering correspondence from source text and local context; no business identity or probability is asserted",method]},"reviewReasons":[],"occurrences":[]}));
 }
 fn bind_local_intervals(
-    a: &[Unit],
-    b: &[Unit],
+    left: &SourceIndex,
+    right: &SourceIndex,
     pairs: &mut Vec<Pair>,
     ul: &mut Set<usize>,
     ur: &mut Set<usize>,
 ) {
+    let (a, b) = (left.units, right.units);
     let anchors = monotone(
-        pairs,
-        |p| p.a.order as f64,
-        |p| p.b.order as f64,
-        |p| p.a.m.raw.len() as f64,
+        &(0..pairs.len()).collect::<Vec<_>>(),
+        |i| pairs[*i].a.order as f64,
+        |i| pairs[*i].b.order as f64,
+        |i| pairs[*i].a.m.raw.len() as f64,
     );
     let mut bounds = vec![(-1isize, -1isize)];
     bounds.extend(
         anchors
             .iter()
-            .map(|p| (p.a.order as isize, p.b.order as isize)),
+            .map(|i| (pairs[*i].a.order as isize, pairs[*i].b.order as isize)),
     );
     bounds.push((a.len() as isize, b.len() as isize));
     for w in bounds.windows(2) {
-        let aa: Vec<_> = (0..a.len())
-            .filter(|i| !ul.contains(i) && (*i as isize) > w[0].0 && (*i as isize) < w[1].0)
-            .collect();
-        let bb: Vec<_> = (0..b.len())
-            .filter(|j| !ur.contains(j) && (*j as isize) > w[0].1 && (*j as isize) < w[1].1)
-            .collect();
-        if aa.len() == 1 && bb.len() == 1 && compatible_table_scope(a, b, aa[0], bb[0]) {
+        let aa: Vec<_> = ((w[0].0 + 1) as usize..w[1].0 as usize)
+            .filter(|i| !ul.contains(i)).take(2).collect();
+        let bb: Vec<_> = ((w[0].1 + 1) as usize..w[1].1 as usize)
+            .filter(|j| !ur.contains(j)).take(2).collect();
+        if aa.len() == 1 && bb.len() == 1 && left.permits_table_pair(aa[0], right, bb[0]) {
             let i = aa[0];
             let j = bb[0];
-            let repeated = a.iter().filter(|u| u.m.text == a[i].m.text).count() > 1
-                || b.iter().filter(|u| u.m.text == b[j].m.text).count() > 1;
+            let repeated = left.count(&a[i].m.text) > 1
+                || right.count(&b[j].m.text) > 1;
             // Repeated page lines can use explicit adjacent anchors on each page;
             // a repeated data row without such context remains local ambiguity.
             let bounded = w[0].0 >= 0
                 && w[1].0 < a.len() as isize
                 && w[0].1 >= 0
                 && w[1].1 < b.len() as isize;
-            let ctx = context(a, i);
-            let anchored_context = ctx == context(b, j)
+            let ctx = left.contexts[i];
+            let anchored_context = ctx == right.contexts[j]
                 && !ctx.is_empty()
-                && a.iter().filter(|u| u.m.text == ctx).count() == 1
-                && b.iter().filter(|u| u.m.text == ctx).count() == 1;
+                && left.count(ctx) == 1
+                && right.count(ctx) == 1;
             if !repeated
                 || anchored_context
                 || bounded && a[i].cells.len() == 1 && label(&a[i]).is_some()
@@ -279,11 +221,11 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     let mut ur = Set::new();
     let mut un = vec![];
     crate::notify(2);
-    let tokens_total = |us: &[Unit]| us.iter().map(|u| tokenize(&u.m.text).len()).sum::<usize>();
-    if n(&budget["candidates"]) == 0.
-        || work_product(tokens_total(&a), tokens_total(&b)) as f64 > n(&budget["tokenProducts"])
-    {
-        un.push(issue("budget","The input work estimate exceeds the matching budget; these source regions have not been compared",&a,&b,l,r));
+    let candidate_limit = n(&budget["candidates"]) as u64;
+    let token_limit = n(&budget["tokenProducts"]) as u64;
+    let has_tokens = |us: &[Unit]| us.iter().any(|u| !tokenize(&u.m.text).is_empty());
+    if candidate_limit == 0 || (token_limit == 0 && has_tokens(&a) && has_tokens(&b)) {
+        un.push(issue("budget","Matching is disabled by the configured work budget; these source regions have not been compared",&a,&b,l,r));
         crate::notify(3);
         crate::notify(4);
         return Ok(finish(
@@ -305,92 +247,55 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     let mut exhausted = false;
     // Reflow: compare small consecutive groups before any occurrence is consumed.
     // This is exact text equivalence only, with raw whitespace retained in ops.
-    'reflow: for i in 0..a.len() {
-        if ul.contains(&i) {
-            continue;
-        }
-        for j in 0..b.len() {
-            if ur.contains(&j) {
+    {
+        let left_text = WindowText::from_raw(a.iter().map(|u| u.m.raw.as_str()));
+        let right_text = WindowText::from_raw(b.iter().map(|u| u.m.raw.as_str()));
+        let mut windows = ReflowIndex::new(&a, &left_text, &b, &right_text);
+        for (i, unit) in a.iter().enumerate() {
+            crate::checkpoint();
+            if ul.contains(&i) || unit.cells.len() > 1 {
                 continue;
             }
-            if a[i].cells.len() > 1
-                || b[j].cells.len() > 1
-                || a[i].m.text.split_whitespace().next() != b[j].m.text.split_whitespace().next()
-            {
-                continue;
-            }
-            let mut found = None;
-            'windows: for na in 1..=8.min(a.len() - i) {
-                if (i..i + na).any(|k| ul.contains(&k)) {
+            if let Some((j, na, nb)) = windows.earliest(&a, &left_text, i, &ul, &ur) {
+                if candidates >= candidate_limit {
+                    exhausted = true;
                     break;
                 }
-                for nb in 1..=8.min(b.len() - j) {
-                    if (na == 1 && nb == 1) || (na > 1 && nb > 1) {
-                        continue;
-                    }
-                    if (j..j + nb).any(|k| ur.contains(&k)) {
-                        break;
-                    }
-                    if candidates >= n(&budget["candidates"]) as u64 {
-                        exhausted = true;
-                        break 'reflow;
-                    }
-                    candidates += 1;
-                    let aa = joined(&a[i..i + na]);
-                    let bb = joined(&b[j..j + nb]);
-                    if words(&aa.m.raw) == words(&bb.m.raw) {
-                        found = Some((na, nb, aa, bb));
-                        break 'windows;
-                    }
-                }
-            }
-            if let Some((na, nb, aa, bb)) = found {
+                candidates += 1;
                 ul.extend(i..i + na);
                 ur.extend(j..j + nb);
                 pairs.push(Pair {
-                    a: aa,
-                    b: bb,
+                    a: joined(&a[i..i + na]),
+                    b: joined(&b[j..j + nb]),
                     method: "exact-text-reflow",
                     score: None,
                 });
-                break;
             }
         }
     }
+    let left = SourceIndex::new(&a);
+    let right = SourceIndex::new(&b);
     // Exact rows may move as a whole; labels repeated under different local
     // blocks cannot exchange values by using global text equality.
     for i in 0..a.len() {
         if ul.contains(&i) {
             continue;
         }
-        let eligible = |j: usize| {
-            !ur.contains(&j)
-                && compatible_table_scope(&a, &b, i, j)
-                && a[i].m.text == b[j].m.text
-                && ((label(&a[i]).is_none()
-                    && !test(r"\p{N}", &a[i].m.text)
-                    && a.iter().filter(|u| u.m.text == a[i].m.text).count() == 1
-                    && b.iter().filter(|u| u.m.text == b[j].m.text).count() == 1)
-                    || context(&a, i) == context(&b, j))
-        };
-        let js: Vec<_> = (0..b.len()).filter(|j| eligible(*j)).collect();
-        if js.is_empty() {
+        crate::checkpoint();
+        let Some(positions) = right.by_text.get(a[i].m.text.as_str()) else {
             continue;
-        }
-
-        // Equal occurrences are kept individually, and are never collapsed before
-        // changed siblings have had their local comparison.
-        if !js.is_empty() {
+        };
+        let unique = label(&a[i]).is_none()
+            && !test(r"\p{N}", &a[i].m.text)
+            && left.count(&a[i].m.text) == 1
+            && positions.len() == 1;
+        if let Some(&j) = positions.iter().find(|&&j| {
+            !ur.contains(&j)
+                && left.permits_table_pair(i, &right, j)
+                && (unique || left.contexts[i] == right.contexts[j])
+        }) {
             bind(
-                &mut pairs,
-                &mut ul,
-                &mut ur,
-                &a,
-                &b,
-                i,
-                js[0],
-                "exact-source-text",
-                None,
+                &mut pairs, &mut ul, &mut ur, &a, &b, i, j, "exact-source-text", None,
             );
         }
     }
@@ -400,24 +305,17 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             continue;
         }
         let Some(key) = label(&a[i]) else { continue };
-        let same = |us: &[Unit], k: usize| {
-            label(&us[k]).as_ref() == Some(&key) && context(us, k) == context(&a, i)
+        let key = (key, left.contexts[i]);
+        let sole_available = |positions: &[usize], used: &Set<usize>| {
+            let mut free = positions.iter().copied().filter(|k| !used.contains(k));
+            let first = free.next()?;
+            free.next().is_none().then_some(first)
         };
-        let is: Vec<_> = (0..a.len())
-            .filter(|k| !ul.contains(k) && same(&a, *k))
-            .collect();
-        let js: Vec<_> = (0..b.len())
-            .filter(|k| !ur.contains(k) && same(&b, *k))
-            .collect();
-        if is.len() == 1 && js.len() == 1 {
+        let j = right.by_label.get(&key)
+            .and_then(|js| sole_available(js, &ur));
+        if let Some(j) = j.filter(|_| sole_available(&left.by_label[&key], &ul) == Some(i)) {
             bind(
-                &mut pairs,
-                &mut ul,
-                &mut ur,
-                &a,
-                &b,
-                i,
-                js[0],
+                &mut pairs, &mut ul, &mut ur, &a, &b, i, j,
                 "literal-label-and-local-context",
                 None,
             );
@@ -427,7 +325,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     // Column names are source text; their spelling has no privileged meaning.
     let mut mappings: Map<(usize, usize), Option<Vec<usize>>> = Map::new();
     let mut shared_cells = |i: usize, j: usize| {
-        let map = match (header_candidate(&a, i), header_candidate(&b, j)) {
+        let map = match (left.headers[i], right.headers[j]) {
             (Some(ha), Some(hb)) => mappings
                 .entry((ha, hb))
                 .or_insert_with(|| column_mapping(&a, &b, ha, hb))
@@ -445,10 +343,11 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             continue;
         }
         let mut candidates = vec![];
+        crate::checkpoint();
         for j in 0..b.len() {
             if ur.contains(&j)
                 || b[j].cells.len() != a[i].cells.len()
-                || !compatible_table_scope(&a, &b, i, j)
+                || !left.permits_table_pair(i, &right, j)
             {
                 continue;
             }
@@ -463,7 +362,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                 .filter(|k| {
                     !ul.contains(k)
                         && a[*k].cells.len() == b[j].cells.len()
-                        && compatible_table_scope(&a, &b, *k, j)
+                        && left.permits_table_pair(*k, &right, j)
                 })
                 .map(|k| shared_cells(k, j))
                 .max()
@@ -474,7 +373,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                     .filter(|k| {
                         !ul.contains(k)
                             && a[*k].cells.len() == b[j].cells.len()
-                            && compatible_table_scope(&a, &b, *k, j)
+                            && left.permits_table_pair(*k, &right, j)
                             && shared_cells(*k, j) == n
                     })
                     .count()
@@ -497,36 +396,49 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     // Unique remaining units between stable source anchors support arbitrary
     // local replacements, including words with no shared tokens. Repeated
     // source rows do not gain an invented identity from their order.
-    bind_local_intervals(&a, &b, &mut pairs, &mut ul, &mut ur);
+    bind_local_intervals(&left, &right, &mut pairs, &mut ul, &mut ur);
     let mut scored = vec![];
+    let right_tokens: Vec<_> = b.iter().enumerate()
+        .map(|(j, u)| {
+            if ur.contains(&j) || exhausted {
+                Vec::new()
+            } else {
+                tokenize(&u.m.text)
+            }
+        })
+        .collect();
+    let token_index = TokenIndex::new(&right_tokens);
     for i in 0..a.len() {
+        if exhausted {
+            break;
+        }
         if ul.contains(&i) {
             continue;
         }
-        for j in 0..b.len() {
-            if ur.contains(&j) || !compatible_table_scope(&a, &b, i, j) {
+        let ta = tokenize(&a[i].m.text);
+        for j in token_index.candidates(&ta) {
+            if !left.permits_table_pair(i, &right, j) {
                 continue;
             }
             crate::checkpoint();
-            let ta = tokenize(&a[i].m.text);
-            let tb = tokenize(&b[j].m.text);
+            let tb = &right_tokens[j];
             let work = work_product(ta.len(), tb.len());
-            if candidates + 1 > n(&budget["candidates"]) as u64
-                || products + work > n(&budget["tokenProducts"]) as u64
+            if candidates >= candidate_limit || work > token_limit.saturating_sub(products)
             {
                 exhausted = true;
                 break;
             }
             candidates += 1;
             products += work;
-            let score = 2. * lcs_length(&ta, &tb) as f64 / (ta.len() + tb.len()).max(1) as f64;
-            if score >= 0.55 {
+            let score = token_score(lcs_length(&ta, tb), ta.len(), tb.len());
+            if score >= MIN_SCORE {
                 scored.push((i, j, score));
             }
         }
-        if exhausted {
-            break;
-        }
+    }
+    // A still-unexamined competitor may change either endpoint's pairing.
+    if exhausted {
+        scored.clear();
     }
     scored.sort_by(|x, y| y.2.total_cmp(&x.2).then(x.0.cmp(&y.0)).then(x.1.cmp(&y.1)));
     for &(i, j, score) in &scored {
@@ -540,13 +452,13 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
                 && !ur.contains(&jj)
                 && (ii == i || jj == j)
         });
-        let repeated = a.iter().filter(|u| u.m.text == a[i].m.text).count() > 1
-            || b.iter().filter(|u| u.m.text == b[j].m.text).count() > 1;
-        let ctx = context(&a, i);
-        let anchored_context = ctx == context(&b, j)
+        let repeated = left.count(&a[i].m.text) > 1
+            || right.count(&b[j].m.text) > 1;
+        let ctx = left.contexts[i];
+        let anchored_context = ctx == right.contexts[j]
             && !ctx.is_empty()
-            && a.iter().filter(|u| u.m.text == ctx).count() == 1
-            && b.iter().filter(|u| u.m.text == ctx).count() == 1;
+            && left.count(ctx) == 1
+            && right.count(ctx) == 1;
         if !tied && (!repeated || anchored_context) {
             bind(
                 &mut pairs,
@@ -562,7 +474,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         }
     }
     if !exhausted {
-        bind_local_intervals(&a, &b, &mut pairs, &mut ul, &mut ur);
+        bind_local_intervals(&left, &right, &mut pairs, &mut ul, &mut ur);
     }
     let al: Vec<_> = a
         .iter()
@@ -617,15 +529,15 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     for (i, pair) in pairs.iter().enumerate() {
         let row_moved = !stable.contains(&i)
             || (pair.a.order != pair.b.order
-                && context(&a, pair.a.order) != context(&b, pair.b.order));
+                && left.contexts[pair.a.order] != right.contexts[pair.b.order]);
         if stable.contains(&i) {
             let aa = pair.a.m.refs.iter().flatten().next().unwrap();
             let bb = pair.b.m.refs.iter().flatten().next().unwrap();
             alignment.push(json!({"leftPage":aa.p,"leftY":aa.ch(l).origin[1],"rightPage":bb.p,"rightY":bb.ch(r).origin[1]}));
         }
         if let (Some(ha), Some(hb)) = (
-            header_candidate(&a, pair.a.order),
-            header_candidate(&b, pair.b.order),
+            left.headers[pair.a.order],
+            right.headers[pair.b.order],
         ) {
             let map = mappings
                 .entry((ha, hb))
@@ -652,8 +564,8 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         }
         // A row's literal cells can change position without establishing that
         // this row is a header. Do not propagate this permutation by itself.
-        if header_candidate(&a, pair.a.order).is_none()
-            && header_candidate(&b, pair.b.order).is_none()
+        if left.headers[pair.a.order].is_none()
+            && right.headers[pair.b.order].is_none()
             && pair.a.cells.len() > 1
             && pair.a.cells.len() == pair.b.cells.len()
             && a.get(pair.a.order + 1)
@@ -728,14 +640,25 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     }
     // Count-only folding is last: never erase a local replacement merely
     // because the same values or total counts occur elsewhere in the document.
+    let mut left_raw: Map<&str, Vec<&Unit>> = Map::new();
+    let mut right_raw: Map<&str, Vec<&Unit>> = Map::new();
+    for u in &a {
+        left_raw.entry(&u.m.raw).or_default().push(u);
+    }
+    for u in &b {
+        right_raw.entry(&u.m.raw).or_default().push(u);
+    }
     let mut counted = Set::new();
     for u in a.iter().chain(b.iter()) {
-        if !counted.insert(u.m.raw.clone()) {
+        if !counted.insert(u.m.raw.as_str()) {
             continue;
         }
-        let aa: Vec<_> = a.iter().filter(|x| x.m.raw == u.m.raw).cloned().collect();
-        let bb: Vec<_> = b.iter().filter(|x| x.m.raw == u.m.raw).cloned().collect();
-        if aa.is_empty() || bb.is_empty() || aa.len() == bb.len() || aa.len().max(bb.len()) < 2 {
+        let (Some(aa), Some(bb)) = (
+            left_raw.get(u.m.raw.as_str()), right_raw.get(u.m.raw.as_str())
+        ) else {
+            continue;
+        };
+        if aa.len() == bb.len() || aa.len().max(bb.len()) < 2 {
             continue;
         }
         if pairs
@@ -746,12 +669,12 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         }
         // Table rows keep their local record relation; count-only summaries are
         // restricted to a single source line, never a collection of cell values.
-        if aa.iter().chain(&bb).any(|x| x.cells.len() != 1) {
+        if aa.iter().chain(bb).any(|x| x.cells.len() != 1) {
             continue;
         }
         let mut summary = vec![];
         emit(
-            Some(&aa[0]),
+            Some(aa[0]),
             None,
             "occurrence-count-only",
             None,
@@ -767,7 +690,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         v["kind"] = json!("Replaced");
         v["newText"] = json!(u.m.raw);
         v["right"] = json!(bb[0].loc(r, "right"));
-        v["textOps"] = json!(text_ops(Some(&aa[0]), Some(&bb[0]), l, r, budget, &mut un));
+        v["textOps"] = json!(text_ops(Some(aa[0]), Some(bb[0]), l, r, budget, &mut un));
         v["hasTextChange"] = json!(false);
         v["repeat"] = json!({"left":aa.len(),"right":bb.len(),"leftPages":l.pages.len(),"rightPages":r.pages.len()});
         v["occurrences"]=json!((0..aa.len().max(bb.len())).map(|i|json!({"left":aa.get(i).map(|u|u.loc(l,"left")).unwrap_or_default(),"right":bb.get(i).map(|u|u.loc(r,"right")).unwrap_or_default()})).collect::<Vec<_>>());
