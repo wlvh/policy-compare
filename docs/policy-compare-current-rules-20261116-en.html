@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A plain-English guide to the current Policy Compare comparison rules, with examples, exact conditions, and code references.">
+<title>Policy Compare Rules Guide</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#222;font:16px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:960px;margin:0 auto;padding:28px 30px 48px}
+h1{font-size:26px;line-height:1.4;margin:0 0 16px}
+h2{font-size:20px;line-height:1.5;margin:0 0 12px}
+h3{font-size:17px;line-height:1.5;margin:18px 0 8px}
+section{margin:0 0 30px;padding:0 0 24px;border-bottom:1px solid #ddd}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:1.6em}
+li{margin:7px 0}
+a{color:#235c91;text-underline-offset:3px}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em;white-space:pre-wrap;overflow-wrap:anywhere}
+pre{margin:10px 0;padding:10px 12px;white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f6f6;line-height:1.65}
+.table-wrap{width:100%;overflow-x:auto;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.75}
+th,td{text-align:left;vertical-align:top;border:1px solid #d8d8d8;padding:8px 10px;overflow-wrap:anywhere}
+th{font-weight:600;background:#f6f6f6}
+td:first-child{min-width:120px}
+.example{margin:18px 0;padding:14px 16px;background:#fafafa;border:1px solid #e3e3e3;border-radius:6px}
+.example>p:first-child{margin-top:0}
+.example table{table-layout:fixed}
+.example th{width:50%}
+.example td{min-width:0}
+.compare-table del,.compare-table ins,.compare-table .moved{padding:0 .14em;border-radius:3px;text-decoration:none;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.compare-table del{background:#f4cfc9;color:#762f27}
+.compare-table ins{background:#cce7d5;color:#185737}
+.compare-table .moved{background:#f5e3a8;color:#604713}
+.example pre{margin:0;padding:0;background:none}
+.example .result{margin-bottom:0}
+.steps li{margin:10px 0}
+details{margin-top:16px;font-size:14px}
+summary{cursor:pointer;color:#555}
+details[open] summary{margin-bottom:12px}
+.sources{margin:12px 0 0;padding-left:1.5em}
+.sources li{margin:3px 0}
+footer{font-size:13px;color:#666}
+a:focus-visible,summary:focus-visible{outline:2px solid #235c91;outline-offset:3px}
+@media(max-width:600px){main{padding:20px 16px 36px}h1{font-size:24px}h2{font-size:19px}.example{padding:12px}th,td{padding:7px 8px}table{font-size:14px}}
+@media print{main{max-width:none;padding:0}body{font-size:11pt}h1{font-size:18pt}h2{font-size:14pt;break-after:avoid}table,details{font-size:10pt}a{color:inherit}pre,tr,.example{break-inside:avoid}section{margin-bottom:18pt;padding-bottom:14pt}footer{font-size:9pt}}
+</style>
+</head>
+<body><main>
+<h1>Policy Compare Rules Guide</h1>
+
+<section id="rule-1">
+<h2>1. Comparison Scope</h2>
+<p>The program compares text that can be extracted from PDFs, together with the source locations of that text. It does not compare two pages as images:</p>
+<ul>
+<li>Text inside images is not recognized with OCR, so it is not automatically included in the text comparison.</li>
+<li>Graphics, colors, fonts, and font-size styles are not themselves reported as text differences. However, the coordinates and font sizes used during extraction affect how lines, cells, and paragraphs are assembled.</li>
+<li>In the web app, each PDF is limited to <b>100 pages and 30 MiB</b>. The old and new files may have different page counts.</li>
+<li>Both files must use the same extractor, the same version, and the same options. One side cannot use MuPDF while the other uses PDF.js.</li>
+</ul>
+<p>Comparison stops if the page order, characters, original-text ranges, or source locations are invalid. Extraction problems that can be isolated are recorded instead of being silently ignored.</p>
+<p>The current supported scope is English. When non-Latin text is detected, or a long sentence cannot be confirmed as English, the original text is retained and still participates in local comparison, while a coverage gap is recorded. Registered gaps such as images, missing glyphs, and page failures are also retained. If any such gap exists, the processing status is <code>partial</code>; this must not be interpreted as full coverage of all content.</p>
+<details><summary>Exact conditions and code</summary><div class="table-wrap"><table><thead><tr><th scope="col">Check</th><th scope="col">Condition</th></tr></thead><tbody><tr><td>Extractor</td><td>The entire <code>extractor</code> object must be identical on both sides, including its version, options, and <code>adapterVersion</code> when present.</td></tr><tr><td>Characters</td><td>Character IDs must be unique throughout each document. Original-text ranges must be contiguous Unicode characters within each page, and every character must belong to exactly one extracted line.</td></tr><tr><td>Source mapping</td><td>When <code>sourceRef</code> is present, the extracted item, Unicode scalar range, UTF-16 range, and original text must all agree.</td></tr><tr><td>Input order</td><td>Metadata → individual pages → completion. Each file's actual page count must match its declared count. Both files must be fully received before comparison starts, and each session compares only once.</td></tr><tr><td>Non-Latin text</td><td>A run of at least 2 non-Latin letters in an extracted line records <code>unsupported_language</code>.</td></tr><tr><td>Unconfirmed long sentence</td><td>A language gap is recorded when an extracted line ends with a period, contains no colon, has at least 10 alphabetic-only tokens, and contains none of the following function words.</td></tr></tbody></table></div><pre><code>the and of to with from for shall must will this that are not under</code></pre><p>The language check accepts Latin accents, combining marks, ligatures, and isolated non-Latin mathematical letters. It can miss short non-English Latin text, and it can also mark a long English sentence as unconfirmed if the sentence lacks the function words above.</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/model.rs#L99-L286">Input and source validation</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L255-L258">Extractor consistency</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L200-L250">Language checks</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/main.tsx">File limits and extraction entry point</a></li></ul></details>
+</section>
+
+<section id="rule-2">
+<h2>2. Text Processing and Search</h2>
+<p>Two separate steps matter here: <b>first find the content that should be compared, then decide whether the original text changed.</b></p>
+<ol class="steps">
+<li><b>For matching, the program uses normalized text.</b> It applies Unicode NFKC to ligatures, full-width characters, and similar forms. For example, <code>Ofﬁce</code> becomes <code>Office</code>, and <code>１００</code> becomes <code>100</code>. Runs of whitespace are also temporarily collapsed to one space. This gives text with different layout or encoding forms a chance to be matched as content at the same location. Matching remains case-sensitive.</li>
+<li><b>For deciding whether text changed, the program still compares the original text on both sides.</b> Normalization is only used to find matches; it does not replace <code>oldText</code> or <code>newText</code> in the result. Thus, <code>Office</code> and <code>Ofﬁce</code> can be matched, but a text change is still recorded because their original strings differ.</li>
+</ol>
+<p>In other words, normalization prevents <code>ﬁ</code> and <code>fi</code> from hiding a match merely because they use different encodings. Comparing the original text then accurately reports that the two spellings really are different.</p>
+<div class="example"><p><b>Example: different ligatures can match without hiding the change</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>Of<del>fi</del>ce</code></pre></td><td><pre><code>Of<ins>ﬁ</ins>ce</code></pre></td></tr></tbody></table></div><p class="result">For matching, both sides can be represented as <code>Office</code>, so a correspondence can be established. For change detection, their original strings differ, so the result still shows <code>Office → Ofﬁce</code>. Normalization does not swallow the change.</p></div>
+<p>The source location of every original character is retained. A space inserted by the program to join layout fragments has no real PDF glyph, so the program does not invent coordinates for it.</p>
+<p>Search uses the same normalized forms, so searching for <code>fi</code> can find the ligature <code>ﬁ</code> in the original text. It covers all retained structural text, regardless of whether difference cards are collapsed. Search queries do not additionally collapse runs of whitespace or ignore case.</p>
+<details><summary>Exact conditions and code</summary><pre><code>raw      Original text: used for change detection, display, and source locations
+refs     Sources of the original characters
+text     NFKC-normalized text with collapsed whitespace: used for matching
+mapping  Maps normalized characters back to original characters
+
+hasTextChange = oldText != newText</code></pre><p>A base character and its following combining marks are grouped before normalization. If processing these groups separately disagrees with normalizing the whole string, the program falls back to whole-string mapping. Matching tokens consist of letter runs, number runs, and punctuation; decimal points and commas can remain inside numbers.</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/text.rs#L30-L99">Normalization, mapping, and tokenization</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L142-L191">Original-text change detection</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/lib.rs">Search implementation</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/tests/core.test.ts#L58-L65">Ligature test</a></li></ul></details>
+</section>
+
+<section id="rule-3">
+<h2>3. Lines, Cells, and Paragraphs</h2>
+<p>A PDF extractor may return a whole passage or just a few fragments from the same line. The program uses coordinates to organize these fragments into the “text units” used by later comparison. This happens in three steps:</p>
+<ol class="steps">
+<li><b>Build lines first.</b> Nearly horizontal fragments whose baseline vertical coordinates differ by no more than <b>2 pt</b> are placed on the same line and sorted from left to right.</li>
+<li><b>Use horizontal gaps to insert spaces or split cells.</b> A small gap leaves the text joined; a larger gap inserts a space; an even larger gap splits the left and right text into separate cells. Here, a “cell” is a block of text separated horizontally in the layout. It does not mean the program has confirmed a business table.</li>
+<li><b>Join eligible single-column lines into paragraphs.</b> Two same-page, single-column, left-to-right lines are joined when their vertical distance and left edges are close, and the first line does not end with sentence-ending punctuation.</li>
+</ol>
+<div class="table-wrap"><table><thead><tr><th scope="col">Operation</th><th scope="col">Current rule</th></tr></thead><tbody><tr><td>Build a line</td><td>Fragments must be nearly horizontal, and their baseline vertical coordinates must differ by no more than <b>2 pt</b>.</td></tr><tr><td>Sort</td><td>Characters within a line are sorted left to right by horizontal coordinate; lines are sorted top to bottom by baseline.</td></tr><tr><td>Insert one space</td><td>The horizontal gap is greater than <b>0.18 times</b> the current font size, but does not meet the cell-splitting condition, and neither adjacent original string already contains whitespace.</td></tr><tr><td>Split into two cells</td><td>The horizontal gap is greater than <b>1.5 times</b> the current font size.</td></tr><tr><td>Join a paragraph</td><td>Both units are on the same page, have one cell, and run left to right. The previous unit does not end with <code>. : ! ? ;</code>. The vertical distance is greater than 2 pt and no more than <b>1.75 times</b> the previous font size, and the left-edge difference is no more than the previous font size.</td></tr></tbody></table></div>
+<div class="example">
+<p><b>Example 1: why does one gap insert a space while another splits cells?</b></p>
+<p>Assume the font size is <b>10 pt</b> and the extractor returns three fragments. They share a baseline, so they are first placed on the same line:</p>
+<pre><code>[Annual]  [limit]                         [USD 100]</code></pre>
+<div class="table-wrap"><table><thead><tr><th scope="col">Between fragments</th><th scope="col">Gap and rule</th><th scope="col">Result</th></tr></thead><tbody><tr><td><code>Annual</code> and <code>limit</code></td><td>The gap is 2 pt: greater than 0.18 × 10 = 1.8 pt, but less than the cell-splitting threshold of 1.5 × 10 = 15 pt.</td><td>Insert one space to produce <code>Annual limit</code>, still in the same cell.</td></tr><tr><td><code>limit</code> and <code>USD 100</code></td><td>The gap is 30 pt, greater than the 15 pt cell-splitting threshold.</td><td>Split here, making <code>USD 100</code> a separate cell on the right.</td></tr></tbody></table></div>
+<p class="result">After processing, this line has two cells: <code>Annual limit</code> and <code>USD 100</code>. Later table matching handles these as two cells rather than treating the whole line as one inseparable string.</p>
+</div>
+<div class="example">
+<p><b>Example 2: why are two lines joined into a paragraph?</b></p>
+<p>Assume both lines below are on the same page, use a <b>12 pt</b> font, have an <b>18 pt</b> vertical distance, share the same left edge, and each contain only one cell:</p>
+<pre><code>The service covers
+all approved operations</code></pre>
+<p>The first line does not end with <code>. : ! ? ;</code>. The 18 pt distance is also greater than 2 pt and no more than 12 × 1.75 = 21 pt, so the lines are joined into one comparison unit:</p>
+<pre><code>The service covers all approved operations</code></pre>
+<p class="result">The space inserted during this join has no invented PDF coordinates. If the first line already ends with a period, or the line distance or indentation exceeds these limits, the lines are not joined at this step.</p>
+</div>
+<p>Later matching operates on these organized text units, so cell splitting and paragraph joining affect which content is compared. The original text and every real character's source are still retained. Section headings, company names, registration numbers, and similar strings remain ordinary text at this stage; they do not by themselves establish a business entity or field assignment.</p>
+<details><summary>Exact conditions and code</summary><p>The horizontal condition for building a line is <code>abs(direction.x) &gt; 0.98</code>; the condition for left-to-right processing is <code>direction.x &gt; 0.98</code>. A joined unit can contain multiple extracted lines while retaining its single-cell structure.</p><pre><code>structurePath = {
+  section: "document",
+  entity: null, field: null, table: null, rowKey: null,
+  confidence: "candidate"
+}</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L38-L160">Line building, cell splitting, and paragraph joining</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L187-L198">Sources after joining</a></li></ul></details>
+</section>
+
+<section id="rule-4">
+<h2>4. Matching Order and Exact Matches</h2>
+<p>The program does not begin by scoring the similarity of every passage. It first uses rules with more explicit evidence. Matches are established in the following order, and matched units leave the candidate pool so the same content cannot be matched twice:</p>
+<ol>
+<li><b>Handle layout splits and merges first:</b> one unit on one side corresponds to 2–8 consecutive units on the other.</li>
+<li><b>Find units whose normalized matching text is identical.</b></li>
+<li><b>Check whether both the colon label and local context match.</b></li>
+<li><b>Match table rows and columns.</b></li>
+<li><b>Use established surrounding matches:</b> when exactly one unmatched unit remains on each side between two stable matches, pair those units.</li>
+<li><b>Score the similarity of the remaining content.</b></li>
+<li><b>If the computation budget has not been exhausted, run step 5 once more.</b></li>
+</ol>
+<p><b>The conditions for layout splits and merges are strict:</b> the starting units on both sides must each have one cell and the same first word. After the consecutive units are joined, their original text must be exactly equal after trimming the ends and collapsing whitespace. This step does not rely on text merely “looking similar,” and it does not normalize case.</p>
+<div class="example"><p><b>Example: one paragraph is split into three consecutive blocks</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>The service covers all approved operations.</code></pre></td><td><pre><code>The service covers
+all approved
+operations.</code></pre></td></tr></tbody></table></div><p>When the three consecutive blocks on the new side are joined, their text matches the old side, so a one-to-three correspondence can be established. This avoids misreporting one paragraph as “old paragraph removed, three new paragraphs added.” Actual whitespace differences in the original text are still retained.</p></div>
+<p><b>Even identical text is not matched merely because it appears somewhere in both documents.</b> The normalized text must be identical and the table scopes must allow a match. In addition, at least one of these conditions must hold:</p>
+<ul><li>The text has no colon label and no digits, and occurs exactly once in each document.</li><li>Both sides have the same local context.</li></ul>
+<p>These restrictions prevent repeated text from being paired arbitrarily across a document.</p>
+<details><summary>Exact conditions and code</summary><p>Split/merge matching only tries <code>1 ↔ 2…8</code>, never many-to-many. The starting units are checked for the single-cell condition; the subsequent window does not check every unit for that condition and has no additional same-page restriction. The first qualifying candidate is used.</p><p>Split/merge matching compares <code>words(raw)</code>: trim the ends and collapse whitespace without NFKC or case conversion. The exact-text stage compares normalized <code>m.text</code>. If multiple candidates qualify, the first one in the current order is used.</p><pre><code>Layout split/merge → exact-text-reflow
+Exact text        → exact-source-text</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L306-L359">Layout split/merge matching</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L362-L396">Exact-text matching</a></li></ul></details>
+</section>
+
+<section id="rule-5">
+<h2>5. Labels and Local Context</h2>
+<p>If a unit contains a colon, the program calls the <b>nonempty text before the first colon</b> its “label.” For example, the label in <code>Price: USD 100</code> is <code>Price</code>. A label must be shorter than <b>100 UTF-8 bytes</b>. Labels are compared as normalized literal text, without an alias dictionary and without ignoring case.</p>
+<p>A label alone is not enough, because one document can contain many <code>Price</code> labels. The program also examines nearby preceding text to distinguish units that share a label:</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Current unit</th><th scope="col">What “local context” means here</th></tr></thead><tbody><tr><td>Ordinary unit</td><td>The nearest preceding text unit.</td></tr><tr><td>Unit with a colon label</td><td>Scan backward past units with the same label and take the nearest unit with a different label. For example, two consecutive <code>Price</code> units can both use the preceding <code>Block A</code> as their local context.</td></tr><tr><td>Multi-column table row without a colon</td><td>Use the text unit before the contiguous table block, rather than treating the preceding table-data row as context.</td></tr></tbody></table></div>
+<p><b>This rule creates a match only when the labels match, the local context matches, and that combination occurs exactly once among the remaining units on each side.</b> A shared label is not a unique identity by itself.</p>
+<div class="example"><p><b>Example: amounts under two blocks are swapped</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>Block A
+Price: USD <del>100</del>
+
+Block B
+Price: USD <del>200</del></code></pre></td><td><pre><code>Block A
+Price: USD <ins>200</ins>
+
+Block B
+Price: USD <ins>100</ins></code></pre></td></tr></tbody></table></div><p>The context of the first <code>Price</code> is <code>Block A</code>, and the context of the second is <code>Block B</code>. Both contexts remain unchanged in the old and new documents, so the program separately retains 100→200 under <code>Block A</code> and 200→100 under <code>Block B</code>. These edits cannot be canceled out merely because the full documents still each contain one 100 and one 200.</p></div>
+<div class="example"><p><b>Counterexample: the label and context match, but occur more than once, so arbitrary pairing is still forbidden</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>Block A
+Price: USD <del>100</del>
+Price: USD <del>200</del></code></pre></td><td><pre><code>Block A
+Price: USD <ins>300</ins>
+Price: USD <ins>400</ins></code></pre></td></tr></tbody></table></div><p>Under the context rule above, both <code>Price</code> units skip adjacent units with the same label and use <code>Block A</code> as their local context. Therefore, “<code>Price</code> + <code>Block A</code>” occurs twice on the old side and twice on the new side, violating the requirement of exactly one occurrence on each side.</p><p class="result">The program does not force 100→300 and 200→400 merely because of their vertical order during the label stage. If later rules also cannot establish a unique match, the relevant original text and unresolved state are retained instead of guessing.</p></div>
+<details><summary>Exact conditions and code</summary><p>Labels are extracted from <code>m.text</code>. Context also uses the preceding unit's <code>m.text</code>; it is an empty string when no eligible context exists. This stage groups remaining units by “label + context” and then checks that each group has size 1 on both sides.</p><pre><code>literal-label-and-local-context</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L13-L18">Labels</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L95-L121">Context</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L397-L425">Label matching</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/tests/issue24.test.ts">Label and block tests</a></li></ul></details>
+</section>
+
+<section id="rule-6">
+<h2>6. Table Matching</h2>
+<p>Here, a “table” is still a candidate structure inferred from cells and positions; it does not establish business record identities. The program proceeds as follows:</p>
+<ul>
+<li><b>Build contiguous table blocks.</b> Consecutive, same-page, multi-column rows with the same column count form a candidate block. A page break, ordinary text, or a changed column count breaks the block.</li>
+<li><b>Avoid matching across the wrong blocks.</b> When both rows are multi-column rows without colon labels, they cannot match across blocks if their contexts differ and both contexts survive somewhere in both documents. This restriction is relaxed when the contexts match, either context is empty, or the other context no longer exists on the opposite side. If either side has a colon label, this block check is skipped.</li>
+<li><b>Match rows.</b> Two rows can be candidates only if they have the same number of columns and at least one identical cell. The score counts identical cells. An old row is paired only when its unique highest-scoring candidate also names that old row as its own unique highest-scoring candidate.</li>
+<li><b>Match columns.</b> The program uses identical cell text in the first row to propose a column mapping. Both sides must have the same number of columns; every first-row cell on the old side must have unique text and occur on the new side. If the column order changed, later rows must also validate the mapping. A first row alone cannot establish a table-wide column reorder.</li>
+</ul>
+<p>To validate reordered columns, both sides must have the same nonzero number of subsequent rows. At least one value must follow the proposed column mapping, and the value remaining at its original column position on the new side must differ. The mapping also must not turn a value that stayed unchanged in its original column into a definite edit.</p>
+<p>In the following examples, yellow indicates position changes only, not text replacements.</p>
+<div class="example"><p><b>Example: columns are reordered throughout the table</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>Reference | <span class="moved">Phase 1</span> | <span class="moved">Phase 2</span>
+A         | <span class="moved">100</span>     | <span class="moved">200</span></code></pre></td><td><pre><code>Reference | <span class="moved">Phase 2</span> | <span class="moved">Phase 1</span>
+A         | <span class="moved">200</span>     | <span class="moved">100</span></code></pre></td></tr></tbody></table></div><p>The first row proposes a column mapping, and the values in row A follow the same mapping, supporting a table-wide column reorder. The program compares 100 with 100 and 200 with 200 in their corresponding columns, retains the actual position changes, and does not produce a 100→200 text replacement.</p></div>
+<div class="example"><p><b>Example: only the first row swaps values, so the whole table has not reordered columns</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>A | <span class="moved">100</span> | <span class="moved">200</span>
+B | 300 | 400</code></pre></td><td><pre><code>A | <span class="moved">200</span> | <span class="moved">100</span>
+B | 300 | 400</code></pre></td></tr></tbody></table></div><p>The 300 and 400 in row B remain in their original columns and do not follow the proposed reorder. The first row's swap therefore cannot be applied to the whole table. Text changes or source movements in row A are still shown; the 300 and 400 in row B do not consequently produce text edits.</p></div>
+<details><summary>Exact conditions and code</summary><p>Row scoring uses a validated column mapping when available and otherwise counts identical cells at their original column positions. Column names may contain digits. There is no fixed column count, column name, or identity column.</p><p>Subsequent rows with a column mapping are emitted cell by cell. A permutation within the first row itself can be shown separately as cell-position changes when both sides have at least two columns, their column counts match, their cell texts are unique and correspond to one another, and each side has at least one later unit with the same column count. This branch has no additional same-page check for the later unit.</p><pre><code>Row matching                         source-cells-and-column-text
+Cell output using validated columns source-column-text
+First-row cell-position changes     literal-cell-position</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L19-L110">Block and column mappings</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L426-L496">Row scoring and matching</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L626-L685">Cell-by-cell output</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/tests/pr25-headerless-regressions.test.ts">Column-reorder and first-row swap tests</a></li></ul></details>
+</section>
+
+<section id="rule-7">
+<h2>7. Matching Remaining Content</h2>
+<p>If units remain unmatched after exact matching, label processing, and table processing, the program uses the following two kinds of rules.</p>
+<h3>Use established surrounding matches</h3>
+<p>Established matches can serve as surrounding anchors. The program first selects stable anchors whose order is consistent on both sides, then examines the content remaining between adjacent anchors:</p>
+<ul>
+<li>If exactly one unmatched old unit and one unmatched new unit remain in an interval, and the table scopes allow a match, they can be paired directly without requiring similar text.</li>
+<li>The beginning and end of a document can also serve as interval boundaries.</li>
+<li>If the candidate text is repeated in a document, additional requirements for unique context or explicit boundaries apply. Having “one remaining unit on each side” is not sufficient by itself.</li>
+</ul>
+<div class="example"><p><b>Example: the surrounding text is established, but the word between it is completely replaced</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>Start marker.
+<del>Red</del>
+End marker.</code></pre></td><td><pre><code>Start marker.
+<ins>Blue</ins>
+End marker.</code></pre></td></tr></tbody></table></div><p>Assume each passage is a separate unit and the first and last passages already form stable matches. Exactly one unit remains on each side between them, so <code>Red → Blue</code> can be compared directly. It does not need to reach the 0.55 similarity threshold described below.</p></div>
+<h3>Score remaining candidates by similarity</h3>
+<p>Other remaining units are split into tokens such as words, numbers, and punctuation. The program measures the proportion of tokens shared in the same order on both sides, using the LCS (longest common subsequence):</p>
+<pre><code>Similarity = 2 × LCS length ÷ (old-side token count + new-side token count)
+Minimum candidate score: 0.55</code></pre>
+<ul>
+<li>Candidates are processed from highest to lowest score, then by their order in the document.</li>
+<li>If an unmatched unit still has competing candidates with the same score, this step does not guess; no match is selected yet.</li>
+<li>Repeated text has an additional requirement: both sides must have the same nonempty context, and that context must occur exactly once in each document.</li>
+<li>Similarity is only a candidate-ranking score. <b>It is not the probability that a match is correct.</b></li>
+</ul>
+<p>Content still unmatched after normal completion is retained separately as old-side removals and new-side additions. These are technical comparison results and do not automatically prove that a business record was added or terminated. If recorded competing candidates remain on both sides, <code>ambiguous_match</code> is also recorded to show that the correspondence is unresolved.</p>
+<details><summary>Exact conditions and code</summary><p>Stable anchors use the strictly increasing chain on both sides with the greatest total weight. The weight is the old-side original text's length in UTF-8 bytes.</p><p>For repeated text, anchor-based matching requires identical, nonempty context that is unique in each document; alternatively, both ends of the interval must be real matches, and the old candidate unit must have one cell and a colon label.</p><p>The similarity stage examines all remaining units and checks table-scope constraints. It does not restrict the search window using business sections.</p><pre><code>Surrounding anchors → neighboring-source-anchors
+Similarity          → local-source-token-correspondence
+Unmatched content   → unmatched</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L193-L254">Anchor-based matching</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L501-L605">Similarity and competing candidates</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/text.rs#L91-L211">LCS and stable order chains</a></li></ul></details>
+</section>
+
+<section id="rule-8">
+<h2>8. Repeated Content and Counts</h2>
+<p>When identical text occurs multiple times, the program first compares each occurrence. It does not merge them at the outset. Only when all three conditions below hold does it additionally produce an occurrence-count summary:</p>
+<ul>
+<li>The same original text occurs on both sides but with different counts, and the side with more occurrences has at least 2.</li>
+<li>The text is not involved in any matched text replacement.</li>
+<li>Every relevant unit has exactly one cell.</li>
+</ul>
+<p>The summary records the counts and every source location on both sides. It replaces the covered same-text one-sided records and pure same-text movement records. Because every occurrence has identical text, the summary states only that the count changed; <b>it does not identify which occurrence was added or removed.</b></p>
+<div class="example"><p><b>Example: an identical title changes from two occurrences to one</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>TITLE
+…
+TITLE</code></pre></td><td><pre><code>…
+TITLE</code></pre></td></tr></tbody></table></div><p>When the conditions above are met, the summary records a 2→1 count for <code>TITLE</code> and retains all sources on both sides, but it does not guess which old <code>TITLE</code> was removed.</p></div>
+<h3>Grouped display in the interface</h3>
+<p>The interface can combine differences into one card when their type, old text, new text, fact labels, and matching method are all identical, while retaining every source location. If even one occurrence has different text, it is shown separately; a representative item cannot hide an exception. Grouping changes only the page display, not the underlying results.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Interface or field</th><th scope="col">Actual meaning</th></tr></thead><tbody><tr><td>Changes on the page</td><td>The number of entries in the main list after display grouping; pure occurrence-count summaries are listed separately.</td></tr><tr><td><code>stats.differenceCount</code></td><td>The length of the core output's difference array.</td></tr><tr><td><code>stats.occurrenceCount</code></td><td>Currently also the length of the difference array, not the total number of text occurrences.</td></tr><tr><td><code>repeat.left / right</code></td><td>In a core occurrence-count summary, the number of occurrences of the original text on each side. In a grouped interface card, the number of differences with a source on each side.</td></tr><tr><td><code>repeat.leftPages / rightPages</code></td><td>The total page count of each document.</td></tr></tbody></table></div>
+<details><summary>Exact conditions and code</summary><pre><code>Occurrence-count summary:
+  kind = Replaced
+  hasTextChange = false
+  matchEvidence.method = occurrence-count-only
+
+Interface grouping key:
+  kind + oldText + newText + facts + matchEvidence.method</code></pre><p>The single-cell check uses <code>cells.len()==1</code>. A single-cell unit can be joined from multiple extracted lines. Interface grouping does not modify core results. Selecting an occurrence uses that occurrence's own edits and sources.</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L729-L782">Occurrence-count summaries</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L794-L809">Statistics fields</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/fold-occurrences.ts">Interface grouping</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/main.tsx#L641-L646">Main list and occurrence-count summaries</a></li></ul></details>
+</section>
+
+<section id="rule-9">
+<h2>9. Change Types and Movement</h2>
+<p>The program uses four technical types to describe comparison results:</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Type</th><th scope="col">When it is used</th></tr></thead><tbody><tr><td>Added <code>Added</code></td><td>Only the new side has a source; no usable old-side match was found in this run.</td></tr><tr><td>Removed <code>Removed</code></td><td>Only the old side has a source; no usable new-side match was found in this run.</td></tr><tr><td>Replaced <code>Replaced</code></td><td>A match exists on both sides, their original text differs, and the pair was not classified as moved. Occurrence-count summaries for identical text also use this type.</td></tr><tr><td>Moved <code>Moved</code></td><td>The match order or table relationships propose a movement, and the actual source locations differ. Movement can include text edits.</td></tr></tbody></table></div>
+<p>“Added” and “Removed” describe whether a match was found in this comparison. They do not independently prove that a business record was actually added or terminated.</p>
+<p>An ordinary unit outside the stable order chain becomes a movement candidate. Tables also check row order, context relationships, and column reordering. Movement is canceled if the candidate's page indices, character coordinates, and line directions are identical on both sides. An ordinary pair with identical original text and no final movement classification produces no difference.</p>
+<p><b>Movement and text change are independent judgments.</b> Text change is recorded separately as <code>hasTextChange = (oldText != newText)</code>. A page change alone, or a change to a nearby heading alone, does not establish that the passage moved.</p>
+<h3>The “whitespace-only” fact label</h3>
+<p>Currently, the only generated fact label is <code>whitespace_only</code>. It requires different original strings that become identical after trimming the ends and collapsing runs of whitespace. This label describes only a verifiable whitespace fact. It does not hide the difference or imply that the change is unimportant.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Old text → New text</th><th scope="col">Does it have the “whitespace-only” label?</th></tr></thead><tbody><tr><td><code>USD  100 → USD 100</code></td><td>Yes. Only the number of consecutive spaces changed.</td></tr><tr><td><code>per aircraft → peraircraft</code></td><td>No. The original separator between words was removed, joining two words into one.</td></tr><tr><td><code>Office → Ofﬁce</code></td><td>No. Replacing a ligature is not a whitespace change.</td></tr></tbody></table></div>
+<details><summary>Exact conditions and code</summary><p>The stable chain is weighted by the old-side original text's UTF-8 byte length. For cell-by-cell table output, row movement requires a position outside the stable chain, or changed row order together with changed context. A column permutation can additionally trigger cell movement.</p><p>The final type prioritizes <code>Moved</code>, then selects among the other types based on whether sources occur on both sides or only one. Output is explicitly sorted only by the first old-side source page, or the new-side page when there is no old-side source.</p><pre><code>facts = old != new &amp;&amp; words(old) == words(new)
+      ? ["whitespace_only"]
+      : []</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L142-L191">Types, original text, and fact labels</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L608-L697">Order and table movement</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L783-L788">Output ordering</a></li></ul></details>
+</section>
+
+<section id="rule-10">
+<h2>10. Text Edits and Source Locations</h2>
+<p>After finding a change, the program determines which text was retained, deleted, or inserted for card highlighting and PDF source navigation. These operations are recorded as <code>equal / delete / insert</code>, all calculated from the original text:</p>
+<ul>
+<li>First remove the identical prefix and suffix, then find common tokens that retain their order in the middle, avoiding a highlight over the entire passage.</li>
+<li>If an unmatched interval has the same number of tokens on both sides, compare tokens one by one and continue retaining identical character prefixes and suffixes.</li>
+<li>If the token counts differ, retain only identical whitespace at the edges and mark the middle as a wholesale deletion and insertion.</li>
+<li>Deleted content points to sources in the old PDF; inserted content points to sources in the new PDF. Sources retain pages, character IDs, original-text ranges, and location precision.</li>
+<li>If detailed editing exceeds its computation limit, both full original strings and the already identified common prefix and suffix are retained. The middle uses coarser edits, and <code>word_diff_budget</code> is recorded. The change is not discarded; the result explicitly states that detailed highlighting was not completed.</li>
+</ul>
+<div class="example"><p><b>Example: only the first digit of an amount changes, so only that digit is highlighted</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">Old text</th><th scope="col">New text</th></tr></thead><tbody><tr><td><pre><code>Limit USD <del>1</del>00</code></pre></td><td><pre><code>Limit USD <ins>2</ins>00</code></pre></td></tr></tbody></table></div><p>The shared <code>Limit USD </code> and <code>00</code> can be retained, while only the old <code>1</code> is marked deleted and the new <code>2</code> inserted. More complex retokenization can produce a larger replacement interval; not every example is guaranteed to be precise down to one character.</p></div>
+<details><summary>Exact conditions and code</summary><p>Edit tokens include letter runs, number runs, whitespace, and separate punctuation. Decimal points and commas can remain inside numbers. The limit is based on the product of non-whitespace token counts after removing the common prefix and suffix.</p><p>Characters on the same page and extracted line with contiguous original-text ranges are combined into one source fragment. If the extractor provides only a whole-item location, the source retains whole-item precision and is not described as character-precise. PDF.js can add measured text-layer positions as <code>resolvedGeometry</code> during display.</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/edits.rs">Text edit algorithm</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/model.rs#L301-L334">Source fragments</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/packages/compare-core/options.ts">Computation limits</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/engines/pdfjs/view.ts#L54-L82">Text-layer positions</a></li></ul></details>
+</section>
+
+<section id="rule-11">
+<h2>11. Difference Display and Export</h2>
+<ul>
+<li><b>Default excerpts do not cut off edits.</b> Every edit group is retained. Only identical sentences far from an edit are omitted. Users can still expand the full old and new text; long sentences are not simply truncated at a fixed character count.</li>
+<li><b>Excerpts are used only when they can fully reconstruct the original text.</b> The edit operations must reproduce both original strings and include at least one deletion or insertion. Otherwise, the full text is shown.</li>
+<li><b>Unchanged content retains only nearby context.</b> The last 2 identical sentences before the first edit and the first 2 after the last edit are retained. When two edits are far apart, the intervening context retains its first 2 and last 2 sentences.</li>
+<li><b>When detailed highlighting is incomplete, both full strings are shown.</b> Navigation uses the complete source range, and the interface explicitly states that detailed edits are unavailable.</li>
+<li><b>Notices are associated only with genuinely overlapping sources.</b> An unresolved record must overlap the card in side, page index, and source characters. Being on the same page is not enough.</li>
+<li><b>Users can return to their original task after viewing a notice.</b> Returning preserves the current edit group, filters, and list scroll position. These states are cleared only after the task is closed or replaced.</li>
+<li><b>One-sided content still offers navigation references.</b> When the other side has no corresponding original text, a text anchor or page number can assist navigation, but it is explicitly marked as a reference rather than an actual match.</li>
+<li><b>Exports retain complete results.</b> Every difference, coverage gap, and unresolved record is exported. Page filters, default excerpts, and card grouping do not remove exported content.</li>
+</ul>
+<details><summary>Exact conditions and code</summary><pre><code>Checks before creating an excerpt:
+  equal + delete == oldText
+  equal + insert == newText
+  At least one non-equal operation
+
+Split only equal segments into English sentences:
+  More than 2 sentences before the first edit → keep the last 2
+  More than 2 sentences after the last edit → keep the first 2
+  More than 4 sentences between two edits → keep the first 2 and last 2
+  Keep all delete / insert content</code></pre><p>Sentence segmentation uses <code>Intl.Segmenter("en", {granularity: "sentence"})</code>. Source buttons use each edit group's own locations. Opening a source or details is not recorded as “manually verified.”</p><p>Exports include all <code>differences / coverage / unresolved</code> records. <code>resolvedGeometry</code> added by PDF.js during display can also be exported.</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/change-excerpts.ts">Excerpt rules</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/DifferenceText.tsx">Highlighting and full-text display</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/review-notices.ts#L41-L52">Source association for notices</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/main.tsx#L507-L610">Return state, navigation, and export</a></li></ul></details>
+</section>
+
+<section id="rule-12">
+<h2>12. Incomplete States and Computation Limits</h2>
+<p>Some situations do not mean the entire comparison failed, but they do mean part of the work is incomplete or a match remains undetermined. The program records these situations separately:</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Record</th><th scope="col">What it means for the user</th></tr></thead><tbody><tr><td><code>budget</code></td><td>Matching and comparison are incomplete for the affected scope. Completed matches are retained. The remaining scope is marked incomplete rather than being directly reported as added or removed.</td></tr><tr><td><code>word_diff_budget</code></td><td>Both full original strings are retained, but detailed text highlighting was not completed.</td></tr><tr><td><code>ambiguous_match</code></td><td>Multiple competing matches remain, and the program cannot determine which one to select. The relevant original text and one-sided differences are retained.</td></tr><tr><td>Extraction or language gap</td><td>The specific page, region, and reason are recorded while local comparison continues where possible.</td></tr><tr><td>Table structure observation</td><td>Local text comparison continues. Two explicitly tagged observations are placed in the table-relationship notices, which are collapsed by default.</td></tr></tbody></table></div>
+<p>There are only two kinds of table structure observations: an identical multi-column unit occurs on different pages, or nearby rows on the same page have different cell counts. These observations alone cannot prove a continued table, merged cells, or wrapped cell text. They are recorded as observations without drawing those conclusions automatically. Other structural problems remain visible as coverage gaps.</p>
+<h3>Default computation limits</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">Limit</th><th scope="col">What it limits</th></tr></thead><tbody><tr><td><code>candidates = 20,000</code></td><td>The number of layout split/merge attempts and similarity candidates.</td></tr><tr><td><code>tokenProducts = 100,000,000</code></td><td>The product of both full documents' token counts before comparison, and the cumulative candidate token-count products during the similarity stage.</td></tr><tr><td><code>diffProducts = 4,000,000</code></td><td>The product of non-whitespace token counts on both sides used for detailed text edits after removing the common prefix and suffix.</td></tr></tbody></table></div>
+<p>Before comparison starts, if the full-document token-count product already exceeds its limit, or <code>candidates=0</code>, the program does not enter matching. Instead, it records <code>budget</code> for all known sources. Not every internal operation in the exact-text, label, and table stages counts toward the candidate limit.</p>
+<p><b>The result status describes processing coverage, not human review.</b> If no registered coverage gaps or unresolved records exist, the status is <code>complete_for_scope</code>; otherwise, it is <code>partial</code>. <code>complete_for_scope</code> does not mean the business content is correct or the user has finished reviewing it. <code>partial</code> explicitly warns that registered gaps or unresolved items remain.</p>
+<details><summary>Exact conditions and code</summary><div class="table-wrap"><table><thead><tr><th scope="col">Structure tag</th><th scope="col">Trigger</th></tr></thead><tbody><tr><td><code>repeated_tabular_text</code></td><td>The current multi-column unit's <code>cells</code> array is identical to a previous unit on another page.</td></tr><tr><td><code>varying_cell_boundaries</code></td><td>The previous unit has at least 3 cells, the current unit has a different cell count, both are on the same page, and the absolute vertical distance is no more than 1.8 times the previous font size.</td></tr></tbody></table></div><p>Only <code>unsupported_structure</code> records with one of these tags are placed in the collapsed structure notices. Collapsing the display does not remove the underlying records or change the <code>partial</code> status.</p><pre><code>coverage is empty and unresolved is empty → complete_for_scope
+Otherwise                                 → partial</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L282-L305">Limit prechecks</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L501-L605">Runtime limits and unresolved records</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L794-L809">Result status</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L253-L275">Structure observations</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/review-notices.ts">Notice classification</a></li></ul></details>
+</section>
+
+<footer>Code version: <a href="https://github.com/wlvh/policy-compare/commit/aba0cf174dea37b78a25262e731c4ca3c5a800e9">aba0cf1</a> · 2026-11-16 · This edition rewrites only the explanations and examples; it does not change the comparison rules.</footer>
+</main></body></html>

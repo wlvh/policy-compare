@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Policy Compare 当前比较规则的通俗说明，附具体例子、精确条件和代码来源。">
+<title>Policy Compare 规则手册（通俗版）</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#222;font:16px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:960px;margin:0 auto;padding:28px 30px 48px}
+h1{font-size:26px;line-height:1.4;margin:0 0 16px}
+h2{font-size:20px;line-height:1.5;margin:0 0 12px}
+h3{font-size:17px;line-height:1.5;margin:18px 0 8px}
+section{margin:0 0 30px;padding:0 0 24px;border-bottom:1px solid #ddd}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:1.6em}
+li{margin:7px 0}
+a{color:#235c91;text-underline-offset:3px}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em;white-space:pre-wrap;overflow-wrap:anywhere}
+pre{margin:10px 0;padding:10px 12px;white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f6f6;line-height:1.65}
+.table-wrap{width:100%;overflow-x:auto;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.75}
+th,td{text-align:left;vertical-align:top;border:1px solid #d8d8d8;padding:8px 10px;overflow-wrap:anywhere}
+th{font-weight:600;background:#f6f6f6}
+td:first-child{min-width:120px}
+.example{margin:18px 0;padding:14px 16px;background:#fafafa;border:1px solid #e3e3e3;border-radius:6px}
+.example>p:first-child{margin-top:0}
+.example table{table-layout:fixed}
+.example th{width:50%}
+.example td{min-width:0}
+.compare-table del,.compare-table ins,.compare-table .moved{padding:0 .14em;border-radius:3px;text-decoration:none;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.compare-table del{background:#f4cfc9;color:#762f27}
+.compare-table ins{background:#cce7d5;color:#185737}
+.compare-table .moved{background:#f5e3a8;color:#604713}
+.example pre{margin:0;padding:0;background:none}
+.example .result{margin-bottom:0}
+.steps li{margin:10px 0}
+details{margin-top:16px;font-size:14px}
+summary{cursor:pointer;color:#555}
+details[open] summary{margin-bottom:12px}
+.sources{margin:12px 0 0;padding-left:1.5em}
+.sources li{margin:3px 0}
+footer{font-size:13px;color:#666}
+a:focus-visible,summary:focus-visible{outline:2px solid #235c91;outline-offset:3px}
+@media(max-width:600px){main{padding:20px 16px 36px}h1{font-size:24px}h2{font-size:19px}.example{padding:12px}th,td{padding:7px 8px}table{font-size:14px}}
+@media print{main{max-width:none;padding:0}body{font-size:11pt}h1{font-size:18pt}h2{font-size:14pt;break-after:avoid}table,details{font-size:10pt}a{color:inherit}pre,tr,.example{break-inside:avoid}section{margin-bottom:18pt;padding-bottom:14pt}footer{font-size:9pt}}
+</style>
+</head>
+<body><main>
+<h1>Policy Compare 规则手册</h1>
+
+<section id="rule-1">
+<h2>1. 比较范围</h2>
+<p>程序比较的是 PDF 中能够提取出来的文字，以及这些文字在 PDF 里的位置。它不是把两页当成图片来比较：</p>
+<ul>
+<li>图片里的文字不会通过 OCR 识别，因此不会自动进入文字比较。</li>
+<li>图形、颜色、字体和字号样式本身不作为文字差异报告；但提取文字时使用的坐标和字号会影响行、单元格与段落的整理。</li>
+<li>网页中每份 PDF 最多 <b>100 页、30 MiB</b>。新旧文件的页数可以不同。</li>
+<li>两份文件必须使用同一个提取器、同一版本和同一组选项。不能一边使用 MuPDF，另一边使用 PDF.js。</li>
+</ul>
+<p>如果页序、字符、原文区间或来源位置本身无效，比较会停止。能够局部继续的提取问题则会记录下来，不会悄悄忽略。</p>
+<p>当前支持范围是英文。检测到非拉丁文字，或者某句英文长句无法确认时，相关原文仍然保留并参与局部比较，同时记录范围缺口。图片、缺字、页面失败等已登记缺口也会保留；只要存在这类缺口，处理状态就是 <code>partial</code>，不能把它理解为“所有内容都已完整覆盖”。</p>
+<details><summary>具体条件与代码</summary><div class="table-wrap"><table><thead><tr><th scope="col">检查</th><th scope="col">条件</th></tr></thead><tbody><tr><td>提取器</td><td>两侧整个 <code>extractor</code> 对象相等，包括版本、选项及存在时的 <code>adapterVersion</code>。</td></tr><tr><td>字符</td><td>字符 ID 在全文档内唯一；每页原文区间按 Unicode 字符连续；每个字符恰好归属一条提取行。</td></tr><tr><td>来源映射</td><td>存在 <code>sourceRef</code> 时，提取项、Unicode scalar 区间、UTF-16 区间与原文内容一致。</td></tr><tr><td>接收顺序</td><td>元信息 → 逐页 → 结束。每份实际页数与自身声明一致；两侧都接收完成后才能比较；每次会话只比较一次。</td></tr><tr><td>非拉丁文字</td><td>一条提取行中连续至少 2 个非拉丁字母，记录 <code>unsupported_language</code>。</td></tr><tr><td>未确认的长句</td><td>提取行以句号结尾、无冒号、有至少 10 个纯字母词元，且不含以下任何功能词，记录语言缺口。</td></tr></tbody></table></div><pre><code>the and of to with from for shall must will this that are not under</code></pre><p>语言检查允许拉丁重音、组合符号、连字及孤立的非拉丁数学字母。它可能漏掉短的非英文拉丁文字，也可能把缺少上述功能词的英文长句标为未确认。</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/model.rs#L99-L286">输入与来源校验</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L255-L258">提取器一致性</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L200-L250">语言检查</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/main.tsx">文件限制与提取入口</a></li></ul></details>
+</section>
+
+<section id="rule-2">
+<h2>2. 文字处理与搜索</h2>
+<p>这里要把两件事分开：<b>先找到应该相互比较的内容，再判断原文有没有变化。</b></p>
+<ol class="steps">
+<li><b>找对应时，使用统一后的文字形式。</b>程序按照 Unicode 的 NFKC 规则处理连字、全角字符等，例如把 <code>Ofﬁce</code> 转成 <code>Office</code>、把 <code>１００</code> 转成 <code>100</code>；连续空白也暂时折叠成一个空格。这样，排版或编码形式不同的文字才有机会被识别为同一位置的内容。匹配时不会忽略大小写。</li>
+<li><b>判断有没有改字时，仍然比较两侧原文。</b>统一形式只用于寻找对应，不会替换结果里的 <code>oldText</code> 和 <code>newText</code>。所以 <code>Office</code> 与 <code>Ofﬁce</code> 虽然能被对上，仍会因为原文不同而记录文字变化。</li>
+</ol>
+<p>换句话说，统一形式解决的是“别因为 <code>ﬁ</code> 和 <code>fi</code> 的编码不同，就找不到同一句话”；原文比较解决的是“找到以后，如实地告诉用户这两种写法确实不同”。</p>
+<div class="example"><p><b>例：连字不同，既能对应，也不会漏报</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>Of<del>fi</del>ce</code></pre></td><td><pre><code>Of<ins>ﬁ</ins>ce</code></pre></td></tr></tbody></table></div><p class="result">用于匹配时，两边都可以写成 <code>Office</code>，因此可以建立对应；用于判断变化时，两边原文不同，因此仍显示 <code>Office → Ofﬁce</code>。统一形式并没有吃掉这次变化。</p></div>
+<p>每个原始字符的来源位置都会保留。程序为了连接排版片段而补出的空格在 PDF 中没有真实字形，所以不会为这个空格编造坐标。</p>
+<p>搜索同样使用统一后的形式，因此搜索 <code>fi</code> 可以找到原文中的连字 <code>ﬁ</code>。搜索覆盖保留下来的全部结构文字，不受差异卡片是否折叠影响；但查询不会额外折叠连续空白，也不会忽略大小写。</p>
+<details><summary>具体条件与代码</summary><pre><code>raw      原始文字：用于判断变化、展示和定位
+refs     原始字符的来源
+text     NFKC 转换并折叠空白后的匹配文字：用于寻找对应
+mapping  匹配字符到原始字符的映射
+
+hasTextChange = oldText != newText</code></pre><p>基字符和后续组合符号先成组再规范化。若分组结果与全文规范化不一致，改用整段映射。匹配分词分为字母串、数字串和标点；数字内部的小数点、逗号可保留。</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/text.rs#L30-L99">规范化、映射与分词</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L142-L191">原文变化判定</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/lib.rs">搜索实现</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/tests/core.test.ts#L58-L65">连字测试</a></li></ul></details>
+</section>
+
+<section id="rule-3">
+<h2>3. 行、单元格与段落</h2>
+<p>PDF 提取器给出的文字可能是一段，也可能只是同一行里的几个碎片。程序先根据坐标把这些碎片整理成后续比较使用的“文字单元”。整理分三步：</p>
+<ol class="steps">
+<li><b>先组成行。</b>接近水平、基线纵坐标相差不超过 <b>2 pt</b> 的片段放在同一行，再从左到右排序。</li>
+<li><b>再按横向间隔补空格或分格。</b>间隔较小，照常连接；间隔稍大，补一个空格；间隔再大，就把左右文字分成两个单元格。这里的“单元格”表示版面中横向分开的文字块，不代表程序已经确认它属于某张业务表格。</li>
+<li><b>最后连接可以接段的单行。</b>同页、单列、从左向右的两行，如果上下距离和左起点都接近，并且上一行没有以句末标点结束，就接成一个段落单元。</li>
+</ol>
+<div class="table-wrap"><table><thead><tr><th scope="col">处理</th><th scope="col">当前规则</th></tr></thead><tbody><tr><td>组成一行</td><td>片段接近水平，基线纵坐标差不超过 <b>2 pt</b>。</td></tr><tr><td>排序</td><td>一行之内按字符横坐标从左向右排；各行按基线从上到下排。</td></tr><tr><td>补一个空格</td><td>横向间隔大于当前字号的 <b>0.18 倍</b>，但还没有达到分格条件，并且两端原文本来没有空白。</td></tr><tr><td>分成两格</td><td>横向间隔大于当前字号的 <b>1.5 倍</b>。</td></tr><tr><td>接成段落</td><td>同页、单列、从左向右；前段不以 <code>. : ! ? ;</code> 结束；纵距大于 2 pt 且不超过前字号的 <b>1.75 倍</b>；左起点差不超过前字号。</td></tr></tbody></table></div>
+<div class="example">
+<p><b>例 1：同一行里，为什么有时只补空格，有时却分成两格？</b></p>
+<p>假设字号为 <b>10 pt</b>，提取器给出三个片段。它们的基线相同，所以先组成一行：</p>
+<pre><code>[Annual]  [limit]                         [USD 100]</code></pre>
+<div class="table-wrap"><table><thead><tr><th scope="col">片段之间</th><th scope="col">间隔与规则</th><th scope="col">处理结果</th></tr></thead><tbody><tr><td><code>Annual</code> 与 <code>limit</code></td><td>间隔 2 pt。它大于 0.18 × 10 = 1.8 pt，但小于分格阈值 1.5 × 10 = 15 pt。</td><td>中间补一个空格，得到 <code>Annual limit</code>，仍放在同一格。</td></tr><tr><td><code>limit</code> 与 <code>USD 100</code></td><td>间隔 30 pt，大于 15 pt 的分格阈值。</td><td>从这里分格，右侧成为另一格 <code>USD 100</code>。</td></tr></tbody></table></div>
+<p class="result">整理后，这一行有两个单元格：<code>Annual limit</code> 和 <code>USD 100</code>。后续表格对应会按这两个格子处理，而不是把整行当成无法拆分的一串文字。</p>
+</div>
+<div class="example">
+<p><b>例 2：两行为什么会接成一段？</b></p>
+<p>假设下面两行都在同一页，字号为 <b>12 pt</b>，行间纵距为 <b>18 pt</b>，左起点相同，而且各自都只有一格：</p>
+<pre><code>The service covers
+all approved operations</code></pre>
+<p>第一行没有以 <code>. : ! ? ;</code> 结束；18 pt 又落在“大于 2 pt、不超过 12 × 1.75 = 21 pt”的范围内，所以两行接成一个比较单元：</p>
+<pre><code>The service covers all approved operations</code></pre>
+<p class="result">接段时补出的空格没有虚构的 PDF 坐标。如果第一行本来以句点结尾，或者两行距离、缩进超过上述范围，就不会在这一步接成一段。</p>
+</div>
+<p>后续匹配以这些整理后的文字单元为对象，所以分格和接段会影响“谁和谁比”。不过，原始文字和每个真实字符的来源始终保留。章节标题、公司名称、注册号等在这里也只是普通文字，不会仅凭这些词就确定业务主体或字段归属。</p>
+<details><summary>具体条件与代码</summary><p>组行的水平条件为 <code>abs(direction.x) &gt; 0.98</code>；从左向右处理的条件为 <code>direction.x &gt; 0.98</code>。接段后可包含多条提取行，但仍保留单格结构。</p><pre><code>structurePath = {
+  section: "document",
+  entity: null, field: null, table: null, rowKey: null,
+  confidence: "candidate"
+}</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L38-L160">组行、分格与接段</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L187-L198">拼接后的来源</a></li></ul></details>
+</section>
+
+<section id="rule-4">
+<h2>4. 对应顺序与精确匹配</h2>
+<p>程序不会一上来就给所有文字算相似度，而是先使用依据更明确的规则。按下面顺序建立新旧对应；已经配上的单元会退出后续匹配，避免同一处内容被重复配对：</p>
+<ol>
+<li><b>先处理排版拆并：</b>一侧的 1 个单元，对应另一侧连续的 2–8 个单元。</li>
+<li><b>再找匹配文字完全相同的单元。</b></li>
+<li><b>再看冒号标签和局部前文是否都相同。</b></li>
+<li><b>处理表格行和列的对应。</b></li>
+<li><b>利用已经确定的前后对应：</b>两个稳定对应之间，如果两侧各只剩一个单元，就把它们配对。</li>
+<li><b>对剩余内容计算文字相似度。</b></li>
+<li><b>计算预算尚未耗尽时，再执行一次第 5 步。</b></li>
+</ol>
+<p><b>排版拆并的条件很严格：</b>两侧用于起步的单元都必须是单格，第一个词相同；把连续单元拼接后，原文在修剪两端并折叠空白后必须完全相等。这里不靠“看起来很像”，也不统一大小写。</p>
+<div class="example"><p><b>例：一段被拆成三个连续块</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>The service covers all approved operations.</code></pre></td><td><pre><code>The service covers
+all approved
+operations.</code></pre></td></tr></tbody></table></div><p>把新侧三个连续块接起来后，文字与旧侧相同，就可以建立一对三对应。这样不会把同一段内容误报成“旧段删除、三个新段新增”。实际原文中的空白差异仍然保留。</p></div>
+<p><b>完全相同也不是只看全文有一样的字。</b>除了匹配文字相同、表格区块允许对应，还要满足下面至少一个条件：</p>
+<ul><li>这段文字没有冒号标签、没有数字，并且在两份文档中各只出现一次；</li><li>两侧的局部前文相同。</li></ul>
+<p>这些限制是为了避免全文中重复出现的相同文字被随便配到一起。</p>
+<details><summary>具体条件与代码</summary><p>拆并只尝试 <code>1 ↔ 2…8</code>，不尝试多对多。起始单元检查单格条件，后续窗口没有逐单元单格检查，也没有额外同页限制。符合的第一个候选被采用。</p><p>拆并比较的是 <code>words(raw)</code>：修剪两端并折叠空白，不做 NFKC 或大小写转换。精确文字阶段比较的是规范化后的 <code>m.text</code>；多个候选满足条件时，采用当前顺序中的第一个。</p><pre><code>排版拆并 → exact-text-reflow
+精确文字 → exact-source-text</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L306-L359">排版拆并</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L362-L396">精确文字</a></li></ul></details>
+</section>
+
+<section id="rule-5">
+<h2>5. 标签与局部前文</h2>
+<p>如果一个单元里有冒号，程序把<b>第一个冒号之前的非空文字</b>称为“标签”。例如 <code>Price: USD 100</code> 的标签是 <code>Price</code>。标签必须少于 <b>100 个 UTF-8 字节</b>；比较时使用统一形式后的字面文字，不使用别名词典，也不忽略大小写。</p>
+<p>只看标签还不够，因为同一份文档里可能有很多个 <code>Price</code>。程序还会看它前面的局部文字，用位置上下文把这些同名单元区分开：</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">当前单元</th><th scope="col">这里所说的“局部前文”</th></tr></thead><tbody><tr><td>普通单元</td><td>前面最近的文字单元。</td></tr><tr><td>带冒号标签的单元</td><td>向前跳过标签相同的单元，取最近一个标签不同的单元。例如连续两个 <code>Price</code> 单元的局部前文都可以是它们前面的 <code>Block A</code>。</td></tr><tr><td>无冒号的多列表格行</td><td>取连续表格块之前的文字单元，而不是把上一行表格数据当成前文。</td></tr></tbody></table></div>
+<p><b>只有“标签相同、局部前文相同，而且这个组合在两侧剩余单元中都只有一个”时，才按这条规则配对。</b>同名标签本身不是唯一身份。</p>
+<div class="example"><p><b>例：两个区块的同名金额交换</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>Block A
+Price: USD <del>100</del>
+
+Block B
+Price: USD <del>200</del></code></pre></td><td><pre><code>Block A
+Price: USD <ins>200</ins>
+
+Block B
+Price: USD <ins>100</ins></code></pre></td></tr></tbody></table></div><p>第一个 <code>Price</code> 的前文是 <code>Block A</code>，第二个是 <code>Block B</code>。两个前文在新旧文档中都保持不变，所以程序分别保留 <code>Block A</code> 下的 100→200 和 <code>Block B</code> 下的 200→100。不能因为全文中仍各有一个 100 和 200，就把这两处修改抵消。</p></div>
+<div class="example"><p><b>反例：标签和前文都相同，但出现多次，仍然不能乱配</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>Block A
+Price: USD <del>100</del>
+Price: USD <del>200</del></code></pre></td><td><pre><code>Block A
+Price: USD <ins>300</ins>
+Price: USD <ins>400</ins></code></pre></td></tr></tbody></table></div><p>按照上面的前文规则，两个 <code>Price</code> 单元都会跳过相邻的同标签单元，把 <code>Block A</code> 作为局部前文。因此，“<code>Price</code>＋<code>Block A</code>”在旧侧有两个，在新侧也有两个，不满足“两侧各只有一个”。</p><p class="result">程序不会在标签阶段按上下顺序硬凑成 100→300、200→400。后续规则如果也无法给出唯一对应，就保留相关原文和未确定状态，而不是猜一个结果。</p></div>
+<details><summary>具体条件与代码</summary><p>标签从 <code>m.text</code> 提取。前文也使用前一单元的 <code>m.text</code>；没有符合条件的前文时为空字符串。此阶段按“标签＋前文”对剩余单元分组，再检查两侧组大小均为 1。</p><pre><code>literal-label-and-local-context</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L13-L18">标签</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L95-L121">前文</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L397-L425">标签配对</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/tests/issue24.test.ts">标签与区块测试</a></li></ul></details>
+</section>
+
+<section id="rule-6">
+<h2>6. 表格对应</h2>
+<p>这里的“表格”仍然是根据分格和位置整理出来的候选结构，不代表已经确认业务记录身份。程序按以下顺序处理：</p>
+<ul>
+<li><b>先分出连续表格块。</b>同页、连续、列数相同的多列行组成一个候选块。换页、插入普通文字或列数改变，都会打断这个块。</li>
+<li><b>避免跨错区块。</b>两侧都是没有冒号标签的多列行时，如果各自的前文不同，而且这两个前文在两份文档中都还存在，就不跨这两个区块配对。前文相同、为空，或另一个前文在对侧已经不存在时，会放宽这项限制。任一侧带冒号标签时，不执行这项区块检查。</li>
+<li><b>再对应行。</b>两行列数相同且至少有一格相同，才可能成为候选。程序按相同格子的数量评分；旧行的唯一最高分候选，也必须把这条旧行当作自己的唯一最高分候选，双方才配对。</li>
+<li><b>最后对应列。</b>程序用首行中相同的单元格文字提出列映射。两侧列数必须相同，旧侧首行各格文字必须互不重复，并且都能在新侧找到。若列顺序改变，还要用后续行验证，不能只凭首行就宣布整表换列。</li>
+</ul>
+<p>验证整列换序时，两侧后续行数必须相同且大于 0；至少一个值确实跟随列映射移动，而且它在新侧原列位置的值已经不同。同时，不能出现“值明明留在原列没有变，按新映射却会被误判为改变”的情况。</p>
+<p>下面例子中的黄色只表示位置变化，不表示文字替换。</p>
+<div class="example"><p><b>例：整张表的列一起换序</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>Reference | <span class="moved">Phase 1</span> | <span class="moved">Phase 2</span>
+A         | <span class="moved">100</span>     | <span class="moved">200</span></code></pre></td><td><pre><code>Reference | <span class="moved">Phase 2</span> | <span class="moved">Phase 1</span>
+A         | <span class="moved">200</span>     | <span class="moved">100</span></code></pre></td></tr></tbody></table></div><p>首行提出列映射，A 行的值也跟着同一映射移动，因此支持整表换列。程序按对应列比较 100 和 100、200 和 200，保留实际位置移动，不产生 100→200 的文字替换。</p></div>
+<div class="example"><p><b>例：只有第一行的值交换，不能说整表换列</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>A | <span class="moved">100</span> | <span class="moved">200</span>
+B | 300 | 400</code></pre></td><td><pre><code>A | <span class="moved">200</span> | <span class="moved">100</span>
+B | 300 | 400</code></pre></td></tr></tbody></table></div><p>B 行的 300、400 仍留在原列，没有跟随换列。因此不能把第一行的交换应用于整张表。A 行的文字变化或来源移动仍会显示；B 行的 300、400 不会因此产生文字修改。</p></div>
+<details><summary>具体条件与代码</summary><p>行评分优先使用已经验证的列映射；没有映射时按原列位置计数。列名可以含数字，没有固定列数、列名或身份列。</p><p>有列映射的后续行逐格输出。对于首行自身的单元格置换，若双方至少两列、列数相同、单元格文字唯一且互相对应，并且两侧后面都还有一个同列数单元，则可单独显示首行的单元格位置变化；该分支没有额外检查后续单元同页。</p><pre><code>行对应               source-cells-and-column-text
+按已验证的列逐格输出 source-column-text
+首行单元格位置变化   literal-cell-position</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L19-L110">区块与列映射</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L426-L496">行评分与配对</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L626-L685">逐格输出</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/tests/pr25-headerless-regressions.test.ts">整列换序与首行交换测试</a></li></ul></details>
+</section>
+
+<section id="rule-7">
+<h2>7. 剩余内容的对应</h2>
+<p>经过前面的精确匹配、标签和表格处理后，如果还有单元没有配上，程序再用下面两类规则。</p>
+<h3>利用已经确定的前后内容</h3>
+<p>已经配上的单元可以作为前后参照。程序先选出一组在新旧两侧顺序一致的稳定参照，再检查相邻参照之间剩下的内容：</p>
+<ul>
+<li>如果某个区间内旧侧只剩一个单元、新侧也只剩一个单元，并且表格区块允许对应，就可以直接配对，不要求两段文字相似。</li>
+<li>文档开头和结尾也可以作为区间边界。</li>
+<li>如果待配文字在文档中重复出现，还要满足额外的唯一前文或明确边界条件，不能只凭“中间各剩一个”就配对。</li>
+</ul>
+<div class="example"><p><b>例：首尾已经确定，中间完全换了一个词</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>Start marker.
+<del>Red</del>
+End marker.</code></pre></td><td><pre><code>Start marker.
+<ins>Blue</ins>
+End marker.</code></pre></td></tr></tbody></table></div><p>假设三段各自是独立单元，首尾两段已经稳定对应，那么中间两侧各剩一个单元，可以直接比较 <code>Red → Blue</code>。这里不要求它们达到下文所说的 0.55 相似度。</p></div>
+<h3>计算剩余候选的相似度</h3>
+<p>其他剩余单元按单词、数字和标点切成“词元”，计算两侧保持先后顺序的共同词元比例。共同部分使用 LCS（最长公共子序列）计算：</p>
+<pre><code>相似度 = 2 × 两侧共同词元数量 ÷（旧侧词元数 + 新侧词元数）
+成为候选的最低分数：0.55</code></pre>
+<ul>
+<li>候选先按分数从高到低处理，再按单元在文档中的顺序处理。</li>
+<li>如果同一个未配单元仍有同分的竞争候选，这一步不替用户猜测，而是暂不选定。</li>
+<li>重复文字还要满足额外条件：两侧前文必须相同、非空，而且这个前文在每份文档中各只出现一次。</li>
+<li>相似度只是候选排序分数，<b>不是“这段对应有多少概率正确”</b>。</li>
+</ul>
+<p>正常完成后仍没有配上的内容，分别作为旧侧删除和新侧新增保留。这里的新增、删除是技术比较结果，不自动等于业务记录确定新增或退出。如果剩余两侧仍有已经记录的竞争候选，还会另记 <code>ambiguous_match</code>，说明对应尚未确定。</p>
+<details><summary>具体条件与代码</summary><p>稳定参照采用两侧顺序均严格递增、总权重最大的对应链，权重为旧侧原文的 UTF-8 字节长度。</p><p>对重复文字，前后参照配对要求：两侧具有相同、非空、各自唯一的前文；或区间两端都是真实对应，且旧侧待配单元为单格并带冒号标签。</p><p>相似度阶段遍历全部剩余单元，并检查表格区块约束；不按业务章节划定搜索窗口。</p><pre><code>前后参照 → neighboring-source-anchors
+相似度   → local-source-token-correspondence
+未配内容 → unmatched</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L193-L254">前后参照配对</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L501-L605">相似度与竞争候选</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/text.rs#L91-L211">LCS 与稳定顺序链</a></li></ul></details>
+</section>
+
+<section id="rule-8">
+<h2>8. 重复内容与计数</h2>
+<p>相同文字出现多次时，程序先逐处比较，不会一开始就把它们合并成一条。逐处处理完成后，只有同时满足下面三个条件，才额外生成“出现次数”摘要：</p>
+<ul>
+<li>同一段原文在新旧两侧都出现，但次数不同，而且较多的一侧至少出现 2 次；</li>
+<li>这段原文没有涉及已经配对的文字替换；</li>
+<li>所有相关单元都只有一格。</li>
+</ul>
+<p>次数摘要会记录两侧次数和全部出现位置，并替代它覆盖的同字单侧记录和纯同字移动记录。由于每次出现的文字完全相同，摘要只说明“次数变了”，<b>不指定哪一次出现被增加或删除</b>。</p>
+<div class="example"><p><b>例：相同标题从两次变成一次</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>TITLE
+…
+TITLE</code></pre></td><td><pre><code>…
+TITLE</code></pre></td></tr></tbody></table></div><p>满足上述条件时，摘要记录 <code>TITLE</code> 的次数为 2→1，并保留两侧所有来源，但不猜测旧侧的哪一个 <code>TITLE</code> 被删除。</p></div>
+<h3>界面中的合并显示</h3>
+<p>如果多条差异的类型、旧文、新文、事实标签和对应方法都相同，界面可以把它们合并成一张卡，同时保留每处来源。只要某一处文字不同，就单独显示，不用代表项覆盖例外。合并只改变页面展示，不删除底层结果。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">界面或字段</th><th scope="col">实际含义</th></tr></thead><tbody><tr><td>页面 Changes</td><td>合并显示后的主清单条数；纯次数摘要另列。</td></tr><tr><td><code>stats.differenceCount</code></td><td>核心输出的差异数组长度。</td></tr><tr><td><code>stats.occurrenceCount</code></td><td>当前同样等于差异数组长度，不是文字出现的总次数。</td></tr><tr><td><code>repeat.left / right</code></td><td>在核心次数摘要中，是该原文在两侧的出现次数；在界面合并卡中，是各侧有来源的差异条数。</td></tr><tr><td><code>repeat.leftPages / rightPages</code></td><td>两份文档各自的总页数。</td></tr></tbody></table></div>
+<details><summary>具体条件与代码</summary><pre><code>次数摘要：
+  kind = Replaced
+  hasTextChange = false
+  matchEvidence.method = occurrence-count-only
+
+界面合并键：
+  kind + oldText + newText + facts + matchEvidence.method</code></pre><p>单格检查使用 <code>cells.len()==1</code>；一个单格单元可以由多条提取行拼成。界面合并不修改核心结果，选中某次出现时使用该次自己的编辑及来源。</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L729-L782">次数摘要</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L794-L809">统计字段</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/fold-occurrences.ts">界面合并</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/main.tsx#L641-L646">主清单与次数摘要</a></li></ul></details>
+</section>
+
+<section id="rule-9">
+<h2>9. 变化类型与移动</h2>
+<p>程序使用四种技术类型描述比较结果：</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">类型</th><th scope="col">什么时候使用</th></tr></thead><tbody><tr><td>新增 <code>Added</code></td><td>只有新侧来源，本轮没有找到可采用的旧侧对应。</td></tr><tr><td>删除 <code>Removed</code></td><td>只有旧侧来源，本轮没有找到可采用的新侧对应。</td></tr><tr><td>替换 <code>Replaced</code></td><td>两侧已经建立对应、原文不同，并且没有判为移动；相同原文的次数摘要也使用这个类型。</td></tr><tr><td>移动 <code>Moved</code></td><td>对应顺序或表格关系提出移动候选，而且两侧实际来源位置不同。移动可以同时包含文字修改。</td></tr></tbody></table></div>
+<p>“新增”和“删除”描述本轮比较中有没有找到对应，不单独证明某项业务记录确定新增或退出。</p>
+<p>普通单元如果不在稳定顺序链中，会成为移动候选；表格还会检查行顺序、前文关系和列换序。如果候选两侧的页索引、字符坐标和行方向都相同，就取消移动。原文相同、最终又没有判为移动的普通配对，不生成差异。</p>
+<p><b>是否移动和是否改字是两个独立判断。</b>文字变化单独记为 <code>hasTextChange = (oldText != newText)</code>。只换页，或者只换了附近标题，不会单独决定这段文字就是移动。</p>
+<h3>“只有空白变化”标签</h3>
+<p>目前事实标签只生成 <code>whitespace_only</code>。它要求两侧原文不同，但修剪两端并折叠连续空白后相同。这个标签只描述可以核验的空白事实，不会隐藏差异，也不表示这处变化不重要。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">旧文 → 新文</th><th scope="col">是否有“仅空白变化”标签</th></tr></thead><tbody><tr><td><code>USD  100 → USD 100</code></td><td>有。只是连续空格数量改变。</td></tr><tr><td><code>per aircraft → peraircraft</code></td><td>没有。词语之间原有的间隔被删除，两个词连成了一个词。</td></tr><tr><td><code>Office → Ofﬁce</code></td><td>没有。连字替换不是空白变化。</td></tr></tbody></table></div>
+<details><summary>具体条件与代码</summary><p>稳定链按旧侧原文 UTF-8 字节长度加权。表格逐格输出的行移动条件为：位于稳定链外，或行序改变且前文也改变；列置换可额外触发单元格移动。</p><p>最终类型优先取 <code>Moved</code>，然后依据来源是否双侧或单侧取其余类型。输出只显式按首个旧侧来源页排序，没有旧侧时取新侧页。</p><pre><code>facts = old != new &amp;&amp; words(old) == words(new)
+      ? ["whitespace_only"]
+      : []</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L142-L191">类型、原文与事实标签</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L608-L697">顺序与表格移动</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L783-L788">输出排序</a></li></ul></details>
+</section>
+
+<section id="rule-10">
+<h2>10. 文字编辑与来源</h2>
+<p>找到变化后，程序还要计算哪些文字保留、哪些删除、哪些插入，用于卡片高亮和 PDF 定位。这三类操作分别记为 <code>equal / delete / insert</code>，全部依据原文计算：</p>
+<ul>
+<li>先去掉两侧相同的前后内容，再对中间部分寻找保持顺序的共同词元，避免把整段都标成替换。</li>
+<li>如果未匹配区间在两侧的词元数量相同，就逐词比较，继续保留相同的字符前后缀。</li>
+<li>如果两侧词元数量不同，只保留边缘相同的空白，中间整体标为删除和插入。</li>
+<li>删除内容指向旧 PDF 的来源，插入内容指向新 PDF 的来源。来源保留页码、字符 ID、原文区间和位置精度。</li>
+<li>如果精细编辑超过计算限额，仍保留两侧全文和已经找到的相同前后缀，中间改用较粗略的编辑，并记录 <code>word_diff_budget</code>。这不是把变化丢掉，而是明确说明精细高亮没有完成。</li>
+</ul>
+<div class="example"><p><b>例：金额只改了首位，只高亮这一位</b></p><div class="table-wrap"><table class="compare-table"><thead><tr><th scope="col">旧文</th><th scope="col">新文</th></tr></thead><tbody><tr><td><pre><code>Limit USD <del>1</del>00</code></pre></td><td><pre><code>Limit USD <ins>2</ins>00</code></pre></td></tr></tbody></table></div><p>可以保留共同的 <code>Limit USD </code> 和 <code>00</code>，只把旧侧的 <code>1</code> 标为删除、新侧的 <code>2</code> 标为插入。较复杂的重新分词可能得到更大的替换区间，不会保证所有例子都精确到单个字符。</p></div>
+<details><summary>具体条件与代码</summary><p>编辑分词包括字母串、数字串、空白和独立标点；数字内部的小数点、逗号可保留。限额按去掉共同前后缀后的非空白词元数乘积计量。</p><p>同页、同提取行、原文区间连续的字符合为一个来源片段。若提取器只给出整段文字的位置，来源精度保持为整段；不把它写成逐字精度。PDF.js 可在显示时补充文字层实测位置 <code>resolvedGeometry</code>。</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/edits.rs">文字编辑算法</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/model.rs#L301-L334">来源片段</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/packages/compare-core/options.ts">计算限额</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/engines/pdfjs/view.ts#L54-L82">文字层位置</a></li></ul></details>
+</section>
+
+<section id="rule-11">
+<h2>11. 差异显示与导出</h2>
+<ul>
+<li><b>默认摘录不会截掉改动。</b>所有编辑组都会保留，只省略距离编辑较远的相同句段。用户仍可展开完整旧文和新文；长句不会简单按固定字数截断。</li>
+<li><b>只有能够完整重建原文时才使用摘录。</b>编辑操作必须能还原两侧原文，并且至少有一个删除或插入；否则直接显示全文。</li>
+<li><b>未改内容只保留邻近上下文。</b>首个编辑前保留最后 2 个相同句段，最后编辑后保留前 2 个；两个编辑相隔较长时，中间保留前 2 个和末 2 个。</li>
+<li><b>精细高亮未完成时显示完整两侧文字。</b>定位使用完整来源范围，并明确提示精细编辑不可用。</li>
+<li><b>提示只关联到真正重叠的来源。</b>未决记录必须与卡片在侧别、页索引和来源字符上重合，才会关联；仅仅处在同一页还不够。</li>
+<li><b>查看提示后可以回到原任务。</b>返回时保留当前编辑组、筛选和清单滚动位置；关闭或替换任务后才清除这些状态。</li>
+<li><b>单侧内容也提供导航参考。</b>另一侧没有对应原文时，可以用文字锚点或页码辅助跳转，但会明确标为参考，不冒充实际对应。</li>
+<li><b>导出保留完整结果。</b>全部差异、覆盖缺口和未决记录都会导出。页面筛选、默认摘录和卡片合并不会裁掉导出内容。</li>
+</ul>
+<details><summary>具体条件与代码</summary><pre><code>摘录前校验：
+  equal + delete == oldText
+  equal + insert == newText
+  至少一个非 equal 操作
+
+只在 equal 段中按英文句段切分：
+  首个编辑前超过 2 段 → 保留末 2 段
+  最后编辑后超过 2 段 → 保留前 2 段
+  两个编辑间超过 4 段 → 保留前 2 段和末 2 段
+  delete / insert 内容全部保留</code></pre><p>句段切分使用 <code>Intl.Segmenter("en", {granularity: "sentence"})</code>。来源按钮使用各编辑组自己的位置；打开来源或详情不登记为“人工已核实”。</p><p>导出包含 <code>differences / coverage / unresolved</code> 全部记录。PDF.js 显示过程补充的 <code>resolvedGeometry</code> 也可进入导出。</p><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/change-excerpts.ts">摘录规则</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/DifferenceText.tsx">高亮与全文显示</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/review-notices.ts#L41-L52">提示的来源关联</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/main.tsx#L507-L610">返回状态、定位与导出</a></li></ul></details>
+</section>
+
+<section id="rule-12">
+<h2>12. 未完成状态与计算限额</h2>
+<p>有些情况并不代表整次比较失败，但表示某部分工作没有完成，或者对应仍不能确定。程序会把这些情况单独记录下来：</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">记录</th><th scope="col">对用户意味着什么</th></tr></thead><tbody><tr><td><code>budget</code></td><td>相应范围的对应和比较没有完成。已经完成的配对会保留；剩余范围记为未完成，不会直接当作新增或删除。</td></tr><tr><td><code>word_diff_budget</code></td><td>两侧全文仍然保留，但精细文字高亮没有完成。</td></tr><tr><td><code>ambiguous_match</code></td><td>剩余内容存在多个竞争对应，当前无法确定该选哪一个。相关原文和单侧差异都会保留。</td></tr><tr><td>提取或语言缺口</td><td>记录具体页、区域和原因，同时继续能够完成的局部比较。</td></tr><tr><td>表格结构观察</td><td>局部文字比较继续；两种有明确标记的结构观察归入默认收起的表格关系提示。</td></tr></tbody></table></div>
+<p>表格结构观察只有两种：不同页出现了完全相同的多列单元；或者相邻行同页、距离较近，却有不同的分格数。这些现象本身不能证明它们是续表、合并格或单元格换行，因此只记录观察，不自动下结论。其他结构问题继续作为覆盖缺口显示。</p>
+<h3>默认计算限额</h3>
+<div class="table-wrap"><table><thead><tr><th scope="col">限额</th><th scope="col">限制的是什么</th></tr></thead><tbody><tr><td><code>candidates = 20,000</code></td><td>排版拆并尝试与相似度候选的计数。</td></tr><tr><td><code>tokenProducts = 100,000,000</code></td><td>比较开始前的两侧全文词元数乘积检查，以及相似度阶段候选词元数乘积的累计。</td></tr><tr><td><code>diffProducts = 4,000,000</code></td><td>去掉共同前后缀后，细化文字编辑所用的两侧非空白词元数乘积。</td></tr></tbody></table></div>
+<p>比较开始前，如果全文词元数乘积已经超过限额，或者 <code>candidates=0</code>，程序不会进入匹配，而是把全部已知来源记为 <code>budget</code>。精确文字、标签和表格阶段的每次内部操作并不会全部计入候选限额。</p>
+<p><b>结果状态只描述处理范围，不代替人工审阅。</b>没有已登记的覆盖缺口和未决记录时，状态为 <code>complete_for_scope</code>；只要任一存在，就是 <code>partial</code>。<code>complete_for_scope</code> 不表示业务内容正确，也不表示用户已经审阅完毕；<code>partial</code> 则明确提醒用户还有已记录的缺口或未决事项。</p>
+<details><summary>具体条件与代码</summary><div class="table-wrap"><table><thead><tr><th scope="col">结构标记</th><th scope="col">触发条件</th></tr></thead><tbody><tr><td><code>repeated_tabular_text</code></td><td>当前多列单元的 <code>cells</code> 数组，与前面另一页的某个单元完全相同。</td></tr><tr><td><code>varying_cell_boundaries</code></td><td>前单元至少 3 格，当前格数不同，同页，纵距绝对值不超过前字号的 1.8 倍。</td></tr></tbody></table></div><p>仅 <code>unsupported_structure</code> 且带上述任一标记的记录归入默认收起的结构提示。显示折叠不移除底层记录，也不改变 <code>partial</code>。</p><pre><code>coverage 为空 且 unresolved 为空 → complete_for_scope
+否则                              → partial</code></pre><ul class="sources"><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L282-L305">限额预检</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L501-L605">运行中限额与未决</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/comparison.rs#L794-L809">结果状态</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/crates/compare-core/src/structure.rs#L253-L275">结构观察</a></li><li><a href="https://github.com/wlvh/policy-compare/blob/aba0cf174dea37b78a25262e731c4ca3c5a800e9/apps/web/review-notices.ts">提示分类</a></li></ul></details>
+</section>
+
+<footer>代码版本：<a href="https://github.com/wlvh/policy-compare/commit/aba0cf174dea37b78a25262e731c4ca3c5a800e9">aba0cf1</a> · 2026-11-16 · 本版只改写说明和例子，没有改变比较规则。</footer>
+</main></body></html>
