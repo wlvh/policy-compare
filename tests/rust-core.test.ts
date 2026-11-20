@@ -119,3 +119,62 @@ it('lists both candidate occurrences for each repeated receipt in source order',
     expect(notice.right[0].rawRange[0]).toBeLessThan(notice.right[1].rawRange[0]);
   }
 });
+
+it('keeps a fully scored group with lower-scoring cross-dock candidates at the default limit', () => {
+  const make = (receipt: string, status: string) => textDoc([
+    ...['east', 'west'].map(dock => ({ text: `${receipt} ${dock} dock cargo receipt`, page: 0 })),
+    ...Array.from({ length: 142 }, (_, i) => ({
+      text: `${status} check record ${i} safety`, page: Math.floor((i + 2) / 24),
+    })),
+  ].map((row, i) => ({ ...row, y: 40 + (i % 24) * 24 })));
+  const left = make('Provisional', 'Pending');
+  const right = make('Final', 'Cleared');
+  const bounded = compare(left, right);
+  const full = compare(left, right, aviationProfile, { ...aviationProfile.budget, candidates: 20_168 });
+  const receipts = full.differences.filter(d => d.oldText.includes('cargo receipt'));
+  expect(full.differences).toHaveLength(144);
+  expect(receipts.map(d => [d.oldText, d.newText, d.matchEvidence.score])).toEqual([
+    ['Provisional east dock cargo receipt', 'Final east dock cargo receipt', 0.8],
+    ['Provisional west dock cargo receipt', 'Final west dock cargo receipt', 0.8],
+  ]);
+  expect(bounded.stats.candidates).toBe(20_000);
+  expect(bounded.differences).toEqual(receipts);
+  const unfinished = bounded.unresolved.find(issue => issue.reason === 'budget');
+  expect(unfinished?.left).toHaveLength(142);
+  expect(unfinished?.right).toHaveLength(142);
+  expect([...unfinished!.left, ...unfinished!.right].every(loc => loc.text.includes('check record'))).toBe(true);
+});
+
+it('does not keep even a scored pair whose group links to a later unscored competitor', () => {
+  const left = textDoc([
+    { text: 'Provisional east dock north cargo' },
+    { text: 'Provisional west pier north cargo' },
+    { text: 'Temporary west dock north manifest', page: 1 },
+  ]);
+  const right = textDoc([
+    { text: 'Final east dock north cargo' },
+    { text: 'Final west dock north cargo' },
+  ]);
+  const result = compare(left, right, aviationProfile, { ...aviationProfile.budget, candidates: 3 });
+  expect(result.stats.candidates).toBe(3);
+  expect(result.differences).toHaveLength(0);
+  const unfinished = result.unresolved.find(issue => issue.reason === 'budget');
+  expect(unfinished?.left).toHaveLength(3);
+  expect(unfinished?.right).toHaveLength(2);
+});
+
+it('retains ties and separate source texts in a completed group when unrelated scoring stops', () => {
+  const make = (status: string) => textDoc([
+    { text: `Receipt 17 ${status}` },
+    { text: `Receipt 17 ${status}` },
+    { text: `Inspection record ${status}` },
+  ]);
+  const result = compare(make('pending'), make('cleared'), aviationProfile, { ...aviationProfile.budget, candidates: 4 });
+  expect(result.differences.map(d => d.oldText || d.newText).sort()).toEqual([
+    'Receipt 17 cleared', 'Receipt 17 cleared', 'Receipt 17 pending', 'Receipt 17 pending',
+  ]);
+  expect(result.unresolved.filter(u => u.reason === 'ambiguous_match')).toHaveLength(2);
+  const unfinished = result.unresolved.find(u => u.reason === 'budget');
+  expect(unfinished?.left.map(loc => loc.text)).toEqual(['Inspection record pending']);
+  expect(unfinished?.right.map(loc => loc.text)).toEqual(['Inspection record cleared']);
+});

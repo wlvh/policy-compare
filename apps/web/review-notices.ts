@@ -1,5 +1,13 @@
 import type {CompareResultV2, CoverageIssue, DifferenceV2, SourceLocation} from '../../packages/contracts/index';
 
+type Notice = CompareResultV2['unresolved'][number];
+const isUncertain = (u: Notice) =>
+  u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity' || u.reason === 'ambiguous_column_mapping';
+
+export const noticeMessage = (u: Notice) => u.reason === 'ambiguous_column_mapping'
+  ? 'The correspondence between these table fields could not be determined. Both source rows are retained.'
+  : u.message;
+
 export const layoutObservations = {
   repeated_tabular_text: {
     title: 'Repeated tabular text',
@@ -23,7 +31,7 @@ export function reviewNotices(result: Pick<CompareResultV2, 'coverage' | 'unreso
     coverage: entries.filter(e => !isLayoutObservation(e.issue)),
     incomplete: result.unresolved.filter(u => u.reason === 'budget'),
     wordDetail: result.unresolved.filter(u => u.reason === 'word_diff_budget'),
-    uncertain: result.unresolved.filter(u => u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity'),
+    uncertain: result.unresolved.filter(isUncertain),
   };
 }
 
@@ -40,7 +48,6 @@ export function noticeStatus(result: CompareResultV2) {
 
 // Link a correspondence notice only where its own source characters overlap.
 // Being on the same page is not enough to attach it to an unrelated change.
-type Notice = CompareResultV2['unresolved'][number];
 // A new comparison replaces the notice list. Card renders reuse its index.
 const noticeIndexes = new WeakMap<readonly Notice[], Map<string, number[]>>();
 
@@ -80,6 +87,6 @@ function relatedSources(difference: DifferenceV2, unresolved: readonly Notice[],
   return [...found].sort((a, b) => a - b).map(i => unresolved[i]).filter(matches);
 }
 export const relatedUncertainty = (d: DifferenceV2, unresolved: readonly Notice[]) =>
-  relatedSources(d, unresolved, u => u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity');
+  relatedSources(d, unresolved, isUncertain);
 export const relatedWordDetail = (d: DifferenceV2, unresolved: readonly Notice[]) =>
   relatedSources(d, unresolved, u => u.reason === 'word_diff_budget');

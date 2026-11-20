@@ -12,6 +12,7 @@ interface Case {
       | "unchanged-repeated" | "reflow" | "column-reorder" | "unchanged-table";
   baseline: Source | null;
   revised: Source | null;
+  moved_cells?: string[];
 }
 export interface FixtureTruth {
   sha256: Record<string, string>;
@@ -54,11 +55,14 @@ function sourceCharacters(locs: SourceLocation[]) {
 }
 
 function unchangedTargetText(
-  card: DifferenceV2, side: "left" | "right", target: Source, kind: Case["kind"],
+  card: DifferenceV2, side: "left" | "right", target: Source | null, kind: Case["kind"],
 ): string | undefined {
   const removed = side === "left" ? "insert" : "delete";
   const ops = card.textOps.filter(op => op.kind !== removed);
   const body = side === "left" ? card.oldText : card.newText;
+  if (!target) {
+    return body === "" && !ops.length && !card.textOps.some(op => op[side].length) ? "" : undefined;
+  }
   if (ops.map(op => op.text).join("") !== body) return undefined;
 
   const expected = expectedText(target, kind);
@@ -103,13 +107,57 @@ function touchesControl(locs: SourceLocation[], source: Source): boolean {
   });
 }
 
+function showsMovedCell(
+  card: DifferenceV2, baseline: Source, revised: Source, cells: string[],
+): boolean {
+  const text = words(card.oldText);
+  if (!cells.includes(text) || card.kind !== "Moved" || card.hasTextChange ||
+      text !== words(card.newText)) return false;
+  return (["left", "right"] as const).every(side => {
+    const target = side === "left" ? baseline : revised;
+    return card[side].every(loc => loc.side === side && onSource(loc, target)) &&
+      withoutSpace(card[side].map(loc => loc.text).join("")) === withoutSpace(text);
+  });
+}
+
+function showsExpectedChange(card: DifferenceV2, { kind, baseline, revised }: Case): boolean {
+  if (!card.hasTextChange || card.oldText === card.newText) return false;
+  const leftEqual = unchangedTargetText(card, "left", baseline, kind);
+  const rightEqual = unchangedTargetText(card, "right", revised, kind);
+  return leftEqual !== undefined && leftEqual === rightEqual;
+}
+
 /** Validate an exported result using the authored source key, independently of the matcher. */
 export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth): void {
   assert.deepEqual(result.documentHashes, [truth.sha256["baseline.pdf"], truth.sha256["revised.pdf"]]);
   const faults: string[] = [];
   for (const check of truth.cases) {
     const { kind, baseline, revised } = check;
-    if (kind === "unchanged-repeated" || kind === "reflow" || kind === "column-reorder" || kind === "unchanged-table") {
+    if (kind === "column-reorder") {
+      const expectedCells = check.moved_cells;
+      assert.ok(baseline && revised && expectedCells?.length);
+      const touchesRow = (item: Pick<DifferenceV2, "left" | "right">) =>
+        touchesControl(item.left, baseline) || touchesControl(item.right, revised);
+      const moves = result.differences.filter(touchesRow);
+      const notices = result.unresolved.filter(touchesRow);
+      const validMoves = moves.filter(d => showsMovedCell(d, baseline, revised, expectedCells));
+      const movedCells = new Set(validMoves
+        .map(d => words(d.oldText)));
+      const validNotices = notices.filter(u => u.reason === "ambiguous_column_mapping" &&
+        u.left.every(loc => loc.side === "left") && u.right.every(loc => loc.side === "right") &&
+        containsEvidence(u.left, baseline, kind) && containsEvidence(u.right, revised, kind));
+      if (validMoves.length !== moves.length) {
+        faults.push(check.id + ": a moved cell does not match its source on both sides");
+      }
+      if (!validNotices.length && !expectedCells.every(text => movedCells.has(text))) {
+        faults.push(check.id + ": expected cell relocations or a column correspondence notice with both rows");
+      }
+      if (validNotices.length !== notices.length) {
+        faults.push(check.id + ": control remained unresolved without a valid column correspondence notice");
+      }
+      continue;
+    }
+    if (kind === "unchanged-repeated" || kind === "reflow" || kind === "unchanged-table") {
       assert.ok(baseline && revised);
       const related = result.differences.filter(d =>
         touchesControl(d.left, baseline) || touchesControl(d.right, revised));
@@ -117,15 +165,7 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
                           || !touchesControl(d.left, baseline) || !touchesControl(d.right, revised))) {
         faults.push(check.id + ": changed text or a mislocated correspondence on a control");
       }
-      if (result.unresolved.some(u => {
-        if (!touchesControl(u.left, baseline) && !touchesControl(u.right, revised)) return false;
-        // C03 allows a notice about column correspondence with the two
-        // complete rows. A generic match warning or unfinished work is insufficient.
-        return !(kind === "column-reorder" && u.reason === "ambiguous_match" &&
-          /\bcolumns?\b/i.test(u.message) &&
-          u.left.every(loc => loc.side === "left") && u.right.every(loc => loc.side === "right") &&
-          containsEvidence(u.left, baseline, kind) && containsEvidence(u.right, revised, kind));
-      })) {
+      if (result.unresolved.some(u => touchesControl(u.left, baseline) || touchesControl(u.right, revised))) {
         faults.push(check.id + ": control remained unresolved");
       }
       continue;
@@ -138,15 +178,8 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
     });
     if (!located.length) {
       faults.push(check.id + ": expected change missing from its source location");
-    } else if (kind === "replacement" || kind === "table-value") {
-      assert.ok(baseline && revised);
-      const shown = located.some(d => {
-        if (!d.hasTextChange || d.oldText === d.newText) return false;
-        const oldEqual = unchangedTargetText(d, "left", baseline, kind);
-        const newEqual = unchangedTargetText(d, "right", revised, kind);
-        return oldEqual !== undefined && oldEqual === newEqual;
-      });
-      if (!shown) faults.push(check.id + ": card lacks a source-backed edit for the expected text");
+    } else if (kind !== "move" && !located.some(d => showsExpectedChange(d, check))) {
+      faults.push(check.id + ": card lacks a source-backed edit for the expected text");
     }
   }
   if (result.unresolved.some(u => u.reason === "budget" || u.reason === "word_diff_budget")) {

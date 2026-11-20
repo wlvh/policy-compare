@@ -168,6 +168,7 @@ export const UnresolvedSchema = z.object({
     "budget",
     "ambiguous_identity",
     "ambiguous_match",
+    "ambiguous_column_mapping",
     "word_diff_budget",
   ]),
   message: z.string(),

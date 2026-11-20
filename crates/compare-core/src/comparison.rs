@@ -11,6 +11,52 @@ struct Pair {
 fn issue(reason: &str, message: &str, a: &[Unit], b: &[Unit], l: &Doc, r: &Doc) -> V {
     json!({"reason":reason,"message":message,"left":a.iter().flat_map(|u|u.loc(l,"left")).collect::<Vec<_>>(),"right":b.iter().flat_map(|u|u.loc(r,"right")).collect::<Vec<_>>(),"defaultVisible":true})
 }
+
+fn completed_score_edges(
+    scored: &[(usize, usize, f64)],
+    by_left: &[Vec<usize>],
+    by_right: &[Vec<usize>],
+    first_left: usize,
+    has_unscored_left_candidate: impl Fn(usize) -> bool,
+) -> Vec<usize> {
+    let mut seen_edge = vec![false; scored.len()];
+    let mut seen_left = vec![false; by_left.len()];
+    let mut seen_right = vec![false; by_right.len()];
+    let mut completed = Vec::new();
+    let mut pending = Vec::new();
+    let mut group = Vec::new();
+    for start in 0..scored.len() {
+        if seen_edge[start] {
+            continue;
+        }
+        group.clear();
+        pending.push(start);
+        let mut closed = true;
+        while let Some(edge) = pending.pop() {
+            if std::mem::replace(&mut seen_edge[edge], true) {
+                continue;
+            }
+            crate::checkpoint();
+            group.push(edge);
+            let (i, j, _) = scored[edge];
+            if !std::mem::replace(&mut seen_left[i], true) {
+                closed &= i < first_left;
+                pending.extend_from_slice(&by_left[i]);
+            }
+            if !std::mem::replace(&mut seen_right[j], true) {
+                closed = closed && !has_unscored_left_candidate(j);
+                pending.extend_from_slice(&by_right[j]);
+            }
+        }
+        // An unfinished candidate can affect decisions elsewhere in the
+        // group through a chain of competing matches.
+        if closed {
+            completed.extend_from_slice(&group);
+        }
+    }
+    completed
+}
+
 // A rectangle's first row only proposes column labels. A non-identity
 // permutation needs a witness in the following rows and may not turn a value
 // which stayed in its original column into a definite edit. This is evidence
@@ -442,30 +488,34 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             }
         }
     }
-    let mut score_order: Vec<_> = (0..scored.len()).collect();
-    if let Some((first_left, first_right)) = first_unscored {
-        // On exhaustion, only keep isolated matches with a completed left
-        // search. The same shortlist bound, queried in reverse, rules out
-        // unseen competitors on the right without spending more LCS work.
-        score_order.retain(|&edge| {
+    let mut score_order = if let Some((first_left, first_right)) =
+        first_unscored.filter(|_| !scored.is_empty())
+    {
+        // Query the original shortlist bound from the other side to rule
+        // out unvisited competitors without spending more scoring work.
+        let remaining_tokens: Vec<_> = (first_left..a.len())
+            .map(|i| {
+                crate::checkpoint();
+                if ul.contains(&i) { Vec::new() } else { tokenize(&a[i].m.text) }
+            })
+            .collect();
+        let remaining = TokenIndex::new(&remaining_tokens);
+        completed_score_edges(&scored, &scored_by_left, &scored_by_right, first_left, |j| {
+            remaining.candidates(&right_tokens[j]).into_iter().any(|offset| {
+                let i = first_left + offset;
+                (i, j) >= (first_left, first_right) && left.permits_table_pair(i, &right, j)
+            })
+        })
+    } else {
+        (0..scored.len()).collect()
+    };
+    let mut completed_left = vec![false; a.len()];
+    let mut completed_right = vec![false; b.len()];
+    if exhausted {
+        for &edge in &score_order {
             let (i, j, _) = scored[edge];
-            i < first_left && scored_by_left[i].len() == 1 && scored_by_right[j].len() == 1
-        });
-        if !score_order.is_empty() {
-            let remaining_tokens: Vec<_> = (first_left..a.len())
-                .map(|i| {
-                    crate::checkpoint();
-                    if ul.contains(&i) { Vec::new() } else { tokenize(&a[i].m.text) }
-                })
-                .collect();
-            let remaining = TokenIndex::new(&remaining_tokens);
-            score_order.retain(|&edge| {
-                let (_, j, _) = scored[edge];
-                !remaining.candidates(&right_tokens[j]).into_iter().any(|offset| {
-                    let i = first_left + offset;
-                    (i, j) >= (first_left, first_right) && left.permits_table_pair(i, &right, j)
-                })
-            });
+            completed_left[i] = true;
+            completed_right[j] = true;
         }
     }
     score_order.sort_by(|&x, &y| {
@@ -505,41 +555,36 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     if !exhausted {
         bind_local_intervals(&left, &right, &mut pairs, &mut ul, &mut ur);
     }
-    let al: Vec<_> = a
-        .iter()
-        .enumerate()
-        .filter(|(i, _)| !ul.contains(i))
-        .map(|(_, u)| u.clone())
-        .collect();
-    let br: Vec<_> = b
-        .iter()
-        .enumerate()
-        .filter(|(i, _)| !ur.contains(i))
-        .map(|(_, u)| u.clone())
-        .collect();
+    let (al, unfinished_left): (Vec<_>, Vec<_>) = (0..a.len())
+        .filter(|i| !ul.contains(i))
+        .partition(|i| !exhausted || completed_left[*i]);
+    let (br, unfinished_right): (Vec<_>, Vec<_>) = (0..b.len())
+        .filter(|j| !ur.contains(j))
+        .partition(|j| !exhausted || completed_right[*j]);
     if exhausted {
+        let unfinished_left: Vec<_> = unfinished_left.into_iter().map(|i| a[i].clone()).collect();
+        let unfinished_right: Vec<_> = unfinished_right.into_iter().map(|j| b[j].clone()).collect();
         un.push(issue(
             "budget",
             "Matching work budget exhausted; these concrete source regions were not completed",
-            &al,
-            &br,
+            &unfinished_left,
+            &unfinished_right,
             l,
             r,
         ));
-    } else {
-        // Ambiguity is recorded only for connected competing candidates. Changed
-        // occurrences still appear below, with actual inserted/deleted text.
-        for (i, edges) in scored_by_left.iter().enumerate().filter(|(i, _)| !ul.contains(i)) {
-            crate::checkpoint();
-            let bs: Vec<_> = edges
-                .iter()
-                .map(|&edge| scored[edge].1)
-                .filter(|j| !ur.contains(j))
-                .map(|j| b[j].clone())
-                .collect();
-            if !bs.is_empty() {
-                un.push(issue("ambiguous_match","Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",std::slice::from_ref(&a[i]),&bs,l,r));
-            }
+    }
+    // Fully scored groups can still have ties. Retain their ambiguity and
+    // separate source occurrences if another group ran out of work.
+    for &i in &al {
+        crate::checkpoint();
+        let bs: Vec<_> = scored_by_left[i]
+            .iter()
+            .map(|&edge| scored[edge].1)
+            .filter(|j| !ur.contains(j))
+            .map(|j| b[j].clone())
+            .collect();
+        if !bs.is_empty() {
+            un.push(issue("ambiguous_match","Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",std::slice::from_ref(&a[i]),&bs,l,r));
         }
     }
     crate::notify(3);
@@ -635,35 +680,33 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             &mut un,
         );
     }
-    if !exhausted {
-        for u in &al {
-            emit(
-                Some(u),
-                None,
-                "unmatched",
-                None,
-                false,
-                l,
-                r,
-                budget,
-                &mut diffs,
-                &mut un,
-            )
-        }
-        for u in &br {
-            emit(
-                None,
-                Some(u),
-                "unmatched",
-                None,
-                false,
-                l,
-                r,
-                budget,
-                &mut diffs,
-                &mut un,
-            )
-        }
+    for i in al {
+        emit(
+            Some(&a[i]),
+            None,
+            "unmatched",
+            None,
+            false,
+            l,
+            r,
+            budget,
+            &mut diffs,
+            &mut un,
+        );
+    }
+    for j in br {
+        emit(
+            None,
+            Some(&b[j]),
+            "unmatched",
+            None,
+            false,
+            l,
+            r,
+            budget,
+            &mut diffs,
+            &mut un,
+        );
     }
     // Count-only folding is last: never erase a local replacement merely
     // because the same values or total counts occur elsewhere in the document.

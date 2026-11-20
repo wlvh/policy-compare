@@ -1,6 +1,6 @@
 import React from 'react';
 import type {CompareResultV2, CoverageIssue, SourceLocation} from '../../packages/contracts/index';
-import {layoutObservations, reviewNotices} from './review-notices';
+import {layoutObservations, noticeMessage, reviewNotices} from './review-notices';
 
 const sideName = (side: string) => side === 'left' ? 'Baseline' : 'Revised';
 const coverageLabels: Record<CoverageIssue['reason'], string> = {
@@ -56,7 +56,7 @@ export function ReviewNotices({result, onCoverage, onLocate}: {
     index,onLocate:() => onCoverage(issue),
   }));
   const unresolvedEntries = (u: CompareResultV2['unresolved'][number]): Entry[] => [...u.left,...u.right].map(l => ({
-    side:l.side,pageIndex:l.pageIndex,text:l.text,description:u.message,
+    side:l.side,pageIndex:l.pageIndex,text:l.text,description:noticeMessage(u),
     onLocate:() => onLocate([l],u.reason==='word_diff_budget'
       ? 'Word-level detail incomplete. This is the full source range; highlighting is coarse.'
       : u.reason==='budget' ? 'Matching and comparison are unfinished for this source range.'
@@ -96,7 +96,7 @@ export function ReviewNotices({result, onCoverage, onLocate}: {
     </section>}
     {n.uncertain.length > 0 && <details className="match-notices">
       <summary>Correspondence to review · {n.uncertain.length} {n.uncertain.length === 1 ? 'group' : 'groups'}</summary>
-      <div className="notice-body">{n.uncertain.map((u,i) => <div key={i}><p>{u.message}</p><Sources entries={unresolvedEntries(u)} /></div>)}</div>
+      <div className="notice-body">{n.uncertain.map((u,i) => <div key={i}><p>{noticeMessage(u)}</p><Sources entries={unresolvedEntries(u)} /></div>)}</div>
     </details>}
     {n.layout.length > 0 && <details className="structure-notices">
       <summary>Table relationships to check · {layoutKinds} {layoutKinds === 1 ? 'type' : 'types'} · {n.layout.length} {n.layout.length === 1 ? 'notice' : 'notices'}

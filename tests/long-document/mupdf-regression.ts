@@ -1,10 +1,10 @@
-import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { resolveLocation, type DocInput, type Page, type SourceLocation } from "../../packages/contracts/index";
+import type { DocInput, Page } from "../../packages/contracts/index";
 import { loadEngine } from "../../packages/pdf-adapter/node";
 import { CoreSession, loadCore } from "../../packages/rust-core/index";
 import { assertFixtureResult, type FixtureTruth } from "./assert-result";
+import { assertFixtureLocations, fixturePages, fixtureSides } from "./mupdf-sources";
 
 const { openSession } = await loadEngine("mupdf");
 const module = await loadCore();
@@ -14,16 +14,16 @@ export async function checkLongDocument(directory: string) {
   const core = new CoreSession(module);
   const sources: DocInput[] = [];
   try {
-    for (const [side, name] of (["baseline", "revised"] as const).entries()) {
+    for (const [side, name] of fixtureSides.entries()) {
       const pdf = await openSession(await readFile(join(directory, name + ".pdf")));
       try {
-        const expectedPages = new Set(truth.cases.map(c => c[name]?.page));
+        const expectedPages = fixturePages(truth, name);
         const pages: Page[] = [];
         core.meta(side, pdf.metadata());
         // Use the web worker's page-at-a-time protocol. Only retain answer-key pages for source verification.
         await pdf.extract(page => {
           core.page(side, page);
-          if (expectedPages.has(page.pageIndex + 1)) pages[page.pageIndex] = page;
+          if (expectedPages.has(page.pageIndex)) pages[page.pageIndex] = page;
         }, undefined, false);
         core.done(side);
         sources.push({ ...pdf.metadata(), pages });
@@ -33,23 +33,7 @@ export async function checkLongDocument(directory: string) {
     }
     const result = core.compare();
     assertFixtureResult(result, truth);
-    const docs: [DocInput, DocInput] = [sources[0], sources[1]];
-    const verifyReferences = (locations: SourceLocation[], context: string) => {
-      for (const loc of locations) {
-        if (docs[loc.side === "left" ? 0 : 1].pages[loc.pageIndex]) {
-          assert.ok(resolveLocation(loc, docs), `Invalid original-PDF reference in ${context}`);
-        }
-      }
-    };
-    for (const d of result.differences) {
-      verifyReferences([...d.left, ...d.right], d.id);
-      for (const edit of d.textOps.filter(op => op.kind !== "equal")) {
-        verifyReferences([...edit.left, ...edit.right], d.id);
-      }
-    }
-    for (const notice of result.unresolved) {
-      verifyReferences([...notice.left, ...notice.right], notice.reason);
-    }
+    assertFixtureLocations(result, [sources[0], sources[1]]);
     console.log(`PASS ${directory} (${truth.cases.length} source checks, ${result.differences.length} reported differences)`);
   } finally {
     core.dispose();

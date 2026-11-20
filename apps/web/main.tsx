@@ -1,6 +1,6 @@
 import {foldOccurrences} from './fold-occurrences';
 import {ReviewNotices} from './ReviewNotices';
-import {noticeStatus, relatedUncertainty, relatedWordDetail} from './review-notices';
+import {noticeMessage, noticeStatus, relatedUncertainty, relatedWordDetail} from './review-notices';
 import {DifferenceText} from './DifferenceText';
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -875,8 +875,8 @@ function App() {
                   <b>{basis(d)}</b>
                 </div>
                 {relatedUncertainty(d, result?.unresolved ?? []).map((u,i) => <button
-                  key={i} className="match-notice" title={u.message}
-                  onClick={e => {e.stopPropagation();rememberChange();setSelectedId('');locate([...u.left,...u.right],true,u.message);}}
+                  key={i} className="match-notice" title={noticeMessage(u)}
+                  onClick={e => {e.stopPropagation();rememberChange();setSelectedId('');locate([...u.left,...u.right],true,noticeMessage(u));}}
                 >Correspondence to review</button>)}
                 {d.facts.length > 0 && (
                   <div className="facts">

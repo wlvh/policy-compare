@@ -342,7 +342,11 @@
           294.0
         ]
       },
-      "expectation": "Preserve the association Delta desk / Stage window = 48 hours / Contact method = Written notice. A relocation of equal cells or a structural uncertainty notice is acceptable."
+      "expectation": "Preserve the association Delta desk / Stage window = 48 hours / Contact method = Written notice. A relocation of equal cells or a structural uncertainty notice is acceptable.",
+      "moved_cells": [
+        "48 hours",
+        "Written notice"
+      ]
     },
     {
       "id": "C04",
