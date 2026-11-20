@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import type { CompareResultV2, DifferenceV2, SourceLocation } from "../../packages/contracts/index";
+import { noticeMessage, reviewNotices } from "../../apps/web/review-notices";
 
 interface Source {
   page: number; // The independent answer key uses 1-based physical PDF page numbers.
@@ -13,6 +14,7 @@ interface Case {
   baseline: Source | null;
   revised: Source | null;
   moved_cells?: string[];
+  column_notice_text?: string;
 }
 export interface FixtureTruth {
   sha256: Record<string, string>;
@@ -107,16 +109,15 @@ function touchesControl(locs: SourceLocation[], source: Source): boolean {
   });
 }
 
-function showsMovedCell(
-  card: DifferenceV2, baseline: Source, revised: Source, cells: string[],
+function showsMovedText(
+  card: DifferenceV2, baseline: Source, revised: Source, expected: string,
 ): boolean {
-  const text = words(card.oldText);
-  if (!cells.includes(text) || card.kind !== "Moved" || card.hasTextChange ||
-      text !== words(card.newText)) return false;
+  if (card.kind !== "Moved" || card.hasTextChange ||
+      words(card.oldText) !== expected || words(card.newText) !== expected) return false;
   return (["left", "right"] as const).every(side => {
     const target = side === "left" ? baseline : revised;
     return card[side].every(loc => loc.side === side && onSource(loc, target)) &&
-      withoutSpace(card[side].map(loc => loc.text).join("")) === withoutSpace(text);
+      withoutSpace(card[side].map(loc => loc.text).join("")) === withoutSpace(expected);
   });
 }
 
@@ -135,15 +136,17 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
     const { kind, baseline, revised } = check;
     if (kind === "column-reorder") {
       const expectedCells = check.moved_cells;
-      assert.ok(baseline && revised && expectedCells?.length);
+      const expectedNotice = check.column_notice_text;
+      assert.ok(baseline && revised && expectedCells?.length && expectedNotice);
       const touchesRow = (item: Pick<DifferenceV2, "left" | "right">) =>
         touchesControl(item.left, baseline) || touchesControl(item.right, revised);
       const moves = result.differences.filter(touchesRow);
       const notices = result.unresolved.filter(touchesRow);
-      const validMoves = moves.filter(d => showsMovedCell(d, baseline, revised, expectedCells));
+      const validMoves = moves.filter(d => expectedCells.some(text => showsMovedText(d, baseline, revised, text)));
       const movedCells = new Set(validMoves
         .map(d => words(d.oldText)));
-      const validNotices = notices.filter(u => u.reason === "ambiguous_column_mapping" &&
+      const visibleNotices = reviewNotices({ coverage: [], unresolved: notices }).uncertain;
+      const validNotices = visibleNotices.filter(u => words(noticeMessage(u)) === words(expectedNotice) &&
         u.left.every(loc => loc.side === "left") && u.right.every(loc => loc.side === "right") &&
         containsEvidence(u.left, baseline, kind) && containsEvidence(u.right, revised, kind));
       if (validMoves.length !== moves.length) {
@@ -171,14 +174,19 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
       continue;
     }
     const located = result.differences.filter(d => {
-      if (kind === "move" && (d.kind !== "Moved" || words(d.oldText) !== words(d.newText))) return false;
+      if (kind === "move" && d.kind !== "Moved") return false;
       if (kind === "addition" && d.kind !== "Added") return false;
       if (kind === "deletion" && d.kind !== "Removed") return false;
       return containsEvidence(d.left, baseline, kind) && containsEvidence(d.right, revised, kind);
     });
     if (!located.length) {
       faults.push(check.id + ": expected change missing from its source location");
-    } else if (kind !== "move" && !located.some(d => showsExpectedChange(d, check))) {
+    } else if (kind === "move") {
+      assert.ok(baseline && revised && words(baseline.text) === words(revised.text));
+      if (!located.some(d => showsMovedText(d, baseline, revised, words(baseline.text)))) {
+        faults.push(check.id + ": card lacks the source-backed moved text");
+      }
+    } else if (!located.some(d => showsExpectedChange(d, check))) {
       faults.push(check.id + ": card lacks a source-backed edit for the expected text");
     }
   }

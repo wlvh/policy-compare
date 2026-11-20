@@ -346,7 +346,8 @@
       "moved_cells": [
         "48 hours",
         "Written notice"
-      ]
+      ],
+      "column_notice_text": "The correspondence between these table fields could not be determined. Both source rows are retained."
     },
     {
       "id": "C04",

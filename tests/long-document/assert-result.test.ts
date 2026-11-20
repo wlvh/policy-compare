@@ -3,6 +3,9 @@ import { compare } from "../../packages/compare-core/index";
 import { textDoc } from "../helpers";
 import { assertFixtureResult, type FixtureTruth } from "./assert-result";
 import { assertFixtureLocations } from "./mupdf-sources";
+import { noticeMessage } from "../../apps/web/review-notices";
+
+const columnNoticeText = "The correspondence between these table fields could not be determined. Both source rows are retained.";
 
 function compareLines(kind: "replacement" | "column-reorder", oldText: string, newText: string) {
   const oldDoc = textDoc([{ text: oldText }]);
@@ -51,6 +54,7 @@ it("accepts a column correspondence notice only with the source rows on both sid
     "column-reorder", "Delta desk 48 hours Written notice", "Delta desk Written notice 48 hours",
   );
   truth.cases[0].moved_cells = ["48 hours", "Written notice"];
+  truth.cases[0].column_notice_text = columnNoticeText;
   result.differences = [];
   const notice = {
     reason: "ambiguous_column_mapping",
@@ -60,6 +64,9 @@ it("accepts a column correspondence notice only with the source rows on both sid
     defaultVisible: true,
   } as const;
   result.unresolved = [notice];
+  expect(() => assertFixtureResult(result, truth)).not.toThrow();
+
+  result.unresolved = [{ ...notice, reason: "ambiguous_match", message: noticeMessage(notice) }];
   expect(() => assertFixtureResult(result, truth)).not.toThrow();
 
   result.unresolved = [{ ...notice, right: [] }];
@@ -86,6 +93,7 @@ it("rejects a moved value attached to a different cell on the same row", () => {
       id: "C03",
       kind: "column-reorder",
       moved_cells: ["48 hours", "Written notice"],
+      column_notice_text: columnNoticeText,
       baseline: { page: 1, text: "Delta desk 48 hours Written notice", y_range_top_pt: [117, 129] },
       revised: { page: 1, text: "Delta desk Written notice 48 hours", y_range_top_pt: [117, 129] },
     }],
@@ -126,4 +134,27 @@ it("resolves the highlighted glyph independently of the exported text and charac
   deleted.left[0].quads = [equal.left[0].quads[equal.text.indexOf("2")]];
   expect(() => assertFixtureResult(result, truth)).not.toThrow();
   expect(() => assertFixtureLocations(result, [oldDoc, newDoc])).toThrow(/Invalid original-PDF reference/);
+});
+
+it("rejects a move that keeps both original locations and hides the moved text", () => {
+  const heading = "Contents of the instrument register";
+  const sentence = "Keep the calibration certificate.";
+  const anchor = "The instrument register remains available to all authorised personnel.";
+  const left = textDoc([{ text: heading }, { text: sentence }, { text: anchor, page: 1 }]);
+  const right = textDoc([{ text: heading }, { text: anchor, page: 1 }, { text: sentence, page: 1 }]);
+  const result = compare(left, right);
+  const truth: FixtureTruth = {
+    sha256: { "baseline.pdf": left.contentHash, "revised.pdf": right.contentHash },
+    cases: [{
+      id: "P08", kind: "move",
+      baseline: { page: 1, text: sentence },
+      revised: { page: 2, text: sentence },
+    }],
+  };
+  expect(() => assertFixtureResult(result, truth)).not.toThrow();
+  const card = result.differences.find(d => d.kind === "Moved" && d.oldText === sentence)!;
+  card.oldText = card.newText = "";
+  card.textOps = [];
+  expect(() => assertFixtureLocations(result, [left, right])).not.toThrow();
+  expect(() => assertFixtureResult(result, truth)).toThrow(/P08: card lacks the source-backed moved text/);
 });

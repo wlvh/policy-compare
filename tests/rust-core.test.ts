@@ -178,3 +178,63 @@ it('retains ties and separate source texts in a completed group when unrelated s
   expect(unfinished?.left.map(loc => loc.text)).toEqual(['Inspection record pending']);
   expect(unfinished?.right.map(loc => loc.text)).toEqual(['Inspection record cleared']);
 });
+
+it.each([0, 1])('retains candidate-free additions and deletions in a completed region on page %i', bodyPage => {
+  const before = [
+    'Scope of this instrument',
+    'A spare analogue pressure gauge is required at the pump station.',
+    'End of the instrument section',
+    'Harbor register appendix follows',
+  ];
+  const after = [
+    before[0],
+    before[2],
+    'A temporary dust monitor is required during every kiln restart.',
+    before[3],
+  ];
+  const make = (body: string[], status: string) => textDoc([
+    ...body.map(text => ({text, page: bodyPage})),
+    ...[1, 2].map(row => ({text: `${status} annual inspection record ${row}`, page: 1 - bodyPage})),
+  ].sort((a, b) => a.page - b.page));
+  const left = make(before, 'Pending');
+  const right = make(after, 'Filed');
+  const bounded = compare(left, right, aviationProfile, { ...aviationProfile.budget, candidates: 3 });
+  const full = compare(left, right);
+  expect(bounded.differences).toEqual(full.differences.filter(d =>
+    [...d.left, ...d.right].every(loc => loc.pageIndex === bodyPage),
+  ));
+  expect(bounded.differences.map(d => d.kind).sort()).toEqual(['Added', 'Removed']);
+  const unfinished = bounded.unresolved.find(u => u.reason === 'budget');
+  expect(unfinished?.left).toHaveLength(2);
+  expect(unfinished?.right).toHaveLength(2);
+  expect([...unfinished!.left, ...unfinished!.right].every(loc => loc.pageIndex === 1 - bodyPage)).toBe(true);
+});
+
+it.each([false, true])('reruns local pairing only across completed source intervals (cross-page competition: %s)', crosses => {
+  const oldText = 'Temporary dock cargo receipt';
+  const newText = 'Emergency transfer authorization';
+  const start = 'Harbor logistics register';
+  const end = 'Harbor register appendix follows';
+  const make = (revised: boolean) => textDoc([
+    {text: start},
+    {text: revised ? newText : oldText},
+    {text: revised ? 'Certified dock cargo receipt audit' : 'Confirmed dock cargo receipt audit'},
+    {text: end},
+    {text: crosses
+      ? (revised ? 'Document transfer authorization' : 'Urgent transfer authorization')
+      : (revised ? 'Filed annual inspection record' : 'Pending annual inspection record'), page: 1},
+    {text: revised ? 'Filed inspection appendix' : 'Pending inspection appendix', page: 1},
+  ]);
+  const result = compare(make(false), make(true), aviationProfile, { ...aviationProfile.budget, candidates: 2 });
+  const receipts = result.differences.filter(d => d.oldText === oldText || d.newText === newText);
+  const unfinished = result.unresolved.find(u => u.reason === 'budget')!;
+  expect(unfinished).toBeDefined();
+  if (crosses) {
+    expect(receipts).toEqual([]);
+    expect(unfinished.left.map(l => l.text)).toContain(oldText);
+    expect(unfinished.right.map(l => l.text)).toContain(newText);
+  } else {
+    expect(receipts.map(d => [d.kind, d.oldText, d.newText])).toEqual([['Replaced', oldText, newText]]);
+    expect([...unfinished.left, ...unfinished.right].every(loc => loc.pageIndex === 1)).toBe(true);
+  }
+});

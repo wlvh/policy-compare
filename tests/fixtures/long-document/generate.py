@@ -215,6 +215,7 @@ def truth(pages, density, family):
     change("C02", "reflow", 3, "Evidence of custody", REFLOW, REFLOW, "The words are identical. A line break is allowed as a layout observation, with no change to the obligation.")
     change("C03", "column-reorder", 2, "Schedule B / claims handling", "Delta desk 48 hours Written notice", "Delta desk Written notice 48 hours", "Preserve the association Delta desk / Stage window = 48 hours / Contact method = Written notice. A relocation of equal cells or a structural uncertainty notice is acceptable.", ["Delta desk","Stage window","Contact method"])
     cases[-1]["moved_cells"] = ["48 hours", "Written notice"]
+    cases[-1]["column_notice_text"] = "The correspondence between these table fields could not be determined. Both source rows are retained."
     change("C04", "unchanged-table", 2, "Schedule A / covered premises", "Willow Foundry USD 325,000 USD 4,000", "Willow Foundry USD 325,000 USD 4,000", "No substantive change to the Willow Foundry row.", ["Willow Foundry"])
     for case in cases:
         # These identical baseline sentences must be distinguished spatially.
