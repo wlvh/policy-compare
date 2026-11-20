@@ -1,6 +1,7 @@
 use crate::{edits::*, model::*, structure::*, text::*};
 use crate::match_index::{label, token_score, ReflowIndex, SourceIndex, TokenIndex, WindowText, MIN_SCORE};
 use serde_json::json;
+use std::{collections::BTreeSet, ops::Range};
 #[derive(Clone)]
 struct Pair {
     a: Unit,
@@ -64,49 +65,78 @@ fn completed_score_edges(
 }
 
 struct CompletedRegions {
-    // The bounding pairs themselves have already been matched.
-    prefix_end: Option<(usize, usize)>,
-    suffix_start: Option<(usize, usize)>,
+    // Rows eligible for local pairing and for reporting unmatched text.
+    left: Vec<bool>,
+    right: Vec<bool>,
 }
 
 fn completed_regions(
     pairs: &[Pair],
+    scored: &[(usize, usize, f64)],
     unfinished_left: &[bool],
     unfinished_right: &[bool],
+    has_unscored: impl Fn(usize, Range<usize>) -> bool,
 ) -> CompletedRegions {
     let mut regions = CompletedRegions {
-        prefix_end: None,
-        suffix_start: None,
+        left: vec![false; unfinished_left.len()],
+        right: vec![false; unfinished_right.len()],
     };
-    let first_left = unfinished_left.iter().position(|&open| open).unwrap_or(unfinished_left.len());
-    let first_right = unfinished_right.iter().position(|&open| open).unwrap_or(unfinished_right.len());
-    let last_left = unfinished_left.iter().rposition(|&open| open);
-    let last_right = unfinished_right.iter().rposition(|&open| open);
-    let mut positions: Vec<_> = pairs.iter().map(|p| (p.a.order, p.b.order)).collect();
+    // A scored edge in an unfinished group could still become a match.
+    // Include those edges as constraints alongside the established pairs.
+    let mut positions: Vec<_> = pairs.iter().map(|p| (p.a.order, p.b.order, true))
+        .chain(scored.iter().filter(|&&(i, _, _)| unfinished_left[i])
+            .map(|&(i, j, _)| (i, j, false)))
+        .collect();
     positions.sort_unstable();
     let mut min_after = vec![usize::MAX; positions.len() + 1];
     for k in (0..positions.len()).rev() {
         min_after[k] = min_after[k + 1].min(positions[k].1);
     }
     let mut max_before = None;
-    for (k, &(i, j)) in positions.iter().enumerate() {
+    let mut separators = BTreeSet::new();
+    for (k, &(i, j, matched)) in positions.iter().enumerate() {
         crate::checkpoint();
-        // A separator belongs to every maximum-weight anchor chain if it
-        // agrees in order with all known pairs and all remaining candidates
-        // lie strictly on one side of it. A moved pair can cross local
-        // anchors inside a completed region, but cannot cross its separator.
-        if max_before.is_none_or(|prior| prior < j) && j < min_after[k + 1] {
-            if i < first_left && j < first_right {
-                regions.prefix_end = Some((i, j));
-            }
-            if regions.suffix_start.is_none()
-                && last_left.is_none_or(|last| last < i)
-                && last_right.is_none_or(|last| last < j)
-            {
-                regions.suffix_start = Some((i, j));
-            }
+        if matched && max_before.is_none_or(|prior| prior < j) && j < min_after[k + 1] {
+            separators.insert((i, j));
         }
         max_before = Some(max_before.map_or(j, |prior: usize| prior.max(j)));
+    }
+
+    // Check the nearest surviving separator in each direction. A candidate
+    // crossing a farther separator would also cross the nearer one.
+    // Each successful query removes a separator for all subsequent rows.
+    for (i, _) in unfinished_left.iter().enumerate().filter(|(_, open)| **open) {
+        if separators.is_empty() {
+            break;
+        }
+        crate::checkpoint();
+        while let Some(cut) = separators.range(..(i, 0)).next_back().copied() {
+            if !has_unscored(i, 0..cut.1) {
+                break;
+            }
+            separators.remove(&cut);
+        }
+        while let Some(cut) = separators.range((i, 0)..).next().copied() {
+            if !has_unscored(i, cut.1 + 1..unfinished_right.len()) {
+                break;
+            }
+            separators.remove(&cut);
+        }
+    }
+
+    // Surviving separators are in order with every possible remaining match.
+    // They stay in the anchor chain, so a gap with no unfinished row on
+    // either side can be compared independently of its neighbours.
+    let (mut left_start, mut right_start) = (0, 0);
+    let end = (unfinished_left.len(), unfinished_right.len());
+    for (i, j) in separators.into_iter().chain(std::iter::once(end)) {
+        if !unfinished_left[left_start..i].contains(&true)
+            && !unfinished_right[right_start..j].contains(&true)
+        {
+            regions.left[left_start..i].fill(true);
+            regions.right[right_start..j].fill(true);
+        }
+        (left_start, right_start) = (i + 1, j + 1);
     }
     regions
 }
@@ -242,9 +272,6 @@ fn bind_local_intervals(
     completed: Option<&CompletedRegions>,
 ) {
     let (a, b) = (left.units, right.units);
-    if completed.is_some_and(|r| r.prefix_end.is_none() && r.suffix_start.is_none()) {
-        return;
-    }
     let anchors = monotone(
         &(0..pairs.len()).collect::<Vec<_>>(),
         |i| pairs[*i].a.order as f64,
@@ -259,19 +286,15 @@ fn bind_local_intervals(
     );
     bounds.push((a.len() as isize, b.len() as isize));
     for w in bounds.windows(2) {
-        if let Some(regions) = completed {
-            let in_prefix = regions.prefix_end.is_some_and(|(i, j)|
-                w[1].0 <= i as isize && w[1].1 <= j as isize);
-            let in_suffix = regions.suffix_start.is_some_and(|(i, j)|
-                w[0].0 >= i as isize && w[0].1 >= j as isize);
-            if !in_prefix && !in_suffix {
-                continue;
-            }
+        let left_range = (w[0].0 + 1) as usize..w[1].0 as usize;
+        let right_range = (w[0].1 + 1) as usize..w[1].1 as usize;
+        if completed.is_some_and(|r| r.left[left_range.clone()].contains(&false)
+            || r.right[right_range.clone()].contains(&false))
+        {
+            continue;
         }
-        let aa: Vec<_> = ((w[0].0 + 1) as usize..w[1].0 as usize)
-            .filter(|i| !ul.contains(i)).take(2).collect();
-        let bb: Vec<_> = ((w[0].1 + 1) as usize..w[1].1 as usize)
-            .filter(|j| !ur.contains(j)).take(2).collect();
+        let aa: Vec<_> = left_range.filter(|i| !ul.contains(i)).take(2).collect();
+        let bb: Vec<_> = right_range.filter(|j| !ur.contains(j)).take(2).collect();
         if aa.len() == 1 && bb.len() == 1 && left.permits_table_pair(aa[0], right, bb[0]) {
             let i = aa[0];
             let j = bb[0];
@@ -557,24 +580,33 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     }
     let mut open_left = vec![exhausted; a.len()];
     let mut open_right = vec![exhausted; b.len()];
-    let mut score_order = if let Some(frontier @ (first_left, _)) = first_unscored {
+    let pending = first_unscored.map(|frontier| {
+        let tokens: Vec<_> = (frontier.0..a.len()).map(|i| {
+            crate::checkpoint();
+            if ul.contains(&i) { Vec::new() } else { tokenize(&a[i].m.text) }
+        }).collect();
+        (frontier, tokens)
+    });
+    let eligible = |i, j| first_unscored.is_some_and(|frontier| (i, j) >= frontier)
+        && left.permits_table_pair(i, &right, j);
+    let has_unscored = |i: usize, range: Range<usize>| {
+        pending.as_ref().is_some_and(|(frontier, tokens)| {
+            i >= frontier.0
+                && token_index.any_candidate(&tokens[i - frontier.0], range, |j| eligible(i, j))
+        })
+    };
+    let mut score_order = if let Some(((first_left, _), remaining_tokens)) = &pending {
         // Find unfinished endpoints, including rows that have no scored
         // edge yet. Use the same bound and scope as the scoring pass.
-        let remaining_tokens: Vec<_> = (first_left..a.len())
-            .map(|i| {
-                crate::checkpoint();
-                if ul.contains(&i) { Vec::new() } else { tokenize(&a[i].m.text) }
-            })
-            .collect();
-        let eligible = |i, j| (i, j) >= frontier && left.permits_table_pair(i, &right, j);
+        let first_left = *first_left;
         open_left[..first_left].fill(false);
-        for (offset, tokens) in remaining_tokens.iter().enumerate() {
-            let i = first_left + offset;
-            open_left[i] = token_index.any_candidate(tokens, |j| eligible(i, j));
+        for (offset, open) in open_left[first_left..].iter_mut().enumerate() {
+            *open = has_unscored(first_left + offset, 0..b.len());
         }
-        let remaining = TokenIndex::new(&remaining_tokens);
+        let remaining = TokenIndex::new(remaining_tokens);
         for (j, tokens) in right_tokens.iter().enumerate() {
-            open_right[j] = remaining.any_candidate(tokens, |offset| eligible(first_left + offset, j));
+            open_right[j] = remaining.any_candidate(tokens, 0..remaining_tokens.len(),
+                |offset| eligible(first_left + offset, j));
         }
         completed_score_edges(
             &scored,
@@ -620,7 +652,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             );
         }
     }
-    let regions = exhausted.then(|| completed_regions(&pairs, &open_left, &open_right));
+    let regions = exhausted.then(|| completed_regions(&pairs, &scored, &open_left, &open_right, has_unscored));
     bind_local_intervals(&left, &right, &mut pairs, &mut ul, &mut ur, regions.as_ref());
 
     // In an unfinished interval, still show both sides of fully scored
@@ -629,8 +661,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         .filter(|i| !ul.contains(i))
         .partition(|&i| regions.as_ref().is_none_or(|regions| {
             !open_left[i] && (
-                regions.prefix_end.is_some_and(|(end, _)| i < end)
-                || regions.suffix_start.is_some_and(|(start, _)| i > start)
+                regions.left[i]
                 || scored_by_left[i].iter().any(|&edge| !ur.contains(&scored[edge].1))
             )
         }));
@@ -638,8 +669,7 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
         .filter(|j| !ur.contains(j))
         .partition(|&j| regions.as_ref().is_none_or(|regions| {
             !open_right[j] && (
-                regions.prefix_end.is_some_and(|(_, end)| j < end)
-                || regions.suffix_start.is_some_and(|(_, start)| j > start)
+                regions.right[j]
                 || scored_by_right[j].iter().any(|&edge| !ul.contains(&scored[edge].0))
             )
         }));

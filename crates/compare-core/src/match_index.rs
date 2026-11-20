@@ -261,12 +261,22 @@ impl<'a> TokenIndex<'a> {
 
     // An upper bound can only increase as more shared tokens are counted.
     // For an unfinished search, stop at the first eligible candidate.
-    pub fn any_candidate(&self, left: &[String], eligible: impl Fn(usize) -> bool) -> bool {
+    pub fn any_candidate(
+        &self,
+        left: &[String],
+        range: Range<usize>,
+        eligible: impl Fn(usize) -> bool,
+    ) -> bool {
+        if range.is_empty() {
+            return false;
+        }
         let mut overlap: Map<usize, usize> = Map::new();
         for (word, count) in token_counts(left) {
             crate::checkpoint();
             if let Some(rows) = self.postings.get(word) {
-                for &(j, right_count) in rows {
+                let start = rows.partition_point(|&(j, _)| j < range.start);
+                let end = rows.partition_point(|&(j, _)| j < range.end);
+                for &(j, right_count) in &rows[start..end] {
                     let shared = overlap.entry(j).or_default();
                     *shared += count.min(right_count);
                     if token_score(*shared, left.len(), self.tokens[j].len()) >= MIN_SCORE
@@ -332,9 +342,10 @@ mod tests {
             let actual: Vec<_> = candidates.iter().copied().filter(|&j| qualifies(j)).collect();
             assert_eq!(actual, expected);
             for start in 0..rows.len() {
+                let end = (start + 4).min(rows.len());
                 assert_eq!(
-                    index.any_candidate(left, |j| j >= start),
-                    candidates.iter().any(|&j| j >= start)
+                    index.any_candidate(left, start..end, |j| j % 2 == 0),
+                    candidates.iter().any(|&j| (start..end).contains(&j) && j % 2 == 0)
                 );
             }
         }

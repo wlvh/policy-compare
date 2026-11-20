@@ -238,3 +238,42 @@ it.each([false, true])('reruns local pairing only across completed source interv
     expect([...unfinished.left, ...unfinished.right].every(loc => loc.pageIndex === 1)).toBe(true);
   }
 });
+
+it.each([
+  { crossing: 'none', candidates: 1 },
+  { crossing: 'unscored', candidates: 1 },
+  { crossing: 'already scored', candidates: 6 },
+])('certifies the middle between two unfinished registers only without crossings ($crossing)', ({ crossing, candidates }) => {
+  const removed = 'A spare analogue pressure gauge is required at the pump station.';
+  const added = 'A temporary dust monitor is required during every kiln restart.';
+  const heading = 'Scope of this instrument';
+  const boundary = 'End of the instrument section';
+  const closing = 'Harbor register appendix follows';
+  const make = (revised: boolean) => {
+    const status = revised ? 'Filed' : 'Pending';
+    const body = revised ? [heading, boundary, added, closing] : [heading, removed, boundary, closing];
+    const suffix = [1, 2].map(row => {
+      if (crossing === 'unscored') return `${status} annual inspection record ${row}`;
+      if (crossing === 'already scored' && revised) return `annual inspection record berth license authorization ${row}`;
+      return `${revised ? 'Final' : 'Provisional'} berth license authorization ${row}`;
+    });
+    return textDoc([
+      ...[1, 2].map(row => ({ text: `${status} annual inspection record ${row}`, page: 0 })),
+      ...body.map(text => ({text, page: 1})),
+      ...suffix.map(text => ({text, page: 2})),
+    ]);
+  };
+  const result = compare(make(false), make(true), aviationProfile, { ...aviationProfile.budget, candidates });
+  const changes = result.differences.filter(d => d.oldText === removed || d.newText === added);
+  const budget = result.unresolved.find(u => u.reason === 'budget')!;
+  expect(result.stats.candidates).toBe(candidates);
+  expect(budget).toBeDefined();
+  if (crossing === 'none') {
+    expect(changes.map(d => d.kind).sort()).toEqual(['Added', 'Removed']);
+    expect([...budget.left, ...budget.right].every(loc => loc.pageIndex !== 1)).toBe(true);
+  } else {
+    expect(changes).toEqual([]);
+    expect(budget.left.some(loc => loc.text === removed)).toBe(true);
+    expect(budget.right.some(loc => loc.text === added)).toBe(true);
+  }
+});

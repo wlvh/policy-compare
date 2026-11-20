@@ -347,7 +347,10 @@
         "48 hours",
         "Written notice"
       ],
-      "column_notice_text": "The correspondence between these table fields could not be determined. Both source rows are retained."
+      "column_notice_text": [
+        "The correspondence between these table fields could not be determined. Both source rows are retained.",
+        "The column correspondence between Stage window and Contact method is unresolved. Both source rows are retained."
+      ]
     },
     {
       "id": "C04",

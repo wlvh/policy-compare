@@ -14,7 +14,7 @@ interface Case {
   baseline: Source | null;
   revised: Source | null;
   moved_cells?: string[];
-  column_notice_text?: string;
+  column_notice_text?: string | string[];
 }
 export interface FixtureTruth {
   sha256: Record<string, string>;
@@ -136,8 +136,7 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
     const { kind, baseline, revised } = check;
     if (kind === "column-reorder") {
       const expectedCells = check.moved_cells;
-      const expectedNotice = check.column_notice_text;
-      assert.ok(baseline && revised && expectedCells?.length && expectedNotice);
+      assert.ok(baseline && revised && expectedCells?.length);
       const touchesRow = (item: Pick<DifferenceV2, "left" | "right">) =>
         touchesControl(item.left, baseline) || touchesControl(item.right, revised);
       const moves = result.differences.filter(touchesRow);
@@ -145,8 +144,12 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
       const validMoves = moves.filter(d => expectedCells.some(text => showsMovedText(d, baseline, revised, text)));
       const movedCells = new Set(validMoves
         .map(d => words(d.oldText)));
+      // The source-backed move path works with older keys. Wording is
+      // evidence only for a generic notice without a typed column reason.
+      const acceptedWording = [check.column_notice_text ?? []].flat().map(words);
       const visibleNotices = reviewNotices({ coverage: [], unresolved: notices }).uncertain;
-      const validNotices = visibleNotices.filter(u => words(noticeMessage(u)) === words(expectedNotice) &&
+      const validNotices = visibleNotices.filter(u =>
+        (u.reason === "ambiguous_column_mapping" || acceptedWording.includes(words(noticeMessage(u)))) &&
         u.left.every(loc => loc.side === "left") && u.right.every(loc => loc.side === "right") &&
         containsEvidence(u.left, baseline, kind) && containsEvidence(u.right, revised, kind));
       if (validMoves.length !== moves.length) {

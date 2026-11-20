@@ -36,18 +36,27 @@ for (const fixture of fixtures) test(`the uploaded ${path.basename(fixture)} PDF
   assertFixtureLocations(result, await readFixtureSources(dir, truth));
 });
 
-async function appendInspections(source: string, target: string, status: 'Pending' | 'Filed') {
+async function writeBudgetFixture(source: string, target: string, revised: boolean, aroundBody: boolean) {
   const resolveEngine = createRequire(new URL('../../engines/mupdf/package.json', import.meta.url));
   const { PDFDocument, Font } = await import(pathToFileURL(resolveEngine.resolve('mupdf')).href);
   const document = new PDFDocument(await readFile(source));
   const font = new Font('Helvetica');
   try {
     const resources = { Font: { F1: document.addSimpleFont(font) } };
-    for (let start = 0; start < 142; start += 25) {
-      const lines = Array.from({length: Math.min(25, 142 - start)}, (_, row) =>
-        `1 0 0 1 50 ${750 - row * 20} Tm (${status} annual inspection record ${start + row + 1}) Tj`);
-      document.insertPage(-1, document.addPage([0, 0, 612, 792], 0, resources,
+    const addPage = (rows: string[], at: number) => {
+      const lines = rows.map((text, row) => `1 0 0 1 50 ${750 - row * 20} Tm (${text}) Tj`);
+      document.insertPage(at, document.addPage([0, 0, 612, 792], 0, resources,
         ['BT /F1 9 Tf', ...lines, 'ET'].join('\n')));
+    };
+    const status = revised ? 'Filed' : 'Pending';
+    for (let start = 0; start < 142; start += 25) {
+      const rows = Array.from({length: Math.min(25, 142 - start)}, (_, row) =>
+        `${status} annual inspection record ${start + row + 1}`);
+      addPage(rows, aroundBody ? start / 25 : -1);
+    }
+    if (aroundBody) {
+      const permit = revised ? 'Final' : 'Provisional';
+      addPage([1, 2].map(row => `${permit} berth license authorization ${row}`), -1);
     }
     const buffer = document.saveToBuffer();
     try {
@@ -63,14 +72,22 @@ async function appendInspections(source: string, target: string, status: 'Pendin
   }
 }
 
-if (!override) test('budget exhaustion in the appendix preserves authored changes in the original PDF pages', async ({ page }, info) => {
+if (!override) for (const aroundBody of [false, true]) test(
+  aroundBody ? 'preserves authored changes between two unfinished registers'
+    : 'budget exhaustion in the appendix preserves authored changes in the original PDF pages',
+  async ({ page }, info) => {
   test.skip(process.env.POLICY_ENGINE === 'pdfjs', 'This fixture is calibrated against MuPDF source rows.');
   const source = path.resolve('tests/fixtures/long-document/complex-30');
-  const dir = info.outputPath('inspection-appendix');
+  const dir = info.outputPath('budget-fixture');
   await mkdir(dir, {recursive: true});
   const truth: FixtureTruth = JSON.parse(await readFile(path.join(source, 'truth.json'), 'utf8'));
-  for (const [name, status] of [['baseline.pdf', 'Pending'], ['revised.pdf', 'Filed']] as const) {
-    truth.sha256[name] = await appendInspections(path.join(source, name), path.join(dir, name), status);
+  for (const name of ['baseline.pdf', 'revised.pdf']) {
+    truth.sha256[name] = await writeBudgetFixture(path.join(source, name), path.join(dir, name), name === 'revised.pdf', aroundBody);
+  }
+  const firstBodyPage = aroundBody ? 6 : 0;
+  for (const check of truth.cases) {
+    if (check.baseline) check.baseline.page += firstBodyPage;
+    if (check.revised) check.revised.page += firstBodyPage;
   }
   const result = await comparisonExport(page, dir);
   expect(result.status).toBe('partial');
@@ -78,10 +95,11 @@ if (!override) test('budget exhaustion in the appendix preserves authored change
   const budgets = result.unresolved.filter(u => u.reason === 'budget');
   expect(budgets).toHaveLength(1);
   const budget = budgets[0];
-  expect(budget.left).toHaveLength(142);
-  expect(budget.right).toHaveLength(142);
-  expect([...budget.left, ...budget.right].every(loc => loc.pageIndex >= 30)).toBe(true);
-  // The appendix work limit has been verified above. Score the original
+  expect(budget.left).toHaveLength(aroundBody ? 144 : 142);
+  expect(budget.right).toHaveLength(aroundBody ? 144 : 142);
+  expect([...budget.left, ...budget.right].every(loc =>
+    loc.pageIndex < firstBodyPage || loc.pageIndex >= firstBodyPage + 30)).toBe(true);
+  // The register work limits have been verified above. Score the original
   // answer key and resolve its references against the uploaded PDFs.
   assertFixtureResult({ ...result, unresolved: result.unresolved.filter(u => u !== budget) }, truth);
   assertFixtureLocations(result, await readFixtureSources(dir, truth));
