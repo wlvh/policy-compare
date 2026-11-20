@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { resolveLocation, type DocInput, type Page } from "../../packages/contracts/index";
+import { resolveLocation, type DocInput, type Page, type SourceLocation } from "../../packages/contracts/index";
 import { loadEngine } from "../../packages/pdf-adapter/node";
 import { CoreSession, loadCore } from "../../packages/rust-core/index";
 import { assertFixtureResult, type FixtureTruth } from "./assert-result";
@@ -34,12 +34,21 @@ export async function checkLongDocument(directory: string) {
     const result = core.compare();
     assertFixtureResult(result, truth);
     const docs: [DocInput, DocInput] = [sources[0], sources[1]];
-    for (const d of result.differences) {
-      for (const loc of [...d.left, ...d.right]) {
+    const verifyReferences = (locations: SourceLocation[], context: string) => {
+      for (const loc of locations) {
         if (docs[loc.side === "left" ? 0 : 1].pages[loc.pageIndex]) {
-          assert.ok(resolveLocation(loc, docs), `Invalid original-PDF reference in ${d.id}`);
+          assert.ok(resolveLocation(loc, docs), `Invalid original-PDF reference in ${context}`);
         }
       }
+    };
+    for (const d of result.differences) {
+      verifyReferences([...d.left, ...d.right], d.id);
+      for (const edit of d.textOps.filter(op => op.kind !== "equal")) {
+        verifyReferences([...edit.left, ...edit.right], d.id);
+      }
+    }
+    for (const notice of result.unresolved) {
+      verifyReferences([...notice.left, ...notice.right], notice.reason);
     }
     console.log(`PASS ${directory} (${truth.cases.length} source checks, ${result.differences.length} reported differences)`);
   } finally {

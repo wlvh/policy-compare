@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import type { CompareResultV2, SourceLocation } from "../../packages/contracts/index";
+import type { CompareResultV2, DifferenceV2, SourceLocation } from "../../packages/contracts/index";
 
 interface Source {
   page: number; // The independent answer key uses 1-based physical PDF page numbers.
@@ -20,6 +20,7 @@ export interface FixtureTruth {
 }
 
 const words = (text: string) => text.trim().replace(/\s+/g, " ");
+const withoutSpace = (text: string) => text.replace(/\s/g, "");
 
 function onSource(loc: SourceLocation, target: Source): boolean {
   if (loc.pageIndex + 1 !== target.page) return false;
@@ -30,13 +31,66 @@ function onSource(loc: SourceLocation, target: Source): boolean {
   return top <= center && center <= bottom;
 }
 
-function containsEvidence(locs: SourceLocation[], source: Source | null, kind: Case["kind"]): boolean {
-  if (!source) return locs.length === 0;
+function expectedText(source: Source, kind: Case["kind"]): string {
   // The changed cell need not repeat the row title. The row coordinate is the ownership evidence.
   const expected = kind === "table-value" ? source.text.match(/USD [\d,]+/)?.[0] : source.text;
   assert.ok(expected, "Missing expected source text");
+  return expected;
+}
+
+function containsEvidence(locs: SourceLocation[], source: Source | null, kind: Case["kind"]): boolean {
+  if (!source) return locs.length === 0;
   const sourceText = locs.filter(loc => onSource(loc, source)).map(loc => loc.text).join(" ");
-  return words(sourceText).includes(words(expected));
+  return words(sourceText).includes(words(expectedText(source, kind)));
+}
+
+function sourceCharacters(locs: SourceLocation[]) {
+  // The PDF ranges use Unicode scalar offsets. Ignore whitespace because the
+  // card may include layout separators with no source glyph of their own.
+  return locs.flatMap(loc => Array.from(loc.text).flatMap((char, i) =>
+    withoutSpace(char).split("").map(text => ({
+      text, side: loc.side, page: loc.pageIndex, offset: loc.rawRange[0] + i,
+    }))));
+}
+
+function unchangedTargetText(
+  card: DifferenceV2, side: "left" | "right", target: Source, kind: Case["kind"],
+): string | undefined {
+  const removed = side === "left" ? "insert" : "delete";
+  const ops = card.textOps.filter(op => op.kind !== removed);
+  const body = side === "left" ? card.oldText : card.newText;
+  if (ops.map(op => op.text).join("") !== body) return undefined;
+
+  const expected = expectedText(target, kind);
+  if (!words(body).includes(words(expected))) return undefined;
+  const display = withoutSpace(body);
+  const source = sourceCharacters(card[side]);
+  if (source.map(c => c.text).join("") !== display) return undefined;
+  const start = display.indexOf(withoutSpace(expected));
+  const end = start + withoutSpace(expected).length;
+  let offset = 0;
+  let unchanged = "";
+  for (const op of ops) {
+    const text = withoutSpace(op.text);
+    const next = offset + text.length;
+    const from = Math.max(start, offset);
+    const to = Math.min(end, next);
+    if (from < to) {
+      if (op.kind === "equal") {
+        unchanged += text.slice(from - offset, to - offset);
+      } else {
+        const edit = sourceCharacters(op[side]);
+        if (edit.length !== text.length || edit.some((c, i) => {
+          const original = source[offset + i];
+          return c.text !== original.text || c.side !== side ||
+            c.page !== original.page || c.offset !== original.offset;
+        })) return undefined;
+        if (op[side].some(loc => !onSource(loc, target))) return undefined;
+      }
+    }
+    offset = next;
+  }
+  return unchanged;
 }
 
 function touchesControl(locs: SourceLocation[], source: Source): boolean {
@@ -63,19 +117,37 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
                           || !touchesControl(d.left, baseline) || !touchesControl(d.right, revised))) {
         faults.push(check.id + ": changed text or a mislocated correspondence on a control");
       }
-      if (result.unresolved.some(u => touchesControl(u.left, baseline) || touchesControl(u.right, revised))) {
+      if (result.unresolved.some(u => {
+        if (!touchesControl(u.left, baseline) && !touchesControl(u.right, revised)) return false;
+        // C03 allows a notice about column correspondence with the two
+        // complete rows. A generic match warning or unfinished work is insufficient.
+        return !(kind === "column-reorder" && u.reason === "ambiguous_match" &&
+          /\bcolumns?\b/i.test(u.message) &&
+          u.left.every(loc => loc.side === "left") && u.right.every(loc => loc.side === "right") &&
+          containsEvidence(u.left, baseline, kind) && containsEvidence(u.right, revised, kind));
+      })) {
         faults.push(check.id + ": control remained unresolved");
       }
       continue;
     }
-    const found = result.differences.some(d => {
+    const located = result.differences.filter(d => {
       if (kind === "move" && (d.kind !== "Moved" || words(d.oldText) !== words(d.newText))) return false;
       if (kind === "addition" && d.kind !== "Added") return false;
       if (kind === "deletion" && d.kind !== "Removed") return false;
-      if ((kind === "replacement" || kind === "table-value") && !d.hasTextChange) return false;
       return containsEvidence(d.left, baseline, kind) && containsEvidence(d.right, revised, kind);
     });
-    if (!found) faults.push(check.id + ": expected change missing from its source location");
+    if (!located.length) {
+      faults.push(check.id + ": expected change missing from its source location");
+    } else if (kind === "replacement" || kind === "table-value") {
+      assert.ok(baseline && revised);
+      const shown = located.some(d => {
+        if (!d.hasTextChange || d.oldText === d.newText) return false;
+        const oldEqual = unchangedTargetText(d, "left", baseline, kind);
+        const newEqual = unchangedTargetText(d, "right", revised, kind);
+        return oldEqual !== undefined && oldEqual === newEqual;
+      });
+      if (!shown) faults.push(check.id + ": card lacks a source-backed edit for the expected text");
+    }
   }
   if (result.unresolved.some(u => u.reason === "budget" || u.reason === "word_diff_budget")) {
     faults.push("comparison exhausted a work budget");

@@ -398,6 +398,9 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     // source rows do not gain an invented identity from their order.
     bind_local_intervals(&left, &right, &mut pairs, &mut ul, &mut ur);
     let mut scored = vec![];
+    let mut scored_by_left = vec![Vec::new(); a.len()];
+    let mut scored_by_right = vec![Vec::new(); b.len()];
+    let mut first_unscored = None;
     let right_tokens: Vec<_> = b.iter().enumerate()
         .map(|(j, u)| {
             if ur.contains(&j) || exhausted {
@@ -426,31 +429,57 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
             if candidates >= candidate_limit || work > token_limit.saturating_sub(products)
             {
                 exhausted = true;
+                first_unscored = Some((i, j));
                 break;
             }
             candidates += 1;
             products += work;
             let score = token_score(lcs_length(&ta, tb), ta.len(), tb.len());
             if score >= MIN_SCORE {
+                scored_by_left[i].push(scored.len());
+                scored_by_right[j].push(scored.len());
                 scored.push((i, j, score));
             }
         }
     }
-    // A still-unexamined competitor may change either endpoint's pairing.
-    if exhausted {
-        scored.clear();
+    let mut score_order: Vec<_> = (0..scored.len()).collect();
+    if let Some((first_left, first_right)) = first_unscored {
+        // On exhaustion, only keep isolated matches with a completed left
+        // search. The same shortlist bound, queried in reverse, rules out
+        // unseen competitors on the right without spending more LCS work.
+        score_order.retain(|&edge| {
+            let (i, j, _) = scored[edge];
+            i < first_left && scored_by_left[i].len() == 1 && scored_by_right[j].len() == 1
+        });
+        if !score_order.is_empty() {
+            let remaining_tokens: Vec<_> = (first_left..a.len())
+                .map(|i| {
+                    crate::checkpoint();
+                    if ul.contains(&i) { Vec::new() } else { tokenize(&a[i].m.text) }
+                })
+                .collect();
+            let remaining = TokenIndex::new(&remaining_tokens);
+            score_order.retain(|&edge| {
+                let (_, j, _) = scored[edge];
+                !remaining.candidates(&right_tokens[j]).into_iter().any(|offset| {
+                    let i = first_left + offset;
+                    (i, j) >= (first_left, first_right) && left.permits_table_pair(i, &right, j)
+                })
+            });
+        }
     }
-    scored.sort_by(|x, y| y.2.total_cmp(&x.2).then(x.0.cmp(&y.0)).then(x.1.cmp(&y.1)));
-    for &(i, j, score) in &scored {
+    score_order.sort_by(|&x, &y| {
+        let (x, y) = (scored[x], scored[y]);
+        y.2.total_cmp(&x.2).then(x.0.cmp(&y.0)).then(x.1.cmp(&y.1))
+    });
+    for edge in score_order {
+        let (i, j, score) = scored[edge];
         if ul.contains(&i) || ur.contains(&j) {
             continue;
         }
-        let tied = scored.iter().any(|&(ii, jj, ss)| {
-            ss == score
-                && (ii != i || jj != j)
-                && !ul.contains(&ii)
-                && !ur.contains(&jj)
-                && (ii == i || jj == j)
+        let tied = scored_by_left[i].iter().chain(&scored_by_right[j]).any(|&other| {
+            let (ii, jj, ss) = scored[other];
+            other != edge && ss == score && !ul.contains(&ii) && !ur.contains(&jj)
         });
         let repeated = left.count(&a[i].m.text) > 1
             || right.count(&b[j].m.text) > 1;
@@ -500,18 +529,16 @@ pub fn compare(l: &Doc, r: &Doc, p: &V, budget: &V) -> Result<V, String> {
     } else {
         // Ambiguity is recorded only for connected competing candidates. Changed
         // occurrences still appear below, with actual inserted/deleted text.
-        for x in &al {
-            let bs: Vec<_> = br
+        for (i, edges) in scored_by_left.iter().enumerate().filter(|(i, _)| !ul.contains(i)) {
+            crate::checkpoint();
+            let bs: Vec<_> = edges
                 .iter()
-                .filter(|y| {
-                    scored
-                        .iter()
-                        .any(|(i, j, _)| a[*i].id == x.id && b[*j].id == y.id)
-                })
-                .cloned()
+                .map(|&edge| scored[edge].1)
+                .filter(|j| !ur.contains(j))
+                .map(|j| b[j].clone())
                 .collect();
             if !bs.is_empty() {
-                un.push(issue("ambiguous_match","Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",&[x.clone()],&bs,l,r));
+                un.push(issue("ambiguous_match","Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",std::slice::from_ref(&a[i]),&bs,l,r));
             }
         }
     }

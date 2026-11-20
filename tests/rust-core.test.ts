@@ -54,3 +54,68 @@ it('unexamined competitors stay unresolved when scoring runs out of work', () =>
   expect(unfinished?.left).toHaveLength(2);
   expect(unfinished?.right).toHaveLength(2);
 });
+
+it('keeps an isolated receipt change when the default scoring budget is exhausted', () => {
+  const inspections = Array.from({ length: 142 }, (_, i) => ({
+    oldText: `Safety check record ${i} pending`,
+    newText: `Safety check record ${i} cleared`,
+    page: Math.floor((i + 1) / 24),
+  }));
+  const left = textDoc([
+    { text: 'Provisional cargo receipt' },
+    ...inspections.map(({ oldText: text, page }) => ({ text, page })),
+  ]);
+  const right = textDoc([
+    { text: 'Final cargo receipt' },
+    ...inspections.map(({ newText: text, page }) => ({ text, page })),
+  ]);
+  const result = compare(left, right);
+  expect(result.stats.candidates).toBe(20_000);
+  expect(result.differences.map(d => [d.oldText, d.newText])).toEqual([
+    ['Provisional cargo receipt', 'Final cargo receipt'],
+  ]);
+  const unfinished = result.unresolved.find(issue => issue.reason === 'budget');
+  expect(unfinished?.left).toHaveLength(142);
+  expect(unfinished?.right).toHaveLength(142);
+  expect(unfinished?.left.every(loc => loc.text.startsWith('Safety check record'))).toBe(true);
+  expect(unfinished?.right.every(loc => loc.text.startsWith('Safety check record'))).toBe(true);
+});
+
+it('retains a scored receipt as unresolved if a later page could also match it', () => {
+  const left = textDoc([
+    { text: 'Provisional cargo receipt' },
+    { text: 'Safety check record pending' },
+    { text: 'Temporary cargo receipt', page: 1 },
+  ]);
+  const right = textDoc([
+    { text: 'Final cargo receipt' },
+    { text: 'Safety check record cleared' },
+    { text: 'Safety check record archived', page: 1 },
+  ]);
+  const result = compare(left, right, aviationProfile, { ...aviationProfile.budget, tokenProducts: 25 });
+  expect(result.stats.candidates).toBe(2);
+  expect(result.stats.tokenProducts).toBe(25);
+  expect(result.differences).toHaveLength(0);
+  const unfinished = result.unresolved.find(issue => issue.reason === 'budget');
+  expect(unfinished?.left.map(loc => loc.text)).toEqual([
+    'Provisional cargo receipt', 'Safety check record pending', 'Temporary cargo receipt',
+  ]);
+  expect(unfinished?.right.map(loc => loc.text)).toContain('Final cargo receipt');
+});
+
+it('lists both candidate occurrences for each repeated receipt in source order', () => {
+  const doc = (status: string) => textDoc([17, 17, 42, 42].map(site => ({
+    text: `Receipt ${site} ${status}`,
+  })));
+  const result = compare(doc('pending'), doc('cleared'));
+  expect(result.stats.candidates).toBe(8);
+  expect(result.differences).toHaveLength(8);
+  const notices = result.unresolved.filter(issue => issue.reason === 'ambiguous_match');
+  expect(notices).toHaveLength(4);
+  for (const [i, notice] of notices.entries()) {
+    const site = i < 2 ? 17 : 42;
+    expect(notice.left.map(loc => loc.text)).toEqual([`Receipt ${site} pending`]);
+    expect(notice.right.map(loc => loc.text)).toEqual(Array(2).fill(`Receipt ${site} cleared`));
+    expect(notice.right[0].rawRange[0]).toBeLessThan(notice.right[1].rawRange[0]);
+  }
+});
