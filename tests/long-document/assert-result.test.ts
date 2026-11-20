@@ -71,8 +71,13 @@ it("accepts a column correspondence notice only with the source rows on both sid
   expect(() => assertFixtureResult(result, truth)).not.toThrow();
   const oldTruth = structuredClone(truth);
   delete oldTruth.cases[0].column_notice_text;
+  delete oldTruth.cases[0].moved_cells;
   expect(() => assertFixtureResult(result, oldTruth)).not.toThrow();
   expect(() => assertFixtureResult({ ...result, unresolved: [notice] }, oldTruth)).not.toThrow();
+
+  result.unresolved = [{ ...notice, reason: "ambiguous_match", message: "Column correspondence is unresolved." }];
+  expect(() => assertFixtureResult(result, oldTruth)).not.toThrow();
+  expect(() => assertFixtureResult(result, truth)).not.toThrow();
 
   result.unresolved = [{ ...notice, reason: "ambiguous_match", message: columnNoticeAlternative }];
   expect(() => assertFixtureResult(result, truth)).not.toThrow();
@@ -82,6 +87,7 @@ it("accepts a column correspondence notice only with the source rows on both sid
 
   result.unresolved = [{ ...notice, reason: "ambiguous_match", message: "Column order has been verified." }];
   expect(() => assertFixtureResult(result, truth)).toThrow(/control remained unresolved/);
+  expect(() => assertFixtureResult(result, oldTruth)).toThrow(/control remained unresolved/);
 
   result.unresolved = [{ ...notice, reason: "budget" }];
   expect(() => assertFixtureResult(result, truth)).toThrow(/comparison exhausted a work budget/);
@@ -106,10 +112,17 @@ it("rejects a moved value attached to a different cell on the same row", () => {
     }],
   };
   expect(() => assertFixtureResult(result, truth)).not.toThrow();
+  const oldTruth = structuredClone(truth);
+  delete oldTruth.cases[0].moved_cells;
+  expect(() => assertFixtureResult(result, oldTruth)).not.toThrow();
   const [first, second] = result.differences.filter(d => truth.cases[0].moved_cells!.includes(d.oldText));
+  expect(() => assertFixtureResult({
+    ...result, differences: result.differences.filter(d => d !== first),
+  }, oldTruth)).toThrow(/expected cell relocations/);
   [first.right, second.right] = [second.right, first.right];
   expect(() => assertFixtureLocations(result, [left, right])).not.toThrow();
   expect(() => assertFixtureResult(result, truth)).toThrow(/C03: a moved cell does not match its source/);
+  expect(() => assertFixtureResult(result, oldTruth)).toThrow(/C03: a moved cell does not match its source/);
 });
 
 it.each(["addition", "deletion"] as const)("rejects an %s card that hides its clause", kind => {

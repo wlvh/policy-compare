@@ -24,7 +24,10 @@ export interface FixtureTruth {
 
 const words = (text: string) => text.trim().replace(/\s+/g, " ");
 const withoutSpace = (text: string) => text.replace(/\s/g, "");
-const standardColumnNotice = "The correspondence between these table fields could not be determined. Both source rows are retained.";
+const standardColumnNotices = [
+  "The correspondence between these table fields could not be determined. Both source rows are retained.",
+  "Column correspondence is unresolved.", // Wording from the original C03 regression.
+];
 
 function onSource(loc: SourceLocation, target: Source): boolean {
   if (loc.pageIndex + 1 !== target.page) return false;
@@ -136,8 +139,13 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
   for (const check of truth.cases) {
     const { kind, baseline, revised } = check;
     if (kind === "column-reorder") {
-      const expectedCells = check.moved_cells;
-      assert.ok(baseline && revised && expectedCells?.length);
+      assert.ok(baseline && revised);
+      // The original C03 key recorded these values in its expectation
+      // before moved_cells was added. Limit the fallback to those source rows.
+      const legacyC03 = check.id === "C03" &&
+        words(baseline.text) === "Delta desk 48 hours Written notice" &&
+        words(revised.text) === "Delta desk Written notice 48 hours";
+      const expectedCells = check.moved_cells ?? (legacyC03 ? ["48 hours", "Written notice"] : []);
       const touchesRow = (item: Pick<DifferenceV2, "left" | "right">) =>
         touchesControl(item.left, baseline) || touchesControl(item.right, revised);
       const moves = result.differences.filter(touchesRow);
@@ -147,7 +155,7 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
         .map(d => words(d.oldText)));
       // Older keys also accept the standard visible notice. A key can
       // additionally author equivalent wording for generic notices.
-      const acceptedWording = [standardColumnNotice, ...[check.column_notice_text ?? []].flat()].map(words);
+      const acceptedWording = [...standardColumnNotices, ...[check.column_notice_text ?? []].flat()].map(words);
       const visibleNotices = reviewNotices({ coverage: [], unresolved: notices }).uncertain;
       const validNotices = visibleNotices.filter(u =>
         acceptedWording.includes(words(noticeMessage(u))) &&
@@ -156,7 +164,8 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
       if (validMoves.length !== moves.length) {
         faults.push(check.id + ": a moved cell does not match its source on both sides");
       }
-      if (!validNotices.length && !expectedCells.every(text => movedCells.has(text))) {
+      const completeMoves = expectedCells.length > 0 && expectedCells.every(text => movedCells.has(text));
+      if (!validNotices.length && !completeMoves) {
         faults.push(check.id + ": expected cell relocations or a column correspondence notice with both rows");
       }
       if (validNotices.length !== notices.length) {

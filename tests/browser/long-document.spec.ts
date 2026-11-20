@@ -33,6 +33,14 @@ for (const fixture of fixtures) test(`the uploaded ${path.basename(fixture)} PDF
   const truth: FixtureTruth = JSON.parse(await readFile(path.join(dir, 'truth.json'), 'utf8'));
   const result = await comparisonExport(page, dir);
   assertFixtureResult(result, truth);
+  if (!override && path.basename(fixture) === 'complex-30') {
+    // The original b13e3fc key predates both optional C03 fields.
+    const original = structuredClone(truth);
+    const columns = original.cases.find(c => c.id === 'C03')!;
+    delete columns.moved_cells;
+    delete columns.column_notice_text;
+    assertFixtureResult(result, original);
+  }
   assertFixtureLocations(result, await readFixtureSources(dir, truth));
 });
 
