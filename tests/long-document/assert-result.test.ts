@@ -69,6 +69,10 @@ it("accepts a column correspondence notice only with the source rows on both sid
 
   result.unresolved = [{ ...notice, reason: "ambiguous_match", message: noticeMessage(notice) }];
   expect(() => assertFixtureResult(result, truth)).not.toThrow();
+  const oldTruth = structuredClone(truth);
+  delete oldTruth.cases[0].column_notice_text;
+  expect(() => assertFixtureResult(result, oldTruth)).not.toThrow();
+  expect(() => assertFixtureResult({ ...result, unresolved: [notice] }, oldTruth)).not.toThrow();
 
   result.unresolved = [{ ...notice, reason: "ambiguous_match", message: columnNoticeAlternative }];
   expect(() => assertFixtureResult(result, truth)).not.toThrow();

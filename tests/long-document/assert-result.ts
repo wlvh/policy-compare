@@ -24,6 +24,7 @@ export interface FixtureTruth {
 
 const words = (text: string) => text.trim().replace(/\s+/g, " ");
 const withoutSpace = (text: string) => text.replace(/\s/g, "");
+const standardColumnNotice = "The correspondence between these table fields could not be determined. Both source rows are retained.";
 
 function onSource(loc: SourceLocation, target: Source): boolean {
   if (loc.pageIndex + 1 !== target.page) return false;
@@ -144,12 +145,12 @@ export function assertFixtureResult(result: CompareResultV2, truth: FixtureTruth
       const validMoves = moves.filter(d => expectedCells.some(text => showsMovedText(d, baseline, revised, text)));
       const movedCells = new Set(validMoves
         .map(d => words(d.oldText)));
-      // The source-backed move path works with older keys. Wording is
-      // evidence only for a generic notice without a typed column reason.
-      const acceptedWording = [check.column_notice_text ?? []].flat().map(words);
+      // Older keys also accept the standard visible notice. A key can
+      // additionally author equivalent wording for generic notices.
+      const acceptedWording = [standardColumnNotice, ...[check.column_notice_text ?? []].flat()].map(words);
       const visibleNotices = reviewNotices({ coverage: [], unresolved: notices }).uncertain;
       const validNotices = visibleNotices.filter(u =>
-        (u.reason === "ambiguous_column_mapping" || acceptedWording.includes(words(noticeMessage(u)))) &&
+        acceptedWording.includes(words(noticeMessage(u))) &&
         u.left.every(loc => loc.side === "left") && u.right.every(loc => loc.side === "right") &&
         containsEvidence(u.left, baseline, kind) && containsEvidence(u.right, revised, kind));
       if (validMoves.length !== moves.length) {
