@@ -1,4 +1,4 @@
-import type {CompareResultV2, CoverageIssue, DifferenceV2} from '../../packages/contracts/index';
+import type {CompareResultV2, CoverageIssue, DifferenceV2, SourceLocation} from '../../packages/contracts/index';
 
 export const layoutObservations = {
   repeated_tabular_text: {
@@ -40,13 +40,46 @@ export function noticeStatus(result: CompareResultV2) {
 
 // Link a correspondence notice only where its own source characters overlap.
 // Being on the same page is not enough to attach it to an unrelated change.
-function relatedSources(difference: DifferenceV2, unresolved: CompareResultV2['unresolved']) {
-  if(!unresolved.length)return [];
-  const ids = new Set([...difference.left, ...difference.right].flatMap(l =>
-    l.charIds.map(id => `${l.side}:${l.pageIndex}:${id}`)));
-  return unresolved.filter(u => [...u.left, ...u.right].some(l => l.charIds.some(id => ids.has(`${l.side}:${l.pageIndex}:${id}`))));
+type Notice = CompareResultV2['unresolved'][number];
+// A new comparison replaces the notice list. Card renders reuse its index.
+const noticeIndexes = new WeakMap<readonly Notice[], Map<string, number[]>>();
+
+function sourceKey(location: SourceLocation, charId: string) {
+  return `${location.side}:${location.pageIndex}:${charId}`;
 }
-export const relatedUncertainty = (d: DifferenceV2, unresolved: CompareResultV2['unresolved']) =>
-  relatedSources(d, unresolved.filter(u => u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity'));
-export const relatedWordDetail = (d: DifferenceV2, unresolved: CompareResultV2['unresolved']) =>
-  relatedSources(d, unresolved.filter(u => u.reason === 'word_diff_budget'));
+
+function indexNotices(unresolved: readonly Notice[]) {
+  const prior = noticeIndexes.get(unresolved);
+  if (prior) return prior;
+  const index = new Map<string, number[]>();
+  unresolved.forEach((notice, i) => {
+    if (notice.reason === 'budget') return;
+    for (const loc of [...notice.left, ...notice.right]) {
+      for (const id of loc.charIds) {
+        const key = sourceKey(loc, id);
+        const entries = index.get(key);
+        if (entries) entries.push(i);
+        else index.set(key, [i]);
+      }
+    }
+  });
+  noticeIndexes.set(unresolved, index);
+  return index;
+}
+
+function relatedSources(difference: DifferenceV2, unresolved: readonly Notice[], matches: (notice: Notice) => boolean) {
+  if (!unresolved.length) return [];
+  const index = indexNotices(unresolved);
+  if (!index.size) return [];
+  const found = new Set<number>();
+  for (const loc of [...difference.left, ...difference.right]) {
+    for (const id of loc.charIds) {
+      for (const i of index.get(sourceKey(loc, id)) ?? []) found.add(i);
+    }
+  }
+  return [...found].sort((a, b) => a - b).map(i => unresolved[i]).filter(matches);
+}
+export const relatedUncertainty = (d: DifferenceV2, unresolved: readonly Notice[]) =>
+  relatedSources(d, unresolved, u => u.reason === 'ambiguous_match' || u.reason === 'ambiguous_identity');
+export const relatedWordDetail = (d: DifferenceV2, unresolved: readonly Notice[]) =>
+  relatedSources(d, unresolved, u => u.reason === 'word_diff_budget');
