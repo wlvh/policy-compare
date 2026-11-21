@@ -24,6 +24,7 @@ export interface PdfSessionApi {
 export interface PdfClient {
   onmessage: ((event: MessageEvent) => void) | null;
   onerror: ((event: unknown) => void) | null;
+  onWorkerCountChange?: (count: number) => void;
   postMessage(message: any, transfer?: Transferable[]): void;
   terminate(): void;
 }

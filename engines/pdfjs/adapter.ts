@@ -13,6 +13,7 @@ import {
   type PdfSessionApi,
   type RenderedPage,
 } from "../../packages/pdf-adapter/api";
+import { encodeCanvasPng } from "./png-encoder";
 export const EXTRACTOR_VERSION = "pdfjs/6.4.299+strict-streams.1";
 export const TEXT_OPTIONS = {
   disableNormalization: true,
@@ -326,7 +327,11 @@ export class PdfJsSession implements PdfSessionApi {
     }
     return { ...this.metadata(), pages };
   }
-  async render(pageIndex: number, scale = 1.35): Promise<RenderedPage> {
+  async render(
+    pageIndex: number,
+    scale = 1.35,
+    encodePng: (canvas: HTMLCanvasElement) => Uint8Array | Promise<Uint8Array> = encodeCanvasPng,
+  ): Promise<RenderedPage> {
     if (this.closed) throw new Error("Document is closed");
     if (node)
       throw new Error(
@@ -343,13 +348,15 @@ export class PdfJsSession implements PdfSessionApi {
     const canvas = document.createElement("canvas");
     canvas.width = Math.ceil(viewport.width);
     canvas.height = Math.ceil(viewport.height);
-    await page.render({ canvas, viewport }).promise;
-    const content = await page.getTextContent(TEXT_OPTIONS),
-      blob = await new Promise<Blob>((resolve, reject) =>
-        canvas.toBlob((b) =>
-          b ? resolve(b) : reject(new Error("PNG encoding failed")),
-        ),
-      );
+    let content: Awaited<ReturnType<typeof page.getTextContent>>;
+    let png: Uint8Array;
+    try {
+      await page.render({ canvas, viewport }).promise;
+      content = await page.getTextContent(TEXT_OPTIONS);
+      png = await encodePng(canvas);
+    } finally {
+      canvas.width = canvas.height = 0;
+    }
     // The default text layer uses generic fallback families. Their relative
     // advances can put a comma on the next word even when the whole run fits.
     // Bind to the font that PDF.js actually loaded for this rendered page.
@@ -358,8 +365,6 @@ export class PdfJsSession implements PdfSessionApi {
       const font=page.commonObjs.has(id)?page.commonObjs.get(id):null;
       if(font?.loadedName&&!font.disableFontFace&&document.fonts.check(`10px "${font.loadedName}"`))style.fontFamily=`"${font.loadedName}", ${style.fontFamily}`;
     }
-    const png = new Uint8Array(await blob.arrayBuffer());
-    canvas.width = canvas.height = 0;
     return {
       png,
       width: Math.ceil(viewport.width),

@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import path from "node:path";
 import { readFileSync, writeFileSync } from "node:fs";
+const completedTaskWorkers = process.env.POLICY_ENGINE === "pdfjs" ? 3 : 2;
 test("twenty cancellation cycles leave no workers and allow a complete subsequent result", async ({
   page,
 }) => {
@@ -18,8 +19,8 @@ test("twenty cancellation cycles leave no workers and allow a complete subsequen
   const timings = [];
   // A small task can finish between Playwright's check that "Cancel" is enabled
   // and the click itself, which then lands on the disabled button. That
-  // attempt cancelled nothing: the finished task keeps its two workers for
-  // rendering and search, as any completed task does. It is recorded and not
+    // attempt cancelled nothing: the finished task keeps its workers for
+    // rendering and search. It is recorded and not
   // counted; twenty attempts must still really cancel.
   let finishedBeforeCancel = 0;
   const status = page.locator("[data-status]");
@@ -31,7 +32,8 @@ test("twenty cancellation cycles leave no workers and allow a complete subsequen
     await expect(status).toHaveAttribute("data-status", /^(cancelled|complete_for_scope)$/);
     if ((await status.getAttribute("data-status")) === "complete_for_scope") {
       finishedBeforeCancel++;
-      expect(page.workers().length).toBe(2);
+      await expect(page.locator("[data-ready-page]")).toHaveCount(2);
+      await expect.poll(() => page.workers().length).toBe(completedTaskWorkers);
       continue;
     }
     await expect.poll(() => page.workers().length).toBe(0);
@@ -82,7 +84,8 @@ test("a cancel click that lands after the task finished changes nothing", async 
   await page.getByRole("button", { name: "Cancel", exact: true }).click({ force: true });
   await expect(status).toHaveAttribute("data-status", "complete_for_scope");
   await expect(page.locator(".card")).toContainText("USD 4,000,000");
-  expect(page.workers().length).toBe(2);
+  await expect(page.locator("[data-ready-page]")).toHaveCount(2);
+  await expect.poll(() => page.workers().length).toBe(completedTaskWorkers);
 });
 test("moved text jumps both sides; identity remains with displayed PDF after next selection", async ({
   page,

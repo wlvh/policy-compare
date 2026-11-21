@@ -194,9 +194,10 @@ function App() {
     prepared.current?.cancel();
     prepared.current = null;
     setEngineReady(false);
-    workers.current?.pdf.terminate();
-    workers.current?.core.terminate();
+    const activeWorkers = workers.current;
     workers.current = null;
+    activeWorkers?.pdf.terminate();
+    activeWorkers?.core.terminate();
     metrics.current.activeWorkers = 0;
     window.__policyMetrics = { ...metrics.current };
   }
@@ -299,11 +300,16 @@ function App() {
         warm?.client.terminate();
         return;
       }
-      const pdf = warm?.client ?? createPdfClient(),
+      const pdf: PdfClient = warm?.client ?? createPdfClient(),
         core = new Worker(new URL("./core.worker.ts", import.meta.url), {
           type: "module",
         });
       workers.current = { pdf, core };
+      pdf.onWorkerCountChange = (count) => {
+        if (workers.current?.pdf !== pdf) return;
+        metrics.current.activeWorkers = count + 1; // The comparison core also has a worker.
+        window.__policyMetrics.activeWorkers = metrics.current.activeWorkers;
+      };
       initializing.current = null;
       const channel = new MessageChannel();
       const abortBuffer=globalThis.crossOriginIsolated&&typeof SharedArrayBuffer!=='undefined'?new SharedArrayBuffer(4):null;
