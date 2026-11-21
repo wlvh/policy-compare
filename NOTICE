@@ -40,3 +40,13 @@ application source commit. The 2026-11-08 changes extend finite engine startup
 deadlines, provide loading status and clean up cancelled startup work.
 The comparison algorithm and PDF adapter changes are identified by each
 release source archive and Git history.
+
+CONTINUOUS PUBLIC RELEASES
+
+On 2026-11-21 (Asia/Shanghai), the project owner authorized publication of
+application versions built from main and passing CI at
+https://compare.huaweidata.com/ under GNU AGPL version 3 or any later version.
+Each release identifies the exact source revision in build-info.json and
+provides the corresponding source, build instructions, dependency source and
+third-party notices through /open-source/. The fixed r20 authorization above
+continues to identify the original distribution.

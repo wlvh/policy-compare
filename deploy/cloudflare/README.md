@@ -4,6 +4,14 @@ The independent project is `huaweidata-compare`, with the public entry at `https
 
 The original `r20-a3-mupdf` resources and failure records are retained. The first deployment and subsequent CLI hosting revision were `292f37c2-9253-46f6-96e1-24dcd1b4dd75` and `3350dadc-9f46-4b85-b0e0-7fd8e33309b2`. See the [original publication record](../../reports/public-pilot/r20-a3-mupdf/README.md) and [startup revision record](../../reports/public-pilot/startup-followup/README.md).
 
+## Continuous publication from main
+
+The [Independent engines workflow](../../.github/workflows/ci.yml) checks each main push and packages the exact MuPDF image that passed the Linux container browser checks. The package contains the previous public release and its matching source alongside the new version and the original pilot. Wrangler's local Pages preview runs the deployment browser checks on the packaged files.
+
+Publication uses the existing `huaweidata-compare` Direct Upload project and its `main` production branch. Set the repository variable `COMPARE_PAGES_ENABLED` to `true` and add `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` to the GitHub environment `compare-pages-production`, restricted to `main`. The token needs Cloudflare Pages Edit on the target account. The deploy job runs after the full CI checks, uploads only the current main commit, and verifies the custom-domain entry page, resource hashes, isolation headers and source archive list. The linked version's `build-info.json` records the exact Git revision.
+
+Dispatch the workflow manually to build and verify a Pages package without publishing. New main pushes publish automatically when enabled. Failed checks leave the serving release in place. If a dependency lock changes, refresh the corresponding source archive before publishing with that lock. Set `COMPARE_PAGES_ENABLED` to `false` before an operational rollback to pause future automatic deploys. To resume, set it to `true` and rerun the current main push workflow.
+
 ## Generate the deployment directory
 
 Use Node.js 24 LTS, pnpm 10.12.1 and a running Docker service. The candidate image and its `container.json` must identify the same frozen source and pass the existing container checks. The commands below use the illustrative new English release ID `r-english-example`; choose an unused release ID and fresh output/report directories for the actual candidate.

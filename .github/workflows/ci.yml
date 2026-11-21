@@ -1,5 +1,5 @@
 name: Independent engines
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 jobs:
@@ -111,6 +111,9 @@ jobs:
           test -f /etc/apt/apt-mirrors.txt
           printf '%s\n' 'https://mirrors.edge.kernel.org/ubuntu/' | sudo tee /etc/apt/apt-mirrors.txt
       - run: pnpm exec playwright install --with-deps chromium
+      - name: Assign an immutable Pages release ID
+        if: matrix.engine == 'mupdf' && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main'))
+        run: echo "POLICY_RELEASE_ID=r-main-${GITHUB_SHA:0:10}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_ENV"
       - name: Build and start the selected Linux image
         id: candidate
         run: pnpm test:container ${{ matrix.engine }}
@@ -144,6 +147,43 @@ jobs:
               docker rm -f "$name"
             fi
           fi
+      - name: Package the checked MuPDF image for Pages
+        if: env.POLICY_RELEASE_ID != ''
+        env:
+          NODE_USE_ENV_PROXY: '1'
+        run: |
+          candidate="$(jq -er '.evidence' reports/container-mupdf.json)"
+          pnpm exec tsx scripts/package-cloudflare.ts "$candidate" \
+            https://3350dadc.huaweidata-compare.pages.dev/ \
+            "$RUNNER_TEMP/compare-pages/site" https://compare.huaweidata.com/
+      - name: Check the packaged site through Wrangler
+        if: env.POLICY_RELEASE_ID != ''
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+          POLICY_BROWSER_CHANNEL: bundled
+          POLICY_ENGINE: mupdf
+          POLICY_REPORT_DIR: reports/local-deploy/pages-package
+        run: |
+          package="$RUNNER_TEMP/compare-pages"
+          export POLICY_MANIFEST_SHA256="$(jq -er '.manifestSha256' "$package/package.json")"
+          export POLICY_BASE_URL="http://127.0.0.1:8093/releases/$POLICY_RELEASE_ID/"
+          pnpm dlx wrangler@4.158.0 pages dev "$package/site" --ip 127.0.0.1 --port 8093 > "$package/wrangler.log" 2>&1 &
+          preview=$!
+          trap 'kill "$preview" 2>/dev/null || true' EXIT
+          if ! curl --silent --show-error --fail --retry 20 --retry-connrefused --retry-delay 2 \
+            --max-time 5 "http://127.0.0.1:8093/healthz" > /dev/null; then
+            cat "$package/wrangler.log"
+            exit 1
+          fi
+          pnpm verify:deployment tests/browser/deployment.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: env.POLICY_RELEASE_ID != ''
+        with:
+          name: compare-pages-site
+          path: ${{ runner.temp }}/compare-pages
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -152,6 +192,84 @@ jobs:
             reports/container-${{ matrix.engine }}.json
             reports/container-build-${{ matrix.engine }}.log
             reports/local-deploy/
+
+  publish-compare-pages:
+    name: Publish compare.huaweidata.com
+    needs: [fixture-construction, renewal-triage-tests, functional, linux-container]
+    if: github.repository == 'wlvh/policy-compare' && github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.COMPARE_PAGES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: compare-pages-production
+      url: https://compare.huaweidata.com/
+    concurrency:
+      group: compare-pages-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with: {version: 10.12.1}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24.19.0}
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: compare-pages-site
+          path: ${{ runner.temp }}/compare-pages
+      - name: Check the package revision and current main
+        id: release
+        run: |
+          package="$RUNNER_TEMP/compare-pages"
+          test "$(jq -er '.revision' "$package/package.json")" = "$GITHUB_SHA"
+          current="$(git ls-remote --refs origin refs/heads/main | cut -f1)"
+          test -n "$current"
+          if [[ "$current" != "$GITHUB_SHA" ]]; then
+            echo "A newer main revision is present. This run cannot publish." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          release="$(jq -er '.releaseId | select(test("^r-main-[a-f0-9]{10}-[0-9]+-[0-9]+$"))' "$package/package.json")"
+          echo "id=$release" >> "$GITHUB_OUTPUT"
+      - name: Deploy to the existing Pages production branch
+        if: steps.release.outputs.id != ''
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          : "${CLOUDFLARE_ACCOUNT_ID:?Missing Cloudflare account ID}" "${CLOUDFLARE_API_TOKEN:?Missing Pages token}"
+          pnpm dlx wrangler@4.158.0 pages deploy "$RUNNER_TEMP/compare-pages/site" \
+            --project-name=huaweidata-compare --branch=main --commit-hash="$GITHUB_SHA" --commit-dirty=false
+      - name: Verify the public entry and versioned resources
+        if: steps.release.outputs.id != ''
+        env:
+          RELEASE_ID: ${{ steps.release.outputs.id }}
+        run: |
+          package="$RUNNER_TEMP/compare-pages"
+          url="https://compare.huaweidata.com"
+          for attempt in {1..12}; do
+            if curl -fsS --max-time 15 -H 'Cache-Control: no-cache' "$url/" -o "$RUNNER_TEMP/compare-index.html" \
+              && cmp -s "$package/site/index.html" "$RUNNER_TEMP/compare-index.html"; then
+              break
+            fi
+            sleep 5
+          done
+          cmp "$package/site/index.html" "$RUNNER_TEMP/compare-index.html"
+          manifest="$package/site/releases/$RELEASE_ID/build-info.json"
+          test "$(jq -er '.revision' "$manifest")" = "$GITHUB_SHA"
+          curl -fsSI --max-time 15 "$url/releases/$RELEASE_ID/" > "$RUNNER_TEMP/compare-headers.txt"
+          grep -qi '^cross-origin-opener-policy: same-origin' "$RUNNER_TEMP/compare-headers.txt"
+          grep -qi '^cross-origin-embedder-policy: require-corp' "$RUNNER_TEMP/compare-headers.txt"
+          pnpm exec tsx scripts/verify-release-files.ts "$url/releases/$RELEASE_ID/" "$manifest" "$RUNNER_TEMP/public-files.json"
+          curl -fsS --max-time 15 "$url/open-source/archives.json" -o "$RUNNER_TEMP/public-archives.json"
+          cmp "$package/site/open-source/archives.json" "$RUNNER_TEMP/public-archives.json"
+          printf 'Verified [%s](%s/releases/%s/) from `%s`.\n' "$RELEASE_ID" "$url" "$RELEASE_ID" "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.release.outputs.id != ''
+        with:
+          name: compare-pages-public-verification
+          path: ${{ runner.temp }}/public-files.json
+          overwrite: true
 
   scroll-baseline-evidence:
     # Frozen-source investigation for this review, not a gate on future Rust work.

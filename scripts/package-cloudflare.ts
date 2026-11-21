@@ -5,8 +5,8 @@ import { join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { releaseBase, resourceManifest } from './release-config.ts';
 
-const [candidatePath, previousSitePath, outputPath] = process.argv.slice(2);
-if (!candidatePath || !previousSitePath || !outputPath) throw new Error('Usage: package-cloudflare.ts <container.json> <previous-site> <new-site>');
+const [candidatePath, previousSitePath, outputPath, liveSiteUrl] = process.argv.slice(2);
+if (!candidatePath || !previousSitePath || !outputPath) throw new Error('Usage: package-cloudflare.ts <container.json> <previous-site> <new-site> [live-site-url]');
 const candidate = JSON.parse(readFileSync(candidatePath, 'utf8'));
 if (candidate.status !== 'PASS' || !/^sha256:[a-f0-9]{64}$/.test(candidate.imageId)) throw new Error('A checked candidate image is required');
 const base = releaseBase(candidate.releaseId);
@@ -15,18 +15,64 @@ if (existsSync(output)) throw new Error('Output directory already exists');
 const temporary = mkdtempSync(join(tmpdir(), 'policy-pages-'));
 const previous = previousSitePath.startsWith('https://') ? join(temporary, 'downloaded-site') : resolve(previousSitePath);
 const approved = JSON.parse(readFileSync('reports/public-pilot/r20-a3-mupdf/approved-site-files.json', 'utf8'));
+const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+
+async function download(url: URL) {
+  const response = await fetch(url, { redirect: 'error', signal: AbortSignal.timeout(300_000) });
+  if (!response.ok) throw new Error(`Release resource unavailable: ${url.pathname} (HTTP ${response.status})`);
+  return Buffer.from(await response.arrayBuffer());
+}
+
+async function copyVerifiedFiles(origin: string | URL, destination: string, files: ReturnType<typeof resourceManifest>) {
+  for (let offset = 0; offset < files.length; offset += 6) {
+    await Promise.all(files.slice(offset, offset + 6).map(async file => {
+      if (!/^[a-zA-Z0-9_@.-]+(?:\/[a-zA-Z0-9_@.-]+)*$/.test(file.path) ||
+          file.path.split('/').some(segment => segment === '..' || segment === '.')) {
+        throw new Error(`Invalid release resource path: ${file.path}`);
+      }
+      const servedPath = file.path.replace(/(^|\/)index\.html$/, '$1');
+      const bytes = await download(new URL(servedPath, origin));
+      if (bytes.length !== file.bytes || digest(bytes) !== file.sha256) throw new Error(`Release resource differs: ${file.path}`);
+      const target = join(destination, file.path);
+      mkdirSync(resolve(target, '..'), { recursive: true });
+      writeFileSync(target, bytes);
+    }));
+  }
+}
+
+async function retainLiveRelease(siteUrl: string) {
+  const site = new URL(siteUrl);
+  if (site.protocol !== 'https:' || site.pathname !== '/') throw new Error('Live Pages site must be an HTTPS origin');
+  const index = await download(site);
+  const previousBase = index.toString().match(/class="start" href="(\/releases\/[a-z0-9-]+\/)"/)?.[1];
+  if (!previousBase) throw new Error('Live entry page does not identify its release');
+  const url = new URL(previousBase, site);
+  const manifestBytes = await download(new URL('build-info.json', url));
+  const manifest = JSON.parse(manifestBytes.toString());
+  if (releaseBase(manifest.releaseId) !== previousBase || manifest.base !== previousBase ||
+      manifest.engine !== 'mupdf' || !/^[a-f0-9]{40}$/.test(manifest.revision)) {
+    throw new Error('Live MuPDF manifest does not match the entry page');
+  }
+  if (manifest.releaseId === 'r20-a3-mupdf') return { releaseId: manifest.releaseId, sourceFiles: [] };
+  const destination = join(output, previousBase);
+  await copyVerifiedFiles(url, destination, manifest.resources);
+  writeFileSync(join(destination, 'build-info.json'), manifestBytes);
+
+  const sourceUrl = new URL('open-source/', site);
+  const archives = JSON.parse((await download(new URL('archives.json', sourceUrl))).toString());
+  const sourceFiles = [`application-source-${manifest.revision.slice(0, 7)}.tar.gz`, `BUILDING-${manifest.releaseId}.txt`, `NOTICE-${manifest.releaseId}.txt`];
+  const records = sourceFiles.map(path => {
+    const file = archives.files.find((entry: { path: string }) => entry.path === path);
+    if (!file) throw new Error(`Missing corresponding source for live release: ${path}`);
+    return file;
+  });
+  await copyVerifiedFiles(sourceUrl, join(output, 'open-source'), records);
+  return { releaseId: manifest.releaseId, sourceFiles };
+}
 let container = '';
 try {
   if (previousSitePath.startsWith('https://')) {
-    for (const item of approved.filter((file: any) => file.served)) {
-      const response = await fetch(new URL(item.path, previousSitePath), { signal: AbortSignal.timeout(300_000) });
-      if (!response.ok) throw new Error(`Previous file unavailable: ${item.path}`);
-      const bytes = Buffer.from(await response.arrayBuffer());
-      if (bytes.length !== item.bytes || createHash('sha256').update(bytes).digest('hex') !== item.sha256) throw new Error(`Previous file identity differs: ${item.path}`);
-      const target = join(previous, item.path);
-      mkdirSync(resolve(target, '..'), { recursive: true });
-      writeFileSync(target, bytes);
-    }
+    await copyVerifiedFiles(previousSitePath, previous, approved.filter((file: { served: boolean }) => file.served));
     cpSync(join(previous, 'open-source/hosting-headers.txt'), join(previous, '_headers'));
     cpSync('deploy/cloudflare/_redirects', join(previous, '_redirects'));
   }
@@ -36,6 +82,7 @@ try {
   }
   const original = JSON.parse(readFileSync(join(previous, 'releases/r20-a3-mupdf/build-info.json'), 'utf8'));
   cpSync(previous, output, { recursive: true });
+  const retained = liveSiteUrl ? await retainLiveRelease(liveSiteUrl) : undefined;
   const release = join(output, base);
   if (existsSync(release)) throw new Error('Release path already exists in the previous site');
   mkdirSync(release, { recursive: true });
@@ -45,7 +92,6 @@ try {
   execFileSync('tar', ['-xf', imageTar, '-C', release]);
   const manifestBytes = readFileSync(join(release, 'build-info.json'));
   const manifest = JSON.parse(manifestBytes.toString());
-  const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
   if (digest(manifestBytes) !== candidate.manifestSha256 || manifest.revision !== candidate.revision || manifest.base !== base) throw new Error('Image manifest differs from candidate');
   for (const item of manifest.resources) {
     const bytes = readFileSync(join(release, item.path));
@@ -61,12 +107,16 @@ try {
   const sourceTar = join(temporary, 'source.tar');
   execFileSync('git', ['archive', '--format=tar', '--output', sourceTar, candidate.revision, 'apps', 'packages', 'engines', 'profiles', 'crates', 'Cargo.toml', 'Cargo.lock', 'rust-toolchain.toml', 'patches', 'scripts', 'deploy', 'package.json', 'pnpm-lock.yaml', 'tsconfig.json', 'tsconfig.mupdf.json', 'tsconfig.pdfjs.json', 'vite.config.ts', 'LICENSE', 'NOTICE']);
   execFileSync('tar', ['-xf', sourceTar, '-C', source]);
-  // Reuse the already distributed Rust dependency sources. The core lockfile must match.
+  // Reuse the distributed dependency sources only for the recorded locks.
   const oldSource = join(temporary, 'previous');
   mkdirSync(oldSource);
   execFileSync('tar', ['-xzf', join(previous, 'open-source/application-source.tar.gz'), '-C', oldSource]);
   const oldRoot = join(oldSource, `policy-compare-${original.revision.slice(0, 7)}`);
-  if (!readFileSync(join(oldRoot, 'Cargo.lock')).equals(readFileSync(join(source, 'Cargo.lock')))) throw new Error('Rust dependencies changed; refresh corresponding dependency sources');
+  for (const lock of ['Cargo.lock', 'pnpm-lock.yaml', 'engines/mupdf/pnpm-lock.yaml']) {
+    if (!readFileSync(join(oldRoot, lock)).equals(readFileSync(join(source, lock)))) {
+      throw new Error(`${lock} differs; refresh the corresponding dependency source archives before publication`);
+    }
+  }
   for (const name of ['vendor', '.cargo']) cpSync(join(oldRoot, name), join(source, name), { recursive: true });
   cpSync('LICENSE', join(source, 'LICENSE'));
   cpSync('NOTICE', join(source, 'NOTICE'));
@@ -80,7 +130,7 @@ try {
   const archivesPath = join(sourceDirectory, 'archives.json');
   const archives = JSON.parse(readFileSync(archivesPath, 'utf8'));
   const paths = new Set<string>(archives.files.map((file: { path: string }) => file.path));
-  for (const name of [sourceName, buildName, `NOTICE-${candidate.releaseId}.txt`]) paths.add(name);
+  for (const name of [sourceName, buildName, `NOTICE-${candidate.releaseId}.txt`, ...(retained?.sourceFiles ?? [])]) paths.add(name);
   archives.files = [...paths].sort().map(path => {
     const bytes = readFileSync(join(sourceDirectory, path));
     return { path, bytes: bytes.length, sha256: digest(bytes) };
@@ -103,7 +153,7 @@ try {
   }
   const files = resourceManifest(output);
   if (files.some(file => file.bytes > 25 * 1024 * 1024)) throw new Error('A file exceeds the Pages 25 MiB limit');
-  writeFileSync(resolve(output, '..', 'package.json'), JSON.stringify({ releaseId: candidate.releaseId, revision: candidate.revision, imageId: candidate.imageId, manifestSha256: candidate.manifestSha256, previousReleasePreserved: 'r20-a3-mupdf', files }, null, 2) + '\n');
+  writeFileSync(resolve(output, '..', 'package.json'), JSON.stringify({ releaseId: candidate.releaseId, revision: candidate.revision, imageId: candidate.imageId, manifestSha256: candidate.manifestSha256, previousReleasePreserved: 'r20-a3-mupdf', retainedLiveRelease: retained?.releaseId, files }, null, 2) + '\n');
   console.log(JSON.stringify({ output, releaseId: candidate.releaseId, files: files.length, manifestSha256: candidate.manifestSha256 }));
 } finally {
   if (container) execFileSync('docker', ['rm', container], { stdio: 'ignore' });
