@@ -16,6 +16,7 @@ const temporary = mkdtempSync(join(tmpdir(), 'policy-pages-'));
 const previous = previousSitePath.startsWith('https://') ? join(temporary, 'downloaded-site') : resolve(previousSitePath);
 const approved = JSON.parse(readFileSync('reports/public-pilot/r20-a3-mupdf/approved-site-files.json', 'utf8'));
 const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+const verifiedResources = new Map<string, string>();
 
 async function download(url: URL) {
   const response = await fetch(url, { signal: AbortSignal.timeout(300_000) });
@@ -32,43 +33,58 @@ async function copyVerifiedFiles(origin: string | URL, destination: string, file
           file.path.split('/').some(segment => segment === '..' || segment === '.')) {
         throw new Error(`Invalid release resource path: ${file.path}`);
       }
-      const bytes = await download(new URL(file.path, origin));
+      const known = verifiedResources.get(file.sha256);
+      const bytes = known ? readFileSync(known) : await download(new URL(file.path, origin));
       if (bytes.length !== file.bytes || digest(bytes) !== file.sha256) throw new Error(`Release resource differs: ${file.path}`);
       const target = join(destination, file.path);
       mkdirSync(resolve(target, '..'), { recursive: true });
       writeFileSync(target, bytes);
+      verifiedResources.set(file.sha256, target);
     }));
   }
 }
 
-async function retainLiveRelease(siteUrl: string) {
+async function retainLiveReleases(siteUrl: string) {
   const site = new URL(siteUrl);
   if (site.protocol !== 'https:' || site.pathname !== '/') throw new Error('Live Pages site must be an HTTPS origin');
   const index = await download(site);
   const previousBase = index.toString().match(/class="start" href="(\/releases\/[a-z0-9-]+\/)"/)?.[1];
   if (!previousBase) throw new Error('Live entry page does not identify its release');
-  const url = new URL(previousBase, site);
-  const manifestBytes = await download(new URL('build-info.json', url));
-  const manifest = JSON.parse(manifestBytes.toString());
-  if (releaseBase(manifest.releaseId) !== previousBase || manifest.base !== previousBase ||
-      manifest.engine !== 'mupdf' || !/^[a-f0-9]{40}$/.test(manifest.revision)) {
-    throw new Error('Live MuPDF manifest does not match the entry page');
-  }
-  if (manifest.releaseId === 'r20-a3-mupdf') return { releaseId: manifest.releaseId, sourceFiles: [] };
-  const destination = join(output, previousBase);
-  await copyVerifiedFiles(url, destination, manifest.resources);
-  writeFileSync(join(destination, 'build-info.json'), manifestBytes);
-
+  const liveReleaseId = previousBase.split('/')[2];
   const sourceUrl = new URL('open-source/', site);
-  const archives = JSON.parse((await download(new URL('archives.json', sourceUrl))).toString());
-  const sourceFiles = [`application-source-${manifest.revision.slice(0, 7)}.tar.gz`, `BUILDING-${manifest.releaseId}.txt`, `NOTICE-${manifest.releaseId}.txt`];
-  const records = sourceFiles.map(path => {
-    const file = archives.files.find((entry: { path: string }) => entry.path === path);
+  const archives: { files: ReturnType<typeof resourceManifest> } =
+    JSON.parse((await download(new URL('archives.json', sourceUrl))).toString());
+  const releaseIds = new Set(['r20-a3-mupdf', liveReleaseId]);
+  for (const file of archives.files) {
+    const id = file.path.match(/^BUILDING-(r[0-9][a-z0-9-]*)\.txt$/)?.[1];
+    if (id) releaseIds.add(id);
+  }
+
+  const sourceFiles = new Set<string>();
+  for (const id of releaseIds) {
+    if (id === 'r20-a3-mupdf') continue;
+    const base = releaseBase(id);
+    const url = new URL(base, site);
+    const manifestBytes = await download(new URL('build-info.json', url));
+    const manifest = JSON.parse(manifestBytes.toString());
+    if (manifest.releaseId !== id || manifest.base !== base ||
+        manifest.engine !== 'mupdf' || !/^[a-f0-9]{40}$/.test(manifest.revision)) {
+      throw new Error(`Live MuPDF manifest does not match ${base}`);
+    }
+    const destination = join(output, base);
+    await copyVerifiedFiles(url, destination, manifest.resources);
+    writeFileSync(join(destination, 'build-info.json'), manifestBytes);
+    for (const path of [`application-source-${manifest.revision.slice(0, 7)}.tar.gz`, `BUILDING-${id}.txt`, `NOTICE-${id}.txt`]) {
+      sourceFiles.add(path);
+    }
+  }
+  const records = [...sourceFiles].map(path => {
+    const file = archives.files.find(entry => entry.path === path);
     if (!file) throw new Error(`Missing corresponding source for live release: ${path}`);
     return file;
   });
   await copyVerifiedFiles(sourceUrl, join(output, 'open-source'), records);
-  return { releaseId: manifest.releaseId, sourceFiles };
+  return { liveReleaseId, releaseIds: [...releaseIds], sourceFiles };
 }
 let container = '';
 try {
@@ -78,12 +94,14 @@ try {
     cpSync('deploy/cloudflare/_redirects', join(previous, '_redirects'));
   }
   for (const item of approved) {
-    const bytes = readFileSync(join(previous, item.path));
-    if (bytes.length !== item.bytes || createHash('sha256').update(bytes).digest('hex') !== item.sha256) throw new Error(`Previous site identity differs: ${item.path}`);
+    const path = join(previous, item.path);
+    const bytes = readFileSync(path);
+    if (bytes.length !== item.bytes || digest(bytes) !== item.sha256) throw new Error(`Previous site identity differs: ${item.path}`);
+    verifiedResources.set(item.sha256, path);
   }
   const original = JSON.parse(readFileSync(join(previous, 'releases/r20-a3-mupdf/build-info.json'), 'utf8'));
   cpSync(previous, output, { recursive: true });
-  const retained = liveSiteUrl ? await retainLiveRelease(liveSiteUrl) : undefined;
+  const retained = liveSiteUrl ? await retainLiveReleases(liveSiteUrl) : undefined;
   const release = join(output, base);
   if (existsSync(release)) throw new Error('Release path already exists in the previous site');
   mkdirSync(release, { recursive: true });
@@ -153,8 +171,9 @@ try {
     if (!readFileSync(join(previous, relative)).equals(readFileSync(join(output, relative)))) throw new Error(`Original release changed: ${relative}`);
   }
   const files = resourceManifest(output);
+  if (files.length > 20_000) throw new Error('The site exceeds the Pages 20,000-file limit');
   if (files.some(file => file.bytes > 25 * 1024 * 1024)) throw new Error('A file exceeds the Pages 25 MiB limit');
-  writeFileSync(resolve(output, '..', 'package.json'), JSON.stringify({ releaseId: candidate.releaseId, revision: candidate.revision, imageId: candidate.imageId, manifestSha256: candidate.manifestSha256, previousReleasePreserved: 'r20-a3-mupdf', retainedLiveRelease: retained?.releaseId, files }, null, 2) + '\n');
+  writeFileSync(resolve(output, '..', 'package.json'), JSON.stringify({ releaseId: candidate.releaseId, revision: candidate.revision, imageId: candidate.imageId, manifestSha256: candidate.manifestSha256, previousReleasePreserved: 'r20-a3-mupdf', retainedLiveRelease: retained?.liveReleaseId, retainedReleases: retained?.releaseIds, files }, null, 2) + '\n');
   console.log(JSON.stringify({ output, releaseId: candidate.releaseId, files: files.length, manifestSha256: candidate.manifestSha256 }));
 } finally {
   if (container) execFileSync('docker', ['rm', container], { stdio: 'ignore' });

@@ -6,7 +6,7 @@ The original `r20-a3-mupdf` resources and failure records are retained. The firs
 
 ## Continuous publication from main
 
-The [Independent engines workflow](../../.github/workflows/ci.yml) checks each main push and packages the exact MuPDF image that passed the Linux container browser checks. The package contains the previous public release and its matching source alongside the new version and the original pilot. Wrangler's local Pages preview runs the deployment browser checks on the packaged files.
+The [Independent engines workflow](../../.github/workflows/ci.yml) checks each main push and packages the exact MuPDF image that passed the Linux container browser checks. The package retains the public releases and matching sources listed by the serving site's archive page. Wrangler's local Pages preview runs the deployment browser checks on the packaged files.
 
 Publication uses the existing `huaweidata-compare` Direct Upload project and its `main` production branch. Set the repository variable `COMPARE_PAGES_ENABLED` to `true` and add `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` to the GitHub environment `compare-pages-production`, restricted to `main`. The token needs Cloudflare Pages Edit on the target account. The deploy job runs after the full CI checks, uploads only the current main commit, and verifies the custom-domain entry page, resource hashes, isolation headers and source archive list. The linked version's `build-info.json` records the exact Git revision.
 

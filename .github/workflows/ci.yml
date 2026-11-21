@@ -265,6 +265,10 @@ jobs:
           pnpm exec tsx scripts/verify-release-files.ts "$url/releases/$RELEASE_ID/" "$manifest" "$RUNNER_TEMP/public-files.json"
           curl -fsS --max-time 15 "$url/open-source/archives.json" -o "$RUNNER_TEMP/public-archives.json"
           cmp "$package/site/open-source/archives.json" "$RUNNER_TEMP/public-archives.json"
+          while IFS= read -r retained; do
+            curl -fsS --max-time 15 "$url/releases/$retained/build-info.json" -o "$RUNNER_TEMP/retained-manifest.json"
+            cmp "$package/site/releases/$retained/build-info.json" "$RUNNER_TEMP/retained-manifest.json"
+          done < <(jq -er '.retainedReleases[]' "$package/package.json")
           printf 'Verified [%s](%s/releases/%s/) from `%s`.\n' "$RELEASE_ID" "$url" "$RELEASE_ID" "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always() && steps.release.outputs.id != ''
