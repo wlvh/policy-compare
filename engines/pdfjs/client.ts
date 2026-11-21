@@ -11,7 +11,9 @@ export function createPdfClient(): PdfClient {
     generation = 0;
   const sessions: PdfJsSession[] = [];
   const controller = new AbortController();
-  const encodePng = createPngEncoder(controller.signal);
+  const encodePng = createPngEncoder(controller.signal, (active) => {
+    client.onWorkerCountChange?.(active ? 2 : 1);
+  });
   const runtime = new PDFWorker();
   const client: PdfClient = {
     onmessage: null,

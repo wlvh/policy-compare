@@ -27,6 +27,9 @@ async function wheelTo(page: Page, pane: Locator, pageIndex: number, inset = 20)
 
 test('wheel crosses page boundaries in either direction, panes remain independent when sync is off', async ({page}) => {
   await load(page, 'R16_repagination'); // author-defined 2 old pages, 3 new pages
+  const activeWorkers = process.env.POLICY_ENGINE === 'pdfjs' ? 3 : 2;
+  await expect.poll(() => page.workers().length).toBe(activeWorkers);
+  expect(await page.evaluate(() => window.__policyMetrics.activeWorkers)).toBe(activeWorkers);
   await page.getByRole('checkbox', {name: 'Synchronized scrolling'}).uncheck();
   const left = page.getByRole('region', {name: 'Baseline source document'});
   const right = page.getByRole('region', {name: 'Revised source document'});
@@ -82,8 +85,57 @@ test('PDF.js displays source pages when the PNG worker cannot load', async ({pag
   await page.addInitScript(() => { HTMLCanvasElement.prototype.toBlob = () => undefined; });
   await load(page, 'R16_repagination');
   expect(blocked).toBe(true);
+  await expect.poll(() => page.workers().length).toBe(2);
+  expect(await page.evaluate(() => window.__policyMetrics.activeWorkers)).toBe(2);
   await page.getByRole('button', {name: 'Close task', exact: true}).click();
   await expect.poll(() => page.workers().length).toBe(0);
+  expect(await page.evaluate(() => window.__policyMetrics.activeWorkers)).toBe(0);
+});
+
+test('PDF.js restores both source panes while the PNG worker script is stalled', async ({page}) => {
+  test.skip(process.env.POLICY_ENGINE !== 'pdfjs', 'PDF.js uses a separate PNG encoder.');
+  let requested = false;
+  let releaseScript!: () => void;
+  const scriptGate = new Promise<void>(resolve => { releaseScript = resolve; });
+  await page.route('**/assets/png.worker-*.js', async route => {
+    requested = true;
+    await scriptGate;
+    await route.continue().catch(() => {}); // The worker may already have terminated.
+  });
+  try {
+    await load(page, 'R16_repagination');
+    expect(requested).toBe(true);
+    await expect.poll(() => page.workers().length).toBe(2);
+    expect(await page.evaluate(() => window.__policyMetrics.activeWorkers)).toBe(2);
+  } finally {
+    releaseScript();
+  }
+  await page.getByRole('button', {name: 'Baseline next page', exact: true}).click();
+  const baseline = page.getByRole('region', {name: 'Baseline source document'});
+  await expect(baseline.locator('[data-ready-page="1"]')).toBeVisible();
+  await page.getByRole('button', {name: 'Close task', exact: true}).click();
+  await expect.poll(() => page.workers().length).toBe(0);
+  expect(await page.evaluate(() => window.__policyMetrics.activeWorkers)).toBe(0);
+});
+
+test('PDF.js restores the source pane when the PNG worker cannot receive a render request', async ({page}) => {
+  test.skip(process.env.POLICY_ENGINE !== 'pdfjs', 'PDF.js uses a separate PNG encoder.');
+  await page.route('**/assets/png.worker-*.js', async route => {
+    const response = await route.fetch();
+    // Substitute the event the worker sees when it cannot deserialize a request.
+    const receiveError = `addEventListener("message", event => {
+      event.stopImmediatePropagation();
+      event.data.bitmap.close();
+      dispatchEvent(new MessageEvent("messageerror"));
+    }, { capture: true, once: true });`;
+    await route.fulfill({response, body: receiveError + '\n' + await response.text()});
+  });
+  await load(page, 'R16_repagination');
+  await expect.poll(() => page.workers().length).toBe(2);
+  expect(await page.evaluate(() => window.__policyMetrics.activeWorkers)).toBe(2);
+  await page.getByRole('button', {name: 'Baseline next page', exact: true}).click();
+  const baseline = page.getByRole('region', {name: 'Baseline source document'});
+  await expect(baseline.locator('[data-ready-page="1"]')).toBeVisible();
 });
 
 test('synchronized wheel scrolling follows existing text alignment across pages; buttons still work', async ({page}) => {

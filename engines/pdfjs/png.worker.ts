@@ -1,8 +1,11 @@
 export type PngReply =
   | { id: number; png: ArrayBuffer }
-  | { id: number; error: string };
+  | { id: number; error: string }
+  | { workerError: string };
 
 const reply = postMessage as (message: PngReply, transfer?: Transferable[]) => void;
+
+onmessageerror = () => reply({ workerError: "PNG encoder could not read the request" });
 
 onmessage = async ({ data: { id, bitmap } }: MessageEvent<{ id: number; bitmap: ImageBitmap }>) => {
   try {
