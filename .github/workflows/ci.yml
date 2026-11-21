@@ -203,7 +203,7 @@ jobs:
       url: https://compare.huaweidata.com/
     concurrency:
       group: compare-pages-production
-      cancel-in-progress: false
+      queue: max
     steps:
       - uses: actions/checkout@v4
         with:

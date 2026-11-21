@@ -18,8 +18,10 @@ const approved = JSON.parse(readFileSync('reports/public-pilot/r20-a3-mupdf/appr
 const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
 
 async function download(url: URL) {
-  const response = await fetch(url, { redirect: 'error', signal: AbortSignal.timeout(300_000) });
-  if (!response.ok) throw new Error(`Release resource unavailable: ${url.pathname} (HTTP ${response.status})`);
+  const response = await fetch(url, { signal: AbortSignal.timeout(300_000) });
+  if (!response.ok || new URL(response.url).origin !== url.origin) {
+    throw new Error(`Release resource unavailable at its origin: ${url.pathname} (HTTP ${response.status})`);
+  }
   return Buffer.from(await response.arrayBuffer());
 }
 
@@ -30,8 +32,7 @@ async function copyVerifiedFiles(origin: string | URL, destination: string, file
           file.path.split('/').some(segment => segment === '..' || segment === '.')) {
         throw new Error(`Invalid release resource path: ${file.path}`);
       }
-      const servedPath = file.path.replace(/(^|\/)index\.html$/, '$1');
-      const bytes = await download(new URL(servedPath, origin));
+      const bytes = await download(new URL(file.path, origin));
       if (bytes.length !== file.bytes || digest(bytes) !== file.sha256) throw new Error(`Release resource differs: ${file.path}`);
       const target = join(destination, file.path);
       mkdirSync(resolve(target, '..'), { recursive: true });
