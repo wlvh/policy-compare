@@ -49,6 +49,11 @@ test('wheel crosses page boundaries in either direction, panes remain independen
   await right.hover();
   await page.mouse.wheel(0, 10000);
   await expect(right.locator('[data-ready-page="2"]')).toBeVisible();
+  if (process.env.POLICY_ENGINE === 'pdfjs') {
+    // Simulate Chromium deferring the main-thread PNG callback after page 1
+    // has been evicted. The return scroll must still display the page.
+    await page.evaluate(() => { HTMLCanvasElement.prototype.toBlob = () => undefined; });
+  }
   await wheelTo(page, right, 0, 0);
   await expect(right.locator('[data-ready-page="0"]')).toBeVisible();
   await expect(page.getByRole('button', {name: 'Revised previous page', exact: true})).toBeDisabled();
@@ -65,6 +70,20 @@ test('wheel crosses page boundaries in either direction, panes remain independen
   await wheelTo(page, left, 1);
   await expect(left.locator('[data-ready-page="1"]')).toBeVisible();
   await expect(right.locator('[data-ready-page="2"]')).toBeVisible();
+});
+
+test('PDF.js displays source pages when the PNG worker cannot load', async ({page}) => {
+  test.skip(process.env.POLICY_ENGINE !== 'pdfjs', 'PDF.js uses a separate PNG encoder.');
+  let blocked = false;
+  await page.route('**/assets/png.worker-*.js', async route => {
+    blocked = true;
+    await route.abort('failed');
+  });
+  await page.addInitScript(() => { HTMLCanvasElement.prototype.toBlob = () => undefined; });
+  await load(page, 'R16_repagination');
+  expect(blocked).toBe(true);
+  await page.getByRole('button', {name: 'Close task', exact: true}).click();
+  await expect.poll(() => page.workers().length).toBe(0);
 });
 
 test('synchronized wheel scrolling follows existing text alignment across pages; buttons still work', async ({page}) => {

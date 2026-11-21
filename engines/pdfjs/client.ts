@@ -1,15 +1,17 @@
-import { configureWorker, openSession } from "./adapter";
+import { configureWorker, openSession, type PdfJsSession } from "./adapter";
 import workerUrl from "pdfjs-dist/build/pdf.worker.mjs?url";
 import { PDFWorker } from "pdfjs-dist/legacy/build/pdf.mjs";
-import type { PdfClient, PdfSessionApi } from "../../packages/pdf-adapter/api";
+import type { PdfClient } from "../../packages/pdf-adapter/api";
+import { createPngEncoder } from "./png-encoder";
 export const ENGINE_NAME = "pdfjs";
 configureWorker(workerUrl);
 export function createPdfClient(): PdfClient {
   let closed = false,
     taskId = 0,
     generation = 0;
-  const sessions: PdfSessionApi[] = [];
+  const sessions: PdfJsSession[] = [];
   const controller = new AbortController();
+  const encodePng = createPngEncoder(controller.signal);
   const runtime = new PDFWorker();
   const client: PdfClient = {
     onmessage: null,
@@ -125,7 +127,7 @@ export function createPdfClient(): PdfClient {
     }
     if (m.type === "render" && !closed) {
       const renderStart = performance.now();
-      const bitmap = await sessions[m.side].render(m.pageIndex, m.scale);
+      const bitmap = await sessions[m.side].render(m.pageIndex, m.scale, encodePng);
       send({
         type: "render",
         taskId,
