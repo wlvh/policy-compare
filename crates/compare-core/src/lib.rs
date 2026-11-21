@@ -1,12 +1,13 @@
 mod comparison;
 mod edits;
+mod match_index;
 mod model;
 mod structure;
 mod text;
 use model::*;
 use serde_json::json;
 use std::cell::RefCell;
-pub const CORE_VERSION: &str = "policy-compare-rust/0.2.0+english-generic.1";
+pub const CORE_VERSION: &str = "policy-compare-rust/0.2.1+english-generic.1";
 #[cfg(target_arch = "wasm32")]
 #[link(wasm_import_module = "host")]
 unsafe extern "C" {

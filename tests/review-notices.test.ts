@@ -1,7 +1,7 @@
 import {it, expect} from 'vitest';
 import {compare} from '../packages/compare-core/index';
 import {CoverageSchema, type CoverageIssue} from '../packages/contracts/index';
-import {reviewNotices, relatedUncertainty} from '../apps/web/review-notices';
+import {reviewNotices, relatedUncertainty, relatedWordDetail} from '../apps/web/review-notices';
 import {textDoc} from './helpers';
 
 it('actual WASM identifies layout observations without asserting a continued table or merged cells', () => {
@@ -61,4 +61,19 @@ it('correspondence uncertainty belongs to its source characters, not every chang
   const unresolved = [{reason:'ambiguous_match' as const,message:'Two alternatives',left:first.left,right:first.right,defaultVisible:true as const}];
   expect(relatedUncertainty(first,unresolved)).toHaveLength(1);
   expect(relatedUncertainty(other,unresolved)).toEqual([]);
+});
+
+it('indexed notice lookups keep export order and return a notice once across many shared characters', () => {
+  const first = compare(textDoc([{text:'First: old'}]), textDoc([{text:'First: new'}])).differences[0];
+  const make = (reason: 'ambiguous_match' | 'ambiguous_identity' | 'word_diff_budget' | 'budget',
+    message: string, left = first.left, right = first.right) =>
+    ({reason,message,left,right,defaultVisible:true as const});
+  const unresolved = [
+    make('ambiguous_identity', 'Indexed on the revised side first', [], first.right),
+    make('ambiguous_match', 'Indexed on both sides'),
+    make('word_diff_budget', 'Word detail'),
+    make('budget', 'Matching incomplete'),
+  ];
+  expect(relatedUncertainty(first, unresolved)).toEqual(unresolved.slice(0, 2));
+  expect(relatedWordDetail(first, unresolved)).toEqual([unresolved[2]]);
 });

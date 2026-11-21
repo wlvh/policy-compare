@@ -17,8 +17,8 @@ const notices = (['left', 'right'] as const).flatMap(side => [0, 1].flatMap(page
   })),
 ));
 
-async function load(page: Page, incomplete = false) {
-  await page.addInitScript(({notices, incomplete}) => {
+async function load(page: Page, incomplete = false, columnNotice = false) {
+  await page.addInitScript(({notices, incomplete, columnNotice}) => {
     const Native = window.Worker;
     window.Worker = class extends Native {
       constructor(url: string | URL, options?: WorkerOptions) {
@@ -38,7 +38,9 @@ async function load(page: Page, incomplete = false) {
               evidence:'Other structure limitation',message:'Other structure limitation.',defaultVisible:true});
             const d = result.differences.find((d: any) => d.hasTextChange);
             const sources = structuredClone({left:d.left,right:d.right});
-            result.unresolved.push({reason:'ambiguous_match',message:'Two source correspondences remain possible.',
+            result.unresolved.push({
+              reason:columnNotice ? 'ambiguous_column_mapping' : 'ambiguous_match',
+              message:columnNotice ? 'The two fields could not be reliably aligned.' : 'Two source correspondences remain possible.',
               ...sources,defaultVisible:true});
             result.unresolved.push({reason:'budget',message:'Comparison stopped at the work limit.',
               ...structuredClone(sources),defaultVisible:true});
@@ -48,7 +50,7 @@ async function load(page: Page, incomplete = false) {
         });
       }
     };
-  }, {notices, incomplete});
+  }, {notices, incomplete, columnNotice});
   await page.goto('./');
   await expect(page.locator('main')).toHaveAttribute('data-engine-ready', 'true');
   await page.getByLabel('Baseline PDF', {exact:true}).setInputFiles(path.resolve('validation/dataset/cases/R09_header_limit/before.pdf'));
@@ -127,4 +129,22 @@ test('page failure and unfinished comparison stay prominent among layout notices
   expect(result.coverage).toEqual(original.coverage);
   expect(result.unresolved).toEqual(original.unresolved);
   expect(result.status).toBe('partial');
+});
+
+test('a column correspondence notice opens the sources and returns to the same change', async ({page}) => {
+  await load(page, true, true);
+  const selected = page.locator('.card.selected');
+  const before = await selected.getAttribute('data-change-id');
+  const notice = selected.locator('.match-notice');
+  await expect(notice).toHaveAttribute('title', /correspondence between these table fields could not be determined/);
+  await notice.click();
+  await expect(page.locator('.location-hint')).toContainText('Both source rows are retained.');
+  await page.getByRole('button', {name:'Return to selected change',exact:true}).click();
+  await expect(selected).toHaveAttribute('data-change-id', before!);
+  const result = await exported(page);
+  expect(result.unresolved).toContainEqual(expect.objectContaining({
+    reason:'ambiguous_column_mapping',
+    left:expect.arrayContaining([expect.objectContaining({side:'left'})]),
+    right:expect.arrayContaining([expect.objectContaining({side:'right'})]),
+  }));
 });

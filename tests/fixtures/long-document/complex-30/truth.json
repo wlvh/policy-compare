@@ -1,0 +1,403 @@
+{
+  "schema": "policy-compare-fictional-fixture/1",
+  "pages_per_file": 30,
+  "rows_per_register": 18,
+  "family": "mixed",
+  "cases": [
+    {
+      "id": "P01",
+      "kind": "replacement",
+      "baseline": {
+        "page": 1,
+        "section": "Term and applicable clauses",
+        "text": "Policy year: 2026"
+      },
+      "revised": {
+        "page": 1,
+        "section": "Term and applicable clauses",
+        "text": "Policy year: 2027"
+      },
+      "expectation": "Identify the policy year replacement on both sources."
+    },
+    {
+      "id": "P02",
+      "kind": "replacement",
+      "baseline": {
+        "page": 1,
+        "section": "River depot / breakage cover",
+        "text": "Notice period: 5 calendar days.",
+        "anchors": [
+          "River depot / breakage cover"
+        ],
+        "region_points_top_left": [
+          50,
+          232.0,
+          300,
+          246.0
+        ],
+        "y_range_top_pt": [
+          232.0,
+          246.0
+        ]
+      },
+      "revised": {
+        "page": 1,
+        "section": "River depot / breakage cover",
+        "text": "Notice period: 9 calendar days.",
+        "anchors": [
+          "River depot / breakage cover"
+        ],
+        "region_points_top_left": [
+          50,
+          232.0,
+          300,
+          246.0
+        ],
+        "y_range_top_pt": [
+          232.0,
+          246.0
+        ]
+      },
+      "expectation": "Associate the changed deadline with River depot. Harbor depot keeps the original deadline."
+    },
+    {
+      "id": "P03",
+      "kind": "table-value",
+      "baseline": {
+        "page": 2,
+        "section": "Schedule A / covered premises",
+        "text": "Alder Mill USD 180,000",
+        "anchors": [
+          "Alder Mill",
+          "Equipment limit"
+        ],
+        "region_points_top_left": [
+          50,
+          172.0,
+          561,
+          186.0
+        ],
+        "y_range_top_pt": [
+          172.0,
+          186.0
+        ]
+      },
+      "revised": {
+        "page": 2,
+        "section": "Schedule A / covered premises",
+        "text": "Alder Mill USD 240,000",
+        "anchors": [
+          "Alder Mill",
+          "Equipment limit"
+        ],
+        "region_points_top_left": [
+          50,
+          172.0,
+          561,
+          186.0
+        ],
+        "y_range_top_pt": [
+          172.0,
+          186.0
+        ]
+      },
+      "expectation": "Report the equipment limit for this particular premises. The multiset of limits in Schedule A stays constant."
+    },
+    {
+      "id": "P04",
+      "kind": "table-value",
+      "baseline": {
+        "page": 2,
+        "section": "Schedule A / covered premises",
+        "text": "Juniper Mill USD 240,000",
+        "anchors": [
+          "Juniper Mill",
+          "Equipment limit"
+        ],
+        "region_points_top_left": [
+          50,
+          190.0,
+          561,
+          204.0
+        ],
+        "y_range_top_pt": [
+          190.0,
+          204.0
+        ]
+      },
+      "revised": {
+        "page": 2,
+        "section": "Schedule A / covered premises",
+        "text": "Juniper Mill USD 180,000",
+        "anchors": [
+          "Juniper Mill",
+          "Equipment limit"
+        ],
+        "region_points_top_left": [
+          50,
+          190.0,
+          561,
+          204.0
+        ],
+        "y_range_top_pt": [
+          190.0,
+          204.0
+        ]
+      },
+      "expectation": "Report the equipment limit for this particular premises. The multiset of limits in Schedule A stays constant."
+    },
+    {
+      "id": "P05",
+      "kind": "replacement",
+      "baseline": {
+        "page": 3,
+        "section": "Machinery and temporary power",
+        "text": "Portable generators are covered while unattended."
+      },
+      "revised": {
+        "page": 3,
+        "section": "Machinery and temporary power",
+        "text": "Portable generators are not covered while unattended."
+      },
+      "expectation": "Capture the added negation and locate both full clauses."
+    },
+    {
+      "id": "P06",
+      "kind": "addition",
+      "baseline": null,
+      "revised": {
+        "page": 4,
+        "section": "Restart endorsement",
+        "text": "A temporary dust monitor is required during every kiln restart."
+      },
+      "expectation": "Identify this new obligation on revised page 4."
+    },
+    {
+      "id": "P07",
+      "kind": "deletion",
+      "baseline": {
+        "page": 3,
+        "section": "Plant instruments",
+        "text": "A spare analogue pressure gauge is required at the pump station."
+      },
+      "revised": null,
+      "expectation": "Identify the removed obligation on baseline page 3."
+    },
+    {
+      "id": "P08",
+      "kind": "move",
+      "baseline": {
+        "page": 2,
+        "section": "Schedule B / claims handling",
+        "text": "A duplicate calibration certificate may be held at the designated repair depot."
+      },
+      "revised": {
+        "page": 4,
+        "section": "Depots and supporting records",
+        "text": "A duplicate calibration certificate may be held at the designated repair depot."
+      },
+      "expectation": "Identify the identical sentence at its old and new location. Unlinked deletion/addition is only partial evidence."
+    },
+    {
+      "id": "P09",
+      "kind": "replacement",
+      "baseline": {
+        "page": 4,
+        "section": "Delivery notifications",
+        "text": "Approved release channel: registered post."
+      },
+      "revised": {
+        "page": 4,
+        "section": "Delivery notifications",
+        "text": "Approved release channel: secure portal."
+      },
+      "expectation": "Locate both versions of the changed delivery method."
+    },
+    {
+      "id": "P10",
+      "kind": "replacement",
+      "baseline": {
+        "page": 15,
+        "section": "Water controls",
+        "text": "Inspection archive: Retain certifications for 12 months."
+      },
+      "revised": {
+        "page": 15,
+        "section": "Water controls",
+        "text": "Inspection archive: Retain certifications for 18 months."
+      },
+      "expectation": "Find the amended retention period on the middle physical page."
+    },
+    {
+      "id": "P11",
+      "kind": "replacement",
+      "baseline": {
+        "page": 30,
+        "section": "Cold storage",
+        "text": "Lift alarm threshold: 500 kg."
+      },
+      "revised": {
+        "page": 30,
+        "section": "Cold storage",
+        "text": "Lift alarm threshold: 650 kg."
+      },
+      "expectation": "Find the changed quantity and preserve the measurement unit on the final physical page."
+    },
+    {
+      "id": "C01",
+      "kind": "unchanged-repeated",
+      "baseline": {
+        "page": 1,
+        "section": "Harbor depot / breakage cover",
+        "text": "Notice period: 5 calendar days.",
+        "anchors": [
+          "Harbor depot / breakage cover"
+        ],
+        "region_points_top_left": [
+          50,
+          299.0,
+          300,
+          313.0
+        ],
+        "y_range_top_pt": [
+          299.0,
+          313.0
+        ]
+      },
+      "revised": {
+        "page": 1,
+        "section": "Harbor depot / breakage cover",
+        "text": "Notice period: 5 calendar days.",
+        "anchors": [
+          "Harbor depot / breakage cover"
+        ],
+        "region_points_top_left": [
+          50,
+          299.0,
+          300,
+          313.0
+        ],
+        "y_range_top_pt": [
+          299.0,
+          313.0
+        ]
+      },
+      "expectation": "Keep the Harbor deadline unchanged even though the River deadline changed."
+    },
+    {
+      "id": "C02",
+      "kind": "reflow",
+      "baseline": {
+        "page": 3,
+        "section": "Evidence of custody",
+        "text": "The custodian keeps the sealed dispatch ledger with the original transfer receipt."
+      },
+      "revised": {
+        "page": 3,
+        "section": "Evidence of custody",
+        "text": "The custodian keeps the sealed dispatch ledger with the original transfer receipt."
+      },
+      "expectation": "The words are identical. A line break is allowed as a layout observation, with no change to the obligation."
+    },
+    {
+      "id": "C03",
+      "kind": "column-reorder",
+      "baseline": {
+        "page": 2,
+        "section": "Schedule B / claims handling",
+        "text": "Delta desk 48 hours Written notice",
+        "anchors": [
+          "Delta desk",
+          "Stage window",
+          "Contact method"
+        ],
+        "region_points_top_left": [
+          50,
+          280.0,
+          561,
+          294.0
+        ],
+        "y_range_top_pt": [
+          280.0,
+          294.0
+        ]
+      },
+      "revised": {
+        "page": 2,
+        "section": "Schedule B / claims handling",
+        "text": "Delta desk Written notice 48 hours",
+        "anchors": [
+          "Delta desk",
+          "Stage window",
+          "Contact method"
+        ],
+        "region_points_top_left": [
+          50,
+          280.0,
+          561,
+          294.0
+        ],
+        "y_range_top_pt": [
+          280.0,
+          294.0
+        ]
+      },
+      "expectation": "Preserve the association Delta desk / Stage window = 48 hours / Contact method = Written notice. A relocation of equal cells or a structural uncertainty notice is acceptable.",
+      "moved_cells": [
+        "48 hours",
+        "Written notice"
+      ],
+      "column_notice_text": [
+        "The correspondence between these table fields could not be determined. Both source rows are retained.",
+        "The column correspondence between Stage window and Contact method is unresolved. Both source rows are retained."
+      ]
+    },
+    {
+      "id": "C04",
+      "kind": "unchanged-table",
+      "baseline": {
+        "page": 2,
+        "section": "Schedule A / covered premises",
+        "text": "Willow Foundry USD 325,000 USD 4,000",
+        "anchors": [
+          "Willow Foundry"
+        ],
+        "region_points_top_left": [
+          50,
+          208.0,
+          561,
+          222.0
+        ],
+        "y_range_top_pt": [
+          208.0,
+          222.0
+        ]
+      },
+      "revised": {
+        "page": 2,
+        "section": "Schedule A / covered premises",
+        "text": "Willow Foundry USD 325,000 USD 4,000",
+        "anchors": [
+          "Willow Foundry"
+        ],
+        "region_points_top_left": [
+          50,
+          208.0,
+          561,
+          222.0
+        ],
+        "y_range_top_pt": [
+          208.0,
+          222.0
+        ]
+      },
+      "expectation": "No substantive change to the Willow Foundry row."
+    }
+  ],
+  "page_numbering": "1-based physical PDF pages",
+  "scoring_note": "Eleven positive cases include one unchanged-text move. The middle and final pages hold independent seeded edits. Location boxes use PDF points from the top-left of the physical page. Four controls describe unchanged wording or preserved relationships. A single source change may span several UI cards. Layout-only notices do not imply semantic changes.",
+  "sha256": {
+    "baseline.pdf": "0273200d053c5a3c3cde8acbe8a2491b9794b953bfc5cb6d461ba7eebe333c74",
+    "revised.pdf": "2a0ff31a077775d1040008c1ce75de7699e45d829cabf1eac161625a2e43277c"
+  }
+}
