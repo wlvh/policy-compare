@@ -1,0 +1,22 @@
+# Harness Kubernetes values. Replace/override only after target environment authorization.
+name: policy-compare
+image: <+artifacts.primary.image>
+replicas: 1
+
+# Disabled by default: an unqualified OpenShift Route may be publicly reachable.
+# Enable only after the platform confirms the assigned INTERNAL router/host.
+route:
+  enabled: false
+  host: ""
+  labels: {}
+
+imagePullSecret: ""
+networkPolicy:
+  enabled: false
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+  limits:
+    cpu: "1"
+    memory: 256Mi
