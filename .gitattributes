@@ -3,3 +3,5 @@ reports/issue-24/**/*.log -whitespace
 reports/review-notices/*.log -whitespace
 reports/review-flow/evidence/*.log -whitespace
 tests/fixtures/review-flow/*.pdf binary
+# Prebuilt web resources are SHA-256 checked; do not normalize their bytes.
+prebuilt/** -text -diff
