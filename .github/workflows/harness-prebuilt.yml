@@ -3,7 +3,7 @@ name: Verify Harness prebuilt MuPDF payload
 on:
   push:
     branches:
-      - 'deploy/axa-*'
+      - main
   workflow_dispatch:
 
 permissions:
