@@ -1,0 +1,23 @@
+name: Verify Harness prebuilt MuPDF payload
+
+on:
+  push:
+    branches:
+      - 'deploy/axa-*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-current-source-and-payload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Refuse missing, stale or modified prebuilt web payload
+        run: node deploy/harness/verify-prebuilt.mjs --check-source
