@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "review-readability-truth/1",
+  "caseId": "a-whitespace",
+  "scope": "Thirteen-page English document with no changed non-whitespace text. The raw PDF streams deliberately contain boundary spaces and isolated whitespace.",
+  "authorship": "Authored from the intended source edits, independently of comparison output. The generator does not read this file.",
+  "coordinateSystem": "PDF points from the top-left; page numbers are one-based",
+  "events": [
+    {
+      "id": "A-F01",
+      "category": "boundary_whitespace",
+      "baseline": {"page": 1, "text": "Contract of Insurance", "region": [72, 131, 260, 151]},
+      "revised": {"page": 1, "text": "Contract of Insurance  ", "region": [72, 131, 275, 151]},
+      "expected": "The visible title words are unchanged. Preserve the raw spaces if exported; do not classify this as a non-whitespace wording change."
+    },
+    {
+      "id": "A-F02",
+      "category": "boundary_whitespace",
+      "baseline": {"page": 2, "text": "Insured: Harbor Example Aviation Ltd.", "region": [72, 218, 340, 236]},
+      "revised": {"page": 2, "text": " Insured: Harbor Example Aviation Ltd. ", "region": [72, 218, 350, 236]},
+      "expected": "One leading and one trailing space change; the insured name and its wording remain unchanged."
+    },
+    {
+      "id": "A-F03",
+      "category": "line_reflow",
+      "baseline": {"page": 7, "text": "Records must remain available for inspection during the service period.", "region": [72, 308, 450, 326]},
+      "revised": {"page": 7, "text": "Records must remain available\nfor inspection during the service period.", "region": [72, 308, 450, 340]},
+      "expected": "The sentence is wrapped onto two lines. No words are added or deleted."
+    },
+    {
+      "id": "A-F04",
+      "category": "isolated_whitespace",
+      "baseline": {"occurrences": [{"page": 1, "text": " ", "region": [96, 523, 112, 541]}, {"page": 2, "text": "  ", "region": [96, 523, 112, 541]}, {"page": 3, "text": "   ", "region": [96, 523, 112, 541]}]},
+      "revised": {"occurrences": [{"page": 11, "text": "  ", "region": [96, 523, 112, 541]}, {"page": 12, "text": "   ", "region": [96, 523, 112, 541]}, {"page": 13, "text": " ", "region": [96, 523, 112, 541]}]},
+      "expected": "These raw runs contain no wording. They must not become blank primary change cards or establish cross-page movement/correspondence anchors. No individual whitespace-run identity is asserted."
+    }
+  ],
+  "controls": [
+    {"id": "A-C01", "expected": "All 13 occurrences of 'Service period: 1 January 2027 to 31 December 2027.' remain unchanged and retain source locations."},
+    {"id": "A-C02", "expected": "All 13 occurrences of 'The agreed currency is USD.' remain unchanged."},
+    {"id": "A-C03", "expected": "The default wording-change count must be zero, while the formatting/raw-source view may retain A-F01 through A-F04."}
+  ],
+  "uncertainties": [
+    {"id": "A-U01", "expected": "Do not infer a physical move from one isolated blank run to another based only on equal normalized whitespace."}
+  ],
+  "prohibitedShortcuts": ["Do not drop raw PDF characters from the audit export.", "Do not remove every space from ordinary text; these expectations apply only to the specified boundary spaces, line wrap and isolated blank runs.", "Do not infer document-wide correctness merely because the default list is empty."],
+  "reproductionStatus": "Input design only. Actual extraction and product results are recorded separately."
+}

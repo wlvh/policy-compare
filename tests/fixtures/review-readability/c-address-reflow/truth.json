@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "review-readability-truth/1",
+  "caseId": "c-address-reflow",
+  "scope": "Two different fictional companies share a city but have distinct street and postcode values. Free-form addresses become labelled, reordered address rows.",
+  "authorship": "Authored from the intended source edits, independently of comparison output. The generator does not read this file.",
+  "coordinateSystem": "PDF points from the top-left; page numbers are one-based",
+  "events": [
+    {"id": "C-E01", "category": "added_labels_and_layout", "baseline": {"page": 1, "anchor": "Harbor Example Insurance Ltd", "text": "12 Mariner Walk\nRidgehaven\nRG1 4AB\nExampleland", "region": [90, 211, 350, 272]}, "revised": {"page": 1, "anchor": "Harbor Example Insurance Ltd", "text": "Postcode: RG1 4AB\nStreet: 12 Mariner Walk\nCity: Ridgehaven\nCountry: Exampleland", "region": [90, 211, 390, 302]}, "expected": "Retain the new Postcode/Street/City/Country labels as actual wording additions, and retain the reordered address values under the Harbor company. Do not describe all old address values as definitively absent from the revised document."},
+    {"id": "C-E02", "category": "added_labels_and_layout", "baseline": {"page": 1, "anchor": "Meadow Example Services Ltd", "text": "48 Willow Crescent\nRidgehaven\nRG1 8CD\nExampleland", "region": [90, 511, 350, 572]}, "revised": {"page": 1, "anchor": "Meadow Example Services Ltd", "text": "Postcode: RG1 8CD\nStreet: 48 Willow Crescent\nCity: Ridgehaven\nCountry: Exampleland", "region": [90, 511, 390, 602]}, "expected": "Retain the added labels and reordered values under the Meadow company, with separate source mappings from the Harbor block."}
+  ],
+  "controls": [
+    {"id": "C-C01", "expected": "Harbor retains street 12 Mariner Walk and postcode RG1 4AB; Meadow retains street 48 Willow Crescent and postcode RG1 8CD."},
+    {"id": "C-C02", "expected": "The repeated city Ridgehaven and country Exampleland must not be borrowed from the other company's block to manufacture a correspondence."},
+    {"id": "C-C03", "baseline": {"page": 2, "text": "Harbor depot reference: HBR-17."}, "revised": {"page": 2, "text": "Harbor depot reference: HBR-17."}, "expected": "No change to this independent control."},
+    {"id": "C-C04", "baseline": {"page": 2, "text": "Meadow depot reference: MDW-28."}, "revised": {"page": 2, "text": "Meadow depot reference: MDW-28."}, "expected": "No change to this independent control."}
+  ],
+  "uncertainties": [
+    {"id": "C-U01", "expected": "If exact fragment correspondence cannot be established, preserve each company's whole source block and label that correspondence as unresolved. An unresolved fragment is not evidence of a company or address deletion."}
+  ],
+  "prohibitedShortcuts": ["Do not discard the newly added field labels as mere formatting.", "Do not require equality of whole extracted units before considering locally anchored fragments.", "Do not join the two company blocks or exchange their distinct street/postcode values."],
+  "reproductionStatus": "Input design only. Actual extraction and product results are recorded separately."
+}

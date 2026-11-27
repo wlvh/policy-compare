@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "review-readability-manifest/1",
+  "fixtureVersion": 1,
+  "generator": "generate.py",
+  "reportlabVersion": "4.4.9",
+  "documentsAreFictional": true,
+  "productReproductionStatus": "See the separate verification report; generation alone does not establish reproduction.",
+  "cases": [
+    {
+      "caseId": "a-whitespace",
+      "documents": {
+        "baseline": {
+          "path": "a-whitespace/baseline.pdf",
+          "pages": 13,
+          "bytes": 53392,
+          "sha256": "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863"
+        },
+        "revised": {
+          "path": "a-whitespace/revised.pdf",
+          "pages": 13,
+          "bytes": 53409,
+          "sha256": "bec72283beddc394054f21e1a066f1fc7f4e5abc64663c3b9a242c5c9af067ec"
+        }
+      }
+    },
+    {
+      "caseId": "b-duplicate-context",
+      "documents": {
+        "baseline": {
+          "path": "b-duplicate-context/baseline.pdf",
+          "pages": 2,
+          "bytes": 42784,
+          "sha256": "6707ad3813d00ed0fbc28e6f5ed748a082a8c6428bf3b4044b85ebd72fa09385"
+        },
+        "revised": {
+          "path": "b-duplicate-context/revised.pdf",
+          "pages": 2,
+          "bytes": 42785,
+          "sha256": "4afd2004e2e0ac57436c26539269f5076020abd14bdac828657fb08929111298"
+        }
+      }
+    },
+    {
+      "caseId": "c-address-reflow",
+      "documents": {
+        "baseline": {
+          "path": "c-address-reflow/baseline.pdf",
+          "pages": 2,
+          "bytes": 42811,
+          "sha256": "08ba2135fee616a8ace8a0735977acdf74dd5d71974cbe1bdbff5d26045b654f"
+        },
+        "revised": {
+          "path": "c-address-reflow/revised.pdf",
+          "pages": 2,
+          "bytes": 42891,
+          "sha256": "5ee9d6a082e23b65c53c30c1656f090e027f5da77e3052546edb95327d84bc20"
+        }
+      }
+    },
+    {
+      "caseId": "d-review-mixed",
+      "documents": {
+        "baseline": {
+          "path": "d-review-mixed/baseline.pdf",
+          "pages": 6,
+          "bytes": 47521,
+          "sha256": "21586a87a15432c2bc1869ed96c885f52b8b0e66270947891aeb4271483df3cf"
+        },
+        "revised": {
+          "path": "d-review-mixed/revised.pdf",
+          "pages": 6,
+          "bytes": 47546,
+          "sha256": "3d58d3252e46f06f5c7b2a91c1f8e6254ba1e209528c7d02e137cd1ff9ade17e"
+        }
+      }
+    }
+  ]
+}

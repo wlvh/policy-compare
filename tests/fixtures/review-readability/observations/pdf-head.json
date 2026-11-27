@@ -1,0 +1,5373 @@
+{
+  "schemaVersion": "review-readability-pdf-observation/1",
+  "invocation": "Node + repository MuPDF adapter + Rust/WASM ABI; not a browser workflow or performance benchmark",
+  "wasmSHA256": "4f7df73f9a22c8b7ad6b5d6a3e5a705b4e70b8dc16f10bd7b11f11b273f97b75",
+  "nodeVersion": "v24.22.3",
+  "budget": {
+    "candidates": 20000,
+    "tokenProducts": 100000000,
+    "diffProducts": 4000000
+  },
+  "pageNumbering": "Source summaries use 1-based PDF pages; alignment retains product 0-based indexes.",
+  "truthUsedByProduct": false,
+  "reports": [
+    {
+      "caseId": "a-whitespace",
+      "inputs": [
+        {
+          "side": "baseline",
+          "file": "a-whitespace/baseline.pdf",
+          "sha256": "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863",
+          "pages": 13,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 1,
+              "lineId": "p0:l10",
+              "text": " "
+            },
+            {
+              "page": 2,
+              "lineId": "p1:l10",
+              "text": "  "
+            },
+            {
+              "page": 3,
+              "lineId": "p2:l10",
+              "text": "   "
+            }
+          ]
+        },
+        {
+          "side": "revised",
+          "file": "a-whitespace/revised.pdf",
+          "sha256": "bec72283beddc394054f21e1a066f1fc7f4e5abc64663c3b9a242c5c9af067ec",
+          "pages": 13,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 11,
+              "lineId": "p10:l10",
+              "text": "  "
+            },
+            {
+              "page": 12,
+              "lineId": "p11:l10",
+              "text": "   "
+            },
+            {
+              "page": 13,
+              "lineId": "p12:l10",
+              "text": " "
+            }
+          ]
+        }
+      ],
+      "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+      "configDigest": "c945bccb69368545947971a7b95513ba4d2965b314fe4e35943b0ce1e3a4ecd5",
+      "status": "partial",
+      "stats": {
+        "leftScalars": 4638,
+        "rightScalars": 4641,
+        "candidates": 10,
+        "tokenProducts": 188,
+        "differenceCount": 42,
+        "occurrenceCount": 42
+      },
+      "compareMs": 523,
+      "sourceChecks": {
+        "status": "PASS",
+        "verifiedSourceLocations": 231,
+        "scope": "References resolve to extracted characters; this does not establish correct correspondence."
+      },
+      "repairAcceptance": "NOT_EVALUATED",
+      "semanticsSHA256": "bcc1df793b7ea4955276e7b09aa3967ead09cde5eaca5faf36649ba1d639310c",
+      "differences": [
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged. ",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": " ",
+              "rawRange": [
+                316,
+                317
+              ],
+              "bounds": [
+                96,
+                527.022,
+                99.339,
+                537.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                276,
+                318
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 11,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                319,
+                359
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Contract of Insurance  ",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Contract of Insurance  ",
+              "rawRange": [
+                56,
+                79
+              ],
+              "bounds": [
+                72,
+                135.123,
+                239.778,
+                148.123
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "Contract of Insurance",
+          "newText": "Contract of Insurance",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "occurrence-count-only",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Contract of Insurance",
+              "rawRange": [
+                23,
+                44
+              ],
+              "bounds": [
+                72,
+                68.084,
+                279.57,
+                85.084
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Contract of Insurance",
+              "rawRange": [
+                23,
+                44
+              ],
+              "bounds": [
+                72,
+                68.084,
+                279.57,
+                85.084
+              ]
+            }
+          ],
+          "repeat": {
+            "left": 26,
+            "right": 25,
+            "leftPages": 13,
+            "rightPages": 13
+          },
+          "occurrenceCount": 26
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged.  ",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 2,
+              "text": "  ",
+              "rawRange": [
+                316,
+                318
+              ],
+              "bounds": [
+                96,
+                527.022,
+                102.678,
+                537.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                276,
+                318
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 12,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                320,
+                360
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "Insured: Harbor Example Aviation Ltd.",
+          "newText": " Insured: Harbor Example Aviation Ltd. ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "local-source-token-correspondence",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Insured: Harbor Example Aviation Ltd.",
+              "rawRange": [
+                88,
+                125
+              ],
+              "bounds": [
+                72,
+                222.022,
+                272.676,
+                232.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": " Insured: Harbor Example Aviation Ltd. ",
+              "rawRange": [
+                88,
+                127
+              ],
+              "bounds": [
+                72,
+                222.022,
+                279.354,
+                232.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                127,
+                178
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged.   ",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 3,
+              "text": "   ",
+              "rawRange": [
+                316,
+                319
+              ],
+              "bounds": [
+                96,
+                527.022,
+                106.017,
+                537.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 4,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                319,
+                359
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 13,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.  ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 4,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 11,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 11,
+              "text": "  ",
+              "rawRange": [
+                317,
+                319
+              ],
+              "bounds": [
+                96,
+                527.022,
+                102.678,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 4,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 5,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 4,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.   ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 12,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 12,
+              "text": "   ",
+              "rawRange": [
+                317,
+                320
+              ],
+              "bounds": [
+                96,
+                527.022,
+                106.017,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged. ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 13,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 13,
+              "text": " ",
+              "rawRange": [
+                317,
+                318
+              ],
+              "bounds": [
+                96,
+                527.022,
+                99.339,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 7,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 7,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 8,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 7,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 4,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 7,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 4,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 8,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 9,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 8,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 5,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 8,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 5,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 9,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 10,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 9,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 9,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 10,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 11,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 10,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 7,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                273,
+                315
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 10,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 7,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                315,
+                355
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 11,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 12,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 11,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 8,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 11,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 8,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 12,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 13,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 12,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 9,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 12,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 9,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 10,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 10,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        }
+      ],
+      "unresolved": [
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Contract of Insurance",
+              "rawRange": [
+                57,
+                78
+              ],
+              "bounds": [
+                72,
+                135.123,
+                230.73,
+                148.123
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Contract of Insurance  ",
+              "rawRange": [
+                56,
+                79
+              ],
+              "bounds": [
+                72,
+                135.123,
+                239.778,
+                148.123
+              ]
+            }
+          ]
+        },
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                127,
+                178
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ]
+        }
+      ],
+      "coverage": [],
+      "alignment": [
+        {
+          "leftPage": 0,
+          "leftY": 430,
+          "rightPage": 0,
+          "rightY": 430
+        },
+        {
+          "leftPage": 1,
+          "leftY": 430,
+          "rightPage": 1,
+          "rightY": 430
+        },
+        {
+          "leftPage": 2,
+          "leftY": 430,
+          "rightPage": 2,
+          "rightY": 430
+        },
+        {
+          "leftPage": 0,
+          "leftY": 40,
+          "rightPage": 0,
+          "rightY": 40
+        },
+        {
+          "leftPage": 0,
+          "leftY": 81,
+          "rightPage": 0,
+          "rightY": 81
+        },
+        {
+          "leftPage": 0,
+          "leftY": 230,
+          "rightPage": 0,
+          "rightY": 230
+        },
+        {
+          "leftPage": 0,
+          "leftY": 270,
+          "rightPage": 0,
+          "rightY": 270
+        },
+        {
+          "leftPage": 0,
+          "leftY": 320,
+          "rightPage": 0,
+          "rightY": 320
+        },
+        {
+          "leftPage": 0,
+          "leftY": 380,
+          "rightPage": 0,
+          "rightY": 380
+        },
+        {
+          "leftPage": 0,
+          "leftY": 804.89,
+          "rightPage": 0,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 1,
+          "leftY": 40,
+          "rightPage": 1,
+          "rightY": 40
+        },
+        {
+          "leftPage": 1,
+          "leftY": 81,
+          "rightPage": 1,
+          "rightY": 81
+        },
+        {
+          "leftPage": 1,
+          "leftY": 190,
+          "rightPage": 1,
+          "rightY": 190
+        },
+        {
+          "leftPage": 1,
+          "leftY": 320,
+          "rightPage": 1,
+          "rightY": 320
+        },
+        {
+          "leftPage": 1,
+          "leftY": 380,
+          "rightPage": 1,
+          "rightY": 380
+        },
+        {
+          "leftPage": 1,
+          "leftY": 804.89,
+          "rightPage": 1,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 2,
+          "leftY": 40,
+          "rightPage": 2,
+          "rightY": 40
+        },
+        {
+          "leftPage": 2,
+          "leftY": 81,
+          "rightPage": 2,
+          "rightY": 81
+        },
+        {
+          "leftPage": 2,
+          "leftY": 190,
+          "rightPage": 2,
+          "rightY": 190
+        },
+        {
+          "leftPage": 2,
+          "leftY": 230,
+          "rightPage": 2,
+          "rightY": 230
+        },
+        {
+          "leftPage": 2,
+          "leftY": 320,
+          "rightPage": 2,
+          "rightY": 320
+        },
+        {
+          "leftPage": 2,
+          "leftY": 380,
+          "rightPage": 2,
+          "rightY": 380
+        },
+        {
+          "leftPage": 2,
+          "leftY": 804.89,
+          "rightPage": 2,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 3,
+          "leftY": 40,
+          "rightPage": 3,
+          "rightY": 40
+        },
+        {
+          "leftPage": 3,
+          "leftY": 81,
+          "rightPage": 3,
+          "rightY": 81
+        },
+        {
+          "leftPage": 3,
+          "leftY": 190,
+          "rightPage": 3,
+          "rightY": 190
+        },
+        {
+          "leftPage": 3,
+          "leftY": 230,
+          "rightPage": 3,
+          "rightY": 230
+        },
+        {
+          "leftPage": 3,
+          "leftY": 320,
+          "rightPage": 3,
+          "rightY": 320
+        },
+        {
+          "leftPage": 3,
+          "leftY": 380,
+          "rightPage": 3,
+          "rightY": 380
+        },
+        {
+          "leftPage": 3,
+          "leftY": 804.89,
+          "rightPage": 3,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 4,
+          "leftY": 40,
+          "rightPage": 4,
+          "rightY": 40
+        },
+        {
+          "leftPage": 4,
+          "leftY": 81,
+          "rightPage": 4,
+          "rightY": 81
+        },
+        {
+          "leftPage": 4,
+          "leftY": 190,
+          "rightPage": 4,
+          "rightY": 190
+        },
+        {
+          "leftPage": 4,
+          "leftY": 230,
+          "rightPage": 4,
+          "rightY": 230
+        },
+        {
+          "leftPage": 4,
+          "leftY": 320,
+          "rightPage": 4,
+          "rightY": 320
+        },
+        {
+          "leftPage": 4,
+          "leftY": 380,
+          "rightPage": 4,
+          "rightY": 380
+        },
+        {
+          "leftPage": 4,
+          "leftY": 804.89,
+          "rightPage": 4,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 5,
+          "leftY": 40,
+          "rightPage": 5,
+          "rightY": 40
+        },
+        {
+          "leftPage": 5,
+          "leftY": 81,
+          "rightPage": 5,
+          "rightY": 81
+        },
+        {
+          "leftPage": 5,
+          "leftY": 190,
+          "rightPage": 5,
+          "rightY": 190
+        },
+        {
+          "leftPage": 5,
+          "leftY": 230,
+          "rightPage": 5,
+          "rightY": 230
+        },
+        {
+          "leftPage": 5,
+          "leftY": 320,
+          "rightPage": 5,
+          "rightY": 320
+        },
+        {
+          "leftPage": 5,
+          "leftY": 380,
+          "rightPage": 5,
+          "rightY": 380
+        },
+        {
+          "leftPage": 5,
+          "leftY": 804.89,
+          "rightPage": 5,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 6,
+          "leftY": 40,
+          "rightPage": 6,
+          "rightY": 40
+        },
+        {
+          "leftPage": 6,
+          "leftY": 81,
+          "rightPage": 6,
+          "rightY": 81
+        },
+        {
+          "leftPage": 6,
+          "leftY": 190,
+          "rightPage": 6,
+          "rightY": 190
+        },
+        {
+          "leftPage": 6,
+          "leftY": 230,
+          "rightPage": 6,
+          "rightY": 230
+        },
+        {
+          "leftPage": 6,
+          "leftY": 320,
+          "rightPage": 6,
+          "rightY": 320
+        },
+        {
+          "leftPage": 6,
+          "leftY": 380,
+          "rightPage": 6,
+          "rightY": 380
+        },
+        {
+          "leftPage": 6,
+          "leftY": 804.89,
+          "rightPage": 6,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 7,
+          "leftY": 40,
+          "rightPage": 7,
+          "rightY": 40
+        },
+        {
+          "leftPage": 7,
+          "leftY": 81,
+          "rightPage": 7,
+          "rightY": 81
+        },
+        {
+          "leftPage": 7,
+          "leftY": 190,
+          "rightPage": 7,
+          "rightY": 190
+        },
+        {
+          "leftPage": 7,
+          "leftY": 230,
+          "rightPage": 7,
+          "rightY": 230
+        },
+        {
+          "leftPage": 7,
+          "leftY": 320,
+          "rightPage": 7,
+          "rightY": 320
+        },
+        {
+          "leftPage": 7,
+          "leftY": 380,
+          "rightPage": 7,
+          "rightY": 380
+        },
+        {
+          "leftPage": 7,
+          "leftY": 804.89,
+          "rightPage": 7,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 8,
+          "leftY": 40,
+          "rightPage": 8,
+          "rightY": 40
+        },
+        {
+          "leftPage": 8,
+          "leftY": 81,
+          "rightPage": 8,
+          "rightY": 81
+        },
+        {
+          "leftPage": 8,
+          "leftY": 190,
+          "rightPage": 8,
+          "rightY": 190
+        },
+        {
+          "leftPage": 8,
+          "leftY": 230,
+          "rightPage": 8,
+          "rightY": 230
+        },
+        {
+          "leftPage": 8,
+          "leftY": 320,
+          "rightPage": 8,
+          "rightY": 320
+        },
+        {
+          "leftPage": 8,
+          "leftY": 380,
+          "rightPage": 8,
+          "rightY": 380
+        },
+        {
+          "leftPage": 8,
+          "leftY": 804.89,
+          "rightPage": 8,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 9,
+          "leftY": 40,
+          "rightPage": 9,
+          "rightY": 40
+        },
+        {
+          "leftPage": 9,
+          "leftY": 81,
+          "rightPage": 9,
+          "rightY": 81
+        },
+        {
+          "leftPage": 9,
+          "leftY": 190,
+          "rightPage": 9,
+          "rightY": 190
+        },
+        {
+          "leftPage": 9,
+          "leftY": 230,
+          "rightPage": 9,
+          "rightY": 230
+        },
+        {
+          "leftPage": 9,
+          "leftY": 320,
+          "rightPage": 9,
+          "rightY": 320
+        },
+        {
+          "leftPage": 9,
+          "leftY": 380,
+          "rightPage": 9,
+          "rightY": 380
+        },
+        {
+          "leftPage": 9,
+          "leftY": 804.89,
+          "rightPage": 9,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 10,
+          "leftY": 40,
+          "rightPage": 10,
+          "rightY": 40
+        },
+        {
+          "leftPage": 10,
+          "leftY": 81,
+          "rightPage": 10,
+          "rightY": 81
+        },
+        {
+          "leftPage": 10,
+          "leftY": 190,
+          "rightPage": 10,
+          "rightY": 190
+        },
+        {
+          "leftPage": 10,
+          "leftY": 230,
+          "rightPage": 10,
+          "rightY": 230
+        },
+        {
+          "leftPage": 10,
+          "leftY": 320,
+          "rightPage": 10,
+          "rightY": 320
+        },
+        {
+          "leftPage": 10,
+          "leftY": 380,
+          "rightPage": 10,
+          "rightY": 380
+        },
+        {
+          "leftPage": 10,
+          "leftY": 804.89,
+          "rightPage": 10,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 11,
+          "leftY": 40,
+          "rightPage": 11,
+          "rightY": 40
+        },
+        {
+          "leftPage": 11,
+          "leftY": 81,
+          "rightPage": 11,
+          "rightY": 81
+        },
+        {
+          "leftPage": 11,
+          "leftY": 190,
+          "rightPage": 11,
+          "rightY": 190
+        },
+        {
+          "leftPage": 11,
+          "leftY": 230,
+          "rightPage": 11,
+          "rightY": 230
+        },
+        {
+          "leftPage": 11,
+          "leftY": 320,
+          "rightPage": 11,
+          "rightY": 320
+        },
+        {
+          "leftPage": 11,
+          "leftY": 380,
+          "rightPage": 11,
+          "rightY": 380
+        },
+        {
+          "leftPage": 11,
+          "leftY": 804.89,
+          "rightPage": 11,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 12,
+          "leftY": 40,
+          "rightPage": 12,
+          "rightY": 40
+        },
+        {
+          "leftPage": 12,
+          "leftY": 81,
+          "rightPage": 12,
+          "rightY": 81
+        },
+        {
+          "leftPage": 12,
+          "leftY": 190,
+          "rightPage": 12,
+          "rightY": 190
+        },
+        {
+          "leftPage": 12,
+          "leftY": 230,
+          "rightPage": 12,
+          "rightY": 230
+        },
+        {
+          "leftPage": 12,
+          "leftY": 320,
+          "rightPage": 12,
+          "rightY": 320
+        },
+        {
+          "leftPage": 12,
+          "leftY": 380,
+          "rightPage": 12,
+          "rightY": 380
+        },
+        {
+          "leftPage": 12,
+          "leftY": 804.89,
+          "rightPage": 12,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 0,
+          "leftY": 190,
+          "rightPage": 0,
+          "rightY": 190
+        },
+        {
+          "leftPage": 1,
+          "leftY": 230,
+          "rightPage": 1,
+          "rightY": 230
+        }
+      ]
+    },
+    {
+      "caseId": "b-duplicate-context",
+      "inputs": [
+        {
+          "side": "baseline",
+          "file": "b-duplicate-context/baseline.pdf",
+          "sha256": "6707ad3813d00ed0fbc28e6f5ed748a082a8c6428bf3b4044b85ebd72fa09385",
+          "pages": 2,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": []
+        },
+        {
+          "side": "revised",
+          "file": "b-duplicate-context/revised.pdf",
+          "sha256": "4afd2004e2e0ac57436c26539269f5076020abd14bdac828657fb08929111298",
+          "pages": 2,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": []
+        }
+      ],
+      "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+      "configDigest": "c945bccb69368545947971a7b95513ba4d2965b314fe4e35943b0ce1e3a4ecd5",
+      "status": "partial",
+      "stats": {
+        "leftScalars": 531,
+        "rightScalars": 532,
+        "candidates": 8,
+        "tokenProducts": 320,
+        "differenceCount": 8,
+        "occurrenceCount": 8
+      },
+      "compareMs": 48,
+      "sourceChecks": {
+        "status": "PASS",
+        "verifiedSourceLocations": 28,
+        "scope": "References resolve to extracted characters; this does not establish correct correspondence."
+      },
+      "repairAcceptance": "NOT_EVALUATED",
+      "semanticsSHA256": "0ac0c8f15df669dbc0ae41a494479506df2ebc106dac35e03000e963a6ed5ac9",
+      "differences": [
+        {
+          "kind": "Removed",
+          "oldText": "A preliminary arrangement remains subject to review.",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "A preliminary arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                142
+              ],
+              "bounds": [
+                72,
+                212.022,
+                357.39,
+                222.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "Harbor Example Insurance Ltd",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                142,
+                170
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "A provisional arrangement remains subject to review.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "A provisional arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                142
+              ],
+              "bounds": [
+                72,
+                212.022,
+                354.712,
+                222.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Harbor Example Insurance Ltd",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                142,
+                170
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "A separate arrangement remains subject to review.",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "A separate arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                139
+              ],
+              "bounds": [
+                72,
+                212.022,
+                343.698,
+                222.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "Harbor Example Insurance Ltd",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                139,
+                167
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "An optional arrangement remains subject to review.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "An optional arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                140
+              ],
+              "bounds": [
+                72,
+                212.022,
+                346.564,
+                222.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Harbor Example Insurance Ltd",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                140,
+                168
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        }
+      ],
+      "unresolved": [
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "A preliminary arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                142
+              ],
+              "bounds": [
+                72,
+                212.022,
+                357.39,
+                222.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "A provisional arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                142
+              ],
+              "bounds": [
+                72,
+                212.022,
+                354.712,
+                222.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 2,
+              "text": "An optional arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                140
+              ],
+              "bounds": [
+                72,
+                212.022,
+                346.564,
+                222.522
+              ]
+            }
+          ]
+        },
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                142,
+                170
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                142,
+                170
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            },
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                140,
+                168
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ]
+        },
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "A separate arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                139
+              ],
+              "bounds": [
+                72,
+                212.022,
+                343.698,
+                222.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "A provisional arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                142
+              ],
+              "bounds": [
+                72,
+                212.022,
+                354.712,
+                222.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 2,
+              "text": "An optional arrangement remains subject to review.",
+              "rawRange": [
+                90,
+                140
+              ],
+              "bounds": [
+                72,
+                212.022,
+                346.564,
+                222.522
+              ]
+            }
+          ]
+        },
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                139,
+                167
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                142,
+                170
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            },
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Harbor Example Insurance Ltd",
+              "rawRange": [
+                140,
+                168
+              ],
+              "bounds": [
+                72,
+                265.883,
+                254.616,
+                277.883
+              ]
+            }
+          ]
+        }
+      ],
+      "coverage": [],
+      "alignment": [
+        {
+          "leftPage": 0,
+          "leftY": 40,
+          "rightPage": 0,
+          "rightY": 40
+        },
+        {
+          "leftPage": 0,
+          "leftY": 81,
+          "rightPage": 0,
+          "rightY": 81
+        },
+        {
+          "leftPage": 0,
+          "leftY": 160,
+          "rightPage": 0,
+          "rightY": 160
+        },
+        {
+          "leftPage": 0,
+          "leftY": 340,
+          "rightPage": 0,
+          "rightY": 340
+        },
+        {
+          "leftPage": 0,
+          "leftY": 390,
+          "rightPage": 0,
+          "rightY": 390
+        },
+        {
+          "leftPage": 0,
+          "leftY": 804.89,
+          "rightPage": 0,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 1,
+          "leftY": 40,
+          "rightPage": 1,
+          "rightY": 40
+        },
+        {
+          "leftPage": 1,
+          "leftY": 81,
+          "rightPage": 1,
+          "rightY": 81
+        },
+        {
+          "leftPage": 1,
+          "leftY": 160,
+          "rightPage": 1,
+          "rightY": 160
+        },
+        {
+          "leftPage": 1,
+          "leftY": 340,
+          "rightPage": 1,
+          "rightY": 340
+        },
+        {
+          "leftPage": 1,
+          "leftY": 390,
+          "rightPage": 1,
+          "rightY": 390
+        },
+        {
+          "leftPage": 1,
+          "leftY": 804.89,
+          "rightPage": 1,
+          "rightY": 804.89
+        }
+      ]
+    },
+    {
+      "caseId": "c-address-reflow",
+      "inputs": [
+        {
+          "side": "baseline",
+          "file": "c-address-reflow/baseline.pdf",
+          "sha256": "08ba2135fee616a8ace8a0735977acdf74dd5d71974cbe1bdbff5d26045b654f",
+          "pages": 2,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": []
+        },
+        {
+          "side": "revised",
+          "file": "c-address-reflow/revised.pdf",
+          "sha256": "5ee9d6a082e23b65c53c30c1656f090e027f5da77e3052546edb95327d84bc20",
+          "pages": 2,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": []
+        }
+      ],
+      "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+      "configDigest": "c945bccb69368545947971a7b95513ba4d2965b314fe4e35943b0ce1e3a4ecd5",
+      "status": "complete_for_scope",
+      "stats": {
+        "leftScalars": 535,
+        "rightScalars": 593,
+        "candidates": 1,
+        "tokenProducts": 16,
+        "differenceCount": 10,
+        "occurrenceCount": 10
+      },
+      "compareMs": 54,
+      "sourceChecks": {
+        "status": "PASS",
+        "verifiedSourceLocations": 48,
+        "scope": "References resolve to extracted characters; this does not establish correct correspondence."
+      },
+      "repairAcceptance": "NOT_EVALUATED",
+      "semanticsSHA256": "4a6f62fc520142dd8184e042a38fe1d4c827ce1d4076df26c3f20303a83bc2b1",
+      "differences": [
+        {
+          "kind": "Removed",
+          "oldText": "12 Mariner Walk Ridgehaven RG1 4AB Exampleland",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "12 Mariner Walk",
+              "rawRange": [
+                109,
+                124
+              ],
+              "bounds": [
+                94,
+                215.402,
+                175.92,
+                225.402
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Ridgehaven",
+              "rawRange": [
+                124,
+                134
+              ],
+              "bounds": [
+                94,
+                229.402,
+                153.46,
+                239.402
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": "RG1 4AB",
+              "rawRange": [
+                134,
+                141
+              ],
+              "bounds": [
+                94,
+                243.402,
+                138.3,
+                253.402
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Exampleland",
+              "rawRange": [
+                141,
+                152
+              ],
+              "bounds": [
+                94,
+                257.402,
+                158.99,
+                267.402
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "48 Willow Crescent Ridgehaven RG1 8CD Exampleland",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "48 Willow Crescent",
+              "rawRange": [
+                202,
+                220
+              ],
+              "bounds": [
+                94,
+                515.402,
+                189.97,
+                525.402
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Ridgehaven",
+              "rawRange": [
+                220,
+                230
+              ],
+              "bounds": [
+                94,
+                529.402,
+                153.46,
+                539.402
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": "RG1 8CD",
+              "rawRange": [
+                230,
+                237
+              ],
+              "bounds": [
+                94,
+                543.402,
+                139.28,
+                553.402
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Exampleland",
+              "rawRange": [
+                237,
+                248
+              ],
+              "bounds": [
+                94,
+                557.402,
+                158.99,
+                567.402
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Postcode: RG1 4AB",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Postcode:",
+              "rawRange": [
+                109,
+                118
+              ],
+              "bounds": [
+                94,
+                215.402,
+                149.67,
+                225.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "RG1 4AB",
+              "rawRange": [
+                118,
+                125
+              ],
+              "bounds": [
+                214,
+                215.402,
+                258.3,
+                225.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Street: 12 Mariner Walk",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Street:",
+              "rawRange": [
+                125,
+                132
+              ],
+              "bounds": [
+                94,
+                239.402,
+                133.25,
+                249.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "12 Mariner Walk",
+              "rawRange": [
+                132,
+                147
+              ],
+              "bounds": [
+                214,
+                239.402,
+                295.92,
+                249.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "City: Ridgehaven",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "City:",
+              "rawRange": [
+                147,
+                152
+              ],
+              "bounds": [
+                94,
+                263.402,
+                120.07,
+                273.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Ridgehaven",
+              "rawRange": [
+                152,
+                162
+              ],
+              "bounds": [
+                214,
+                263.402,
+                273.46,
+                273.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Country: Exampleland",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Country:",
+              "rawRange": [
+                162,
+                170
+              ],
+              "bounds": [
+                94,
+                287.402,
+                142.68,
+                297.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Exampleland",
+              "rawRange": [
+                170,
+                181
+              ],
+              "bounds": [
+                214,
+                287.402,
+                278.99,
+                297.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Postcode: RG1 8CD",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Postcode:",
+              "rawRange": [
+                231,
+                240
+              ],
+              "bounds": [
+                94,
+                515.402,
+                149.67,
+                525.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "RG1 8CD",
+              "rawRange": [
+                240,
+                247
+              ],
+              "bounds": [
+                214,
+                515.402,
+                259.28,
+                525.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Street: 48 Willow Crescent",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Street:",
+              "rawRange": [
+                247,
+                254
+              ],
+              "bounds": [
+                94,
+                539.402,
+                133.25,
+                549.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "48 Willow Crescent",
+              "rawRange": [
+                254,
+                272
+              ],
+              "bounds": [
+                214,
+                539.402,
+                309.97,
+                549.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "City: Ridgehaven",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "City:",
+              "rawRange": [
+                272,
+                277
+              ],
+              "bounds": [
+                94,
+                563.402,
+                120.07,
+                573.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Ridgehaven",
+              "rawRange": [
+                277,
+                287
+              ],
+              "bounds": [
+                214,
+                563.402,
+                273.46,
+                573.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Country: Exampleland",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Country:",
+              "rawRange": [
+                287,
+                295
+              ],
+              "bounds": [
+                94,
+                587.402,
+                142.68,
+                597.402
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Exampleland",
+              "rawRange": [
+                295,
+                306
+              ],
+              "bounds": [
+                214,
+                587.402,
+                278.99,
+                597.402
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        }
+      ],
+      "unresolved": [],
+      "coverage": [],
+      "alignment": [
+        {
+          "leftPage": 0,
+          "leftY": 40,
+          "rightPage": 0,
+          "rightY": 40
+        },
+        {
+          "leftPage": 0,
+          "leftY": 81,
+          "rightPage": 0,
+          "rightY": 81
+        },
+        {
+          "leftPage": 0,
+          "leftY": 155,
+          "rightPage": 0,
+          "rightY": 155
+        },
+        {
+          "leftPage": 0,
+          "leftY": 189,
+          "rightPage": 0,
+          "rightY": 189
+        },
+        {
+          "leftPage": 0,
+          "leftY": 455,
+          "rightPage": 0,
+          "rightY": 455
+        },
+        {
+          "leftPage": 0,
+          "leftY": 489,
+          "rightPage": 0,
+          "rightY": 489
+        },
+        {
+          "leftPage": 1,
+          "leftY": 40,
+          "rightPage": 1,
+          "rightY": 40
+        },
+        {
+          "leftPage": 1,
+          "leftY": 81,
+          "rightPage": 1,
+          "rightY": 81
+        },
+        {
+          "leftPage": 1,
+          "leftY": 160,
+          "rightPage": 1,
+          "rightY": 160
+        },
+        {
+          "leftPage": 1,
+          "leftY": 225,
+          "rightPage": 1,
+          "rightY": 225
+        },
+        {
+          "leftPage": 1,
+          "leftY": 265,
+          "rightPage": 1,
+          "rightY": 265
+        },
+        {
+          "leftPage": 1,
+          "leftY": 325,
+          "rightPage": 1,
+          "rightY": 325
+        },
+        {
+          "leftPage": 1,
+          "leftY": 365,
+          "rightPage": 1,
+          "rightY": 365
+        },
+        {
+          "leftPage": 1,
+          "leftY": 425,
+          "rightPage": 1,
+          "rightY": 425
+        },
+        {
+          "leftPage": 1,
+          "leftY": 804.89,
+          "rightPage": 1,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 0,
+          "leftY": 804.89,
+          "rightPage": 0,
+          "rightY": 804.89
+        }
+      ]
+    },
+    {
+      "caseId": "d-review-mixed",
+      "inputs": [
+        {
+          "side": "baseline",
+          "file": "d-review-mixed/baseline.pdf",
+          "sha256": "21586a87a15432c2bc1869ed96c885f52b8b0e66270947891aeb4271483df3cf",
+          "pages": 6,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 2,
+              "lineId": "p1:l11",
+              "text": " "
+            },
+            {
+              "page": 5,
+              "lineId": "p4:l12",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "side": "revised",
+          "file": "d-review-mixed/revised.pdf",
+          "sha256": "3d58d3252e46f06f5c7b2a91c1f8e6254ba1e209528c7d02e137cd1ff9ade17e",
+          "pages": 6,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 2,
+              "lineId": "p1:l11",
+              "text": "  "
+            },
+            {
+              "page": 5,
+              "lineId": "p4:l11",
+              "text": "  "
+            }
+          ]
+        }
+      ],
+      "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+      "configDigest": "c945bccb69368545947971a7b95513ba4d2965b314fe4e35943b0ce1e3a4ecd5",
+      "status": "partial",
+      "stats": {
+        "leftScalars": 1474,
+        "rightScalars": 1500,
+        "candidates": 6,
+        "tokenProducts": 64,
+        "differenceCount": 14,
+        "occurrenceCount": 14
+      },
+      "compareMs": 150,
+      "sourceChecks": {
+        "status": "PASS",
+        "verifiedSourceLocations": 93,
+        "scope": "References resolve to extracted characters; this does not establish correct correspondence."
+      },
+      "repairAcceptance": "NOT_EVALUATED",
+      "semanticsSHA256": "d2dea9936646999c3e1c7812174dd833fc04fd3eb25ea86601c6205013c3d302",
+      "differences": [
+        {
+          "kind": "Replaced",
+          "oldText": "Period: 1 January 2026 to 31 December 2026.",
+          "newText": "Period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "literal-label-and-local-context",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Period: 1 January 2026 to 31 December 2026.",
+              "rawRange": [
+                127,
+                170
+              ],
+              "bounds": [
+                72,
+                272.022,
+                313.626,
+                282.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                127,
+                170
+              ],
+              "bounds": [
+                72,
+                272.022,
+                313.626,
+                282.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "SERVICE COPY",
+          "newText": "SERVICE COPY",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "occurrence-count-only",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "SERVICE COPY",
+              "rawRange": [
+                232,
+                244
+              ],
+              "bounds": [
+                72,
+                775.812,
+                130.304,
+                783.812
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "SERVICE COPY",
+              "rawRange": [
+                232,
+                244
+              ],
+              "bounds": [
+                72,
+                775.812,
+                130.304,
+                783.812
+              ]
+            }
+          ],
+          "repeat": {
+            "left": 6,
+            "right": 7,
+            "leftPages": 6,
+            "rightPages": 6
+          },
+          "occurrenceCount": 7
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "The limit applies separately to each reported occurrence.",
+          "newText": "The limit applies separately to each reported occurrence.  ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "The limit applies separately to each reported occurrence.",
+              "rawRange": [
+                148,
+                205
+              ],
+              "bounds": [
+                72,
+                377.022,
+                374.274,
+                387.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "The limit applies separately to each reported occurrence.",
+              "rawRange": [
+                148,
+                205
+              ],
+              "bounds": [
+                72,
+                377.022,
+                374.274,
+                387.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 2,
+              "text": "  ",
+              "rawRange": [
+                217,
+                219
+              ],
+              "bounds": [
+                96,
+                557.022,
+                102.678,
+                567.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "Limit: USD 1,250,000.",
+          "newText": "Limit: USD 1,500,000.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "literal-label-and-local-context",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Limit: USD 1,250,000.",
+              "rawRange": [
+                105,
+                126
+              ],
+              "bounds": [
+                72,
+                272.022,
+                187.447,
+                282.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Limit: USD 1,500,000.",
+              "rawRange": [
+                105,
+                126
+              ],
+              "bounds": [
+                72,
+                272.022,
+                187.447,
+                282.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": " ",
+          "newText": "",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": " ",
+              "rawRange": [
+                217,
+                218
+              ],
+              "bounds": [
+                96,
+                557.022,
+                99.339,
+                567.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "Cover is provided for equipment stored outdoors.",
+          "newText": "Cover is not provided for equipment stored outdoors.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "neighboring-source-anchors",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "Cover is provided for equipment stored outdoors.",
+              "rawRange": [
+                108,
+                156
+              ],
+              "bounds": [
+                72,
+                272.022,
+                332.064,
+                282.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "Cover is not provided for equipment stored outdoors.",
+              "rawRange": [
+                108,
+                160
+              ],
+              "bounds": [
+                72,
+                272.022,
+                352.602,
+                282.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "A written incident report must be submitted within 14 days.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 4,
+              "text": "A written incident report must be submitted within 14 days.",
+              "rawRange": [
+                161,
+                220
+              ],
+              "bounds": [
+                72,
+                332.022,
+                387.105,
+                342.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "Signed copies remain available.",
+          "newText": "Signed copies remain available.    ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "Signed copies remain available.",
+              "rawRange": [
+                258,
+                289
+              ],
+              "bounds": [
+                72,
+                442.022,
+                239.528,
+                452.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 5,
+              "text": "Signed copies remain available.  ",
+              "rawRange": [
+                206,
+                239
+              ],
+              "bounds": [
+                72,
+                442.022,
+                246.206,
+                452.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 5,
+              "text": "  ",
+              "rawRange": [
+                251,
+                253
+              ],
+              "bounds": [
+                96,
+                557.022,
+                102.678,
+                567.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "A duplicate paper log must be retained at the depot.",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "A duplicate paper log must be retained at the depot.",
+              "rawRange": [
+                156,
+                208
+              ],
+              "bounds": [
+                72,
+                332.022,
+                349.484,
+                342.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": " ",
+          "newText": "",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": " ",
+              "rawRange": [
+                301,
+                302
+              ],
+              "bounds": [
+                96,
+                557.022,
+                99.339,
+                567.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "North depot USD 250,000",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "North depot",
+              "rawRange": [
+                122,
+                133
+              ],
+              "bounds": [
+                92,
+                317.022,
+                155.042,
+                327.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 6,
+              "text": "USD 250,000",
+              "rawRange": [
+                133,
+                144
+              ],
+              "bounds": [
+                365,
+                317.022,
+                434.185,
+                327.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Removed",
+          "oldText": "South depot USD 500,000",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "South depot",
+              "rawRange": [
+                144,
+                155
+              ],
+              "bounds": [
+                92,
+                357.022,
+                156.197,
+                367.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 6,
+              "text": "USD 500,000",
+              "rawRange": [
+                155,
+                166
+              ],
+              "bounds": [
+                365,
+                357.022,
+                434.185,
+                367.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "North depot USD 500,000",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "North depot",
+              "rawRange": [
+                122,
+                133
+              ],
+              "bounds": [
+                92,
+                317.022,
+                155.042,
+                327.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "USD 500,000",
+              "rawRange": [
+                133,
+                144
+              ],
+              "bounds": [
+                365,
+                317.022,
+                434.185,
+                327.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "South depot USD 250,000",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "South depot",
+              "rawRange": [
+                144,
+                155
+              ],
+              "bounds": [
+                92,
+                357.022,
+                156.197,
+                367.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "USD 250,000",
+              "rawRange": [
+                155,
+                166
+              ],
+              "bounds": [
+                365,
+                357.022,
+                434.185,
+                367.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0
+        }
+      ],
+      "unresolved": [
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "North depot",
+              "rawRange": [
+                122,
+                133
+              ],
+              "bounds": [
+                92,
+                317.022,
+                155.042,
+                327.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 6,
+              "text": "USD 250,000",
+              "rawRange": [
+                133,
+                144
+              ],
+              "bounds": [
+                365,
+                317.022,
+                434.185,
+                327.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "North depot",
+              "rawRange": [
+                122,
+                133
+              ],
+              "bounds": [
+                92,
+                317.022,
+                155.042,
+                327.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "USD 500,000",
+              "rawRange": [
+                133,
+                144
+              ],
+              "bounds": [
+                365,
+                317.022,
+                434.185,
+                327.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "South depot",
+              "rawRange": [
+                144,
+                155
+              ],
+              "bounds": [
+                92,
+                357.022,
+                156.197,
+                367.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "USD 250,000",
+              "rawRange": [
+                155,
+                166
+              ],
+              "bounds": [
+                365,
+                357.022,
+                434.185,
+                367.522
+              ]
+            }
+          ]
+        },
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "South depot",
+              "rawRange": [
+                144,
+                155
+              ],
+              "bounds": [
+                92,
+                357.022,
+                156.197,
+                367.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 6,
+              "text": "USD 500,000",
+              "rawRange": [
+                155,
+                166
+              ],
+              "bounds": [
+                365,
+                357.022,
+                434.185,
+                367.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "North depot",
+              "rawRange": [
+                122,
+                133
+              ],
+              "bounds": [
+                92,
+                317.022,
+                155.042,
+                327.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "USD 500,000",
+              "rawRange": [
+                133,
+                144
+              ],
+              "bounds": [
+                365,
+                317.022,
+                434.185,
+                327.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "South depot",
+              "rawRange": [
+                144,
+                155
+              ],
+              "bounds": [
+                92,
+                357.022,
+                156.197,
+                367.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 6,
+              "text": "USD 250,000",
+              "rawRange": [
+                155,
+                166
+              ],
+              "bounds": [
+                365,
+                357.022,
+                434.185,
+                367.522
+              ]
+            }
+          ]
+        }
+      ],
+      "coverage": [
+        {
+          "side": "left",
+          "page": 1,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "left",
+          "page": 2,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "left",
+          "page": 3,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "left",
+          "page": 4,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "left",
+          "page": 5,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "left",
+          "page": 6,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "right",
+          "page": 1,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "right",
+          "page": 2,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "right",
+          "page": 3,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "right",
+          "page": 4,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "right",
+          "page": 5,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "right",
+          "page": 6,
+          "reason": "unverified_image_text_region",
+          "region": [
+            438,
+            44,
+            486,
+            68
+          ]
+        },
+        {
+          "side": "left",
+          "page": 2,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "left",
+          "page": 3,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "left",
+          "page": 4,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "left",
+          "page": 5,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "left",
+          "page": 6,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "right",
+          "page": 2,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "right",
+          "page": 3,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "right",
+          "page": 4,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "right",
+          "page": 5,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        },
+        {
+          "side": "right",
+          "page": 6,
+          "reason": "unsupported_structure",
+          "region": [
+            88,
+            116.162,
+            522.172,
+            125.162
+          ],
+          "layoutHint": "repeated_tabular_text"
+        }
+      ],
+      "alignment": [
+        {
+          "leftPage": 1,
+          "leftY": 385,
+          "rightPage": 1,
+          "rightY": 385
+        },
+        {
+          "leftPage": 4,
+          "leftY": 450,
+          "rightPage": 4,
+          "rightY": 450
+        },
+        {
+          "leftPage": 0,
+          "leftY": 40,
+          "rightPage": 0,
+          "rightY": 40
+        },
+        {
+          "leftPage": 0,
+          "leftY": 81,
+          "rightPage": 0,
+          "rightY": 81
+        },
+        {
+          "leftPage": 0,
+          "leftY": 123,
+          "rightPage": 0,
+          "rightY": 123
+        },
+        {
+          "leftPage": 0,
+          "leftY": 175,
+          "rightPage": 0,
+          "rightY": 175
+        },
+        {
+          "leftPage": 0,
+          "leftY": 235,
+          "rightPage": 0,
+          "rightY": 235
+        },
+        {
+          "leftPage": 0,
+          "leftY": 385,
+          "rightPage": 0,
+          "rightY": 385
+        },
+        {
+          "leftPage": 0,
+          "leftY": 781.89,
+          "rightPage": 0,
+          "rightY": 781.89
+        },
+        {
+          "leftPage": 0,
+          "leftY": 804.89,
+          "rightPage": 0,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 1,
+          "leftY": 40,
+          "rightPage": 1,
+          "rightY": 40
+        },
+        {
+          "leftPage": 1,
+          "leftY": 81,
+          "rightPage": 1,
+          "rightY": 81
+        },
+        {
+          "leftPage": 1,
+          "leftY": 123,
+          "rightPage": 1,
+          "rightY": 123
+        },
+        {
+          "leftPage": 1,
+          "leftY": 175,
+          "rightPage": 1,
+          "rightY": 175
+        },
+        {
+          "leftPage": 1,
+          "leftY": 235,
+          "rightPage": 1,
+          "rightY": 235
+        },
+        {
+          "leftPage": 1,
+          "leftY": 781.89,
+          "rightPage": 1,
+          "rightY": 781.89
+        },
+        {
+          "leftPage": 1,
+          "leftY": 804.89,
+          "rightPage": 1,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 2,
+          "leftY": 40,
+          "rightPage": 2,
+          "rightY": 40
+        },
+        {
+          "leftPage": 2,
+          "leftY": 81,
+          "rightPage": 2,
+          "rightY": 81
+        },
+        {
+          "leftPage": 2,
+          "leftY": 123,
+          "rightPage": 2,
+          "rightY": 123
+        },
+        {
+          "leftPage": 2,
+          "leftY": 175,
+          "rightPage": 2,
+          "rightY": 175
+        },
+        {
+          "leftPage": 2,
+          "leftY": 235,
+          "rightPage": 2,
+          "rightY": 235
+        },
+        {
+          "leftPage": 2,
+          "leftY": 340,
+          "rightPage": 2,
+          "rightY": 340
+        },
+        {
+          "leftPage": 2,
+          "leftY": 400,
+          "rightPage": 2,
+          "rightY": 400
+        },
+        {
+          "leftPage": 2,
+          "leftY": 781.89,
+          "rightPage": 2,
+          "rightY": 781.89
+        },
+        {
+          "leftPage": 2,
+          "leftY": 804.89,
+          "rightPage": 2,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 3,
+          "leftY": 40,
+          "rightPage": 3,
+          "rightY": 40
+        },
+        {
+          "leftPage": 3,
+          "leftY": 81,
+          "rightPage": 3,
+          "rightY": 81
+        },
+        {
+          "leftPage": 3,
+          "leftY": 123,
+          "rightPage": 3,
+          "rightY": 123
+        },
+        {
+          "leftPage": 3,
+          "leftY": 175,
+          "rightPage": 3,
+          "rightY": 175
+        },
+        {
+          "leftPage": 3,
+          "leftY": 235,
+          "rightPage": 3,
+          "rightY": 235
+        },
+        {
+          "leftPage": 3,
+          "leftY": 280,
+          "rightPage": 3,
+          "rightY": 280
+        },
+        {
+          "leftPage": 3,
+          "leftY": 400,
+          "rightPage": 3,
+          "rightY": 400
+        },
+        {
+          "leftPage": 3,
+          "leftY": 781.89,
+          "rightPage": 3,
+          "rightY": 465
+        },
+        {
+          "leftPage": 3,
+          "leftY": 804.89,
+          "rightPage": 3,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 4,
+          "leftY": 40,
+          "rightPage": 4,
+          "rightY": 40
+        },
+        {
+          "leftPage": 4,
+          "leftY": 81,
+          "rightPage": 4,
+          "rightY": 81
+        },
+        {
+          "leftPage": 4,
+          "leftY": 123,
+          "rightPage": 4,
+          "rightY": 123
+        },
+        {
+          "leftPage": 4,
+          "leftY": 175,
+          "rightPage": 4,
+          "rightY": 175
+        },
+        {
+          "leftPage": 4,
+          "leftY": 235,
+          "rightPage": 4,
+          "rightY": 235
+        },
+        {
+          "leftPage": 4,
+          "leftY": 280,
+          "rightPage": 4,
+          "rightY": 280
+        },
+        {
+          "leftPage": 4,
+          "leftY": 400,
+          "rightPage": 4,
+          "rightY": 400
+        },
+        {
+          "leftPage": 4,
+          "leftY": 781.89,
+          "rightPage": 4,
+          "rightY": 781.89
+        },
+        {
+          "leftPage": 4,
+          "leftY": 804.89,
+          "rightPage": 4,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 5,
+          "leftY": 40,
+          "rightPage": 5,
+          "rightY": 40
+        },
+        {
+          "leftPage": 5,
+          "leftY": 81,
+          "rightPage": 5,
+          "rightY": 81
+        },
+        {
+          "leftPage": 5,
+          "leftY": 123,
+          "rightPage": 5,
+          "rightY": 123
+        },
+        {
+          "leftPage": 5,
+          "leftY": 175,
+          "rightPage": 5,
+          "rightY": 175
+        },
+        {
+          "leftPage": 5,
+          "leftY": 235,
+          "rightPage": 5,
+          "rightY": 235
+        },
+        {
+          "leftPage": 5,
+          "leftY": 285,
+          "rightPage": 5,
+          "rightY": 285
+        },
+        {
+          "leftPage": 5,
+          "leftY": 425,
+          "rightPage": 5,
+          "rightY": 425
+        },
+        {
+          "leftPage": 5,
+          "leftY": 781.89,
+          "rightPage": 5,
+          "rightY": 781.89
+        },
+        {
+          "leftPage": 5,
+          "leftY": 804.89,
+          "rightPage": 5,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 0,
+          "leftY": 280,
+          "rightPage": 0,
+          "rightY": 280
+        },
+        {
+          "leftPage": 1,
+          "leftY": 280,
+          "rightPage": 1,
+          "rightY": 280
+        },
+        {
+          "leftPage": 0,
+          "leftY": 325,
+          "rightPage": 0,
+          "rightY": 325
+        },
+        {
+          "leftPage": 1,
+          "leftY": 325,
+          "rightPage": 1,
+          "rightY": 325
+        },
+        {
+          "leftPage": 2,
+          "leftY": 280,
+          "rightPage": 2,
+          "rightY": 280
+        }
+      ]
+    }
+  ]
+}

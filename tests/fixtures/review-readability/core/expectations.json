@@ -1,0 +1,289 @@
+{
+  "schema": "review-readability-expectations/1",
+  "authoredIndependentlyOfMatcherOutput": true,
+  "purpose": "Small synthetic core inputs for diagnosing source correspondence and review readability. Current output is evidence, never the expected oracle.",
+  "coordinates": "Input page numbers below are 1-based physical pages. Characters use synthetic six-point advance and size 10; line spacing defaults to 24 points.",
+  "limits": [
+    "These inputs bypass PDF extraction and the browser UI.",
+    "Passing the minimum core checks does not establish that the requested UI behavior is fixed.",
+    "Do not remove all whitespace: a token-boundary change is an intentional negative control.",
+    "No exact total difference count is required except where all input consists of empty whitespace.",
+    "The fixture company is fictional and is not copied from a customer policy."
+  ],
+  "cases": [
+    {
+      "id": "blank_cross_page",
+      "category": "known-core-defect",
+      "input": {
+        "left": [
+          {
+            "text": " ",
+            "page": 1,
+            "y": 50
+          },
+          {
+            "text": " ",
+            "page": 2,
+            "y": 50
+          }
+        ],
+        "right": [
+          {
+            "text": " ",
+            "page": 13,
+            "y": 50
+          }
+        ]
+      },
+      "expected": [
+        "Whitespace-only lines must not create default-visible changes.",
+        "Whitespace-only lines must not establish cross-page alignment.",
+        "Original input characters can remain available for source inspection."
+      ],
+      "minimumChecks": [
+        "no_budget_stop",
+        "no_visible_blank_difference",
+        "no_whitespace_alignment"
+      ],
+      "uiVerificationRequired": true
+    },
+    {
+      "id": "blank_cross_page_moved",
+      "category": "known-core-defect",
+      "input": {
+        "left": [
+          {
+            "text": " ",
+            "page": 1,
+            "y": 50
+          },
+          {
+            "text": " ",
+            "page": 2,
+            "y": 50
+          },
+          {
+            "text": "Stable readable clause remains in the same document.",
+            "page": 2,
+            "y": 100
+          }
+        ],
+        "right": [
+          {
+            "text": "Stable readable clause remains in the same document.",
+            "page": 1,
+            "y": 100
+          },
+          {
+            "text": " ",
+            "page": 13,
+            "y": 50
+          }
+        ]
+      },
+      "expected": [
+        "Adding or removing unrelated empty space must not create a moved-text card.",
+        "The readable clause retains its text; the empty lines do not gain meaning from a competing anchor.",
+        "Empty space does not establish alignment, even when its order conflicts with real anchors."
+      ],
+      "minimumChecks": [
+        "no_budget_stop",
+        "no_visible_blank_difference",
+        "no_whitespace_alignment",
+        "no_meaningful_text_difference"
+      ],
+      "uiVerificationRequired": true
+    },
+    {
+      "id": "heading_trailing_space",
+      "category": "layout-presentation-check",
+      "input": {
+        "left": [
+          {
+            "text": "Schedule of terms.",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "Schedule of terms. ",
+            "page": 1,
+            "y": 80
+          }
+        ]
+      },
+      "expected": [
+        "The visible heading has not changed.",
+        "Retaining a source-backed whitespace record is allowed; the UI must classify it as layout/spacing, rather than a substantive text change.",
+        "This core-only runner cannot verify default UI grouping or wording."
+      ],
+      "minimumChecks": [
+        "no_budget_stop",
+        "no_meaningful_text_difference"
+      ],
+      "uiVerificationRequired": true
+    },
+    {
+      "id": "blank_absorbs_heading",
+      "category": "known-core-defect",
+      "input": {
+        "left": [
+          {
+            "text": "Schedule of terms.",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "Schedule of terms.",
+            "page": 1,
+            "y": 80
+          },
+          {
+            "text": " ",
+            "page": 13,
+            "y": 50
+          }
+        ]
+      },
+      "target": {
+        "heading": "Schedule of terms.",
+        "unrelatedRightPage": 13
+      },
+      "expected": [
+        "The unchanged heading must not gain the unrelated page-13 blank as its corresponding source.",
+        "An empty line on a distant page is not evidence of text reflow.",
+        "Hiding a card alone is insufficient if that incorrect source linkage remains in exported evidence."
+      ],
+      "minimumChecks": [
+        "no_budget_stop",
+        "no_visible_blank_difference",
+        "no_whitespace_alignment",
+        "no_meaningful_text_difference",
+        "no_blank_heading_link"
+      ],
+      "uiVerificationRequired": true
+    },
+    {
+      "id": "repeated_company_changed_context",
+      "category": "uncertainty-presentation-check",
+      "input": {
+        "left": [
+          {
+            "text": "North block."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          },
+          {
+            "text": "East block."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          }
+        ],
+        "right": [
+          {
+            "text": "South part."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          },
+          {
+            "text": "West part."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          }
+        ]
+      },
+      "target": {
+        "company": "Harbor Example Insurance Ltd"
+      },
+      "expected": [
+        "Both documents contain the company name twice.",
+        "If individual occurrences cannot be paired uniquely, preserve that uncertainty and the sources on both sides.",
+        "Technical Added/Removed records are an allowed conservative representation when uncertainty is retained. Their kind alone does not establish an algorithmic mispairing or a repair failure.",
+        "The UI must avoid translating that uncertainty into a definite assertion that the company disappeared or was newly added.",
+        "Do not force pairing by order merely to eliminate an uncertainty notice."
+      ],
+      "minimumChecks": [
+        "no_budget_stop",
+        "company_sources_retained_when_uncertain"
+      ],
+      "uiVerificationRequired": true
+    },
+    {
+      "id": "real_year_change",
+      "category": "negative-control",
+      "input": {
+        "left": [
+          {
+            "text": "Policy year: 2026",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "Policy year: 2027",
+            "page": 1,
+            "y": 80
+          }
+        ]
+      },
+      "target": {
+        "oldDigit": "6",
+        "newDigit": "7",
+        "page": 1,
+        "oldScalarOffset": 16,
+        "newScalarOffset": 16
+      },
+      "expected": [
+        "The real year change remains visible after any whitespace/noise fix.",
+        "Exported delete/insert operations retain references to the actual changed last digits."
+      ],
+      "minimumChecks": [
+        "no_budget_stop",
+        "source_backed_year_change"
+      ],
+      "uiVerificationRequired": false
+    },
+    {
+      "id": "token_boundary_change",
+      "category": "negative-control",
+      "input": {
+        "left": [
+          {
+            "text": "The limit is 12 34.",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "The limit is 1234.",
+            "page": 1,
+            "y": 80
+          }
+        ]
+      },
+      "target": {
+        "oldText": "12 34",
+        "newText": "1234"
+      },
+      "expected": [
+        "Removing the separator changes token boundaries and must remain a meaningful text difference.",
+        "It must not disappear under a rule that removes all whitespace before comparison.",
+        "It must not be labeled whitespace_only."
+      ],
+      "minimumChecks": [
+        "no_budget_stop",
+        "token_boundary_change_retained"
+      ],
+      "uiVerificationRequired": false
+    }
+  ]
+}

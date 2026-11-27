@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "review-readability-truth/1",
+  "caseId": "d-review-mixed",
+  "scope": "Six-page mixed review: repeated raster logo and independent header numbers, real wording/value changes, an occurrence-count change, and harmless formatting controls.",
+  "authorship": "Authored from the intended source edits, independently of comparison output. The generator does not read this file.",
+  "coordinateSystem": "PDF points from the top-left; page numbers are one-based",
+  "events": [
+    {"id": "D-E01", "category": "date", "baseline": {"page": 1, "text": "Period: 1 January 2026 to 31 December 2026.", "top": 280}, "revised": {"page": 1, "text": "Period: 1 January 2027 to 31 December 2027.", "top": 280}, "expected": "Both changed years must be visible and source-addressable."},
+    {"id": "D-E02", "category": "amount", "baseline": {"page": 2, "text": "Limit: USD 1,250,000.", "top": 280}, "revised": {"page": 2, "text": "Limit: USD 1,500,000.", "top": 280}, "expected": "Show the actual changed limit and its two sources."},
+    {"id": "D-E03", "category": "negation", "baseline": {"page": 3, "text": "Cover is provided for equipment stored outdoors.", "top": 280}, "revised": {"page": 3, "text": "Cover is not provided for equipment stored outdoors.", "top": 280}, "expected": "The inserted word not must remain visible; formatting filters must not hide this edit."},
+    {"id": "D-E04", "category": "added_sentence", "baseline": {"page": 4, "text": "", "anchorBefore": "A supervisor must be notified after an incident.", "anchorAfter": "Emergency contact arrangements remain unchanged."}, "revised": {"page": 4, "text": "A written incident report must be submitted within 14 days.", "top": 340}, "expected": "Show the entire inserted sentence at its own revised source."},
+    {"id": "D-E05", "category": "removed_sentence", "baseline": {"page": 5, "text": "A duplicate paper log must be retained at the depot.", "top": 340}, "revised": {"page": 5, "text": "", "anchorBefore": "The electronic incident register must be retained.", "anchorAfter": "The register may be inspected during office hours."}, "expected": "Show the actual missing sentence and its own baseline source; retain both unchanged surrounding statements."},
+    {"id": "D-E06", "category": "occurrence_count", "baseline": {"text": "SERVICE COPY", "count": 6, "pages": [1, 2, 3, 4, 5, 6]}, "revised": {"text": "SERVICE COPY", "count": 7, "pages": [1, 2, 3, 4, 4, 5, 6]}, "expected": "The count change 6 to 7 must remain discoverable and exported. Preserve all occurrences; equal text alone does not identify which physical occurrence corresponds to which."},
+    {"id": "D-E07", "category": "row_value", "baseline": {"page": 6, "anchor": "North depot", "text": "USD 250,000", "region": [360, 313, 465, 331]}, "revised": {"page": 6, "anchor": "North depot", "text": "USD 500,000", "region": [360, 313, 465, 331]}, "expected": "The North depot amount changed even though both amounts still occur elsewhere in the table."},
+    {"id": "D-E08", "category": "row_value", "baseline": {"page": 6, "anchor": "South depot", "text": "USD 500,000", "region": [360, 353, 465, 371]}, "revised": {"page": 6, "anchor": "South depot", "text": "USD 250,000", "region": [360, 353, 465, 371]}, "expected": "The South depot amount changed, with its own row relation retained."}
+  ],
+  "controls": [
+    {"id": "D-C01", "baseline": {"page": 2, "text": "Deductible: USD 5,000."}, "revised": {"page": 2, "text": "Deductible: USD 5,000."}, "expected": "Do not report the unchanged deductible as the changed limit."},
+    {"id": "D-C02", "baseline": {"page": 3, "text": "Operators must retain the signed inspection register.", "region": [72, 388, 430, 406]}, "revised": {"page": 3, "text": "Operators must retain\nthe signed inspection register.", "region": [72, 388, 430, 420]}, "expected": "Only line wrapping changes; no wording change."},
+    {"id": "D-C03", "baseline": {"page": 5, "text": "Signed copies remain available."}, "revised": {"page": 5, "text": "Signed copies remain available.  "}, "expected": "Only two trailing spaces differ; raw sources are preserved without a primary wording-change card."},
+    {"id": "D-C04", "expected": "The raster logo repeats unchanged on each of six pages. Aggregate repeated coverage observations while preserving every location; do not claim that OCR was performed."},
+    {"id": "D-C05", "baseline": {"pages": [1, 2, 3, 4, 5, 6], "texts": ["DOC-0042", "812"], "top": 123}, "revised": {"pages": [1, 2, 3, 4, 5, 6], "texts": ["DOC-0042", "812"], "top": 123}, "expected": "Both independent header items remain unchanged. Their shared baseline alone must not establish a semantic record identity."},
+    {"id": "D-C06", "expected": "Isolated whitespace on pages 2 and 5 changes from one space to two. It must not create a blank primary change card or influence meaningful pairing."}
+  ],
+  "uncertainties": [
+    {"id": "D-U01", "expected": "The engine may retain image coverage or structural uncertainty notices. Their presence is not a failed comparison count; show their precise scope and preserve sources."},
+    {"id": "D-U02", "expected": "Do not infer which SERVICE COPY physical occurrence was added solely from a count difference or document order."}
+  ],
+  "prohibitedShortcuts": ["Do not hide D-E01 through D-E08 when reducing whitespace and layout noise.", "Do not match the two depot amounts globally and thereby cancel the row-level swaps.", "Do not use repeated logo regions as text correspondence anchors.", "Do not equate the number of difference cards with the number of authored events; one event may require multiple cards."],
+  "reproductionStatus": "Input design only. Actual extraction and product results are recorded separately."
+}

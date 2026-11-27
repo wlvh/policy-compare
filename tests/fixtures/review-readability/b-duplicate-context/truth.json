@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "review-readability-truth/1",
+  "caseId": "b-duplicate-context",
+  "scope": "Two appearances of the same fictional company name, each with changed preceding wording and no individual record identifier.",
+  "authorship": "Authored from the intended source edits, independently of comparison output. The generator does not read this file.",
+  "coordinateSystem": "PDF points from the top-left; page numbers are one-based",
+  "events": [
+    {"id": "B-E01", "category": "wording", "baseline": {"page": 1, "text": "A preliminary arrangement remains subject to review.", "region": [72, 208, 420, 226]}, "revised": {"page": 1, "text": "A provisional arrangement remains subject to review.", "region": [72, 208, 420, 226]}, "expected": "Retain and display the actual preliminary/provisional wording edit and its sources."},
+    {"id": "B-E02", "category": "wording", "baseline": {"page": 2, "text": "A separate arrangement remains subject to review.", "region": [72, 208, 420, 226]}, "revised": {"page": 2, "text": "An optional arrangement remains subject to review.", "region": [72, 208, 420, 226]}, "expected": "Retain and display the actual preceding-sentence wording edit and its sources."}
+  ],
+  "controls": [
+    {"id": "B-C01", "baseline": {"pages": [1, 2], "text": "Harbor Example Insurance Ltd", "count": 2, "top": 275}, "revised": {"pages": [1, 2], "text": "Harbor Example Insurance Ltd", "count": 2, "top": 275}, "expected": "The same name is present twice on each side. Do not present failed occurrence pairing as proof that this company name or business participant is absent from the revised document."},
+    {"id": "B-C02", "expected": "Retain both physical name occurrences and their page coordinates. A single representative name must not erase a source occurrence."},
+    {"id": "B-C03", "expected": "A source-correspondence review group must be reachable from an affected card, and return navigation must preserve the card selection."}
+  ],
+  "uncertainties": [
+    {"id": "B-U01", "baseline": {"pages": [1, 2], "text": "Harbor Example Insurance Ltd"}, "revised": {"pages": [1, 2], "text": "Harbor Example Insurance Ltd"}, "expected": "Identical spelling and equal occurrence count do not establish a unique business-record identity. If engineering occurrence correspondence lacks sufficient independent local evidence, show both candidate occurrences and an unresolved-correspondence state. If a local correspondence is made, retain its independent evidence; do not claim identity solely from order or company spelling."}
+  ],
+  "prohibitedShortcuts": ["Do not force global identical-name pairs merely to eliminate unresolved notices.", "Do not hide the two real preceding-sentence edits.", "Do not infer a participant addition or removal from an unmatched source occurrence."],
+  "reproductionStatus": "Input design only. Actual extraction and product results are recorded separately."
+}
