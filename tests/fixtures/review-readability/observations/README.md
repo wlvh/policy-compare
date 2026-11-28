@@ -1,5 +1,10 @@
 # Baseline observations (2026-11-27)
 
+**Historical baseline:** these are the original eight PDF inputs and the original
+minimum diagnostic checks. The [2026-11-28 follow-up](acceptance-review-20261128.md)
+adds self-comparison, stronger bad-result checks and a header-digit control.
+Original JSON observations below remain unchanged.
+
 These are diagnostic observations of existing code, not a repair completion or
 UI acceptance report. Inputs and expectations were authored separately from
 product output. No customer PDF or screenshot was used as an uploaded fixture.

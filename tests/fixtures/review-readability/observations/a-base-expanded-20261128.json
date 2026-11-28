@@ -1,0 +1,4490 @@
+{
+  "schemaVersion": "review-readability-pdf-observation/1",
+  "invocation": "Node + repository MuPDF adapter + Rust/WASM ABI; not a browser workflow or performance benchmark",
+  "wasmSHA256": "e78d1952b68eeb74329e2f5f5d6892ffc333854004ba1235bf17ab696b8ed946",
+  "nodeVersion": "v24.22.3",
+  "budget": {
+    "candidates": 40000,
+    "tokenProducts": 100000000,
+    "diffProducts": 4000000
+  },
+  "pageNumbering": "Source summaries use 1-based PDF pages; alignment retains product 0-based indexes.",
+  "truthUsedByProduct": false,
+  "reports": [
+    {
+      "caseId": "a-whitespace",
+      "mode": "baseline-vs-revised",
+      "selfChecks": null,
+      "uiReviewItemCount": "NOT_EVALUATED",
+      "inputs": [
+        {
+          "side": "baseline",
+          "file": "a-whitespace/baseline.pdf",
+          "sha256": "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863",
+          "pages": 13,
+          "rawScalarCount": 4638,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 1,
+              "lineId": "p0:l10",
+              "text": " "
+            },
+            {
+              "page": 2,
+              "lineId": "p1:l10",
+              "text": "  "
+            },
+            {
+              "page": 3,
+              "lineId": "p2:l10",
+              "text": "   "
+            }
+          ]
+        },
+        {
+          "side": "revised",
+          "file": "a-whitespace/revised.pdf",
+          "sha256": "bec72283beddc394054f21e1a066f1fc7f4e5abc64663c3b9a242c5c9af067ec",
+          "pages": 13,
+          "rawScalarCount": 4641,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 11,
+              "lineId": "p10:l10",
+              "text": "  "
+            },
+            {
+              "page": 12,
+              "lineId": "p11:l10",
+              "text": "   "
+            },
+            {
+              "page": 13,
+              "lineId": "p12:l10",
+              "text": " "
+            }
+          ]
+        }
+      ],
+      "coreVersion": "policy-compare-rust/0.2.0+english-generic.1",
+      "configDigest": "19286ef120809b294174fdf97a00a4eb28651d2112886a87de1e0ebdedfbcec2",
+      "status": "partial",
+      "stats": {
+        "leftScalars": 4638,
+        "rightScalars": 4641,
+        "candidates": 30020,
+        "tokenProducts": 576,
+        "differenceCount": 42,
+        "occurrenceCount": 42
+      },
+      "compareMs": 5282,
+      "sourceChecks": {
+        "status": "PASS",
+        "verifiedSourceLocations": 231,
+        "scope": "References resolve to extracted characters; this does not establish correct correspondence."
+      },
+      "repairAcceptance": "NOT_EVALUATED",
+      "semanticsSHA256": "bcc1df793b7ea4955276e7b09aa3967ead09cde5eaca5faf36649ba1d639310c",
+      "differences": [
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged. ",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": " ",
+              "rawRange": [
+                316,
+                317
+              ],
+              "bounds": [
+                96,
+                527.022,
+                99.339,
+                537.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                276,
+                318
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    276,
+                    318
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "delete",
+              "text": " ",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": " ",
+                  "rawRange": [
+                    316,
+                    317
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    99.339,
+                    537.522
+                  ]
+                }
+              ],
+              "right": []
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 11,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                319,
+                359
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    317,
+                    357
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 11,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    319,
+                    359
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Contract of Insurance  ",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Contract of Insurance  ",
+              "rawRange": [
+                56,
+                79
+              ],
+              "bounds": [
+                72,
+                135.123,
+                239.778,
+                148.123
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "insert",
+              "text": "Contract of Insurance  ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "Contract of Insurance  ",
+                  "rawRange": [
+                    56,
+                    79
+                  ],
+                  "bounds": [
+                    72,
+                    135.123,
+                    239.778,
+                    148.123
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "Contract of Insurance",
+          "newText": "Contract of Insurance",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "occurrence-count-only",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "Contract of Insurance",
+              "rawRange": [
+                23,
+                44
+              ],
+              "bounds": [
+                72,
+                68.084,
+                279.57,
+                85.084
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Contract of Insurance",
+              "rawRange": [
+                23,
+                44
+              ],
+              "bounds": [
+                72,
+                68.084,
+                279.57,
+                85.084
+              ]
+            }
+          ],
+          "repeat": {
+            "left": 26,
+            "right": 25,
+            "leftPages": 13,
+            "rightPages": 13
+          },
+          "occurrenceCount": 26,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Contract of Insurance",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": "Contract of Insurance",
+                  "rawRange": [
+                    23,
+                    44
+                  ],
+                  "bounds": [
+                    72,
+                    68.084,
+                    279.57,
+                    85.084
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "Contract of Insurance",
+                  "rawRange": [
+                    23,
+                    44
+                  ],
+                  "bounds": [
+                    72,
+                    68.084,
+                    279.57,
+                    85.084
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged.  ",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 2,
+              "text": "  ",
+              "rawRange": [
+                316,
+                318
+              ],
+              "bounds": [
+                96,
+                527.022,
+                102.678,
+                537.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                276,
+                318
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 2,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    276,
+                    318
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "delete",
+              "text": "  ",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 2,
+                  "text": "  ",
+                  "rawRange": [
+                    316,
+                    318
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    102.678,
+                    537.522
+                  ]
+                }
+              ],
+              "right": []
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 2,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 3,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 12,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                320,
+                360
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 2,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    318,
+                    358
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 12,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    320,
+                    360
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "Insured: Harbor Example Aviation Ltd.",
+          "newText": " Insured: Harbor Example Aviation Ltd. ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "local-source-token-correspondence",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "Insured: Harbor Example Aviation Ltd.",
+              "rawRange": [
+                88,
+                125
+              ],
+              "bounds": [
+                72,
+                222.022,
+                272.676,
+                232.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": " Insured: Harbor Example Aviation Ltd. ",
+              "rawRange": [
+                88,
+                127
+              ],
+              "bounds": [
+                72,
+                222.022,
+                279.354,
+                232.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "insert",
+              "text": " ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": " ",
+                  "rawRange": [
+                    88,
+                    89
+                  ],
+                  "bounds": [
+                    72,
+                    222.022,
+                    75.339,
+                    232.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "equal",
+              "text": "Insured: Harbor Example Aviation Ltd.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 2,
+                  "text": "Insured: Harbor Example Aviation Ltd.",
+                  "rawRange": [
+                    88,
+                    125
+                  ],
+                  "bounds": [
+                    72,
+                    222.022,
+                    272.676,
+                    232.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": "Insured: Harbor Example Aviation Ltd.",
+                  "rawRange": [
+                    89,
+                    126
+                  ],
+                  "bounds": [
+                    75.339,
+                    222.022,
+                    276.015,
+                    232.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "insert",
+              "text": " ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": " ",
+                  "rawRange": [
+                    126,
+                    127
+                  ],
+                  "bounds": [
+                    276.015,
+                    222.022,
+                    279.354,
+                    232.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Added",
+          "oldText": "",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                127,
+                178
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "insert",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    127,
+                    178
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged.   ",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "left",
+              "page": 3,
+              "text": "   ",
+              "rawRange": [
+                316,
+                319
+              ],
+              "bounds": [
+                96,
+                527.022,
+                106.017,
+                537.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 3,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 3,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "delete",
+              "text": "   ",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 3,
+                  "text": "   ",
+                  "rawRange": [
+                    316,
+                    319
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    106.017,
+                    537.522
+                  ]
+                }
+              ],
+              "right": []
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 4,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 3,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 4,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                319,
+                359
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 13,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 3,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    319,
+                    359
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 13,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    318,
+                    358
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.  ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 4,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 11,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 11,
+              "text": "  ",
+              "rawRange": [
+                317,
+                319
+              ],
+              "bounds": [
+                96,
+                527.022,
+                102.678,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 4,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 11,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "insert",
+              "text": "  ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 11,
+                  "text": "  ",
+                  "rawRange": [
+                    317,
+                    319
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    102.678,
+                    537.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 4,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 5,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 4,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 5,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 4,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 4,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    318,
+                    358
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.   ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 12,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 12,
+              "text": "   ",
+              "rawRange": [
+                317,
+                320
+              ],
+              "bounds": [
+                96,
+                527.022,
+                106.017,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 5,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 12,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "insert",
+              "text": "   ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 12,
+                  "text": "   ",
+                  "rawRange": [
+                    317,
+                    320
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    106.017,
+                    537.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 5,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 6,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 5,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                318,
+                358
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 5,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    318,
+                    358
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged. ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 13,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 13,
+              "text": " ",
+              "rawRange": [
+                317,
+                318
+              ],
+              "bounds": [
+                96,
+                527.022,
+                99.339,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 6,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 13,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "insert",
+              "text": " ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 13,
+                  "text": " ",
+                  "rawRange": [
+                    317,
+                    318
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    99.339,
+                    537.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 7,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 6,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 7,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 6,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 6,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 3,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 7,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 8,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 7,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 8,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 7,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 4,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 7,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 4,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 7,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 4,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 7,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 4,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 8,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 9,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 8,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 9,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 8,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 5,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 8,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 5,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 8,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 5,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 8,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 5,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 9,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                125,
+                176
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 10,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 9,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    125,
+                    176
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 10,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 9,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 9,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 6,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 9,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 6,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 9,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 6,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 10,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 11,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 10,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 11,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 10,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 7,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                273,
+                315
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 10,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 7,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    273,
+                    315
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 10,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 7,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                315,
+                355
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 10,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    317,
+                    357
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 7,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    315,
+                    355
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 11,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 12,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 11,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 12,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 11,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 8,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 11,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 8,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 11,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 8,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 11,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    317,
+                    357
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 8,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "Service period: 1 January 2027 to 31 December 2027.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 12,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 13,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 12,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 13,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 12,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 9,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 12,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 9,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 12,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 9,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                316,
+                356
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 12,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    317,
+                    357
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 9,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    316,
+                    356
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 10,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                275,
+                317
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 13,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 10,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    275,
+                    317
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Moved",
+          "oldText": "Document administration continues below.",
+          "newText": "Document administration continues below.",
+          "facts": [],
+          "hasTextChange": false,
+          "method": "exact-source-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 10,
+              "text": "Document administration continues below.",
+              "rawRange": [
+                317,
+                357
+              ],
+              "bounds": [
+                72,
+                592.022,
+                298.233,
+                602.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "Document administration continues below.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 13,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    317,
+                    357
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 10,
+                  "text": "Document administration continues below.",
+                  "rawRange": [
+                    317,
+                    357
+                  ],
+                  "bounds": [
+                    72,
+                    592.022,
+                    298.233,
+                    602.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Removed",
+          "oldText": "Service period: 1 January 2027 to 31 December 2027.",
+          "newText": "",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "delete",
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 13,
+                  "text": "Service period: 1 January 2027 to 31 December 2027.",
+                  "rawRange": [
+                    126,
+                    177
+                  ],
+                  "bounds": [
+                    72,
+                    262.022,
+                    356.109,
+                    272.522
+                  ]
+                }
+              ],
+              "right": []
+            }
+          ]
+        }
+      ],
+      "unresolved": [
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Contract of Insurance",
+              "rawRange": [
+                57,
+                78
+              ],
+              "bounds": [
+                72,
+                135.123,
+                230.73,
+                148.123
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "Contract of Insurance  ",
+              "rawRange": [
+                56,
+                79
+              ],
+              "bounds": [
+                72,
+                135.123,
+                239.778,
+                148.123
+              ]
+            }
+          ]
+        },
+        {
+          "reason": "ambiguous_match",
+          "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+          "left": [
+            {
+              "side": "left",
+              "page": 13,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                126,
+                177
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "Service period: 1 January 2027 to 31 December 2027.",
+              "rawRange": [
+                127,
+                178
+              ],
+              "bounds": [
+                72,
+                262.022,
+                356.109,
+                272.522
+              ]
+            }
+          ]
+        }
+      ],
+      "coverage": [],
+      "alignment": [
+        {
+          "leftPage": 0,
+          "leftY": 430,
+          "rightPage": 0,
+          "rightY": 430
+        },
+        {
+          "leftPage": 1,
+          "leftY": 430,
+          "rightPage": 1,
+          "rightY": 430
+        },
+        {
+          "leftPage": 2,
+          "leftY": 430,
+          "rightPage": 2,
+          "rightY": 430
+        },
+        {
+          "leftPage": 0,
+          "leftY": 40,
+          "rightPage": 0,
+          "rightY": 40
+        },
+        {
+          "leftPage": 0,
+          "leftY": 81,
+          "rightPage": 0,
+          "rightY": 81
+        },
+        {
+          "leftPage": 0,
+          "leftY": 230,
+          "rightPage": 0,
+          "rightY": 230
+        },
+        {
+          "leftPage": 0,
+          "leftY": 270,
+          "rightPage": 0,
+          "rightY": 270
+        },
+        {
+          "leftPage": 0,
+          "leftY": 320,
+          "rightPage": 0,
+          "rightY": 320
+        },
+        {
+          "leftPage": 0,
+          "leftY": 380,
+          "rightPage": 0,
+          "rightY": 380
+        },
+        {
+          "leftPage": 0,
+          "leftY": 804.89,
+          "rightPage": 0,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 1,
+          "leftY": 40,
+          "rightPage": 1,
+          "rightY": 40
+        },
+        {
+          "leftPage": 1,
+          "leftY": 81,
+          "rightPage": 1,
+          "rightY": 81
+        },
+        {
+          "leftPage": 1,
+          "leftY": 190,
+          "rightPage": 1,
+          "rightY": 190
+        },
+        {
+          "leftPage": 1,
+          "leftY": 320,
+          "rightPage": 1,
+          "rightY": 320
+        },
+        {
+          "leftPage": 1,
+          "leftY": 380,
+          "rightPage": 1,
+          "rightY": 380
+        },
+        {
+          "leftPage": 1,
+          "leftY": 804.89,
+          "rightPage": 1,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 2,
+          "leftY": 40,
+          "rightPage": 2,
+          "rightY": 40
+        },
+        {
+          "leftPage": 2,
+          "leftY": 81,
+          "rightPage": 2,
+          "rightY": 81
+        },
+        {
+          "leftPage": 2,
+          "leftY": 190,
+          "rightPage": 2,
+          "rightY": 190
+        },
+        {
+          "leftPage": 2,
+          "leftY": 230,
+          "rightPage": 2,
+          "rightY": 230
+        },
+        {
+          "leftPage": 2,
+          "leftY": 320,
+          "rightPage": 2,
+          "rightY": 320
+        },
+        {
+          "leftPage": 2,
+          "leftY": 380,
+          "rightPage": 2,
+          "rightY": 380
+        },
+        {
+          "leftPage": 2,
+          "leftY": 804.89,
+          "rightPage": 2,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 3,
+          "leftY": 40,
+          "rightPage": 3,
+          "rightY": 40
+        },
+        {
+          "leftPage": 3,
+          "leftY": 81,
+          "rightPage": 3,
+          "rightY": 81
+        },
+        {
+          "leftPage": 3,
+          "leftY": 190,
+          "rightPage": 3,
+          "rightY": 190
+        },
+        {
+          "leftPage": 3,
+          "leftY": 230,
+          "rightPage": 3,
+          "rightY": 230
+        },
+        {
+          "leftPage": 3,
+          "leftY": 320,
+          "rightPage": 3,
+          "rightY": 320
+        },
+        {
+          "leftPage": 3,
+          "leftY": 380,
+          "rightPage": 3,
+          "rightY": 380
+        },
+        {
+          "leftPage": 3,
+          "leftY": 804.89,
+          "rightPage": 3,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 4,
+          "leftY": 40,
+          "rightPage": 4,
+          "rightY": 40
+        },
+        {
+          "leftPage": 4,
+          "leftY": 81,
+          "rightPage": 4,
+          "rightY": 81
+        },
+        {
+          "leftPage": 4,
+          "leftY": 190,
+          "rightPage": 4,
+          "rightY": 190
+        },
+        {
+          "leftPage": 4,
+          "leftY": 230,
+          "rightPage": 4,
+          "rightY": 230
+        },
+        {
+          "leftPage": 4,
+          "leftY": 320,
+          "rightPage": 4,
+          "rightY": 320
+        },
+        {
+          "leftPage": 4,
+          "leftY": 380,
+          "rightPage": 4,
+          "rightY": 380
+        },
+        {
+          "leftPage": 4,
+          "leftY": 804.89,
+          "rightPage": 4,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 5,
+          "leftY": 40,
+          "rightPage": 5,
+          "rightY": 40
+        },
+        {
+          "leftPage": 5,
+          "leftY": 81,
+          "rightPage": 5,
+          "rightY": 81
+        },
+        {
+          "leftPage": 5,
+          "leftY": 190,
+          "rightPage": 5,
+          "rightY": 190
+        },
+        {
+          "leftPage": 5,
+          "leftY": 230,
+          "rightPage": 5,
+          "rightY": 230
+        },
+        {
+          "leftPage": 5,
+          "leftY": 320,
+          "rightPage": 5,
+          "rightY": 320
+        },
+        {
+          "leftPage": 5,
+          "leftY": 380,
+          "rightPage": 5,
+          "rightY": 380
+        },
+        {
+          "leftPage": 5,
+          "leftY": 804.89,
+          "rightPage": 5,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 6,
+          "leftY": 40,
+          "rightPage": 6,
+          "rightY": 40
+        },
+        {
+          "leftPage": 6,
+          "leftY": 81,
+          "rightPage": 6,
+          "rightY": 81
+        },
+        {
+          "leftPage": 6,
+          "leftY": 190,
+          "rightPage": 6,
+          "rightY": 190
+        },
+        {
+          "leftPage": 6,
+          "leftY": 230,
+          "rightPage": 6,
+          "rightY": 230
+        },
+        {
+          "leftPage": 6,
+          "leftY": 320,
+          "rightPage": 6,
+          "rightY": 320
+        },
+        {
+          "leftPage": 6,
+          "leftY": 380,
+          "rightPage": 6,
+          "rightY": 380
+        },
+        {
+          "leftPage": 6,
+          "leftY": 804.89,
+          "rightPage": 6,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 7,
+          "leftY": 40,
+          "rightPage": 7,
+          "rightY": 40
+        },
+        {
+          "leftPage": 7,
+          "leftY": 81,
+          "rightPage": 7,
+          "rightY": 81
+        },
+        {
+          "leftPage": 7,
+          "leftY": 190,
+          "rightPage": 7,
+          "rightY": 190
+        },
+        {
+          "leftPage": 7,
+          "leftY": 230,
+          "rightPage": 7,
+          "rightY": 230
+        },
+        {
+          "leftPage": 7,
+          "leftY": 320,
+          "rightPage": 7,
+          "rightY": 320
+        },
+        {
+          "leftPage": 7,
+          "leftY": 380,
+          "rightPage": 7,
+          "rightY": 380
+        },
+        {
+          "leftPage": 7,
+          "leftY": 804.89,
+          "rightPage": 7,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 8,
+          "leftY": 40,
+          "rightPage": 8,
+          "rightY": 40
+        },
+        {
+          "leftPage": 8,
+          "leftY": 81,
+          "rightPage": 8,
+          "rightY": 81
+        },
+        {
+          "leftPage": 8,
+          "leftY": 190,
+          "rightPage": 8,
+          "rightY": 190
+        },
+        {
+          "leftPage": 8,
+          "leftY": 230,
+          "rightPage": 8,
+          "rightY": 230
+        },
+        {
+          "leftPage": 8,
+          "leftY": 320,
+          "rightPage": 8,
+          "rightY": 320
+        },
+        {
+          "leftPage": 8,
+          "leftY": 380,
+          "rightPage": 8,
+          "rightY": 380
+        },
+        {
+          "leftPage": 8,
+          "leftY": 804.89,
+          "rightPage": 8,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 9,
+          "leftY": 40,
+          "rightPage": 9,
+          "rightY": 40
+        },
+        {
+          "leftPage": 9,
+          "leftY": 81,
+          "rightPage": 9,
+          "rightY": 81
+        },
+        {
+          "leftPage": 9,
+          "leftY": 190,
+          "rightPage": 9,
+          "rightY": 190
+        },
+        {
+          "leftPage": 9,
+          "leftY": 230,
+          "rightPage": 9,
+          "rightY": 230
+        },
+        {
+          "leftPage": 9,
+          "leftY": 320,
+          "rightPage": 9,
+          "rightY": 320
+        },
+        {
+          "leftPage": 9,
+          "leftY": 380,
+          "rightPage": 9,
+          "rightY": 380
+        },
+        {
+          "leftPage": 9,
+          "leftY": 804.89,
+          "rightPage": 9,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 10,
+          "leftY": 40,
+          "rightPage": 10,
+          "rightY": 40
+        },
+        {
+          "leftPage": 10,
+          "leftY": 81,
+          "rightPage": 10,
+          "rightY": 81
+        },
+        {
+          "leftPage": 10,
+          "leftY": 190,
+          "rightPage": 10,
+          "rightY": 190
+        },
+        {
+          "leftPage": 10,
+          "leftY": 230,
+          "rightPage": 10,
+          "rightY": 230
+        },
+        {
+          "leftPage": 10,
+          "leftY": 320,
+          "rightPage": 10,
+          "rightY": 320
+        },
+        {
+          "leftPage": 10,
+          "leftY": 380,
+          "rightPage": 10,
+          "rightY": 380
+        },
+        {
+          "leftPage": 10,
+          "leftY": 804.89,
+          "rightPage": 10,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 11,
+          "leftY": 40,
+          "rightPage": 11,
+          "rightY": 40
+        },
+        {
+          "leftPage": 11,
+          "leftY": 81,
+          "rightPage": 11,
+          "rightY": 81
+        },
+        {
+          "leftPage": 11,
+          "leftY": 190,
+          "rightPage": 11,
+          "rightY": 190
+        },
+        {
+          "leftPage": 11,
+          "leftY": 230,
+          "rightPage": 11,
+          "rightY": 230
+        },
+        {
+          "leftPage": 11,
+          "leftY": 320,
+          "rightPage": 11,
+          "rightY": 320
+        },
+        {
+          "leftPage": 11,
+          "leftY": 380,
+          "rightPage": 11,
+          "rightY": 380
+        },
+        {
+          "leftPage": 11,
+          "leftY": 804.89,
+          "rightPage": 11,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 12,
+          "leftY": 40,
+          "rightPage": 12,
+          "rightY": 40
+        },
+        {
+          "leftPage": 12,
+          "leftY": 81,
+          "rightPage": 12,
+          "rightY": 81
+        },
+        {
+          "leftPage": 12,
+          "leftY": 190,
+          "rightPage": 12,
+          "rightY": 190
+        },
+        {
+          "leftPage": 12,
+          "leftY": 230,
+          "rightPage": 12,
+          "rightY": 230
+        },
+        {
+          "leftPage": 12,
+          "leftY": 320,
+          "rightPage": 12,
+          "rightY": 320
+        },
+        {
+          "leftPage": 12,
+          "leftY": 380,
+          "rightPage": 12,
+          "rightY": 380
+        },
+        {
+          "leftPage": 12,
+          "leftY": 804.89,
+          "rightPage": 12,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 0,
+          "leftY": 190,
+          "rightPage": 0,
+          "rightY": 190
+        },
+        {
+          "leftPage": 1,
+          "leftY": 230,
+          "rightPage": 1,
+          "rightY": 230
+        }
+      ],
+      "documentHashes": [
+        "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863",
+        "bec72283beddc394054f21e1a066f1fc7f4e5abc64663c3b9a242c5c9af067ec"
+      ],
+      "extractionSnapshotHashes": [
+        "877c927370a093e3276e7030a0db5c2bf552f8d90dbd3199bd4bf0eedd00e104",
+        "2de8e587b995699f3e5af3b11ba81d3f1c58f1fc6a0db65d39b5f9a0967677ee"
+      ]
+    }
+  ]
+}

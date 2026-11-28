@@ -1,6 +1,6 @@
 {
   "schemaVersion": "review-readability-manifest/1",
-  "fixtureVersion": 1,
+  "fixtureVersion": 2,
   "generator": "generate.py",
   "reportlabVersion": "4.4.9",
   "documentsAreFictional": true,
@@ -71,6 +71,23 @@
           "pages": 6,
           "bytes": 47546,
           "sha256": "3d58d3252e46f06f5c7b2a91c1f8e6254ba1e209528c7d02e137cd1ff9ade17e"
+        }
+      }
+    },
+    {
+      "caseId": "e-header-digit",
+      "documents": {
+        "baseline": {
+          "path": "e-header-digit/baseline.pdf",
+          "pages": 1,
+          "bytes": 41865,
+          "sha256": "9af0f0a7c6cf60571db97bf14f351a0674c92695d6b5991aa87be59014d1896f"
+        },
+        "revised": {
+          "path": "e-header-digit/revised.pdf",
+          "pages": 1,
+          "bytes": 41863,
+          "sha256": "3fd2a12d837bc2b7112eeea12b53376484ab18d2712b7e66c9bf3b790eb7edfc"
         }
       }
     }

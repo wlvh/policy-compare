@@ -1,5 +1,5 @@
 {
-  "schema": "review-readability-expectations/1",
+  "schema": "review-readability-expectations/2",
   "authoredIndependentlyOfMatcherOutput": true,
   "purpose": "Small synthetic core inputs for diagnosing source correspondence and review readability. Current output is evidence, never the expected oracle.",
   "coordinates": "Input page numbers below are 1-based physical pages. Characters use synthetic six-point advance and size 10; line spacing defaults to 24 points.",
@@ -7,7 +7,7 @@
     "These inputs bypass PDF extraction and the browser UI.",
     "Passing the minimum core checks does not establish that the requested UI behavior is fixed.",
     "Do not remove all whitespace: a token-boundary change is an intentional negative control.",
-    "No exact total difference count is required except where all input consists of empty whitespace.",
+    "No exact total difference count is required; standalone all-whitespace correspondence records are forbidden even when hidden.",
     "The fixture company is fictional and is not copied from a customer policy."
   ],
   "cases": [
@@ -36,13 +36,13 @@
         ]
       },
       "expected": [
-        "Whitespace-only lines must not create default-visible changes.",
+        "Whitespace-only lines must not create exported correspondence/difference records, regardless of defaultVisible.",
         "Whitespace-only lines must not establish cross-page alignment.",
         "Original input characters can remain available for source inspection."
       ],
       "minimumChecks": [
         "no_budget_stop",
-        "no_visible_blank_difference",
+        "no_blank_difference_export",
         "no_whitespace_alignment"
       ],
       "uiVerificationRequired": true
@@ -82,13 +82,13 @@
         ]
       },
       "expected": [
-        "Adding or removing unrelated empty space must not create a moved-text card.",
+        "Adding or removing unrelated empty space must not create an exported moved-text record, even if hidden.",
         "The readable clause retains its text; the empty lines do not gain meaning from a competing anchor.",
         "Empty space does not establish alignment, even when its order conflicts with real anchors."
       ],
       "minimumChecks": [
         "no_budget_stop",
-        "no_visible_blank_difference",
+        "no_blank_difference_export",
         "no_whitespace_alignment",
         "no_meaningful_text_difference"
       ],
@@ -159,7 +159,7 @@
       ],
       "minimumChecks": [
         "no_budget_stop",
-        "no_visible_blank_difference",
+        "no_blank_difference_export",
         "no_whitespace_alignment",
         "no_meaningful_text_difference",
         "no_blank_heading_link"
@@ -200,18 +200,20 @@
         ]
       },
       "target": {
-        "company": "Harbor Example Insurance Ltd"
+        "company": "Harbor Example Insurance Ltd",
+        "occurrencesPerSide": 2
       },
       "expected": [
-        "Both documents contain the company name twice.",
+        "Both documents contain the company name twice; all 2+2 source occurrences must remain independently verifiable in the output.",
         "If individual occurrences cannot be paired uniquely, preserve that uncertainty and the sources on both sides.",
         "Technical Added/Removed records are an allowed conservative representation when uncertainty is retained. Their kind alone does not establish an algorithmic mispairing or a repair failure.",
         "The UI must avoid translating that uncertainty into a definite assertion that the company disappeared or was newly added.",
-        "Do not force pairing by order merely to eliminate an uncertainty notice."
+        "Do not force pairing by order merely to eliminate an uncertainty notice.",
+        "Missing source evidence is FAIL. Retained sources with an unverified pairing are NOT_EVALUATED, never PASS. Independent authored source anchors can verify local pairs without requiring an unresolved record."
       ],
       "minimumChecks": [
         "no_budget_stop",
-        "company_sources_retained_when_uncertain"
+        "company_sources_and_correspondence"
       ],
       "uiVerificationRequired": true
     },

@@ -1,0 +1,57 @@
+{
+  "purpose": "checker fault-injection self-test; not a product-fix verdict",
+  "scenarios": 10,
+  "checkerAssertions": "PASS",
+  "results": [
+    {
+      "scenario": "conservative uncertainty preserves all 2+2 occurrences",
+      "expected": "PASS",
+      "observed": "PASS"
+    },
+    {
+      "scenario": "reported false positive: erase name differences and unresolved",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "scenario": "copying one occurrence twice cannot replace the missing second source",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "scenario": "source-complete pair claims without an independent oracle",
+      "expected": "NOT_EVALUATED",
+      "observed": "NOT_EVALUATED"
+    },
+    {
+      "scenario": "independently source-anchored local pairs need no unresolved record",
+      "expected": "PASS",
+      "observed": "PASS"
+    },
+    {
+      "scenario": "reversed pairs contradict the same independent source anchors",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "scenario": "reported false positive: hide blank Moved and clear alignment",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "scenario": "hidden all-whitespace Replaced is still an exported defect",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    },
+    {
+      "scenario": "removing the standalone blank export and its alignment satisfies these core conditions",
+      "expected": "PASS",
+      "observed": "PASS"
+    },
+    {
+      "scenario": "hidden heading cannot absorb a remote blank through nested textOps",
+      "expected": "FAIL",
+      "observed": "FAIL"
+    }
+  ]
+}

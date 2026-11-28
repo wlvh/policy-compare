@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "review-readability-truth/1",
+  "caseId": "e-header-digit",
+  "scope": "One-page independent header items on a shared baseline: one identifier digit changes, while the distant number and all surrounding text remain unchanged.",
+  "authorship": "Authored from the intended source edit, independently of comparison output. The generator does not read this file.",
+  "coordinateSystem": "PDF points from the top-left; page numbers are one-based",
+  "events": [
+    {
+      "id": "E-E01",
+      "category": "identifier_digit",
+      "baseline": {"page": 1, "text": "DOC-0042", "x": 88, "top": 123, "region": [86, 111, 145, 127]},
+      "revised": {"page": 1, "text": "DOC-0043", "x": 88, "top": 123, "region": [86, 111, 145, 127]},
+      "expected": "Report the identifier change DOC-0042 to DOC-0043 with evidence at its own source. The final digit 2 to 3 is the only authored text edit. A token-level highlight may include the containing identifier; it must not extend to the distant 812."
+    }
+  ],
+  "controls": [
+    {
+      "id": "E-C01",
+      "baseline": {"page": 1, "text": "812", "x": 505, "top": 123, "region": [503, 111, 526, 127]},
+      "revised": {"page": 1, "text": "812", "x": 505, "top": 123, "region": [503, 111, 526, 127]},
+      "expected": "The independent header number 812 is unchanged. It may appear as neutral source context, but none of its source characters or quads may be assigned to a delete or insert operation, a red or green change overlay, or a struck-through changed-text fragment. Its shared baseline with the identifier does not establish a semantic record identity."
+    },
+    {
+      "id": "E-C02",
+      "baseline": {"page": 1, "texts": ["Schedule section 1.", "Equipment service records.", "The register remains available during office hours."]},
+      "revised": {"page": 1, "texts": ["Schedule section 1.", "Equipment service records.", "The register remains available during office hours."]},
+      "expected": "All nearby body context is identical; preserve it as unchanged. There are no other authored wording, whitespace, position, count, or page changes."
+    }
+  ],
+  "uncertainties": [
+    {
+      "id": "E-U01",
+      "expected": "The author does not assign business meaning or a business identity relationship to either header item. A shared PDF baseline is layout evidence only. If the engine cannot establish an identifier correspondence, retain that uncertainty without classifying the unchanged 812 as edited."
+    }
+  ],
+  "prohibitedShortcuts": [
+    "Do not suppress the real identifier edit to make the unchanged-number control pass.",
+    "Do not delete or insert the entire shared-baseline header unit if that operation includes the unchanged 812.",
+    "Do not use the unchanged distant 812 as a semantic identity key for the edited identifier.",
+    "Do not change the authored answer based on the current comparison output."
+  ],
+  "reproductionStatus": "Input design only. Actual extraction, comparison operations and visual overlay results are recorded separately."
+}

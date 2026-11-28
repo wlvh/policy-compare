@@ -1,6 +1,6 @@
 # Review readability regression inputs
 
-These eight English PDFs are fictional. They contain no customer documents,
+These ten English PDFs are fictional. They contain no customer documents,
 customer names, screenshots, internal URLs, or uploaded insurance material.
 They isolate source handling and review problems that can occur in ordinary
 PDFs. Printed document content does not include the test answers.
@@ -11,6 +11,7 @@ PDFs. Printed document content does not include the test answers.
 | `b-duplicate-context` | 2 | Two identical company-name occurrences with changed context and no individual record identifiers. |
 | `c-address-reflow` | 2 | Free-form addresses become labelled/reordered rows; two distinct companies share a city. |
 | `d-review-mixed` | 6 | Repeated raster logos and header items, date/amount/negation changes, sentence addition/removal, a count change, table-row value swaps, and formatting controls. |
+| `e-header-digit` | 1 | Only DOC-0042 changes to DOC-0043; the distant unchanged 812 must remain unmarked. |
 
 Every directory contains `baseline.pdf`, `revised.pdf`, and an independently
 authored `truth.json`. The truth describes source edits and acceptable evidence,
@@ -19,15 +20,35 @@ Source page numbers are one-based; coordinates use PDF points from the top-left.
 
 ## Quick review
 
-Download [pdf-pairs.zip](pdf-pairs.zip) for the eight PDF inputs, authored
+Download [pdf-pairs.zip](pdf-pairs.zip) for the ten PDF inputs, authored
 expectations and PDF hash manifest. Individual PDFs remain available in the
-four case directories. In the application, load each `baseline.pdf` on the
+five case directories. In the application, load each `baseline.pdf` on the
 Baseline side and its paired `revised.pdf` on the Revised side.
 
 Follow [acceptance.md](acceptance.md) to check the complete review workflow.
 The inputs intentionally expose existing defects; uploading them does not mean
 the repair is implemented. [Observed base/head results](observations/README.md)
 state exactly what was reproduced and what remains unevaluated.
+
+## Acceptance additions from the 2026-11-28 review
+
+See [the follow-up evidence](observations/acceptance-review-20261128.md).
+The original A-D PDFs are byte-identical to the first pack; E adds two one-page
+PDFs, making ten PDFs and 48 pages in total. Original observation files remain
+historical evidence, not the current acceptance verdict.
+
+- Compare each A PDF with itself: exported differences must be zero, regardless
+  of visibility flags. The UI review count must also be zero, blank content must
+  not create correspondence, and raw extraction remains available.
+- Run `node tests/fixtures/review-readability/core/checks-self-test.mjs` to check the checker itself.
+- Feed intentionally wrong results to the checks: clearing company candidates
+  or hiding blank pairing records must fail. Preserve two occurrences per side;
+  correspondence without independently verifiable support is NOT_EVALUATED.
+- E changes one header digit while retaining 812. Check actual edit sources and
+  the browser highlight; neutral unchanged context is allowed.
+- Test combined browser interactions using an explicitly controlled review
+  state, independently of whether a corrected algorithm emits uncertainty on D.
+  Real-PDF matching and controlled UI behavior are separate acceptance layers.
 
 ## Rebuild
 
@@ -79,6 +100,22 @@ These diagnostics have not been wired into normal CI. The repair issue requires
 integration into existing core, PDF and browser checks. PDF.js, the office
 browser workflow, original customer documents and target-machine performance
 are explicitly not covered by this baseline replay.
+
+## Same-file and selected-case replay
+
+```sh
+node --import tsx tests/fixtures/review-readability/replay-pdfs.ts --wasm packages/rust-core/generated/core.wasm --case a-whitespace --self baseline --assert-self --out /tmp/a-baseline-self.json
+node --import tsx tests/fixtures/review-readability/replay-pdfs.ts --wasm packages/rust-core/generated/core.wasm --case a-whitespace --self revised --assert-self --out /tmp/a-revised-self.json
+node --import tsx tests/fixtures/review-readability/replay-pdfs.ts --wasm packages/rust-core/generated/core.wasm --case e-header-digit --out /tmp/header-digit.json
+```
+
+`--self` opens and extracts the same file independently on each side.
+`--assert-self` exits 1 for failed **core** self-comparison requirements. It does
+not pretend to test the browser count, rendering, or review-state restoration.
+`--candidates N` changes only the diagnostic candidate budget; it is for an
+explicit before/after experiment, not for changing production limits. The
+follow-up records the old core at 40,000, using 30,020 candidates and matching
+PR30 head's default-budget output on A.
 
 ## Evidence boundaries
 

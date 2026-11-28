@@ -1,0 +1,1520 @@
+{
+  "schemaVersion": "review-readability-pdf-observation/1",
+  "invocation": "Node + repository MuPDF adapter + Rust/WASM ABI; not a browser workflow or performance benchmark",
+  "wasmSHA256": "4f7df73f9a22c8b7ad6b5d6a3e5a705b4e70b8dc16f10bd7b11f11b273f97b75",
+  "nodeVersion": "v24.22.3",
+  "budget": {
+    "candidates": 20000,
+    "tokenProducts": 100000000,
+    "diffProducts": 4000000
+  },
+  "pageNumbering": "Source summaries use 1-based PDF pages; alignment retains product 0-based indexes.",
+  "truthUsedByProduct": false,
+  "reports": [
+    {
+      "caseId": "a-whitespace",
+      "mode": "baseline-self",
+      "selfChecks": {
+        "identicalPdfBytes": "PASS",
+        "identicalExtractionSnapshots": "PASS",
+        "zeroExportedDifferences": "FAIL",
+        "noBlankAlignment": "PASS"
+      },
+      "uiReviewItemCount": "NOT_EVALUATED",
+      "inputs": [
+        {
+          "side": "baseline",
+          "file": "a-whitespace/baseline.pdf",
+          "sha256": "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863",
+          "pages": 13,
+          "rawScalarCount": 4638,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 1,
+              "lineId": "p0:l10",
+              "text": " "
+            },
+            {
+              "page": 2,
+              "lineId": "p1:l10",
+              "text": "  "
+            },
+            {
+              "page": 3,
+              "lineId": "p2:l10",
+              "text": "   "
+            }
+          ]
+        },
+        {
+          "side": "revised",
+          "file": "a-whitespace/baseline.pdf",
+          "sha256": "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863",
+          "pages": 13,
+          "rawScalarCount": 4638,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": [
+            {
+              "page": 1,
+              "lineId": "p0:l10",
+              "text": " "
+            },
+            {
+              "page": 2,
+              "lineId": "p1:l10",
+              "text": "  "
+            },
+            {
+              "page": 3,
+              "lineId": "p2:l10",
+              "text": "   "
+            }
+          ]
+        }
+      ],
+      "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+      "configDigest": "c945bccb69368545947971a7b95513ba4d2965b314fe4e35943b0ce1e3a4ecd5",
+      "status": "complete_for_scope",
+      "stats": {
+        "leftScalars": 4638,
+        "rightScalars": 4638,
+        "candidates": 3,
+        "tokenProducts": 0,
+        "differenceCount": 6,
+        "occurrenceCount": 6
+      },
+      "compareMs": 597,
+      "sourceChecks": {
+        "status": "PASS",
+        "verifiedSourceLocations": 24,
+        "scope": "References resolve to extracted characters; this does not establish correct correspondence."
+      },
+      "repairAcceptance": "NOT_EVALUATED",
+      "semanticsSHA256": "eeee4673495d2b367727ffab354bf379d74112b39c44f8902ddfc2834940cc2b",
+      "differences": [
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged. ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": " ",
+              "rawRange": [
+                316,
+                317
+              ],
+              "bounds": [
+                96,
+                527.022,
+                99.339,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "insert",
+              "text": " ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": " ",
+                  "rawRange": [
+                    316,
+                    317
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    99.339,
+                    537.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Removed",
+          "oldText": " ",
+          "newText": "",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": " ",
+              "rawRange": [
+                316,
+                317
+              ],
+              "bounds": [
+                96,
+                527.022,
+                99.339,
+                537.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "delete",
+              "text": " ",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": " ",
+                  "rawRange": [
+                    316,
+                    317
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    99.339,
+                    537.522
+                  ]
+                }
+              ],
+              "right": []
+            }
+          ]
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.  ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 2,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 2,
+              "text": "  ",
+              "rawRange": [
+                316,
+                318
+              ],
+              "bounds": [
+                96,
+                527.022,
+                102.678,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 2,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "insert",
+              "text": "  ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 2,
+                  "text": "  ",
+                  "rawRange": [
+                    316,
+                    318
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    102.678,
+                    537.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Removed",
+          "oldText": "  ",
+          "newText": "",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 2,
+              "text": "  ",
+              "rawRange": [
+                316,
+                318
+              ],
+              "bounds": [
+                96,
+                527.022,
+                102.678,
+                537.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "delete",
+              "text": "  ",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 2,
+                  "text": "  ",
+                  "rawRange": [
+                    316,
+                    318
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    102.678,
+                    537.522
+                  ]
+                }
+              ],
+              "right": []
+            }
+          ]
+        },
+        {
+          "kind": "Replaced",
+          "oldText": "The schedule and its values are unchanged.",
+          "newText": "The schedule and its values are unchanged.   ",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "exact-text-reflow",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 3,
+              "text": "The schedule and its values are unchanged.",
+              "rawRange": [
+                274,
+                316
+              ],
+              "bounds": [
+                72,
+                422.022,
+                304.229,
+                432.522
+              ]
+            },
+            {
+              "side": "right",
+              "page": 3,
+              "text": "   ",
+              "rawRange": [
+                316,
+                319
+              ],
+              "bounds": [
+                96,
+                527.022,
+                106.017,
+                537.522
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "The schedule and its values are unchanged.",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 3,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 3,
+                  "text": "The schedule and its values are unchanged.",
+                  "rawRange": [
+                    274,
+                    316
+                  ],
+                  "bounds": [
+                    72,
+                    422.022,
+                    304.229,
+                    432.522
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "insert",
+              "text": "   ",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 3,
+                  "text": "   ",
+                  "rawRange": [
+                    316,
+                    319
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    106.017,
+                    537.522
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "Removed",
+          "oldText": "   ",
+          "newText": "",
+          "facts": [
+            "whitespace_only"
+          ],
+          "hasTextChange": true,
+          "method": "unmatched",
+          "left": [
+            {
+              "side": "left",
+              "page": 3,
+              "text": "   ",
+              "rawRange": [
+                316,
+                319
+              ],
+              "bounds": [
+                96,
+                527.022,
+                106.017,
+                537.522
+              ]
+            }
+          ],
+          "right": [],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "delete",
+              "text": "   ",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 3,
+                  "text": "   ",
+                  "rawRange": [
+                    316,
+                    319
+                  ],
+                  "bounds": [
+                    96,
+                    527.022,
+                    106.017,
+                    537.522
+                  ]
+                }
+              ],
+              "right": []
+            }
+          ]
+        }
+      ],
+      "unresolved": [],
+      "coverage": [],
+      "alignment": [
+        {
+          "leftPage": 0,
+          "leftY": 430,
+          "rightPage": 0,
+          "rightY": 430
+        },
+        {
+          "leftPage": 1,
+          "leftY": 430,
+          "rightPage": 1,
+          "rightY": 430
+        },
+        {
+          "leftPage": 2,
+          "leftY": 430,
+          "rightPage": 2,
+          "rightY": 430
+        },
+        {
+          "leftPage": 0,
+          "leftY": 40,
+          "rightPage": 0,
+          "rightY": 40
+        },
+        {
+          "leftPage": 0,
+          "leftY": 81,
+          "rightPage": 0,
+          "rightY": 81
+        },
+        {
+          "leftPage": 0,
+          "leftY": 145,
+          "rightPage": 0,
+          "rightY": 145
+        },
+        {
+          "leftPage": 0,
+          "leftY": 190,
+          "rightPage": 0,
+          "rightY": 190
+        },
+        {
+          "leftPage": 0,
+          "leftY": 230,
+          "rightPage": 0,
+          "rightY": 230
+        },
+        {
+          "leftPage": 0,
+          "leftY": 270,
+          "rightPage": 0,
+          "rightY": 270
+        },
+        {
+          "leftPage": 0,
+          "leftY": 320,
+          "rightPage": 0,
+          "rightY": 320
+        },
+        {
+          "leftPage": 0,
+          "leftY": 380,
+          "rightPage": 0,
+          "rightY": 380
+        },
+        {
+          "leftPage": 0,
+          "leftY": 600,
+          "rightPage": 0,
+          "rightY": 600
+        },
+        {
+          "leftPage": 0,
+          "leftY": 804.89,
+          "rightPage": 0,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 1,
+          "leftY": 40,
+          "rightPage": 1,
+          "rightY": 40
+        },
+        {
+          "leftPage": 1,
+          "leftY": 81,
+          "rightPage": 1,
+          "rightY": 81
+        },
+        {
+          "leftPage": 1,
+          "leftY": 145,
+          "rightPage": 1,
+          "rightY": 145
+        },
+        {
+          "leftPage": 1,
+          "leftY": 190,
+          "rightPage": 1,
+          "rightY": 190
+        },
+        {
+          "leftPage": 1,
+          "leftY": 230,
+          "rightPage": 1,
+          "rightY": 230
+        },
+        {
+          "leftPage": 1,
+          "leftY": 270,
+          "rightPage": 1,
+          "rightY": 270
+        },
+        {
+          "leftPage": 1,
+          "leftY": 320,
+          "rightPage": 1,
+          "rightY": 320
+        },
+        {
+          "leftPage": 1,
+          "leftY": 380,
+          "rightPage": 1,
+          "rightY": 380
+        },
+        {
+          "leftPage": 1,
+          "leftY": 600,
+          "rightPage": 1,
+          "rightY": 600
+        },
+        {
+          "leftPage": 1,
+          "leftY": 804.89,
+          "rightPage": 1,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 2,
+          "leftY": 40,
+          "rightPage": 2,
+          "rightY": 40
+        },
+        {
+          "leftPage": 2,
+          "leftY": 81,
+          "rightPage": 2,
+          "rightY": 81
+        },
+        {
+          "leftPage": 2,
+          "leftY": 145,
+          "rightPage": 2,
+          "rightY": 145
+        },
+        {
+          "leftPage": 2,
+          "leftY": 190,
+          "rightPage": 2,
+          "rightY": 190
+        },
+        {
+          "leftPage": 2,
+          "leftY": 230,
+          "rightPage": 2,
+          "rightY": 230
+        },
+        {
+          "leftPage": 2,
+          "leftY": 270,
+          "rightPage": 2,
+          "rightY": 270
+        },
+        {
+          "leftPage": 2,
+          "leftY": 320,
+          "rightPage": 2,
+          "rightY": 320
+        },
+        {
+          "leftPage": 2,
+          "leftY": 380,
+          "rightPage": 2,
+          "rightY": 380
+        },
+        {
+          "leftPage": 2,
+          "leftY": 600,
+          "rightPage": 2,
+          "rightY": 600
+        },
+        {
+          "leftPage": 2,
+          "leftY": 804.89,
+          "rightPage": 2,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 3,
+          "leftY": 40,
+          "rightPage": 3,
+          "rightY": 40
+        },
+        {
+          "leftPage": 3,
+          "leftY": 81,
+          "rightPage": 3,
+          "rightY": 81
+        },
+        {
+          "leftPage": 3,
+          "leftY": 145,
+          "rightPage": 3,
+          "rightY": 145
+        },
+        {
+          "leftPage": 3,
+          "leftY": 190,
+          "rightPage": 3,
+          "rightY": 190
+        },
+        {
+          "leftPage": 3,
+          "leftY": 230,
+          "rightPage": 3,
+          "rightY": 230
+        },
+        {
+          "leftPage": 3,
+          "leftY": 270,
+          "rightPage": 3,
+          "rightY": 270
+        },
+        {
+          "leftPage": 3,
+          "leftY": 320,
+          "rightPage": 3,
+          "rightY": 320
+        },
+        {
+          "leftPage": 3,
+          "leftY": 380,
+          "rightPage": 3,
+          "rightY": 380
+        },
+        {
+          "leftPage": 3,
+          "leftY": 430,
+          "rightPage": 3,
+          "rightY": 430
+        },
+        {
+          "leftPage": 3,
+          "leftY": 600,
+          "rightPage": 3,
+          "rightY": 600
+        },
+        {
+          "leftPage": 3,
+          "leftY": 804.89,
+          "rightPage": 3,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 4,
+          "leftY": 40,
+          "rightPage": 4,
+          "rightY": 40
+        },
+        {
+          "leftPage": 4,
+          "leftY": 81,
+          "rightPage": 4,
+          "rightY": 81
+        },
+        {
+          "leftPage": 4,
+          "leftY": 145,
+          "rightPage": 4,
+          "rightY": 145
+        },
+        {
+          "leftPage": 4,
+          "leftY": 190,
+          "rightPage": 4,
+          "rightY": 190
+        },
+        {
+          "leftPage": 4,
+          "leftY": 230,
+          "rightPage": 4,
+          "rightY": 230
+        },
+        {
+          "leftPage": 4,
+          "leftY": 270,
+          "rightPage": 4,
+          "rightY": 270
+        },
+        {
+          "leftPage": 4,
+          "leftY": 320,
+          "rightPage": 4,
+          "rightY": 320
+        },
+        {
+          "leftPage": 4,
+          "leftY": 380,
+          "rightPage": 4,
+          "rightY": 380
+        },
+        {
+          "leftPage": 4,
+          "leftY": 430,
+          "rightPage": 4,
+          "rightY": 430
+        },
+        {
+          "leftPage": 4,
+          "leftY": 600,
+          "rightPage": 4,
+          "rightY": 600
+        },
+        {
+          "leftPage": 4,
+          "leftY": 804.89,
+          "rightPage": 4,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 5,
+          "leftY": 40,
+          "rightPage": 5,
+          "rightY": 40
+        },
+        {
+          "leftPage": 5,
+          "leftY": 81,
+          "rightPage": 5,
+          "rightY": 81
+        },
+        {
+          "leftPage": 5,
+          "leftY": 145,
+          "rightPage": 5,
+          "rightY": 145
+        },
+        {
+          "leftPage": 5,
+          "leftY": 190,
+          "rightPage": 5,
+          "rightY": 190
+        },
+        {
+          "leftPage": 5,
+          "leftY": 230,
+          "rightPage": 5,
+          "rightY": 230
+        },
+        {
+          "leftPage": 5,
+          "leftY": 270,
+          "rightPage": 5,
+          "rightY": 270
+        },
+        {
+          "leftPage": 5,
+          "leftY": 320,
+          "rightPage": 5,
+          "rightY": 320
+        },
+        {
+          "leftPage": 5,
+          "leftY": 380,
+          "rightPage": 5,
+          "rightY": 380
+        },
+        {
+          "leftPage": 5,
+          "leftY": 430,
+          "rightPage": 5,
+          "rightY": 430
+        },
+        {
+          "leftPage": 5,
+          "leftY": 600,
+          "rightPage": 5,
+          "rightY": 600
+        },
+        {
+          "leftPage": 5,
+          "leftY": 804.89,
+          "rightPage": 5,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 6,
+          "leftY": 40,
+          "rightPage": 6,
+          "rightY": 40
+        },
+        {
+          "leftPage": 6,
+          "leftY": 81,
+          "rightPage": 6,
+          "rightY": 81
+        },
+        {
+          "leftPage": 6,
+          "leftY": 145,
+          "rightPage": 6,
+          "rightY": 145
+        },
+        {
+          "leftPage": 6,
+          "leftY": 190,
+          "rightPage": 6,
+          "rightY": 190
+        },
+        {
+          "leftPage": 6,
+          "leftY": 230,
+          "rightPage": 6,
+          "rightY": 230
+        },
+        {
+          "leftPage": 6,
+          "leftY": 270,
+          "rightPage": 6,
+          "rightY": 270
+        },
+        {
+          "leftPage": 6,
+          "leftY": 320,
+          "rightPage": 6,
+          "rightY": 320
+        },
+        {
+          "leftPage": 6,
+          "leftY": 380,
+          "rightPage": 6,
+          "rightY": 380
+        },
+        {
+          "leftPage": 6,
+          "leftY": 430,
+          "rightPage": 6,
+          "rightY": 430
+        },
+        {
+          "leftPage": 6,
+          "leftY": 600,
+          "rightPage": 6,
+          "rightY": 600
+        },
+        {
+          "leftPage": 6,
+          "leftY": 804.89,
+          "rightPage": 6,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 7,
+          "leftY": 40,
+          "rightPage": 7,
+          "rightY": 40
+        },
+        {
+          "leftPage": 7,
+          "leftY": 81,
+          "rightPage": 7,
+          "rightY": 81
+        },
+        {
+          "leftPage": 7,
+          "leftY": 145,
+          "rightPage": 7,
+          "rightY": 145
+        },
+        {
+          "leftPage": 7,
+          "leftY": 190,
+          "rightPage": 7,
+          "rightY": 190
+        },
+        {
+          "leftPage": 7,
+          "leftY": 230,
+          "rightPage": 7,
+          "rightY": 230
+        },
+        {
+          "leftPage": 7,
+          "leftY": 270,
+          "rightPage": 7,
+          "rightY": 270
+        },
+        {
+          "leftPage": 7,
+          "leftY": 320,
+          "rightPage": 7,
+          "rightY": 320
+        },
+        {
+          "leftPage": 7,
+          "leftY": 380,
+          "rightPage": 7,
+          "rightY": 380
+        },
+        {
+          "leftPage": 7,
+          "leftY": 430,
+          "rightPage": 7,
+          "rightY": 430
+        },
+        {
+          "leftPage": 7,
+          "leftY": 600,
+          "rightPage": 7,
+          "rightY": 600
+        },
+        {
+          "leftPage": 7,
+          "leftY": 804.89,
+          "rightPage": 7,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 8,
+          "leftY": 40,
+          "rightPage": 8,
+          "rightY": 40
+        },
+        {
+          "leftPage": 8,
+          "leftY": 81,
+          "rightPage": 8,
+          "rightY": 81
+        },
+        {
+          "leftPage": 8,
+          "leftY": 145,
+          "rightPage": 8,
+          "rightY": 145
+        },
+        {
+          "leftPage": 8,
+          "leftY": 190,
+          "rightPage": 8,
+          "rightY": 190
+        },
+        {
+          "leftPage": 8,
+          "leftY": 230,
+          "rightPage": 8,
+          "rightY": 230
+        },
+        {
+          "leftPage": 8,
+          "leftY": 270,
+          "rightPage": 8,
+          "rightY": 270
+        },
+        {
+          "leftPage": 8,
+          "leftY": 320,
+          "rightPage": 8,
+          "rightY": 320
+        },
+        {
+          "leftPage": 8,
+          "leftY": 380,
+          "rightPage": 8,
+          "rightY": 380
+        },
+        {
+          "leftPage": 8,
+          "leftY": 430,
+          "rightPage": 8,
+          "rightY": 430
+        },
+        {
+          "leftPage": 8,
+          "leftY": 600,
+          "rightPage": 8,
+          "rightY": 600
+        },
+        {
+          "leftPage": 8,
+          "leftY": 804.89,
+          "rightPage": 8,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 9,
+          "leftY": 40,
+          "rightPage": 9,
+          "rightY": 40
+        },
+        {
+          "leftPage": 9,
+          "leftY": 81,
+          "rightPage": 9,
+          "rightY": 81
+        },
+        {
+          "leftPage": 9,
+          "leftY": 145,
+          "rightPage": 9,
+          "rightY": 145
+        },
+        {
+          "leftPage": 9,
+          "leftY": 190,
+          "rightPage": 9,
+          "rightY": 190
+        },
+        {
+          "leftPage": 9,
+          "leftY": 230,
+          "rightPage": 9,
+          "rightY": 230
+        },
+        {
+          "leftPage": 9,
+          "leftY": 270,
+          "rightPage": 9,
+          "rightY": 270
+        },
+        {
+          "leftPage": 9,
+          "leftY": 320,
+          "rightPage": 9,
+          "rightY": 320
+        },
+        {
+          "leftPage": 9,
+          "leftY": 380,
+          "rightPage": 9,
+          "rightY": 380
+        },
+        {
+          "leftPage": 9,
+          "leftY": 430,
+          "rightPage": 9,
+          "rightY": 430
+        },
+        {
+          "leftPage": 9,
+          "leftY": 600,
+          "rightPage": 9,
+          "rightY": 600
+        },
+        {
+          "leftPage": 9,
+          "leftY": 804.89,
+          "rightPage": 9,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 10,
+          "leftY": 40,
+          "rightPage": 10,
+          "rightY": 40
+        },
+        {
+          "leftPage": 10,
+          "leftY": 81,
+          "rightPage": 10,
+          "rightY": 81
+        },
+        {
+          "leftPage": 10,
+          "leftY": 145,
+          "rightPage": 10,
+          "rightY": 145
+        },
+        {
+          "leftPage": 10,
+          "leftY": 190,
+          "rightPage": 10,
+          "rightY": 190
+        },
+        {
+          "leftPage": 10,
+          "leftY": 230,
+          "rightPage": 10,
+          "rightY": 230
+        },
+        {
+          "leftPage": 10,
+          "leftY": 270,
+          "rightPage": 10,
+          "rightY": 270
+        },
+        {
+          "leftPage": 10,
+          "leftY": 320,
+          "rightPage": 10,
+          "rightY": 320
+        },
+        {
+          "leftPage": 10,
+          "leftY": 380,
+          "rightPage": 10,
+          "rightY": 380
+        },
+        {
+          "leftPage": 10,
+          "leftY": 430,
+          "rightPage": 10,
+          "rightY": 430
+        },
+        {
+          "leftPage": 10,
+          "leftY": 600,
+          "rightPage": 10,
+          "rightY": 600
+        },
+        {
+          "leftPage": 10,
+          "leftY": 804.89,
+          "rightPage": 10,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 11,
+          "leftY": 40,
+          "rightPage": 11,
+          "rightY": 40
+        },
+        {
+          "leftPage": 11,
+          "leftY": 81,
+          "rightPage": 11,
+          "rightY": 81
+        },
+        {
+          "leftPage": 11,
+          "leftY": 145,
+          "rightPage": 11,
+          "rightY": 145
+        },
+        {
+          "leftPage": 11,
+          "leftY": 190,
+          "rightPage": 11,
+          "rightY": 190
+        },
+        {
+          "leftPage": 11,
+          "leftY": 230,
+          "rightPage": 11,
+          "rightY": 230
+        },
+        {
+          "leftPage": 11,
+          "leftY": 270,
+          "rightPage": 11,
+          "rightY": 270
+        },
+        {
+          "leftPage": 11,
+          "leftY": 320,
+          "rightPage": 11,
+          "rightY": 320
+        },
+        {
+          "leftPage": 11,
+          "leftY": 380,
+          "rightPage": 11,
+          "rightY": 380
+        },
+        {
+          "leftPage": 11,
+          "leftY": 430,
+          "rightPage": 11,
+          "rightY": 430
+        },
+        {
+          "leftPage": 11,
+          "leftY": 600,
+          "rightPage": 11,
+          "rightY": 600
+        },
+        {
+          "leftPage": 11,
+          "leftY": 804.89,
+          "rightPage": 11,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 12,
+          "leftY": 40,
+          "rightPage": 12,
+          "rightY": 40
+        },
+        {
+          "leftPage": 12,
+          "leftY": 81,
+          "rightPage": 12,
+          "rightY": 81
+        },
+        {
+          "leftPage": 12,
+          "leftY": 145,
+          "rightPage": 12,
+          "rightY": 145
+        },
+        {
+          "leftPage": 12,
+          "leftY": 190,
+          "rightPage": 12,
+          "rightY": 190
+        },
+        {
+          "leftPage": 12,
+          "leftY": 230,
+          "rightPage": 12,
+          "rightY": 230
+        },
+        {
+          "leftPage": 12,
+          "leftY": 270,
+          "rightPage": 12,
+          "rightY": 270
+        },
+        {
+          "leftPage": 12,
+          "leftY": 320,
+          "rightPage": 12,
+          "rightY": 320
+        },
+        {
+          "leftPage": 12,
+          "leftY": 380,
+          "rightPage": 12,
+          "rightY": 380
+        },
+        {
+          "leftPage": 12,
+          "leftY": 430,
+          "rightPage": 12,
+          "rightY": 430
+        },
+        {
+          "leftPage": 12,
+          "leftY": 600,
+          "rightPage": 12,
+          "rightY": 600
+        },
+        {
+          "leftPage": 12,
+          "leftY": 804.89,
+          "rightPage": 12,
+          "rightY": 804.89
+        }
+      ],
+      "documentHashes": [
+        "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863",
+        "aaeada2f12ec2525a2aa8e39d34bc9d68e7cf0f3c0e61f6f987489752c4da863"
+      ],
+      "extractionSnapshotHashes": [
+        "877c927370a093e3276e7030a0db5c2bf552f8d90dbd3199bd4bf0eedd00e104",
+        "877c927370a093e3276e7030a0db5c2bf552f8d90dbd3199bd4bf0eedd00e104"
+      ]
+    }
+  ]
+}

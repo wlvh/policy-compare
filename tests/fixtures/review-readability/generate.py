@@ -28,7 +28,8 @@ WIDTH, HEIGHT = A4
 INK = HexColor("#172c44")
 MUTED = HexColor("#586574")
 CASES = {"a-whitespace": 13, "b-duplicate-context": 2,
-         "c-address-reflow": 2, "d-review-mixed": 6}
+         "c-address-reflow": 2, "d-review-mixed": 6,
+         "e-header-digit": 1}
 FONT_DIRECTORY = Path(reportlab.__file__).resolve().parent / "fonts"
 pdfmetrics.registerFont(TTFont("FixtureSans", str(FONT_DIRECTORY / "Vera.ttf")))
 pdfmetrics.registerFont(TTFont("FixtureSansBold", str(FONT_DIRECTORY / "VeraBd.ttf")))
@@ -224,8 +225,23 @@ def mixed_review(path, revised):
     c.save()
 
 
+def header_digit(path, revised):
+    c = new_pdf(path, "Equipment service schedule")
+    page_frame(c, "Equipment service schedule", 1, 1)
+    # Same independent header positions as case D. Only one identifier digit
+    # changes; the distant number and all surrounding text remain identical.
+    line(c, "DOC-0043" if revised else "DOC-0042", x=88, top=123, size=9)
+    line(c, "812", x=505, top=123, size=9)
+    line(c, "Schedule section 1.", top=175, size=13, bold=True)
+    line(c, "Equipment service records.", top=235)
+    line(c, "The register remains available during office hours.", top=280)
+    c.showPage()
+    c.save()
+
+
 BUILDERS = {"a-whitespace": whitespace, "b-duplicate-context": duplicate_context,
-            "c-address-reflow": address_reflow, "d-review-mixed": mixed_review}
+            "c-address-reflow": address_reflow, "d-review-mixed": mixed_review,
+            "e-header-digit": header_digit}
 
 
 def main():
@@ -233,7 +249,7 @@ def main():
     parser.add_argument("--out", type=Path, default=Path(__file__).resolve().parent)
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
-    manifest = {"schemaVersion": "review-readability-manifest/1", "fixtureVersion": 1,
+    manifest = {"schemaVersion": "review-readability-manifest/1", "fixtureVersion": 2,
                 "generator": "generate.py", "reportlabVersion": reportlab.Version,
                 "documentsAreFictional": True,
                 "productReproductionStatus": "See the separate verification report; generation alone does not establish reproduction.",

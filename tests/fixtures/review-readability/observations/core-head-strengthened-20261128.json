@@ -1,0 +1,1536 @@
+{
+  "schema": "review-readability-core-observations/2",
+  "mode": "assert-minimum-core-conditions",
+  "outcome": "minimum-conditions-fail",
+  "wasmSha256": "4f7df73f9a22c8b7ad6b5d6a3e5a705b4e70b8dc16f10bd7b11f11b273f97b75",
+  "coreVersions": [
+    "policy-compare-rust/0.2.1+english-generic.1"
+  ],
+  "budget": {
+    "candidates": 20000,
+    "tokenProducts": 100000000,
+    "diffProducts": 4000000
+  },
+  "fixtureExpectationsSchema": "review-readability-expectations/2",
+  "fixtureExpectationsSha256": "093b7cc3f622ce0371f97bd5a8b05a46da60a59176bbb6952fc5cdbbb07d4bb5",
+  "summary": {
+    "cases": 7,
+    "casesWithUnmetMinimumConditions": [
+      "blank_cross_page",
+      "blank_cross_page_moved",
+      "blank_absorbs_heading"
+    ],
+    "coreCasesNotEvaluated": [],
+    "uiCasesNotEvaluated": [
+      "blank_cross_page",
+      "blank_cross_page_moved",
+      "heading_trailing_space",
+      "blank_absorbs_heading",
+      "repeated_company_changed_context"
+    ]
+  },
+  "limitations": [
+    "These inputs bypass PDF extraction and the browser UI.",
+    "Passing the minimum core checks does not establish that the requested UI behavior is fixed.",
+    "Do not remove all whitespace: a token-boundary change is an intentional negative control.",
+    "No exact total difference count is required; standalone all-whitespace correspondence records are forbidden even when hidden.",
+    "The fixture company is fictional and is not copied from a customer policy."
+  ],
+  "cases": [
+    {
+      "id": "blank_cross_page",
+      "category": "known-core-defect",
+      "status": "FAIL",
+      "expectationStatus": "expected-not-fixed",
+      "expected": [
+        "Whitespace-only lines must not create exported correspondence/difference records, regardless of defaultVisible.",
+        "Whitespace-only lines must not establish cross-page alignment.",
+        "Original input characters can remain available for source inspection."
+      ],
+      "inputHashes": [
+        "3c843980bc7fd1779adf35788ad8c460a9b74a3936397af1d70ff20a90eabe6a",
+        "48082e6c97eacb24191f12efeb113c1d6d47ea8078d0879949a311374b2f663b"
+      ],
+      "input": {
+        "left": [
+          {
+            "text": " ",
+            "page": 1,
+            "y": 50
+          },
+          {
+            "text": " ",
+            "page": 2,
+            "y": 50
+          }
+        ],
+        "right": [
+          {
+            "text": " ",
+            "page": 13,
+            "y": 50
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "no_blank_difference_export",
+          "status": "FAIL"
+        },
+        {
+          "id": "no_whitespace_alignment",
+          "status": "FAIL"
+        }
+      ],
+      "uiVerificationRequired": true,
+      "actual": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "status": "complete_for_scope",
+        "stats": {
+          "candidates": 1,
+          "differenceCount": 1,
+          "leftScalars": 2,
+          "occurrenceCount": 1,
+          "rightScalars": 1,
+          "tokenProducts": 0
+        },
+        "actualdiffs": [
+          {
+            "kind": "Replaced",
+            "oldText": "  ",
+            "newText": " ",
+            "oldWhitespaceCodePoints": [
+              "U+0020",
+              "U+0020"
+            ],
+            "newWhitespaceCodePoints": [
+              "U+0020"
+            ],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [
+              "whitespace_only"
+            ],
+            "matchMethod": "exact-text-reflow",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  1
+                ],
+                "text": " "
+              },
+              {
+                "side": "left",
+                "page": 2,
+                "rawRange": [
+                  0,
+                  1
+                ],
+                "text": " "
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 13,
+                "rawRange": [
+                  0,
+                  1
+                ],
+                "text": " "
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "equal",
+                "text": " ",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      1
+                    ],
+                    "text": " "
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 13,
+                    "rawRange": [
+                      0,
+                      1
+                    ],
+                    "text": " "
+                  }
+                ]
+              },
+              {
+                "kind": "delete",
+                "text": " ",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 2,
+                    "rawRange": [
+                      0,
+                      1
+                    ],
+                    "text": " "
+                  }
+                ],
+                "right": []
+              }
+            ]
+          }
+        ],
+        "alignment": [
+          {
+            "leftPage": 1,
+            "leftY": 50,
+            "rightPage": 13,
+            "rightY": 50
+          }
+        ],
+        "unresolved": [],
+        "coverage": []
+      }
+    },
+    {
+      "id": "blank_cross_page_moved",
+      "category": "known-core-defect",
+      "status": "FAIL",
+      "expectationStatus": "expected-not-fixed",
+      "expected": [
+        "Adding or removing unrelated empty space must not create an exported moved-text record, even if hidden.",
+        "The readable clause retains its text; the empty lines do not gain meaning from a competing anchor.",
+        "Empty space does not establish alignment, even when its order conflicts with real anchors."
+      ],
+      "inputHashes": [
+        "7eb1b50d92b7197ba0bf3ae735119cd9f53ac1214c3e83f11b10603d06eb5dc4",
+        "6bcd6ab900e99cf6bcb3b6d6c340ca7db29a4b9fb20c58d2f2c38342b0cc1a1f"
+      ],
+      "input": {
+        "left": [
+          {
+            "text": " ",
+            "page": 1,
+            "y": 50
+          },
+          {
+            "text": " ",
+            "page": 2,
+            "y": 50
+          },
+          {
+            "text": "Stable readable clause remains in the same document.",
+            "page": 2,
+            "y": 100
+          }
+        ],
+        "right": [
+          {
+            "text": "Stable readable clause remains in the same document.",
+            "page": 1,
+            "y": 100
+          },
+          {
+            "text": " ",
+            "page": 13,
+            "y": 50
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "no_blank_difference_export",
+          "status": "FAIL"
+        },
+        {
+          "id": "no_whitespace_alignment",
+          "status": "PASS"
+        },
+        {
+          "id": "no_meaningful_text_difference",
+          "status": "PASS"
+        }
+      ],
+      "uiVerificationRequired": true,
+      "actual": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "status": "complete_for_scope",
+        "stats": {
+          "candidates": 1,
+          "differenceCount": 1,
+          "leftScalars": 54,
+          "occurrenceCount": 1,
+          "rightScalars": 53,
+          "tokenProducts": 0
+        },
+        "actualdiffs": [
+          {
+            "kind": "Moved",
+            "oldText": "  ",
+            "newText": " ",
+            "oldWhitespaceCodePoints": [
+              "U+0020",
+              "U+0020"
+            ],
+            "newWhitespaceCodePoints": [
+              "U+0020"
+            ],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [
+              "whitespace_only"
+            ],
+            "matchMethod": "exact-text-reflow",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  1
+                ],
+                "text": " "
+              },
+              {
+                "side": "left",
+                "page": 2,
+                "rawRange": [
+                  0,
+                  1
+                ],
+                "text": " "
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 13,
+                "rawRange": [
+                  0,
+                  1
+                ],
+                "text": " "
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "equal",
+                "text": " ",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      1
+                    ],
+                    "text": " "
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 13,
+                    "rawRange": [
+                      0,
+                      1
+                    ],
+                    "text": " "
+                  }
+                ]
+              },
+              {
+                "kind": "delete",
+                "text": " ",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 2,
+                    "rawRange": [
+                      0,
+                      1
+                    ],
+                    "text": " "
+                  }
+                ],
+                "right": []
+              }
+            ]
+          }
+        ],
+        "alignment": [
+          {
+            "leftPage": 2,
+            "leftY": 100,
+            "rightPage": 1,
+            "rightY": 100
+          }
+        ],
+        "unresolved": [],
+        "coverage": []
+      }
+    },
+    {
+      "id": "heading_trailing_space",
+      "category": "layout-presentation-check",
+      "status": "PASS",
+      "expectationStatus": "minimum-core-conditions-pass-ui-not-verified",
+      "expected": [
+        "The visible heading has not changed.",
+        "Retaining a source-backed whitespace record is allowed; the UI must classify it as layout/spacing, rather than a substantive text change.",
+        "This core-only runner cannot verify default UI grouping or wording."
+      ],
+      "inputHashes": [
+        "30cdc69d04994fc3eeff2ca8619ddcb68958bdbdaa9bdd0017fefeff04f419b1",
+        "176db6c49d8b2cd986f4cff4a364db45e278824bdad60167b49364303b9a6e2a"
+      ],
+      "input": {
+        "left": [
+          {
+            "text": "Schedule of terms.",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "Schedule of terms. ",
+            "page": 1,
+            "y": 80
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "no_meaningful_text_difference",
+          "status": "PASS"
+        }
+      ],
+      "uiVerificationRequired": true,
+      "actual": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "status": "complete_for_scope",
+        "stats": {
+          "candidates": 0,
+          "differenceCount": 1,
+          "leftScalars": 18,
+          "occurrenceCount": 1,
+          "rightScalars": 19,
+          "tokenProducts": 0
+        },
+        "actualdiffs": [
+          {
+            "kind": "Replaced",
+            "oldText": "Schedule of terms.",
+            "newText": "Schedule of terms. ",
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [
+              "whitespace_only"
+            ],
+            "matchMethod": "neighboring-source-anchors",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  18
+                ],
+                "text": "Schedule of terms."
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  19
+                ],
+                "text": "Schedule of terms. "
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "equal",
+                "text": "Schedule of terms.",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      18
+                    ],
+                    "text": "Schedule of terms."
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      18
+                    ],
+                    "text": "Schedule of terms."
+                  }
+                ]
+              },
+              {
+                "kind": "insert",
+                "text": " ",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      18,
+                      19
+                    ],
+                    "text": " "
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alignment": [
+          {
+            "leftPage": 1,
+            "leftY": 80,
+            "rightPage": 1,
+            "rightY": 80
+          }
+        ],
+        "unresolved": [],
+        "coverage": []
+      }
+    },
+    {
+      "id": "blank_absorbs_heading",
+      "category": "known-core-defect",
+      "status": "FAIL",
+      "expectationStatus": "expected-not-fixed",
+      "expected": [
+        "The unchanged heading must not gain the unrelated page-13 blank as its corresponding source.",
+        "An empty line on a distant page is not evidence of text reflow.",
+        "Hiding a card alone is insufficient if that incorrect source linkage remains in exported evidence."
+      ],
+      "inputHashes": [
+        "30cdc69d04994fc3eeff2ca8619ddcb68958bdbdaa9bdd0017fefeff04f419b1",
+        "7296d3dc14b9f733c42600db856367fa982a9ace88ed89e8d3f1ef5391719b6f"
+      ],
+      "input": {
+        "left": [
+          {
+            "text": "Schedule of terms.",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "Schedule of terms.",
+            "page": 1,
+            "y": 80
+          },
+          {
+            "text": " ",
+            "page": 13,
+            "y": 50
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "no_blank_difference_export",
+          "status": "PASS"
+        },
+        {
+          "id": "no_whitespace_alignment",
+          "status": "PASS"
+        },
+        {
+          "id": "no_meaningful_text_difference",
+          "status": "PASS"
+        },
+        {
+          "id": "no_blank_heading_link",
+          "status": "FAIL"
+        }
+      ],
+      "uiVerificationRequired": true,
+      "actual": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "status": "complete_for_scope",
+        "stats": {
+          "candidates": 1,
+          "differenceCount": 1,
+          "leftScalars": 18,
+          "occurrenceCount": 1,
+          "rightScalars": 19,
+          "tokenProducts": 0
+        },
+        "actualdiffs": [
+          {
+            "kind": "Replaced",
+            "oldText": "Schedule of terms.",
+            "newText": "Schedule of terms. ",
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [
+              "whitespace_only"
+            ],
+            "matchMethod": "exact-text-reflow",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  18
+                ],
+                "text": "Schedule of terms."
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  18
+                ],
+                "text": "Schedule of terms."
+              },
+              {
+                "side": "right",
+                "page": 13,
+                "rawRange": [
+                  0,
+                  1
+                ],
+                "text": " "
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "equal",
+                "text": "Schedule of terms.",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      18
+                    ],
+                    "text": "Schedule of terms."
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      18
+                    ],
+                    "text": "Schedule of terms."
+                  }
+                ]
+              },
+              {
+                "kind": "insert",
+                "text": " ",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 13,
+                    "rawRange": [
+                      0,
+                      1
+                    ],
+                    "text": " "
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alignment": [
+          {
+            "leftPage": 1,
+            "leftY": 80,
+            "rightPage": 1,
+            "rightY": 80
+          }
+        ],
+        "unresolved": [],
+        "coverage": []
+      }
+    },
+    {
+      "id": "repeated_company_changed_context",
+      "category": "uncertainty-presentation-check",
+      "status": "PASS",
+      "expectationStatus": "minimum-core-conditions-pass-ui-not-verified",
+      "expected": [
+        "Both documents contain the company name twice; all 2+2 source occurrences must remain independently verifiable in the output.",
+        "If individual occurrences cannot be paired uniquely, preserve that uncertainty and the sources on both sides.",
+        "Technical Added/Removed records are an allowed conservative representation when uncertainty is retained. Their kind alone does not establish an algorithmic mispairing or a repair failure.",
+        "The UI must avoid translating that uncertainty into a definite assertion that the company disappeared or was newly added.",
+        "Do not force pairing by order merely to eliminate an uncertainty notice.",
+        "Missing source evidence is FAIL. Retained sources with an unverified pairing are NOT_EVALUATED, never PASS. Independent authored source anchors can verify local pairs without requiring an unresolved record."
+      ],
+      "inputHashes": [
+        "897019bf85ef0b0b54f344074750036edadc529b6f2580b0e1f045dd37aba83c",
+        "2c163cb4dcaba2578956b7839fa6d92ed16f3d1f6459daeb96d25d302e5b4865"
+      ],
+      "input": {
+        "left": [
+          {
+            "text": "North block."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          },
+          {
+            "text": "East block."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          }
+        ],
+        "right": [
+          {
+            "text": "South part."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          },
+          {
+            "text": "West part."
+          },
+          {
+            "text": "Harbor Example Insurance Ltd"
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "company_sources_and_correspondence",
+          "status": "PASS",
+          "detail": "All source occurrences are retained in conservative uncertainty or independently verified local pairs.",
+          "evidence": {
+            "requiredOccurrences": [
+              2,
+              2
+            ],
+            "retainedOccurrences": [
+              2,
+              2
+            ]
+          }
+        }
+      ],
+      "uiVerificationRequired": true,
+      "actual": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "status": "partial",
+        "stats": {
+          "candidates": 4,
+          "differenceCount": 8,
+          "leftScalars": 79,
+          "occurrenceCount": 8,
+          "rightScalars": 77,
+          "tokenProducts": 64
+        },
+        "actualdiffs": [
+          {
+            "kind": "Removed",
+            "oldText": "North block.",
+            "newText": "",
+            "newWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  12
+                ],
+                "text": "North block."
+              }
+            ],
+            "right": [],
+            "textOps": [
+              {
+                "kind": "delete",
+                "text": "North block.",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      12
+                    ],
+                    "text": "North block."
+                  }
+                ],
+                "right": []
+              }
+            ]
+          },
+          {
+            "kind": "Removed",
+            "oldText": "Harbor Example Insurance Ltd",
+            "newText": "",
+            "newWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  12,
+                  40
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ],
+            "right": [],
+            "textOps": [
+              {
+                "kind": "delete",
+                "text": "Harbor Example Insurance Ltd",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      12,
+                      40
+                    ],
+                    "text": "Harbor Example Insurance Ltd"
+                  }
+                ],
+                "right": []
+              }
+            ]
+          },
+          {
+            "kind": "Removed",
+            "oldText": "East block.",
+            "newText": "",
+            "newWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  40,
+                  51
+                ],
+                "text": "East block."
+              }
+            ],
+            "right": [],
+            "textOps": [
+              {
+                "kind": "delete",
+                "text": "East block.",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      40,
+                      51
+                    ],
+                    "text": "East block."
+                  }
+                ],
+                "right": []
+              }
+            ]
+          },
+          {
+            "kind": "Removed",
+            "oldText": "Harbor Example Insurance Ltd",
+            "newText": "",
+            "newWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  51,
+                  79
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ],
+            "right": [],
+            "textOps": [
+              {
+                "kind": "delete",
+                "text": "Harbor Example Insurance Ltd",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      51,
+                      79
+                    ],
+                    "text": "Harbor Example Insurance Ltd"
+                  }
+                ],
+                "right": []
+              }
+            ]
+          },
+          {
+            "kind": "Added",
+            "oldText": "",
+            "newText": "South part.",
+            "oldWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  11
+                ],
+                "text": "South part."
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "insert",
+                "text": "South part.",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      11
+                    ],
+                    "text": "South part."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "Added",
+            "oldText": "",
+            "newText": "Harbor Example Insurance Ltd",
+            "oldWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  11,
+                  39
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "insert",
+                "text": "Harbor Example Insurance Ltd",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      11,
+                      39
+                    ],
+                    "text": "Harbor Example Insurance Ltd"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "Added",
+            "oldText": "",
+            "newText": "West part.",
+            "oldWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  39,
+                  49
+                ],
+                "text": "West part."
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "insert",
+                "text": "West part.",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      39,
+                      49
+                    ],
+                    "text": "West part."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "Added",
+            "oldText": "",
+            "newText": "Harbor Example Insurance Ltd",
+            "oldWhitespaceCodePoints": [],
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "unmatched",
+            "score": null,
+            "left": [],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  49,
+                  77
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "insert",
+                "text": "Harbor Example Insurance Ltd",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      49,
+                      77
+                    ],
+                    "text": "Harbor Example Insurance Ltd"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alignment": [],
+        "unresolved": [
+          {
+            "reason": "ambiguous_match",
+            "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+            "defaultVisible": true,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  12,
+                  40
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  11,
+                  39
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              },
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  49,
+                  77
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ]
+          },
+          {
+            "reason": "ambiguous_match",
+            "message": "Repeated source or competing local correspondences; no unique pairing is asserted. The actual old and new occurrences are shown separately",
+            "defaultVisible": true,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  51,
+                  79
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  11,
+                  39
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              },
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  49,
+                  77
+                ],
+                "text": "Harbor Example Insurance Ltd"
+              }
+            ]
+          }
+        ],
+        "coverage": []
+      }
+    },
+    {
+      "id": "real_year_change",
+      "category": "negative-control",
+      "status": "PASS",
+      "expectationStatus": "control-preserved",
+      "expected": [
+        "The real year change remains visible after any whitespace/noise fix.",
+        "Exported delete/insert operations retain references to the actual changed last digits."
+      ],
+      "inputHashes": [
+        "9cbb60b392244093ae78e840f33ce5c3d07c3603e02191a1866e283cc25b563d",
+        "1e42dc66603e648cd3d33655a502d858ea36b0e8fa231ac8ee5369aa004f91bd"
+      ],
+      "input": {
+        "left": [
+          {
+            "text": "Policy year: 2026",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "Policy year: 2027",
+            "page": 1,
+            "y": 80
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "source_backed_year_change",
+          "status": "PASS"
+        }
+      ],
+      "uiVerificationRequired": false,
+      "actual": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "status": "complete_for_scope",
+        "stats": {
+          "candidates": 0,
+          "differenceCount": 1,
+          "leftScalars": 17,
+          "occurrenceCount": 1,
+          "rightScalars": 17,
+          "tokenProducts": 0
+        },
+        "actualdiffs": [
+          {
+            "kind": "Replaced",
+            "oldText": "Policy year: 2026",
+            "newText": "Policy year: 2027",
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "literal-label-and-local-context",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  17
+                ],
+                "text": "Policy year: 2026"
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  17
+                ],
+                "text": "Policy year: 2027"
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "equal",
+                "text": "Policy year: 202",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      16
+                    ],
+                    "text": "Policy year: 202"
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      16
+                    ],
+                    "text": "Policy year: 202"
+                  }
+                ]
+              },
+              {
+                "kind": "delete",
+                "text": "6",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      16,
+                      17
+                    ],
+                    "text": "6"
+                  }
+                ],
+                "right": []
+              },
+              {
+                "kind": "insert",
+                "text": "7",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      16,
+                      17
+                    ],
+                    "text": "7"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alignment": [
+          {
+            "leftPage": 1,
+            "leftY": 80,
+            "rightPage": 1,
+            "rightY": 80
+          }
+        ],
+        "unresolved": [],
+        "coverage": []
+      }
+    },
+    {
+      "id": "token_boundary_change",
+      "category": "negative-control",
+      "status": "PASS",
+      "expectationStatus": "control-preserved",
+      "expected": [
+        "Removing the separator changes token boundaries and must remain a meaningful text difference.",
+        "It must not disappear under a rule that removes all whitespace before comparison.",
+        "It must not be labeled whitespace_only."
+      ],
+      "inputHashes": [
+        "4d272203510206a7a1a3412f1fbfe199c80bd62546d4c71c505346abcce669f9",
+        "27474ffb8a2e0b9b7c60a9b8f40dc4e1dfafd55e9ebf2dbf22a89fd073a3e53f"
+      ],
+      "input": {
+        "left": [
+          {
+            "text": "The limit is 12 34.",
+            "page": 1,
+            "y": 80
+          }
+        ],
+        "right": [
+          {
+            "text": "The limit is 1234.",
+            "page": 1,
+            "y": 80
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "token_boundary_change_retained",
+          "status": "PASS"
+        }
+      ],
+      "uiVerificationRequired": false,
+      "actual": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "status": "complete_for_scope",
+        "stats": {
+          "candidates": 0,
+          "differenceCount": 1,
+          "leftScalars": 19,
+          "occurrenceCount": 1,
+          "rightScalars": 18,
+          "tokenProducts": 0
+        },
+        "actualdiffs": [
+          {
+            "kind": "Replaced",
+            "oldText": "The limit is 12 34.",
+            "newText": "The limit is 1234.",
+            "hasTextChange": true,
+            "defaultVisible": true,
+            "facts": [],
+            "matchMethod": "neighboring-source-anchors",
+            "score": null,
+            "left": [
+              {
+                "side": "left",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  19
+                ],
+                "text": "The limit is 12 34."
+              }
+            ],
+            "right": [
+              {
+                "side": "right",
+                "page": 1,
+                "rawRange": [
+                  0,
+                  18
+                ],
+                "text": "The limit is 1234."
+              }
+            ],
+            "textOps": [
+              {
+                "kind": "equal",
+                "text": "The limit is ",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      13
+                    ],
+                    "text": "The limit is "
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      0,
+                      13
+                    ],
+                    "text": "The limit is "
+                  }
+                ]
+              },
+              {
+                "kind": "delete",
+                "text": "12 34",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      13,
+                      18
+                    ],
+                    "text": "12 34"
+                  }
+                ],
+                "right": []
+              },
+              {
+                "kind": "insert",
+                "text": "1234",
+                "left": [],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      13,
+                      17
+                    ],
+                    "text": "1234"
+                  }
+                ]
+              },
+              {
+                "kind": "equal",
+                "text": ".",
+                "left": [
+                  {
+                    "side": "left",
+                    "page": 1,
+                    "rawRange": [
+                      18,
+                      19
+                    ],
+                    "text": "."
+                  }
+                ],
+                "right": [
+                  {
+                    "side": "right",
+                    "page": 1,
+                    "rawRange": [
+                      17,
+                      18
+                    ],
+                    "text": "."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "alignment": [
+          {
+            "leftPage": 1,
+            "leftY": 80,
+            "rightPage": 1,
+            "rightY": 80
+          }
+        ],
+        "unresolved": [],
+        "coverage": []
+      }
+    }
+  ]
+}

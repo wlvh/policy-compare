@@ -1,0 +1,332 @@
+{
+  "schemaVersion": "review-readability-pdf-observation/1",
+  "invocation": "Node + repository MuPDF adapter + Rust/WASM ABI; not a browser workflow or performance benchmark",
+  "wasmSHA256": "4f7df73f9a22c8b7ad6b5d6a3e5a705b4e70b8dc16f10bd7b11f11b273f97b75",
+  "nodeVersion": "v24.22.3",
+  "budget": {
+    "candidates": 20000,
+    "tokenProducts": 100000000,
+    "diffProducts": 4000000
+  },
+  "pageNumbering": "Source summaries use 1-based PDF pages; alignment retains product 0-based indexes.",
+  "truthUsedByProduct": false,
+  "reports": [
+    {
+      "caseId": "e-header-digit",
+      "mode": "baseline-vs-revised",
+      "selfChecks": null,
+      "uiReviewItemCount": "NOT_EVALUATED",
+      "inputs": [
+        {
+          "side": "baseline",
+          "file": "e-header-digit/baseline.pdf",
+          "sha256": "9af0f0a7c6cf60571db97bf14f351a0674c92695d6b5991aa87be59014d1896f",
+          "pages": 1,
+          "rawScalarCount": 167,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": []
+        },
+        {
+          "side": "revised",
+          "file": "e-header-digit/revised.pdf",
+          "sha256": "3fd2a12d837bc2b7112eeea12b53376484ab18d2712b7e66c9bf3b790eb7edfc",
+          "pages": 1,
+          "rawScalarCount": 167,
+          "extractor": {
+            "name": "MuPDF.js",
+            "version": "mupdf/1.28.1+scalar-fix.1",
+            "adapterVersion": "mupdf-adapter/3",
+            "options": {
+              "structuredText": "preserve-ligatures,preserve-whitespace,preserve-images,inhibit-spaces,clip",
+              "actualText": "engine-default",
+              "clip": true,
+              "diagnostics": "scoped-native-errors-and-read-failures/1"
+            }
+          },
+          "whitespaceOnlyExtractedLines": []
+        }
+      ],
+      "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+      "configDigest": "c945bccb69368545947971a7b95513ba4d2965b314fe4e35943b0ce1e3a4ecd5",
+      "status": "complete_for_scope",
+      "stats": {
+        "leftScalars": 167,
+        "rightScalars": 167,
+        "candidates": 0,
+        "tokenProducts": 0,
+        "differenceCount": 1,
+        "occurrenceCount": 1
+      },
+      "compareMs": 124,
+      "sourceChecks": {
+        "status": "PASS",
+        "verifiedSourceLocations": 10,
+        "scope": "References resolve to extracted characters; this does not establish correct correspondence."
+      },
+      "repairAcceptance": "NOT_EVALUATED",
+      "semanticsSHA256": "b2647ebea6d5d115b78234a25e6864889804622e72ae718d51c9e9922bc6f56d",
+      "differences": [
+        {
+          "kind": "Replaced",
+          "oldText": "DOC-0042 812",
+          "newText": "DOC-0043 812",
+          "facts": [],
+          "hasTextChange": true,
+          "method": "source-cells-and-column-text",
+          "left": [
+            {
+              "side": "left",
+              "page": 1,
+              "text": "DOC-0042",
+              "rawRange": [
+                60,
+                68
+              ],
+              "bounds": [
+                88,
+                116.162,
+                134.44,
+                125.162
+              ]
+            },
+            {
+              "side": "left",
+              "page": 1,
+              "text": "812",
+              "rawRange": [
+                68,
+                71
+              ],
+              "bounds": [
+                505,
+                116.162,
+                522.172,
+                125.162
+              ]
+            }
+          ],
+          "right": [
+            {
+              "side": "right",
+              "page": 1,
+              "text": "DOC-0043",
+              "rawRange": [
+                60,
+                68
+              ],
+              "bounds": [
+                88,
+                116.162,
+                134.44,
+                125.162
+              ]
+            },
+            {
+              "side": "right",
+              "page": 1,
+              "text": "812",
+              "rawRange": [
+                68,
+                71
+              ],
+              "bounds": [
+                505,
+                116.162,
+                522.172,
+                125.162
+              ]
+            }
+          ],
+          "repeat": null,
+          "occurrenceCount": 0,
+          "textOps": [
+            {
+              "kind": "equal",
+              "text": "DOC-004",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": "DOC-004",
+                  "rawRange": [
+                    60,
+                    67
+                  ],
+                  "bounds": [
+                    88,
+                    116.162,
+                    128.716,
+                    125.162
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "DOC-004",
+                  "rawRange": [
+                    60,
+                    67
+                  ],
+                  "bounds": [
+                    88,
+                    116.162,
+                    128.716,
+                    125.162
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "delete",
+              "text": "2",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": "2",
+                  "rawRange": [
+                    67,
+                    68
+                  ],
+                  "bounds": [
+                    128.716,
+                    116.162,
+                    134.44,
+                    125.162
+                  ]
+                }
+              ],
+              "right": []
+            },
+            {
+              "kind": "insert",
+              "text": "3",
+              "left": [],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "3",
+                  "rawRange": [
+                    67,
+                    68
+                  ],
+                  "bounds": [
+                    128.716,
+                    116.162,
+                    134.44,
+                    125.162
+                  ]
+                }
+              ]
+            },
+            {
+              "kind": "equal",
+              "text": " 812",
+              "left": [
+                {
+                  "side": "left",
+                  "page": 1,
+                  "text": "812",
+                  "rawRange": [
+                    68,
+                    71
+                  ],
+                  "bounds": [
+                    505,
+                    116.162,
+                    522.172,
+                    125.162
+                  ]
+                }
+              ],
+              "right": [
+                {
+                  "side": "right",
+                  "page": 1,
+                  "text": "812",
+                  "rawRange": [
+                    68,
+                    71
+                  ],
+                  "bounds": [
+                    505,
+                    116.162,
+                    522.172,
+                    125.162
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "unresolved": [],
+      "coverage": [],
+      "alignment": [
+        {
+          "leftPage": 0,
+          "leftY": 40,
+          "rightPage": 0,
+          "rightY": 40
+        },
+        {
+          "leftPage": 0,
+          "leftY": 81,
+          "rightPage": 0,
+          "rightY": 81
+        },
+        {
+          "leftPage": 0,
+          "leftY": 235,
+          "rightPage": 0,
+          "rightY": 235
+        },
+        {
+          "leftPage": 0,
+          "leftY": 280,
+          "rightPage": 0,
+          "rightY": 280
+        },
+        {
+          "leftPage": 0,
+          "leftY": 804.89,
+          "rightPage": 0,
+          "rightY": 804.89
+        },
+        {
+          "leftPage": 0,
+          "leftY": 123,
+          "rightPage": 0,
+          "rightY": 123
+        },
+        {
+          "leftPage": 0,
+          "leftY": 175,
+          "rightPage": 0,
+          "rightY": 175
+        }
+      ],
+      "documentHashes": [
+        "9af0f0a7c6cf60571db97bf14f351a0674c92695d6b5991aa87be59014d1896f",
+        "3fd2a12d837bc2b7112eeea12b53376484ab18d2712b7e66c9bf3b790eb7edfc"
+      ],
+      "extractionSnapshotHashes": [
+        "44de5ec786f7900a858b527cbf5416e52b7fad2fcfc69c3104ac59471f886187",
+        "a0711eac370eeffa6f98c6203a3739a1f7d3ab30cdcf7c55453fde9b317ed1c3"
+      ]
+    }
+  ]
+}

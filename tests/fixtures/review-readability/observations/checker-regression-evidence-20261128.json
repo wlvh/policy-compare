@@ -1,0 +1,116 @@
+{
+  "schema": "review-readability-checker-regression-evidence/1",
+  "purpose": "Reproduce the two reported checker false positives on deliberately damaged outputs, not certify a product fix.",
+  "inputKind": "Original authored synthetic DocInput fixtures, actually executed by the supplied head WASM; no PDF extraction in this check.",
+  "method": "Clone each actual core result, apply the listed mutations, then evaluate the exact original checker function and the revised exported checker against the same source documents.",
+  "wasmSha256": "4f7df73f9a22c8b7ad6b5d6a3e5a705b4e70b8dc16f10bd7b11f11b273f97b75",
+  "originalCheckerSha256": "ffffcb45d2b0a32bb139a24fc10228718870b8c8fd1309adde43aabf88368b16",
+  "originalExpectationsSha256": "48cd5431f865795e8cb216d645f012f84ad56f84b06b63c4b438c44fec61ff73",
+  "revisedCheckerSha256": "58bf68c7c67d1f376bf0f8b112089b6224f81f540c54a54321b7ea6c2ce9961d",
+  "revisedExpectationsSha256": "5cfdb0b45bd96830181b62ac82de846c8eb0568e8b9e443b98365b29d6871b27",
+  "comparisons": [
+    {
+      "case": "repeated_company_changed_context",
+      "sourceInputHashes": [
+        "897019bf85ef0b0b54f344074750036edadc529b6f2580b0e1f045dd37aba83c",
+        "2c163cb4dcaba2578956b7839fa6d92ed16f3d1f6459daeb96d25d302e5b4865"
+      ],
+      "originalHeadResult": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "differences": 8,
+        "unresolved": 2,
+        "alignment": 0
+      },
+      "mutations": [
+        "result.differences = []",
+        "result.unresolved = []"
+      ],
+      "oldChecks": [
+        {
+          "id": "no_budget_stop",
+          "status": "met"
+        },
+        {
+          "id": "company_sources_retained_when_uncertain",
+          "status": "met"
+        }
+      ],
+      "newStatus": "FAIL",
+      "newChecks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "company_sources_and_correspondence",
+          "status": "FAIL",
+          "detail": "Company source occurrences were lost from the verifiable exported evidence.",
+          "evidence": {
+            "requiredOccurrences": [
+              2,
+              2
+            ],
+            "retainedOccurrences": [
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case": "blank_cross_page_moved",
+      "sourceInputHashes": [
+        "7eb1b50d92b7197ba0bf3ae735119cd9f53ac1214c3e83f11b10603d06eb5dc4",
+        "6bcd6ab900e99cf6bcb3b6d6c340ca7db29a4b9fb20c58d2f2c38342b0cc1a1f"
+      ],
+      "originalHeadResult": {
+        "coreVersion": "policy-compare-rust/0.2.1+english-generic.1",
+        "differences": 1,
+        "unresolved": 0,
+        "alignment": 1
+      },
+      "mutations": [
+        "every result.differences record: defaultVisible = false",
+        "result.alignment = []"
+      ],
+      "oldChecks": [
+        {
+          "id": "no_budget_stop",
+          "status": "met"
+        },
+        {
+          "id": "no_visible_blank_difference",
+          "status": "met"
+        },
+        {
+          "id": "no_whitespace_alignment",
+          "status": "met"
+        },
+        {
+          "id": "no_meaningful_text_difference",
+          "status": "met"
+        }
+      ],
+      "newStatus": "FAIL",
+      "newChecks": [
+        {
+          "id": "no_budget_stop",
+          "status": "PASS"
+        },
+        {
+          "id": "no_blank_difference_export",
+          "status": "FAIL"
+        },
+        {
+          "id": "no_whitespace_alignment",
+          "status": "PASS"
+        },
+        {
+          "id": "no_meaningful_text_difference",
+          "status": "PASS"
+        }
+      ]
+    }
+  ]
+}
